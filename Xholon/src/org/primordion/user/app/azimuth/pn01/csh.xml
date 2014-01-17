@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TheSystem xmlns:xi="http://www.w3.org/2001/XInclude">
+  
+  <Compounds>
+    <C>1</C>
+    <O2>1</O2>
+    <NaOH>1</NaOH>
+    <CO2>0</CO2>
+    <HCl>1</HCl>
+    <NaHCO3>0</NaHCO3>
+    <H2O>0</H2O>
+    <NaCl>0</NaCl>
+  </Compounds>
+  
+  <ChemReactions>
+    <Rone/>
+    <Rtwo/>
+    <Rthree/>
+  </ChemReactions>
+  
+  <SvgClient>
+    <Attribute_String roleName="setup">Azimuth Petri Net,http://www.primordion.com/Xholon/jnlp/chemistryNetBasicA05opt.svg,,,Compounds,/org/primordion/user/app/azimuth/pn01/SvgViewables.xml,%c</Attribute_String>
+  </SvgClient>
+  <!-- the following works in GWT version -->
+  <!--<SvgClient>
+    <Attribute_String roleName="setup">${MODELNAME_DEFAULT},http://www.primordion.com/Xholon/jnlp/TheSystem_0_1319378326050.svg,,,./,${VIEWABLES_CREATE}</Attribute_String>
+  </SvgClient>-->
+  
+</TheSystem>

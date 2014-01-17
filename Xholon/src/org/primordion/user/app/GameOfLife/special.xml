@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	GameOfLife application - contents of the Special Menu
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+	
+	Note
+	- specify which XholonClass each Special will work with
+	  - if it works anywhere, then specify "XholonClass"
+	  - if it only works in a gridcell, then specify "GridCell"
+	  - specify a default in Specials
+	- the content of each Special should be just text, and not initially parsible as XML
+-->
+<Specials xhc="GridCell">
+
+<Special action="Glider"><![CDATA[
+<GameOfLifePattern><Glider/></GameOfLifePattern>
+]]></Special>
+
+<Special action="Glider2"><![CDATA[
+<GameOfLifePattern>
+.O.
+..O
+OOO
+</GameOfLifePattern>
+]]></Special>
+
+<Special action="Acorn"><![CDATA[
+<GameOfLifePattern action="clear"><Acorn/></GameOfLifePattern>
+]]></Special>
+
+<Special action="Herschel"><![CDATA[
+<GameOfLifePattern action="clear"><Herschel/></GameOfLifePattern>
+]]></Special>
+
+<Special action="RPentomino"><![CDATA[
+<GameOfLifePattern action="clear"><RPentomino/></GameOfLifePattern>
+]]></Special>
+
+<Special action="B29 spaceship"><![CDATA[
+<GameOfLifePattern action="clear">
+.......OOO.......
+.......O.........
+OOO......O.......
+O......O.O.......
+.O....OO.OOOO....
+...OOOO.OOOOO.OO.
+....OO.......OO.O
+</GameOfLifePattern>
+]]></Special>
+
+<Special action="Dawn of Life"><![CDATA[
+<GameOfLifePattern action="clear">
+O.O
+OOO
+.O.
+</GameOfLifePattern>
+]]></Special>
+
+<Special action="Clear"><![CDATA[
+<GameOfLifePattern><clear/></GameOfLifePattern>
+]]></Special>
+
+</Specials>
+

@@ -1,0 +1,78 @@
+package org.primordion.xholon.io.xml;
+
+/**
+ * Test of XML GWT DOM Reader.
+ * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
+ * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
+ * @since 0.9.0 (Created on August 21, 2013)
+ */
+public class XmlGwtDomReader_Test {
+	
+	/**
+	 * Print a trace of all events.
+	 * @throws Exception
+	 */
+	public void test1(String xmlString) throws Exception {
+		System.out.println("\n" + xmlString);
+		
+		IXmlReader xmlReader = XmlReaderFactory_gwt.getXmlReader(xmlString);
+		
+		int event = xmlReader.getEventType();
+		while (event != IXmlReader.END_DOCUMENT) {
+			switch(event) {
+			case IXmlReader.CDSECT: System.out.println("CDSECT"); break;
+			case IXmlReader.COMMENT: System.out.println("COMMENT"); break;
+			case IXmlReader.DOCDECL: System.out.println("DOCDECL"); break;
+			case IXmlReader.END_DOCUMENT: System.out.println("END_DOCUMENT"); break;
+			case IXmlReader.END_TAG:
+				System.out.println("END_TAG " + xmlReader.getName());
+				if ("#document".equals(xmlReader.getName())) {
+					System.out.println("     #document");
+				}
+				break;
+			case IXmlReader.ENTITY_REF: System.out.println("ENTITY_REF"); break;
+			case IXmlReader.IGNORABLE_WHITESPACE: System.out.println("IGNORABLE_WHITESPACE"); break;
+			case IXmlReader.NULL_EVENT: System.out.println("NULL_EVENT"); break;
+			case IXmlReader.OTHER_TYPE: System.out.println("OTHER_TYPE"); break;
+			case IXmlReader.PROCESSING_INSTRUCTION: System.out.println("PROCESSING_INSTRUCTION"); break;
+			case IXmlReader.START_DOCUMENT: System.out.println("START_DOCUMENT"); break;
+			case IXmlReader.START_TAG:
+				String tagName = xmlReader.getName();
+				String attrs = "";
+				int attrCount = xmlReader.getAttributeCount();
+				for (int i = 0; i < attrCount; i++) {
+					attrs += " " + xmlReader.getAttributeName(i) + "=" + xmlReader.getAttributeValue(i);
+				}
+				System.out.println("START_TAG " + tagName + attrs);
+				break;
+			case IXmlReader.TEXT:
+				String text = xmlReader.getText().trim();
+				if (text.length() > 0) {
+					System.out.println("TEXT " + text);
+				}
+				break;
+			default: System.out.println("no such event type: " + event);break;
+			}
+			event = xmlReader.next();
+		}
+		System.out.println("END_DOCUMENT");
+	}
+	
+	public static void main(String[] args) throws Exception {
+		XmlGwtDomReader_Test t = new XmlGwtDomReader_Test();
+		// test using XML string from http://www.gwtproject.org/doc/latest/DevGuideCodingBasicsXML.html
+		String xmlString =
+"<?xml version=\"1.0\" ?>"
++ "<message>"
++  "<header>"
++    "<to displayName=\"Richard\" address=\"rick@school.edu\" />"
++    "<from displayName=\"Joyce\" address=\"joyce@website.com\" />"
++    "<sent>2007-05-12T12:03:55Z</sent>"
++    "<subject>Re: Flight info</subject>"
++  "</header>"
++  "<body>I'll pick you up at the airport at 8:30.  See you then!</body>"
++ "</message>";
+		t.test1(xmlString);
+	}
+	
+}

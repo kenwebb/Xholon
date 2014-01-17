@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xholonClassDetails>
+  <Sun xhType="XhtypePureActiveObject" implName="org.primordion.user.app.climatechange.mdcs.m2_2mp.Sun">
+    <port name="space" connector="#xpointer(ancestor::SolarSystem/Space)"/>
+  </Sun>
+  <Space xhType="XhtypePureActiveObject" implName="org.primordion.user.app.climatechange.mdcs.m2_2mp.Space">
+    <port name="planet" connector="#xpointer(ancestor::SolarSystem/Earth/TopOfAtmosphere)"/>
+    <port name="solarConstant" connector="#xpointer(ancestor::TheSystem/Fluxes/Flux[@roleName='SunSpc_sw'])"/>
+    <port name="longwaveRadiation" connector="#xpointer(ancestor::TheSystem/Fluxes/Flux[@roleName='TpfSpc_lw'])"/>
+    <port name="reflectedShortwaveRadiation" connector="#xpointer(ancestor::TheSystem/Fluxes/Flux[@roleName='TpfSpc_sw'])"/>
+  </Space>
+  <TopOfAtmosphere xhType="XhtypePureActiveObject" implName="org.primordion.user.app.climatechange.mdcs.m2_2mp.TopOfAtmosphere">
+    <port name="space" connector="#xpointer(ancestor::SolarSystem/Space)"/>
+    <port name="atmosphere" connector="#xpointer(ancestor::Earth/Atmosphere)"/>
+    <port name="albedo" connector="#xpointer(Albedo)"/>
+    <port name="solarConstant" connector="#xpointer(ancestor::TheSystem/Fluxes/Flux[@roleName='SpcTpf_sw'])"/>
+    <port name="solarConstantDivFour" connector="#xpointer(ancestor::TheSystem/Fluxes/Flux[@roleName='TpfTpf_sw'])"/>
+    <port name="reflectedShortwaveRadiation" connector="#xpointer(ancestor::TheSystem/Fluxes/Flux[@roleName='AtmTpf_sw'])"/>
+    <port name="lwOut" connector="#xpointer(ancestor::TheSystem/Fluxes/Flux[@roleName='AtmTpf_lw'])"/>
+  </TopOfAtmosphere>
+  <Atmosphere xhType="XhtypePureActiveObject" implName="org.primordion.user.app.climatechange.mdcs.m2_2mp.Atmosphere">
+    <port name="topOfAtmosphere" connector="#xpointer(ancestor::Earth/TopOfAtmosphere)"/>
+    <port name="surface" connector="#xpointer(ancestor::Earth/Surface)"/>
+    <port name="energy" connector="#xpointer(Energy)"/>
+    <port name="temperature" connector="#xpointer(Temperature)"/>
+    <port name="albedo" connector="#xpointer(Albedo)"/>
+    <port name="mass" connector="#xpointer(Mass)"/>
+    <port name="specificHeat" connector="#xpointer(SpecificHeat)"/>
+    <port name="heatCapacity" connector="#xpointer(HeatCapacity)"/>
+    <port name="absorption" connector="#xpointer(Absorption)"/>
+    <port name="emissivity" connector="#xpointer(Emissivity)"/>
+    <port name="stefanBoltzmannConstant" connector="#xpointer(ancestor::TheSystem/Constants/StefanBoltzmannConstant)"/>
+    <port name="secondsPerTimeStep" connector="#xpointer(ancestor::TheSystem/Constants/SecondsPerTimeStep)"/>
+    <port name="swIn" connector="#xpointer(ancestor::TheSystem/Fluxes/Flux[@roleName='TpfAtm_sw'])"/>
+    <port name="lwIn" connector="#xpointer(ancestor::TheSystem/Fluxes/Flux[@roleName='SrfAtm_lw'])"/>
+    <port name="lwUp" connector="#xpointer(ancestor::TheSystem/Fluxes/Flux[@roleName='AtmTpf_lw'])"/>
+    <port name="lwDown" connector="#xpointer(ancestor::TheSystem/Fluxes/Flux[@roleName='AtmSrf_lw'])"/>
+    <port name="reflectedShortwaveRadiation" connector="#xpointer(ancestor::TheSystem/Fluxes/Flux[@roleName='SrfAtm_sw'])"/>
+  </Atmosphere>
+  <Surface xhType="XhtypePureActiveObject" implName="org.primordion.user.app.climatechange.mdcs.m2_2mp.Surface">
+    <port name="atmosphere" connector="#xpointer(ancestor::Earth/Atmosphere)"/>
+    <port name="energy" connector="#xpointer(Energy)"/>
+    <port name="albedo" connector="#xpointer(Albedo)"/>
+    <port name="temperature" connector="#xpointer(Temperature)"/>
+    <port name="water" connector="#xpointer(Water)"/>
+    <port name="stefanBoltzmannConstant" connector="#xpointer(ancestor::TheSystem/Constants/StefanBoltzmannConstant)"/>
+    <port name="secondsPerTimeStep" connector="#xpointer(ancestor::TheSystem/Constants/SecondsPerTimeStep)"/>
+    <port name="solarIn" connector="#xpointer(ancestor::TheSystem/Fluxes/Flux[@roleName='AtmSrf_sw'])"/>
+    <port name="infraredIn" connector="#xpointer(ancestor::TheSystem/Fluxes/Flux[@roleName='AtmSrf_lw'])"/>
+  </Surface>
+  <Water xhType="XhtypePureActiveObject" implName="org.primordion.user.app.climatechange.mdcs.m2_2mp.Water">
+    <port name="depth" connector="#xpointer(MixedLayer/Depth)"/>
+    <port name="heatCapacity" connector="#xpointer(HeatCapacity)"/>
+    <port name="density" connector="#xpointer(Density)"/>
+    <port name="specificHeat" connector="#xpointer(SpecificHeat)"/>
+  </Water>
+  <Flux implName="org.primordion.user.app.climatechange.mdcs.m2_2mp.Flux"/>
+  <Fluxes implName="org.primordion.user.app.climatechange.mdcs.m2_2mp.Fluxes"/>
+  <Celsius xhType="XhtypePurePassiveObject" implName="org.primordion.user.app.climatechange.mdcs.m2_2mp.Celsius">
+    <port name="k" connector="#xpointer(..)"/>
+  </Celsius>
+  <RobinsonViewable xhType="XhtypePurePassiveObject" implName="org.primordion.user.app.climatechange.mdcs.m2_2mp.RobinsonViewable"/>
+  <RobinsonViewables implName="org.primordion.user.app.climatechange.mdcs.m2_2mp.RobinsonViewables"/>
+  <XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

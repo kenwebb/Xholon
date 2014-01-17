@@ -1,0 +1,39 @@
+This is a checklist of things TODO before uploading an SVG file to wikipedia.
+The checklist is in the order that the tasks should be performed.
+
+General
+* Look at the wikipedia pages I've printed out for details.
+* See my green notebook, around Sept 18, 2011.
+* If possible, upload to commons rather than en.wikipedia .
+
+Inkscape
+* Don't use Inkscape flowed text.
+* Don't use special effects like blurring.
+* Don't use arrowheads/dashed lines.
+* Vaccuum or remove unused defs.
+* Save file as Inkscape "Optimized SVG", using Indent:Space only. (includes Scour)
+
+Final polishing in a text editor
+* Use Scour to tidy up/create a smaller file. (optional)
+* Delete any references to external files.
+* Add to text style (otherwise SVG Salamander shows text as extra bold):
+  font-weight:normal;
+* Change all text to style (Inkscape can't handle this):
+  font-family:'Liberation Sans',Arial,sans-serif
+  NO! use font-family:Arial instead
+
+Validation
+* SVG Validator (http://validator.w3.org/)
+* SVG Check (direct link) http://toolserver.org/%7Ejarry/svgcheck/stable
+  I get lots of warnings about the font.
+
+Uploading
+* See Commons:First steps/Upload form
+* Fill out the {{information}} box.
+
+After uploading
+* Tag uploaded file as {{Created with Inkscape}} or {{Inkscape-hand}}
+* Tag the original raster image with {{vector version available}}
+* If your file has passed the SVG Validator, you can put the {{validSVG}} tag on the image page.
+* Categorize the SVG under Category:SVG
+* Scale the image. (optional)

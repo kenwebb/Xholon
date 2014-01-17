@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Robinson STELLA version
+roleName is the STELLA name of the flow, stock, or converter.
+-->
+<RobinsonViewables>ancestor::TheSystem/Constants/SecondsPerTimeStep
+  <RobinsonViewable roleName="Energy">ancestor::Earth/Surface</RobinsonViewable>
+  <RobinsonViewable roleName="Energy_in_atmosphere">ancestor::Earth/Atmosphere</RobinsonViewable>
+  <RobinsonViewable roleName="Temperature">ancestor::Earth/Surface</RobinsonViewable>
+  <RobinsonViewable roleName="Solar">ancestor::TheSystem/Fluxes/Flux[@roleName='TpfAtm_sw']</RobinsonViewable>
+  <RobinsonViewable roleName="Solar_to_earth">ancestor::TheSystem/Fluxes/Flux[@roleName='AtmSrf_sw']</RobinsonViewable>
+  <RobinsonViewable roleName="T_atmosphere">ancestor::Earth/Atmosphere</RobinsonViewable>
+  <RobinsonViewable roleName="IR_atmosphere">ancestor::Earth/Atmosphere</RobinsonViewable> <!-- Atmosphere.irAtmosphere -->
+  <RobinsonViewable roleName="Solar_to_atmosphere">ancestor::Earth/Atmosphere</RobinsonViewable> <!-- Atmosphere.absorbedByAtmosphere -->
+  <!--<RobinsonViewable roleName="IR_down"></RobinsonViewable>--> <!-- = IR_atmosphere -->
+  <RobinsonViewable roleName="IR">ancestor::Earth/Atmosphere</RobinsonViewable> <!-- Atmosphere.ir -->
+  <RobinsonViewable roleName="IR_to_space">ancestor::Earth/Atmosphere</RobinsonViewable>
+</RobinsonViewables>

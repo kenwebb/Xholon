@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  petrinet feinberg1
+  source: Martin Feinberg (1980) Lectures on Chemical Reaction Networks - Lecture 1
+-->
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+  <ReactionNetworkSystem/>
+  
+  <ConstantlyStirredPot superClass="GridOwner"/>
+  
+  <Reaction superClass="TransitionPN">
+    <A_BB/>
+    <BB_A/>
+    <AC_D/>
+    <D_AC/>
+    <D_BE/>
+    <BE_AC/>
+  </Reaction>
+  
+  <Species superClass="PlacePN">
+    <A/>
+    <B/>
+    <C/>
+    <D/>
+    <E/>
+  </Species>
+  
+</XholonClass>

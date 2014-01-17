@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+SolarSystem: Sun and Earth
+This file can be used as is, or it can be copied and modified.
+-->
+<SolarSystem>
+  
+  <Stars>
+    <Star roleName="Sun">
+      <!--<Attribute_double roleName="luminosity">3.846e26</Attribute_double>--> <!-- W -->
+      <Attribute_double roleName="radius">6.955e8</Attribute_double> <!-- m -->
+      <Attribute_double roleName="temperature">5778</Attribute_double> <!-- K -->
+    </Star>
+  </Stars>
+  <PlanetarySystem>
+    <Planets>
+      <Planet roleName="Earth">
+        <Attribute_double roleName="mass">5.9736e24</Attribute_double> <!-- kg -->
+        <Attribute_double roleName="radius">6378000.0</Attribute_double> <!-- m -->
+        <Attribute_double roleName="temperature">288.0</Attribute_double> <!-- K -->
+        <Attribute_double roleName="semimajorAxis">1.496e11</Attribute_double> <!-- m -->
+      </Planet>
+    </Planets>
+  </PlanetarySystem>
+  <InterplanetaryMedium/>
+    
+</SolarSystem>

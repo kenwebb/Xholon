@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xholonClassDetails>
+  <Tap xhType="XhtypePureActiveObject" implName="org.primordion.dynsys.app.leakybucket.Tap">
+    <port name="vfr" connector="#xpointer(VolumetricFlowRate)"/>
+    <!--<port name="volume" connector="#xpointer(../Bucket/Water/Volume)"/>-->
+  </Tap>
+  <Bucket xhType="XhtypePureActiveObject" implName="org.primordion.dynsys.app.leakybucket.Bucket">
+    <port name="radius" connector="#xpointer(Radius)"/>
+    <port name="area" connector="#xpointer(Area)"/>
+    <!--<port name="water" connector="#xpointer(Water)"/>-->
+    <!--<port name="hole" connector="#xpointer(Hole)"/>-->
+  </Bucket>
+  <Water xhType="XhtypePureActiveObject" implName="org.primordion.dynsys.app.leakybucket.Water">
+    <port name="depth" connector="#xpointer(Depth)"/>
+    <port name="volume" connector="#xpointer(Volume)"/>
+    <port name="areaOfBucket" connector="#xpointer(../Area)"/>
+    <port name="vfrOfInflow" connector="#xpointer(ancestor::LeakyBucketSystem/Tap/VolumetricFlowRate)"/>
+    <port name="vfrOfOutflow" connector="#xpointer(ancestor::LeakyBucketSystem/Outflow/VolumetricFlowRate)"/>
+  </Water>
+  <Hole xhType="XhtypePureActiveObject" implName="org.primordion.dynsys.app.leakybucket.Hole">
+    <port name="radius" connector="#xpointer(Radius)"/>
+    <port name="area" connector="#xpointer(Area)"/>
+  </Hole>
+  <Outflow xhType="XhtypePureActiveObject" implName="org.primordion.dynsys.app.leakybucket.Outflow">
+    <port name="g" connector="#xpointer(../AccelerationDueToGravity)"/>
+    <port name="depth" connector="#xpointer(../Bucket/Water/Depth)"/>
+    <port name="areaOfHole" connector="#xpointer(../Bucket/Hole/Area)"/>
+    <port name="vfr" connector="#xpointer(VolumetricFlowRate)"/>
+  </Outflow>
+  
+  <Depth xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.service.mathscieng.Quantity"/>
+  <VolumetricFlowRate implName="org.primordion.xholon.service.mathscieng.Quantity"/>
+  <Radius implName="org.primordion.xholon.service.mathscieng.Quantity"/>
+  <Area implName="org.primordion.xholon.service.mathscieng.Quantity"/>
+  <Volume implName="org.primordion.xholon.service.mathscieng.Quantity"/>
+  <AccelerationDueToGravity implName="org.primordion.xholon.service.mathscieng.Quantity"/>
+  
+  <XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+  <TheSystem/>
+  
+  <SolarSystem/>
+  <Sun/>
+  <Planet>
+    <Earth/>
+  </Planet>
+  <Space/>
+  
+  <TopOfAtmosphere/>
+  <Atmosphere/>
+  <Surface/> <!-- "the planet is represented by an average square meter of its surface"; ocean -->
+  <Water/> <!-- 70% of the Earth's surface is water; for the model we assume 100% of the surface is water -->
+  <MixedLayer/> <!-- the top layer of the ocean, where significant mixing of heat/etc occurs -->
+    
+  <PhysicalProperty>
+    <!-- properties of the atmosphere -->
+    <Mass/>
+    <Absorption/>
+    <Emissivity/>
+    <!-- properties of the square meter of surface -->
+    <Energy/>
+    <Albedo/>
+    <Temperature/> <!-- Kelvin -->
+    <Celsius/> <!-- Temperature in Celsius -->
+    <!-- properties of the water -->
+    <Density/>
+    <SpecificHeat/>
+    <Depth/>
+    <HeatCapacity/>
+  </PhysicalProperty>
+  
+  <!-- fluxes -->
+  <Flux/>
+  <Fluxes/>
+  
+  <!-- constants -->
+  <Constant>
+    <StefanBoltzmannConstant/>
+    <SecondsPerTimeStep/>
+  </Constant>
+  <Constants/>
+  
+  <!-- Robinson/STELLA viewable
+  Use these with gnuplot chart option.
+  -->
+  <RobinsonViewable/>
+  <RobinsonViewables/>
+  
+  <!-- Xholon Viewers -->
+  <!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

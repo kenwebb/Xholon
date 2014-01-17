@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TheSystem xmlns:xi="http://www.w3.org/2001/XInclude">
+  
+  <SolarSystem>
+    <Sun/>
+    <Space/>
+    <Earth>
+      <Surface>
+        <Energy units="J"/>
+        <Albedo>0.3</Albedo>
+        <Temperature units="K">273.15
+          <Celsius/>
+        </Temperature> <!-- initial temperature -->
+        <Water>
+          <Density units="kg/m^3">1000.0</Density>
+          <SpecificHeat units="J/kg/K">4218.0</SpecificHeat>
+          <MixedLayer>
+            <Depth units="m">50.0</Depth>
+          </MixedLayer>
+          <HeatCapacity units="J/m^3/K"/>
+        </Water>
+      </Surface>
+    </Earth>
+  </SolarSystem>
+  
+  <Fluxes> <!-- with optional initial values -->
+    <Flux roleName="SunSpc_sw" units="W/m^2">0.0</Flux> <!-- solar constant -->
+    <Flux roleName="SpcSrf_sw" units="W/m^2">341.75</Flux> <!-- solar -->
+    <Flux roleName="SrfSpc_sw" units="W/m^2">0.0</Flux> <!-- reflected -->
+    <Flux roleName="SrfSpc_lw" units="W/m^2">0.0</Flux> <!-- infrared (IR) -->
+  </Fluxes>
+  
+  <Constants>
+    <StefanBoltzmannConstant units="W/m^2/K^4">5.6696e-8</StefanBoltzmannConstant>
+    <SecondsPerTimeStep units="s">31536000.0</SecondsPerTimeStep> <!-- SecondsPerYear 365*24*60*60 -->
+    <!--<SecondsPerTimeStep units="s">86400.0</SecondsPerTimeStep>--> <!-- SecondsPerDay -->
+    <!--<SecondsPerTimeStep units="s">2592000.0</SecondsPerTimeStep>--> <!-- SecondsPerMonth -->
+  </Constants>
+  
+</TheSystem>

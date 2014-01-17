@@ -1,0 +1,15 @@
+`1/4S_0`
+
+`1/4S_0alpha_rho`
+
+`(1-epsi)sigmaT_s^4`
+
+`sigmaT_s^4`
+
+`epsisigmaT_a^4`
+
+`epsisigmaT_a^4`
+
+`T_a=0.95T_e`
+
+`T_s=1.13T_e`

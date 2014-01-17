@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Petri net module
+To use this in a Xholon app, paste the following line into your ih.xml file:
+  <xi:include href="_module/PetriNetIh.xml"/>
+-->
+<_-.module xmlns:xi="http://www.w3.org/2001/XInclude">
+  <!--<xi:include href="_mechanism/PetriNetEntity.xml"/>-->
+  <!--<xi:include href="_mechanism/PetriNetCdEntity.xml"/>-->
+  <xholonClassDetails>
+    <PetriNet xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.PetriNet"/>
+    <PlacePN xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.mech.petrinet.Place"/>
+    <TransitionPN xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.Transition"/>
+    <InputArc implName="org.primordion.xholon.mech.petrinet.InputArc"/>
+    <OutputArc implName="org.primordion.xholon.mech.petrinet.OutputArc"/>
+    <QueueTransitions xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.QueueTransitions"/>
+    <AnalysisPetriNet xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.AnalysisPetriNet"/>
+    <AnalysisCRN xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.crn.AnalysisCRN"/>
+    <AnalysisCat xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.cat.AnalysisCat"/>
+    <AnalysisMemComp xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.memcomp.AnalysisMemComp"/>
+    
+    <!-- classes for use in a Grid -->
+    <MovingPlaceBehavior xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.grid.MovingBehavior"/>
+    <MovingTransitionBehavior xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.grid.MovingBehavior"/>
+    <FiringTransitionBehavior xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.grid.FiringTransitionBehavior"/>
+    <QueueNodesInGrid xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.grid.QueueNodesInGrid"/>
+    <GridOwner xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.grid.GridOwner"/>
+    
+  </xholonClassDetails>
+</_-.module>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<_-.labels>
+  
+  <SvgLabel svgId="tspan2028" svgLabel="Reflected Solar"/>
+  <SvgLabel svgId="tspan2030" svgLabel="Radiation"/>
+  <SvgLabel svgId="tspan2038" svgLabel=""/>
+  
+  <SvgLabel svgId="tspan2152" svgLabel="Reflected by Clouds,"/>
+  <SvgLabel svgId="tspan2158" svgLabel="Aerosol and"/>
+  <SvgLabel svgId="tspan2160" svgLabel="Atmospheric"/>
+  <SvgLabel svgId="tspan2162" svgLabel="Gases"/>
+  <SvgLabel svgId="tspan2164" svgLabel=""/>
+  
+  <SvgLabel svgId="tspan2174" svgLabel="Reflected by"/>
+  <SvgLabel svgId="tspan2187" svgLabel="Surface"/>
+  <SvgLabel svgId="tspan2189" svgLabel=""/>
+  <SvgLabel svgId="tspan2176" svgLabel=""/>
+  
+  <SvgLabel svgId="tspan4087" svgLabel="Absorbed by"/>
+  <SvgLabel svgId="tspan4095" svgLabel="Surface"/>
+  
+  <SvgLabel svgId="tspan4101" svgLabel="Thermals"/>
+  <SvgLabel svgId="tspan4105" svgLabel=""/>
+  
+  <SvgLabel svgId="tspan4111" svgLabel="Evapo-"/>
+  <SvgLabel svgId="tspan4115" svgLabel="trans-"/>
+  <SvgLabel svgId="tspan4117" svgLabel="piration"/>
+  
+  <SvgLabel svgId="tspan2230" svgLabel="Surface"/>
+  <SvgLabel svgId="tspan2238" svgLabel="Radiation"/>
+  <SvgLabel svgId="tspan2240" svgLabel=""/>
+  
+  <SvgLabel svgId="tspan2253" svgLabel="Absorbed by Surface"/>
+  <SvgLabel svgId="tspan2259" svgLabel=""/>
+  
+  <SvgLabel svgId="tspan3031" svgLabel="Net absorbed"/>
+  <SvgLabel svgId="tspan3033" svgLabel=""/>
+  <SvgLabel svgId="tspan3035" svgLabel="W/m²"/>
+  
+  <SvgLabel svgId="tspan3155" svgLabel="Latent"/>
+  <SvgLabel svgId="tspan3161" svgLabel="Heat"/>
+  
+  <SvgLabel svgId="tspan2188" svgLabel="Back"/>
+  <SvgLabel svgId="tspan2202" svgLabel="Radiation"/>
+  
+  <SvgLabel svgId="tspan2227" svgLabel="Absorbed by"/>
+  <SvgLabel svgId="tspan2167" svgLabel="Atmosphere"/>
+  <SvgLabel svgId="tspan2235" svgLabel=""/>
+  
+  <SvgLabel svgId="tspan2159" svgLabel="Emittted by"/>
+  <SvgLabel svgId="tspan2161" svgLabel="Atmosphere"/>
+  <SvgLabel svgId="tspan2163" svgLabel=""/>
+  
+  <SvgLabel svgId="tspan4167" svgLabel="Atmospheric"/>
+  <SvgLabel svgId="tspan4173" svgLabel="Window"/>
+  
+  <SvgLabel svgId="tspan4179" svgLabel="Greenhouse"/>
+  <SvgLabel svgId="tspan4183" svgLabel="Gases"/>
+  
+  <SvgLabel svgId="tspan2201" svgLabel="Incoming"/>
+  <SvgLabel svgId="tspan2217" svgLabel="Solar"/>
+  <SvgLabel svgId="tspan2219" svgLabel="Radiation"/>
+  
+  <SvgLabel svgId="tspan4149" svgLabel="Outgoing"/>
+  <SvgLabel svgId="tspan4155" svgLabel="Longwave"/>
+  <SvgLabel svgId="tspan4157" svgLabel="Radiation"/>
+  <SvgLabel svgId="tspan4159" svgLabel=""/>
+</_-.labels>

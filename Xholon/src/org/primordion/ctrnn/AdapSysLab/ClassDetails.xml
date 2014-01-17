@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Ctrnn ctrnn/AdapSysLab ClassDetails.xml -->
+<xholonClassDetails>
+	<Photoreceptor xhType="XhtypePureActiveObject">
+		<port name="port" index="P_OUT1" connector="#xpointer(.[@roleName='SensorR']/ancestor::Robot/Ctrnn/SensorNeuron[@roleName='Neuron0'])"/>
+		<port name="port" index="P_OUT1" connector="#xpointer(.[@roleName='SensorL']/ancestor::Robot/Ctrnn/SensorNeuron[@roleName='Neuron1'])"/>
+	</Photoreceptor>
+	<Motor xhType="XhtypePureActiveObject">
+	</Motor>
+	<Neuron xhType="XhtypeCtrnnEntityActivePassive">
+		<port name="port" index="P_OUT1" connector="#xpointer(.[@roleName='Neuron3']/ancestor::Robot/Motor[@roleName='MotorR'])"/>
+		<port name="port" index="P_OUT1" connector="#xpointer(.[@roleName='Neuron4']/ancestor::Robot/Motor[@roleName='MotorL'])"/>
+	</Neuron>
+	<SensorNeuron xhType="XhtypeCtrnnEntityActivePassive">
+	</SensorNeuron>
+	<Connection xhType="XhtypeCtrnnEntityActive">
+	</Connection>
+	<CtrnnEntity xhType="XhtypeCtrnnEntity">
+	</CtrnnEntity>
+	<XholonClass xhType="XhtypePureContainer">
+	</XholonClass>
+</xholonClassDetails>

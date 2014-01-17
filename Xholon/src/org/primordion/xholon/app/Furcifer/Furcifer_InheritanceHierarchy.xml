@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Furcifer application - Inheritance Hierarchy
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+	<Furcifer/>
+	<HelloWorldSystem/>
+  <Hello/>
+  <World/>
+  <Universe/>
+  <Galaxy/>
+	
+	<!-- quantities -->
+	<xi:include href="config/_common/_module/QuantityIh.xml"/>
+	
+	<!-- Xholon Viewers -->
+	<!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

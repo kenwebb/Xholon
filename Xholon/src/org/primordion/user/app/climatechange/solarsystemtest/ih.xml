@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+-->
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+  <SolarSystemTest/>
+  
+  <!-- the following lines are redundant if csh.xml specifies a XholonModule -->
+  <!--
+  <xi:include href="./org/primordion/user/app/solarsystem/ih.xml"/>
+  <xi:include href="./org/primordion/user/app/solarsystem/cd.xml"/>
+  -->
+  
+  <!--<xi:include href="_module/QuantityIh.xml"/>-->
+  
+  <!-- Xholon Viewers -->
+  <!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

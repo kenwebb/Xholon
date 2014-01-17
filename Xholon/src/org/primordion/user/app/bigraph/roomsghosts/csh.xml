@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  bigraph roomsghosts
+  http://www.itu.dk/research/pls/wiki/index.php?title=A_Brief_Introduction_To_Bigraphs
+-->
+<RoomsGhostsSystem>
+  
+  <Bigraphs>
+    <Bigraph>
+      <MiniItu>
+        <Room roleName="lobby">
+          <Person/>
+          <Ghost/>
+          <Pc/>
+        </Room>
+        <Room roleName="hall"/>
+        <Room roleName="office1"/>
+        <Room roleName="office2">
+          <Person/>
+          <Pc/>
+        </Room>
+        <Door roleName="door1"/>
+        <Door roleName="door2"/>
+        <Door roleName="door3"/>
+      </MiniItu>
+    </Bigraph>
+  </Bigraphs>
+  
+  <ReactionRulesBG>
+      
+      <!-- Connect reaction rule -->
+      <ReactionRuleBG roleName="connectRule">
+        <Redex>
+          <Room>
+            <!-- doorlink -->
+            <Person/>
+            <Ghost/>
+            <SiteBG roleName="s0"/>
+          </Room>
+        </Redex>
+        <Reactum>
+          <Room>
+            <!-- doorlink -->
+            <Ghost>
+              <Person/>
+            </Ghost>
+            <SiteBG roleName="s0"/>
+          </Room>
+        </Reactum>
+      </ReactionRuleBG>
+      
+      <!-- Disconnect reaction rule -->
+      <ReactionRuleBG roleName="disconnectRule">
+        <Redex>
+          <Room>
+            <!-- doorlink -->
+            <Ghost>
+              <Person/>
+            </Ghost>
+            <SiteBG roleName="s0"/>
+          </Room>
+        </Redex>
+        <Reactum>
+          <Room>
+            <!-- doorlink -->
+            <Person/>
+            <Ghost/>
+            <SiteBG roleName="s0"/>
+          </Room>
+        </Reactum>
+      </ReactionRuleBG>
+      
+      <!-- Move reaction rule -->
+      <ReactionRuleBG roleName="moveRule">
+        <Redex>
+          <Room>
+            <!-- doorlink -->
+            <Ghost>
+              <Person/>
+            </Ghost>
+            <SiteBG roleName="s0"/>
+          </Room>
+          <Door/>
+          <Room>
+            <!-- doorlink -->
+            <SiteBG roleName="s1"/>
+          </Room>
+        </Redex>
+        <Reactum>
+          <Room>
+            <!-- doorlink -->
+            <SiteBG roleName="s0"/>
+          </Room>
+          <Door/>
+          <Room>
+            <!-- doorlink -->
+            <Ghost>
+              <Person/>
+            </Ghost>
+            <SiteBG roleName="s1"/>
+          </Room>
+        </Reactum>
+      </ReactionRuleBG>
+      
+    </ReactionRulesBG>
+  
+</RoomsGhostsSystem>

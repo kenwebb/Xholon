@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Robot>
+	<Photoreceptor roleName="SensorR"> <!-- right sensor, SR -->
+		<attribute name="output" value="255.0"/>
+	</Photoreceptor>
+	<Photoreceptor roleName="SensorL"> <!-- left sensor,  SL -->
+		<attribute name="output" value="255.0"/>
+	</Photoreceptor>
+	<Ctrnn>
+		<!-- Neurons -->
+		<SensorNeuron roleName="Neuron0"> <!-- gets input from SR -->
+			<attribute name="activation"   value="0.996"/> <!-- attributes are unused, except for output -->
+			<attribute name="bias"         value="-1.0"/>
+			<attribute name="timeConstant" value="0.5"/>
+			<attribute name="input"        value="1.0"/>
+			<attribute name="output"       value="0.0"/>
+		</SensorNeuron>
+		<SensorNeuron roleName="Neuron1"> <!-- gets input from SL -->
+			<attribute name="activation"   value="0.996"/> <!-- attributes are unused, except for output -->
+			<attribute name="bias"         value="-1.0"/>
+			<attribute name="timeConstant" value="0.5"/>
+			<attribute name="input"        value="1.0"/>
+			<attribute name="output"       value="0.0"/>
+		</SensorNeuron>
+		<Neuron roleName="Neuron2"> <!-- center neuron, completely internal -->
+			<attribute name="activation"   value="6.0"/>
+			<attribute name="bias"         value="-6.0"/>
+			<attribute name="timeConstant" value="3.0"/>
+			<attribute name="input"        value="0.0"/>
+			<attribute name="output"       value="0.0"/>
+		</Neuron>
+		<Neuron roleName="Neuron3"> <!-- sends output to MR -->
+			<attribute name="activation"   value="10.0"/>
+			<attribute name="bias"         value="-10.0"/>
+			<attribute name="timeConstant" value="0.2"/>
+			<attribute name="input"        value="0.0"/>
+			<attribute name="output"       value="0.0"/>
+		</Neuron>
+		<Neuron roleName="Neuron4"> <!-- sends output to ML -->
+			<attribute name="activation"   value="10.0"/>
+			<attribute name="bias"         value="-10.0"/>
+			<attribute name="timeConstant" value="0.2"/>
+			<attribute name="input"        value="0.0"/>
+			<attribute name="output"       value="0.0"/>
+		</Neuron>
+		<!-- Connections -->
+		<Connection roleName="Connection_0_2">
+			<attribute name="weight"   value="1.5"/>
+		</Connection>
+		<Connection roleName="Connection_1_2">
+			<attribute name="weight"   value="1.5"/>
+		</Connection>
+		<Connection roleName="Connection_2_2">
+			<attribute name="weight"   value="12.0"/>
+		</Connection>
+		<Connection roleName="Connection_1_3">
+			<attribute name="weight"   value="4.0"/>
+		</Connection>
+		<Connection roleName="Connection_2_3">
+			<attribute name="weight"   value="4.0"/>
+		</Connection>
+		<Connection roleName="Connection_3_3">
+			<attribute name="weight"   value="7.0"/>
+		</Connection>
+		<Connection roleName="Connection_0_4">
+			<attribute name="weight"   value="4.0"/>
+		</Connection>
+		<Connection roleName="Connection_2_4">
+			<attribute name="weight"   value="4.0"/>
+		</Connection>
+		<Connection roleName="Connection_4_4">
+			<attribute name="weight"   value="7.0"/>
+		</Connection>
+	</Ctrnn>
+	<Motor roleName="MotorR"/> <!-- right motor, MR -->
+	<Motor roleName="MotorL"/> <!-- left motor,  ML -->
+</Robot>

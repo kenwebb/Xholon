@@ -1,0 +1,56 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<!--<?xml-stylesheet type="text/xsl" href="http://www.primordion.com/Xholon/gwt/information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="http://www.primordion.com/Xholon/gwt/information/info.css"?>-->
+<!--
+	Furcifer Displayable information about this application.
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<article>
+<header>
+<title>Furcifer</title>
+</header>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>The Furcifer application is used for QUnit unit testing of the Xholon JavaScript API.
+The word "Furcifer" refers to a genus of chameleons,
+and especially to the panther chameleon (Furcifer pardalis)
+which is probably the largest species of chameleon.
+In the context of the Xholon project,
+the name signifies that this app is an expanded (larger) version of the Chameleon app.
+</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<p>To start the test cases using Firebug or Developer Tools: xh.test();</p>
+<p>To start the test cases from within the Xholon app: &lt;script&gt;$wnd.xh.test();&lt;/script&gt;</p>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p/>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p/>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p/>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p/>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p/>
+</section>
+
+</article>

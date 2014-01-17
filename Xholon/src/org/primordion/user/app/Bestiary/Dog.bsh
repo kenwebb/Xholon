@@ -1,0 +1,14 @@
+/*
+This is intended to be pasted in to a grid at runtime,
+as an example of an on-the-fly class and object.
+Copy and paste everything starting with <Dog and ending with </Dog>
+*/
+
+<Dog implName="lang:beanshell:inline:"><![CDATA[
+import org.primordion.user.app.Bestiary.Beast;
+public class Dog extends Beast {
+
+}
+
+new Dog();
+]]></Dog>

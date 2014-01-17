@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- solarsystemtest -->
+<SolarSystemTest xmlns:xi="http://www.w3.org/2001/XInclude">
+  <!-- There are 2 ways to specify an external module: -->
+  
+  <!-- (1) as an include -->
+  <!--<xi:include href="./org/primordion/user/app/solarsystem/cshSunEarth.xml"/>-->
+  <!--<xi:include href="./org/primordion/user/app/solarsystem/cshSunPlanets.xml"/>-->
+  
+  <!-- (2) as a XholonModule which may have its own includes -->
+  <!--<XholonModule xmlns:xi="http://www.w3.org/2001/XInclude">
+    <xi:include href="org/primordion/user/app/solarsystem/moduleSunPlanets.xml"/>
+  </XholonModule>-->
+  <!--<XholonModule xmlns:xi="http://www.w3.org/2001/XInclude">
+    <xi:include href="org/primordion/user/app/solarsystem/moduleSunspotCycle.xml"/>
+  </XholonModule>-->
+  
+  <!-- (3) inline -->
+<!-- The high-level structural elements of the Solar System. -->
+<XholonModule>
+  <XholonMap>
+    <Attribute_String roleName="ih"><![CDATA[
+<_-.solarsystem>
+  <SolarSystem/>
+  <AstronomicalObject>
+    <Star/>
+    <Planet/>
+    <NaturalSatellite/>
+  </AstronomicalObject>
+  <Stars/>
+  <Planets/>
+  <InterplanetaryMedium/>
+</_-.solarsystem>
+    ]]></Attribute_String>
+    <Attribute_String roleName="cd"><![CDATA[
+<xholonClassDetails>
+  <Star xhType="XhtypeBehFgsxxx" implName="org.primordion.user.app.solarsystem.Star">
+    <port name="space" connector="#xpointer(ancestor::SolarSystem/InterplanetaryMedium)"/>
+  </Star>
+  <Planet xhType="XhtypeBehFgsxxx" implName="org.primordion.user.app.solarsystem.Planet"/>
+  <NaturalSatellite xhType="XhtypeBehFgsxxx" implName="org.primordion.user.app.solarsystem.NaturalSatellite"/>
+  <InterplanetaryMedium xhType="XhtypeBehFgsxxx" implName="org.primordion.user.app.solarsystem.Space">
+    <port name="planets" connector="#xpointer(ancestor::SolarSystem/Planets)"/>
+  </InterplanetaryMedium>
+</xholonClassDetails>
+    ]]></Attribute_String>
+    <Attribute_String roleName="csh"><![CDATA[
+<SolarSystem>
+  <Stars>
+    <Star roleName="Sun">
+      <Attribute_double roleName="radius">6.955e8</Attribute_double> <!-- m -->
+      <Attribute_double roleName="temperature">5778</Attribute_double> <!-- K -->
+    </Star>
+  </Stars>
+  <Planets>
+    <Planet roleName="Earth">
+      <Attribute_double roleName="radius">6378000.0</Attribute_double> <!-- m -->
+      <Attribute_double roleName="distanceToPrimary">1.496e11</Attribute_double> <!-- m -->
+    </Planet>
+  </Planets>
+  <InterplanetaryMedium/>
+</SolarSystem>
+    ]]></Attribute_String>
+  </XholonMap>
+</XholonModule>
+  
+</SolarSystemTest>

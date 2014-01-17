@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Robinson STELLA version -->
+<Earth xmlns:xi="http://www.w3.org/2001/XInclude">
+  <TopOfAtmosphere>
+    <Albedo>0.307168</Albedo> <!-- for use with Robinson STELLA approach -->
+  </TopOfAtmosphere>
+  <Atmosphere>
+    <Energy units="J"/>
+    <Albedo>0.0</Albedo> <!-- 77/342 = 0.225146198 K+T -->
+    <Temperature units="K">273.15
+      <Celsius roleName="Ta"/>
+    </Temperature> <!-- initial temperature -->
+    <Mass units="kg/m^2">10326.19776</Mass> <!-- 101300/9.81 -->
+    <SpecificHeat units="J/kg/K">1004.0</SpecificHeat>
+    <HeatCapacity units="J/m^3/K"/>
+    <Absorption>0.1</Absorption> <!-- 67/(342-77) = 0.252830188 K+T -->
+    <Emissivity>0.856347</Emissivity>
+  </Atmosphere>
+  <Surface>
+    <Energy units="J"/>
+    <Albedo>0.0</Albedo> <!-- 30/198 = 0.1515 K+T -->
+    <Temperature units="K">273.15
+      <Celsius roleName="Ts"/>
+    </Temperature> <!-- initial temperature -->
+    <Water>
+      <Density units="kg/m^3">1000.0</Density>
+      <SpecificHeat units="J/kg/K">4218.0</SpecificHeat>
+      <MixedLayer>
+        <Depth units="m">50.0</Depth>
+      </MixedLayer>
+      <HeatCapacity units="J/m^3/K"/>
+    </Water>
+  </Surface>
+  <!--<xi:include href="./org/primordion/user/app/climatechange/mdcs/m2_2mp/RobinsonViewables.xml"/>-->
+</Earth>

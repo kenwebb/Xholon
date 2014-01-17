@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xholonClassDetails>
+  <Sun xhType="XhtypePureActiveObject" implName="org.primordion.user.app.climatechange.mdcs.m2_1mp.Sun">
+    <port name="space" connector="#xpointer(ancestor::SolarSystem/Space)"/>
+  </Sun>
+  <Space xhType="XhtypePureActiveObject" implName="org.primordion.user.app.climatechange.mdcs.m2_1mp.Space">
+    <port name="planet" connector="#xpointer(ancestor::SolarSystem/Earth/Surface)"/>
+    <port name="solarConstant" connector="#xpointer(ancestor::TheSystem/Fluxes/Flux[@roleName='SunSpc_sw'])"/>
+    <port name="longwaveRadiation" connector="#xpointer(ancestor::TheSystem/Fluxes/Flux[@roleName='SrfSpc_lw'])"/>
+    <port name="reflectedShortwaveRadiation" connector="#xpointer(ancestor::TheSystem/Fluxes/Flux[@roleName='SrfSpc_sw'])"/>
+  </Space>
+  <Surface xhType="XhtypePureActiveObject" implName="org.primordion.user.app.climatechange.mdcs.m2_1mp.Surface">
+    <port name="space" connector="#xpointer(ancestor::SolarSystem/Space)"/>
+    <port name="energy" connector="#xpointer(Energy)"/>
+    <port name="albedo" connector="#xpointer(Albedo)"/>
+    <port name="temperature" connector="#xpointer(Temperature)"/>
+    <port name="water" connector="#xpointer(Water)"/>
+    <port name="stefanBoltzmannConstant" connector="#xpointer(ancestor::TheSystem/Constants/StefanBoltzmannConstant)"/>
+    <port name="secondsPerTimeStep" connector="#xpointer(ancestor::TheSystem/Constants/SecondsPerTimeStep)"/>
+    <port name="solarIn" connector="#xpointer(ancestor::TheSystem/Fluxes/Flux[@roleName='SpcSrf_sw'])"/>
+  </Surface>
+  <Water xhType="XhtypePureActiveObject" implName="org.primordion.user.app.climatechange.mdcs.m2_1mp.Water">
+    <port name="depth" connector="#xpointer(MixedLayer/Depth)"/>
+    <port name="heatCapacity" connector="#xpointer(HeatCapacity)"/>
+    <port name="density" connector="#xpointer(Density)"/>
+    <port name="specificHeat" connector="#xpointer(SpecificHeat)"/>
+  </Water>
+  <Flux implName="org.primordion.user.app.climatechange.mdcs.m2_1mp.Flux"/>
+  <Celsius xhType="XhtypePurePassiveObject" implName="org.primordion.user.app.climatechange.mdcs.m2_1mp.Celsius">
+    <port name="k" connector="#xpointer(..)"/>
+  </Celsius>
+  <XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

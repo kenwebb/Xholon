@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<_-.XholonModule>
+  <XholonMap>
+    <Attribute_String roleName="ih">/org/primordion/user/app/solarsystem/ih_wikipedia.xml</Attribute_String>
+    <Attribute_String roleName="cd">/org/primordion/user/app/solarsystem/cd.xml</Attribute_String>
+    <Attribute_String roleName="csh">/org/primordion/user/app/solarsystem/cshSunPlanets.xml</Attribute_String>
+    <!--<Attribute_String roleName="csh">/org/primordion/user/app/solarsystem/cshLargestObjects.xml</Attribute_String>-->
+  </XholonMap>
+</_-.XholonModule>

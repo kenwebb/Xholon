@@ -1,0 +1,24 @@
+package org.primordion.user.app.climatechange.carboncycle03;
+
+import org.primordion.script.Behavior_beanshell;
+import org.primordion.xholon.base.IXholon;
+
+public class Flow_beanshell extends Behavior_beanshell {
+	
+	private double val = 0.0;
+
+	public double getVal() {
+		return val;
+	}
+
+	public void setVal(double val) {
+		this.val = val;
+	}
+	
+	public void insertAfter(IXholon node) {
+		// copy the current val from the object that is being replaced
+		this.val = node.getVal();
+		super.insertAfter(node);
+	}
+	
+}

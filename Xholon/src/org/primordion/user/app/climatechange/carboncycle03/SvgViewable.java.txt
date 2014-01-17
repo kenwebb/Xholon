@@ -1,0 +1,180 @@
+/* Xholon Runtime Framework - executes event-driven & dynamic applications
+ * Copyright (C) 2011 Ken Webb
+ *
+ * This library is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ */
+
+package org.primordion.user.app.climatechange.carboncycle03;
+
+import org.primordion.xholon.base.IXholon;
+import org.primordion.xholon.util.StringHelper;
+
+import com.kitfox.svg.Text;
+import com.kitfox.svg.Tspan;
+
+/**
+ * Store correspondences between Viewables and SVG elements.
+ * @author ken
+ * @deprecated
+ */
+public class SvgViewable extends Xhcarboncycle03 {
+	
+	private String xhcName = "";
+	private IXholon xhNode = null;
+	private String svgId = "";
+	private Tspan svgNode = null;
+	
+	private IXholon carbonCycleView = null;
+	
+	public void postConfigure() {
+		svgNode = (Tspan)((CarbonCycleView)carbonCycleView).getDiagram().getElement(svgId);
+		findXhNode();
+		if (xhcName.equals("TimeStep")) {
+			setText(Integer.toString(this.getApp().getTimeStep()));
+		}
+		super.postConfigure();
+	}
+	
+	protected void findXhNode() {
+		((CarbonCycleView)carbonCycleView).getReservoirs().visit(this);
+		if (xhNode == null) {
+			((CarbonCycleView)carbonCycleView).getFlows().visit(this);
+		}
+	}
+	
+	public boolean visit(IXholon visitee) {
+		if (visitee.getXhcName().equals(xhcName)) {
+			xhNode = visitee;
+			setText();
+			return false;
+		}
+		return true;
+	}
+	
+	public void act() {
+		if (xhNode != null) {
+			if (!xhNode.hasParentNode()) {
+				// the xhNode has been replaced; find the new xhNode
+				xhNode = null;
+				findXhNode();
+			}
+		  setText();
+		}
+		else if (xhcName.equals("TimeStep")) {
+			setText(Integer.toString(this.getApp().getTimeStep()));
+		}
+		else if (xhNode == null) {
+			System.out.println("xhNode is null:" + xhcName);
+		}
+		super.act();
+	}
+	
+	protected void setText() {
+		double val = 0.0;
+		if (xhNode.getXhcName().equals("FossilCarbon")) {
+			// sum the values of all children
+			IXholon node = xhNode.getFirstChild();
+			while (node != null) {
+				val += node.getVal();
+				node = node.getNextSibling();
+			}
+			setText(StringHelper.format("%.1f", val));
+		}
+		else if (xhNode.getXhcName().equals("FossilFuelBurning")) {
+			val = xhNode.getVal();
+			setText(StringHelper.format("%.3f", val));
+		}
+		else {
+			val = xhNode.getVal();
+			setText(StringHelper.format("%.1f", val));
+		}
+	}
+	
+	/**
+	 * Set the text for an existing SVG tspan node, whose parent must be an SVG text node.
+	 * @param text The text that the tspan node should be set to.
+	 */
+	protected void setText(String text) {
+		if (svgNode == null) {return;}
+		svgNode.setText(text);
+        Text textEle = (Text)svgNode.getParent();
+        try {
+            textEle.rebuild();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.Xholon#setAttributeVal(java.lang.String, java.lang.String)
+	 */
+	public int setAttributeVal(String attrName, String attrVal) {
+		if ("xhcName".equals(attrName)) {
+			xhcName = attrVal;
+		}
+		else if ("svgId".equals(attrName)) {
+			svgId = attrVal;
+		}
+		return 0;
+	}
+	
+	public String toString() {
+		String outStr = getName();
+		outStr += " xhcName:" + xhcName;
+		outStr += " svgId:" + svgId;
+		return outStr;
+	}
+
+	public String getXhcName() {
+		return xhcName;
+	}
+
+	public void setXhcName(String xhcName) {
+		this.xhcName = xhcName;
+	}
+
+	public IXholon getXhNode() {
+		return xhNode;
+	}
+
+	public void setXhNode(IXholon xhNode) {
+		this.xhNode = xhNode;
+	}
+
+	public String getSvgId() {
+		return svgId;
+	}
+
+	public void setSvgId(String svgId) {
+		this.svgId = svgId;
+	}
+
+	public Tspan getSvgNode() {
+		return svgNode;
+	}
+
+	public void setSvgNode(Tspan svgNode) {
+		this.svgNode = svgNode;
+	}
+
+	public IXholon getCarbonCycleView() {
+		return carbonCycleView;
+	}
+
+	public void setCarbonCycleView(IXholon carbonCycleView) {
+		this.carbonCycleView = carbonCycleView;
+	}
+	
+}

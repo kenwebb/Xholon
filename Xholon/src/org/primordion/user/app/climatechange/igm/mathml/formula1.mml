@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <mstyle mathcolor="black" fontfamily="Liberation Sans" displaystyle="true">
+  <mtable>
+   <mtr>
+    <mtd>
+     <mrow>
+      <mfrac>
+       <mn>1</mn>
+       <mn>4</mn>
+      </mfrac>
+      <msub>
+       <mi>S</mi>
+       <mn>0</mn>
+      </msub>
+     </mrow>
+    </mtd>
+   </mtr>
+   <mtr>
+    <mtd>
+     <mrow>
+      <mfrac>
+       <mn>1</mn>
+       <mn>4</mn>
+      </mfrac>
+      <msub>
+       <mi>S</mi>
+       <mn>0</mn>
+      </msub>
+      <msub>
+       <mi>α</mi>
+       <mi>ρ</mi>
+      </msub>
+     </mrow>
+    </mtd>
+   </mtr>
+   <mtr>
+    <mtd>
+     <mrow>
+      <mrow>
+       <mo stretchy="false">(</mo>
+       <mrow>
+        <mn>1</mn>
+        <mi mathvariant="normal">−</mi>
+        <mi>ε</mi>
+       </mrow>
+       <mo stretchy="false">)</mo>
+      </mrow>
+      <msubsup>
+       <mi mathvariant="italic">σT</mi>
+       <mi>s</mi>
+       <mn>4</mn>
+      </msubsup>
+     </mrow>
+    </mtd>
+   </mtr>
+  </mtable>
+  <annotation encoding="StarMath 5.0">{1} over {4}S_{0}newline 
+
+{1} over {4}S_{0}a_{p}newline 
+
+(1-ε)σT_{s}^{4}newline 
+
+</annotation>
+ </mstyle>
+</math>

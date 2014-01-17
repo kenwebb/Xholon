@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+A Viewer is a Mechanism that has to do with viewing xholons.
+roleName - name of the .xml file in config/_common,
+           which is also (usually) the name of the root node for the mechanism.
+NamespaceUri - URI that identifies the namespace for the mechanism.
+DefaultPrefix - default namespace prefix.
+RangeStart - start id for xholons in the mechanism.
+RangeEnd - end id for xholons in the mechanism.
+
+This is a list of mechanisms, ordered by range.
+RangeStart   RangeEnd   MechanismOrViewerName
+__________   ________   _____________________
+2000000      2000099    XholonMechanism
+2000100      2000199    XholonViewer
+1000000      1000099    StateMachineEntity
+1000100      1000199    Port
+1000200      1000299    DataPlotter
+1000300      1000399    GraphicalNetworkViewer
+1000400      1000499    GraphicalTreeViewer
+1000500      1000599    GridViewer
+1000600      1000699    Interactions
+1000700      1000799    Snapshot
+1000800      1000899    TextTree
+1000900      1000999    Vrml
+1001000      1001099    UMLActivityEntity
+1001100      1001199    UMLActionEntity
+1001200      1001299    Behavior
+1001300      1001399    ScxmlEntity
+1001400      1001999    XhymEntity
+1002000      1002099    Control
+1002100      1002199    HistogramViewer
+1002200      1002299    Attribute
+1002300      1002599    SwingEntity
+1003000      1003099    OrNode
+1003100      1003199    AppClient (deprecated)
+1003200      1003999    BusApp (replaces AppClient; an alternative to XholonBusApp)
+1004000      1004099    LongRunner
+1004100      1004199    XholonCollection
+1004200      1004299    DfdEntity
+1004300      1004499    Bpmn_Entity
+1004500      1004599    Jpdl_Entity
+1004600      1004699    XBarEntity_en
+1004700      1004799    XBarEntity_fr
+1004800      1009999    XBar reserve for other languages
+1010000      1010099    Annotation
+1010100      1010199    Role
+1010200      1010299    Uid
+1010300      1010399    Listener
+1010400      1010499    Action
+1010500      1010599    SwingAttribute
+1010600      1010699    XQueryGui
+1010700      1010799    XholonService
+1010800      1010899    XPath
+1010900      1010999    XholonConsole
+1011000      1011099    Xholonbusapp (an alternative to BusApp)
+1011100      1011199    WebBrowser
+1011200      1011299    XholonFramework
+1011300      1011399    XholonGui
+1011400      1011599    PulpCore
+1011600      1011699    SvgEntity
+1011700      1011799    SwEntity
+1011800      1012999    Quantity
+1013000      1013099    PetriNetEntity
+1013100      1013199    BigraphEntity
+
+1013200      1013299    FileSystem
+1013300      1013399    RubyOnRails
+1013400      1013499    Grails
+1013500      1013599    Griffon
+1013600      1013699    PlayFramework
+1013700      1013799    Yii
+1013800      1013899    ZendFramework
+
+1014000      1014099    NoSql
+1014100      1014199    Blueprints
+1014200      1014299    Rest
+
+1014300      1014399    Script
+
+The following XML is an alphabetical list of all Xholon Mechanisms and Viewers.
+-->
+<XhMechanisms roleName="XhMechanisms" xmlns:xi="http://www.w3.org/2001/XInclude">
+	
+	<!-- XholonMechanisms -->
+	
+	<XholonMechanisms roleName="XholonMechanisms">
+	
+	<XholonMechanism roleName="Action">
+		<NamespaceUri>http://www.primordion.com/namespace/Action</NamespaceUri>
+		<DefaultPrefix>actn</DefaultPrefix>
+		<RangeStart>1010400</RangeStart>
+		<RangeEnd>1010499</RangeEnd>
+	</XholonMechanism>
+	
+	<XholonMechanism roleName="Annotation">
+		<NamespaceUri>http://www.primordion.com/namespace/Annotation</NamespaceUri>
+		<DefaultPrefix>ann</DefaultPrefix>
+		<RangeStart>1010000</RangeStart>
+		<RangeEnd>1010099</RangeEnd>
+	</XholonMechanism>
+	
+	<XholonMechanism roleName="Attribute">
+		<NamespaceUri>http://www.primordion.com/namespace/Attribute</NamespaceUri>
+		<DefaultPrefix>attr</DefaultPrefix>
+		<RangeStart>1002200</RangeStart>
+		<RangeEnd>1002299</RangeEnd>
+	</XholonMechanism>
+	
+	<XholonMechanism roleName="Behavior">
+		<NamespaceUri>http://www.primordion.com/namespace/Behavior</NamespaceUri>
+		<DefaultPrefix>bhvr</DefaultPrefix>
+		<RangeStart>1001200</RangeStart>
+		<RangeEnd>1001299</RangeEnd>
+	</XholonMechanism>
+	
+	<XholonMechanism roleName="BigraphEntity">
+		<NamespaceUri>http://www.primordion.com/namespace/BigraphEntity</NamespaceUri>
+		<DefaultPrefix>bg</DefaultPrefix>
+		<RangeStart>1013100</RangeStart>
+		<RangeEnd>1013199</RangeEnd>
+		<Color>0x8B572E</Color>
+	</XholonMechanism>
+	
+	<XholonMechanism roleName="BusApp">
+		<NamespaceUri>http://www.primordion.com/namespace/BusApp</NamespaceUri>
+		<DefaultPrefix>bsap</DefaultPrefix>
+		<RangeStart>1003200</RangeStart>
+		<RangeEnd>1003999</RangeEnd>
+		<Color>0x0000FF</Color>
+	</XholonMechanism>
+	
+	<XholonViewer roleName="Control">
+		<NamespaceUri>http://www.primordion.com/namespace/Control</NamespaceUri>
+		<DefaultPrefix>cntrl</DefaultPrefix>
+		<RangeStart>1002000</RangeStart>
+		<RangeEnd>1002099</RangeEnd>
+		<Color>0x00FF00</Color>
+	</XholonViewer>
+	
+	<XholonMechanism roleName="Listener">
+		<NamespaceUri>http://www.primordion.com/namespace/Listener</NamespaceUri>
+		<DefaultPrefix>lstn</DefaultPrefix>
+		<RangeStart>1010300</RangeStart>
+		<RangeEnd>1010399</RangeEnd>
+	</XholonMechanism>
+	
+	<XholonMechanism roleName="OrNode">
+		<NamespaceUri>http://www.primordion.com/namespace/OrNode</NamespaceUri>
+		<DefaultPrefix>ornd</DefaultPrefix>
+		<RangeStart>1003000</RangeStart>
+		<RangeEnd>1003099</RangeEnd>
+		<Color>0x808080</Color>
+		<Font>Arial-BOLD-14</Font>
+		<ToolTip>An OrNode enables just one of its children at a time.</ToolTip>
+	</XholonMechanism>
+	
+    <XholonMechanism roleName="PetriNetEntity">
+		<NamespaceUri>http://www.primordion.com/namespace/PetriNetEntity</NamespaceUri>
+		<DefaultPrefix>pn</DefaultPrefix>
+		<RangeStart>1013000</RangeStart>
+		<RangeEnd>1013099</RangeEnd>
+		<Color>0x2E8B57</Color>
+	</XholonMechanism>
+	
+	<XholonMechanism roleName="Port">
+		<NamespaceUri>http://www.primordion.com/namespace/Port</NamespaceUri>
+		<DefaultPrefix>port</DefaultPrefix>
+		<RangeStart>1000100</RangeStart>
+		<RangeEnd>1000199</RangeEnd>
+	</XholonMechanism>
+	
+	<XholonMechanism roleName="Role">
+		<NamespaceUri>http://www.primordion.com/namespace/Role</NamespaceUri>
+		<DefaultPrefix>role</DefaultPrefix>
+		<RangeStart>1010100</RangeStart>
+		<RangeEnd>1010199</RangeEnd>
+	</XholonMechanism>
+	
+	<XholonMechanism roleName="Script">
+		<NamespaceUri>http://www.primordion.com/namespace/Script</NamespaceUri>
+		<DefaultPrefix>scrpt</DefaultPrefix>
+		<RangeStart>1014300</RangeStart>
+		<RangeEnd>1014399</RangeEnd>
+	</XholonMechanism>
+	
+	<XholonMechanism roleName="StateMachineEntity">
+		<NamespaceUri>http://www.primordion.com/namespace/StateMachineEntity</NamespaceUri>
+		<DefaultPrefix>fsm</DefaultPrefix>
+		<RangeStart>1000000</RangeStart>
+		<RangeEnd>1000099</RangeEnd>
+		<Color>0x0000FF</Color>
+	</XholonMechanism>
+	
+	<XholonMechanism roleName="Uid">
+		<NamespaceUri>http://www.primordion.com/namespace/Uid</NamespaceUri>
+		<DefaultPrefix>uid</DefaultPrefix>
+		<RangeStart>1010200</RangeStart>
+		<RangeEnd>1010299</RangeEnd>
+	</XholonMechanism>
+	
+	<XholonMechanism roleName="XholonCollection">
+		<NamespaceUri>http://www.primordion.com/namespace/XholonCollection</NamespaceUri>
+		<DefaultPrefix>xhcoll</DefaultPrefix>
+		<RangeStart>1004100</RangeStart>
+		<RangeEnd>1004199</RangeEnd>
+	</XholonMechanism>
+	
+	<!-- Xholon is the default namespace, if no other is specified. -->
+	<XholonMechanism roleName="Xholon">
+		<NamespaceUri>http://www.primordion.com/namespace/Xholon</NamespaceUri>
+		<DefaultPrefix>xh</DefaultPrefix>
+		<RangeStart>0</RangeStart>
+		<RangeEnd>999999</RangeEnd>
+		<!--<Font>Arial-BOLD-18</Font>-->
+	</XholonMechanism>
+	
+	<XholonMechanism roleName="XholonFramework">
+		<NamespaceUri>http://www.primordion.com/namespace/XholonFramework</NamespaceUri>
+		<DefaultPrefix>xhfrm</DefaultPrefix>
+		<RangeStart>1011200</RangeStart>
+		<RangeEnd>1011299</RangeEnd>
+	</XholonMechanism>
+	
+	<XholonMechanism roleName="XholonMechanism">
+		<NamespaceUri>http://www.primordion.com/namespace/XholonMechanism</NamespaceUri>
+		<DefaultPrefix>xhmech</DefaultPrefix>
+		<RangeStart>2000000</RangeStart>
+		<RangeEnd>2000099</RangeEnd>
+	</XholonMechanism>
+	
+	<XholonMechanism roleName="XholonService">
+		<NamespaceUri>http://www.primordion.com/namespace/XholonService</NamespaceUri>
+		<DefaultPrefix>xhsrv</DefaultPrefix>
+		<RangeStart>1010700</RangeStart>
+		<RangeEnd>1010799</RangeEnd>
+	</XholonMechanism>
+	
+	<XholonMechanism roleName="XPath">
+		<NamespaceUri>http://www.primordion.com/namespace/XPath</NamespaceUri>
+		<DefaultPrefix>xpath</DefaultPrefix>
+		<RangeStart>1010800</RangeStart>
+		<RangeEnd>1010899</RangeEnd>
+	</XholonMechanism>
+	
+	</XholonMechanisms>
+	
+	
+	<!-- XholonViewers -->
+	
+	<XholonViewers roleName="XholonViewers">
+	
+	</XholonViewers>
+	
+	
+	<!-- UserMechanisms -->
+	
+	<!--<xi:include href="./config/mech/XhMechanisms.xml"/>-->
+	
+</XhMechanisms>

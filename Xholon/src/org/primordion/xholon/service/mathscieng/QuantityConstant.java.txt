@@ -1,0 +1,81 @@
+/* Xholon Runtime Framework - executes event-driven & dynamic applications
+ * Copyright (C) 2011 Ken Webb
+ *
+ * This library is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ */
+
+package org.primordion.xholon.service.mathscieng;
+
+import java.lang.reflect.Field;
+
+import org.jscience.physics.amount.Amount;
+import org.jscience.physics.amount.Constants;
+import org.primordion.xholon.base.IDecoration;
+import org.primordion.xholon.base.IQuantity;
+
+/**
+ * Constants, from the JScience Constants class.
+ * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
+ * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
+ * @since 0.8.1 (Created on December 14, 2011)
+ */
+public class QuantityConstant extends QuantityScalar implements IQuantity {
+	
+	/**
+	 * The value of the constant, as specified in the JScience Constants class.
+	 */
+	private double val = Double.NEGATIVE_INFINITY;
+	
+	@SuppressWarnings("unchecked")
+	public void postConfigure() {
+		Field field = null;
+		String symbol = ((IDecoration)xhc).getSymbol();
+		try {
+			field = Constants.class.getField(symbol);
+		} catch (SecurityException e) {
+			logger.error(e);
+		} catch (NoSuchFieldException e) {
+			logger.error(e);
+		}
+		try {
+			amount = (Amount)field.get(amount);
+		} catch (IllegalArgumentException e) {
+			logger.error(e);
+		} catch (IllegalAccessException e) {
+			logger.error(e);
+		}
+		val = amount.doubleValue(amount.getUnit());
+		super.postConfigure();
+	}
+	
+	public double getVal() {
+		return val;
+	}
+	
+	public void setVal(double val) {}
+	
+	public long getVal_long() {
+		return (long)val;
+	}
+	
+	public void setVal(long val) {}
+	
+	public int getVal_int() {
+		return (int)val;
+	}
+	
+	public void setVal(int val) {}
+	
+}

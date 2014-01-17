@@ -1,0 +1,44 @@
+<svg:svg width="47.101699pt" xmlns:svg="http://www.w3.org/2000/svg" viewBox="0 -37.990986 47.101699 68.001504" xmlns:svgmath="http://www.grigoriev.ru/svgmath" height="68.001504pt">
+<svg:metadata><svgmath:metrics top="68.0015039063" axis="34.0007519531" baseline="30.0105175781" bottom="0.0"/></svg:metadata>
+<svg:g transform="translate(0.000000, -3.990234)">
+<svg:g transform="translate(12.524414, -20.043721)">
+<svg:g transform="translate(0.000000, -3.990234)">
+<svg:g transform="translate(0.878906, -1.710938)">
+<svg:text font-size="12.000000" text-anchor="middle" y="0.000000" x="3.336914" font-family="Liberation Sans" fill="blue">1</svg:text></svg:g>
+<svg:g transform="translate(0.878906, 9.966797)">
+<svg:text font-size="12.000000" text-anchor="middle" y="0.000000" x="3.336914" font-family="Liberation Sans" fill="blue">4</svg:text></svg:g>
+<svg:line y2="0.000000" x1="0.000000" x2="8.431641" stroke="blue" stroke-linecap="butt" stroke-dasharray="none" y1="0.000000" stroke-width="0.878906" fill="none"/></svg:g>
+<svg:g transform="translate(9.310547, 0.000000)">
+<svg:text font-size="12.000000" text-anchor="middle" y="0.000000" x="4.001953" font-family="Liberation Sans" font-style="italic" fill="blue">S</svg:text><svg:g transform="translate(8.003906, 3.169922)">
+<svg:text font-size="8.520000" text-anchor="middle" y="0.000000" x="2.369209" font-family="Liberation Sans" fill="blue">0</svg:text></svg:g></svg:g></svg:g><svg:g transform="translate(6.712207, 6.229717)">
+<svg:g transform="translate(0.000000, -3.990234)">
+<svg:g transform="translate(0.878906, -1.710938)">
+<svg:text font-size="12.000000" text-anchor="middle" y="0.000000" x="3.336914" font-family="Liberation Sans" fill="blue">1</svg:text></svg:g><svg:g transform="translate(0.878906, 9.966797)">
+<svg:text font-size="12.000000" text-anchor="middle" y="0.000000" x="3.336914" font-family="Liberation Sans" fill="blue">4</svg:text></svg:g>
+<svg:line y2="0.000000" x1="0.000000" x2="8.431641" stroke="blue" stroke-linecap="butt" stroke-dasharray="none" y1="0.000000" stroke-width="0.878906" fill="none"/></svg:g>
+<svg:g transform="translate(9.310547, 0.000000)">
+<svg:text font-size="12.000000" text-anchor="middle" y="0.000000" x="4.001953" font-family="Liberation Sans" font-style="italic" fill="blue">S</svg:text>
+<svg:g transform="translate(8.003906, 3.169922)">
+<svg:text font-size="8.520000" text-anchor="middle" y="0.000000" x="2.369209" font-family="Liberation Sans" fill="blue">0</svg:text></svg:g></svg:g>
+<svg:g transform="translate(22.052871, 0.000000)">
+<svg:text font-size="12.000000" text-anchor="middle" y="0.000000" x="3.336914" font-family="Liberation Sans" font-style="italic" fill="blue">α</svg:text>
+<svg:g transform="translate(6.673828, 3.169922)">
+<svg:text font-size="8.520000" text-anchor="middle" y="0.000000" x="2.581377" font-family="Liberation Sans" font-style="italic" fill="blue">ρ</svg:text></svg:g></svg:g></svg:g>
+<svg:g transform="translate(0.000000, 30.747627)">
+<svg:g transform="translate(0.000000, -3.990234)">
+<svg:text font-size="12.000000" text-anchor="middle" y="3.990234" x="1.998047" font-family="Liberation Sans" fill="blue">(</svg:text></svg:g>
+<svg:g transform="translate(3.996094, 0.000000)">
+<svg:text font-size="12.000000" text-anchor="middle" y="0.000000" x="3.336914" font-family="Liberation Sans" fill="blue">1</svg:text>
+<svg:g transform="translate(6.673828, 0.000000)">
+<svg:text font-size="12.000000" text-anchor="middle" y="0.000000" x="3.503906" font-family="Liberation Sans" fill="blue">−</svg:text></svg:g>
+<svg:g transform="translate(13.681641, 0.000000)">
+<svg:text font-size="12.000000" text-anchor="middle" y="0.000000" x="2.636719" font-family="Liberation Sans" font-style="italic" fill="blue">ε</svg:text></svg:g></svg:g>
+<svg:g transform="translate(23.091797, -3.990234)">
+<svg:text font-size="12.000000" text-anchor="middle" y="3.990234" x="1.998047" font-family="Liberation Sans" fill="blue">)</svg:text></svg:g>
+<svg:g transform="translate(27.087891, 0.000000)">
+<svg:text font-size="12.000000" text-anchor="middle" y="0.000000" x="7.283203" font-family="Liberation Sans" font-style="italic" fill="blue">σT</svg:text>
+<svg:g transform="translate(15.275391, 3.169922)">
+<svg:text font-size="8.520000" text-anchor="middle" y="0.000000" x="2.130000" font-family="Liberation Sans" font-style="italic" fill="blue">s</svg:text></svg:g><svg:g transform="translate(15.275391, -6.339844)">
+<svg:text font-size="8.520000" text-anchor="middle" y="0.000000" x="2.369209" font-family="Liberation Sans" fill="blue">4</svg:text></svg:g></svg:g></svg:g></svg:g>
+<svg:g transform="translate(47.101699, 0.000000)"/>
+</svg:svg>

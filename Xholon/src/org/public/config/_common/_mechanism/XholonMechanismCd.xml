@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Common Xholon mechanisms - Class Details
+	Xholon 0.8 http://www.primordion.com/Xholon
+-->
+<xholonClassDetails xmlns:attr="http://www.primordion.com/namespace/Attribute">
+	
+	<!-- Action -->
+	<!--
+	<Action xhType="XhtypePureActiveObject" implName="org.primordion.xholon.base.Action"/>
+	<ActionList xhType="XhtypePureActiveObject" implName="org.primordion.xholon.base.ActionList"/>
+	-->
+	
+	<!-- Annotation -->
+	<Annotation xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Annotation"/>
+	
+	<!-- AppClient -->
+	
+	<!-- Attribute -->
+	<Attribute_attribute xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_attribute"/>
+	<Attribute_boolean xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_boolean"/>
+	<Attribute_byte xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_byte"/>
+	<Attribute_char xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_char"/>
+	<Attribute_double xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_double"/>
+	<Attribute_float xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_float"/>
+	<Attribute_int xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_int"/>
+	<Attribute_long xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_long"/>
+	<Attribute_Object xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_Object"/>
+	<Attribute_short xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_short"/>
+	<Attribute_String xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_String"/>
+	<Attribute_arrayboolean xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_arrayboolean"/>
+	<Attribute_arraybyte xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_arraybyte"/>
+	<Attribute_arraychar xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_arraychar"/>
+	<Attribute_arraydouble xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_arraydouble"/>
+	<Attribute_arrayfloat xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_arrayfloat"/>
+	<Attribute_arrayint xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_arrayint"/>
+	<Attribute_arraylong xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_arraylong"/>
+	<Attribute_arrayObject xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_arrayObject"/>
+	<Attribute_arrayshort xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_arrayshort"/>
+	<Attribute_arrayString xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_arrayString"/>
+	<Attribute_List xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_List"/>
+	<Attribute_Map xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_Map"/>
+	<Attribute_Set xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_Set"/>
+	<!-- duplicate prefixed set, to distinguish from swat: -->
+	<attr:Attribute_boolean xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_boolean"/>
+	<attr:Attribute_byte xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_byte"/>
+	<attr:Attribute_char xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_char"/>
+	<attr:Attribute_double xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_double"/>
+	<attr:Attribute_float xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_float"/>
+	<attr:Attribute_int xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_int"/>
+	<attr:Attribute_long xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_long"/>
+	<attr:Attribute_Object xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_Object"/>
+	<attr:Attribute_short xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_short"/>
+	<attr:Attribute_String xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_String"/>
+	
+	<!-- Behavior -->
+	
+	<!-- Blueprints -->
+	<BlueprintsClient xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.blueprints.BlueprintsClient"/>
+  <GremlinClient xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.blueprints.GremlinClient"/>
+	
+	<!-- Bpmn_Entity -->
+	
+	<!-- Control -->
+	<Control xhType="XhtypePureActiveObject" implName="org.primordion.xholon.base.Control"/>
+	
+	<!-- DfdEntity -->
+	<!-- Jpdl_Entity -->
+	<!-- Listener -->
+	<!-- LongRunner -->
+	
+	<!-- NoSql -->
+  <Neo4jClient xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.nosql.Neo4jClient"/>
+	
+	<!-- OrNode -->
+	<OrNode xhType="XhtypePureContainer" implName="org.primordion.xholon.base.OrNode"/>
+	
+	<!-- PetriNetEntity -->
+	<PetriNet xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.PetriNet"/>
+    <PlacePN xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.mech.petrinet.Place"/>
+    <TransitionPN xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.Transition"/>
+    <InputArc xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.InputArc"/>
+    <OutputArc xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.OutputArc"/>
+    <QueueTransitions xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.QueueTransitions"/>
+    <AnalysisPetriNet xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.AnalysisPetriNet"/>
+    <AnalysisCRN xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.crn.AnalysisCRN"/>
+    <AnalysisCat xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.cat.AnalysisCat"/>
+    <AnalysisMemComp xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.memcomp.AnalysisMemComp"/>
+    <!--<Transitions implName="org.primordion.xholon.base.XholonList"/>
+    <Places implName="org.primordion.xholon.base.XholonList"/>-->
+    <!-- classes for use in a Petri net Grid -->
+    <MovingPlaceBehavior xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.grid.MovingBehavior"/>
+    <MovingTransitionBehavior xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.grid.MovingBehavior"/>
+    <FiringTransitionBehavior xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.grid.FiringTransitionBehavior"/>
+    <QueueNodesInGrid xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.grid.QueueNodesInGrid"/>
+    <GridOwner xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.grid.GridOwner"/>
+    <ConstantlyStirredPot>
+      <port name="petriNet" connector="#xpointer(ancestor::ReactionNetworkSystem/PetriNet)"/>
+    </ConstantlyStirredPot>
+    <!-- default class for any other PetriNetEntity -->
+    <PetriNetEntity implName="org.primordion.xholon.mech.petrinet.PetriNetEntity"/>
+    <!-- Petri net icons -->
+	<InputArc><Icon>images/PetriNetEntity/arc.png</Icon></InputArc>
+	<OutputArc><Icon>images/PetriNetEntity/arc.png</Icon></OutputArc>
+	<PlacePN><Icon>images/PetriNetEntity/place.png</Icon></PlacePN>
+	<TransitionPN><Icon>images/PetriNetEntity/transition.png</Icon></TransitionPN>
+	
+	<!-- Port -->
+	
+	<!-- Quantity -->
+	<!--<Quantity xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Quantity"/>-->
+	<!--<Quantity xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.service.mathscieng.Quantity"/>-->
+	
+	<!-- Rest -->
+  <JerseyClient xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.rest.JerseyClient"/>
+	
+	<!-- Role -->
+	<Role xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Role"/>
+	
+	<!-- Script -->
+	<Script xhType="XhtypePureActiveObject" implName="org.primordion.xholon.base.Behavior_gwtjs"/>
+	<script xhType="XhtypePureActiveObject" implName="org.primordion.xholon.base.Behavior_gwtjs"/>
+	
+	<!-- ScxmlEntity -->
+	<!-- StateMachineEntity -->
+	<Activity><Icon>images/StateMachineEntity/action.png</Icon></Activity>
+	<EntryActivity><Icon>images/StateMachineEntity/action.png</Icon></EntryActivity>
+	<ExitActivity><Icon>images/StateMachineEntity/action.png</Icon></ExitActivity>
+	<DoActivity><Icon>images/StateMachineEntity/action.png</Icon></DoActivity>
+	<PseudostateChoice><Icon>images/StateMachineEntity/choice.png</Icon></PseudostateChoice>
+	<PseudostateDeepHistory><Icon>images/StateMachineEntity/deepHistory.png</Icon></PseudostateDeepHistory>
+	<PseudostateEntryPoint><Icon>images/StateMachineEntity/entryPoint.png</Icon></PseudostateEntryPoint>
+	<PseudostateExitPoint><Icon>images/StateMachineEntity/exitPoint.png</Icon></PseudostateExitPoint>
+	<FinalState><Icon>images/StateMachineEntity/finalState.png</Icon></FinalState>
+	<PseudostateFork><Icon>images/StateMachineEntity/forkJoin.png</Icon></PseudostateFork>
+	<PseudostateJoin><Icon>images/StateMachineEntity/forkJoin.png</Icon></PseudostateJoin>
+	<Guard><Icon>images/StateMachineEntity/guard.png</Icon></Guard>
+	<PseudostateInitial><Icon>images/StateMachineEntity/initialState.png</Icon></PseudostateInitial>
+	<PseudostateJunction><Icon>images/StateMachineEntity/junction.png</Icon></PseudostateJunction>
+	<Region><Icon>images/StateMachineEntity/region.png</Icon></Region>
+	<PseudostateShallowHistory><Icon>images/StateMachineEntity/shallowHistory.png</Icon></PseudostateShallowHistory>
+	<State><Icon>images/StateMachineEntity/state.png</Icon></State>
+	<StateMachine><Icon>images/StateMachineEntity/stateMachine.png</Icon></StateMachine>
+	<PseudostateTerminate><Icon>images/StateMachineEntity/terminate.png</Icon></PseudostateTerminate>
+	<Transition><Icon>images/StateMachineEntity/transition.png</Icon></Transition>
+	<Trigger><Icon>images/StateMachineEntity/trigger.png</Icon></Trigger>
+	<!-- Uid -->
+	<!-- UMLActionEntity -->
+	<!-- UMLActivityEntity -->
+	
+	<!-- Xholonbusapp -->
+	<!--
+	<Mvc/>
+	<Model/>
+	<View/>
+	-->
+	<Controller xhType="XhtypePureActiveObject"/>
+	<!--
+	<Worker/>
+	<Tablemodel/>
+	<Comboboxmodel/>
+	<Businessdelegate/>
+	<Service/>
+	<Dao/>
+	<Ejb/>
+	-->
+	
+	<!-- XholonCollection -->
+	<XholonList xhType="XhtypePureContainer" implName="org.primordion.xholon.base.XholonList"/>
+	<XholonMap xhType="XhtypePureContainer" implName="org.primordion.xholon.base.XholonMap"/>
+	<XholonSet xhType="XhtypePureContainer" implName="org.primordion.xholon.base.XholonSet"/>
+	
+	<!-- XholonFramework -->
+	<XholonNode xhType="XhtypePureContainer" implName="org.primordion.xholon.base.XholonNode"/>
+	
+	<!-- XholonService -->
+	<XholonInternalServices xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.DefaultXholonService"/>
+	<ServiceLocatorService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.ServiceLocatorService"/>
+	<XholonDirectoryService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.XholonDirectoryService"/>
+	<DummyService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.DummyService"/>
+	<TreeProcessorService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.TreeProcessorService"/>
+	<SpringFrameworkService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.SpringFrameworkService"/>
+	<NodeSelectionService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.NodeSelectionService"/>
+	<XholonHelperService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.XholonHelperService"/>
+	<WiringService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.WiringService"/>
+	<ControlService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.ControlService"/>
+	<ScriptService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.ScriptService"/>
+	<CssService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.CssService"/>
+	<GameEngineService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.GameEngineService"/>
+	<NetLogoService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.NetLogoService"/>
+	<SvgViewService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.SvgViewService"/>
+	<GistService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.GistService"/>
+	<TimelineService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.TimelineService"/>
+	<SearchEngineService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.SearchEngineService"/>
+	<RecordPlaybackService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.RecordPlaybackService"/>
+	<SemanticWebService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.SemanticWebService"/>
+	<SbmlService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.SbmlService"/>
+	<MathSciEngService  xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.MathSciEngService"/>
+	<BlackboardService  xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.BlackboardService"/>
+	<VfsService  xhType="XhtypePurePassiveObject"
+    implName="org.primordion.xholon.service.VfsService"/>
+  <NoSqlService  xhType="XhtypePurePassiveObject"
+    implName="org.primordion.xholon.service.NoSqlService"/>
+  <RestService  xhType="XhtypePurePassiveObject"
+    implName="org.primordion.xholon.service.RestService"/>
+  <BlueprintsService  xhType="XhtypePurePassiveObject"
+    implName="org.primordion.xholon.service.BlueprintsService"/>
+  <XmlDatabaseService  xhType="XhtypePurePassiveObject"
+    implName="org.primordion.xholon.service.XmlDatabaseService"/>
+  <JcrService  xhType="XhtypePurePassiveObject"
+    implName="org.primordion.xholon.service.JcrService"/>
+  <JavaSerializationService  xhType="XhtypePurePassiveObject"
+    implName="org.primordion.xholon.service.JavaSerializationService"/>
+  <BerkeleyDbService  xhType="XhtypePurePassiveObject"
+    implName="org.primordion.xholon.service.BerkeleyDbService"/>
+	<ValidationService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.ValidationService"/>
+	<XmlValidationService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.XmlValidationService"/>
+	<DatabaseService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.DatabaseService"/>
+	<AboutService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.AboutService"/>
+	<MediaService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.MediaService"/>
+	<ChartViewerService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.ChartViewerService"/> <!--org.primordion.xholon.io.ChartViewerJFreeChart-->
+	<GenericViewerService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.GenericViewerService"/>
+	<GraphicalNetworkViewerService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.DefaultXholonService"/>
+	<!--<GraphicalTreeViewerService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.DefaultXholonService"/>--> <!--org.primordion.xholon.io.TreeViewerJung-->
+	<GridViewerService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.DefaultXholonService"/>
+	<!--<HistogramService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.DefaultXholonService"/>--> <!--org.primordion.xholon.io.HistogramViewerJFreeChart-->
+	<LogService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.DefaultXholonService"/>
+	<ReflectionService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.DefaultXholonService"/> <!--org.primordion.xholon.base.ReflectionJavaStandard-->
+	<VrmlService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.DefaultXholonService"/>
+	<Xholon2XmlService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.DefaultXholonService"/> <!--org.primordion.xholon.io.xml.Xholon2Xml-->
+	<XholonCreationService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.XholonCreationService"/> <!--ITreeNodeFactory-->
+	<XmlReaderService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.DefaultXholonService"/>
+	<XmlWriterService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.DefaultXholonService"/>
+	<Xml2XholonService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.DefaultXholonService"/> <!--org.primordion.xholon.io.xml.Xml2Xholon-->
+	<XPathService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.XPathService"/>
+	<XQueryService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.DefaultXholonService"/> <!--org.primordion.xholon.io.xquerygui.XQueryGui-->
+	<XholonInternalService xhType="XhtypePurePassiveObject"
+    implName="org.primordion.xholon.service.DefaultXholonService"/> <!-- default if not otherwise specified -->
+	<Xholon2Svg xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.io.Xholon2Svg"/>
+	
+	<!-- XPath -->
+	<XPath xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.XPath"/>
+	<PcsPath xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.PcsPath"/>
+	
+	<!-- SwEntity -->
+	<SwClient xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.sw.JenaClient"/>
+	
+	<!-- FileSystem etc. -->
+	<Directory implName="org.primordion.xholon.mech.filesystem.Directory"/>
+	<File implName="org.primordion.xholon.mech.filesystem.File"/>
+	
+</xholonClassDetails>

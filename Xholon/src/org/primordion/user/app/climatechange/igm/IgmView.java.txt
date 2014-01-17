@@ -1,0 +1,241 @@
+/* Xholon Runtime Framework - executes event-driven & dynamic applications
+ * Copyright (C) 2011 Ken Webb
+ *
+ * This library is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ */
+
+package org.primordion.user.app.climatechange.igm;
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import org.primordion.xholon.base.IXholon;
+
+import com.kitfox.svg.SVGCache;
+import com.kitfox.svg.SVGDiagram;
+import com.kitfox.svg.SVGDisplayPanel;
+import com.kitfox.svg.SVGElement;
+import com.kitfox.svg.SVGElementException;
+import com.kitfox.svg.SVGException;
+import com.kitfox.svg.SVGRoot;
+import com.kitfox.svg.Text;
+import com.kitfox.svg.Tspan;
+import com.kitfox.svg.animation.AnimationElement;
+
+/**
+ * IGM View The view is implemented using SVG, and the SVG Salamander library.
+ * The SVG diagram is adapted from:
+ * https://commons.wikimedia.org/wiki/File:Sun_climate_system_alternative_
+ * %28German%29_2008.svg based on: Trenberth et al (2009) license: public domain
+ * <p>
+ * TODO Be able to set attributes of SVG nodes, such as the color attribute.
+ * </p>
+ * <p>
+ * TODO Diagram should scale when the panel is resized.
+ * </p>
+ * 
+ * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
+ * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
+ * @see <a href="https://svgsalamander.dev.java.net/">SVG Salamander website</a>
+ * @since 0.8.1 (Created on July 31, 2011)
+ * @deprecated
+ */
+public class IgmView extends Xhigm implements MouseListener {
+
+	// ports
+	private IXholon viewables = null;
+
+	private SVGDisplayPanel svgPanel = null;
+	private SVGDiagram diagram = null;
+	private String svgUriCached = "file://"
+			+ new java.io.File(
+					"bin/org/primordion/user/app/climatechange/igm/IdealizedGreenhouseEmissivity78.svg")
+					.getAbsolutePath();
+	private String svgUri = "http://upload.wikimedia.org/wikipedia/commons/9/9a/IdealizedGreenhouseEmissivity78.svg";
+
+	/*
+	 * @see
+	 * org.primordion.user.app.climatechange.model04.Xhmodel04#postConfigure()
+	 */
+	public void postConfigure() {
+		viewUsingSvg();
+		super.postConfigure();
+	}
+
+	/*
+	 * @see org.primordion.user.app.climatechange.model04.Xhmodel04#act()
+	 */
+	public void act() {
+		super.act();
+		svgPanel.repaint();
+	}
+
+	/**
+	 * View and interact with the simulation using SVG.
+	 */
+	protected void viewUsingSvg() {
+		URI uri = null;
+		try {
+			uri = new URI(svgUri);
+			System.out.println("SVG image retrieved from: " + svgUri);
+		} catch (URISyntaxException e) {
+			//logger.error("", e);;
+			try {
+				uri = new URI(svgUriCached);
+				System.out.println("SVG image retrieved from: " + svgUriCached);
+			} catch (URISyntaxException ee) {
+				logger.error("SVG image not retrieved.", ee);
+			}
+		}
+		// println(uri);
+		diagram = SVGCache.getSVGUniverse().getDiagram(uri);
+		if (diagram == null) {
+			return;
+		}
+		makeText("This early version is incomplete and inaccurate.", 5.0, 575.0);
+		// scale();
+		createSwingGui(diagram);
+		svgPanel.addMouseListener(this);
+	}
+
+	/**
+	 * Create a Swing GUI for the SVG diagram.
+	 * 
+	 * @param diagram
+	 */
+	protected void createSwingGui(SVGDiagram diagram) {
+		JFrame f = new JFrame(this.getApp().getModelName()); //"Idealized greenhouse model");
+		f.getContentPane().add(createSwingComponents(diagram));
+		f.setSize(925, 625);
+		f.setVisible(true);
+	}
+
+	/**
+	 * Create Swing components for the SVG diagram.
+	 * 
+	 * @param diagram
+	 * @return A panel that contains the SVG diagram.
+	 */
+	public JComponent createSwingComponents(SVGDiagram diagram) {
+		// Create a panel and add the button, status label and the SVG canvas.
+		final JPanel panel = new JPanel(new BorderLayout());
+		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		svgPanel = new SVGDisplayPanel();
+		svgPanel.setDiagram(diagram);
+		panel.add("North", p);
+		panel.add("Center", svgPanel);
+		return panel;
+	}
+
+	/**
+	 * Style an SVG node.
+	 * 
+	 * @param svgElement
+	 *            The SVG node that should be restyled.
+	 * @param styleName
+	 *            The name of the style attribute that will be changed. ex:
+	 *            "fill"
+	 * @param styleValue
+	 *            The new value for the style attribute. ex: "#ff0000"
+	 */
+	protected void style(SVGElement svgElement, String styleName,
+			String styleValue) {
+		try {
+			// println(svgElement.hasAttribute(styleName,
+			// AnimationElement.AT_CSS));
+			svgElement.setAttribute(styleName, AnimationElement.AT_CSS,
+					styleValue);
+			svgPanel.repaint();
+		} catch (SVGElementException e) {
+			logger.error("", e);
+		}
+	}
+
+	protected void makeText(String str, double x, double y) {
+		// System.out.println("makeText");
+		// Group group = (Group)diagram.getElement("g169");
+		SVGRoot root = (SVGRoot) diagram.getRoot();
+		Text text = new Text();
+		Tspan tspan = new Tspan();
+		try {
+			text.addAttribute("x", AnimationElement.AT_XML, "" + x);
+			text.addAttribute("y", AnimationElement.AT_XML, "" + y);
+			// text.addAttribute("transform", AnimationElement.AT_XML,
+			// "scale(1.0028763,0.99713195)");
+			text.addAttribute("xml:space", AnimationElement.AT_XML, "preserve");
+			text.addAttribute("font-size", AnimationElement.AT_CSS, "8px");
+			root.loaderAddChild(null, text);
+			tspan.setText(str);
+			text.appendTspan(tspan);
+			text.build();
+
+		} catch (SVGException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+	}
+
+	@Override
+	public void mousePressed(MouseEvent event) {
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent event) {
+	}
+
+	public String getSvgFileName() {
+		return svgUri;
+	}
+
+	public void setSvgFileName(String svgFileName) {
+		this.svgUri = svgFileName;
+	}
+
+	public IXholon getViewables() {
+		return viewables;
+	}
+
+	public void setViewables(IXholon viewables) {
+		this.viewables = viewables;
+	}
+
+	public SVGDiagram getDiagram() {
+		return diagram;
+	}
+
+	public void setDiagram(SVGDiagram diagram) {
+		this.diagram = diagram;
+	}
+
+}

@@ -1,0 +1,9 @@
+package org.primordion.user.app.MeTTTa;
+
+import javax.ejb.Remote;
+import java.util.List;
+
+@Remote
+public interface MeTTTa {
+		public int getCalculatedMove(List grid);
+}

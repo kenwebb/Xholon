@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The high-level structural elements of the Solar System. -->
+<XholonModule>
+  <XholonMap>
+    <Attribute_String roleName="ih"><![CDATA[
+<_-.solarsystem>
+  <SolarSystem/>
+  <AstronomicalObject>
+    <Star/>
+    <Planet/>
+    <NaturalSatellite/>
+  </AstronomicalObject>
+  <Stars/>
+  <Planets/>
+  <InterplanetaryMedium/>
+</_-.solarsystem>
+    ]]></Attribute_String>
+    <Attribute_String roleName="cd"><![CDATA[
+<xholonClassDetails>
+  <Star xhType="XhtypeBehFgsxxx" implName="org.primordion.user.app.solarsystem.Star">
+    <port name="space" connector="#xpointer(ancestor::SolarSystem/InterplanetaryMedium)"/>
+  </Star>
+  <Planet xhType="XhtypeBehFgsxxx" implName="org.primordion.user.app.solarsystem.Planet"/>
+  <NaturalSatellite xhType="XhtypeBehFgsxxx" implName="org.primordion.user.app.solarsystem.NaturalSatellite"/>
+  <InterplanetaryMedium xhType="XhtypeBehFgsxxx" implName="org.primordion.user.app.solarsystem.Space">
+    <port name="planets" connector="#xpointer(ancestor::SolarSystem/Planets)"/>
+  </InterplanetaryMedium>
+</xholonClassDetails>
+    ]]></Attribute_String>
+    <Attribute_String roleName="csh"><![CDATA[
+<SolarSystem>
+  <Stars>
+    <Star roleName="Sun">
+      <Attribute_double roleName="radius">6.955e8</Attribute_double> <!-- m -->
+      <Attribute_double roleName="temperature">5778</Attribute_double> <!-- K -->
+    </Star>
+  </Stars>
+  <Planets>
+    <Planet roleName="Earth">
+      <Attribute_double roleName="radius">6378000.0</Attribute_double> <!-- m -->
+      <Attribute_double roleName="distanceToPrimary">1.496e11</Attribute_double> <!-- m -->
+    </Planet>
+  </Planets>
+  <InterplanetaryMedium/>
+</SolarSystem>
+    ]]></Attribute_String>
+  </XholonMap>
+</XholonModule>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Nucleus CompositeStructure -->
+<Nucleus>
+	<Nucleoplasm>
+		<Nucleolus>
+			<Fibril/>
+			<Granule/>
+			<RnaPolymeraseI/>
+		</Nucleolus>
+		<Chromosome>
+			<Dna/>
+		</Chromosome>
+		<Nucleosol/>
+		<TranscriptionComplexII>
+			<RnaPolymeraseII/>
+			<TfIID/>
+			<TfIIB/>
+			<TfIIE/>
+			<TfIIF/>
+			<TfIIH/>
+		</TranscriptionComplexII>
+		<TranscriptionComplexIII/>
+		<RegulatoryComplex>
+			<Ctf/>
+			<Sp1/>
+		</RegulatoryComplex>
+	</Nucleoplasm>
+	<NuclearEnvelope>
+		<NuclearPore>
+			<Transporter/>
+			<NuclearPoreAqueousChannel/>
+		</NuclearPore>
+		<NuclearOuterMembrane>
+			<NuclearOuterBilayer/>
+		</NuclearOuterMembrane>
+		<NuclearInnerMembrane>
+			<NuclearInnerBilayer/>
+		</NuclearInnerMembrane>
+	</NuclearEnvelope>
+	<NuclearLamina/>
+</Nucleus>

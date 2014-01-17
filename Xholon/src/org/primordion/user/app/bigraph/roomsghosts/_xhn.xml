@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	bigraph roomsghosts - _xhn configuration
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+
+-->
+<params>
+<param name="ShowParams" value="false"/>
+<param name="ModelName" value="Bigraph - Rooms and Ghosts"/>
+<param name="AppM" value="true"/>
+<param name="InfoM" value="false"/>
+<param name="ErrorM" value="true"/>
+<param name="MaxProcessLoops" value="-1"/>
+<param name="TimeStepInterval" value="100"/>
+<param name="SizeMessageQueue" value="10"/>
+<param name="InheritanceHierarchyFile" value=""/>
+<param name="CompositeStructureHierarchyFile" value=""/>
+<param name="ClassDetailsFile" value=""/>
+<!--<param name="InformationFile" value="./bin/org/primordion/user/app/bigraph/roomsghosts/info.xml"/>-->
+<param name="InformationFile" value="http://www.itu.dk/research/pls/wiki/index.php/A_Brief_Introduction_To_Bigraphs"/>
+<param name="JavaClassName" value="org.primordion.user.app.bigraph.roomsghosts.Approomsghosts"/>
+<param name="JavaXhClassName" value="org.primordion.user.app.bigraph.roomsghosts.Xhroomsghosts"/>
+<param name="MaxPorts" value="2"/>
+<!-- Viewers -->
+<!-- UseDataPlotter: none google2 JFreeChart gnuplot -->
+<param name="UseDataPlotter" value="none"/>
+<!-- DataPlotterParams: Title,XAxisLabel,YAxisLabel,Path,TypeOfData,NameConcatLevels,WriteType -->
+<param name="DataPlotterParams" value="roomsghosts - Bigraphs,Time (timesteps),Tokens,./statistics/,pn,1,WRITE_AS_DOUBLE"/>
+<param name="UseGraphicalTreeViewer" value="false"/>
+<!-- GraphicalTreeViewerParams: XPathExpression,DistX,DistY,SizeX,SizeY,FontSize,Title,ShowNodeLabels -->
+<param name="GraphicalTreeViewerParams" value="/,20,20,800,500,9,Application Composite Structure,false"/>
+<param name="UseGraphicalNetworkViewer" value="false"/>
+<!-- GraphicalNetworkViewerParams: XPathExpression,SizeX,SizeY,FontSize,LayoutType,ShowContainers,Title,ShowNodeLabels -->
+<param name="GraphicalNetworkViewerParams" value="/,800,500,9,LAYOUT_KK,false,Application Port Connections,false"/>
+<param name="UseGridViewer" value="false"/>
+<param name="GridPanelClassName" value="org.primordion.user.app.dummy.Dummy"/>
+<!-- GridViewerParams: XPathExpression,CellSize,Title -->
+<param name="GridViewerParams" value="descendant::Row/..,5,Grid Viewer App"/>
+<param name="UseInteractions" value="false"/>
+<param name="InteractionParams" value="4,true,localhost,60001"/>
+<param name="UseVrml" value="false"/>
+<param name="VrmlWriterClassName" value="org.primordion.xholon.tutorials.VrmlWriterMyApp"/>
+<!-- VrmlParams: DoClassicStyle,VrmlWriteDir,UseLOD,CreateProtoFiles -->
+<param name="VrmlParams" value="true,./3d/,false,false"/>
+<param name="UseTextTree" value="false"/>
+<param name="SaveSnapshots" value="false"/>
+<!-- SnapshotParams: SnapshotSource(0 1),SnapshotTostring,Path -->
+<param name="SnapshotParams" value="0,true,./snapshot/"/>
+</params>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Bestiary application - Inheritance Hierarchy
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+	<Bestiary/>
+	
+	<Grid/>
+	<Row/>
+	<GridCell>
+		<HabitatCell/>
+	</GridCell>
+	<Statistics/>
+	<Aggregator/>
+	
+	<!-- Beasts -->
+	<Beasts/>
+	<Beast>
+		<Cat/>
+		<Human/>
+	</Beast>
+	<!-- Behaviors (note that "Behavior" is a reserved name in a mechanism) -->
+	<BehaviorBeast>
+		<Catbehavior/>
+		<Humanbehavior/>
+	</BehaviorBeast>
+	<!-- parts of a house -->
+	<Door/>
+	<WallSection/>
+	<HouseInteriorSection/>
+	<Porch/> <!-- the area just outside a door -->
+	<Entrance/> <!-- the area in a house just inside a door -->
+	
+	<!-- quantities -->
+	<!-- GWT is this required ?
+	<xi:include href="http://www.primordion.com/Xholon/jnlp/config/_common/_module/QuantityIh.php?lang=fr">
+	  <xi:fallback>
+	    <xi:include href="_module/QuantityIh.xml"/>
+	  </xi:fallback>
+	</xi:include>-->
+	
+	<!-- Xholon Viewers -->
+	<!--<xi:include href="_viewer/GridViewer.xml"/>-->
+</XholonClass>

@@ -1,0 +1,98 @@
+package org.primordion.ef.d3;
+
+import com.google.gwt.core.client.JavaScriptObject;
+
+import org.primordion.ef.IXholon2ExternalFormat;
+
+/**
+ * Display the structure of a Xholon model using D3 circle packing.
+ * TODO after mouse hovers for about 0.5s, display toString() as the tooltip ?
+ * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
+ * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
+ * @since 0.8.1 (Created on October 4, 2013)
+ * @see <a href="http://d3js.org/">D3 website</a>
+ */
+public class Xholon2CirclePack extends Xholon2HierarchyJSON implements IXholon2ExternalFormat {
+	
+	public Xholon2CirclePack() {}
+	
+	/**
+	 * Create a D3 Pack Layout from the JSON data.
+	 * typical values: width=600 height=600 selection:"#xhgraph"
+	 */
+	protected native void createD3(JavaScriptObject json, int width, int height, Object selection) /*-{
+	  var w = width,
+    h = height,
+    format = $wnd.d3.format(",d");
+    
+    var pack = $wnd.d3.layout.pack()
+      .size([w - 4, h - 4])
+      .value(function(d) {
+        return d.size;
+      });
+    
+    var svg = $wnd.d3.select(selection).append("svg:svg")
+      .attr("width", w)
+      .attr("height", h)
+      .attr("pointer-events", "all"); // NEW
+    
+    var vis = svg
+      .append("svg:g")
+      .call($wnd.d3.behavior.zoom().scaleExtent([0.2, 5]).on("zoom", rescale)) // set min=0.2 and max=5 scale  NEW
+      .on("dblclick.zoom", null) // NEW
+      .append("svg:g") // NEW
+      .attr("transform", "translate(2, 2)");
+    
+    // rect used for rescaling
+    vis.append("svg:rect")
+      .attr("width", w)
+      .attr("height", h)
+      .attr("fill", "white");
+    
+    var node = vis
+      .data([json])
+      .selectAll("g.node")
+      .data(pack.nodes)
+      .enter()
+      .append("svg:g")
+      .attr("class", function(d) {
+        return d.children ? "d3cpnode" : "d3cpleaf d3cpnode";
+      })
+      .attr("transform", function(d) {
+        return "translate(" + d.x + "," + d.y + ")";
+      });
+    
+    node.append("svg:title")
+      .text(function(d) {
+        return d.name;
+      });
+    
+    node.append("svg:circle")
+      .attr("r", function(d) {
+        return d.r;
+      });
+    
+    node.filter(function(d) {
+      return !d.children;
+    }).append("svg:text")
+      .attr("dy", ".3em")
+      .style("text-anchor", "middle")
+      .text(function(d) {
+        return d.name.substring(0, 1); //d.r / 3);
+      });
+    
+    // rescale function // NEW
+    var rescale = function() {
+      vis.attr("transform", "translate(" + $wnd.d3.event.translate + ")"
+          + " scale(" + $wnd.d3.event.scale + ")");
+     
+	    // rescale/reposition rectangle that's used for dragging
+	    var scale = 1 / $wnd.d3.event.scale;
+	    vis.selectAll("rect").attr("transform", "translate("
+	        + [-1 * (scale * $wnd.d3.event.translate[0]), -1 * (scale * $wnd.d3.event.translate[1])] + ")"
+	        + " scale(" + scale + ")");
+    };
+    
+	}-*/;
+	
+}

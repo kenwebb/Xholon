@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 11-year Sunspot cycle. -->
+<_-.XholonModule>
+  <XholonMap>
+    <Attribute_String roleName="ih"><![CDATA[<SunspotCycleAO/>]]></Attribute_String>
+    <Attribute_String roleName="cd"><![CDATA[
+<xholonClassDetails>
+  <SunspotCycleAO xhType="XhtypeBehFgsxxx" implName="org.primordion.user.app.solarsystem.SunspotCycleAO"/>
+</xholonClassDetails>
+    ]]></Attribute_String>
+  </XholonMap>
+</_-.XholonModule>

@@ -1,0 +1,17 @@
+package org.primordion.xholon.app;
+
+import org.primordion.xholon.app.Application;
+
+/**
+ * This is for use in a GWT environment, as part of the generated reflection capability.
+ * It's used by AppGenerator at build-time,
+ * and by AppGenerator-generated code at run-time.
+ * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
+ * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
+ * @since 0.9.0 (Created on October 12, 2013)
+ */
+public class AppApp extends Application {
+	
+	public static final AppApp instance = new AppApp();
+	
+}

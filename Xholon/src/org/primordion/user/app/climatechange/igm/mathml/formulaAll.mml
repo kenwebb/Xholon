@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<math>
+<math title="1/4S_0" xmlns="http://www.w3.org/1998/Math/MathML">
+  <mstyle mathcolor="black" fontfamily="Liberation Sans" displaystyle="true">
+    <mfrac>
+      <mn>1</mn>
+      <mn>4</mn>
+    </mfrac>
+    <msub>
+      <mi>S</mi>
+      <mn>0</mn>
+    </msub>
+  </mstyle>
+</math>
+<math title="1/4S_0alpha_rho" xmlns="http://www.w3.org/1998/Math/MathML">
+  <mstyle mathcolor="black" fontfamily="Liberation Sans" displaystyle="true">
+    <mfrac>
+      <mn>1</mn>
+      <mn>4</mn>
+    </mfrac>
+    <msub>
+      <mi>S</mi>
+      <mn>0</mn>
+    </msub>
+    <msub>
+      <mi>&#945;</mi>
+      <mi>&#961;</mi>
+    </msub>
+  </mstyle>
+</math>
+<math title="(1-epsi)sigmaT_s^4" xmlns="http://www.w3.org/1998/Math/MathML">
+  <mstyle mathcolor="black" fontfamily="Liberation Sans" displaystyle="true">
+    <mrow>
+      <mo>(</mo>
+      <mn>1</mn>
+      <mo>-</mo>
+      <mi>&#949;</mi>
+      <mo>)</mo>
+    </mrow>
+    <mi>&#963;</mi>
+    <mrow>
+      <msubsup>
+        <mi>T</mi>
+        <mi>s</mi>
+        <mn>4</mn>
+      </msubsup>
+    </mrow>
+  </mstyle>
+</math>
+<math title="sigmaT_s^4" xmlns="http://www.w3.org/1998/Math/MathML">
+  <mstyle mathcolor="black" fontfamily="Liberation Sans" displaystyle="true">
+    <mi>&#963;</mi>
+    <mrow>
+      <msubsup>
+        <mi>T</mi>
+        <mi>s</mi>
+        <mn>4</mn>
+      </msubsup>
+    </mrow>
+  </mstyle>
+</math>
+<math title="epsisigmaT_a^4" xmlns="http://www.w3.org/1998/Math/MathML">
+  <mstyle mathcolor="black" fontfamily="Liberation Sans" displaystyle="true">
+    <mi>&#949;</mi>
+    <mi>&#963;</mi>
+    <mrow>
+      <msubsup>
+        <mi>T</mi>
+        <mi>a</mi>
+        <mn>4</mn>
+      </msubsup>
+    </mrow>
+  </mstyle>
+</math>
+<math title="epsisigmaT_a^4" xmlns="http://www.w3.org/1998/Math/MathML">
+  <mstyle mathcolor="black" fontfamily="Liberation Sans" displaystyle="true">
+    <mi>&#949;</mi>
+    <mi>&#963;</mi>
+    <mrow>
+      <msubsup>
+        <mi>T</mi>
+        <mi>a</mi>
+        <mn>4</mn>
+      </msubsup>
+    </mrow>
+  </mstyle>
+</math>
+<math title="T_a=0.95T_e" xmlns="http://www.w3.org/1998/Math/MathML">
+  <mstyle mathcolor="black" fontfamily="Liberation Sans" displaystyle="true">
+    <msub>
+      <mi>T</mi>
+      <mi>a</mi>
+    </msub>
+    <mo>=</mo>
+    <mn>0.95</mn>
+    <msub>
+      <mi>T</mi>
+      <mi>e</mi>
+    </msub>
+  </mstyle>
+</math>
+<math title="T_s=1.13T_e" xmlns="http://www.w3.org/1998/Math/MathML">
+  <mstyle mathcolor="black" fontfamily="Liberation Sans" displaystyle="true">
+    <msub>
+      <mi>T</mi>
+      <mi>s</mi>
+    </msub>
+    <mo>=</mo>
+    <mn>1.13</mn>
+    <msub>
+      <mi>T</mi>
+      <mi>e</mi>
+    </msub>
+  </mstyle>
+</math>
+</math>

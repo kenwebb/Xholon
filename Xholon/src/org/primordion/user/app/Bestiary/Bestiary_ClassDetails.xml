@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Bestiary application - Class Details
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<xholonClassDetails>
+	<Bestiary xhType="XhtypePurePassiveObject"/>
+	<Grid xhType="XhtypeGridEntity" implName="org.primordion.xholon.base.GridEntity"/>
+	<Row xhType="XhtypeGridEntity" implName="org.primordion.xholon.base.GridEntity"/>
+	<HabitatCell xhType="XhtypeGridEntityActivePassive" implName="org.primordion.user.app.Bestiary.HabitatCellBestiary">
+		<config instruction="Gmt"/>
+	</HabitatCell>
+	<Beasts xhType="XhtypePureActiveObject" implName="org.primordion.user.app.Bestiary.QueueBestiary"/>
+	<Cat xhType="XhtypePureActiveObject" implName="org.primordion.user.app.Bestiary.Cat"/>
+	<Door implName="org.primordion.user.app.Bestiary.Door"/>
+	<Human xhType="XhtypePureActiveObject" implName="org.primordion.user.app.Bestiary.Human"/>
+	<Beast xhType="XhtypePureActiveObject" implName="org.primordion.user.app.Bestiary.Beast"/>
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

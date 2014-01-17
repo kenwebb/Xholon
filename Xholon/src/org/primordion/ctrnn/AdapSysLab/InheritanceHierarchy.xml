@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+	<Robot/> <!-- autonomous agent -->
+	<Photoreceptor/>
+	<Motor/>
+	<CtrnnEntity>
+	  <!-- (note that "Behavior" is a reserved name in a mechanism) -->
+		<BehaviorC>
+			<Ctrnn/> <!-- Continuous-Time Recurrent Neural Network -->
+		</BehaviorC>
+		<Neuron/>
+		<SensorNeuron/>
+		<Connection/>
+	</CtrnnEntity>
+	
+	<!-- Xholon Viewers -->
+	<!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<IdealizedGreenhouseModel xmlns:xi="http://www.w3.org/2001/XInclude">
+  
+  <!-- Model -->
+  <xi:include href="org/primordion/user/app/climatechange/igm/default_csh.xml"/>
+  <!--<xi:include href="./org/primordion/user/app/climatechange/igm/wikiIgm78_csh.xml"/>-->
+  <!--<xi:include href="./org/primordion/user/app/climatechange/igm/wikiIgm82_csh.xml"/>-->
+  <!--<xi:include href="./org/primordion/user/app/climatechange/igm/wikiIgm00_csh.xml"/>-->
+  
+  <!-- View SVG -->
+  <!--<IgmView>
+    <xi:include href="./org/primordion/user/app/climatechange/igm/SvgViewables.xml"/>
+  </IgmView>-->
+  <SvgClient>
+    <Attribute_String roleName="setup">${MODELNAME_DEFAULT},http://upload.wikimedia.org/wikipedia/commons/9/9a/IdealizedGreenhouseEmissivity78.svg,org/primordion/user/app/climatechange/igm/IdealizedGreenhouseEmissivity78.svg,,Earth/Atmosphere,/org/primordion/user/app/climatechange/igm/SvgViewables.xml,(%.0f)</Attribute_String>
+    <Attribute_String roleName="makeText">This early version is incomplete and inaccurate.,5.0,575.0</Attribute_String>
+  </SvgClient>
+  <SvgClient>
+    <Attribute_String roleName="setup">${MODELNAME_DEFAULT},IdealizedGreenhouseModel_0_1316471572049_2.svg</Attribute_String>
+    <!--<Attribute_String roleName="setup">${MODELNAME_DEFAULT},http://www.primordion.com/Xholon/jnlp/IdealizedGreenhouseModel_0_1316471572049_2.svg</Attribute_String>-->
+  </SvgClient>
+  
+</IdealizedGreenhouseModel>

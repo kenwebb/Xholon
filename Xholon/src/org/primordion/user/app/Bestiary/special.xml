@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Bestiary application - contents of the Special Menu
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+	
+	TODO
+	- specify which XholonClass each Special will work with
+	  - if it works anywhere, then specify "XholonClass"
+	  - if it only works in a gridcell, then specify "GridCell" or "HabitatCell"
+	  - specify a default in Specials
+	- the content of each Special should be just text, and not initially parsible as XML
+-->
+<Specials xhc="HabitatCell">
+
+<Special action="Game Help" xhc="XholonClass"><![CDATA[
+Select context: Ctrl-click
+Move context: 4 arrow keys
+Open/close door: click on door in house
+Paste beasts or houses: create in console, and press Submit
+  See pastable content at: http://primordion.com/collabapp/?p=24
+  See pastable content at: http://primordion.com/collabapp/?p=73
+Paste scripts: create in console, and press Submit
+  See pastable scripts at: http://primordion.com/collabapp/?p=68
+]]></Special>
+
+<Special action="Small House"><![CDATA[
+<BestiaryPattern>
+_WWWWW
+_W...W
+PDE..W
+_W...W
+_WWWWW
+</BestiaryPattern>
+]]></Special>
+
+<Special action="Large House"><![CDATA[
+<BestiaryPattern>
+_____P
+_WWWWDWWWWWWW
+_W...E......W
+PDE.........W
+_W..........W
+_W..........W
+_W.........EDP
+_W..........W
+PDE.........W
+_W..........W
+_W.......E..W
+_WWWWWWWWDWWW
+_________P
+</BestiaryPattern>
+]]></Special>
+
+<Special action="Complex House"><![CDATA[
+<BestiaryPattern>
+_WWWWW
+_W...W
+PDE..W
+_W...W
+_W..WWWW
+_W.....WW
+_W......WWWWWWWW
+_W........W....W
+PDE.......W....W
+_W............EDP
+_W........W....W
+_WWWWW..WWWWWWWW
+___W......W
+___W......W
+___WWWWWWWW
+</BestiaryPattern>
+]]></Special>
+
+<Special action="Cat Trap"><![CDATA[
+<BestiaryPattern>
+_WWWWW______WWWWWW
+_W...WWWWWWWW....W
+PDE..DDDDDDDD....W
+_W...WWWWWWWW....W
+_WWWWW______WWWWWW
+</BestiaryPattern>
+]]></Special>
+
+<Special action="Better Cat Trap"><![CDATA[
+<BestiaryPattern>
+____________WWWWWW
+_WWWWWWWWWWWW....W
+PDDDDDDDDDDDD....W
+_WWWWWWWWWWWW....W
+____________WWWWWW
+</BestiaryPattern>
+]]></Special>
+
+<Special action="Wall Section"><![CDATA[
+<WallSection/>
+]]></Special>
+
+<Special action="Enclosure"><![CDATA[
+<BestiaryPattern>
+WWWWWWWWWWWW
+W..........W
+W..........W
+W..........W
+W..........W
+W..........W
+W..........W
+W..........W
+W..........W
+W..........W
+WWWWWWWWWWWW
+</BestiaryPattern>
+]]></Special>
+
+<Special action="Horizontal Fence"><![CDATA[
+<BestiaryPattern>
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+</BestiaryPattern>
+]]></Special>
+
+<Special action="Vertical Fence"><![CDATA[
+<BestiaryPattern>
+W
+W
+W
+W
+W
+W
+W
+W
+W
+W
+W
+W
+W
+W
+W
+W
+</BestiaryPattern>
+]]></Special>
+
+<Special action="Church"><![CDATA[
+<BestiaryPattern>
+_________P
+____WWWWWDWWWWW
+____W....E....W
+____W.........W
+____W.........W
+____W.........W
+____W.........W
+____W.........W
+____W.........W
+____W.........W
+____W.........W
+____W.........W
+WWWWW.........WWWWW
+W.................W
+W.................W
+W.................W
+W.................W
+W.................W
+WWWWW.........WWWWW
+____W.........W
+____W.........W
+____W.........W
+____W.........W
+____W.........W
+____W.........W
+____WWWWWWWWWWW
+</BestiaryPattern>
+]]></Special>
+
+<Special action="One Cat"><![CDATA[
+<Cat>
+  <MovingCatbehavior/>
+  <GrowingCatbehavior/>
+  <FreedomOfMovementCatbehavior/>
+</Cat>
+]]></Special>
+
+<Special action="Cats"><![CDATA[
+<_-.beasts>
+  <Cat multiplicity="10">
+    <MovingCatbehavior/>
+    <GrowingCatbehavior/>
+    <FreedomOfMovementCatbehavior/>
+  </Cat>
+</_-.beasts>
+]]></Special>
+
+<Special action="First Aid for Cats" xhc="Cat"><![CDATA[
+<_-.firstaid>
+  <MovingCatbehavior/>
+  <GrowingCatbehavior/>
+  <FreedomOfMovementCatbehavior/>
+</_-.firstaid>
+]]></Special>
+
+<Special action="Where is Licorice ?" xhc="XholonClass"><![CDATA[
+<script>
+var root = $wnd.xh.root();
+var licorice = root.xpath("descendant-or-self::*[@name='cat_2']");
+if (licorice) {
+  root.println("Licorice, the black green-eyed cat, is at " + licorice.parent().toString());
+}
+else {
+  root.println("Licorice, the black green-eyed cat, has left the Bestiary.");
+}
+</script>
+]]></Special>
+
+<Special action="Disable output" xhc="XholonClass"><![CDATA[
+<script>$wnd.xh.param("AppM","false");</script>
+]]></Special>
+
+<Special action="Enable output" xhc="XholonClass"><![CDATA[
+<script>$wnd.xh.param("AppM","true");</script>
+]]></Special>
+
+<Special action="Speed" xhc="XholonClass"><![CDATA[
+<script>$wnd.xh.param("TimeStepInterval","1000");</script>
+]]></Special>
+
+<Special action="Clear Agents" xhc="XholonClass"><![CDATA[
+<script>&lt;![CDATA[
+/*
+Clear Agents
+Clear all agents from the simulation.
+An agent is any child of a HabitatCell, for example:
+  - a Cat, Human or other active object
+  - a House or other more passive object
+This JavaScript script does two things:
+  1. dequeue all objects from the Beasts Q
+  2. remove all objects in the tree that are children or descendants of a HabitatCell node
+You can run this script on the Bestiary node, or any node in the tree that's a descendant of Bestiary.
+*/
+function clearBeastQ(qNode) {
+  qNode.action('empty');
+}
+function clearAgents(node) {
+  myXhcName = node.xhc().name();
+  if (myXhcName == 'Beasts') {
+    clearBeastQ(node);
+  }
+  else if (myXhcName == 'HabitatCell') {
+    // remove all children of the HabitatCell
+    myChild = node.first();
+    while (myChild) {
+      myChildTemp = myChild.next();
+      myChild.remove();
+      myChild = myChildTemp; // get sibling of removed node, if any
+    }
+  }
+  node = node.first();
+  while (node) {
+    clearAgents(node);
+    node = node.next();
+  }
+}
+var contextNode = $wnd.xh.root();
+clearAgents(contextNode);
+]]&gt;</script>
+]]></Special>
+
+<Special action="Dog"><![CDATA[
+<Dog roleName="Fido" implName="org.primordion.user.app.Bestiary.Beast">
+<MovingDogbehavior implName="org.primordion.xholon.base.Behavior_gwtjs">&lt;![CDATA[
+
+var dog;
+
+var beh = {
+
+  postConfigure: function() {
+    dog = this.cnode.parent();
+  },
+
+  act: function() {
+    this.move();
+  },
+
+  move: function() {
+    var foundNewLocation = false;
+    var count = 0;
+    while ((!foundNewLocation) && (count < 10)) {
+      var moveX = Math.floor(Math.random() * 3) - 1;
+      var moveY = Math.floor(Math.random() * 3) - 1;
+      if ((moveX == 0) && (moveY == 0)) {
+        return;
+      }
+      var portX = -1;
+      var portY = -1;
+      if (moveX > 0) {
+        portX = 1; //IGrid.P_EAST
+      }
+      else {
+        portX = 3; //IGrid.P_WEST
+      }
+      if (moveY > 0) {
+        portY = 0; //IGrid.P_NORTH
+      }
+      else {
+        portY = 2; //IGrid.P_SOUTH
+      }
+      count++;
+      var destination = dog.parent();
+      if (moveX != 0) {
+        destination = destination.port(portX);
+      }
+      if (moveY != 0) {
+        destination = destination.port(portY);
+      }
+      var artifact = destination.first();
+      if (artifact) {
+          switch (artifact.xhc().id()) {
+          case 15: //CeBestiary.DoorCE:
+            // can the beast move through the door?
+            if (!this.canMoveThruDoor(artifact)) {
+              destination = null;
+            }
+            break;
+          case 16: //CeBestiary.WallSectionCE:
+            destination = null;
+            break;
+          default:
+            break;
+          }
+      }
+      if (destination) {
+        dog.remove().appendto(destination);
+        foundNewLocation = true;
+      }
+    }
+  },
+
+  canMoveThruDoor: function(door) {
+    return false;
+  }
+}
+
+]]&gt;</MovingDogbehavior>
+</Dog>
+]]></Special>
+
+<Special action="Zombie"><![CDATA[
+<Zombie roleName="Bob" implName="org.primordion.user.app.Bestiary.Beast">
+  <MovingZombiebehavior implName="org.primordion.xholon.base.Behavior_gwtjs">&lt;![CDATA[
+  
+  var direction, zombie;
+  
+  var beh = {
+
+    postConfigure: function() {
+      direction = Math.floor(Math.random() * 8);
+      zombie = this.cnode.parent();
+    },
+
+    act: function() {
+      this.move();
+    },
+
+    move: function() {
+      var destination = zombie.parent().port(direction);
+      zombie.remove().appendto(destination);
+    },
+
+    toString: function() {
+      return "direction:" + direction;
+    },
+
+    testing: function(a, b, c) {
+      console.log(a);
+      console.log(b);
+      console.log(c);
+    }
+  }
+  ]]&gt;</MovingZombiebehavior>
+</Zombie>
+]]></Special>
+
+<Special action="Termite"><![CDATA[
+<Termite implName="org.primordion.user.app.Bestiary.Beast">
+<MovingTermitebehavior implName="org.primordion.xholon.base.Behavior_gwtjs">&lt;![CDATA[
+
+var termite;
+
+var beh = {
+
+  postConfigure: function() {
+    termite = this.cnode.parent();
+  },
+
+  act: function() {
+    this.move();
+  },
+
+  move: function() {
+    var foundNewLocation = false;
+    var count = 0;
+    while ((!foundNewLocation) && (count < 10)) {
+      var moveX = Math.floor(Math.random() * 3) - 1;
+      var moveY = Math.floor(Math.random() * 3) - 1;
+      if ((moveX == 0) && (moveY == 0)) {
+        return;
+      }
+      var portX = -1;
+      var portY = -1;
+      if (moveX > 0) {
+        portX = 1; //IGrid.P_EAST
+      }
+      else {
+        portX = 3; //IGrid.P_WEST
+      }
+      if (moveY > 0) {
+        portY = 0; //IGrid.P_NORTH
+      }
+      else {
+        portY = 2; //IGrid.P_SOUTH
+      }
+      count++;
+      var destination = termite.parent();
+      if (moveX != 0) {
+        destination = destination.port(portX);
+      }
+      if (moveY != 0) {
+        destination = destination.port(portY);
+      }
+      var artifact = destination.first();
+      if (artifact) {
+          switch (artifact.xhc().id()) {
+          case 15: //CeBestiary.DoorCE:
+            // can the beast move through the door?
+            if (!this.canMoveThruDoor(artifact)) {
+              destination = null;
+            }
+            break;
+          case 16: //CeBestiary.WallSectionCE:
+            destination = null;
+          default:
+            break;
+          }
+      }
+      if (destination) {
+        termite.remove().appendto(destination);
+        foundNewLocation = true;
+      }
+    }
+  },
+
+  canMoveThruDoor: function(door) {
+    return false;
+  }
+}
+
+]]&gt;</MovingTermitebehavior>
+
+<EatWoodTermitebehavior implName="org.primordion.xholon.base.Behavior_gwtjs">&lt;![CDATA[
+
+var termite;
+
+var beh = {
+
+  postConfigure: function() {
+    termite = this.cnode.parent();
+  },
+
+  act: function() {
+    this.eatWood();
+  },
+
+  eatWood: function() {
+    var cell = termite.parent().next();
+    if (cell) {
+      var node = cell.first();
+      if ((node) && (node.xhc().name() == "WallSection")) {
+        node.remove();
+        return;
+      }
+    }
+    else {
+      cell = termite.parent().prev();
+      if (cell) {
+        var node = cell.first();
+        if ((node) && (node.xhc().name() == "WallSection")) {
+          node.remove();
+          return;
+        }
+      }
+    }
+  }
+
+}
+
+]]&gt;</EatWoodTermitebehavior>
+</Termite>
+]]></Special>
+
+<Special action="Scare Cat To Death Dogbehavior" xhc="Dog"><![CDATA[
+<ScareCatToDeathDogbehavior implName="org.primordion.xholon.base.Behavior_gwtjs">&lt;![CDATA[
+
+var dog;
+
+var beh = {
+
+  postConfigure: function() {
+    dog = this.cnode.parent();
+  },
+
+  act: function() {
+    this.scareCatToDeath();
+  },
+
+  scareCatToDeath: function() {
+    var node = dog.next();
+    while (node) {
+      if ((node != dog)
+          && (node.xhc().name() == "Cat")) {
+        // make it "cat"atonic by removing all behaviors
+        this.removeCatBehaviors(node);
+        return;
+      }
+      node = node.next();
+    }
+  },
+
+  removeCatBehaviors: function(cat) {
+    var b = cat.first();
+    while (b) {
+      var temp = b;
+      b = b.next();
+      temp.remove();
+    }
+  }
+}
+
+]]&gt;</ScareCatToDeathDogbehavior>
+]]></Special>
+
+</Specials>
+

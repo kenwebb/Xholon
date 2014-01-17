@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ExtraCellularSolution CompositeStructure -->
+<ExtraCellularSolution>
+	<Water><Attribute_double roleName="pheneVal">5000001.0</Attribute_double></Water>
+	<Glucose><Attribute_double roleName="pheneVal">100002.0</Attribute_double></Glucose>
+	<Oxygen><Attribute_double roleName="pheneVal">100003.0</Attribute_double></Oxygen>
+	<CarbonDioxide><Attribute_double roleName="pheneVal">100004.0</Attribute_double></CarbonDioxide>
+</ExtraCellularSolution>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Default configuration file
+     These are all the system parameters currently in use.
+     Ken Webb
+     October 27, 2007 test1 -->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="_default"/>
+	<param name="AppM" value="true"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<!--
+	<param name="MaxXholons" value="10"/>
+	<param name="MaxXholonClasses" value="10"/>
+	<param name="MaxStateMachineEntities" value="0"/>
+	<param name="maxActivities" value="0"/>
+	<param name="TreeNodeFactoryDynamic" value="false"/>
+	-->
+	<param name="MaxProcessLoops" value="10"/>
+	<param name="TimeStepInterval" value="10"/>
+	<param name="IQueueImplName" value="org.primordion.xholon.base.Queue"/> <!-- Queue QueueSynchronized -->
+	<param name="SizeMessageQueue" value="1"/>
+	<param name="InheritanceHierarchyFile" value="./config/_default/InheritanceHierarchy.xml"/>
+	<!--<param name="CompositeStructureHierarchyFile" value="./config/_default/CompositeStructureHierarchy.xml"/>-->
+	<param name="ClassDetailsFile" value="./config/_default/ClassDetails.xml"/>
+	<!--<param name="InformationFile" value="./config/_default/Information_default.xml"/>-->
+	<param name="ImageFile" value="default.svg"/>
+	<!--<param name="JavaClassName" value="org.primordion.xholon.user.App_default"/>-->
+	<!--<param name="JavaXhClassName" value="org.primordion.xholon.user.Xh_default"/>-->
+	<param name="MaxPorts" value="1"/>
+	
+	<!-- Show the composite structure hierarchy in a text format on the console window, as a tree. -->
+	<param name="UseTextTree" value="false"/>
+	
+	<!-- Show the composite structure hierarchy in a graphical format, as a tree. -->
+	<param name="UseGraphicalTreeViewer" value="false"/>
+	<param name="GraphicalTreeViewerParams"
+		value="/,20,20,800,500,9,Application Composite Structure,false"/>
+	
+	<!-- Show connections between nodes in a graphical format. -->
+	<param name="UseGraphicalNetworkViewer" value="false"/>
+	<param name="GraphicalNetworkViewerClassName" value="org.primordion.xholon.io.NetworkViewerJung"/>
+	<param name="GraphicalNetworkViewerParams" value="/,800,500,9,LAYOUT_KK,false,Application Port Connections,false"/>
+	
+	<!-- Use 2D graphics to view the grid. -->
+	<param name="UseGridViewer" value="false"/>
+	<!--<param name="GridPanelClassName" value="org.primordion.xholon.samples.GridPanel_default"/>-->
+	<!--<param name="GridViewerParams" value="descendant::Row/..,5,Grid Viewer App"/>-->
+	
+	<!-- Plot data each timestep on a line chart. -->
+	<param name="UseDataPlotter" value="none"/> <!-- JFreeChart gnuplot jdbc none -->
+	<param name="DataPlotterParams" value="Title,Time (timesteps),Y,./statistics/,stats,1,WRITE_AS_LONG"/>
+	
+	<!-- Show data on a histogram. -->
+	<param name="UseHistogramPlotter" value="none"/> <!-- JFreeChart gnuplot none -->
+	<param name="HistogramPlotterParams" value="Title,Time (timesteps),Y"/>
+	
+	<!-- Capture interactions between Xholons, and output as a graphical UML Sequence Diagram. -->
+	<param name="UseInteractions" value="false"/>
+	<param name="InteractionParams" value="2,false,localhost,60001"/>
+	
+	<!-- Create a VRML file that mirrors the composite structure hierarchy. -->
+	<param name = "UseVrml" value="false"/>
+	<param name = "VrmlWriterClassName" value="org.primordion.xholon.user.VrmlWriter_default"/>
+	<param name = "VrmlParams" value="true,./3d/,false,false"/>
+	
+	<!-- Create a web-based or other special purpose GUI. -->
+	<!-- XUL -->
+	<!--
+	<param name="UseXholon2Gui" value="true"/>
+	<param name="Xholon2GuiParams" value="./gui/,2,200,file:///C:/Xholon/gui/,true,false,true"/>
+	<param name="Xholon2GuiClassName" value="org.primordion.xholon.io.Xholon2Xul"/>
+	-->
+	<!-- ZUML -->
+	<!--
+	<param name="UseXholon2Gui" value="false"/>
+	<param name="Xholon2GuiParams" value="/jetty-6.1.5/webapps/xholon/,2,600,http://localhost:8080/xholon/,true,false,false"/>
+	-->
+	<!--<param name="Xholon2GuiParams" value="/Program Files/Apache Software Foundation/Tomcat 5.5/webapps/xholon/,2,600,http://localhost:8080/xholon/,true,false,false"/>-->
+	<!--
+	<param name="Xholon2GuiClassName" value="org.primordion.xholon.io.Xholon2Zuml"/>
+	-->
+	<!-- XholonSwing -->
+	
+	<param name="UseXholon2Gui" value="false"/>
+	<param name="Xholon2GuiParams" value="./gui/,2,200,true,false,false"/>
+	<param name="Xholon2GuiClassName" value="org.primordion.xholon.io.Xholon2XholonSwing"/>
+	
+	<!-- SwiXml -->
+	<!--
+	<param name="UseXholon2Gui" value="true"/>
+	<param name="Xholon2GuiParams" value="./gui/,2,200,true,false,true"/>
+	<param name="Xholon2GuiClassName" value="org.primordion.xholon.io.Xholon2SwiXml"/>
+	-->
+	<!-- Matisse -->
+	<!--
+	<param name="UseXholon2Gui" value="true"/>
+	<param name="Xholon2GuiParams" value="./gui/,2,200,true,false,false"/>
+	<param name="Xholon2GuiClassName" value="org.primordion.xholon.io.Xholon2Matisse"/>
+	-->
+	<!-- JDBC parameters -->
+	<!-- driver, product, host, port, database, username, password, shouldReuseAppTable, catalog, schemaPattern, namingStrategy -->
+	<!-- Oracle jdbc:oracle:thin:scott/tiger@//myhost:1521/orcl -->
+	<!--<param name="JdbcParams" value="oracle.jdbc.OracleDriver,oracle:thin,localhost,1521,orcl,scott,tiger,false,unknown,unknown,org.primordion.xholon.io.db.DefaultNamingStrategy"/>-->
+	<param name="JdbcParams" value="org.postgresql.Driver,postgresql,localhost,5432,postgres,postgres,QH_842_wsk_,false,postgres,public,org.primordion.xholon.io.db.DefaultNamingStrategy"/>
+	<!--<param name="JdbcParams" value="com.mysql.jdbc.Driver,mysql,localhost,3306,xholondata,root,SWK_2389_asd,false,unknown,unknown,org.primordion.xholon.io.db.DefaultNamingStrategy"/>-->
+	<!--<param name="JdbcParams" value="com.mysql.jdbc.Driver,mysql,mysql4-x,3306,x151142_xholondata,x151142admin,asd9832SWK,false,unknown,unknown,org.primordion.xholon.io.db.DefaultNamingStrategy"/>-->
+	<!--<param name="JdbcParams" value="org.apache.derby.jdbc.EmbeddedDriver,derby,localhost,1527,COFFEEBREAK,myusername,mypassword,false,unknown,unknown,org.primordion.xholon.io.db.DefaultNamingStrategy"/>-->
+	<!--<param name="JdbcParams" value="org.hsqldb.jdbcDriver,hsqldb:hsql,localhost,0,defaultdatabase,sa,nullpassword,false,unknown,unknown,org.primordion.xholon.io.db.DefaultNamingStrategy"/>-->
+	
+	<!-- JPA parameters -->
+	<param name="JpaParams" value="org.hibernate.dialect.PostgreSQLDialect,org.postgresql.Driver,postgresql,localhost,5432,postgres,postgres,QH_842_wsk_,false"/>
+	<!--<param name="JpaParams" value="org.hibernate.dialect.MySQLDialect,com.mysql.jdbc.Driver,mysql,localhost,3306,xholondata,root,SWK_2389_asd,false"/>-->
+	
+	<!-- parameters that won't need to be changed very often -->
+	<!--<param name="JavaXhClassClassName" value="org.primordion.xholon.base.XholonClass"/>-->
+	<!--<param name="JavaActivityClassName" value="null"/>-->
+	<!--<param name="SaveSnapshots" value="false"/>-->
+	<!--<param name="SnapshotParams" value="0,true,./snapshot/"/>-->
+	<!--<param name="RandomNumberSeed" value="-1"/>-->
+	<!--<param name="XincludePath" value=""/>-->
+	<!--<param name="XhymAgent" value=""/>-->
+	
+	<!-- Initial controller state. Possible values include:
+	     IControl.CS_INITIALIZED = 2 (typical value when running the Xholon Gui)
+	     IControl.CS_RUNNING = 3 (typical value when running from a console)
+	-->
+	<param name="InitialControllerState" value="2"/>
+	
+	<!-- What to do with XML <Attribute_ tags after postConfigure()
+	     see IAttribute.java for possible values -->
+	<param name="AttributePostConfigAction" value="1"/>
+	
+</params>

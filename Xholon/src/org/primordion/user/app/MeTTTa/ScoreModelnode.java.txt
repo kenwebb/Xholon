@@ -1,0 +1,85 @@
+package org.primordion.user.app.MeTTTa;
+
+import org.primordion.xholon.base.IXholon;
+import org.primordion.xholon.base.Xholon;
+
+public class ScoreModelnode extends Xholon {
+	
+	// Human Player data
+	private String playerName = null;
+	private String playerCity = null;
+	private String playerCountry = null;
+	
+	// Score data
+	private int humanScore = 0;
+	private int computerScore = 0;
+	
+	/*
+	 * @see org.primordion.xholon.base.Xholon#postConfigure()
+	 */
+	public void postConfigure() {
+		// get the controller that the parent JButton references,
+		// and append self as part of the MeTTTaModel subtree
+		IXholon metttaModel = ((MeTTTaController)getParentNode().getPort(0)).getModel();
+		removeChild();
+		appendChild(metttaModel);
+		super.postConfigure();
+	}
+	
+	public String getPlayerName() {
+		return playerName;
+	}
+	
+	public void setPlayerName(String playerName) {
+		this.playerName = playerName;
+	}
+	
+	public String getPlayerCity() {
+		return playerCity;
+	}
+	
+	public void setPlayerCity(String playerCity) {
+		this.playerCity = playerCity;
+	}
+	
+	public String getPlayerCountry() {
+		return playerCountry;
+	}
+	
+	public void setPlayerCountry(String playerCountry) {
+		this.playerCountry = playerCountry;
+	}
+
+	public int getHumanScore() {
+		return humanScore;
+	}
+
+	public void setHumanScore(int humanScore) {
+		this.humanScore = humanScore;
+	}
+	
+	public void incHumanScore() {
+		this.humanScore++;
+	}
+
+	public int getComputerScore() {
+		return computerScore;
+	}
+
+	public void setComputerScore(int computerScore) {
+		this.computerScore = computerScore;
+	}
+	
+	public void incComputerScore() {
+		this.computerScore++;
+	}
+
+	@Override
+	public String toString() {
+		return "ScoreModelnode [computerScore=" + computerScore
+				+ ", humanScore=" + humanScore + ", playerCity=" + playerCity
+				+ ", playerCountry=" + playerCountry + ", playerName="
+				+ playerName + "]";
+	}
+	
+}

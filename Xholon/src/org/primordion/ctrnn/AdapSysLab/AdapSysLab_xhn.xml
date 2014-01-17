@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- CTRNN - Adaptive Systems Lab - configuration file
+	 source: Univ. of Sussex, Adaptive Systems lab, Feb 26, 2004
+	 Originally written in C and downloaded to a robot.
+	 Ken Webb
+	 February 9, 2006
+-->
+
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Ctrnn - AdapSysLab example"/>
+	<param name="AppM" value="false"/> <!-- true -->
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<!--
+	<param name="MaxXholons" value="100"/>
+	<param name="MaxXholonClasses" value="50"/>
+	<param name="MaxStateMachineEntities" value="0"/>
+	<param name="TreeNodeFactoryDynamic" value="false"/>
+	-->
+	<param name="MaxProcessLoops" value="300"/>
+	<param name="TimeStepInterval" value="10"/>
+	<param name="SizeMessageQueue" value="20"/>
+	<param name="InheritanceHierarchyFile" value=""/>
+	<param name="CompositeStructureHierarchyFile" value=""/>
+	<param name="ClassDetailsFile" value=""/>
+	<param name="InformationFile" value="info.xml"/>
+	<param name="JavaClassName" value="org.primordion.ctrnn.AdapSysLab.AppAdapSysLab"/>
+	<param name="JavaXhClassName" value="org.primordion.ctrnn.AdapSysLab.XhAdapSysLab"/>
+	<param name="MaxPorts" value="3"/>
+	<!-- UseDataPlotter determines whether the data each timestep is plotted on a graph. -->
+	<param name="UseDataPlotter" value="google2"/> <!-- JFreeChart gnuplot google2 jdbc jpa none -->
+	<param name="DataPlotterParams"
+		value="Activation Level of Neurons in a CTRNN (changing over time),Time Step,Activation Level,./statistics/,ctrnnStats,1,WRITE_AS_DOUBLE"/>
+					 <!-- Graphical Viewers -->
+	<param name="UseGraphicalTreeViewer" value="false"/>
+	<param name="GraphicalTreeViewerParams"
+		value="/,50,50,1000,300,9,Xholon - CTRNN - Adap Sys Lab - Composite Structure,false"/>
+	<param name="UseGraphicalNetworkViewer" value="false"/>
+	<param name="GraphicalNetworkViewerParams"
+		value="/,1000,600,9,LAYOUT_KK,false,Xholon - CTRNN - Adap Sys Lab - Port Connections,false"/>
+	<!-- Whether or not to capture interactions between Xholons, and output as a graphical UML Sequence Diagram. -->
+	<param name="UseInteractions" value="false"/>
+	<param name="InteractionParams" value="32,true,localhost,60001"/>
+	<!-- Number of lights turned on: LIGHTS_BOTH_OFF=0 LIGHTS_ONE_ON=1 LIGHTS_BOTH_ON=2 LIGHTS_RANDOM=3 -->
+	<param name="NumLightsOn" value="1"/>
+</params>

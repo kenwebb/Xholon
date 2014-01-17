@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Turtle application - contents of the Special Menu
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<Specials xhc="Patch">
+
+<!-- possible values:
+	circle square poly house toPolyspi toInspi toEquispi toBranch toLBranch toLDragon nil
+-->
+<Special action="circle"><![CDATA[
+<script>$wnd.xh.app().attr("AppSpecificParam1", "circle");</script>
+]]></Special>
+
+<Special action="square"><![CDATA[
+<script>$wnd.xh.app().attr("AppSpecificParam1", "square");</script>
+]]></Special>
+
+<Special action="poly"><![CDATA[
+<script>$wnd.xh.app().attr("AppSpecificParam1", "poly");</script>
+]]></Special>
+
+<Special action="house"><![CDATA[
+<script>$wnd.xh.app().attr("AppSpecificParam1", "house");</script>
+]]></Special>
+
+<Special action="toPolyspi"><![CDATA[
+<script>$wnd.xh.app().attr("AppSpecificParam1", "toPolyspi");</script>
+]]></Special>
+
+<!-- default -->
+<Special action="toInspi"><![CDATA[
+<script>$wnd.xh.app().attr("AppSpecificParam1", "toInspi");</script>
+]]></Special>
+
+<Special action="toEquispi"><![CDATA[
+<script>$wnd.xh.app().attr("AppSpecificParam1", "toEquispi");</script>
+]]></Special>
+
+<Special action="toBranch"><![CDATA[
+<script>$wnd.xh.app().attr("AppSpecificParam1", "toBranch");</script>
+]]></Special>
+
+<Special action="toLBranch"><![CDATA[
+<script>$wnd.xh.app().attr("AppSpecificParam1", "toLBranch");</script>
+]]></Special>
+
+<Special action="toLDragon"><![CDATA[
+<script>$wnd.xh.app().attr("AppSpecificParam1", "toLDragon");</script>
+]]></Special>
+
+<Special action="nil"><![CDATA[
+<script>$wnd.xh.app().attr("AppSpecificParam1", "nil");</script>
+]]></Special>
+
+<Special action="clear"><![CDATA[
+<script>$wnd.xh.app().attr("AppSpecificParam1", "clear");</script>
+]]></Special>
+
+</Specials>
+

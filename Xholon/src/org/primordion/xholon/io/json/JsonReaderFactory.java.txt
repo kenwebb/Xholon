@@ -1,0 +1,127 @@
+/* Xholon Runtime Framework - executes event-driven & dynamic applications
+ * Copyright (C) 2010 Ken Webb
+ *
+ * This library is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ */
+
+package org.primordion.xholon.io.json;
+
+import org.primordion.xholon.base.Xholon;
+import org.primordion.xholon.io.xml.IXmlReader;
+
+/**
+ * This factory creates new instances of XmlReader (JsonStaxReader).
+ * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
+ * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
+ * @since 0.8.1 (Created on May 3, 2010)
+ */
+public class JsonReaderFactory extends Xholon {
+	
+	/** The singleton instance of this class. */
+	private static JsonReaderFactory jsonReaderFactory = null;
+	
+	/** Name of third-party Stax reader class (ex: jettison or jackson). */
+	//private String thirdPartyStaxReader = "org.codehaus.jettison.mapped.MappedXMLStreamReader";
+	private String thirdPartyStaxReader = "com.fasterxml.jackson.core.JsonParser";
+	
+	/** Name of Xholon Stax reader class. */
+	//private String xholonStaxReader = "org.primordion.xholon.io.json.JsonStaxReader";
+	private String xholonStaxReader = "org.primordion.xholon.io.json.JsonStaxReader_jackson";
+	
+	/**
+	 * Get a concrete instance of IXMLReader.
+	 * @param in An input file, stream, string, or other type of reader.
+	 * @return An instance of IXMLReader, or null.
+	 */
+	public static IXmlReader getJsonReader(Object in)
+	{
+		IXmlReader xmlReader = null;
+		if (jsonReaderFactory == null) {
+			jsonReaderFactory = new JsonReaderFactory();
+		}
+		// try to make use of a JSON Stax stream reader
+		if (xmlReader == null) {
+			xmlReader = jsonReaderFactory.newStaxInstance();
+			if (xmlReader != null) {
+				xmlReader.createNew(in);
+			}
+		}
+		if (xmlReader == null) {
+			// nothing more to try
+		}
+		return xmlReader;
+	}
+	
+	/**
+	 * Create a new instance of a JSON Stax reader.
+	 * @return A new instance, or null.
+	 */
+	@SuppressWarnings("unchecked")
+	protected IXmlReader newStaxInstance() {
+		if (!exists(thirdPartyStaxReader)) {return null;}
+    	Class clazz = null;
+        try {
+            clazz = Class.forName(xholonStaxReader, false,
+            		getClass().getClassLoader());
+        } catch (ClassNotFoundException e) {
+        	getLogger().warn("Unable to find Stax JSON reader.");
+            return null;
+        }
+        try {
+            if (clazz != null) {
+            	return (IXmlReader)clazz.newInstance();
+            }
+        } catch (IllegalAccessException e) {
+        	getLogger().warn("Illegal access trying to instantiate Stax JSON reader.");
+            return null;
+        } catch (InstantiationException e) {
+        	getLogger().warn("Unable to instantiate Stax JSON reader.");
+            return null;
+        }
+        return null;
+    }
+	
+	/**
+	 * Do the Reader classes exist?
+	 * @param classLoader A Java ClassLoader.
+	 * @return true or false
+	 */
+	public boolean exists(String className)
+	{
+		try {
+			getClass().getClassLoader().loadClass(className);
+		} catch (ClassNotFoundException e) {
+			return false;
+		}
+		return true;
+	}
+
+	public String getThirdPartyStaxReader() {
+		return thirdPartyStaxReader;
+	}
+
+	public void setThirdPartyStaxReader(String thirdPartyStaxReader) {
+		this.thirdPartyStaxReader = thirdPartyStaxReader;
+	}
+
+	public String getXholonStaxReader() {
+		return xholonStaxReader;
+	}
+
+	public void setXholonStaxReader(String xholonStaxReader) {
+		this.xholonStaxReader = xholonStaxReader;
+	}
+	
+}

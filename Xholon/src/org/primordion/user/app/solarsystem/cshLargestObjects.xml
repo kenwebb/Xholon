@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+SolarSystem: 35 Largest objects in the solar system, by size
+This file can be used as is, or it can be copied and modified.
+see: http://en.wikipedia.org/wiki/List_of_Solar_System_objects_by_size
+-->
+<SolarSystem>
+  
+  <Stars>
+    <Star roleName="Sun"/>
+  </Stars>
+  <PlanetarySystem>
+    <Planet roleName="Jupiter"/>
+    <Planet roleName="Saturn"/>
+    <Planet roleName="Uranus"/>
+    <Planet roleName="Neptune"/>
+    <Planet roleName="Earth"/>
+    <Planet roleName="Venus"/>
+    <Planet roleName="Mars"/>
+    <NaturalSatellite roleName="Ganymede"/>
+    <NaturalSatellite roleName="Titan"/>
+    <Planet roleName="Mercury"/>
+    <NaturalSatellite roleName="Callisto"/>
+    <NaturalSatellite roleName="Io"/>
+    <NaturalSatellite roleName="Moon"/>
+    <NaturalSatellite roleName="Europa"/>
+    <NaturalSatellite roleName="Triton"/>
+    <DwarfPlanet roleName="Eris"/>
+    <DwarfPlanet roleName="Pluto"/>
+    <NaturalSatellite roleName="Titania"/>
+    <NaturalSatellite roleName="Rhea"/>
+    <NaturalSatellite roleName="Oberon"/>
+    <NaturalSatellite roleName="Iapetus"/>
+    <DwarfPlanet roleName="Makemake"/>
+    <NaturalSatellite roleName="Charon"/>
+    <Trans-NeptunianObject roleName="Sedna"/>
+    <Trans-NeptunianObject roleName="2007 OR10"/>
+    <NaturalSatellite roleName="Umbriel"/>
+    <NaturalSatellite roleName="Ariel"/>
+  </PlanetarySystem>
+  <InterplanetaryMedium/>
+    
+</SolarSystem>

@@ -1,0 +1,42 @@
+package org.primordion.user.app.MeTTTa;
+
+import org.primordion.xholon.script.XholonScript;
+import org.primordion.xholon.base.IXholon;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
+import java.awt.Color;
+import java.awt.Font;
+
+/**
+ * Stylist for the Score GUI.
+ * <pre>&lt;ScoreGuiStylist/></pre>
+ */
+public class ScoreGuiStylist extends XholonScript {
+    
+    public void postConfigure()
+    {
+        getParentNode().visit(this);
+        removeChild();
+    }
+    
+    public boolean visit(IXholon visitee)
+    {
+        if ("JLabel".equals(visitee.getXhcName())) {
+        	JLabel component = (JLabel)visitee.getVal_Object();
+            if (component != null) {
+                component.setFont(new Font("Serif", 7, 30));
+                component.setForeground(Color.BLUE);
+            }
+        }
+        else if ("JTextField".equals(visitee.getXhcName())) {
+        	JTextField component = (JTextField)visitee.getVal_Object();
+        	if (component != null) {
+                component.setFont(new Font("Monospaced", 7, 40));
+                component.setBackground(Color.ORANGE);
+            }
+        }
+        return true;
+    }
+    
+}

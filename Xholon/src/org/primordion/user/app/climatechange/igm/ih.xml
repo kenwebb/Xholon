@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+- Container, PassiveObject, ActiveObject
+-->
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+  <IdealizedGreenhouseModel/>
+  
+  <Compartment>
+    <Space/>
+    <Planet>
+      <Earth/>
+    </Planet>
+    <Atmosphere/>
+    <Surface/>
+  </Compartment>
+  <Compartments/>
+  
+  <!--
+    An active passive object is like a cell in a spreadsheet.
+    A cell contains either a value or a formula that computes a value.
+    Shortwave (Sw) and longwave (Lw) radiation objects are in units of W m-2.
+  -->
+  <ActivePassiveObject>
+    
+    <!-- passive; typically constant throughout a run -->
+    <SolarConstantSw/> <!-- S_0=1367 W m−2 -->
+    <Albedo/> <!-- α_p=0.3 -->
+    <Emissivity/> <!-- ε=0.78; = absorptivity -->
+    
+    <!-- active and passive; have a formula that computes a value -->
+    <Temperature> <!-- 2 temperatures: T_a T_s -->
+      <EffectiveTemperature/> <!-- T_e -->
+    </Temperature>
+    <!-- Shortwave fluxes -->
+    <SolarInputSw/> <!-- 1/4 * S_0 -->
+    <ReflectedSw/> <!-- 1/4 * S_0 * α_p -->
+    <!-- Longwave fluxes -->
+    <FromSurfaceLw/> <!-- σT_s^4 -->
+    <ThruAtmosLw/> <!-- (1-ε)σT_s^4 -->
+    <UpLw/> <!-- εσT_a^4 -->
+    <DownLw/> <!-- εσT_a^4 -->
+    
+  </ActivePassiveObject>
+  
+  <!-- SVG -->
+  <!--<IgmView/>
+  <SvgViewable/>-->
+  <!--<SvgLabel/>-->
+  
+  <!-- Xholon Viewers -->
+  <!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

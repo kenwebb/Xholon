@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+SolarSystem is a reusable module (user mechanism).
+It's designed to be included (xi:include) in climatechange apps.
+-->
+<_-.solarsystem> <!-- this is a forest -->
+
+  <SolarSystem/>
+  
+  <AstronomicalObject>
+    <Star/> <!-- use: <Star roleName="Sun"/> -->
+    <Planet/> <!-- use: <Planet roleName="Earth"/> -->
+    <NaturalSatellite/> <!-- use: <NaturalSatellite roleName="Moon"/> -->
+  </AstronomicalObject>
+  
+  <!-- Collections of astronomical objects. -->
+  <Stars/>
+  <Planets/>
+  
+  <!-- Space separates astronomical objects from each other, and connects them together. -->
+  <InterplanetaryMedium/>
+  
+  <!-- other -->
+  <SunspotCycleAO/>
+  
+</_-.solarsystem>

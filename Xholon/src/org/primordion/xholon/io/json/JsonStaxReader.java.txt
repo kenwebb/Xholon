@@ -1,0 +1,338 @@
+/* Xholon Runtime Framework - executes event-driven & dynamic applications
+ * Copyright (C) 2010 Ken Webb
+ *
+ * This library is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ */
+
+package org.primordion.xholon.io.json;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
+
+import javax.xml.stream.FactoryConfigurationError;
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamException;
+
+import org.codehaus.jettison.AbstractXMLStreamReader;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
+import org.codehaus.jettison.mapped.MappedXMLStreamReader;
+import org.primordion.xholon.io.xml.XmlReader;
+
+/**
+ * A concrete class that knows how to read JSON through a Stax reader.
+ * Jettison doesn't seem to implement a concept of XML-like attributes,
+ * so I've provided my own Xholon-specific code for getAttributeCount(),
+ * getAttributeName(), and getAttributeValue().
+ * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
+ * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
+ * @see <a href="http://jettison.codehaus.org/">Jettison JSON StAX website</a>
+ * @since 0.8.1 (Created on May 1, 2010)
+ */
+public class JsonStaxReader extends XmlReader {
+	
+	private static final String ATTRIBUTE_STRING = "Attribute_String";
+	private static final String ATTRIBUTE_INT = "Attribute_int";
+	private static final String ATTRIBUTE_BOOLEAN = "Attribute_boolean";
+	
+	/**
+	 * Don't read attributes at all.
+	 */
+	//private static final int ATTR_APPROACH_NONE = 0;
+	
+	/**
+	 * Use the Jettison getAttributeCount(), getAttributeName(), and getAttributeValue() methods.
+	 * Attributes in the .json file are prefixed by the @ symbol.
+	 */
+	private static final int ATTR_APPROACH_JETTISON = 1;
+	
+	/**
+	 * Use a Xholon-specific approach.
+	 */
+	private static final int ATTR_APPROACH_XHOLON = 2;
+	
+	/**
+	 * Use either the Jettison or Xholon approach, as appropriate in each case.
+	 */
+	//private static final int ATTR_APPROACH_BOTH = 3;
+	
+	/**
+	 * The approach used to get attribute counts, names, and values.
+	 */
+	private int attrApproach = ATTR_APPROACH_JETTISON;
+	
+	/**
+	 * The Stream Reader that reads the JSON content.
+	 */
+	private AbstractXMLStreamReader streamReader = null;
+	
+	private Object in = null;
+	
+	/**
+	 * default constructor
+	 */
+	public JsonStaxReader() {}
+	
+	/*
+	 * @see org.primordion.xholon.io.xml.XmlReader#createNew(java.lang.Object)
+	 */
+	public void createNew(Object in) {
+		this.in = in;
+		String jsonStr = null;
+		if (in instanceof String) {
+			jsonStr = (String)in;
+		}
+		else if (in instanceof Reader) {
+			jsonStr = stream2string((Reader)in);
+		}
+		JSONObject obj = null;
+		try {
+			obj = new JSONObject(jsonStr);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+        try {
+        	streamReader = new MappedXMLStreamReader(obj);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/*
+	 * @see org.primordion.xholon.io.xml.XmlReader#getUnderlyingReader()
+	 */
+	public Object getUnderlyingReader()
+	{
+		return in;
+	}
+
+	/**
+	 * Read the contents of a JSON stream into a String.
+	 * @param in A character stream.
+	 * @return The complete contents of the stream as a String.
+	 */
+	protected String stream2string(Reader in) {
+		StringBuilder sb = new StringBuilder();
+		try {
+			String str = null;
+			if (in instanceof BufferedReader) {
+				str = ((BufferedReader)in).readLine();
+				while (str != null) {
+					sb.append(str).append("\n");
+					str = ((BufferedReader)in).readLine();
+				}
+			}
+			else if (in instanceof StringReader) {
+				int aChar = in.read();
+				while(aChar != -1) {
+					sb.append((char)aChar);
+					aChar = in.read();
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//System.out.println(sb);
+		return sb.toString();
+	}
+	
+	/*
+	 * @see org.primordion.xholon.io.xml.XmlReader#getAttributeCount()
+	 */
+	public int getAttributeCount() {
+		if (attrApproach == ATTR_APPROACH_JETTISON) {
+			return streamReader.getAttributeCount();
+		}
+		else if (attrApproach == ATTR_APPROACH_XHOLON) {
+			int attributeCount = 0;
+			String text = streamReader.getText();
+			if (text != null) {
+				// this is an Attribute_ node with a roleName
+				attributeCount = 1;
+			}
+			return attributeCount;
+		}
+		return 0;
+	}
+
+	/*
+	 * @see org.primordion.xholon.io.xml.XmlReader#getAttributeName(int)
+	 */
+	public String getAttributeName(int index) {
+		if (attrApproach == ATTR_APPROACH_JETTISON) {
+			return streamReader.getAttributeLocalName(index);
+		}
+		else if (attrApproach == ATTR_APPROACH_XHOLON) {
+			return "roleName";
+		}
+		return null;
+	}
+
+	/*
+	 * @see org.primordion.xholon.io.xml.XmlReader#getAttributeValue(int)
+	 */
+	public String getAttributeValue(int index) {
+		if (attrApproach == ATTR_APPROACH_JETTISON) {
+			return streamReader.getAttributeValue(index);
+		}
+		else if (attrApproach == ATTR_APPROACH_XHOLON) {
+			return streamReader.getLocalName();
+		}
+		return null;
+	}
+
+	/*
+	 * @see org.primordion.xholon.io.xml.XmlReader#getEventType()
+	 */
+	public int getEventType() {
+		int eventTypeJson = XMLStreamConstants.END_DOCUMENT;
+		try {
+			eventTypeJson = streamReader.getEventType();
+		} catch (FactoryConfigurationError e) {
+			e.printStackTrace();
+		}
+		switch (eventTypeJson) {
+		case XMLStreamConstants.START_DOCUMENT:
+			return START_DOCUMENT;
+	    case XMLStreamConstants.START_ELEMENT:
+	        return START_TAG;
+	    case XMLStreamConstants.END_DOCUMENT:
+	    	return END_DOCUMENT;
+	    case XMLStreamConstants.END_ELEMENT:
+	        return END_TAG;
+	    case XMLStreamConstants.CHARACTERS:
+	        return TEXT;
+	    case XMLStreamConstants.COMMENT:
+	        return COMMENT;
+	    default:
+	        return OTHER_TYPE;
+		}
+	}
+
+	/*
+	 * @see org.primordion.xholon.io.xml.XmlReader#getName()
+	 */
+	public String getName() {
+		String localName = streamReader.getLocalName();
+		String text = streamReader.getText();
+		if (text != null) {
+			localName = ATTRIBUTE_STRING;
+			if (text.length() > 0) {
+				if (isDigit(text.charAt(0))) {
+					if ((text.length() > 1) && (text.charAt(1) == 'x')) {} // 0x hex String
+					else {
+						localName = ATTRIBUTE_INT;
+					}
+				}
+				else if (("true".equals(text)) || ("false".equals(text))) {
+					localName = ATTRIBUTE_BOOLEAN;
+				}
+			}
+		}
+		return localName;
+	}
+
+	/**
+	 * Is this a digit: 0123456789
+	 * @param c A character.
+	 * @return true (it is a digit), or false
+	 */
+	protected boolean isDigit(char c) {
+		if ((c >= '0') && (c <= '9')) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	/*
+	 * @see org.primordion.xholon.io.xml.XmlReader#getNamespaceURI()
+	 */
+	public String getNamespaceURI() {
+		return streamReader.getNamespaceURI();
+	}
+
+	/*
+	 * @see org.primordion.xholon.io.xml.XmlReader#getPrefix()
+	 */
+	public String getPrefix() {
+		String prefix = streamReader.getPrefix();
+		if (prefix.length() == 0) {
+			prefix = null;
+		}
+		return prefix;
+	}
+
+	/*
+	 * @see org.primordion.xholon.io.xml.XmlReader#getText()
+	 */
+	public String getText() {
+		String text = streamReader.getText();
+		return text;
+	}
+
+	/*
+	 * @see org.primordion.xholon.io.xml.XmlReader#next()
+	 */
+	public int next() {
+		int eventTypeJson = XMLStreamConstants.END_DOCUMENT;
+		try {
+			eventTypeJson = streamReader.next();
+		} catch (FactoryConfigurationError e) {
+			e.printStackTrace();
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+		}
+		switch (eventTypeJson) {
+		case XMLStreamConstants.START_DOCUMENT:
+			return START_DOCUMENT;
+	    case XMLStreamConstants.START_ELEMENT:
+	        return START_TAG;
+	    case XMLStreamConstants.END_DOCUMENT:
+	    	return END_DOCUMENT;
+	    case XMLStreamConstants.END_ELEMENT:
+	        return END_TAG;
+	    case XMLStreamConstants.CHARACTERS:
+	        return TEXT;
+	    case XMLStreamConstants.COMMENT:
+	        return COMMENT;
+	    default:
+	        return OTHER_TYPE;
+		}
+	}
+
+	/**
+	 * Get the approach to use for getting attributes.
+	 * @return One of ATTR_APPROACH_NONE, ATTR_APPROACH_JETTISON, ATTR_APPROACH_XHOLON
+	 */
+	public int getAttrApproach() {
+		return attrApproach;
+	}
+
+	/**
+	 * Set the approach to use for getting attributes.
+	 * The value must be one of ATTR_APPROACH_NONE, ATTR_APPROACH_JETTISON, ATTR_APPROACH_XHOLON.
+	 * @param attrApproach
+	 */
+	public void setAttrApproach(int attrApproach) {
+		this.attrApproach = attrApproach;
+	}
+
+}

@@ -1,0 +1,17 @@
+package org.primordion.user.app.MeTTTa;
+
+import javax.ejb.Stateless;
+import java.util.List;
+
+@Stateless
+public class MeTTTaBean implements MeTTTa {
+
+	public int getCalculatedMove(List grid) {
+		/** A POJO that contains the basic move logic. */
+		MeTTTaPojo meTTTaPojo = new MeTTTaPojo();
+		//try {
+		//	java.lang.Thread.sleep(5000); // test using a delay
+		//} catch (java.lang.InterruptedException e) {}
+		return meTTTaPojo.getCalculatedMove(grid);
+	}
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <!-- domain objects -->
+  <StabilitySystem/>
+  <Ball/>
+  
+  <!-- quantities -->
+  
+  <!-- requires JScience -->
+  <!--<xi:include href="_module/QuantityIh.xml"/>
+  <Position superClass="Length"/>
+  <Constant superClass="Dimensionless"/>-->
+  
+  <Position/>
+  <Constant/>
+  <Velocity/>
+  <Acceleration/>
+  
+  <BallView/>
+  
+  <!-- Xholon Viewers -->
+  <!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

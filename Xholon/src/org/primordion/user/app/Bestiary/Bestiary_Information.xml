@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+		<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+		-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+
+<!--
+	Bestiary Displayable information about this application.
+	Xholon 0.8.1 http://www.primordion.com/Xholon (Ken Webb)
+-->
+<document>
+<header>
+<title>Xholon - Bestiary</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>In this Xholon application, cats and humans run around and display various behaviors.</p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p></p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+</section>
+
+</body>
+</document>

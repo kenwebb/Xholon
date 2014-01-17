@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+  <TheSystem/>
+  
+  <!-- chemical compounds (Petri Net states) -->
+  <Compound>
+    <C/>
+    <O2/>
+    <CO2/>
+    <NaOH/>
+    <NaHCO3/>
+    <HCl/>
+    <H2O/>
+    <NaCl/>
+  </Compound>
+  <Compounds/>
+  
+  <!-- chemical reactions (Petri Net transitions) -->
+  <ChemReaction>
+    <Rone/>
+    <Rtwo/>
+    <Rthree/>
+  </ChemReaction>
+  <ChemReactions/>
+  
+  <!-- Xholon Viewers -->
+  <!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

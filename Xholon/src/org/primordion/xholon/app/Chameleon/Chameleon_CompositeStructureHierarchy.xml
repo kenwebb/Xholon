@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Chameleon application - Composite Structure Hierarchy
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<Chameleon xmlns:xi="http://www.w3.org/2001/XInclude">
+	<!--<xi:include href="http://gist.github.com/raw/1809763/xholonWorkbook.xml"/>-->
+	<!--<xi:include href="http://www.w3schools.com/XML/cd_catalog.xml" roleName="Internet catalog  ">
+		<xi:fallback>
+			<CATALOG roleName="Internet catalog not found  "/>
+		</xi:fallback>
+	</xi:include>-->
+</Chameleon>

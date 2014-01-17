@@ -1,0 +1,484 @@
+package org.client;
+
+import org.primordion.xholon.app.IApplication;
+import org.primordion.xholon.base.IXholon;
+import org.primordion.xholon.base.ReflectionFactory;
+import org.primordion.xholon.base.Xholon;
+
+/**
+ * Provide part of a JavaScript API for Xholon.
+ */
+public class XholonJsApi {
+  
+  /**
+   * This is for use with the JavaScript API.
+   * Examples (using Chrome Developer Tools, with Cell model):
+   */
+   //   var node = xh.xpath("descendant::CellBilayer", xh.root());
+   //   var root = xh.root(); xh.xpath("*", root);
+   //   xh.xpath("attribute::port[1]", node);  // XPath is 1-based
+   //   xh.xpath("..", node);
+   //   xh.xpath("../following-sibling::*/*[2]", node);
+   //   xh.xpath("../following-sibling::*/*[2]", node).toString();
+   //   var node = xh.xpath("descendant::Flux[@roleName='TpfAtm_sw']", xh.root());
+   //   var zombie = xh.xpath("descendant::Zombie[@roleName='Luke']", xh.root());
+   //
+  public static IXholon xpath(String expression, IXholon node) {
+    if (node == null) {return null;}
+    return ((Xholon)node).getXPath().evaluate(expression, node);
+  }
+  
+  /**
+   * Get all ports as an array.
+   * @param node
+   * @return An array of PortInformation objects, or an empty array.
+   */
+  public static Object[] ports(IXholon node) {
+    return node.getAllPorts().toArray();
+  }
+  
+  /**
+   * Get all ports as an array.
+   * @param node
+   * @return An array of PortInformation objects, or an empty array.
+   */
+  public static Object[] portspec(IXholon node) {
+    //return node.getApp().getAppSpecificObjectVals(node, (Class<IXholon>)node.getClass()).toArray();
+    //return node.getXhc().getPortInformation().toArray();
+    return ReflectionFactory.instance().getAllPorts(node, false).toArray();
+  }
+  
+  /**
+   * Export a top-level static API that can be used by external JavaScript.
+   * This can be done without gwt-exporter.
+   */
+  public static native void exportTopLevelApi(IApplication app) /*-{
+    
+  	$wnd.xh = {};
+  	$wnd.xh.html = new Object();
+  	
+  	// app
+    $wnd.xh.app = $entry(function() {
+      return app.@org.primordion.xholon.app.Application::getApp()();
+    });
+    
+    // root
+    $wnd.xh.root = $entry(function() {
+      return app.@org.primordion.xholon.app.Application::getRoot()();
+    });
+    
+    // attrs
+    // @param node An IXholon node.
+    $wnd.xh.attrs = $entry(function(node) {
+      if ($wnd.console) {
+        $wnd.console.log("Properties of " + node);
+        for (var prop in node) {
+          var pname = prop;
+          var pval = node[pname];
+          if (typeof pval != "function") {
+            $wnd.console.log(pname + ": " + pval);
+          }
+        }
+      }
+    });
+    
+    // xpath
+    // @param expression An XPath 1.0 String expression (ex: "ancestor::HelloWorldSystem/World");
+    // @param node An IXholon node.
+    $wnd.xh.xpath = $entry(function(expression, node) {
+      return @org.client.XholonJsApi::xpath(Ljava/lang/String;Lorg/primordion/xholon/base/IXholon;)(expression, node);
+    });
+    
+    // service
+    $wnd.xh.service = $entry(function(serviceName) {
+      //var srvRoot = app.@org.primordion.xholon.app.Application::getSrvRoot()();
+      //return srvRoot.getFirstChild().getService(serviceName);
+      //return app.@org.primordion.xholon.base.IXholon::getService(Ljava/lang/String;)(serviceName);
+      return app.@org.primordion.xholon.app.Application::getService(Ljava/lang/String;)(serviceName);
+    });
+    
+    // services
+    $wnd.xh.services = $entry(function() {
+      var serviceLocator = app.@org.primordion.xholon.app.Application::getService(Ljava/lang/String;)("ServiceLocatorService");
+      serviceLocator.@org.primordion.xholon.base.IXholon::doAction(Ljava/lang/String;)("Show activation statuses");
+    });
+    
+    // html.toggle
+    // toggle the visibility of an existing element, typically a div that starts with "xh"
+    $wnd.xh.html.toggle = $entry(function(elementId) {
+      @org.client.HtmlElementCache::toggleElementDisplay(Ljava/lang/String;)(elementId);
+    });
+    
+    // html.xhelements
+    // get an array of top-level "xh" element id's
+    $wnd.xh.html.xhelements = $entry(function() {
+      return @org.client.HtmlElementCache::getTopLevelElementNames()();
+    });
+    
+    // wb callback from github gist request
+    $wnd.xh.wb = $entry(function(json) {
+      //console.log("$wnd.xh.wb");
+      //console.log(json);
+      var content = json["data"]["files"]["xholonWorkbook.xml"]["content"];
+      console.log(content);
+      app.@org.primordion.xholon.app.Application::wbCallback(Ljava/lang/String;)(content);
+    });
+    
+    // TODO export
+    
+    // TODO exports
+    
+  }-*/;
+  
+  /**
+   * For now, I'm storing the various API function objects in the single Application object.
+   * This method is called by client.org.Xholon as XholonJsApi.exportIXholonApi((IXholon)app);
+   *   where app is a IApplication
+   * To get this code into the JavaScript prototype:
+   var app = xh.app();
+   var root = xh.root();
+   var p = Object.getPrototypeOf(root);
+   p.getParentNode = app.getParentNode;
+   p.getFirstChild = app.getFirstChild;
+   p.getNextSibling = app.getNextSibling;
+   p.removeChild = app.removeChild;
+   p.appendChild = app.appendChild;
+   p.initialize = app.initialize;
+   p.getId = app.getId;
+   p.getName = app.getName;
+   // test
+   root.getFirstChild();
+   var node1 = root.getFirstChild();
+   var node2 = node1.getFirstChild();
+   root.getFirstChild().getFirstChild();
+   */
+  public static native void exportIXholonApi(IXholon node) /*-{
+    
+    $wnd.xh.ixholonapi = new Object();
+    var api = $wnd.xh.ixholonapi;
+    
+    // getParentNode
+    api.getParentNode = $entry(function() {
+      return this.@org.primordion.xholon.base.IXholon::getParentNode()();
+    });
+    
+    // getFirstChild
+    api.getFirstChild = $entry(function() {
+      return this.@org.primordion.xholon.base.IXholon::getFirstChild()();
+    });
+    
+    // getNextSibling
+    api.getNextSibling = $entry(function() {
+      return this.@org.primordion.xholon.base.IXholon::getNextSibling()();
+    });
+    
+    // getPreviousSibling
+    api.getPreviousSibling = $entry(function() {
+      return this.@org.primordion.xholon.base.IXholon::getPreviousSibling()();
+    });
+    
+    // removeChild
+    api.removeChild = $entry(function() {
+      this.@org.primordion.xholon.base.IXholon::removeChild()();
+    });
+    
+    // appendChild
+    // public void appendChild(IXholon newParentNode)
+    api.appendChild = $entry(function(newParentNode) {
+      this.@org.primordion.xholon.base.IXholon::appendChild(Lorg/primordion/xholon/base/IXholon;)(newParentNode);
+    });
+    
+    // insertFirstChild
+    api.insertFirstChild = $entry(function(newParentNode) {
+      this.@org.primordion.xholon.base.IXholon::insertFirstChild(Lorg/primordion/xholon/base/IXholon;)(newParentNode);
+    });
+    
+    // insertBefore
+    api.insertBefore = $entry(function(newNextSibling) {
+      this.@org.primordion.xholon.base.IXholon::insertBefore(Lorg/primordion/xholon/base/IXholon;)(newNextSibling);
+    });
+    
+    // insertAfter
+    api.insertAfter = $entry(function(newLeftSibling) {
+      this.@org.primordion.xholon.base.IXholon::insertAfter(Lorg/primordion/xholon/base/IXholon;)(newLeftSibling);
+    });
+    
+    // initialize
+    // TODO this method should not be in the API; it's only useful if I allow new
+    //api.initialize = $entry(function() {
+    //  this.@org.primordion.xholon.base.IXholon::initialize()();
+    //});
+    
+    // getId
+    api.getId = $entry(function() {
+      return this.@org.primordion.xholon.base.IXholon::getId()();
+    });
+    
+    // getName
+    // has 0 or 1 input parameters
+    // public String getName()
+    // public String getName(String template)
+    api.getName = $entry(function(template) {
+      if (!template) {
+        return this.@org.primordion.xholon.base.IXholon::getName()();
+      }
+      else {
+        return this.@org.primordion.xholon.base.IXholon::getName(Ljava/lang/String;)(template);
+      }
+    });
+    
+    // getRoleName
+    api.getRoleName = $entry(function() {
+      return this.@org.primordion.xholon.base.IXholon::getRoleName()();
+    });
+    
+    // setRoleName
+    api.setRoleName = $entry(function(roleName) {
+      this.@org.primordion.xholon.base.IXholon::setRoleName(Ljava/lang/String;)(roleName);
+    });
+    
+    // print
+    api.print = $entry(function(obj) {
+      this.@org.primordion.xholon.base.IXholon::print(Ljava/lang/Object;)(obj);
+    });
+    
+    // println
+    api.println = $entry(function(obj) {
+      this.@org.primordion.xholon.base.IXholon::println(Ljava/lang/Object;)(obj);
+    });
+    
+    // getXhc
+    // public IXholonClass getXhc()
+    api.getXhc = $entry(function() {
+      return this.@org.primordion.xholon.base.IXholon::getXhc()();
+    });
+    
+    // getAnnotation
+    // public String getAnnotation()
+    api.getAnnotation = $entry(function() {
+      return this.@org.primordion.xholon.base.IXholon::getAnnotation()();
+    });
+    
+    // getVal
+    // public double getVal()
+    api.getVal = $entry(function() {
+      return this.@org.primordion.xholon.base.IXholon::getVal()();
+    });
+    
+    // setVal
+    // public void setVal(double val)
+    api.setVal = $entry(function(val) {
+      this.@org.primordion.xholon.base.IXholon::setVal(D)(val);
+    });
+    
+    // incVal
+    // public void incVal(double incAmount)
+    api.incVal = $entry(function(incAmount) {
+      this.@org.primordion.xholon.base.IXholon::incVal(D)(incAmount);
+    });
+    
+    // decVal
+    // public void decVal(double decAmount)
+    api.decVal = $entry(function(decAmount) {
+      this.@org.primordion.xholon.base.IXholon::decVal(D)(decAmount);
+    });
+    
+    // getVal_String
+    // public String getVal_String()
+    api.getVal_String = $entry(function() {
+      return this.@org.primordion.xholon.base.IXholon::getVal_String()();
+    });
+    
+    // setVal_String
+    // public void setVal_String(String val)
+    api.setVal_String = $entry(function(val) {
+      this.@org.primordion.xholon.base.IXholon::setVal_String(Ljava/lang/String;)(val);
+    });
+    
+    // getVal_Object
+    // public Object getVal_Object()
+    api.getVal_Object = $entry(function() {
+      return this.@org.primordion.xholon.base.IXholon::getVal_Object()();
+    });
+    
+    // setVal_Object
+    // public void setVal_Object(Object val)
+    api.setVal_Object = $entry(function(val) {
+      this.@org.primordion.xholon.base.IXholon::setVal_Object(Ljava/lang/Object;)(val);
+    });
+    
+    // sendMessage
+    // public void sendMessage(int signal, Object data, IXholon sender, int index)
+    api.sendMessage = $entry(function(signal, data, sender, index) {
+      if (!index) {
+        this.@org.primordion.xholon.base.IXholon::sendMessage(ILjava/lang/Object;Lorg/primordion/xholon/base/IXholon;)(signal, data, sender);
+      }
+      else {
+        this.@org.primordion.xholon.base.IXholon::sendMessage(ILjava/lang/Object;Lorg/primordion/xholon/base/IXholon;I)(signal, data, sender, index);
+      }
+    });
+    
+    // sendSyncMessage
+    // public IMessage sendSyncMessage(int signal, Object data, IXholon sender, int index)
+    api.sendSyncMessage = $entry(function(signal, data, sender, index) {
+      if (!index) {
+        return this.@org.primordion.xholon.base.IXholon::sendSyncMessage(ILjava/lang/Object;Lorg/primordion/xholon/base/IXholon;)(signal, data, sender);
+      }
+      else {
+        return this.@org.primordion.xholon.base.IXholon::sendSyncMessage(ILjava/lang/Object;Lorg/primordion/xholon/base/IXholon;I)(signal, data, sender, index);
+      }
+    });
+    
+    // getActionList
+    // public String[] getActionList()
+    api.getActionList = $entry(function() {
+      return this.@org.primordion.xholon.base.IXholon::getActionList()();
+    });
+    
+    // doAction
+    // public void doAction(String action)
+    api.doAction = $entry(function(action) {
+      this.@org.primordion.xholon.base.IXholon::doAction(Ljava/lang/String;)(action);
+    });
+    
+    // getPort
+    // portName can be a Java int or String (JavaScript primitive number or String)
+    // public IXholon getPort(int portNum)
+    api.getPort = $entry(function(portName) {
+      if (isNaN(portName)) {
+        // portName is a String
+        var node = this;
+        var clazz = node.@org.primordion.xholon.base.IXholon::getClass()();
+        var app = $wnd.xh.app();
+        return app.@org.primordion.xholon.app.Application::getAppSpecificObjectVal(Lorg/primordion/xholon/base/IXholon;Ljava/lang/Class;Ljava/lang/String;)(node, clazz, portName);
+      }
+      else {
+        // portName is a number
+        return this.@org.primordion.xholon.base.IXholon::getPort(I)(portName);
+      }
+    });
+    
+    // setPort
+    // portName can be a Java int or String (JavaScript primitive number or String)
+    // public void setPort(int portNum, IXholon portRef)
+    api.setPort = $entry(function(portName, portRef) {
+      if (isNaN(portName)) {
+        // portName is a String
+        // public boolean setAppSpecificObjectVal(IXholon tNode, String attrName, IXholon val)
+        var node = this;
+        var clazz = node.@org.primordion.xholon.base.IXholon::getClass()();
+        var app = $wnd.xh.app();
+        return app.@org.primordion.xholon.app.Application::setAppSpecificObjectVal(Lorg/primordion/xholon/base/IXholon;Ljava/lang/Class;Ljava/lang/String;Lorg/primordion/xholon/base/IXholon;)(node, clazz, portName, portRef);
+      }
+      else {
+        // portName is a number
+        this.@org.primordion.xholon.base.IXholon::setPort(ILorg/primordion/xholon/base/IXholon;)(portName, portRef);
+      }
+    });
+    
+    // ports (from AppGenerator and app)
+    // ex: kenny.ports()[0].getVal_Object().reffedNode.toString();
+    // @return an Object array
+    api.ports = $entry(function() {
+      return @org.client.XholonJsApi::ports(Lorg/primordion/xholon/base/IXholon;)(this);
+    });
+    
+    // ports (from Reflection and xhc)
+    api.portspec = $entry(function() {
+      //var node = this;
+      //var app = $wnd.xh.app();
+      //return app.@org.primordion.xholon.app.Application::getAppSpecificObjectVals(Lorg/primordion/xholon/base/IXholon;)(node);
+      return @org.client.XholonJsApi::portspec(Lorg/primordion/xholon/base/IXholon;)(this);
+    });
+    
+    // portnames
+    api.portnames = $entry(function() {
+      var node = this;
+      var clazz = node.@org.primordion.xholon.base.IXholon::getClass()();
+      var app = $wnd.xh.app();
+      return app.@org.primordion.xholon.app.Application::getAppSpecificObjectValNames(Lorg/primordion/xholon/base/IXholon;Ljava/lang/Class;)(node, clazz);
+    });
+    
+    // attr
+    // public Object getAppSpecificAttribute(IXholon node, Class<IXholon> clazz, String attrName)
+    // public void setAppSpecificAttribute(IXholon node, Class<IXholon> clazz, String attrName, Object attrVal)
+    //   attrVal must in-fact be a String (ex: "123")
+    // setter ex: root.attr("State", "9");
+    // setter ex: root.attr("State", 17);
+    // getter ex: Number(root.attr("state")) + 11;
+    api.attr = $entry(function(attrName, attrVal) {
+      var node = this;
+      var clazz = node.@org.primordion.xholon.base.IXholon::getClass()();
+      var app = $wnd.xh.app();
+      //console.log(attrName);
+      //console.log(attrVal);
+      if (!attrVal) {
+        //console.log("getAppSpecificAttribute");
+        return app.@org.primordion.xholon.app.Application::getAppSpecificAttribute(Lorg/primordion/xholon/base/IXholon;Ljava/lang/Class;Ljava/lang/String;)(node, clazz, attrName);
+      }
+      else {
+        //console.log("setAppSpecificAttribute");
+        app.@org.primordion.xholon.app.Application::setAppSpecificAttribute(Lorg/primordion/xholon/base/IXholon;Ljava/lang/Class;Ljava/lang/String;Ljava/lang/Object;)(node, clazz, attrName, attrVal.toString());
+      }
+    });
+    
+    // isAttr
+    api.isAttr = $entry(function(attrName) {
+      var node = this;
+      var clazz = node.@org.primordion.xholon.base.IXholon::getClass()();
+      var app = $wnd.xh.app();
+      return app.@org.primordion.xholon.app.Application::isAppSpecificAttribute(Lorg/primordion/xholon/base/IXholon;Ljava/lang/Class;Ljava/lang/String;)(node, clazz, attrName);
+    });
+    
+    // attrs
+    // public Object[][] getAppSpecificAttributes(IXholon node, Class<IXholon> clazz, boolean returnAll)
+    api.attrs = $entry(function(returnAll) {
+      var node = this;
+      var clazz = node.@org.primordion.xholon.base.IXholon::getClass()();
+      var app = $wnd.xh.app();
+      return app.@org.primordion.xholon.app.Application::getAppSpecificAttributes(Lorg/primordion/xholon/base/IXholon;Ljava/lang/Class;Z)(node, clazz, returnAll);
+    });
+    
+  }-*/;
+  
+  /**
+   * Initialize the IXholon API.
+   * Copy all the API functions from Application to the org.primordion.xholon.base.Xholon prototype.
+   */
+  public static native void initIXholonApi() /*-{
+    //console.log("initIXholonApi");
+    var root = $wnd.xh.root();
+    var api = $wnd.xh.ixholonapi;
+    
+    // find the prototype object for org.primordion.xholon.base.Xholon
+    var arr = [];
+    try {
+      var p = Object.getPrototypeOf(root);
+      while(true) {
+        arr.push(p);
+        p = Object.getPrototypeOf(p);
+      }
+    } catch(e) {
+      // TypeError, end of the prototype chain has been reached
+      //console.log("error");
+    }
+    var len = arr.length;
+    // typical values in the final array
+    // [org.primordion.cellontro.app.XhCell,
+    //  org.primordion.xholon.base.XholonWithPorts,
+    //  org.primordion.xholon.base.Xholon,
+    //  Object, Object, null]
+    //console.log(arr);
+    //console.log(len);
+    if (len < 4) {return;}
+    var xhp = arr[len - 4];
+    //console.log(xhp);
+    
+    // copy all the API functions from api to xhp
+    for (fname in api) {
+      xhp[fname] = api[fname];
+    }
+    
+  }-*/;
+  
+}

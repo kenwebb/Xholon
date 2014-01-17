@@ -1,0 +1,118 @@
+/* Xholon Runtime Framework - executes event-driven & dynamic applications
+ * Copyright (C) 2011 Ken Webb
+ *
+ * This library is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ */
+
+package org.primordion.user.app.climatechange.model04;
+
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.DOM;
+
+import org.primordion.xholon.base.IXholon;
+
+//import com.kitfox.svg.Text;
+//import com.kitfox.svg.Tspan;
+
+public class SvgLabel extends Xhmodel04 {
+	
+	private String svgId = "";
+	private String svgLabel = "";
+	
+	private IXholon energyBudgetView = null;
+	
+	// postConfigure()
+	public void postConfigure() {
+	  System.out.println("SvgLabel postConfigure() :" + svgId + " " + svgLabel);
+		setText();
+		super.postConfigure();
+		//this.removeChild();
+	}
+	
+	/**
+	 * Set the text for an existing SVG tspan node, whose parent must be an SVG text node.
+	 */
+	protected void setText() {
+	  /* SVG Salamader code
+		Tspan svgNode = (Tspan)((EnergyBudgetView)energyBudgetView).getDiagram().getElement(svgId);
+		if (svgNode == null) {return;}
+		svgNode.setText(svgLabel);
+    Text textEle = (Text)svgNode.getParent();
+    try {
+        textEle.rebuild();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    */
+    
+    // GWT code
+    //if (energyBudgetView == null) {
+    //  energyBudgetView = this.getParentNode();
+    //}
+    //Element svgNode = (Element)((SvgViewBrowser)energyBudgetView).getDiagram().cast();
+    //if (svgNode == null) {return;}
+    Element tNode = DOM.getElementById(svgId);
+    if (tNode != null) {
+      // tspan has a TextNode as its first child
+      tNode.getFirstChild().setNodeValue(svgLabel);
+    }
+    
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.Xholon#setAttributeVal(java.lang.String, java.lang.String)
+	 */
+	public int setAttributeVal(String attrName, String attrVal) {
+		if ("svgId".equals(attrName)) {
+			svgId = attrVal;
+		}
+		else if ("svgLabel".equals(attrName)) {
+			svgLabel = attrVal;
+		}
+		return 0;
+	}
+	
+	public String toString() {
+		String outStr = getName();
+		outStr += " svgId:" + svgId;
+		outStr += " svgLabel:" + svgLabel;
+		return outStr;
+	}
+
+	public String getSvgId() {
+		return svgId;
+	}
+
+	public void setSvgId(String svgId) {
+		this.svgId = svgId;
+	}
+
+	public String getSvgLabel() {
+		return svgLabel;
+	}
+
+	public void setSvgLabel(String svgLabel) {
+		this.svgLabel = svgLabel;
+	}
+
+	public IXholon getEnergyBudgetView() {
+		return energyBudgetView;
+	}
+
+	public void setEnergyBudgetView(IXholon energyBudgetView) {
+		this.energyBudgetView = energyBudgetView;
+	}
+	
+}

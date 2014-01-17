@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+SolarSystem: Sun and 8 Planets
+This file can be used as is, or it can be copied and modified.
+-->
+<SolarSystem>
+  
+  <Stars>
+    <Star roleName="Sun">
+      <!--<Attribute_double roleName="luminosity">3.846e26</Attribute_double>--> <!-- W -->
+      <Attribute_double roleName="radius">6.955e8</Attribute_double> <!-- m -->
+      <Attribute_double roleName="temperature">5778</Attribute_double> <!-- K -->
+    </Star>
+  </Stars>
+  <PlanetarySystem>
+    <Planets>
+      <Planet roleName="Mercury">
+        <Attribute_double roleName="radius">2432000.0</Attribute_double> <!-- m -->
+        <Attribute_double roleName="semimajorAxis">0.579e11</Attribute_double> <!-- m -->
+      </Planet>
+      <Planet roleName="Venus">
+        <Attribute_double roleName="radius">6050000.0</Attribute_double> <!-- m 6051800 -->
+        <Attribute_double roleName="semimajorAxis">1.082e11</Attribute_double> <!-- m -->
+      </Planet>
+      <Planet roleName="Earth">
+        <Mass>5.9736e24 kg</Mass>
+        <Radius>6378000.0 m</Radius>
+        <Temperature>288.0 K</Temperature>
+        <SemimajorAxis>1.496e11 m</SemimajorAxis>
+        <Attribute_double roleName="mass">5.9736e24</Attribute_double> <!-- kg -->
+        <Attribute_double roleName="radius">6378000.0</Attribute_double> <!-- m -->
+        <Attribute_double roleName="temperature">288.0</Attribute_double> <!-- K -->
+        <Attribute_double roleName="semimajorAxis">1.496e11</Attribute_double> <!-- m -->
+        <NaturalSatellite roleName="Moon">
+          <Attribute_double roleName="radius">1738000.0</Attribute_double> <!-- m -->
+          <Attribute_double roleName="semimajorAxis">1.496e11</Attribute_double> <!-- m -->
+        </NaturalSatellite>
+      </Planet>
+      <Planet roleName="Mars">
+        <Attribute_double roleName="mass">0.64185e24</Attribute_double> <!-- kg -->
+        <Attribute_double roleName="radius">3394000.0</Attribute_double> <!-- m -->
+        <Attribute_double roleName="semimajorAxis">2.280e11</Attribute_double> <!-- m -->
+      </Planet>
+      <Planet roleName="Jupiter">
+        <Attribute_double roleName="mass">1.898e27</Attribute_double> <!-- kg -->
+        <Attribute_double roleName="radius">68700000.0</Attribute_double> <!-- m -->
+        <Attribute_double roleName="temperature">130.0</Attribute_double> <!-- K -->
+        <Attribute_double roleName="semimajorAxis">7.783e11</Attribute_double> <!-- m -->
+        <NaturalSatellites>
+          <NaturalSatellite roleName="Ganymede">
+            <Attribute_double roleName="mass">0.1482e24</Attribute_double> <!-- kg -->
+            <Attribute_double roleName="radius">2631200.0</Attribute_double> <!-- m -->
+            <Attribute_double roleName="temperature">130.0</Attribute_double> <!-- K -->
+            <Attribute_double roleName="semimajorAxis">1071.0e6</Attribute_double> <!-- m -->
+          </NaturalSatellite>
+        </NaturalSatellites>
+      </Planet>
+      <Planet roleName="Saturn">
+        <Attribute_double roleName="radius">57550000.0</Attribute_double> <!-- m -->
+        <Attribute_double roleName="semimajorAxis">14.27e11</Attribute_double> <!-- m -->
+      </Planet>
+      <Planet roleName="Uranus">
+        <Attribute_double roleName="radius">25050000.0</Attribute_double> <!-- m -->
+        <Attribute_double roleName="semimajorAxis">28.69e11</Attribute_double> <!-- m -->
+      </Planet>
+      <Planet roleName="Neptune">
+        <Attribute_double roleName="radius">24700000.0</Attribute_double> <!-- m -->
+        <Attribute_double roleName="semimajorAxis">44.98e11</Attribute_double> <!-- m -->
+      </Planet>
+    </Planets>
+    <DwarfPlanet roleName="Pluto"/>
+    <Asteroid roleName="Dinosaur Killer"/>
+    <Comet roleName="Hale-Bopp"/>
+  </PlanetarySystem>
+  <InterplanetaryMedium/>
+    
+</SolarSystem>

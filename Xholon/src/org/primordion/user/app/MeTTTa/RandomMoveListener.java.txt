@@ -1,0 +1,70 @@
+package org.primordion.user.app.MeTTTa;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+
+import org.primordion.xholon.base.IXholon;
+import org.primordion.xholon.base.Xholon;
+import org.primordion.xholon.io.ISwingEntity;
+
+/**
+ * Make a random move.
+ * This implementation uses a Swing ActionListener.
+ * This is NOT the preferred Xholon approach,
+ * because it places AWT/Swing code directly in the heart of the Xholon app.
+ * It can be pasted as a last child of the VBox node.
+ * <pre>
+&lt;_-.forest>
+  &lt;Strut Height="10"/>
+  &lt;JButton Text="Random Move" ActionCommand="doyourthing" Background="RED">
+    &lt;RandomMoveListener/>
+  &lt;/JButton>
+&lt;/_-.forest>
+ * </pre>
+ */
+public class RandomMoveListener extends Xholon implements ActionListener {
+	
+	/*
+	 * @see org.primordion.xholon.base.Xholon#postConfigure()
+	 */
+	public void postConfigure() {
+		IXholon button = getParentNode();
+		// get the controller that the parent JButton references
+		IXholon controller = button.getPort(0);
+		// disable the JButton Xholon port
+		button.setPort(0, null);
+		// get the JButton, and remove its existing action listener
+		JButton jbutton = (JButton)button.getVal_Object();
+		jbutton.removeActionListener((ActionListener)button);
+		// add this node as a JButton action listener
+		jbutton.addActionListener(this);
+		// remove this node from the GUI subtree
+		this.removeChild();
+		// append this node as part of the Controller subtree
+		this.appendChild(controller);
+	}
+	
+	/**
+	 * Make a random move.
+	 * For now, it just gets the next unoccupied position.
+	 */
+	private void makeRandomMove() {
+		MeTTTaModel model = ((MeTTTaController)getParentNode()).getModel();
+		for (int i = 0; i < 9; i++) {
+			if (!model.isPlayed(i)) {
+				getParentNode().sendMessage(ISwingEntity.SWIG_ACTION_EVENT, "select" + i, this);
+				break;
+			}
+		}
+	}
+
+	/*
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		makeRandomMove();
+	}
+	
+}

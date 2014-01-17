@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<_-.SvgViewables>
+  <SvgViewable xhcName="Flux[@roleName='TpfTpf_sw']" svgId="tspan2407"/>
+  <!--<SvgViewable xhcName="ReflectedByAtmosphereV" svgId="tspan4203"/>-->
+  <!--<SvgViewable xhcName="ReflectedBySurfaceV" svgId="tspan2176"/>-->
+  <SvgViewable xhcName="Flux[@roleName='TpfSpc_sw']" svgId="tspan4211"/>
+  <!--<SvgViewable xhcName="AbsorbedByAtmosphereV" svgId="tspan4255"/>-->
+  <SvgViewable xhcName="Flux[@roleName='AtmSrf_sw']" svgId="tspan4199"/>
+  <!--<SvgViewable xhcName="SensibleHeatV" svgId="tspan4239"/>-->
+  <!--<SvgViewable xhcName="SensibleHeatV" svgId="tspan4247"/>-->
+  <!--<SvgViewable xhcName="LatentHeatV" svgId="tspan4243"/>-->
+  <!--<SvgViewable xhcName="LatentHeatV" svgId="tspan4251"/>-->
+  <SvgViewable xhcName="Flux[@roleName='SrfAtm_lw']" svgId="tspan4219"/>
+  <!--<SvgViewable xhcName="SurfaceToAtmosphereV" svgId="tspan4215"/>-->
+  <!--<SvgViewable xhcName="AtmosphericWindowV" svgId="tspan4223"/>-->
+  <!--<SvgViewable xhcName="BackRadiationV" svgId="tspan4231"/>-->
+  <SvgViewable xhcName="Flux[@roleName='AtmSrf_lw']" svgId="tspan4299"/>
+  <!--<SvgViewable xhcName="EmittedByAtmosphereV" svgId="tspan4311"/>-->
+  <!--<SvgViewable xhcName="EmittedByCloudsV" svgId="tspan4235"/>-->
+  <!--<SvgViewable xhcName="NetAbsorbedByEarthV" svgId="tspan"/>-->
+  <SvgViewable xhcName="Flux[@roleName='AtmTpf_lw']" svgId="tspan4227"/>-->
+</_-.SvgViewables>

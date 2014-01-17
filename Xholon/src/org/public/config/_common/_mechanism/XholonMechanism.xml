@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<XholonMechanism xmlns="http://www.primordion.com/namespace/XholonMechanism" id="2000000">
+	<XhMechanisms/>
+	<XholonMechanisms/>
+	<UserMechanisms/>
+	<UserMechanism/>
+	
+<!-- represents Annotation nodes -->
+<Annotation xmlns="http://www.primordion.com/namespace/Annotation" id="1010000"/>
+
+<!-- represents instances of the Java Attribute class and its subclasses -->
+<Attribute xmlns="http://www.primordion.com/namespace/Attribute"
+		xmlns:attr="http://www.primordion.com/namespace/Attribute"
+		id="1002200">
+	<Attribute_attribute/>
+	<Attribute_boolean/>
+	<Attribute_byte/>
+	<Attribute_char/>
+	<Attribute_double/>
+	<Attribute_float/>
+	<Attribute_int/>
+	<Attribute_long/>
+	<Attribute_Object/>
+	<Attribute_short/>
+	<Attribute_String/>
+	
+	<Attribute_arrayboolean/>
+	<Attribute_arraybyte/>
+	<Attribute_arraychar/>
+	<Attribute_arraydouble/>
+	<Attribute_arrayfloat/>
+	<Attribute_arrayint/>
+	<Attribute_arraylong/>
+	<Attribute_arrayObject/>
+	<Attribute_arrayshort/>
+	<Attribute_arrayString/>
+	
+	<Attribute_List/>
+	<Attribute_Map/>
+	<Attribute_Set/>
+	
+	<!-- duplicate prefixed set, to distinguish from swat: -->
+	<attr:Attribute_boolean/>
+	<attr:Attribute_byte/>
+	<attr:Attribute_char/>
+	<attr:Attribute_double/>
+	<attr:Attribute_float/>
+	<attr:Attribute_int/>
+	<attr:Attribute_long/>
+	<attr:Attribute_Object/>
+	<attr:Attribute_short/>
+	<attr:Attribute_String/>
+	
+</Attribute>
+
+<!-- UML Behavior entities -->
+<Behavior xmlns="http://www.primordion.com/namespace/Behavior" id="1001200">
+	<OpaqueBehavior/>
+	<!-- StateMachine defined in StateMachineEntity.xml -->
+	<!-- UMLActivity defined in UMLActivityEntity.xml; Activity defined in StateMachineEntity.xml -->
+	<!-- this is also used in conjunction with Behavior_gwtjs.java -->
+</Behavior>
+
+<!-- Bigraph -->
+<BigraphEntity xmlns="http://www.primordion.com/namespace/BigraphEntity" id="1013100" superClass="XholonMechanism">
+  
+  <!-- optional root node -->
+  <BigraphicalReactiveSystem/>
+  
+  <!-- optional containers -->
+  <Bigraphs/>
+  <Bigraph/>
+  
+  <!-- used in reaction rules -->
+  <ReactionRulesBG/>
+  <ReactionRuleBG/>
+  <Redex/>
+  <Reactum/>
+  <SiteBG/>
+  
+</BigraphEntity>
+
+<!-- represents instances of the Java BusApp classes -->
+<BusApp xmlns="http://www.primordion.com/namespace/BusApp" id="1003200">
+	
+	<AppClientMVC/>
+	
+	<!-- client -->
+	<AppClientModel/>
+	<AppClientView/>
+	<AppClientController/>
+	<AppClientWorker/>
+	
+	<!-- common -->
+	<AppClientBusinessDelegate/>
+	<BusAppService/>
+	<BusAppDao/>
+	
+	<!-- server -->
+	<BusAppEjb/>
+	
+</BusApp>
+
+<!-- represents the top level Control structure -->
+<Control xmlns="http://www.primordion.com/namespace/Control" id="1002000">
+	<Application/> <!-- set privately by xholons that implement IApplication -->
+</Control>
+
+<!-- Represents Listener nodes. -->
+<Listener xmlns="http://www.primordion.com/namespace/Listener" id="1010300">
+	<ListenerList/> <!-- a list of listeners -->
+</Listener>
+
+<!-- represents instances of the Java OrNode class -->
+<OrNode xmlns="http://www.primordion.com/namespace/OrNode" id="1003000"/>
+
+<!-- Petri net (place/transition net)
+Chemical Reaction Network (CRN)
+This can be used as part of an Inheritance Hierarchy.
+Uses IDs in range 1013000 - 1013099 .
+
+(1) http://en.wikipedia.org/wiki/Petri_net
+(2) http://www.informatik.uni-hamburg.de/TGI/PetriNets/classification/
+(3) http://www.chbmeng.ohio-state.edu/~feinberg/LecturesOnReactionNetworks/
+-->
+<PetriNetEntity xmlns="http://www.primordion.com/namespace/PetriNetEntity" id="1013000" superClass="XholonMechanism">
+  
+  <!-- optional root node -->
+  <PetriNet/>
+  
+  <!-- Place
+  A Xholon pure passive object.
+  A place can be an input place, an output place, or both at the same time.
+  A place contains tokens.
+  Places are also called states.
+  Places contain tokens.
+  -->
+  <PlacePN>
+    <!-- "Level 1 places which can represent boolean values,
+          i.e., a place is marked by at most one unstructured token."[2] -->
+    <PlaceBoolean/>
+    <!-- "Level 2 places which can represent integer values,
+          i.e., a place is marked by a number of unstructured tokens.[2] " -->
+    <PlaceInteger/>
+    <!-- "Level 3 places which can represent high-level values,
+          i.e., a place is marked by a multi-set of structured tokens.[2] " -->
+    <PlaceStructured/>
+    <Species/> <!-- CRN -->
+  </PlacePN>
+  
+  <!-- Transition
+  A Xholon pure active object.
+  -->
+  <TransitionPN>
+    <Reaction/> <!-- CRN -->
+  </TransitionPN>
+  
+  <!--  Q object to allow transitions to be randomly shuffled and invoked --> -->
+  <QueueTransitions/>
+  
+  <!-- Arc
+  Arcs connect places and transitions (input arcs), and transitions and places (output arcs).
+  -->
+  <ArcPN>
+    <InputArc/>
+    <OutputArc/>
+  </ArcPN>
+  
+  <!-- collections -->
+  <Transitions childSuperClass="TransitionPN">
+    <Reactions childSuperClass="Reaction"/>
+  </Transitions>
+  <Places childSuperClass="PlacePN">
+    <Speciez childSuperClass="Species"/>
+  </Places>
+  <InputArcs/>
+  <OutputArcs/>
+  
+  <!-- Analyse and Report -->
+  <AnalysisPN> <!-- abstract Analysis XholonClass -->
+    <AnalysisPetriNet/> <!-- analysis for Petri nets -->
+    <AnalysisCRN/> <!-- analysis for Chemical Reaction Networks -->
+    <AnalysisCat/> <!-- analysis for mathematical Categories -->
+    <AnalysisMemComp/> <!-- analysis for Membrane Computing -->
+  </AnalysisPN>
+  
+  <!-- classes for use in a Grid -->
+  <PneBehavior>
+    <PlaceBehavior>
+      <MovingPlaceBehavior/>
+    </PlaceBehavior>
+    <TransitionBehavior>
+      <MovingTransitionBehavior/>
+      <FiringTransitionBehavior/>
+    </TransitionBehavior>
+  </PneBehavior>
+  <QueueNodesInGrid/>
+  <GridOwner>
+    <ConstantlyStirredPot/> <!-- CRN -->
+  </GridOwner>
+  
+  <!-- a universal container, based on Kleijn Membrane Systems paper -->
+  <MembranePN/>
+  
+</PetriNetEntity>
+
+<!-- represents instances of the Java Port class -->
+<Port xmlns="http://www.primordion.com/namespace/Port" id="1000100"/>
+
+<!-- Represents Role nodes. Can be used to store a Xholon roleName. -->
+<Role xmlns="http://www.primordion.com/namespace/Role" id="1010100"/>
+
+<!-- Represents simple Script nodes. -->
+<Script xmlns="http://www.primordion.com/namespace/Script" id="1014300">
+  <script/>
+</Script>
+
+<!-- This can be used as part of an Inheritance Hierarchy.
+Uses IDs in range 1000000 - 1000099 .
+-->
+<StateMachineEntity xmlns="http://www.primordion.com/namespace/StateMachineEntity" id="1000000">
+	<StateMachine/>
+	<Region/>
+	<Vertex>
+		<ConnectionPointReference/>
+		<State>
+			<FinalState/>
+		</State>
+		<Pseudostate>
+			<PseudostateTerminate/>
+			<PseudostateShallowHistory/>
+			<PseudostateJunction/>
+			<PseudostateJoin/>
+			<PseudostateInitial/>
+			<PseudostateFork/>
+			<PseudostateExitPoint/>
+			<PseudostateEntryPoint/>
+			<PseudostateDeepHistory/>
+			<PseudostateChoice/>
+		</Pseudostate>
+	</Vertex>
+	<Trigger/>
+	<Transition>
+		<!-- Transition and TransitionExternal are synonymous -->
+		<TransitionExternal/>
+		<TransitionInternal/>
+		<TransitionLocal/>
+	</Transition>
+	<Activity/>
+	<Guard/>
+	<EntryActivity/>
+	<ExitActivity/>
+	<DoActivity/>
+	<DeferrableTrigger/> <!-- an association of State -->
+	<Target/> <!-- the target of a transition -->
+</StateMachineEntity>
+
+<!-- Represents Uid nodes. Can be used to store a Xholon uid. -->
+<Uid xmlns="http://www.primordion.com/namespace/Uid" id="1010200"/>
+
+<!-- represents instances of the Java XholonList class -->
+<XholonCollection xmlns="http://www.primordion.com/namespace/XholonCollection" id="1004100">
+	<XholonList/>
+	<XholonMap/>
+	<XholonSet/>
+</XholonCollection>
+
+<!-- This can be used as part of an Inheritance Hierarchy.
+Uses IDs in range 1011200 - 1011299 .
+These XholonClasses represent Xholon framework Java classes,
+that are not otherwise defined as XholonClasses.
+All of these Java classes implement IXholon.
+-->
+<XholonFramework xmlns="http://www.primordion.com/namespace/XholonFramework" id="1011200">
+	<InheritanceHierarchy/>
+	<TreeNodeFactory/>
+	<Queue/>
+	<SynchronizedQueue/>
+	<XholonNode/>
+</XholonFramework>
+
+
+
+<!-- These are internal services that are part of the Xholon infrastructure.
+A service is different from a mechanism.
+However, a service may make use of a mechanism.
+Typically, a service implementation is instantiated dynamically using Class.forName() .
+Typically, a service is a stateless singleton.
+A typical service has:
+- a factory class that creates a singleton or instances of some interface
+- an interface class
+- one or more concrete classes that implement the interface
+-->
+<XholonService xmlns="http://www.primordion.com/namespace/XholonService" id="1010700">
+	<XholonInternalService>
+		<ServiceLocatorService/>
+		<XholonDirectoryService/> <!-- singleton created using instance() -->
+		<DummyService/>
+		<TreeProcessorService/>
+		<AboutService/>
+		<ChartViewerService/>
+		<SpringFrameworkService/>
+		<NodeSelectionService/>
+		<XholonHelperService/>
+		<WiringService/>
+		<ControlService/>
+		<ScriptService/>
+		<CssService/>
+		<MediaService/>
+		<GameEngineService/>
+		<NetLogoService/>
+		<SvgViewService/>
+		<GistService/>
+		<SearchEngineService/>
+		<RecordPlaybackService/>
+		<SemanticWebService/>
+		<SbmlService/>
+		<MathSciEngService/>
+		<BlackboardService/>
+		
+		<VfsService/> <!-- new service Dec 14 2012 - see notebook -->
+		
+		<!-- new services Dec 23 2012 - see notebook -->
+		<NoSqlService/> <!-- especially Graph databases such as Neo4j -->
+		<RestService/> <!-- Jersey, XholonRest -->
+		<BlueprintsService/> <!-- Blueprints and related products like Gremlin -->
+		
+		<!-- possible new services Jan 5 2013 - see notebook -->
+		<XmlDatabaseService/> <!-- BaseX, eXist -->
+		<JcrService/> <!-- Jackrabbit -->
+		<JavaSerializationService/> <!-- java.io.Serialization, kryo -->
+		
+		<!-- new service February 6, 2013 - see notebook -->
+		<BerkeleyDbService/> <!-- Oracle BerkeleyDB Java Edition -->
+		
+		<TimelineService/> <!-- Jan 5, 2014 -->
+		
+		<ValidationService/>
+		<XmlValidationService/>
+		<DatabaseService/> <!-- relational/SQL databases -->
+		
+		<GenericViewerService/>
+		<!-- the following will probably all be done by GenericViewerService -->
+		<GridViewerService/>
+		<VrmlService/>
+		<GraphicalNetworkViewerService/> <!-- too complex to do with the GenericViewerService -->
+		
+		<LogService/>
+		<ReflectionService/> <!-- ReflectionFactory -->
+		<Xholon2XmlService/>
+		<XholonCreationService/> <!-- ITreeNodeFactory -->
+		<XmlReaderService/>
+		<XmlWriterService/>
+		<Xml2XholonService/>
+		<XPathService/>
+		<XQueryService/>
+		
+		<!-- others, plus anything else in Xholon that can be a service -->
+		<Xholon2Svg/>
+		<Xholon2Properties/>
+		<!-- etc. -->
+		
+	</XholonInternalService>
+	<XholonInternalServices/>
+	<XholonUserService/>
+	<XholonUserServices/>
+	
+	<!--
+	A IXholon class that can be used to represent a child of a XholonService,
+	where the child is one implementation of that service.
+	-->
+	<XholonServiceImpl/>
+	
+</XholonService>
+
+<!-- Represents the single XPath node. -->
+<XPath xmlns="http://www.primordion.com/namespace/XPath" id="1010800">
+	<PcsPath/>
+</XPath>
+
+</XholonMechanism>

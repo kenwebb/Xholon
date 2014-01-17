@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+This is the Control structure at the top of the Xholon structure.
+All other nodes fit without this topmost structure for an Application.
+-->
+
+<Control roleName="Application"> <!-- this will be replaced at runtime by an instance of IApplication.java -->
+	<Control roleName="Controller">
+		<Control roleName="Start"/>
+		<Control roleName="Pause"/>
+		<Control roleName="Step"/>
+		<Control roleName="Stop"/>
+		<Control roleName="Refresh"/>
+	</Control>
+	<Control roleName="View">
+		<!-- view nodes will optionally be added here -->
+	</Control>
+	<Control roleName="Model">
+		<Control roleName="CompositeStructureHierarchy">
+			<!-- the domain model hierarchy will be added here -->
+			<!-- the service hierarchy will be added here -->
+		</Control>
+		<Control roleName="InheritanceHierarchy">
+			<!-- a subtree starting with XholonClass will be added here -->
+		</Control>
+		<Control roleName="MechanismHierarchy">
+			<!-- a subtree starting with XhMechanisms will be added here -->
+		</Control>
+	</Control>
+</Control>

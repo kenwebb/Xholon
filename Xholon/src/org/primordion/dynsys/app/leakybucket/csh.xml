@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+stability model
+Stability or instability of a ball moving on a hill or in a valley.
+see: Robinson, Walter A. (2001) Modeling Dynamic Climate Systems. (section 1.1)
+-->
+<LeakyBucketSystem xmlns:xi="http://www.w3.org/2001/XInclude">
+  
+  <Tap> <!-- Inflow -->
+    <VolumetricFlowRate>0.0002 m^3/s</VolumetricFlowRate>
+  </Tap>
+  <Bucket>
+    <Radius>0.25 m</Radius>
+    <Area>0.0 m^2</Area>
+    <Water>
+      <Depth>0.0 m</Depth>
+      <Volume>0.0 m^3</Volume>
+    </Water>
+    <Hole>
+      <Radius>0.0075 m</Radius>
+      <Area>0.0 m^2</Area>
+    </Hole>
+  </Bucket>
+  <Outflow>
+    <VolumetricFlowRate>0.0 m^3/s</VolumetricFlowRate>
+  </Outflow>
+  <AccelerationDueToGravity>9.80665 m/s^2</AccelerationDueToGravity>
+  
+</LeakyBucketSystem>

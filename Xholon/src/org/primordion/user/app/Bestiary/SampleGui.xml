@@ -1,0 +1,51 @@
+<SampleSwingGui>
+  <JFrame Title="A Split Pane" DefaultCloseOperation="2">
+    <JMenuBar>
+      <JMenu Text="Menu One">
+        <JMenuItem Text="Un"/>
+        <JMenuItem Text="Deux"/>
+        <JMenuItem Text="Trois"/>
+      </JMenu>
+      <JMenu Text="Menu Two">
+        <JMenuItem Text="Ein"/>
+        <JMenuItem Text="Zwei"/>
+        <JMenuItem Text="Drei"/>
+      </JMenu>
+    </JMenuBar>
+    <JSplitPane Orientation="1" PreferredSize="Dimension,600,200">
+      <JScrollPane roleName="left">
+        <JPanel Background="ORANGE">
+          <EmptyBorder Rectangle="Rect,10,5,10,5"/>
+          <VBoxLayout/>
+          <HBox>
+            <JLabel Text="Name"/>
+            <Strut Width="5"/>
+            <JTextField Text="The Great and Powerful"/>
+          </HBox>
+          <Strut Height="10"/>
+          <HBox>
+            <JLabel Text="Current Location"/>
+            <Strut Width="5"/>
+            <JTextField Text="Emerald City"/>
+          </HBox>
+          <Strut Height="10"/>
+          <HBox>
+            <JLabel Text="Birth Place"/>
+            <Strut Width="5"/>
+            <JTextField Text="Kansas"/>
+          </HBox>
+          <Strut Height="10"/>
+          <HBox>
+            <JButton Text="Press this button"
+              ToolTipText="This is a button."
+              ActionCommand="buttonpressed"/>
+            <Glue/>
+          </HBox>
+        </JPanel>
+      </JScrollPane>
+      <JScrollPane roleName="right">
+        <JTextArea Text="Type some text here ..." />
+      </JScrollPane>
+    </JSplitPane>
+  </JFrame>
+</SampleSwingGui>

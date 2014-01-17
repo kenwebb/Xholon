@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  petrinet feinberg1
+  source: Martin Feinberg (1980) Lectures on Chemical Reaction Networks - Lecture 1
+  http://www.chbmeng.ohio-state.edu/~FEINBERG/LecturesOnReactionNetworks/
+-->
+<ReactionNetworkSystem xmlns:xi="http://www.w3.org/2001/XInclude">
+  <Annotation>
+In 1979, Martin Feinberg gave a series of
+&lt;a href="http://www.chbmeng.ohio-state.edu/~FEINBERG/LecturesOnReactionNetworks/"&gt;lectures on chemical reaction networks&lt;/a&gt;.
+His very first example (1.1) was a simple reaction network with five species, five complexes, and six reactions.
+This page shows the results of running a simulation of Feinberg's model, using mass action kinetics.
+  </Annotation>
+  <!-- kineticsType
+  1 = Basic place/transition net kinetics (default)
+  2 = Mass action kinetics
+  3 = Grid
+  -->
+  <PetriNet roleName="pot" kineticsType="2" p="0.1666666667" k="0.0039" timeStepMultiplier="2">
+    <QueueTransitions shouldAct="true"/>
+    <AnalysisPetriNet/>
+    <AnalysisCRN useTex="true" useMathML="false"/>
+    <AnalysisCat/>
+    
+    <Places>
+      <A token="140"/>
+      <B token="180"/>
+      <C token="200"/>
+      <D token="25"/>
+      <E token="80"/>
+      <Plot mode="ifNotAlready" dataPlotter="google2"
+               dataPlotterParams="feinberg1 - Petri nets,Time (timesteps),Tokens,./statistics/,pn,1,WRITE_AS_DOUBLE"/>
+    </Places>
+    
+    <Transitions>
+    
+      <A_BB k="0.0039" count="10" symbol="α">
+        <InputArcs>
+          <InputArc weight="1" connector="ancestor::PetriNet/Places/A"/>
+        </InputArcs>
+        <OutputArcs>
+          <OutputArc weight="2" connector="ancestor::PetriNet/Places/B"/>
+        </OutputArcs>
+      </A_BB>
+      
+      <BB_A k="0.0038" count="10" symbol="β">
+        <InputArcs>
+          <InputArc weight="2" connector="ancestor::PetriNet/Places/B"/>
+        </InputArcs>
+        <OutputArcs>
+          <OutputArc weight="1" connector="ancestor::PetriNet/Places/A"/>
+        </OutputArcs>
+      </BB_A>
+      
+      <AC_D k="0.0037" count="10" symbol="γ">
+        <InputArcs>
+          <InputArc weight="1" connector="ancestor::PetriNet/Places/A"/>
+          <InputArc weight="1" connector="ancestor::PetriNet/Places/C"/>
+        </InputArcs>
+        <OutputArcs>
+          <OutputArc weight="1" connector="ancestor::PetriNet/Places/D"/>
+        </OutputArcs>
+      </AC_D>
+      
+      <D_AC k="0.0036" count="10" symbol="δ">
+        <InputArcs>
+          <InputArc weight="1" connector="ancestor::PetriNet/Places/D"/>
+        </InputArcs>
+        <OutputArcs>
+          <OutputArc weight="1" connector="ancestor::PetriNet/Places/A"/>
+          <OutputArc weight="1" connector="ancestor::PetriNet/Places/C"/>
+        </OutputArcs>
+      </D_AC>
+      
+      <D_BE k="0.0035" count="10" symbol="ε">
+        <InputArcs>
+          <InputArc weight="1" connector="ancestor::PetriNet/Places/D"/>
+        </InputArcs>
+        <OutputArcs>
+          <OutputArc weight="1" connector="ancestor::PetriNet/Places/B"/>
+          <OutputArc weight="1" connector="ancestor::PetriNet/Places/E"/>
+        </OutputArcs>
+      </D_BE>
+      
+      <BE_AC k="0.0034" count="10" symbol="ξ">
+        <InputArcs>
+          <InputArc weight="1" connector="ancestor::PetriNet/Places/B"/>
+          <InputArc weight="1" connector="ancestor::PetriNet/Places/E"/>
+        </InputArcs>
+        <OutputArcs>
+          <OutputArc weight="1" connector="ancestor::PetriNet/Places/A"/>
+          <OutputArc weight="1" connector="ancestor::PetriNet/Places/C"/>
+        </OutputArcs>
+      </BE_AC>
+      
+    </Transitions>
+  </PetriNet>
+  
+  <!-- grid owner -->
+  <!--<ConstantlyStirredPot rows="80" cols="120" gridCellColor="000030" shouldPlacesMove="true"/>-->
+  <!--<ConstantlyStirredPot rows="80" cols="120" gridCellColor="000020" shouldPlacesMove="true"/>-->
+  <ConstantlyStirredPot rows="20" cols="20" gridCellColor="000020" shouldPlacesMove="true"/>
+  
+</ReactionNetworkSystem>

@@ -1,0 +1,132 @@
+package org.primordion.user.app.MeTTTa;
+
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.text.JTextComponent;
+
+import org.primordion.xholon.base.IMessage;
+import org.primordion.xholon.base.IXholon;
+import org.primordion.xholon.base.Xholon;
+
+public class ScoreControlnode extends Xholon {
+	
+	private IXholon metttaModel = null;
+	private IXholon scoreModel = null;
+	private IXholon scoreTextField = null;
+	
+	/*
+	 * @see org.primordion.xholon.base.Xholon#postConfigure()
+	 */
+	public void postConfigure() {
+		scoreModel = getNextSibling();
+		super.postConfigure();
+		metttaModel = scoreModel.getParentNode();
+		IXholon button = getParentNode();
+		// get the controller that the parent JButton references
+		IXholon controller = button.getPort(0);
+		// have the JButton reference this Controlnode instead of the Controller
+		button.setPort(0, this);
+		// any other new JButton instances should also ref this Controlnode
+		button = button.getNextSibling();
+		while (button != null) {
+			if ("JButton".equals(button.getXhcName())) {
+				button.setPort(0, this);
+			}
+			button = button.getNextSibling();
+		}
+		// the nine grid buttons also need to be routed through the Controlnode
+		IXholon selectButton = getXPath().evaluate("ancestor::JFrame/../JFrame/descendant::JButton", this);
+		while (selectButton != null) {
+			if ("JButton".equals(selectButton.getXhcName())) {
+				selectButton.setPort(0, this);
+			}
+			selectButton = selectButton.getNextSibling();
+		}
+		scoreTextField = getParentNode().getNextSibling().getNextSibling().getFirstChild().getNextSibling();
+		removeChild();
+		// append self as part of the Controller subtree
+		appendChild(controller);
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.Xholon#processReceivedMessage(org.primordion.xholon.base.IMessage)
+	 */
+	public void processReceivedMessage(IMessage msg)
+	{
+		String command = (String)msg.getData();
+		if (command.startsWith("select")) {
+			getParentNode().processReceivedMessage(msg);
+			if (((MeTTTaModel)metttaModel).isGameOver()) {
+				int humanPositions = 0;
+				int computerPositions = 0;
+				for (int i = 0; i < 9; i++) {
+					switch (((MeTTTaModel)metttaModel).getPlayer(i)) {
+					case IMeTTTaConstants.G_HUMAN:
+						humanPositions++;
+						break;
+					case IMeTTTaConstants.G_COMPUTER:
+						computerPositions++;
+						break;
+					}
+				}
+				if (humanPositions > computerPositions) {
+					((ScoreModelnode)scoreModel).incHumanScore();
+					((JTextField)scoreTextField.getVal_Object())
+						.setText(Integer.toString(((ScoreModelnode)scoreModel).getHumanScore()));
+				}
+				else if (computerPositions > humanPositions) {
+					((ScoreModelnode)scoreModel).incComputerScore();
+				}
+			}
+		}
+		else if ("submit".equals(command)) {
+			// the msg sender is the "Submit" button
+			msg.getSender().getParentNode().visit(this);
+		}
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.Xholon#visit(org.primordion.xholon.base.IXholon)
+	 */
+	public boolean visit(IXholon visitee) {
+		if ("JLabel".equals(visitee.getXhcName())) {
+			String label = ((JLabel)visitee.getVal_Object()).getText();
+			String value = ((JTextComponent)visitee.getNextSibling().getVal_Object()).getText();
+			if ("Name".equals(label)) {
+				((ScoreModelnode)scoreModel).setPlayerName(value);
+			}
+			else if ("City".equals(label)) {
+				((ScoreModelnode)scoreModel).setPlayerCity(value);
+			}
+			else if ("Country".equals(label)) {
+				((ScoreModelnode)scoreModel).setPlayerCountry(value);
+			}
+		}
+		return true;
+	}
+
+	public IXholon getMetttaModel() {
+		return metttaModel;
+	}
+
+	public void setMetttaModel(IXholon metttaModel) {
+		this.metttaModel = metttaModel;
+	}
+
+	public IXholon getScoreModel() {
+		return scoreModel;
+	}
+
+	public void setScoreModel(IXholon scoreModel) {
+		this.scoreModel = scoreModel;
+	}
+
+	public IXholon getScoreTextField() {
+		return scoreTextField;
+	}
+
+	public void setScoreTextField(IXholon scoreTextField) {
+		this.scoreTextField = scoreTextField;
+	}
+	
+}

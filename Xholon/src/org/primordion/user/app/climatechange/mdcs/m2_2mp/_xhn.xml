@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	mdcs m2_2mp application - _xhn configuration
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+	One-Layer Atmosphere Model
+	
+	sources:
+	  (1) Robinson, Walter A. (2001) Modeling Dynamic Climate Systems. (section 2.2)
+
+-->
+<params>
+<param name="ShowParams" value="false"/>
+<param name="ModelName" value="One-Layer Atmosphere Model"/>
+<param name="AppM" value="true"/>
+<param name="InfoM" value="false"/>
+<param name="ErrorM" value="true"/>
+<param name="MaxProcessLoops" value="10"/>
+<param name="TimeStepInterval" value="500"/>
+<param name="SizeMessageQueue" value="10"/>
+<param name="InheritanceHierarchyFile" value=""/>
+<param name="CompositeStructureHierarchyFile" value=""/>
+<param name="ClassDetailsFile" value=""/>
+<!--<param name="InformationFile" value="./bin/org/primordion/user/app/climatechange/mdcs/m2_2mp/info.xml"/>-->
+<param name="InformationFile" value="http://en.wikipedia.org/wiki/Carbon_cycle"/>
+<param name="JavaClassName" value="org.primordion.user.app.climatechange.mdcs.m2_2mp.Appmdcs"/>
+<param name="JavaXhClassName" value="org.primordion.user.app.climatechange.mdcs.m2_2mp.Xhmdcs"/>
+<param name="MaxPorts" value="0"/>
+<!-- Viewers -->
+<!-- UseDataPlotter: none JFreeChart gnuplot google2 -->
+<param name="UseDataPlotter" value="google2"/>
+<!-- DataPlotterParams: Title,XAxisLabel,YAxisLabel,Path,TypeOfData,NameConcatLevels,WriteType -->
+<param name="DataPlotterParams" value="Climate model with an atmosphere,Time (years),Temperature (°C),./statistics/,mdcs22mp,1,WRITE_AS_DOUBLE"/>
+<param name="UseGraphicalTreeViewer" value="false"/>
+<!-- GraphicalTreeViewerParams: XPathExpression,DistX,DistY,SizeX,SizeY,FontSize,Title,ShowNodeLabels -->
+<param name="GraphicalTreeViewerParams" value="/,20,20,800,500,9,Application Composite Structure,false"/>
+<param name="UseGraphicalNetworkViewer" value="false"/>
+<!-- GraphicalNetworkViewerParams: XPathExpression,SizeX,SizeY,FontSize,LayoutType,ShowContainers,Title,ShowNodeLabels -->
+<param name="GraphicalNetworkViewerParams" value="/,800,500,9,LAYOUT_KK,false,Application Port Connections,false"/>
+<param name="UseGridViewer" value="false"/>
+<param name="GridPanelClassName" value="org.primordion.xholon.samples.GridPanelMyApp"/>
+<!-- GridViewerParams: XPathExpression,CellSize,Title -->
+<param name="GridViewerParams" value="descendant::Row/..,5,Grid Viewer App"/>
+<param name="UseInteractions" value="true"/>
+<param name="InteractionParams" value="32,true,localhost,60001"/>
+<param name="UseVrml" value="false"/>
+<param name="VrmlWriterClassName" value="org.primordion.xholon.tutorials.VrmlWriterMyApp"/>
+<!-- VrmlParams: DoClassicStyle,VrmlWriteDir,UseLOD,CreateProtoFiles -->
+<param name="VrmlParams" value="true,./3d/,false,false"/>
+<param name="UseTextTree" value="false"/>
+<param name="SaveSnapshots" value="false"/>
+<!-- SnapshotParams: SnapshotSource(0 1),SnapshotTostring,Path -->
+<param name="SnapshotParams" value="0,true,./snapshot/"/>
+<!-- app-specific params -->
+<param name="TimeStepMultiplier" value="32"/> <!-- 10 16 128 IIntegration.M_128 -->
+<param name="ChartInterval" value="1"/> <!-- 1 2 16 -->
+</params>

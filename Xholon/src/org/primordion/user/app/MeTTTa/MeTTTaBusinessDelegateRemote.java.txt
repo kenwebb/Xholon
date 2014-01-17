@@ -1,0 +1,150 @@
+/* Xholon Runtime Framework - executes event-driven & dynamic applications
+ * Copyright (C) 2008 Ken Webb
+ *
+ * This library is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ */
+
+package org.primordion.user.app.MeTTTa;
+
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Properties;
+
+//import javax.ejb.CreateException;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.rmi.PortableRemoteObject;
+
+import org.acme.Hello;
+import org.primordion.xholon.base.IMessage;
+import org.primordion.xholon.base.Message;
+
+/**
+ * Xholon MeTTTa
+ * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
+ * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
+ * @since 0.7.1 (Created on May 10, 2008)
+*/
+public class MeTTTaBusinessDelegateRemote extends XhMeTTTa implements IMeTTTaPojo {
+
+	// Sun Application Server
+	//private static String metttaJNDI = "java:comp/env/ejb/MeTTTa";
+	//private static String metttaJNDI = "ejb/MeTTTa";
+	// OpenEJB
+	private static String metttaJNDI = "MeTTTaBeanRemote";
+	// JBoss 4.2.2
+	//private static String metttaJNDI = "MeTTTaBean/remote";
+	
+	Hashtable env = null;
+	
+	/*
+	 * @see org.primordion.xholon.base.Xholon#processReceivedSyncMessage(org.primordion.xholon.base.Message)
+	 */
+	public IMessage processReceivedSyncMessage(IMessage msg)
+	{
+		int move = getCalculatedMove((List)msg.getData());
+		return new Message(SIG_SET_COMPUTER_MOVE, new Integer(move), this, msg.getSender());
+	}
+	
+	/*
+	 * @see org.primordion.user.app.MeTTTa.IMeTTTaBusinessDelegate#doComputerMove(java.util.List)
+	 */
+	public int getCalculatedMove(List grid) {
+		int position = 0;
+		MeTTTa meTTTa = getMeTTTaRemote();
+		position = meTTTa.getCalculatedMove(grid);
+		return position;
+	}
+	
+	/**
+	 * Get a remote MeTTTa instance (a proxy).
+	 * @return An instance of MeTTTa, or null.
+	 */
+	protected MeTTTa getMeTTTaRemote() {
+		// Initial environment with various properties
+		if (env == null) {
+			env = new Hashtable();
+			
+			// Sun Application Server
+			//env.put(Context.INITIAL_CONTEXT_FACTORY,  "com.sun.jndi.fscontext.FSContextFactory");
+			//env.put(Context.INITIAL_CONTEXT_FACTORY,"com.sun.jndi.fscontext.RefFSContextFactory");
+			//env.put(Context.INITIAL_CONTEXT_FACTORY,  "com.sun.jndi.cosnaming.CNCtxFactory");
+			//env.put(Context.PROVIDER_URL, "iiop://localhost:3700");
+			
+			// OpenEJB
+			env.put(Context.INITIAL_CONTEXT_FACTORY,"org.apache.openejb.client.RemoteInitialContextFactory");
+	        env.put(Context.PROVIDER_URL,"ejbd://127.0.0.1:4201");
+	        
+	        // JBoss 4.2.2
+	        //env.put(Context.INITIAL_CONTEXT_FACTORY,"org.jnp.interfaces.NamingContextFactory");
+	        //env.put(Context.PROVIDER_URL,"jnp://localhost:1099");
+		}
+        
+        MeTTTa meTTTa = null;
+		try {
+			Context ic = new InitialContext(env);
+            Object lookup = ic.lookup(metttaJNDI);
+            //System.out.println(lookup.getClass());
+            
+            // Sun Application Server
+			//MeTTTaHome home = (MeTTTaHome)PortableRemoteObject.narrow(lookup, MeTTTaHome.class);
+            //meTTTa = home.create(); // Sun Application Server
+            // OpenEJB
+			meTTTa = (MeTTTa)PortableRemoteObject.narrow(lookup, MeTTTa.class);
+            // JBoss 4.2.2
+			//meTTTa = (MeTTTa)lookup;
+		} /*catch (RemoteException e) { // Sun Application Server
+			System.err.println(e);
+		}*/ catch (NamingException e) {
+			System.err.println(e);
+		/*} catch (CreateException e) { // Sun Application Server
+			System.err.println(e);
+		}*/
+		} finally {}
+		return meTTTa;
+	}
+	
+	// OpenEJB HelloWorld example
+	public void doHelloWorld() throws Exception {
+		Properties props = new Properties();
+        props.put(Context.INITIAL_CONTEXT_FACTORY,"org.apache.openejb.client.RemoteInitialContextFactory");
+        props.put(Context.PROVIDER_URL,"ejbd://127.0.0.1:4201");
+        Context ctx = new InitialContext(props);
+        Object ref = ctx.lookup("HelloBeanRemote");
+        System.out.println(ref.getClass());
+        Hello h = (Hello)PortableRemoteObject.narrow(ref,Hello.class);
+        String result = h.sayHello();
+        System.out.println(result);
+	}
+	
+	/**
+	 * main - for testing
+	 * @param args
+	 * @throws Exception
+	 */
+	public static void main(String[] args) throws Exception {
+		System.out.println("MeTTTaBusinessDelegateRemote main() started ...");
+		MeTTTaBusinessDelegateRemote bd = new MeTTTaBusinessDelegateRemote();
+		List grid = new java.util.ArrayList(9);
+		for (int i = 0; i < 9; i++) {
+			int val = 0;
+			grid.add(new Integer(val));
+		}
+		int position = bd.getCalculatedMove(grid);
+		System.out.println("position:" + position);
+		bd.doHelloWorld(); // OpenEJB HelloWorld example
+	}
+}

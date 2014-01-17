@@ -1,0 +1,35 @@
+package org.primordion.user.app.MeTTTa;
+
+import org.primordion.xholon.script.XholonScript;
+import org.primordion.xholon.base.IXholon;
+import javax.swing.JButton;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+
+public class SwingButtonStylist2 extends XholonScript {
+    
+    private int selectCount = 0;
+    
+    public void postConfigure()
+    {
+        getParentNode().visit(this);
+        removeChild();
+    }
+    
+    public boolean visit(IXholon visitee)
+    {
+        if ("JButton".equals(visitee.getXhcName())) {
+            JButton component = (JButton)visitee.getVal_Object();
+            if (component != null) {
+                component.setMinimumSize(new Dimension(100, 100));
+                component.setPreferredSize(new Dimension(100, 100));
+                component.setFont(new Font("Monospaced", 7, 60));
+                component.setBackground(Color.ORANGE);
+                component.setActionCommand("select" + selectCount++);
+            }
+        }
+        return true;
+    }
+    
+}

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Bestiary application - _xhn configuration
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<params>
+<param name="ShowParams" value="false"/>
+<param name="ModelName" value="Bestiary"/>
+<param name="AppM" value="true"/>
+<param name="InfoM" value="false"/>
+<param name="ErrorM" value="true"/>
+<param name="MaxProcessLoops" value="-1"/> <!-- process forever -->
+<param name="TimeStepInterval" value="100"/>
+<param name="SizeMessageQueue" value="10"/>
+<param name="InheritanceHierarchyFile" value=""/>
+<param name="CompositeStructureHierarchyFile" value=""/>
+<param name="ClassDetailsFile" value=""/>
+<!--<param name="InformationFile" value="./bin/org/primordion/user/app/Bestiary/Bestiary_Information.xml"/>-->
+<param name="InformationFile" value="http://primordion.com/collabapp/?p=24"/>
+<param name="JavaClassName" value="org.primordion.user.app.Bestiary.AppBestiary"/>
+<param name="JavaXhClassName" value="org.primordion.user.app.Bestiary.XhBestiary"/>
+<param name="MaxPorts" value="1"/>
+<!-- Viewers -->
+<param name="UseGridViewer" value="true"/>
+<param name="GridPanelClassName" value="org.primordion.user.app.Bestiary.GridPanelBestiary"/>
+<!-- GridViewerParams: XPathExpression,CellSize,Title,UseShapes  good sizes are 4 and 7 -->
+<param name="GridViewerParams" value="descendant::Row/..,4,Xholon - Bestiary - Grid Viewer,false"/>
+<!-- ScriptParams: shouldPutPortKeyValuePairs,applicationKey,selectedNodesKey,contextNodeKey -->
+<param name="ScriptParams" value="true"/>
+
+<!-- application specific parameters -->
+<param name="MaxFoodProductionRate" value="0.01"/> <!-- maximum food production (a cell parameter) 0.01 -->
+
+</params>

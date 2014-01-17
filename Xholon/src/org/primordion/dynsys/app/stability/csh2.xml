@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+stability model
+Stability or instability of a ball moving on a hill or in a valley.
+see: Robinson, Walter A. (2001) Modeling Dynamic Climate Systems. (section 1.1)
+-->
+<StabilitySystem xmlns:xi="http://www.w3.org/2001/XInclude">
+  <Ball>
+    <Radius>0.01 m</Radius>
+    <Position roleName="pelota">0.0 m</Position>
+    <Velocity>1.0 m/s</Velocity>
+    <Acceleration>0.0 m/s^2</Acceleration>
+    <Constant>-1.0</Constant> <!-- [-1.0,1.0] valley- flat0.0 hill+ -->
+  </Ball>
+  <Ball>
+    <Position roleName="Мяч">0.0 m</Position>
+    <Velocity>1.0 m/s</Velocity>
+    <Acceleration>0.0 m/s^2</Acceleration>
+    <Constant>-0.5</Constant>
+  </Ball>
+  <Ball>
+    <Position roleName="球">0.0 m</Position>
+    <Velocity>1.1 m/s</Velocity>
+    <Acceleration>0.0 m/s^2</Acceleration>
+    <Constant>-1.0</Constant>
+  </Ball>
+  <!-- a hill that works with SVG BallView -->
+  <!--<Ball>
+    <Position>0.0 m</Position>
+    <Velocity>0.0001 m/s</Velocity>
+    <Acceleration>0.0 m/s^2</Acceleration>
+    <Constant>0.01</Constant>
+  </Ball>-->
+  <!--<BallView/>-->
+</StabilitySystem>

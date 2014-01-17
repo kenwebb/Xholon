@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Furcifer application - Composite Structure Hierarchy
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<HelloWorldSystem>
+  <Annotation>Hello and World cooperate to create Hello World!</Annotation>
+  <Hello/>
+  <World/>
+  <HelloWorldSystem>
+    <Hello/>
+    <World/>
+    <Universe>
+      <Galaxy roleName="one"/>
+      <Galaxy roleName="two"/>
+      <Galaxy/> <!-- no roleName -->
+      <Galaxy roleName="three"/>
+      <Galaxy roleName="four"/>
+    </Universe>
+  </HelloWorldSystem>
+</HelloWorldSystem>

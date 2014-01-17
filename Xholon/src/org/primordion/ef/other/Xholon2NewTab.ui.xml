@@ -1,0 +1,19 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<!--
+  New Tab GUI - Composite Structure Hierarchy
+  Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+  xmlns:g="urn:import:com.google.gwt.user.client.ui">
+  <!--<ui:style></ui:style>-->
+  <g:DialogBox ui:field="dialog" autoHide="true" modal="true">
+  <!--<g:DialogBox ui:field="dialog">-->
+    <g:caption><b>Create a new tab</b></g:caption>
+    <g:HTMLPanel>
+      <g:Label>Name</g:Label>
+      <g:TextBox ui:field="tabName">Notes</g:TextBox>
+      <g:Button ui:field="cancelButton">Cancel</g:Button>
+      <g:Button ui:field="newButton">New</g:Button>
+    </g:HTMLPanel>
+  </g:DialogBox>
+</ui:UiBinder>

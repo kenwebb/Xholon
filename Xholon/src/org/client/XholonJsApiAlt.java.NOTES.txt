@@ -1,0 +1,152 @@
+Alternative JavaScript API
+==========================
+
+some conventions to use
+-----------------------
+- method names should be all lower-case
+- methods should be chainable
+- methods should combine getter/setter
+- method names should be similar in some ways with jQuery, the most popular JS library
+- the API should be simple, minimal
+- the API method names must not conflict with GWT obfuscated names
+  - does GWT prevent this from happening ?
+
+- return comma-delimited lists of names, that can then be used in a next step ?
+  actions services portnames attrnames
+
+tree, place graph
+-----------------
+parent
+first
+next
+prev
+remove
+appendto (and append ???)
+prependto
+after
+before
+
+identity
+--------
+id
+name
+role
+anno
+
+print
+println
+
+xhc
+
+val
+inc
+dec
+valstr
+valobj
+
+msg
+call or msgSync ?
+
+action
+actions
+
+link graph
+----------
+port
+ports
+isport ? is there a port with this index or name
+isbound ? is the port bound; or use  if (this.port(0))
+
+attr
+attrs
+isattr ? (this is needed because an attr value might legitimatly be null)
+
+toString  (it's implicitly available, so it doesn't need to be explicitly coded)
+
+Examples
+--------
+var xh = $wnd.xh;
+var app = xh.app();
+var root = xh.root();
+var node = xh.xpath("descendant::Hello", root);
+
+var rps = xh.service("RecordPlaybackService");
+var services = xh.services();
+var selectedNodes = xh.service("NodeSelectionService").call(-3894).valobj().data;
+
+var p = node.parent();
+var a = node.parent().next().first();
+a.remove();
+a.append(b);
+
+var id = a.id();
+var name = a.name();
+var name = a.name("R^^^^^");
+var role = a.role();
+a.role("dummy");
+var anno = a.anno();
+a.anno("This is an annotation.");
+
+a.print("Testing 123 ");
+a.println(456);
+
+var xhc = a.xhc();
+xhc.id();
+xhc.name();
+xhc.parent();
+xhc.attrs();
+
+var val = a.val(); // can this determine whether to return a number, String, or Object ?; NO there may be all 3
+var val = a.valstr();
+var val = a.valobj();
+a.val(123);
+a.valstr("This is a String val.");
+a.valobj(new Object());
+a.inc(); (increments by 1)
+a.inc(2);
+a.dec();
+a.dec(33);
+
+rx.send(101);
+rx.send(101, "some data");
+rx.send(101, "some other data", node);
+rx.send(102, null, node);
+rx.send(102, null, node, index);
+
+// need to be able to get the signal, data, sender from the msg
+var msg = rx.call(101).valobj();
+  var signal   = msg.signal;
+  var data     = msg.data;
+  var sender   = msg.sender;
+  var receiver = msg.receiver;
+  var index    = msg.index;
+var msg = rx.call(101, "some data");
+var msg = rx.call(101, "some other data", node);
+var msg = rx.call(102, null, node);
+var msg = rx.call(102, null, node, index);
+
+var arr = a.actions();
+a.action(arr[0]);
+a.action("Do your stuff");
+
+var ports = a.ports();
+var node = a.port(0);
+var node = a.port("star");
+a.port(0, node);
+a.port("star", node);
+
+var attrs = a.attrs();
+var dummy = a.attr("dummy");
+a.attr("dummy", "789");
+a.attr("dummy", "a string");
+if (a.attr("dummy") != null) {a.attr("dummy", "DUMMY")}
+
+// possible chaining
+a.remove().appendto(b).attr("x", 789).attr("blah", "yuck").val(1234).valstr("more blah");
+a.port(0).first().next().port("planet").role("Mars").next().role("Jupiter");
+
+behaviorObject.contextNode.parent().remove()
+  .appendto(behaviorObject.contextNode.parent().parent().port(direction));
+OR
+beh.cnode.parent().remove().appendto(beh.cnode.parent().parent().port(direction));
+

@@ -1,0 +1,343 @@
+/* Xholon Runtime Framework - executes event-driven & dynamic applications
+ * Copyright (C) 2011 Ken Webb
+ *
+ * This library is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ */
+
+package org.primordion.xholon.service.mathscieng;
+
+import javax.measure.VectorMeasure;
+import javax.measure.unit.Unit;
+
+import org.primordion.xholon.base.Xholon;
+import org.primordion.xholon.base.IQuantity;
+import org.primordion.xholon.base.IDecoration;
+
+/**
+ * A Quantity that includes a vector-like direction.
+ * Based partly on javax.measure.VectorMeasure in JScience.
+ * The word "vector" has lots of different meanings.
+ * So what exactly is a vector in the sense of this class?
+ * <ul>
+ * <li>It has 2, 3, or more dimensions (1D 2D 3D).</li>
+ * <li>Each dimension uses + and - to indicate direction.</li>
+ * <li>So in normal 1D motion, we could travel East(+) or West(-), or North(+) and South(-).</li>
+ * <li>bound vector and free vector</li>
+ * <li>trigonometry (sin, cos, angles), complex numbers</li>
+ * </ul>
+ * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
+ * @see <a href="http://en.wikipedia.org/wiki/Euclidean_vector">wikipedia:Euclidean_vector</a>
+ * @see <a href="http://www.khanacademy.org/">Khan Academy physics videos</a>
+ * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
+ * @since 0.8.1 (Created on December 26, 2011)
+ */
+public class QuantityVector extends Xholon implements IQuantity {
+	
+	/**
+	 * The amount encapsulated by this instance of Quantity.
+	 */
+	@SuppressWarnings("unchecked")
+	protected VectorMeasure vm = null;
+	
+	/**
+	 * TODO Unable to set the roleName
+	 * because of the use of QuantityFactory which calls xmlReader.next()
+	 */
+	protected String roleName = null;
+	
+	/**
+	 * @see org.primordion.xholon.base.Xholon#getVal_Object()
+	 * @return An instance of javax.measure.VectorMeasure.
+	 */
+	public Object getVal_Object() {
+		return vm;
+	}
+	
+	/**
+	 * @see org.primordion.xholon.base.Xholon#setVal(java.lang.Object)
+	 * @param val It must be an instance of javax.measure.VectorMeasure,
+	 * and not for example an instance of java.lang.Double.
+	 */
+	@SuppressWarnings("unchecked")
+	public void setVal(Object val) {
+		setVectorMeasure((VectorMeasure)val);
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.Xholon#getVal_String()
+	 */
+	public String getVal_String() {
+		return "" + vm;
+	}
+	
+	/**
+	 * <p>2D ex: "2.0 3.0 m"</p>
+	 * <p>3D ex: "2.0 3.0 4.0 m"</p>
+	 * <p>5D ex: "4.0 3.0 2.0 1.0 0.5 m"</p>
+	 * @see org.primordion.xholon.base.Xholon#setVal(java.lang.String)
+	 */
+	public void setVal(String val) {
+		String[] str = val.split(" ");
+		switch (str.length) {
+		case 0:
+		case 1:
+		case 2:
+			break;
+		case 3:
+			setVectorMeasure(VectorMeasure.valueOf(
+					Double.parseDouble(str[0]),
+					Double.parseDouble(str[1]),
+					Unit.valueOf(str[2])));
+			break;
+		case 4:
+			setVectorMeasure(VectorMeasure.valueOf(
+					Double.parseDouble(str[0]),
+					Double.parseDouble(str[1]),
+					Double.parseDouble(str[2]),
+					Unit.valueOf(str[3])));
+			break;
+		default:
+			double[] d = new double[str.length - 1];
+			for (int i = 0; i < str.length - 1; i++) {
+				d[i] = Double.parseDouble(str[i]);
+			}
+			setVectorMeasure(VectorMeasure.valueOf(d, Unit.valueOf(str[str.length - 1])));
+			break;
+		}
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.Xholon#getVal()
+	 */
+	@SuppressWarnings("unchecked")
+	public double getVal() {
+		return vm.doubleValue(vm.getUnit());
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.Xholon#setVal(double)
+	 */
+	public void setVal(double val) {
+		if (vm == null) {
+			// assume this is a Dimensionless quantity
+			//setVectorMeasure(Amount.valueOf(val, Unit.ONE));
+		}
+		else {
+			//setVectorMeasure(Amount.valueOf(val, amount.getUnit()));
+		}
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.Xholon#incVal(double)
+	 */
+	public void incVal(double val) {
+		setVal(getVal() + val);
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.Xholon#decVal(double)
+	 */
+	public void decVal(double val) {
+		setVal(getVal() - val);
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.Xholon#getVal_long()
+	 */
+	@SuppressWarnings("unchecked")
+	public long getVal_long() {
+		try {
+			return vm.longValue(vm.getUnit());
+		} catch (ArithmeticException e) {
+			return Long.MIN_VALUE;
+		}
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.Xholon#setVal(long)
+	 */
+	public void setVal(long val) {
+		if (vm == null) {
+			// assume this is a Dimensionless quantity
+			//setVectorMeasure(Amount.valueOf(val, Unit.ONE));
+		}
+		else {
+			//setVectorMeasure(Amount.valueOf(val, amount.getUnit()));
+		}
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.Xholon#getVal_int()
+	 */
+	@SuppressWarnings("unchecked")
+	public int getVal_int() {
+		try {
+			return (int)vm.longValue(vm.getUnit());
+		} catch (ArithmeticException e) {
+			return (int)Integer.MIN_VALUE;
+		}
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.Xholon#setVal(int)
+	 */
+	public void setVal(int val) {
+		if (vm == null) {
+			// assume this is a Dimensionless quantity
+			//setVectorMeasure(Amount.valueOf(val, Unit.ONE));
+		}
+		else {
+			//setVectorMeasure(Amount.valueOf(val, amount.getUnit()));
+		}
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.IQuantity#getUnit()
+	 */
+	public String getUnit() {
+		return vm.getUnit().toString();
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.IQuantity#getStandardUnit()
+	 */
+	public String getStandardUnit() {
+		return vm.getUnit().getStandardUnit().toString();
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.IQuantity#getDimension()
+	 */
+	public String getDimension() {
+		Unit<?> unit = vm.getUnit();
+		if (unit.equals(Unit.ONE)) {
+			return "";
+		}
+		else {
+			return unit.getDimension().toString();
+		}
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.IQuantity#getValues()
+	 */
+	public double[] getValues() {
+		return (double[])vm.getValue();
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.IQuantity#getValueN(int)
+	 */
+	public double getValueN(int index) {
+		return ((double[])vm.getValue())[index];
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.Attribute#toString()
+	 */
+	@SuppressWarnings("unchecked")
+	public String toString() {
+		String format = ((IDecoration)this.getXhc()).getFormat();
+		if (vm == null) {
+			return this.getName();
+		}
+		else if ((format != null) && (format.length() > 0)) {
+			//return String.format(format, vm.doubleValue(vm.getUnit()), vm.getUnit().toString());
+			return String.format(format,
+					vm.doubleValue(vm.getUnit()), // 1$
+					vm.getUnit().toString(),      // 2$
+					//vm.getRelativeError(),      // 3$
+					this.getName(),               // 4$
+					this.getDimension()           // 5$
+					);
+		}
+		else {
+			return getName() + " " + getVectorMeasure() + " ||" + getVal() + "|| " + getDimension();
+		}
+	}
+
+	/**
+	 * Get VectorMeasure.
+	 * @return The VectorMeasure encapsulated by this instance of Quantity.
+	 */
+	@SuppressWarnings("unchecked")
+	public VectorMeasure getVectorMeasure() {
+		return vm;
+	}
+
+	/**
+	 * Set VectorMeasure.
+	 * @param amount The VectorMeasure encapsulated by this instance of Quantity.
+	 */
+	@SuppressWarnings("unchecked")
+	public void setVectorMeasure(VectorMeasure vm) {
+		this.vm = vm;
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.Xholon#getRoleName()
+	 */
+	public String getRoleName() {
+		return roleName;
+	}
+
+	/*
+	 * @see org.primordion.xholon.base.Xholon#setRoleName(java.lang.String)
+	 */
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+	
+	/*
+	public void test1() {
+		System.out.println("test1()");
+		VectorMeasure<Length> length3d = VectorMeasure.valueOf(12.0, 30.0, 40.0, MILLIMETER);
+		VectorMeasure<Velocity> v2d = VectorMeasure.valueOf(-2.2, -3.0, KNOT);
+		VectorMeasure<ElectricCurrent> c2d = VectorMeasure.valueOf(-7.3, 3.5, NANO(AMPERE));
+		System.out.println(length3d);
+		System.out.println(v2d);
+		System.out.println(c2d);
+	}
+	
+	public void test2() {
+		System.out.println("test2()");
+		VectorMeasure<Velocity> length2d = VectorMeasure.valueOf(3.0, 4.0, METERS_PER_SECOND);
+		this.setVal(length2d);
+		System.out.println(getVectorMeasure());
+	}
+	
+	public void test3() {
+		System.out.println("test3()");
+		this.setVal("3.0 4.0 m/s");
+		System.out.println(this.getVectorMeasure());
+		System.out.println(this.getVal());
+		System.out.println(this.getUnit());
+		System.out.println(this.getVal() + " " + this.getUnit());
+		System.out.println(this.getDimension());
+		double[] values = this.getValues();
+		for (int i = 0; i < values.length; i++) {
+			System.out.print(values[i] + " ");
+		}
+		System.out.println();
+	}
+	
+	public static void main(String[] args) {
+		QuantityVector qv = new QuantityVector();
+		qv.test1();
+		qv.test2();
+		qv.test3();
+	}
+	*/
+}

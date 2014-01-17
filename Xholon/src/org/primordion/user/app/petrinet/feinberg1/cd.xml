@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	petrinet feinberg1 - Class Details
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<xholonClassDetails>
+  <ConstantlyStirredPot>
+    <port name="petriNet" connector="#xpointer(ancestor::ReactionNetworkSystem/PetriNet)"/>
+  </ConstantlyStirredPot>
+  <XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

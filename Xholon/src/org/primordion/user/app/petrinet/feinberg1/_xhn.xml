@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	petrinet feinberg1 - _xhn configuration
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+
+-->
+<params>
+<param name="ShowParams" value="false"/>
+<param name="ModelName" value="Petri net - feinberg1"/>
+<param name="AppM" value="true"/>
+<param name="InfoM" value="false"/>
+<param name="ErrorM" value="true"/>
+<param name="MaxProcessLoops" value="-1"/> <!-- -1 -->
+<param name="TimeStepInterval" value="100"/> <!-- 100 -->
+<param name="SizeMessageQueue" value="10"/>
+<param name="InheritanceHierarchyFile" value=""/>
+-<param name="CompositeStructureHierarchyFile" value=""/>
+-<param name="ClassDetailsFile" value=""/>
+<!--<param name="InformationFile" value="./bin/org/primordion/user/app/petrinet/feinberg1/info.xml"/>-->
+<param name="InformationFile" value="http://en.wikipedia.org/wiki/Petri_net"/>
+<param name="JavaClassName" value="org.primordion.user.app.petrinet.feinberg1.Appfeinberg1"/>
+<param name="JavaXhClassName" value="org.primordion.user.app.petrinet.feinberg1.Xhfeinberg1"/>
+<param name="MaxPorts" value="0"/>
+<!-- Viewers -->
+<!-- UseDataPlotter: none JFreeChart gnuplot google2 -->
+<param name="UseDataPlotter" value="google2"/>
+<!-- DataPlotterParams: Title,XAxisLabel,YAxisLabel,Path,TypeOfData,NameConcatLevels,WriteType -->
+<param name="DataPlotterParams" value="feinberg1 - Petri nets,Time (timesteps),Tokens,./statistics/,pn,1,WRITE_AS_DOUBLE"/>
+<param name="UseGraphicalTreeViewer" value="false"/>
+<!-- GraphicalTreeViewerParams: XPathExpression,DistX,DistY,SizeX,SizeY,FontSize,Title,ShowNodeLabels -->
+<param name="GraphicalTreeViewerParams" value="/,20,20,800,500,9,Application Composite Structure,false"/>
+<param name="UseGraphicalNetworkViewer" value="false"/>
+<!-- GraphicalNetworkViewerParams: XPathExpression,SizeX,SizeY,FontSize,LayoutType,ShowContainers,Title,ShowNodeLabels -->
+<param name="GraphicalNetworkViewerParams" value="/,800,500,9,LAYOUT_KK,false,Application Port Connections,false"/>
+<param name="UseGridViewer" value="false"/>
+<param name="GridPanelClassName" value="org.primordion.user.app.dummy.Dummy"/>
+<!-- GridViewerParams: XPathExpression,CellSize,Title -->
+<param name="GridViewerParams" value="descendant::Row/..,5,Grid Viewer App"/>
+<param name="UseInteractions" value="false"/>
+<param name="InteractionParams" value="4,true,localhost,60001"/>
+<param name="UseVrml" value="false"/>
+<param name="VrmlWriterClassName" value="org.primordion.xholon.tutorials.VrmlWriterMyApp"/>
+<!-- VrmlParams: DoClassicStyle,VrmlWriteDir,UseLOD,CreateProtoFiles -->
+<param name="VrmlParams" value="true,./3d/,false,false"/>
+<param name="UseTextTree" value="false"/>
+<param name="SaveSnapshots" value="false"/>
+<!-- SnapshotParams: SnapshotSource(0 1),SnapshotTostring,Path -->
+<param name="SnapshotParams" value="0,true,./snapshot/"/>
+</params>

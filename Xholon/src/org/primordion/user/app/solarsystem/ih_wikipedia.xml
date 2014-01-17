@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This inheritance hierarchy is based on wikipedia content.
+ * http://en.wikipedia.org/wiki/Solar_System
+ * YQL queries of the wikipedia page
+ * wikipedia has "Moons_of_Jupiter" etc.
+ * wikipedia has "Rings_of_Jupiter" etc.
+See also the universe package.
+-->
+<_-.solarsystem> <!-- this is a forest -->
+
+  <AstronomicalObject>
+    <StarSystem> <!-- = Star(s) + PlanetarySystem -->
+      <SolarSystem/>
+      <!-- or <StarSystem roleName="SolarSystem"/> -->
+    </StarSystem>
+    <PlanetarySystem/> <!-- contains non-stellar objects -->
+    <Star/>
+      <!-- <Star roleName="Sun"/> -->
+    <Planet/>
+      <!-- <Planet roleName="Earth"/> -->
+    <DwarfPlanet/>
+      <!-- <DwarfPlanet roleName="Pluto"/> -->
+    <NaturalSatellite/>
+      <!-- <NaturalSatellite roleName="Moon"/> -->
+    <SmallSolarSystemBody>
+      <Asteroid/>
+        <!-- <Asteroid roleName="Ceres"/> -->
+      <Comet/>
+        <!-- <Comet roleName="Hale-Bopp"/> -->
+      <Trans-NeptunianObject/>
+        <!-- <Trans-NeptunianObject roleName="50000Quaoar"/> -->
+      <Meteoroid/>
+    </SmallSolarSystemBody>
+  </AstronomicalObject>
+  
+  <!-- Collections of astronomical objects. In wikipedia "Stars", "Planets" redirect to "Star", "Planet". -->
+  <Stars/>
+  <Planets/>
+  <DwarfPlanets/>
+  <NaturalSatellites/>
+  <PlanetaryRings/>
+  <Asteroids/>
+  <Comets/>
+  <Trans-NeptunianObjects/>
+  
+  <!--
+  Circular or spherical structures that surround an AstronomicalObject.
+  rings, belts, clouds, atmospheres
+  -->
+  <Atmosphere/>
+  <PlanetaryRing/>
+    <!-- <PlanetaryRing roleName="DRing"/> -->
+  <AsteroidBelt/>
+  <KuiperBelt/>
+  <OortCloud/>
+  <Heliosphere/>
+  
+  <!-- Space separates astronomical objects from each other, and connects them together. -->
+  <OuterSpace>
+    <InterplanetaryMedium/>
+  </OuterSpace>
+  <CosmicDust/>
+  <ElectromagneticRadiation/>
+  
+  <!-- properties -->
+  <!--<Mass/>-->
+  <!--<Radius superClass="Length"/>
+  <SemimajorAxis superClass="Length"/>-->
+  <!--<Temperature/>-->
+  
+</_-.solarsystem>

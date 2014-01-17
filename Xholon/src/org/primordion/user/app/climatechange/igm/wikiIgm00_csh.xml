@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- wikipedia Idealized greenhouse model ε=0.78 -->
+<_-.model>
+  <Space>
+    <SolarConstantSw>400.0</SolarConstantSw>
+  </Space>
+  <Earth>
+    <Temperature roleName="Te">255.0</Temperature> <!-- effective emission temperature of the Earth T_e -->
+    <Atmosphere>
+      <Emissivity>0.0</Emissivity>
+      <Temperature roleName="Ta">0.0</Temperature> <!-- atmospheric temperature T_a -->      
+      <SolarInputSw>100.0</SolarInputSw>
+      <ReflectedSw>30.0</ReflectedSw>
+      <FromSurfaceLw>70.0</FromSurfaceLw>
+      <ThruAtmosLw>70.0</ThruAtmosLw>
+      <UpLw>0.0</UpLw>
+      <DownLw>0.0</DownLw>
+    </Atmosphere>
+    <Surface>
+      <Albedo>0.3</Albedo>
+      <Temperature roleName="Ts">1.0</Temperature> <!-- surface temperature T_s -->
+    </Surface>
+  </Earth>
+</_-.model>

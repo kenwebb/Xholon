@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xholonClassDetails>
+	
+	<ActivePassiveObject xhType="XhtypeBehFgsxxx"/>
+	<SolarInputSw implName="org.primordion.user.app.climatechange.igm.SolarInputSw">
+	  <port name="solarConstantSw" connector="#xpointer(ancestor::IdealizedGreenhouseModel/Space/SolarConstantSw)"/>
+	</SolarInputSw>
+	<ReflectedSw implName="org.primordion.user.app.climatechange.igm.ReflectedSw">
+	  <port name="solarInputSw" connector="#xpointer(ancestor::Atmosphere/SolarInputSw)"/>
+	  <port name="albedo" connector="#xpointer(ancestor::Earth/Surface/Albedo)"/>
+    </ReflectedSw>
+    <FromSurfaceLw implName="org.primordion.user.app.climatechange.igm.FromSurfaceLw">
+      <port name="surfaceTemperature" connector="#xpointer(ancestor::Earth/Surface/Temperature)"/>
+    </FromSurfaceLw>
+    <ThruAtmosLw implName="org.primordion.user.app.climatechange.igm.ThruAtmosLw">
+      <port name="emissivity" connector="#xpointer(ancestor::Atmosphere/Emissivity)"/>
+      <port name="fromSurfaceLw" connector="#xpointer(ancestor::Atmosphere/FromSurfaceLw)"/>
+    </ThruAtmosLw>
+    <UpLw implName="org.primordion.user.app.climatechange.igm.UpLw">
+      <port name="emissivity" connector="#xpointer(ancestor::Atmosphere/Emissivity)"/>
+      <port name="atmosphericTemperature" connector="#xpointer(ancestor::Atmosphere/Temperature)"/>
+    </UpLw>
+    <DownLw implName="org.primordion.user.app.climatechange.igm.DownLw">
+      <port name="emissivity" connector="#xpointer(ancestor::Atmosphere/Emissivity)"/>
+      <port name="atmosphericTemperature" connector="#xpointer(ancestor::Atmosphere/Temperature)"/>
+    </DownLw>
+    <Temperature implName="org.primordion.user.app.climatechange.igm.Temperature"/>
+	
+	<!--<IgmView xhType="XhtypePureActiveObject" implName="org.primordion.user.app.climatechange.igm.IgmView">
+	  <port name="viewables" connector="#xpointer(ancestor::IdealizedGreenhouseModel/Earth)"/>
+	</IgmView>
+	<SvgViewable implName="org.primordion.user.app.climatechange.igm.SvgViewable"/>-->
+	<!--<SvgLabel implName="org.primordion.user.app.climatechange.igm.SvgLabel"/>-->
+	
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

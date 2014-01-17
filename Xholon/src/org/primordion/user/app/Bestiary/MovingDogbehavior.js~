@@ -1,0 +1,57 @@
+<MovingDogbehavior implName="org.primordion.xholon.base.JavaScriptBehavior"><![CDATA[
+var cnode = contextNodeKey;
+
+function move() {
+  var foundNewLocation = false;
+  var count = 0;
+  while ((!foundNewLocation) && (count < 10)) {
+    var moveX = Math.floor(Math.random()*3) - 1;
+    var moveY = Math.floor(Math.random()*3) - 1;
+    var portX, portY, moveIncX, moveIncY;
+    if (moveX > 0) {
+      portX = 1; //IGrid.P_EAST
+      moveIncX = -1;
+    }
+    else {
+      portX = 3; //IGrid.P_WEST
+      moveIncX = 1;
+    }
+    if (moveY > 0) {
+      portY = 0; //IGrid.P_NORTH
+      moveIncY = -1;
+    }
+    else {
+      portY = 2; //IGrid.P_SOUTH
+      moveIncY = 1;
+    }
+    count++;
+    var destination = cnode.getParentNode().getParentNode().port[portX].port[portY];
+    var artifact = destination.getFirstChild();
+    if (artifact) {
+        switch (artifact.getXhcId()) {
+        case 15: //DoorCE:
+          // can the beast move through the door?
+          if (!canMoveThruDoor(artifact)) {
+            destination = null;
+          }
+          break;
+        case 16: //WallSectionCE:
+          destination = null;
+        default:
+          break;
+        }
+    }
+    if (destination) {
+      cnode.getParentNode().removeChild();
+      cnode.getParentNode().appendChild(destination);
+      foundNewLocation = true;
+    }
+  }
+}
+
+function canMoveThruDoor(door) {
+  return false;
+}
+
+move();
+]]></MovingDogbehavior>

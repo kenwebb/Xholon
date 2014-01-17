@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This one file can be included in the InheritanceHierarchy.xml file of any application,
+to load any or all of the Xholon viewer classes.
+Any or all of these can be commented out.
+-->
+<XholonViewer xmlns="http://www.primordion.com/namespace/XholonViewer" id="2000100">
+
+<DataPlotter xmlns="http://www.primordion.com/namespace/DataPlotter" id="1000200">
+	<XYChart/>
+	<XAxisLabel/>
+	<YAxisLabel/>
+	<XYSeries/>
+</DataPlotter>
+
+<GridViewer xmlns="http://www.primordion.com/namespace/GridViewer" id="1000500"/>
+
+<HistogramViewer xmlns="http://www.primordion.com/namespace/HistogramViewer" id="1002100">
+	<XAxisLabel_Hist/>
+	<YAxisLabel_Hist/>
+</HistogramViewer>
+
+<Interactions xmlns="http://www.primordion.com/namespace/Interactions" id="1000600"/>
+
+<SvgEntity xmlns="http://www.primordion.com/namespace/SvgEntity" id="1011600">
+  <SvgLabel/>
+  <SvgViewable/>
+  <SvgAttribute/>
+  <SvgClient/>
+</SvgEntity>
+
+<TextTree xmlns="http://www.primordion.com/namespace/TextTree" id="1000800"/>
+
+</XholonViewer>

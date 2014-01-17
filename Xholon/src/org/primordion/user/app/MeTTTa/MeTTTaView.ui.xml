@@ -1,0 +1,72 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+  xmlns:g="urn:import:com.google.gwt.user.client.ui">
+  
+  <ui:style>
+    .MeTTTa_cell {
+      background-color:orange;
+      font:bold 40px "Courier New", monospace;
+      width:52px;
+      height:52px;
+      padding:5px;
+      border:1px solid;
+      margin:0px; 
+    }
+    .MeTTTa_td {
+      padding:0px;
+    }
+  </ui:style>
+  
+  <g:HorizontalPanel spacing="50">
+    
+    <g:Grid>
+    
+      <g:row>
+        <g:customCell styleName="{style.MeTTTa_td}">
+          <g:Button ui:field="select0" styleName="{style.MeTTTa_cell}"> </g:Button>
+        </g:customCell>
+        <g:customCell styleName="{style.MeTTTa_td}">
+          <g:Button ui:field="select1" styleName="{style.MeTTTa_cell}"> </g:Button>
+        </g:customCell>
+        <g:customCell styleName="{style.MeTTTa_td}">
+          <g:Button ui:field="select2" styleName="{style.MeTTTa_cell}"> </g:Button>
+        </g:customCell>
+      </g:row>
+      
+      <g:row>
+        <g:customCell styleName="{style.MeTTTa_td}">
+          <g:Button ui:field="select3" styleName="{style.MeTTTa_cell}"> </g:Button>
+        </g:customCell>
+        <g:customCell styleName="{style.MeTTTa_td}">
+          <g:Button ui:field="select4" styleName="{style.MeTTTa_cell}"> </g:Button>
+        </g:customCell>
+        <g:customCell styleName="{style.MeTTTa_td}">
+          <g:Button ui:field="select5" styleName="{style.MeTTTa_cell}"> </g:Button>
+        </g:customCell>
+      </g:row>
+      
+      <g:row>
+        <g:customCell styleName="{style.MeTTTa_td}">
+          <g:Button ui:field="select6" styleName="{style.MeTTTa_cell}"> </g:Button>
+        </g:customCell>
+        <g:customCell styleName="{style.MeTTTa_td}">
+          <g:Button ui:field="select7" styleName="{style.MeTTTa_cell}"> </g:Button>
+        </g:customCell>
+        <g:customCell styleName="{style.MeTTTa_td}">
+          <g:Button ui:field="select8" styleName="{style.MeTTTa_cell}"> </g:Button>
+        </g:customCell>
+      </g:row>
+      
+      <!-- your boat -->
+    </g:Grid>
+    
+    <g:VerticalPanel>
+      <g:HTML><br /></g:HTML>
+      <g:Button ui:field="newgame">New Game</g:Button>
+      <g:HTML><br /></g:HTML>
+      <g:Button ui:field="computerfirst">Computer First</g:Button>
+    </g:VerticalPanel>
+  
+  </g:HorizontalPanel>
+  
+</ui:UiBinder>

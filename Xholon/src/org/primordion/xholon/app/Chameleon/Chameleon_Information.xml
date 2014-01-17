@@ -1,0 +1,50 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<!--<?xml-stylesheet type="text/xsl" href="http://www.primordion.com/Xholon/gwt/information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="http://www.primordion.com/Xholon/gwt/information/info.css"?>-->
+<!--
+	Chameleon Displayable information about this application.
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<article>
+<header>
+<title>Chameleon</title>
+</header>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>Chameleon can become whatever you want it to be.
+</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<p/>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p/>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p/>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p/>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p/>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p/>
+</section>
+
+</article>

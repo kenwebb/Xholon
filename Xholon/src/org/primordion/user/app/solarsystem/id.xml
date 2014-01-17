@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Automatically generated using WkSolarSystemObjects.js
+Thu 24 Nov 2011 03:22:27 PM EST 1322166147522
+www.primordion.com/Xholon
+URL: http://en.wikipedia.org/wiki/List_of_Solar_System_objects_by_size
+Units: radius in meters(m), mass in kilograms(kg)
+-->
+<_-.XholonInstanceDetails>
+<XholonNode nodeId="Sun">
+<Attribute_double roleName="radius">696000000.0</Attribute_double>
+<Attribute_double roleName="mass">.0e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Jupiter">
+<Attribute_double roleName="radius">69911000.0</Attribute_double>
+<Attribute_double roleName="mass">1898600.0e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Saturn">
+<Attribute_double roleName="radius">58232000.0</Attribute_double>
+<Attribute_double roleName="mass">568460.0e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Uranus">
+<Attribute_double roleName="radius">25362000.0</Attribute_double>
+<Attribute_double roleName="mass">86832.0e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Neptune">
+<Attribute_double roleName="radius">24622000.0</Attribute_double>
+<Attribute_double roleName="mass">102430.0e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Earth">
+<Attribute_double roleName="radius">6371000.0</Attribute_double>
+<Attribute_double roleName="mass">5973.6e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Venus">
+<Attribute_double roleName="radius">6051800.0</Attribute_double>
+<Attribute_double roleName="mass">4868.5e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Mars">
+<Attribute_double roleName="radius">3390000.0</Attribute_double>
+<Attribute_double roleName="mass">641.85e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Ganymede">
+<Attribute_double roleName="radius">2631200.0</Attribute_double>
+<Attribute_double roleName="mass">148.2e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Titan">
+<Attribute_double roleName="radius">2576000.0</Attribute_double>
+<Attribute_double roleName="mass">134.5e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Mercury">
+<Attribute_double roleName="radius">2439700.0</Attribute_double>
+<Attribute_double roleName="mass">330.2e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Callisto">
+<Attribute_double roleName="radius">2410300.0</Attribute_double>
+<Attribute_double roleName="mass">107.6e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Io">
+<Attribute_double roleName="radius">1821500.0</Attribute_double>
+<Attribute_double roleName="mass">89.3e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Moon">
+<Attribute_double roleName="radius">1737100.0</Attribute_double>
+<Attribute_double roleName="mass">73.5e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Europa">
+<Attribute_double roleName="radius">1561000.0</Attribute_double>
+<Attribute_double roleName="mass">48.0e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Triton">
+<Attribute_double roleName="radius">1353400.0</Attribute_double>
+<Attribute_double roleName="mass">21.5e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Eris">
+<Attribute_double roleName="radius">1163000.0</Attribute_double>
+<Attribute_double roleName="mass">16.7e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Pluto">
+<Attribute_double roleName="radius">1161000.0</Attribute_double>
+<Attribute_double roleName="mass">13.105e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Titania">
+<Attribute_double roleName="radius">788900.0</Attribute_double>
+<Attribute_double roleName="mass">3.526e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Rhea">
+<Attribute_double roleName="radius">764100.0</Attribute_double>
+<Attribute_double roleName="mass">2.3166e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Oberon">
+<Attribute_double roleName="radius">761400.0</Attribute_double>
+<Attribute_double roleName="mass">3.014e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Iapetus">
+<Attribute_double roleName="radius">735600.0</Attribute_double>
+<Attribute_double roleName="mass">1.9739e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Makemake">
+<Attribute_double roleName="radius">710000.0</Attribute_double>
+<Attribute_double roleName="mass">3.0e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Charon">
+<Attribute_double roleName="radius">603500.0</Attribute_double>
+<Attribute_double roleName="mass">1.52e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Sedna">
+<Attribute_double roleName="radius">600800000.0</Attribute_double>
+<Attribute_double roleName="mass">3.0e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="2007 OR10">
+<Attribute_double roleName="radius">600710000.0</Attribute_double>
+<Attribute_double roleName="mass">1.81e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Umbriel">
+<Attribute_double roleName="radius">584700.0</Attribute_double>
+<Attribute_double roleName="mass">1.2e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Ariel">
+<Attribute_double roleName="radius">578900.0</Attribute_double>
+<Attribute_double roleName="mass">1.35e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Haumea">
+<Attribute_double roleName="radius">575750000.0</Attribute_double>
+<Attribute_double roleName="mass">4.006e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Dione">
+<Attribute_double roleName="radius">561600.0</Attribute_double>
+<Attribute_double roleName="mass">1.096e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Tethys">
+<Attribute_double roleName="radius">533000.0</Attribute_double>
+<Attribute_double roleName="mass">0.6173e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Ceres">
+<Attribute_double roleName="radius">475000.0</Attribute_double>
+<Attribute_double roleName="mass">0.95e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Quaoar">
+<Attribute_double roleName="radius">445000.0</Attribute_double>
+<Attribute_double roleName="mass">1.6e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Orcus">
+<Attribute_double roleName="radius">425000.0</Attribute_double>
+<Attribute_double roleName="mass">0.63e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="2002 TC302">
+<Attribute_double roleName="radius">410570000.0</Attribute_double>
+<Attribute_double roleName="mass">1.573e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="2007 UK126">
+<Attribute_double roleName="radius">375000.0</Attribute_double>
+<Attribute_double roleName="mass">0.708e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="2005 UQ513">
+<Attribute_double roleName="radius">375000.0</Attribute_double>
+<Attribute_double roleName="mass">0.886e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="2003 MW12">
+<Attribute_double roleName="radius">375000.0</Attribute_double>
+<Attribute_double roleName="mass">0.616e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="2002 AW197">
+<Attribute_double roleName="radius">370000.0</Attribute_double>
+<Attribute_double roleName="mass">0.414e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="2005 QU182">
+<Attribute_double roleName="radius">365000.0</Attribute_double>
+<Attribute_double roleName="mass">1.21e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="2002 MS4">
+<Attribute_double roleName="radius">360000.0</Attribute_double>
+<Attribute_double roleName="mass">0.4005e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="2007 JJ43">
+<Attribute_double roleName="radius">350000.0</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="2003 AZ84">
+<Attribute_double roleName="radius">345000.0</Attribute_double>
+<Attribute_double roleName="mass">0.53e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="2010 EK139">
+<Attribute_double roleName="radius">340000.0</Attribute_double>
+<Attribute_double roleName="mass">.0e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="2002 UX25">
+<Attribute_double roleName="radius">340000.0</Attribute_double>
+<Attribute_double roleName="mass">0.331e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="2004 GV9">
+<Attribute_double roleName="radius">340000.0</Attribute_double>
+<Attribute_double roleName="mass">0.325e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="2006 QH181">
+<Attribute_double roleName="radius">340000.0</Attribute_double>
+<Attribute_double roleName="mass">0.467e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="2005 RN43">
+<Attribute_double roleName="radius">330000.0</Attribute_double>
+<Attribute_double roleName="mass">0.407e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="2010 KZ39">
+<Attribute_double roleName="radius">330000.0</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Ixion">
+<Attribute_double roleName="radius">325000.0</Attribute_double>
+<Attribute_double roleName="mass">0.3e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="2004 XA192">
+<Attribute_double roleName="radius">320000.0</Attribute_double>
+<Attribute_double roleName="mass">0.354e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="2003 VS2">
+<Attribute_double roleName="radius">315000.0</Attribute_double>
+<Attribute_double roleName="mass">0.4005e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="2001 UR163">
+<Attribute_double roleName="radius">305000.0</Attribute_double>
+<Attribute_double roleName="mass">0.269e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="Salacia">
+<Attribute_double roleName="radius">305000.0</Attribute_double>
+<Attribute_double roleName="mass">0.2e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="2010 RE64">
+<Attribute_double roleName="radius">305000.0</Attribute_double>
+<Attribute_double roleName="mass">.0e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="2010 RF43">
+<Attribute_double roleName="radius">305000.0</Attribute_double>
+<Attribute_double roleName="mass">.0e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="2004 PF115">
+<Attribute_double roleName="radius">305000.0</Attribute_double>
+<Attribute_double roleName="mass">.0e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="2003 UZ413">
+<Attribute_double roleName="radius">300000.0</Attribute_double>
+<Attribute_double roleName="mass">0.33e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="2008 ST291">
+<Attribute_double roleName="radius">300000.0</Attribute_double>
+<Attribute_double roleName="mass">.0e21</Attribute_double>
+</XholonNode>
+<XholonNode nodeId="2010 FX86">
+<Attribute_double roleName="radius">300000.0</Attribute_double>
+<Attribute_double roleName="mass">.0e21</Attribute_double>
+</XholonNode>
+</_-.XholonInstanceDetails>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Common Xholon viewers - Class Details
+	Xholon 0.8 http://www.primordion.com/Xholon
+	C:\Xholon\config\_common\_viewer\XholonViewerCd.xml
+-->
+<xholonClassDetails>
+	<!-- DataPlotter -->
+	<!-- GraphicalNetworkViewer -->
+	<!-- GraphicalTreeViewer -->
+	<!-- GridViewer -->
+	<!-- HistogramViewer -->
+	<!-- Interactions -->
+	<!-- Snapshot -->
+	
+	<!-- SvgEntity -->
+	<SvgLabel xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.svg.SvgLabel"/>
+	<SvgViewable xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.svg.SvgViewable"/>
+	<SvgAttribute xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.svg.SvgAttribute"/>
+	<SvgClient xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.svg.SvgClient"/>
+	
+	<!-- SwingAttribute -->
+	<!--
+	<swat:Attribute_String xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.io.SwingAttribute_String"/>
+	<swat:Attribute_int xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.io.SwingAttribute_int"/>
+	<swat:Attribute_double xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.io.SwingAttribute_double"/>
+	<swat:Attribute_boolean xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.io.SwingAttribute_boolean"/>
+	-->
+	
+	<!-- SwingEntity -->
+	<!-- TextTree -->
+	<!-- Vrml -->
+	<!-- XhymEntity -->
+</xholonClassDetails>

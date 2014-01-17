@@ -1,0 +1,458 @@
+/* Xholon Runtime Framework - executes event-driven & dynamic applications
+ * Copyright (C) 2010 Ken Webb
+ *
+ * This library is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ */
+
+package org.primordion.xholon.io.json;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.primordion.xholon.io.xml.XmlReader;
+
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+
+/**
+ * A concrete class that knows how to read JSON through a Stax reader,
+ * using the Jackson streaming API.
+ * TODO add: jp.close(); // ensure resources get cleaned up
+ * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
+ * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
+ * @see <a href="http://jackson.codehaus.org/">Jackson JSON website</a>
+ * @since 0.8.1 (Created on November 8, 2012)
+ */
+@SuppressWarnings("serial")
+public class JsonStaxReader_jackson extends XmlReader {
+	
+	//private static final String ATTRIBUTE_STRING = "Attribute_String";
+	//private static final String ATTRIBUTE_INT = "Attribute_int";
+	//private static final String ATTRIBUTE_BOOLEAN = "Attribute_boolean";
+	
+	/**
+	 * Don't read attributes at all.
+	 */
+	//private static final int ATTR_APPROACH_NONE = 0;
+	
+	/**
+	 * Use the Jettison getAttributeCount(), getAttributeName(), and getAttributeValue() methods.
+	 * Attributes in the .json file are prefixed by the @ symbol.
+	 */
+	//private static final int ATTR_APPROACH_JETTISON = 1;
+	
+	/**
+	 * Use a Xholon-specific approach.
+	 */
+	//private static final int ATTR_APPROACH_XHOLON = 2;
+	
+	/**
+	 * Use either the Jettison or Xholon approach, as appropriate in each case.
+	 */
+	//private static final int ATTR_APPROACH_BOTH = 3;
+	
+	/**
+	 * The approach used to get attribute counts, names, and values.
+	 */
+	//private int attrApproach = ATTR_APPROACH_JETTISON;
+	
+	/**
+	 * The parser that reads the JSON content.
+	 */
+	protected JsonParser jp = null;
+	
+	/**
+	 * An input file, stream, string, or other type of reader.
+	 */
+	protected Object in = null;
+	
+	/**
+	 * Has the start document token been found?
+	 */
+	private boolean startDocument = true;
+	
+	/**
+	 * Iterator into list of attribute names and values.
+	 */
+	protected List<String> attrList = null;
+	
+	/**
+	 * List of attribute names and values.
+	 */
+	private Iterator<String> attrIt = null;
+	
+	/**
+	 * First extra pre-read token, while searching for attributes.
+	 */
+	private JsonToken tokenA = null;
+	
+	/**
+	 * Second extra pre-read token, while searching for attributes.
+	 */
+	private JsonToken tokenB = null;
+	
+	/**
+	 * Current count of extra tokens found, while searching for attributes.
+	 * Possible values: 0 1 2
+	 */
+	private boolean hasExtraTokenA = false;
+	private boolean hasExtraTokenB = false;
+	
+	/**
+	 * Number of valid attributes pre-read.
+	 */
+	private int attrCount = -1;
+	
+	/**
+	 * The name of an array.
+	 * This is used for all objects in the array.
+	 * TODO arrays may be nested in other arrays or objects (recursive).
+	 */
+	private String arrayName = null;
+	
+	/**
+	 * default constructor
+	 */
+	public JsonStaxReader_jackson() {}
+	
+	/*
+	 * @see org.primordion.xholon.io.xml.XmlReader#createNew(java.lang.Object)
+	 */
+	public void createNew(Object in) {
+		this.in = in;
+		String jsonStr = null;
+		if (in instanceof String) {
+			jsonStr = (String)in;
+		}
+		else if (in instanceof Reader) {
+			jsonStr = stream2string((Reader)in);
+		}
+		JsonFactory f = new JsonFactory();
+		try {
+			jp = f.createJsonParser(jsonStr);
+			
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		attrList = new ArrayList<String>();
+	}
+	
+	/*
+	 * @see org.primordion.xholon.io.xml.XmlReader#getUnderlyingReader()
+	 */
+	public Object getUnderlyingReader()
+	{
+		return in;
+	}
+
+	/**
+	 * Read the contents of a JSON stream into a String.
+	 * @param in A character stream.
+	 * @return The complete contents of the stream as a String.
+	 */
+	protected String stream2string(Reader in) {
+		StringBuilder sb = new StringBuilder();
+		try {
+			String str = null;
+			if (in instanceof BufferedReader) {
+				str = ((BufferedReader)in).readLine();
+				while (str != null) {
+					sb.append(str).append("\n");
+					str = ((BufferedReader)in).readLine();
+				}
+			}
+			else if (in instanceof StringReader) {
+				int aChar = in.read();
+				while(aChar != -1) {
+					sb.append((char)aChar);
+					aChar = in.read();
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return sb.toString();
+	}
+	
+	/*
+	 * @see org.primordion.xholon.io.xml.XmlReader#getAttributeCount()
+	 */
+	public int getAttributeCount() {
+		if (attrCount != -1) {
+			if (!attrList.isEmpty()) {
+				// create a new iterator that points to the start of the List
+				// this is specifically for use with YAML
+				attrIt = attrList.iterator();
+			}
+			return attrCount;
+		}
+		attrList.clear();
+		attrCount = 0;
+		boolean hasAttributes = true;
+		try {
+			while (hasAttributes) {
+				tokenA = jp.nextToken();
+				if (tokenA != JsonToken.FIELD_NAME) {hasExtraTokenA = true; break;}
+				String strA = jp.getText();
+				tokenB = jp.nextToken();
+				if (tokenB != JsonToken.VALUE_STRING) {hasExtraTokenB = true; break;}
+				String strB = jp.getText();
+				attrCount++;
+				attrList.add(strA);
+				attrList.add(strB);
+			}
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if (!attrList.isEmpty()) {
+			attrIt = attrList.iterator();
+		}
+		//System.out.println("getAttributeCount(" + attrCount + ")");
+		return attrCount;
+	}
+
+	/*
+	 * @see org.primordion.xholon.io.xml.XmlReader#getAttributeName(int)
+	 */
+	public String getAttributeName(int index) {
+		//System.out.print("getAttributeName(" + index + ") ");
+		if (attrIt.hasNext()) {
+			String attrStr = attrIt.next();
+			if ((attrStr != null) && (attrStr.length() > 1) && (attrStr.charAt(0) == '@')) {
+				attrStr = attrStr.substring(1);
+			}
+			//System.out.println(attrStr);
+			return attrStr;
+		}
+		//System.out.println("nulled");
+		return null;
+	}
+
+	/*
+	 * @see org.primordion.xholon.io.xml.XmlReader#getAttributeValue(int)
+	 */
+	public String getAttributeValue(int index) {
+		//System.out.print("getAttributeValue(" + index + ") ");
+		if (attrIt.hasNext()) {
+			String attrStr = attrIt.next();
+			//System.out.println(attrStr);
+			return attrStr;
+		}
+		//System.out.println("nulled");
+		return null;
+	}
+
+	/*
+	 * @see org.primordion.xholon.io.xml.XmlReader#getEventType()
+	 */
+	public int getEventType() {
+		JsonToken token = jp.getCurrentToken();
+		if (token == null) {
+			// this is one of the only times that getEventType() is called
+			//System.out.println("GETEVENTTYPE null");
+			return START_DOCUMENT;
+		}
+		else {
+			//System.out.println("GETEVENTTYPE " + token.asString());
+		}
+		if (token == JsonToken.START_OBJECT) {
+			return START_TAG;
+		}
+		else if (token == JsonToken.END_OBJECT) {
+			return END_TAG;
+		}
+		else if (token == JsonToken.FIELD_NAME) { // ???
+			return TEXT;
+		}
+		else if (token == JsonToken.VALUE_STRING) { // ???
+			return TEXT;
+		}
+		else if (token == JsonToken.START_ARRAY) {
+			return OTHER_TYPE;
+		}
+		else if (token == JsonToken.END_ARRAY) {
+			return OTHER_TYPE;
+		}
+		else {
+			return OTHER_TYPE;
+		}
+	}
+
+	/*
+	 * @see org.primordion.xholon.io.xml.XmlReader#getName()
+	 */
+	public String getName() {
+		String text = null;
+		try {
+			text = jp.getCurrentName();
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		String localName = text;
+		if (localName == null) {
+			localName = arrayName; // test
+		}
+		//System.out.println("  " + localName);
+		return localName;
+	}
+
+	/**
+	 * Is this a digit: 0123456789
+	 * @param c A character.
+	 * @return true (it is a digit), or false
+	 */
+	protected boolean isDigit(char c) {
+		if ((c >= '0') && (c <= '9')) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	/*
+	 * @see org.primordion.xholon.io.xml.XmlReader#getNamespaceURI()
+	 */
+	public String getNamespaceURI() {
+		return null;
+	}
+
+	/*
+	 * @see org.primordion.xholon.io.xml.XmlReader#getPrefix()
+	 */
+	public String getPrefix() {
+		String prefix = null; //streamReader.getPrefix();
+		/*if (prefix.length() == 0) {
+			prefix = null;
+		}*/
+		return prefix;
+	}
+
+	/*
+	 * @see org.primordion.xholon.io.xml.XmlReader#getText()
+	 */
+	public String getText() {
+		String text = null;
+		try {
+			text = jp.getText();
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//System.out.println("TEXT " + text);
+		return text;
+	}
+
+	/*
+	 * @see org.primordion.xholon.io.xml.XmlReader#next()
+	 */
+	public int next() {
+		JsonToken token = JsonToken.END_OBJECT;
+		if (hasExtraTokenA) {
+			token = tokenA;
+			hasExtraTokenA = false;
+		}
+		else if (hasExtraTokenB) {
+			token = tokenB;
+			hasExtraTokenB = false;
+		}
+		else {
+			try {
+				token = jp.nextToken();
+			} catch (JsonParseException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if (token != null) {
+			//System.out.println("|" + token.name() + " " + token.asString() + "|");
+		}
+		if (token == JsonToken.START_OBJECT) {
+			if (startDocument) {
+				startDocument = false;
+				return START_DOCUMENT;
+			}
+			else {
+				attrCount = -1;
+				return START_TAG;
+			}
+		}
+		else if (token == JsonToken.END_OBJECT) {
+			return END_TAG;
+		}
+		else if (token == null) {
+			//return END_DOCUMENT;
+			return TEXT; // it may be inside an ARRAY
+		}
+		else if (token == JsonToken.FIELD_NAME) {
+			// this can be an element, or an attribute if it starts with "@"
+			return TEXT;
+		}
+		else if (token == JsonToken.VALUE_STRING) {
+			return TEXT;
+		}
+		else if (token == JsonToken.START_ARRAY) {
+			try {
+				arrayName = jp.getCurrentName();
+			} catch (JsonParseException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return OTHER_TYPE;
+		}
+		else if (token == JsonToken.END_ARRAY) {
+			arrayName = null;
+			return OTHER_TYPE;
+		}
+		else {
+			return OTHER_TYPE;
+		}
+	}
+
+	/**
+	 * Get the approach to use for getting attributes.
+	 * @return One of ATTR_APPROACH_NONE, ATTR_APPROACH_JETTISON, ATTR_APPROACH_XHOLON
+	 */
+	//public int getAttrApproach() {
+	//	return attrApproach;
+	//}
+
+	/**
+	 * Set the approach to use for getting attributes.
+	 * The value must be one of ATTR_APPROACH_NONE, ATTR_APPROACH_JETTISON, ATTR_APPROACH_XHOLON.
+	 * @param attrApproach
+	 */
+	//public void setAttrApproach(int attrApproach) {
+	//	this.attrApproach = attrApproach;
+	//}
+
+}

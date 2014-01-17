@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TheSystem xmlns:xi="http://www.w3.org/2001/XInclude">
+  
+  <SolarSystem>
+    <Sun>
+      <Temperature units="K">5778.0</Temperature>
+    </Sun>
+    <Space/>
+    <!-- 2 versions of Earth: K+T (KT), Robinson (RB) -->
+    <!--<xi:include href="./org/primordion/user/app/climatechange/mdcs/m2_2mp/earthKT_csh.xml"/>-->
+    <xi:include href="org/primordion/user/app/climatechange/mdcs/m2_2mp/earthRB_csh.xml"/>
+  </SolarSystem>
+  
+  <Fluxes> <!-- with optional initial values -->
+    <!-- sw -->
+    <Flux roleName="SunSpc_sw" units="W/m^2">1367.0</Flux> <!-- solar constant -->
+    <Flux roleName="SpcTpf_sw" units="W/m^2">1367.0</Flux> <!-- solar constant -->
+    <Flux roleName="TpfTpf_sw" units="W/m^2">341.75</Flux> <!--  local to Tpf; solar constant / 4 -->
+    <Flux roleName="TpfAtm_sw" units="W/m^2">236.775336</Flux> <!-- solar KT:341.75 RB:236.775336 -->
+    <Flux roleName="AtmTpf_sw" units="W/m^2">0.0</Flux> <!-- reflected -->
+    <Flux roleName="AtmSrf_sw" units="W/m^2">213.0978024</Flux> <!-- solar KT:341.75 RB:213.0978024 -->
+    <Flux roleName="SrfAtm_sw" units="W/m^2">0.0</Flux> <!-- reflected -->
+    <Flux roleName="TpfSpc_sw" units="W/m^2">0.0</Flux> <!-- reflected -->
+    <!-- lw -->
+    <Flux roleName="SrfAtm_sh" units="W/m^2">0.0</Flux>
+    <Flux roleName="SrfAtm_lh" units="W/m^2">0.0</Flux>
+    <Flux roleName="SrfAtm_lw" units="W/m^2">278.0</Flux>
+    <Flux roleName="AtmSrf_lw" units="W/m^2">0.0</Flux>
+    <Flux roleName="AtmTpf_aw" units="W/m^2">0.0</Flux>
+    <Flux roleName="AtmTpf_lw" units="W/m^2">0.0</Flux>
+    <Flux roleName="TpfSpc_lw" units="W/m^2">0.0</Flux>
+  </Fluxes>
+  
+  <Constants>
+    <StefanBoltzmannConstant units="W/m^2/K^4">5.6696e-8</StefanBoltzmannConstant>
+    <SecondsPerTimeStep units="s">31536000.0</SecondsPerTimeStep> <!-- SecondsPerYear 365*24*60*60 -->
+    <!--<SecondsPerTimeStep units="s">86400.0</SecondsPerTimeStep>--> <!-- SecondsPerDay -->
+    <!--<SecondsPerTimeStep units="s">2592000.0</SecondsPerTimeStep>--> <!-- SecondsPerMonth -->
+  </Constants>
+  
+    <SvgClient>
+    <Attribute_String roleName="setup">${MODELNAME_DEFAULT},http://upload.wikimedia.org/wikipedia/commons/d/d2/Sun_climate_system_alternative_(German)_2008.svg,org/primordion/user/app/climatechange/model04/Sun_climate_system_alternative_(German)_2008.svg,org/primordion/user/app/climatechange/model04/i18n/EnergyBudgetSvgLabels_en.xml,Fluxes,org/primordion/user/app/climatechange/mdcs/m2_2mp/SvgViewables.xml,%.1f,true</Attribute_String>
+    <Attribute_String roleName="makeText">This early version is incomplete and inaccurate.,5.0,575.0</Attribute_String>
+  </SvgClient>
+  
+</TheSystem>

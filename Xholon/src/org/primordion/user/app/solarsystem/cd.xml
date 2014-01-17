@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+SolarSystem
+-->
+<xholonClassDetails>
+	
+	<Star xhType="XhtypeBehFgsxxx" implName="org.primordion.user.app.solarsystem.Star">
+	  <port name="space" connector="#xpointer(ancestor::SolarSystem/InterplanetaryMedium)"/>
+	</Star>
+	
+	<Planet xhType="XhtypeBehFgsxxx" implName="org.primordion.user.app.solarsystem.Planet"/>
+	
+	<NaturalSatellite xhType="XhtypeBehFgsxxx" implName="org.primordion.user.app.solarsystem.NaturalSatellite"/>
+	
+	<InterplanetaryMedium xhType="XhtypeBehFgsxxx" implName="org.primordion.user.app.solarsystem.Space">
+	  <port name="planets" connector="#xpointer(ancestor::SolarSystem/descendant::Planet/..)"/>
+	</InterplanetaryMedium>
+	
+	<AstronomicalObject implName="org.primordion.user.app.solarsystem.AstronomicalObject"/>
+	
+</xholonClassDetails>

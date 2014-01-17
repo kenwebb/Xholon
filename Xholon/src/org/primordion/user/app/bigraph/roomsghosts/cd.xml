@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	bigraph roomsghosts - Class Details
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<xholonClassDetails>
+  <Room xhType="XhtypePureActiveObject">
+    <!-- lobby ports: dlobA, dlobB -->
+    <port name="port" index="0" connector="#xpointer(.[@roleName='lobby']/ancestor::MiniItu/Door[@roleName='door1'])"/>
+    <port name="port" index="1" connector="#xpointer(.[@roleName='lobby']/ancestor::MiniItu/Door[@roleName='door2'])"/>
+    <!-- hall ports: dhall1, dhall2 -->
+    <port name="port" index="0" connector="#xpointer(.[@roleName='hall']/ancestor::MiniItu/Door[@roleName='door2'])"/>
+    <port name="port" index="1" connector="#xpointer(.[@roleName='hall']/ancestor::MiniItu/Door[@roleName='door3'])"/>
+    <!-- office1 ports: doff1 -->
+    <port name="port" index="0" connector="#xpointer(.[@roleName='office1']/ancestor::MiniItu/Door[@roleName='door1'])"/>
+    <!-- office2 ports: doff2 -->
+    <port name="port" index="0" connector="#xpointer(.[@roleName='office2']/ancestor::MiniItu/Door[@roleName='door3'])"/>
+  </Room>
+  <Door xhType="XhtypePureActiveObject">
+    <!-- door1 ports: dlob, doff1 -->
+    <port name="port" index="0" connector="#xpointer(.[@roleName='door1']/ancestor::MiniItu/Room[@roleName='lobby'])"/>
+    <port name="port" index="1" connector="#xpointer(.[@roleName='door1']/ancestor::MiniItu/Room[@roleName='office1'])"/>
+    <!-- door2 ports: dlob, dhall1 -->
+    <port name="port" index="0" connector="#xpointer(.[@roleName='door2']/ancestor::MiniItu/Room[@roleName='lobby'])"/>
+    <port name="port" index="1" connector="#xpointer(.[@roleName='door2']/ancestor::MiniItu/Room[@roleName='hall'])"/>
+    <!-- door3 ports: dhall2, doff2 -->
+    <port name="port" index="0" connector="#xpointer(.[@roleName='door3']/ancestor::MiniItu/Room[@roleName='hall'])"/>
+    <port name="port" index="1" connector="#xpointer(.[@roleName='door3']/ancestor::MiniItu/Room[@roleName='office2'])"/>
+  </Door>
+  <XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

@@ -1,0 +1,79 @@
+Results from m2_1mp run
+Oct 6, 2011
+_xhn.xml params:
+  <param name="TimeStepMultiplier" value="10"/>
+  <param name="ChartInterval" value="1"/>
+These results were captured using XQuery tool, at t=10 timesteps.
+Compare these with the STELLA results in No-atmosphere model_output.tab
+-----------------------------------------------------------------
+
+<TheSystem>
+   <Attribute_double roleName="Val">-Infinity</Attribute_double>
+   <SolarSystem>
+      <Attribute_double roleName="Val">-Infinity</Attribute_double>
+      <Sun>
+         <Attribute_double roleName="SolarConstant">1367.0</Attribute_double>
+      </Sun>
+      <Space/>
+      <Earth>
+         <Attribute_double roleName="Val">-Infinity</Attribute_double>
+         <Surface>
+            <Attribute_double roleName="Solar">7.5441996E9</Attribute_double>
+            <Attribute_double roleName="Infrared">7.550201182990139E9</Attribute_double>
+            <Energy>
+               <Attribute_double roleName="Val">5.376212843844172E10</Attribute_double>
+               <Attribute_String roleName="Units">J</Attribute_String>
+            </Energy>
+            <Albedo>
+               <Attribute_double roleName="Val">0.3</Attribute_double>
+            </Albedo>
+            <Temperature>
+               <Attribute_double roleName="Val">254.9176312870636</Attribute_double>
+               <Attribute_String roleName="Units">K</Attribute_String>
+               <Celsius>
+                  <Attribute_double roleName="Val">-18.232368712936363</Attribute_double>
+               </Celsius>
+            </Temperature>
+            <Water>
+               <Density>
+                  <Attribute_double roleName="Val">1000.0</Attribute_double>
+                  <Attribute_String roleName="Units">kg/m^3</Attribute_String>
+               </Density>
+               <SpecificHeat>
+                  <Attribute_double roleName="Val">4218.0</Attribute_double>
+                  <Attribute_String roleName="Units">J/kg/K</Attribute_String>
+               </SpecificHeat>
+               <MixedLayer>
+                  <Attribute_double roleName="Val">-Infinity</Attribute_double>
+                  <Depth>
+                     <Attribute_double roleName="Val">50.0</Attribute_double>
+                     <Attribute_String roleName="Units">m</Attribute_String>
+                  </Depth>
+               </MixedLayer>
+               <HeatCapacity>
+                  <Attribute_double roleName="Val">2.109E8</Attribute_double>
+                  <Attribute_String roleName="Units">J/m^3/K</Attribute_String>
+               </HeatCapacity>
+            </Water>
+         </Surface>
+      </Earth>
+   </SolarSystem>
+   <Fluxes>
+      <Attribute_double roleName="Val">-Infinity</Attribute_double>
+      <Flux roleName="SunSpc_sw"/>
+      <Flux roleName="SpcSrf_sw"/>
+      <Flux roleName="SrfSpc_sw"/>
+      <Flux roleName="SrfSpc_lw"/>
+   </Fluxes>
+   <Constants>
+      <Attribute_double roleName="Val">-Infinity</Attribute_double>
+      <StefanBoltzmannConstant>
+         <Attribute_double roleName="Val">5.6696E-8</Attribute_double>
+         <Attribute_String roleName="Units">W/m^2/K^4</Attribute_String>
+      </StefanBoltzmannConstant>
+      <SecondsPerTimeStep>
+         <Attribute_double roleName="Val">3.1536E7</Attribute_double>
+         <Attribute_String roleName="Units">s</Attribute_String>
+      </SecondsPerTimeStep>
+   </Constants>
+</TheSystem>

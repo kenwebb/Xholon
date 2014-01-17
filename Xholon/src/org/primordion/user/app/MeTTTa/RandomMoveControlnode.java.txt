@@ -1,0 +1,59 @@
+package org.primordion.user.app.MeTTTa;
+
+import org.primordion.xholon.base.IMessage;
+import org.primordion.xholon.base.IXholon;
+import org.primordion.xholon.base.Xholon;
+import org.primordion.xholon.io.ISwingEntity;
+
+/**
+ * Make a random move.
+ * This is like an EventListener in Swing.
+ * It can be pasted as a last child of the VBox node.
+ * <pre>
+&lt;_-.forest>
+  &lt;Strut Height="10"/>
+  &lt;JButton Text="Random Move" ActionCommand="doyourthing" Background="RED">
+    &lt;RandomMoveControlnode/>
+  &lt;/JButton>
+&lt;/_-.forest>
+ * </pre>
+ */
+public class RandomMoveControlnode extends Xholon {
+    
+    /*
+     * @see org.primordion.xholon.base.Xholon#postConfigure()
+     */
+    public void postConfigure() {
+        // get the controller that the parent JButton references
+        IXholon controller = getParentNode().getPort(0);
+        // have the JButton reference this Controlnode instead of the Controller
+        getParentNode().setPort(0, this);
+        // remove self from the GUI subtree
+        removeChild();
+        // append self as part of the Controller subtree
+        appendChild(controller);
+    }
+    
+    /*
+     * @see org.primordion.xholon.base.Xholon#processReceivedMessage(org.primordion.xholon.base.IMessage)
+     */
+    public void processReceivedMessage(IMessage msg)
+    {
+        makeRandomMove();
+    }
+    
+    /**
+     * Make a random move.
+     * For now, it just gets the next unoccupied position.
+     */
+    private void makeRandomMove() {
+        MeTTTaModel model = ((MeTTTaController)getParentNode()).getModel();
+        for (int i = 0; i < 9; i++) {
+            if (!model.isPlayed(i)) {
+                getParentNode().sendMessage(ISwingEntity.SWIG_ACTION_EVENT, "select" + i, this);
+                break;
+            }
+        }
+    }
+    
+}

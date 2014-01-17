@@ -1,0 +1,202 @@
+/* Xholon Runtime Framework - executes event-driven & dynamic applications
+ * Copyright (C) 2011 Ken Webb
+ *
+ * This library is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ */
+
+package org.primordion.ef;
+
+//import java.io.File;
+//import java.io.IOException;
+//import java.io.StringWriter;
+//import java.io.Writer;
+//import java.security.AccessControlException;
+import java.util.Date;
+
+import org.primordion.xholon.base.IXholon;
+import org.primordion.xholon.base.Xholon;
+import org.primordion.xholon.common.mechanism.CeStateMachineEntity;
+import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
+//import org.primordion.xholon.util.MiscIo;
+
+/**
+ * Export a Xholon model in HTModL format.
+ * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
+ * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
+ * @see <a href="https://sourceforge.net/apps/mediawiki/xholon/index.php?title=HTModL">HTModL</a>
+ * @see <a href="http://www.primordion.com/Xholon/webEdition/HTModL/">examples of HTModL</a>
+ * @since 0.8.1 (Created on November 22, 2011)
+ */
+@SuppressWarnings("serial")
+public class Xholon2HTModL extends AbstractXholon2ExternalFormat implements IXholon2ExternalFormat {
+
+	private String outFileName;
+	private String outPath = "./ef/htmodl/";
+	private String modelName;
+	private IXholon root;
+	//private Writer out;
+	private StringBuilder sb;
+	
+	/** Current date and time. */
+	private Date timeNow;
+	private long timeStamp;
+	
+	/** Whether or not to show state machine nodes. */
+	private boolean shouldShowStateMachineEntities = false;
+	
+	/** Template to use when writing out node names. */
+	protected String nameTemplate = "r:C^^^";
+	
+	/** Whether or not to make the content visible, by applying a CSS style. */
+	private boolean shouldBeVisible = true;
+
+	/** Whether or not to make the content visible and labeled, by applying a CSS style. */
+	private boolean shouldBeLabeled = true;
+	
+	private String cssVisible = "div {float:left;border:1px solid %231F4F82;padding:1px;margin:1px;background-color:%23F0F8FF;}";
+	
+	private String cssVisibleLabeled = "div {float:left;border:1px solid %231F4F82;padding:1px;margin:1px;background-color:%23F0F8FF;font-size:90%25} div:after {content: attr(class);}";
+	
+	private static final String HTML_DATA_URI = "data:text/html;charset=utf-8,";
+	
+	/**
+	 * Whether data should be written to a String and System.out
+	 * (and thence maybe to a web browser), or to a file.
+	 */
+	private boolean shouldWriteToString = true; //false; // GWT
+	
+	/**
+	 * Constructor.
+	 */
+	public Xholon2HTModL() {}
+	
+	/*
+	 * @see org.primordion.ef.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
+	 */
+	public boolean initialize(String htmodlFileName, String modelName, IXholon root) {
+		timeNow = new Date();
+		timeStamp = timeNow.getTime();
+		if (htmodlFileName == null) {
+			this.outFileName = outPath + root.getXhcName() + "_" + root.getId() + "_" + timeStamp + ".html";
+		}
+		else {
+			this.outFileName = htmodlFileName;
+		}
+		this.modelName = modelName;
+		this.root = root;
+		return true;
+	}
+
+	/*
+	 * @see org.primordion.ef.IXholon2ExternalFormat#writeAll()
+	 */
+	public void writeAll() {
+	  /* GWT
+		boolean shouldClose = true;
+		if (shouldWriteToString) {
+			out = new StringWriter();
+		}
+		else {
+			if (root.getApp().isUseAppOut()) {
+				out = root.getApp().getOut();
+				shouldClose = false;
+			}
+			else {
+				try {
+					// create any missing output directories
+					File dirOut = new File(outPath);
+					dirOut.mkdirs(); // will create a new directory only if there is no existing one
+					out = MiscIo.openOutputFile(outFileName);
+				} catch(AccessControlException e) {
+					//out = new PrintWriter(System.out);
+					out = root.getApp().getOut();
+					shouldClose = false;
+				}
+			}
+		}*/
+		sb = new StringBuilder(1000);
+		//try {
+			sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+			sb.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"\n");
+			sb.append("  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n"); // optional DTD
+			sb.append("<!-- To view this file, open it in a web browser -->\n");
+			sb.append(
+				"<!--\nAutomatically generated by Xholon version 0.8.1, using Xholon2HTModL.java\n"
+				+ new Date() + " " + timeStamp + "\n"
+				+ "model: " + modelName + "\n"
+				+ "www.primordion.com/Xholon\n-->\n");
+			sb.append("<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">\n");
+			sb.append("<head>\n");
+			sb.append("  <title>" + modelName + "</title>\n");
+			if (shouldBeLabeled) {
+				sb.append("  <style type=\"text/css\">" + cssVisibleLabeled + "</style>\n");
+			}
+			else if (shouldBeVisible) {
+				sb.append("  <style type=\"text/css\">" + cssVisible + "</style>\n");
+			}
+			sb.append("</head>\n");
+			sb.append("<body>\n");
+			writeNode(root, 0); // root is level 0
+			sb.append("</body>\n");
+			sb.append("</html>\n");
+			//out.write(sb.toString());
+			//out.flush();
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//}
+		if (shouldWriteToString) {
+			//System.out.println(HTML_DATA_URI + sb.toString());
+			writeToTarget(HTML_DATA_URI + sb.toString(), outFileName, outPath, root);
+		}
+		else {
+		  // GWT
+			//if (shouldClose) {
+			//	MiscIo.closeOutputFile(out);
+			//}
+		}
+	}
+
+	/**
+	 * Write one node, and its child nodes.
+	 * @param node The current node in the Xholon hierarchy.
+	 * @param level Current level in the hierarchy.
+	 */
+	protected void writeNode(IXholon node, int level) {
+		// only show state machine nodes if should show them, or if root is a StateMachineCE
+		if ((node.getXhcId() == CeStateMachineEntity.StateMachineCE)
+				&& (shouldShowStateMachineEntities == false)
+				&& (level > 0)) {
+			return;
+		}
+		//try {
+			sb.append("<div class=\"" + node.getName(nameTemplate) + "\">");
+			if (node.hasChildNodes()) {
+				sb.append("\n");
+			}
+			
+			// children
+			IXholon childNode = node.getFirstChild();
+			while (childNode != null) {
+				writeNode(childNode, level+1);
+				childNode = childNode.getNextSibling();
+			}
+			
+			sb.append("</div>\n");
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//}
+	}
+	
+}

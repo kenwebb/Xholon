@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<!-- TODO data uri won't accept <?xml-stylesheet (GWT)
+<?xml-stylesheet type="text/xsl" href="../../../../Xholon/information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../../Xholon/information/info.css"?>
+-->
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>Ctrnn - AdapSysLab example</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This model demonstrates use of a Continuous Time Recurrent Neural Network (CTRNN),
+using Xholon. It is based on an example produced by Ezequiel A. Di Paolo of the University of Sussex
+for an Adaptive Systems post-graduate lab. The original was written in C. The system consists of a robot
+that contains two photoreceptors in front, two motors each driving a separate wheel, and a controller.
+The controller is composed of five nodes in a neural network. The overall structure of nodes and connections
+is shown below in a graph.</p>
+<p>In the initial configuration, there is one light on in the environment,
+shining on only one of the photoreceptors.</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+<title/>
+<p>Run it:</p>
+<ol>
+<li>Run the Java application through the Xhn GUI (org.primordion.xholon.app.Xhn.java),
+and select File --> Open --> ctrnn --> AdapSysLab --> AdapSysLab_xhn.xml.</li>
+<li>Expand the Controller node in the tree.</li>
+<li>Press the Start node.</li>
+<li>You should see lines of text in the console window, similar to those shown below.</li>
+<li>If you have JFreeChart installed, and if you have selected "JFreeChart" as the value of the UseDataPlotter
+parameter in AdapSysLab_xhn.xml, you should see a chart showing the varying activation levels over time
+for five neurons in the CTRNN.
+If you don't have JFreeChart installed, then change the value of UseDataPlotter to "gnuplot",
+and look at the results that are saved to a .csv file in the statistics folder.
+If you have gnuplot installed, it can read the .plt script in the statistics folder
+to produce a displayable .png file from the .csv file, that should look similar to the one below.</li>
+<li>If you have JUNG installed, and have UseGraphicalTreeViewer and/or UseGraphicalNetworkViewer
+set to "true", then you will also see one or two graph viewers.</li>
+</ol>
+</section>
+<section><title/>
+<source>
+ModelName : Ctrnn - AdapSysLab example
+AppM : false
+InfoM : false
+ErrorM : true
+MaxProcessLoops : 300
+SizeMessageQueue : 20
+InheritanceHierarchyFile : ./config/ctrnn/AdapSysLab/InheritanceHierarchy.xml
+CompositeStructureHierarchyFile : ./config/ctrnn/AdapSysLab/CompositeStructureHierarchy.xml
+ClassDetailsFile : ./config/ctrnn/AdapSysLab/ClassDetails.xml
+InformationFile : ./config/ctrnn/AdapSysLab/Information.xml
+JavaClassName : org.primordion.ctrnn.app.AppAdapSysLab
+JavaXhClassName : org.primordion.ctrnn.app.XhAdapSysLab
+MaxPorts : 3
+UseDataPlotter : true
+DataPlotterParams : Activation Level of Neurons in a CTRNN (changing over time),Time Step,Activation Level,./statistics/,ctrnnStats,1,WRITE_AS_DOUBLE
+UseGraphicalTreeViewer : false
+GraphicalTreeViewerParams : /,50,50,1000,300,9,Xholon - CTRNN - Adap Sys Lab - Composite Structure,false
+UseGraphicalNetworkViewer : true
+GraphicalNetworkViewerParams : /,1000,600,9,LAYOUT_KK,false,Xholon - CTRNN - Adap Sys Lab - Port Connections,false
+UseInteractions : false
+NumLightsOn : 1
+Neuron0 output: 1.0998
+Neuron1 output: 1.0998
+  Neuron2 output: 0.5
+  Neuron3 output: 0.5
+  Neuron4 output: 0.5
+Neuron0 activation: 0.996078431372549
+Neuron1 activation: 0.996078431372549
+  Neuron2 input: 9.2994
+  Neuron2 activation: 6.10998
+  Neuron3 input: 9.8992
+  Neuron3 activation: 9.9496
+  Neuron4 input: 9.8992
+  Neuron4 activation: 9.9496
+...
+Neuron0 input: 0.0
+Neuron1 input: 500.0
+    MotorR input: 0.002511602164518533
+    MotorL input: 0.9954414854391215
+Neuron0 activation: 1.0
+Neuron1 activation: -0.9607843137254901
+  Neuron2 input: 13.651797690113293
+  Neuron2 activation: 13.65133136739952
+  Neuron3 input: 4.015680445794243
+  Neuron3 activation: 4.015680412448164
+  Neuron4 input: 15.386189629224432
+  Neuron4 activation: 15.386189595352343
+</source>
+</section>
+<section><title/>
+<figure src="http://www.primordion.com/Xholon/gwtimages/AdapSysLab_LIGHTS_ONE_ON.png" alt="CTRNN activation levels"></figure>
+<figure src="http://www.primordion.com/Xholon/gwtimages/AdapSysLab_Network.png" alt="CTRNN network structure"></figure>
+</section>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p>In this implementation, both neural nodes (photoreceptors, neurons, motors) and connections between nodes
+are represented as xholons. Nodes have activation levels, inputs, and outputs. Connections have weights.</p>
+<p>When the simulation is running, you can inspect the current state of each node and connection.
+In the Xholon GUI, expand the Model node, then the CompositeStructureHierarchy node, and then the robot_0 node.
+Click on each Sensor and Motor node to see what they are connected to and what their output and input levels are.
+Click on ctrnn_3. Click on each Neuron and Connection to see what each is connected to through its ports.
+This will also show the current values of its attributes.</p>
+<p>Instead of pressing the "Start" node to run the simulation, you can repetitively press the "Step" node.
+Each time you press "Step" the simulation advances one time step. You can inspect how the values maintained
+by each node evolve at each step.</p>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<section><title/>
+<p>Change the value of the NumLightsOn parameter in the AdapSysLab_xhn.xml configuration file.
+It is initially set to simulate having only one light on, and has a value of "1".
+Change the value to "0" (no lights on) or "2" (two lights on), and rerun the simulation.</p>
+<p>Change the value to "3" to have a random pattern of on and off lights, and rerun the simulation.</p>
+<p>The following three figures show the results for: no lights on, two lights on, and random.</p>
+</section>
+<section><title/>
+<figure src="http://www.primordion.com/Xholon/gwtimages/AdapSysLab_LIGHTS_BOTH_OFF.png" alt="CTRNN activation levels - both lights off"></figure>
+<figure src="http://www.primordion.com/Xholon/gwtimages/AdapSysLab_LIGHTS_BOTH_ON.png" alt="CTRNN activation levels - both lights on"></figure>
+<figure src="http://www.primordion.com/Xholon/gwtimages/AdapSysLab_LIGHTS_RANDOM.png" alt="CTRNN activation levels - random"></figure>
+</section>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p></p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p></p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>Adapted from: Di Paolo, E.A. (2004). Adaptive Systems PG Lab Class. EASY MSc course.
+Brighton, UK: University of Sussex.</p>
+<p>Thanks to Stephen Wolff for help with this sample model. http://www.loopo.co.uk/</p>
+<p>One source for more information on CTRNNs is Randall Beer's publications list,
+especially his 1995 paper "On the Dynamics of Small Continuous-Time Recurrent Networks".
+http://mypage.iu.edu/~rdbeer/</p>
+<p>Eduardo Izquierdo-Torres, a research student in the CCNR at the University of Sussex,
+has prepared a simple CTRNN example.
+http://edizquierdo.blogspot.com/2005_11_01_edizquierdo_archive.html</p>
+</section>
+
+</body>
+</document>

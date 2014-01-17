@@ -1,0 +1,138 @@
+/* Xholon Runtime Framework - executes event-driven & dynamic applications
+ * Copyright (C) 2014 Ken Webb
+ *
+ * This library is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ */
+
+package org.primordion.xholon.script;
+
+import org.primordion.xholon.app.IApplication;
+import org.primordion.xholon.io.xml.IXholon2Xml;
+import org.primordion.xholon.io.xml.IXmlWriter;
+
+/**
+ * Display a timeline. The default is to use ChapJSON.
+ * This is a Xholon script, written in normal compiled Java.
+ * It's located in the common default package for Java scripts.
+ * It can therefore be pasted into a running Xholon app simply as:
+ * <p><pre>&lt;Timeline/></pre></p>
+ * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
+ * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
+ * @since 0.9.0 (Created on January 5, 2014)
+ */
+public class Timeline extends XholonScript {
+	
+	private static final String DEFAULT_TIMELINER = "ChapJSON";
+	private static final String DEFAULT_MODE = "ifNotAlready";
+	
+	/**
+	 * Append this to end of modelName to get complete timelinerParams.
+	 */
+	private static final String DEFAULT_PARTIAL_TIMELINERPARAMS
+		= ""; //",Time (timesteps),Y,./statistics/,stats,1,WRITE_AS_LONG";
+	
+	/** ChapJSON, none */
+	private String timeliner = DEFAULT_TIMELINER;
+	
+	/** "Title,Time (timesteps),Y,./statistics/,stats,1,WRITE_AS_LONG" */
+	private String timelinerParams = null;
+	
+	/** ifNotAlready (0-->1), replaceExisting (1-->1), new (n-->n+1), null */
+	private String mode = DEFAULT_MODE;
+	
+	/*
+	 * @see org.primordion.xholon.base.Xholon#postConfigure()
+	 */
+	public void postConfigure()
+	{
+		IApplication app = this.getApp();
+		if (app != null) {
+			boolean shouldCreate = false;
+			if ("new".equals(mode)) {
+				shouldCreate = true;
+				this.makeTimelinerParams(app);
+			}
+			/* TODO
+			else if (!app.getUseTimeliner() && "ifNotAlready".equals(mode)) {
+				shouldCreate = true;
+				this.makeTimelinerParams(app);
+			}*/
+			if (timeliner != null) {
+				//app.setUseTimeliner(timeliner); // TODO
+			}
+			if (timelinerParams != null) {
+				//app.setTimelinerParams(timelinerParams); // TODO
+			}
+			if (shouldCreate) {
+				//app.createTimeline(this.getParentNode()); // TODO
+			}
+		}
+    this.removeChild();
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.Xholon#setAttributeVal(java.lang.String, java.lang.String)
+	 */
+	public int setAttributeVal(String attrName, String attrVal) {
+		if ("timeliner".equals(attrName)) {
+			this.timeliner = attrVal;
+		}
+		else if ("timelinerParams".equals(attrName)) {
+			this.timelinerParams = attrVal;
+		}
+		else if ("mode".equals(attrName)) {
+			this.mode = attrVal;
+		}
+		return 0;
+	}
+	
+	/**
+	 * Make a set of data plotter params, if they don't already exist.
+	 * @param app
+	 */
+	protected void makeTimelinerParams(IApplication app) {
+		if (timelinerParams == null) {
+			String modelName = app.getModelName();
+			if (modelName == null) {
+				modelName = "Title";
+			}
+			modelName.replace(',', '_'); // replace any commas, which are used as separators
+			timelinerParams = modelName + DEFAULT_PARTIAL_TIMELINERPARAMS;
+		}
+	}
+	
+	/**
+	 * Write a Timeline script to an XML writer.
+	 * This has to be a static method,
+	 * because Timeline nodes typically remove themselves from the tree,
+	 * and are therefore not available later to write themselves out.
+	 * @param xmlWriter
+	 * @param app
+	 */
+	public static void writeXml(IXholon2Xml xholon2xml, IXmlWriter xmlWriter, IApplication app) {
+		xmlWriter.writeStartElement("Timeline");
+		xmlWriter.writeAttribute("mode", "ifNotAlready");
+		String dp = DEFAULT_TIMELINER;
+		//if (app.getUseTimeliner()) { // TODO
+		//	if (app.getUseGnuplot()) {dp="gnuplot";}
+		//	else if (app.getUseGoogle2()) {dp="google2";}
+		//}
+		xmlWriter.writeAttribute("timeliner", dp);
+		//xmlWriter.writeAttribute("timelinerParams", app.getTimelinerParams()); // TODO
+		xholon2xml.writeSpecial(app);
+		xmlWriter.writeEndElement("Timeline");
+	}
+	
+}

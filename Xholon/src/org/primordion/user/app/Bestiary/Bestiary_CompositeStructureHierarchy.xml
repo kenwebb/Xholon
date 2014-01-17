@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Bestiary application - Composite Structure Hierarchy
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<Bestiary>
+	<Beasts>
+		<!-- initial inhabitants of the grid at runtime -->
+		<Cat multiplicity="100">
+			<MovingCatbehavior/>
+			<GrowingCatbehavior/>
+			<FreedomOfMovementCatbehavior/>
+		</Cat>
+		<Human multiplicity="30">
+			<MovingHumanbehavior/>
+			<GreetingHumanbehavior/>
+		</Human>
+	</Beasts>
+	<Grid>
+		<Row multiplicity="100">
+			<HabitatCell multiplicity="100"></HabitatCell>
+		</Row>
+	</Grid>
+</Bestiary>

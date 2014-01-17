@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <!-- domain objects -->
+  <LeakyBucketSystem/>
+  <Inflow>
+    <Tap/>
+  </Inflow>
+  <Bucket/>
+  <Hole/>
+  <Water/>
+  <Outflow/>
+  
+  <!-- quantities -->
+  <VolumetricFlowRate/>
+  <Radius/>
+  <Area/>
+  <Depth/>
+  <Volume/>
+  <AccelerationDueToGravity/>
+  
+  <!-- quantities -->
+  <!--<xi:include href="_module/QuantityIh.xml"/>-->
+  
+  <!-- Xholon Viewers -->
+  <!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

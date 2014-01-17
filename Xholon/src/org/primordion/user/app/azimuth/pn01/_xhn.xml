@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	application - _xhn configuration
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+	Azimuth Petri Net Model
+	
+	sources:
+	  (1) http://johncarlosbaez.wordpress.com/2011/01/18/petri-nets/
+
+	expected result:
+11101000
+00111000
+00001100
+00010011
+-->
+<params>
+<param name="ShowParams" value="false"/>
+<param name="ModelName" value="Azimuth Petri Net Model"/>
+<param name="AppM" value="true"/>
+<param name="InfoM" value="false"/>
+<param name="ErrorM" value="true"/>
+<param name="MaxProcessLoops" value="-1"/>
+<param name="TimeStepInterval" value="100"/>
+<param name="IQueueImplName" value="org.primordion.xholon.base.QueueSynchronized"/> <!-- Queue QueueSynchronized -->
+<param name="SizeMessageQueue" value="10"/>
+<param name="InheritanceHierarchyFile" value=""/>
+<param name="CompositeStructureHierarchyFile" value=""/>
+<param name="ClassDetailsFile" value=""/>
+<!--<param name="InformationFile" value="./bin/org/primordion/user/app/azimuth/pn01/info.xml"/>-->
+<param name="InformationFile" value="http://johncarlosbaez.wordpress.com/2011/01/18/petri-nets/"/>
+<param name="JavaClassName" value="org.primordion.user.app.azimuth.pn01.Apppn"/>
+<param name="JavaXhClassName" value="org.primordion.user.app.azimuth.pn01.Xhpn"/>
+<param name="MaxPorts" value="5"/>
+<!-- Viewers -->
+<!-- UseDataPlotter: none JFreeChart gnuplot -->
+<param name="UseDataPlotter" value="none"/>
+<!-- DataPlotterParams: Title,XAxisLabel,YAxisLabel,Path,TypeOfData,NameConcatLevels,WriteType -->
+<param name="DataPlotterParams" value="Climate model with an atmosphere,Time (years),Temperature (°C),./statistics/,mdcs22mp,1,WRITE_AS_DOUBLE"/>
+<param name="UseGraphicalTreeViewer" value="false"/>
+<!-- GraphicalTreeViewerParams: XPathExpression,DistX,DistY,SizeX,SizeY,FontSize,Title,ShowNodeLabels -->
+<param name="GraphicalTreeViewerParams" value="/,20,20,800,500,9,Application Composite Structure,false"/>
+<param name="UseGraphicalNetworkViewer" value="false"/>
+<!-- GraphicalNetworkViewerParams: XPathExpression,SizeX,SizeY,FontSize,LayoutType,ShowContainers,Title,ShowNodeLabels -->
+<param name="GraphicalNetworkViewerParams" value="/,800,500,9,LAYOUT_KK,false,Application Port Connections,false"/>
+<param name="UseGridViewer" value="false"/>
+<param name="GridPanelClassName" value="org.primordion.xholon.samples.GridPanelMyApp"/>
+<!-- GridViewerParams: XPathExpression,CellSize,Title -->
+<param name="GridViewerParams" value="descendant::Row/..,5,Grid Viewer App"/>
+<param name="UseInteractions" value="true"/>
+<param name="InteractionParams" value="32,true,localhost,60001"/>
+<param name="UseVrml" value="false"/>
+<param name="VrmlWriterClassName" value="org.primordion.xholon.tutorials.VrmlWriterMyApp"/>
+<!-- VrmlParams: DoClassicStyle,VrmlWriteDir,UseLOD,CreateProtoFiles -->
+<param name="VrmlParams" value="true,./3d/,false,false"/>
+<param name="UseTextTree" value="false"/>
+<param name="SaveSnapshots" value="false"/>
+<!-- SnapshotParams: SnapshotSource(0 1),SnapshotTostring,Path -->
+<param name="SnapshotParams" value="0,true,./snapshot/"/>
+</params>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+stability model
+Stability or instability of a ball moving on a hill or in a valley.
+see: Robinson, Walter A. (2001) Modeling Dynamic Climate Systems. (section 1.1)
+-->
+<StabilitySystem xmlns:xi="http://www.w3.org/2001/XInclude">
+  <Ball>
+    <Position>0.0 m</Position> <!-- m -->
+    <Velocity>1.0 m/s</Velocity> <!-- m/s -->
+    <Acceleration>0.0 m/s^2</Acceleration> <!-- m/s^2 -->
+    <Constant>-1.0</Constant> <!-- [-1.0,1.0] valley- flat0.0 hill+ -->
+  </Ball>
+  <BallView>
+    <Attribute_String roleName="setup">Stability,config/_commonsvg/stability.svg</Attribute_String>
+    <Attribute_String roleName="viewBehavior">config/_commonsvg/stabilityBalls.js.xml</Attribute_String>
+  </BallView>
+</StabilitySystem>

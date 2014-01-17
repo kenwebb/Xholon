@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xholonClassDetails>
+  <ChemReaction xhType="XhtypePureActiveObject"/>
+  <Rone>
+    <port name="port" index="0" connector="#xpointer(ancestor::TheSystem/Compounds/C)"/>
+    <port name="port" index="1" connector="#xpointer(ancestor::TheSystem/Compounds/O2)"/>
+    <port name="port" index="2" connector="#xpointer(ancestor::TheSystem/Compounds/CO2)"/>
+  </Rone>
+  <Rtwo>
+    <port name="port" index="0" connector="#xpointer(ancestor::TheSystem/Compounds/NaOH)"/>
+    <port name="port" index="1" connector="#xpointer(ancestor::TheSystem/Compounds/CO2)"/>
+    <port name="port" index="2" connector="#xpointer(ancestor::TheSystem/Compounds/NaHCO3)"/>
+  </Rtwo>
+  <Rthree>
+    <port name="port" index="0" connector="#xpointer(ancestor::TheSystem/Compounds/HCl)"/>
+    <port name="port" index="1" connector="#xpointer(ancestor::TheSystem/Compounds/NaHCO3)"/>
+    <port name="port" index="2" connector="#xpointer(ancestor::TheSystem/Compounds/H2O)"/>
+    <port name="port" index="3" connector="#xpointer(ancestor::TheSystem/Compounds/NaCl)"/>
+    <port name="port" index="4" connector="#xpointer(ancestor::TheSystem/Compounds/CO2)"/>
+  </Rthree>
+  <Compound xhType="XhtypePurePassiveObject"/>
+  <XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

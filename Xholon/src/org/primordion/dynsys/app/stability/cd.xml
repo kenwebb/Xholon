@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xholonClassDetails>
+  <Ball xhType="XhtypePureActiveObject" implName="org.primordion.dynsys.app.stability.Ball">
+    <port name="position" connector="#xpointer(Position)"/>
+    <port name="velocity" connector="#xpointer(Velocity)"/>
+    <port name="acceleration" connector="#xpointer(Acceleration)"/>
+    <port name="constant" connector="#xpointer(Constant)"/>
+  </Ball>
+  
+  <Constant implName="org.primordion.xholon.service.mathscieng.Quantity"/>
+  <!-- only Position will be plotted, which happens automatically if it's Passive -->
+  <Position xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.service.mathscieng.Quantity"/>
+  <Acceleration implName="org.primordion.xholon.service.mathscieng.Quantity"/>
+  <Velocity implName="org.primordion.xholon.service.mathscieng.Quantity"/>
+  
+  <BallView implName="org.primordion.dynsys.app.stability.BallView"/>
+  
+  <XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

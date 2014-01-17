@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Furcifer application - Class Details
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<xholonClassDetails>
+	<Hello xhType="XhtypePureActiveObject">
+		<port name="port" index="P_PARTNER" connector="#xpointer(ancestor::HelloWorldSystem/World)"/>
+	</Hello>
+	<World xhType="XhtypePureActiveObject">
+		<port name="port" index="P_PARTNER" connector="#xpointer(ancestor::HelloWorldSystem/Hello)"/>
+	</World>
+	<Galaxy xhType="XhtypePureActiveObject" implName="org.primordion.xholon.app.Furcifer.Galaxy">
+	  <!-- all instances of Galaxy will point to their first sibling -->
+	  <port name="otherGal" connector="#xpointer(../Galaxy)"/>
+	</Galaxy>
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>
