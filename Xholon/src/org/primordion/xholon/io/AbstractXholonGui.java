@@ -479,10 +479,12 @@ public abstract class AbstractXholonGui implements IXholonGui {
       }
     }
     
+    // https://github.com/kenwebb/Xholon/blob/master/Xholon/src/org/primordion/xholon/base/Attribute.java
     searchSubMenu.addItem("Java source code", new Command() {
       public void execute() {
-        StringBuilder sfCvsUrl = new StringBuilder();
-        sfCvsUrl.append("http://xholon.cvs.sourceforge.net/viewvc/xholon/xholon/src/");
+        StringBuilder sourceUrl = new StringBuilder();
+        //sourceUrl.append("http://xholon.cvs.sourceforge.net/viewvc/xholon/xholon/src/");
+        sourceUrl.append("https://github.com/kenwebb/Xholon/blob/master/Xholon/src/");
         String className = null;
         if (ClassHelper.isAssignableFrom(XholonClass.class, node.getClass())) {
           className = ((IXholonClass)node).getImplName();
@@ -491,9 +493,10 @@ public abstract class AbstractXholonGui implements IXholonGui {
           className = node.getClass().getName();
         }
         if (className != null) {
-          sfCvsUrl.append(className.replace('.', '/'));
-          sfCvsUrl.append(".java?view=markup");
-          Window.open(sfCvsUrl.toString(), "_blank", ""); // starts with "http"
+          sourceUrl.append(className.replace('.', '/'));
+          //sourceUrl.append(".java?view=markup");
+          sourceUrl.append(".java");
+          Window.open(sourceUrl.toString(), "_blank", ""); // starts with "http" or "https"
         }
         
       };
