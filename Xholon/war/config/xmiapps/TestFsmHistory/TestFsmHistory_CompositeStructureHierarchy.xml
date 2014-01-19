@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	TestFsmHistory application - Composite Structure Hierarchy
+	Author: KenWebb
+	Date:   25/06/2007
+	File:   TestFsmHistory.mdzip
+	Target: Xholon 0.5 http://www.primordion.com/Xholon
+	UML: MagicDraw UML 11.5
+	XMI: 2.1, Mon Jun 25 18:16:57 EDT 2007
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<TestFsmSystem xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+<TestHarness roleName=""/>
+<FsmXholon_14_147deep roleName="">
+<StateMachine>
+<Region>
+<State uid="44491364" roleName="Top">
+<Region>
+<PseudostateInitial uid="9261368" roleName=""/>
+<State uid="42291369" roleName="A"/>
+<State uid="96711371" roleName="B">
+<Region>
+<PseudostateDeepHistory uid="43751497" roleName=""/>
+<State uid="81811384" roleName="A1">
+<EntryActivity uid="98771394"/>
+</State>
+<State uid="91181385" roleName="A2">
+<EntryActivity uid="69311395"/>
+</State>
+<TransitionExternal uid="34161527" roleName="1">
+<Trigger roleName="SIG1"/>
+<Activity uid="96321592"/>
+</TransitionExternal>
+<TransitionExternal uid="21291539" roleName="1">
+<Trigger roleName="SIG1"/>
+<Activity uid="66391595"/>
+</TransitionExternal>
+<TransitionExternal uid="78551559" roleName="1">
+<Activity uid="65781612"/>
+</TransitionExternal>
+</Region>
+</State>
+<State uid="37121379" roleName="C"/>
+<TransitionExternal uid="78731513" roleName="">
+<Activity uid="98441586"/>
+</TransitionExternal>
+<TransitionExternal uid="2991595" roleName="1">
+<Trigger roleName="SIG1"/>
+<Activity uid="56511589"/>
+</TransitionExternal>
+<TransitionExternal uid="8991563" roleName="1">
+<Trigger roleName="SIG2"/>
+<Activity uid="16391598"/>
+</TransitionExternal>
+<TransitionExternal uid="47971575" roleName="1">
+<Trigger roleName="SIG2"/>
+<Activity uid="99541619"/>
+</TransitionExternal>
+</Region>
+</State>
+</Region>
+</StateMachine>
+</FsmXholon_14_147deep>
+<FsmXholon_14_147 roleName="">
+<StateMachine>
+<Region>
+<State uid="51411966" roleName="Top">
+<Region>
+<PseudostateInitial uid="944516" roleName=""/>
+<State uid="19194" roleName="A"/>
+<State uid="4688129" roleName="B">
+<Region>
+<PseudostateInitial uid="695512" roleName=""/>
+<PseudostateShallowHistory uid="5361189" roleName=""/>
+<State uid="967159" roleName="A1">
+<EntryActivity uid="74911349"/>
+</State>
+<State uid="1479173" roleName="A2">
+<EntryActivity uid="79981343"/>
+</State>
+<TransitionExternal uid="641943" roleName="1">
+<Trigger roleName="SIG1"/>
+<Activity uid="52731327"/>
+</TransitionExternal>
+<TransitionExternal uid="92371955" roleName="1">
+<Trigger roleName="SIG1"/>
+<Activity uid="47971324"/>
+</TransitionExternal>
+<TransitionExternal uid="11841999" roleName="1">
+<Activity uid="43841338"/>
+</TransitionExternal>
+<TransitionExternal uid="225618" roleName="">
+<Activity uid="84911939"/>
+</TransitionExternal>
+</Region>
+</State>
+<State uid="2447145" roleName="C"/>
+<TransitionExternal uid="1223195" roleName="">
+<Activity uid="99291396"/>
+</TransitionExternal>
+<TransitionExternal uid="13641917" roleName="1">
+<Trigger roleName="SIG1"/>
+<Activity uid="86441321"/>
+</TransitionExternal>
+<TransitionExternal uid="71791967" roleName="1">
+<Trigger roleName="SIG2"/>
+<Activity uid="99711332"/>
+</TransitionExternal>
+<TransitionExternal uid="41971943" roleName="1">
+<Trigger roleName="SIG2"/>
+<Activity uid="94841944"/>
+</TransitionExternal>
+</Region>
+</State>
+</Region>
+</StateMachine>
+</FsmXholon_14_147>
+</TestFsmSystem>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+		<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+		-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+
+<!--
+	TestFsmOrthogonal Displayable information about this application.
+	Author: KenWebb
+	Date:   23/05/2007
+	File:   TestFsmOrthogonal.mdzip
+	Target: Xholon 0.5 http://www.primordion.com/Xholon
+	UML: MagicDraw UML 11.5
+	XMI: 2.1, Wed Apr 04 14:59:39 EDT 2007
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<document xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+<header>
+<title>TestFsmOrthogonal</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>Author:Ken Webb.
+Created:11/19/05 8:27 AM.
+Title:Test of Orthogonal FSM.
+Comment:This is an example taken from the UML 2.0 specification.
+There are three orthogonal states.
+</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<p/>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p/>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p/>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p/>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p/>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p/>
+</section>
+
+</body>
+</document>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	TestFsmHistory application - Inheritance Hierarchy
+	Author: KenWebb
+	Date:   25/06/2007
+	File:   TestFsmHistory.mdzip
+	Target: Xholon 0.5 http://www.primordion.com/Xholon
+	UML: MagicDraw UML 11.5
+	XMI: 2.1, Mon Jun 25 18:16:57 EDT 2007
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+<FsmXholon_14_147deep/>
+<TestHarness/>
+<TestFsmSystem/>
+<FsmXholon_14_147/>
+<!-- StateMachineEntity -->
+<!--<xi:include href="_mechanism/StateMachineEntity.xml"/> GWT-->
+<!-- Port -->
+<!--<xi:include href="_mechanism/Port.xml"/> GWT-->
+<!-- Xholon Viewers -->
+<!--<xi:include href="_viewer/XholonViewer.xml"/> GWT-->
+</XholonClass>

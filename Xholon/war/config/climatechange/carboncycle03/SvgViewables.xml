@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<_-.SvgViewables>
+  
+  <!-- these are all Reservoir objects -->
+  <SvgViewable xhcName="Reservoirs/Atmosphere" svgId="tspan3463"/>
+  <SvgViewable xhcName="Reservoirs/TerrestrialVegetation" svgId="tspan3477"/>
+  <SvgViewable xhcName="Reservoirs/Soil" svgId="tspan3511"/>
+  <SvgViewable xhcName="Reservoirs/SurfaceOcean" svgId="tspan3489"/>
+  <SvgViewable xhcName="Reservoirs/DeepOcean" svgId="tspan3485"/>
+  <SvgViewable xhcName="Reservoirs/SurfaceSediment" svgId="tspan3493"/>
+  <SvgViewable xhcName="Reservoirs/MarineOrganisms" svgId="tspan3497"/>
+  <SvgViewable xhcName="Reservoirs/DissolvedOrganicCarbon" svgId="tspan3503"/>
+  <!-- in this Reservoir object, the SVG image just has Fossil Fuels -->
+  <SvgViewable xhcName="Reservoirs/FossilCarbon" svgId="tspan3473"/>
+  
+  <!-- Flows, fluxes -->
+  <SvgViewable xhcName="Flows/Photosynthesis" svgId="tspan5193"/>
+  <SvgViewable xhcName="Flows/Respiration" svgId="tspan5197"/> <!-- ? 60 OLD tspan5209-->
+  <SvgViewable xhcName="Flows/Decay" svgId="tspan5209"/> <!-- ? 60 OLD tspan5197 -->
+  <SvgViewable xhcName="Flows/LandUseChange" svgId="tspan5213"/>
+  <SvgViewable xhcName="Flows/Death" svgId="tspan3478"/> <!-- ? 60 -->
+  <SvgViewable xhcName="Flows/GasExchangeUp" svgId="tspan5225"/>
+  <SvgViewable xhcName="Flows/GasExchangeDown" svgId="tspan5221"/>
+  <SvgViewable xhcName="Flows/Weathering" svgId="tspan5217"/>
+  <SvgViewable xhcName="Flows/FossilFuelBurning" svgId="tspan5261" format="%.3f"/>
+  <SvgViewable xhcName="Flows/MarinePhotosynthesis" svgId="tspan5229"/>
+  <SvgViewable xhcName="Flows/MarineRespiration" svgId="tspan5241"/>
+  <SvgViewable xhcName="Flows/MarineDetritus" svgId="tspan5237"/>
+  <SvgViewable xhcName="Flows/DissolvedOrgCarbToOcean" svgId="tspan5245"/>
+  <SvgViewable xhcName="Flows/MarineBiotaToDissolvedOrgCarb" svgId="tspan5233"/>
+  <SvgViewable xhcName="Flows/Downwelling" svgId="tspan5249"/>
+  <SvgViewable xhcName="Flows/Upwelling" svgId="tspan5257"/>
+  <SvgViewable xhcName="Flows/Sedimentation" svgId="tspan5253"/>
+  
+  <!-- Time -->
+  <SvgViewable xhcName="TimeStep" svgId="tspan3490"/>
+  
+</_-.SvgViewables>

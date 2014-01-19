@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+These are the IPCC AR initial values for flow rates, unless otherwise noted.
+See ar4-wg1-chapter7.pdf p.515 Figure 7.3.
+The units are Gt/year .
+There is also a flow from Veg to Ocean of 0.4, through Rivers.
+-->
+<_-.flows xmlns:xi="http://www.w3.org/2001/XInclude">
+  <Photosynthesis>120.0</Photosynthesis>
+  <!--<xi:include href="./org/primordion/user/app/climatechange/carboncycle03/script/javascript/Photosynthesis.js"-->
+  <Respiration>119.6</Respiration>
+  <Decay implName="org.primordion.user.app.climatechange.carboncycle03.Xhcarboncycle03">0.0</Decay>
+  <LandUseChange>0.32</LandUseChange> <!-- 1750 to 1850 0.32 ?; current IPCC 1.6 -->
+  <Death implName="org.primordion.user.app.climatechange.carboncycle03.Xhcarboncycle03">0.0</Death> <!-- internal to "Vegetation, Soil and Detritus" -->
+  <VegToOcean>0.4</VegToOcean> <!-- VegSoilDetritus box to SurfaceOcean box in IPCC -->
+  <GasExchangeUp>70.6</GasExchangeUp>
+  <GasExchangeDown>70.0</GasExchangeDown>
+  <Weathering>0.2</Weathering> <!-- from SVG diagram 0.5; IPCC ar4 0.2+0.2 -->
+  <!-- TODO there's a second Weathering line on the IPCC figure; it seems to come from nowhere; 0.2 -->
+  <!-- FossilFuelBurning steady-state value:0.0  EAS value:6.0 -->
+  <FossilFuelBurning implName="org.primordion.user.app.climatechange.carboncycle03.GlobalCarbonEmissions">0.0</FossilFuelBurning>
+  <MarinePhotosynthesis>50.0</MarinePhotosynthesis>
+  <MarineRespiration>39.0</MarineRespiration>
+  <MarineDetritus>11.0</MarineDetritus>
+  <DissolvedOrgCarbToOcean implName="org.primordion.user.app.climatechange.carboncycle03.Xhcarboncycle03">0.0</DissolvedOrgCarbToOcean>
+  <MarineBiotaToDissolvedOrgCarb implName="org.primordion.user.app.climatechange.carboncycle03.Xhcarboncycle03">0.0</MarineBiotaToDissolvedOrgCarb>
+  <Downwelling>90.2</Downwelling>
+  <Upwelling>101.0</Upwelling>
+  <!--<xi:include href="./org/primordion/user/app/climatechange/carboncycle03/script/javascript/Downwelling.js"-->
+  <!--<xi:include href="./org/primordion/user/app/climatechange/carboncycle03/script/javascript/Upwelling_functions.js"/>-->
+  <Sedimentation>0.2</Sedimentation>
+</_-.flows>

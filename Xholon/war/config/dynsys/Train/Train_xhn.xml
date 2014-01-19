@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Train configuration file
+	 Ken Webb
+	 January 20, 2007 -->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Dynamical System - Train"/>
+	<param name="AppM" value="false"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="1000"/> <!-- 1000 -->
+	<param name="TimeStepInterval" value="10"/>
+	<param name="InheritanceHierarchyFile" value="./config/dynsys/Train/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="./config/dynsys/Train/CompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="./config/dynsys/Train/ClassDetails.xml"/>
+	<param name="InformationFile" value="config/dynsys/Train/Information_Train.xml"/>
+	<param name="JavaClassName" value="org.primordion.dynsys.app.AppTrain"/>
+	<param name="JavaXhClassName" value="org.primordion.dynsys.app.XhTrain"/>
+	<param name="MaxPorts" value="3"/>
+	<!-- UseDataPlotter determines whether the data each timestep is plotted on a graph. -->
+	<param name="UseDataPlotter" value="google2"/> <!-- JFreeChart gnuplot google2 none -->
+	<!--
+	<param name="DataPlotterParams"
+		value="Train X Position,Time (seconds),Position along the track (meters),./statistics/,trainX,1,WRITE_AS_DOUBLE"/>
+	-->
+	<!--
+	<param name="DataPlotterParams"
+		value="Train Velocity,Time (seconds),Velocity along the track (meters/sec),./statistics/,trainV,1,WRITE_AS_DOUBLE"/>
+	-->
+	
+	<param name="DataPlotterParams"
+		value="Train Acceleration,Time (seconds),Acceleration along the track (meters/sec^2),./statistics/,trainA,1,WRITE_AS_DOUBLE"/>
+	
+	<!-- Which type of data to plot:
+		1 xPosition
+		2 velocity
+		3 acceleration
+	-->
+	<param name="PlotType" value="3"/>
+</params>

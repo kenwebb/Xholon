@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+		<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+		-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+
+<!--
+	StupidModel1 Displayable information about this application.
+	Xholon 0.6 http://www.primordion.com/Xholon (Ken Webb)
+-->
+<document>
+<header>
+<title>Xholon - Stupid Model 1 - Basic</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This is the first in a series of 16 "Stupid Models". It's intended as a starting point for learning how to develop grid and agent-based models using Xholon. It can also be used to compare Xholon with other agent-based modeling tools that have also implemented the Stupid Model series.</p>
+<p>100 bugs move around on a 100 by 100 two-dimensional grid. This is a toroidal space, so if a bug moves beyond the boundaries, it reappears at the opposite side. Each bug has only a single behavior, that it executes each time step. If at all possible, it must move to a randomly selected unoccupied location within plus or minus 4 spaces of its current location, in both the X and Y direction. Bugs, represented as red circles, are redrawn on the grid each time step. Xholon uses its default random number generator, which draws numbers from a uniform distribution.</p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p>StupidModel1_CompositeStructureHierarchy.xml specifies a collection of 100 bugs, that's separate from the 100 row by 100 gridCell grid. XhStupidModel1.java, in the postConfigure() method for the StupidModel object, moves the bugs to random initial positions. The behavior followed by each bug when it moves, is in BugStupidModel1.java.</p>
+<p>One bug is intentionally a different color. It's white to make it easy to keep track of the movements of a typical bug. GridPanelStupidModel1.java implements this by checkinf for a specific xholon instance id.</p>
+<p>The model runs forever. The maximum number of time steps is controlled by the MaxProcessLoops parameter in StupidModel1_xhn.xml .</p>
+<p>You can pause and unpause the model by pressing the "Pause" node.</p>
+<p>You can make the model run very quickly by disabling the grid display. Do this by selecting the "View --> gridViewer" node. Every time you press this node, the grid display will toggle on and off.</p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>Railsback, S., Lytinen, S., Grimm, V. (2005).
+StupidModel and Extensions: A Template and Teaching Tool for Agent-based Modeling Platforms.</p>
+<p><a href="http://www.swarm.org/wiki/Software_templates">Swarm page</a></p>
+<p><a href="http://condor.depaul.edu/~slytinen/abm/StupidModel/">Author's page</a></p>
+</section>
+
+</body>
+</document>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+information sources:
+  Kiehl, J.T. and Trenberth, Kevin E. (1997) "Earth's Annual Global Mean Energy Budget".
+  Neelin, J. David (2011) Climate Change and Climate Modeling (background info)
+  
+types of things:
+  active objects (AO): 
+  passive objects: absorbed heat ???
+  messages: fluxes (W m^-2)
+    solar constant (from Sun to Earth/TopOfAtmosphere)
+    incoming solar radiation, insolation (from TopOfAtmosphere to Atmosphere)
+    reflected solar radiation (from Atmosphere to TopOfAtmosphere)
+    reflected solar radiation (from Surface to TopOfAtmosphere)
+    net shortwave flux, SW down only (from Atmosphere to Surface)
+    surface radiation, LW up, IR, greenhouse effect (from Surface to Atmosphere)
+    back radiation, LW down, IR, greenhouse effect (from Atmosphere to Surface)
+    latent heat flux, LH, evaporation (from Surface to Atmosphere)
+    sensible heat flux, SH, dry convection (from Surface to Atmosphere)
+    outgoing longwave radiation (from TopOfAtmosphere to Space)
+  attributes: albedo, surface temperature, atmosphere temperature
+-->
+<XholonClass>
+  <ClimateChangeSystem/>
+  <SolarSystem/>
+  <Sun/> <!-- AO -->
+  <Earth/> <!-- container -->
+  
+  <Space/>
+  <TopOfAtmosphere/> <!-- AO; does global averaging -->
+  <Atmosphere/> <!-- AO; a one-layer atmosphere -->
+  <Surface/> <!-- AO; land and water -->
+  <Clouds/> <!-- 3 levels ??? -->
+  <Aerosols/> <!-- suspended particles -->
+  <Heat/> <!-- PO; ??? various objects absorb/store heat; heat may be an attribute rather than an object -->
+  
+  <AtmosphericGas>
+    <!--
+      These are gases in the Earth's atmosphere.
+      Some of these are greenhouse gases (GHG).
+      They are listed here by their relative quantity.
+    -->
+    <Nitrogen/>
+    <Oxygen/>
+    <Argon/>
+    <CarbonDioxide/> <!-- GHG -->
+    <Neon/>
+    <Helium/>
+    <Methane/> <!-- GHG -->
+    <Krypton/>
+    <Hydrogen/>
+    <NitrousOxide/> <!-- GHG -->
+    <CarbonMonoxide/>
+    <Xenon/>
+    <Ozone/> <!-- GHG -->
+    <NitrogenDioxide/>
+    <Iodine/>
+    <Ammonia/>
+    <WaterVapor/> <!-- GHG -->
+    <Cfc11/> <!-- GHG Halocarbon -->
+    <Cfc12/> <!-- GHG Halocarbon -->
+    <OtherGhg/> <!-- GHG others in TAR ch.6 -->
+  </AtmosphericGas>
+  <AtmosphericGases>
+    <GreenhouseGases/> <!-- AO -->
+  </AtmosphericGases>
+  
+  <!-- active objects that transform values; in place of using variables and a formula -->
+  <TransformerAO>
+    <AveragerAO/>
+    <AtmosphericAlbedoAO/>
+    <SurfaceAlbedoAO/>
+    <EmissivityAO/>
+  </TransformerAO>
+  
+  <!-- viewable variables; used for plotting graphs -->
+  <Viewables/>
+  <Viewable>
+    <SolarConstantV/>
+    <IncomingSolarRadiationV/>
+    <ReflectedByAtmosphereV/>
+    <ReflectedBySurfaceV/>
+    <ReflectedTotalV/>
+    <AbsorbedByAtmosphereV/>
+    <AbsorbedBySurfaceSwV/>
+    <SensibleHeatV/> <!-- Thermals -->
+    <LatentHeatV/> <!-- Evapo-transpiration -->
+    <SurfaceRadiationV/>
+    <SurfaceToAtmosphereV/> <!-- SurfaceRadiationV - AtmosphericWindowV -->
+    <AtmosphericWindowV/>
+    <BackRadiationV/>
+    <AbsorbedBySurfaceLwV/>
+    <EmittedByAtmosphereV/>
+    <EmittedByCloudsV/>
+    <NetAbsorbedByEarthV/>
+    <OutgoingLongwaveV/>
+  </Viewable>
+  
+  <!-- SVG -->
+  <!--<EnergyBudgetView/>
+  <SvgViewable/>
+  <SvgLabel/>-->
+  
+  <!-- Xholon Viewers -->
+  <!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

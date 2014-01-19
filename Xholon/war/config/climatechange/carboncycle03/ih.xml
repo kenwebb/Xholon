@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+information sources:
+  - see _xhn.xml
+-->
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+  <CarbonCycleSystem/>
+  
+  <Reservoir>
+    <!--
+    - Ideally, a reservoir will be something specific that has some numbers attached to it.
+    - A reservoir is a compartment with a single type of molecule (CO2).
+    - Things mentioned in wikipedia Carbon cycle article, including the diagram.
+    - quantities are in billions of tons; "GtC" stands for GigaTons of Carbon
+    - each reservoir can have a val in the Java class
+    -->
+    <!-- air -->
+    <Atmosphere/>
+    <!-- land -->
+    <TerrestrialVegetation/> <!-- (1)"Vegetation"; (4)"plant biomass"; (8)"Forests"; (11)"Terrestrial vegetation" -->
+    <Soil/> <!-- (1)"Soils"; (4)"soil carbon"; (5)"Soil"; (11)"Soils and organic matter" -->
+            <!-- (3)"Vegetation, Soil and Detritus" -->
+    <!--<Rivers/> (1) ???; and lakes ??? -->
+    <!-- ocean -->
+    <SurfaceOcean/> <!-- (11)"Surface water" -->
+    <DeepOcean/> <!-- (3)"Intermediate and Deep Ocean"; (11)"Intermediate and deep water" -->
+    <SurfaceSediment/> <!-- (1)"Sediments"; (3)"Surface sediment"; (4)"reactive sediments"; (11)"Surface sediment" -->
+    <MarineOrganisms/> <!-- (1)"Marine biota"; (11)"Marine organisms" -->
+    <DissolvedOrganicCarbon/>
+    <!-- fossil -->
+    <FossilCarbon> <!-- (1)"Fossil Fuels and Cement Production"; (4)"fossil carbon" -->
+      <Coal/> <!-- (8); (11)"Coal deposit" -->
+      <Oil/> <!-- (8); (11)"Oil and gas deposit" -->
+      <NaturalGas/> <!-- (8) -->
+    </FossilCarbon>
+    <!-- other -->
+    <CarbonateRock/> <!-- (11)"Marine sediments and sedimentary rocks" -->
+    <Kerogen/> <!-- wikipedia: "a mixture of organic chemical compounds that make up a portion of the organic matter in sedimentary rocks." -->
+  </Reservoir>
+  <Reservoirs/>
+  
+  <Flow> <!-- Flux, active object -->
+    <!-- LEAVE THE FOLLOWING LINE COMMENTED OUT -->
+    <!--<xi:include href="config/climatechange/carboncycle03/flow_ih.xml"/>-->
+  </Flow>
+  <Flows/>
+  
+  <!-- SVG -->
+  <!--<CarbonCycleView/>
+  <SvgViewable/>
+  <SvgLabel/>-->
+  
+  <!-- Xholon Viewers -->
+  <!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

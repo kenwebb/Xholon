@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="300">
+  <title>
+  This plots the x and y coordinates of the ball position, selected randomly over time.
+  The parabolic shape of the surface (a valley) becomes apparent.
+  </title>
+</svg>

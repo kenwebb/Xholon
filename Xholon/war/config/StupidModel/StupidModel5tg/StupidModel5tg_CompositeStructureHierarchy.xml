@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	StupidModel5tg application - Composite Structure Hierarchy
+	Xholon 0.5 http://www.primordion.com/Xholon
+-->
+<StupidModel>
+	<Population multiplicity="1">
+		<Bugs>
+			<DisplacedBug multiplicity="1"/>
+		</Bugs>
+		<Grid>
+			<Row multiplicity="100">
+				<HabitatCell multiplicity="100"></HabitatCell>
+			</Row>
+		</Grid>
+	</Population>
+	<Population multiplicity="2">
+		<Bugs>
+			<Bug multiplicity="100"/> <!-- bugs that will inhabit the grid at runtime -->
+		</Bugs>
+		<Grid>
+			<Row multiplicity="100">
+				<HabitatCell multiplicity="100"></HabitatCell>
+			</Row>
+		</Grid>
+	</Population>
+</StupidModel>

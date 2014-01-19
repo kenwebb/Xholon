@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	StupidModel5tg application - Inheritance Hierarchy
+	Xholon 0.5 http://www.primordion.com/Xholon
+-->
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+	<StupidModel/>
+	<Grid/>
+	<Row/>
+	<GridCell>
+		<HabitatCell/>
+	</GridCell>
+	<Bugs/>
+	<Bug>
+		<DisplacedBug/> <!-- a bug that's moved to another grid -->
+	</Bug>
+	<Population/>
+	<!-- Xholon Viewers -->
+	<!--<xi:include href="_viewer/GridViewer.xml"/>-->
+</XholonClass>

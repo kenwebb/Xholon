@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>Spring Idol reimplemented in Xholon</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>
+This Xholon application is a reimplementation of the "Spring Idol" contest as
+described and implemented in the book:
+Walls, Craig. (2008). Spring in Action, 2nd edition. Greenwich, CT: Manning.
+See especially pages 40-70 in the book.
+The intent of implementing this application in Xholon is to demonstrate and
+experiment with the similarities between the Spring and Xholon frameworks.
+</p>
+<p>
+Spring is a popular open-source application framework.
+</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+<title/>
+<p>Run it:</p>
+<ol>
+<li>Run the Java application through the Xhn GUI (org.primordion.xholon.app.Xhn.java),
+and select File --> Open --> Spring --> SpringIdol --> SpringIdol_xhn.xml.</li>
+<li>Expand the Controller node in the tree.</li>
+<li>Press the Start node.</li>
+<li>You should see something like the following set of messages:</li>
+</ol>
+</section>
+<source>
+OneManBand
+PoeticJuggler
+JUGGLING 3 BEANBAGS
+While reciting...
+... a poem
+Instrumentalist
+Playing "The Long and Winding Road" : TOOT TOOT TOOT
+</source>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p></p>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p>
+Two classes implement the Poem interface, TheRaven and Damoyselle.
+Either of these can be specified in ClassDetails.xml,
+by changing the implName attribute of the Sonnet29 element.
+For example, either of:</p>
+<p>&lt;Sonnet29 xhType="XhtypePurePassiveObject" implName="org.primordion.user.app.SpringIdol.Damoyselle"/&gt;</p>
+<p>&lt;Sonnet29 xhType="XhtypePurePassiveObject" implName="org.primordion.user.app.SpringIdol.TheRaven"/&gt;</p>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p>Create additional classes that implement Poem, and change ClassDetails.xml accordingly.</p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p></p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>Walls, Craig. (2008). Spring in Action, 2nd edition. Greenwich, CT: Manning.</p>
+<p>http://www.springframework.org/</p>
+<p>http://en.wikipedia.org/wiki/Spring_framework</p>
+</section>
+
+</body>
+</document>

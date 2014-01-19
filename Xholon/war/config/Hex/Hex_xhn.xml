@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Hexagonal Grid configuration file
+	 Ken Webb
+	 February 2, 2007 -->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Hexagonal Grid"/>
+	<param name="AppM" value="false"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="-1"/>
+	<param name="TimeStepInterval" value="10"/>
+	<param name="SizeMessageQueue" value="10"/>
+	<param name="InheritanceHierarchyFile" value="config/Hex/Hex_InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="config/Hex/Hex_CompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="config/Hex/Hex_ClassDetails.xml"/>
+	<param name="InformationFile" value="config/Hex/Information_Hex.xml"/>
+	<param name="JavaClassName" value="org.primordion.user.app.Hex.AppHex"/>
+	<param name="JavaXhClassName" value="org.primordion.user.app.Hex.XhHex"/>
+	<param name="MaxPorts" value="6"/>
+	<!-- Use 2D graphics to view the grid. -->
+	<param name="UseGridViewer" value="true"/>
+	<param name="GridPanelClassName" value="org.primordion.user.app.Hex.GridPanelHex"/>
+	<param name="GridViewerParams" value="descendant::HexRow/..,12,Hexagonal Grid"/>
+	<param name="UseGraphicalNetworkViewer" value="false"/>
+	<!-- GraphicalNetworkViewerParams: XPathExpression,SizeX,SizeY,FontSize,LayoutType,ShowContainers,Title,ShowNodeLabels -->
+	<param name="GraphicalNetworkViewerParams" value="/,1000,600,12,LAYOUT_SPRING,false,Hex,false"/>
+</params>

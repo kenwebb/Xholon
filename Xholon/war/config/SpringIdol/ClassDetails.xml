@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Xholon SpringIdol ClassDetails.xml -->
+<xholonClassDetails>
+	
+	<Instrument xhType="XhtypePurePassiveObject"/>
+	<Cymbal xhType="XhtypePurePassiveObject" implName="org.primordion.user.app.SpringIdol.Cymbal"/>
+	<Guitar xhType="XhtypePurePassiveObject" implName="org.primordion.user.app.SpringIdol.Guitar"/>
+	<Harmonica xhType="XhtypePurePassiveObject" implName="org.primordion.user.app.SpringIdol.Harmonica"/>
+	<Piano xhType="XhtypePurePassiveObject" implName="org.primordion.user.app.SpringIdol.Piano"/>
+	<Saxophone xhType="XhtypePurePassiveObject" implName="org.primordion.user.app.SpringIdol.Saxophone"/>
+	
+	<Performer xhType="XhtypePureActiveObject"/>
+	<OneManBand xhType="XhtypePureActiveObject" implName="org.primordion.user.app.SpringIdol.OneManBand"/>
+	<PoeticJuggler xhType="XhtypePureActiveObject" implName="org.primordion.user.app.SpringIdol.PoeticJuggler">
+		<!--<port name="poem" connector="#xpointer(ancestor::SpringIdol/Poems/Sonnet29)"/>-->
+		<port name="poem" connector="#xpointer(ancestor::SpringIdol/Poems/Damoyselle)"/>
+	</PoeticJuggler>
+	<BaseSaxophonist xhType="XhtypePureActiveObject" implName="org.primordion.user.app.SpringIdol.Instrumentalist">
+		<port name="song" connector="#xpointer(ancestor::SpringIdol/Songs/Song)"/>
+		<port name="instrument" connector="#xpointer(ancestor::SpringIdol/Instruments/Saxophone)"/>
+	</BaseSaxophonist>
+	
+	<Song xhType="XhtypePurePassiveObject" implName="org.primordion.user.app.SpringIdol.Song"/>
+	<Sonnet29 xhType="XhtypePurePassiveObject" implName="org.primordion.user.app.SpringIdol.TheRaven"/>
+	<Damoyselle xhType="XhtypePurePassiveObject" implName="org.primordion.user.app.SpringIdol.Damoyselle"/>
+	
+	<SpringIdol xhType="XhtypePureActiveObject" implName="org.primordion.user.app.SpringIdol.XhSpringIdol"/>
+	
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

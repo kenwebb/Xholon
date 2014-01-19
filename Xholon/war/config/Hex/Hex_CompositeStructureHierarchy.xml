@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Hex>
+	<HexRow multiplicity="1" roleName="row">
+		<HexGridCell multiplicity="1" roleName="gridcell">
+			<Creature multiplicity="200"/>
+			<attribute name="val" value="!"/> <!-- !=random -->
+		</HexGridCell>
+		<HexGridCell multiplicity="49" roleName="gridcell">
+			<attribute name="val" value="!"/>
+		</HexGridCell>
+	</HexRow>
+	<HexRow multiplicity="49" roleName="row">
+		<HexGridCell multiplicity="50" roleName="gridcell">
+			<attribute name="val" value="!"/>
+		</HexGridCell>
+	</HexRow>
+</Hex>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	carboncycle03 application - Class Details
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<xholonClassDetails>
+	
+	<Reservoir implName="org.primordion.user.app.climatechange.carboncycle03.Reservoir"/>
+	<Atmosphere xhType="XhtypePurePassiveObject"/>
+	<TerrestrialVegetation xhType="XhtypePurePassiveObject"/>
+	<Soil xhType="XhtypePurePassiveObject"/>
+	<SurfaceOcean xhType="XhtypePurePassiveObject"/>
+	<FossilCarbon implName="org.primordion.user.app.climatechange.carboncycle03.FossilCarbon"/>
+	<Flows xhType="XhtypePureActiveObject" implName="org.primordion.user.app.climatechange.carboncycle03.Flows">
+	  <!-- Reservoir ports -->
+	  <port name="atmosphere" connector="#xpointer(ancestor::CarbonCycleSystem/Reservoirs/Atmosphere)"/>
+	  <port name="terrestrialVegetation" connector="#xpointer(ancestor::CarbonCycleSystem/Reservoirs/TerrestrialVegetation)"/>
+	  <port name="soil" connector="#xpointer(ancestor::CarbonCycleSystem/Reservoirs/Soil)"/>
+	  <port name="surfaceOcean" connector="#xpointer(ancestor::CarbonCycleSystem/Reservoirs/SurfaceOcean)"/>
+	  <port name="deepOcean" connector="#xpointer(ancestor::CarbonCycleSystem/Reservoirs/DeepOcean)"/>
+	  <port name="surfaceSediment" connector="#xpointer(ancestor::CarbonCycleSystem/Reservoirs/SurfaceSediment)"/>
+	  <port name="marineOrganisms" connector="#xpointer(ancestor::CarbonCycleSystem/Reservoirs/MarineOrganisms)"/>
+	  <port name="dissolvedOrganicCarbon" connector="#xpointer(ancestor::CarbonCycleSystem/Reservoirs/DissolvedOrganicCarbon)"/>
+	  <port name="coal" connector="#xpointer(ancestor::CarbonCycleSystem/Reservoirs/FossilCarbon/Coal)"/>
+	  <port name="oil" connector="#xpointer(ancestor::CarbonCycleSystem/Reservoirs/FossilCarbon/Oil)"/>
+	  <port name="naturalGas" connector="#xpointer(ancestor::CarbonCycleSystem/Reservoirs/FossilCarbon/NaturalGas)"/>
+	  <port name="carbonateRock" connector="#xpointer(ancestor::CarbonCycleSystem/Reservoirs/CarbonateRock)"/>
+	  <port name="kerogen" connector="#xpointer(ancestor::CarbonCycleSystem/Reservoirs/Kerogen)"/>
+	</Flows>
+	
+	<!--<CarbonCycleView xhType="XhtypePureActiveObject" implName="org.primordion.user.app.climatechange.carboncycle03.CarbonCycleView">
+	  <port name="reservoirs" connector="#xpointer(ancestor::CarbonCycleSystem/Reservoirs)"/>
+	  <port name="flows" connector="#xpointer(ancestor::CarbonCycleSystem/Flows)"/>
+	</CarbonCycleView>
+	<SvgViewable implName="org.primordion.user.app.climatechange.carboncycle03.SvgViewable">
+	  <port name="carbonCycleView" connector="#xpointer(..)"/>
+	</SvgViewable>
+	<SvgLabel implName="org.primordion.user.app.climatechange.carboncycle03.SvgLabel">
+	  <port name="carbonCycleView" connector="#xpointer(..)"/>
+	</SvgLabel>-->
+	
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

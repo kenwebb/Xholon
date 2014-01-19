@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- RCS1 configuration file
+	 Ken Webb
+	 October 22, 2006 -->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Regulated Catalyzing System (RCS) - with Molecular Machine (MM)"/>
+	<param name="AppM" value="true"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="100"/>
+	<param name="TimeStepInterval" value="10"/>
+	<param name="SizeMessageQueue" value="5"/>
+	<param name="InheritanceHierarchyFile" value="config/Rcs/Rcs2_InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="config/Rcs/Rcs2_CompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="config/Rcs/Rcs2_ClassDetails.xml"/>
+	<param name="InformationFile" value="config/Rcs/Information.xml"/>
+	<param name="JavaClassName" value="org.primordion.user.app.rcs.Rcs2.AppRcs2"/>
+	<param name="JavaXhClassName" value="org.primordion.user.app.rcs.Rcs2.XhRcs2"/>
+	<param name="MaxPorts" value="3"/>
+	<!-- UseDataPlotter determines whether the data each timestep is plotted on a graph. -->
+	<param name="UseDataPlotter" value="none"/> <!-- google2 JFreeChart gnuplot none -->
+	<param name="DataPlotterParams"
+		value="Quantity of Substances changing over time,Time Step,Substance Quantity,./statistics/,rcsStats,1,WRITE_AS_LONG"/>
+	<!-- Whether or not to capture interactions between Xholons, and output as a graphical UML Sequence Diagram. -->
+	<param name="UseInteractions" value="false"/>
+	<param name="InteractionParams" value="4,false,localhost,60001"/>
+	<!-- Graphical Viewers -->
+	<param name="UseGraphicalTreeViewer" value="false"/>
+	<param name="GraphicalTreeViewerParams"
+		value="/,160,60,1000,200,10,Xholon - Rcs2 - Composite Structure,false"/>
+	<param name="UseGraphicalNetworkViewer" value="false"/>
+	<param name="GraphicalNetworkViewerParams"
+		value="/,1000,600,9,LAYOUT_KK,false,Xholon - Rcs2 - Port Connections,false"/>
+</params>

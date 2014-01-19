@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Xholon SpringIdol InheritanceHierarchy.xml -->
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+	<Instrument> <!-- interface -->
+		<Cymbal/>
+		<Guitar/>
+		<Harmonica/>
+		<Piano/>
+		<Saxophone/>
+	</Instrument>
+	
+	<Performer> <!-- interface -->
+		<Instrumentalist>
+			<BaseSaxophonist/>
+		</Instrumentalist>
+		<Juggler>
+			<PoeticJuggler/>
+		</Juggler>
+		<OneManBand/>
+		<Singer/>
+	</Performer>
+	
+	<Poem> <!-- interface -->
+		<Sonnet29/>
+		<Damoyselle/>
+	</Poem>
+	
+	<TalentCompetition> <!-- interface -->
+		<SpringIdol/>
+	</TalentCompetition>
+	
+	<Song/>
+	
+	<!-- Xholon additions -->
+	<Instruments/>
+	<Performers/>
+	<Songs/>
+	<Poems/>
+	
+	<!-- Xholon Viewers -->
+	<!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

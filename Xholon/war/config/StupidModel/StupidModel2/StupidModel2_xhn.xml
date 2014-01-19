@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	StupidModel2 application - _xhn configuration
+	Xholon 0.5 http://www.primordion.com/Xholon
+-->
+<params>
+<param name="ShowParams" value="false"/>
+<param name="ModelName" value="StupidModel2"/>
+<param name="AppM" value="true"/>
+<param name="InfoM" value="false"/>
+<param name="ErrorM" value="true"/>
+<param name="MaxProcessLoops" value="-1"/>
+<param name="TimeStepInterval" value="100"/>
+<param name="SizeMessageQueue" value="10"/>
+<param name="InheritanceHierarchyFile" value="config/StupidModel/StupidModel2/StupidModel2_InheritanceHierarchy.xml"/>
+<param name="CompositeStructureHierarchyFile" value="config/StupidModel/StupidModel2/StupidModel2_CompositeStructureHierarchy.xml"/>
+<param name="ClassDetailsFile" value="config/StupidModel/StupidModel2/StupidModel2_ClassDetails.xml"/>
+<param name="InformationFile" value="config/StupidModel/StupidModel2/StupidModel2_Information.xml"/>
+<param name="JavaClassName" value="org.primordion.user.app.StupidModel.sm2.AppStupidModel2"/>
+<param name="JavaXhClassName" value="org.primordion.user.app.StupidModel.sm2.XhStupidModel2"/>
+<param name="MaxPorts" value="1"/>
+<!-- Viewers -->
+<param name="UseGridViewer" value="true"/>
+<param name="GridPanelClassName" value="org.primordion.user.app.StupidModel.sm2.GridPanelStupidModel2"/>
+<!-- GridViewerParams: XPathExpression,CellSize,Title,UseShapes  good sizes are 4 and 7 -->
+<param name="GridViewerParams" value="descendant::Row/..,7,Xholon - Stupid Model 2 - Grid Viewer,true"/>
+</params>

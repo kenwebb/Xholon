@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+		<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+		-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+
+<!--
+	StupidModel6 Displayable information about this application.
+	Xholon 0.6 http://www.primordion.com/Xholon (Ken Webb)
+-->
+<document>
+<header>
+<title>Xholon - Stupid Model 6 - Histogram Output</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This is the 6th in a series of 16 "Stupid Models". It's intended as a starting point for learning how to develop grid and agent-based models using Xholon. It can also be used to compare Xholon with other agent-based modeling tools that have also implemented the Stupid Model series.</p>
+<p>This model adds a histogram to show the size distribution of the bugs at any given point in time.</p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p>Xholon histograms are implemented using JFreeChart.</p>
+<p>Whether or not to display a histogram is specified in the UseHistogramPlotter param in StupidModel6_xhn.xml. Set this parameter to either "JFreeChart" or "none".</p>
+<p>The number of bins is set to 10, but it can easily be changed to some other amount by editing StupidModel6_xhn.xml. The HistogramPlotterParams parameter includes a number of values, separated by commas. The third value determines the number of bins. The comma-separated values are also used to specify the title of the histogram, the text to appear along the X and Y axes, and several other options.</p>
+<p>At any time while the simulation is running, you can press View --> gridViewer in the Xholon GUI to display a current histogram. You might want to pause the simulation first, by pressing Controller --> Pause. You can remove the currently displayed histogram by pressing the X in the upper right corner of the histogram window.</p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>Railsback, S., Lytinen, S., Grimm, V. (2005).
+StupidModel and Extensions: A Template and Teaching Tool for Agent-based Modeling Platforms.</p>
+<p><a href="http://www.swarm.org/wiki/Software_templates">Swarm page</a></p>
+<p><a href="http://condor.depaul.edu/~slytinen/abm/StupidModel/">Author's page</a></p>
+</section>
+
+</body>
+</document>

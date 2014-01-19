@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>Xholon - Cell Model - Glycolytic Pathway</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This application models and simulates the structure and biochemical activity of a very simple cellular organism. It focuses
+	on a simplified view of the glycolytic pathway as an example of how Xholon handles biochemical networks.</p>
+
+<p>Over a series of time steps the model outputs the quantities of small molecules as they are transformed by the 
+actions of various enzymes in solution. If JFreechart (the default viewer) or gnuplot has been installed Xholon will output a 
+graphical representation of the small-molecule quantities at each time point.</p>
+
+<figure src="Cell_BiochemicalModel_LineChart.png" alt="Cell - Chart using JFreeChart"/>
+
+<p>The simple model, BioSystems_Jul03, outputs the quantities of 12 types of small molecules that are part of the glycolytic
+	pathway. Test1 is a separate model that outputs the quantities of many more molecular types and instances, including those
+	on the TCA cycle in mitochondria. Conceptually, there is no limit to the number of biological entities and interactions that
+	Xholon can simulate.</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+<title/>
+<p>Run it:</p>
+<ol>
+<li>Run the Java application through the Xholon GUI (org.primordion.xholon.app.Xhn.java),
+and select File --> Open --> cellontro --> Cell --> Cell_BioSystems_Jul03_xhn.xml.</li>
+<li>Expand the Controller node in the tree.</li>
+<li>Press the Start node.</li>
+<li>You should see a line chart displayed showing the quantities of the 12 different molecules over 500 time steps, plus two
+	graphs showing structure.</li>
+</ol>
+</section>
+<section><title/>
+<source>
+
+</source>
+</section>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p>Cell_BioSystems_Jul03.xml</p>
+<source>
+#
+This configuration is intended to reproduce the results published in the paper:
+Webb, K., and White, T. (2005). UML as a cell and biochemistry modeling language. BioSystems, 80, 283-302.
+
+#
+To test that this software is working, the header and zeroth lines should read:
+time,glucose_1,glucose_7,glucose_6_Phosphate_8,fructose_6_Phosphate_9,fructose_1x6_Biphosphate_10,dihydroxyacetonePhosphate_11,glyceraldehyde_3_Phosphate_12,x1x3_BisphosphoGlycerate_13,x3_PhosphoGlycerate_14,x2_PhosphoGlycerate_15,phosphoEnolPyruvate_16,pyruvate_17,
+0,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,100000,
+
+and the 500th line of data (501st time step) should read:
+500,100000,51009,144372,86557,86454,2046,122313,102333,26254,239562,89324,181376,
+
+#
+The comparable Gepasi and Copasi results for the 500th line of data were:
+time        ,[Glucose]t  ,[Glucose_6_P,[Fructose_6_,[Fructose_1x,[Dihydroxyac,[Glyceraldeh,[X1x3_Bispho,[X3_PhosphoG,[X2_PhosphoG,[PhosphoEnol,[Pyruvate]t 
+0.0000e+000, 1.0000e+005, 1.0000e+005, 1.0000e+005, 1.0000e+005, 1.0000e+005, 1.0000e+005, 1.0000e+005, 1.0000e+005, 1.0000e+005, 1.0000e+005, 1.0000e+005
+5.0000e+002, 5.1010e+004, 1.4437e+005, 8.6558e+004, 8.6456e+004, 2.1212e+003, 1.2226e+005, 1.0234e+005, 2.6403e+004, 2.3939e+005, 8.9328e+004, 1.8136e+005
+and with the e notation removed:
+500,51010,144370,86558,86456,2121,122260,102340,26403,239390,89328,181360
+and with the unused extracellular Glucose added so it has the same number of elements as the Cellontro version:
+500,100000,51010,144370,86558,86456,2121,122260,102340,26403,239390,89328,181360
+
+#
+So the final results that should be compared are:
+500,100000,51009,144372,86557,86454,2046,122313,102333,26254,239562,89324,181376	Cellontro
+500,100000,51010,144370,86558,86456,2121,122260,102340,26403,239390,89328,181360	Gepasi/Copasi
+
+#
+Glycolysis_Jul03_2.gps is the Gepasi model.
+Glycolysis_Jul03_2.xml is the SBML export file produced by Gepasi.
+</source>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p>Try adjusting the number of time steps, for example to 1000 from 500, by changing param name="MaxProcessLoops" value="500" in 
+Cell_BioSystems_Jul03_xhn.xml</p> 
+
+
+<p>A new feature is included in Xholon version 0.6. Before or during execution you can press View --> Xholon - Small 
+molecule quantities changing over time:xYChart_40 to display a line chart that continuously updates itself each time step.  
+You can close the graph and press this node again to have the chart recommence at its current time step.  (***Note: when using 
+a large number of time steps, say greater than 1000, the program will slow down considerably as JFreeChart must refresh itself 
+completely at each step.)</p>
+
+<p>The two static viewers are the graphicalNetworkViewer and the graphicalTreeViewer. The network viewer is a colour 
+representation of the small molecules transforming in the presence of enzymes. The small green circles (the small molecules) 
+are able to fit partly inside the larger red shapes (the enzymes.) The yellow shapes represent the membranes. The tree viewer 
+displays visually the same information found in the Xholon GUI under Model --> Composite StructureHierarchy.</p>
+
+<figure src="Cell_BiochemicalModel.png" alt="Cell - Network Graph using JFreeChart"/>
+
+<p>With the network and tree viewers you can use the buttons to show labels and zoom, and you can Transform and Pick using the 
+mouse. With Transform selected, hold the left mouse button to move the diagram around, Shift+left mouse to rotate, and 
+Ctrl+left mouse to stretch.  With Pick enabled, use the left mouse button to move individual nodes around.</p>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p></p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon and Ealontro features</title>
+<p>As is explored in more detail in the paper referenced below, by avoiding the use of ordinary differential equations Xholon
+models can be modified with relative ease when you wish to add structures, change parameters, or modify the program in
+any number of ways.</p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+
+<p><a href="http://www.primordion.com/pub/publishedPapers/BioSys2005_WebbWhite_CogSci2003-05.pdf">
+	Webb, K., and White, T. (2005). UML as a cell and biochemistry modeling language. BioSystems, 80, 283-302.</a></p>
+	
+
+</section>
+
+</body>
+</document>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CellularAutomaton1D>
+	<Row multiplicity="100">
+		<GridCell multiplicity="200"/>
+	</Row>
+</CellularAutomaton1D>

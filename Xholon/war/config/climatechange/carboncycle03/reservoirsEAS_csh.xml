@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+These are the EAS initial values for reservoirs, unless otherwise noted.
+The units are gigatons carbon equivalent (Gt), where 1 Gt carbon = 3.66 Gt CO2 .
+-->
+<_-.reservoirs>
+  <!-- air -->
+  <Atmosphere>750.0</Atmosphere>
+  <!-- land -->
+  <TerrestrialVegetation>575.0</TerrestrialVegetation>
+  <Soil>1400.0</Soil>
+  <!-- ocean -->
+  <SurfaceOcean>750.0</SurfaceOcean>
+  <DeepOcean>37600.0</DeepOcean>
+  <SurfaceSediment>150.0</SurfaceSediment> <!-- from SVG diagram -->
+  <MarineOrganisms>3.0</MarineOrganisms>
+  <DissolvedOrganicCarbon>700.0</DissolvedOrganicCarbon> <!-- from SVG diagram -->
+  <!-- fossil -->
+  <FossilCarbon>
+    <Coal>4000.0</Coal> <!-- the is the Fossil Fuels value from SVG diagram -->
+    <Oil>0.0</Oil>
+    <NaturalGas></NaturalGas>
+  </FossilCarbon>
+  <!-- other -->
+  <CarbonateRock/>
+  <Kerogen/>
+</_-.reservoirs>

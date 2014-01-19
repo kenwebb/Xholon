@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+The original NetLogo wolf sheep predation model is: Copyright 1998 Uri Wilensky. All rights reserved.
+See http://ccl.northwestern.edu/netlogo/models/WolfSheepPredation for terms of use.
+-->
+<params xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+<param name="ShowParams" value="false"/>
+<param name="ModelName" value="WolfSheepGrass"/>
+<param name="AppM" value="true"/>
+<param name="InfoM" value="false"/>
+<param name="ErrorM" value="true"/>
+<param name="MaxProcessLoops" value="-1"/>
+<param name="TimeStepInterval" value="10"/> <!-- 10 -->
+<param name="SizeMessageQueue" value="100"/>
+<param name="InheritanceHierarchyFile" value="./config/user/WolfSheepGrass/WolfSheepGrass_InheritanceHierarchy.xml"/>
+<param name="CompositeStructureHierarchyFile" value="./config/user/WolfSheepGrass/WolfSheepGrass_CompositeStructureHierarchy.xml"/>
+<param name="ClassDetailsFile" value="./config/user/WolfSheepGrass/WolfSheepGrass_ClassDetails.xml"/>
+<param name="InformationFile" value="config/user/WolfSheepGrass/WolfSheepGrass_Information.xml"/>
+<param name="JavaClassName" value="org.primordion.user.app.WolfSheepGrass.AppWolfSheepGrass"/>
+<param name="JavaXhClassName" value="org.primordion.user.app.WolfSheepGrass.XhWolfSheepGrass"/>
+<param name="MaxPorts" value="8"/>
+<!--<param name="RandomNumberSeed" value="1234"/>-->
+<!-- Viewers -->
+<!-- UseDataPlotter: none JFreeChart gnuplot google2 -->
+<param name="UseDataPlotter" value="google2"/>
+<!-- DataPlotterParams: Title,XAxisLabel,YAxisLabel,Path,TypeOfData,NameConcatLevels,WriteType -->
+<param name="DataPlotterParams" value="Wolf Sheep Grass Fluctuations,Time (timesteps),Population,./statistics/,wsg,1,WRITE_AS_DOUBLE"/>
+<param name="UseGraphicalTreeViewer" value="false"/>
+<!-- GraphicalTreeViewerParams: XPathExpression,DistX,DistY,SizeX,SizeY,FontSize,Title,ShowNodeLabels -->
+<param name="GraphicalTreeViewerParams" value="/,20,20,800,500,9,Application Composite Structure,false"/>
+<param name="UseGraphicalNetworkViewer" value="false"/>
+<!-- GraphicalNetworkViewerParams: XPathExpression,SizeX,SizeY,FontSize,LayoutType,ShowContainers,Title,ShowNodeLabels -->
+<param name="GraphicalNetworkViewerParams" value="/,800,500,9,LAYOUT_KK,false,Application Port Connections,false"/>
+<param name="UseGridViewer" value="true"/>
+<param name="GridPanelClassName" value="org.primordion.user.app.WolfSheepGrass.GridPanelWolfSheepGrass"/>
+<!-- GridViewerParams: XPathExpression,CellSize,Title -->
+<param name="GridViewerParams" value="descendant::Row/..,10,Xholon - Wolf Sheep Grass"/>
+<param name="UseInteractions" value="false"/>
+<param name="UseVrml" value="false"/>
+<param name="VrmlWriterClassName" value="org.primordion.xholon.tutorials.VrmlWriterMyApp"/>
+<!-- VrmlParams: DoClassicStyle,VrmlWriteDir,UseLOD,CreateProtoFiles -->
+<param name="VrmlParams" value="true,./3d/,false,false"/>
+<param name="UseTextTree" value="false"/>
+<param name="SaveSnapshots" value="false"/>
+<!-- SnapshotParams: SnapshotSource(0 1),SnapshotTostring,Path -->
+<param name="SnapshotParams" value="0,true,./snapshot/"/>
+
+<!-- The following parameters are specific to this application -->
+<param name="GrowGrass"           value="true"/> <!-- Grass true -->
+<param name="GrassRegrowthTime"   value="30"/>   <!-- Grass 30 -->
+<param name="InitialNumberSheep"  value="100"/>  <!-- Sheep 100 -->
+<param name="SheepGainFromFood"   value="4.0"/>  <!-- Sheep 4.0 -->
+<param name="SheepReproduce"      value="4"/>    <!-- Sheep 4 -->
+<param name="InitialNumberWolves" value="50"/>   <!-- Wolf 50 -->
+<param name="WolfGainFromFood"    value="20.0"/> <!-- Wolf 20.0 -->
+<param name="WolfReproduce"       value="5"/>    <!-- Wolf 5 -->
+</params>

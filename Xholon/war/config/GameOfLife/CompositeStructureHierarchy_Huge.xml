@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GameOfLife>
+	<Row multiplicity="500">
+		<GridCell multiplicity="500">
+			<attribute name="val" value="!"/> <!-- !=random -->
+		</GridCell>
+	</Row>
+</GameOfLife>

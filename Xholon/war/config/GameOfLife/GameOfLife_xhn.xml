@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GameOfLife configuration file
+	 Ken Webb
+	 December 3, 2005 -->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Conway's Game of Life"/>
+	<param name="AppM" value="false"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="false"/>
+	<!--
+	<param name="MaxXholons" value="10000"/>
+	<param name="MaxXholonClasses" value="600"/>
+	<param name="MaxStateMachineEntities" value="0"/>
+	<param name="TreeNodeFactoryDynamic" value="false"/>
+	-->
+	<param name="MaxProcessLoops" value="-1"/>
+	<param name="TimeStepInterval" value="100"/>
+	<param name="InheritanceHierarchyFile" value="config/GameOfLife/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="config/GameOfLife/CompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="config/GameOfLife/ClassDetails.xml"/>
+	<param name="InformationFile" value="config/GameOfLife/Information.xml"/>
+	<param name="JavaClassName" value="org.primordion.user.app.GameOfLife.AppGameOfLife"/>
+	<param name="JavaXhClassName" value="org.primordion.user.app.GameOfLife.XhGameOfLife"/>
+	<param name="MaxPorts" value="8"/>
+	<!-- Use 2D graphics to view the grid. -->
+	<param name="UseGridViewer" value="true"/>
+	<param name="GridPanelClassName" value="org.primordion.user.app.GameOfLife.GridPanelGameOfLife"/>
+	<param name="GridViewerParams" value="descendant::Row/..,5,Game of Life"/>
+	<!--<param name="GridViewerParams" value="descendant::Row/..,10,Bigger GoL"/>-->
+</params>

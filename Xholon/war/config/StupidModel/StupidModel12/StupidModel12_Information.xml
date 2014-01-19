@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+		<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+		-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+
+<!--
+	StupidModel12 Displayable information about this application.
+	Xholon 0.6 http://www.primordion.com/Xholon (Ken Webb)
+-->
+<document>
+<header>
+<title>Xholon - Stupid Model 12 - Bug Mortality and Reproduction</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This is the 12th in a series of 16 "Stupid Models". It's intended as a starting point for learning how to develop grid and agent-based models using Xholon. It can also be used to compare Xholon with other agent-based modeling tools that have also implemented the Stupid Model series.</p>
+<p>In this model, bugs can die and reproduce. When a bug reaches a size of 10.0, it produces 5 offspring and then dies. Each new bug has an initial size of 0.0, and is randomly placed within 3 spaces of where its parent was. Each time step there is a 5% probability that each bug will die (95% survival probablity), but this is only determined after it has moved and grown. The model now stops after 1000 time steps or when there are no more bugs.</p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p>Most of this behavior is implemented in the BugStupidModel12.java class.</p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>Railsback, S., Lytinen, S., Grimm, V. (2005).
+StupidModel and Extensions: A Template and Teaching Tool for Agent-based Modeling Platforms.</p>
+<p><a href="http://www.swarm.org/wiki/Software_templates">Swarm page</a></p>
+<p><a href="http://condor.depaul.edu/~slytinen/abm/StupidModel/">Author's page</a></p>
+</section>
+
+</body>
+</document>

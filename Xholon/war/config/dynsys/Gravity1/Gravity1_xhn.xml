@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Gravity 1 configuration file
+	 Ken Webb
+	 January 17, 2007 -->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Dynamical System - Gravity 1"/>
+	<param name="AppM" value="false"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="200"/>
+	<param name="TimeStepInterval" value="10"/>
+	<param name="InheritanceHierarchyFile" value="./config/dynsys/Gravity1/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="./config/dynsys/Gravity1/CompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="./config/dynsys/Gravity1/ClassDetails.xml"/>
+	<param name="InformationFile" value="config/dynsys/Gravity1/Information_Gravity1.xml"/>
+	<param name="JavaClassName" value="org.primordion.dynsys.app.AppGravity1"/>
+	<param name="JavaXhClassName" value="org.primordion.dynsys.app.XhGravity1"/>
+	<param name="MaxPorts" value="3"/>
+	<!-- UseDataPlotter determines whether the data each timestep is plotted on a graph. -->
+	<param name="UseDataPlotter" value="google2"/> <!-- JFreeChart gnuplot google2 none -->
+	<param name="DataPlotterParams"
+		value="Position of a mass under the influence of gravitational attraction,Time (seconds),Position above the Earth's surface (meters),./statistics/,grav1,1,WRITE_AS_DOUBLE"/>
+</params>

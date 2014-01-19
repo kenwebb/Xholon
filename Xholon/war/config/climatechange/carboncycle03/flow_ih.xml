@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<_-.flow>
+  <!-- source(1) "annual movements of carbon", "carbon exchanges between reservoirs"
+  "Weathering" and "Volcanic eruptions and metamorphism" roughly cancel each other out
+  -->
+  <!-- there are 19 flows/values on the SVG image, which I have numbered from 1 to 19 -->
+  <!-- (1) downward mixing within the atmosphere?; no value is provided in the diagram -->
+  <!-- (2) upward mixing within the atmosphere?; no value is provided in the diagram -->
+  <Photosynthesis/> <!-- (3) -->
+  <Respiration/> <!-- (4) -->
+  <Decay/> <!-- (5) -->
+  <LandUseChange/> <!-- (6) source(11)"Change in land use"; IPCC(18)"land use change",1.6,"dominated by tropical deforestation" -->
+  <Death/> <!-- (7) -->
+  <VegToOcean/> <!-- VegSoilDetritus box to SurfaceOcean box in IPCC -->
+  <GasExchangeUp/> <!-- (8) Surface Ocean to Atmosphere -->
+  <GasExchangeDown/> <!-- (9) Atmosphere to Surface Ocean -->
+  <Weathering/> <!-- (10) Weathering; or source(11)"Change in land use" -->
+  <FossilFuelBurning/> <!-- (11) and CementProduction -->
+  <MarinePhotosynthesis/> <!-- (12) Surface Ocean to Marine Biota -->
+  <MarineRespiration/> <!-- (13) Marine Biota to Surface Ocean -->
+  <MarineDetritus/> <!-- (14) Marine Biota to Deep Ocean; death? MarineDeath; source(15)"organic detritus" -->
+  <DissolvedOrgCarbToOcean/> <!-- (15) -->
+  <MarineBiotaToDissolvedOrgCarb/> <!-- (16) -->
+  <Downwelling/> <!-- (17) and Biopump -->
+  <Upwelling/> <!-- (18) -->
+  <Sedimentation/> <!-- (19) -->
+</_-.flow>

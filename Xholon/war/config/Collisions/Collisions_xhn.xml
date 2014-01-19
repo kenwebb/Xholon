@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Collisions configuration file
+	 Ken Webb
+	 December 3, 2005 -->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Collisions"/>
+	<param name="AppM" value="true"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="25"/>
+	<param name="TimeStepInterval" value="10"/>
+	<param name="InheritanceHierarchyFile" value="config/Collisions/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="config/Collisions/CompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="config/Collisions/ClassDetails.xml"/>
+	<param name="InformationFile" value="config/Collisions/Information.xml"/>
+	<param name="JavaClassName" value="org.primordion.user.app.Collisions.AppCollisions"/>
+	<param name="JavaXhClassName" value="org.primordion.user.app.Collisions.XhCollisions"/>
+	<param name="MaxPorts" value="2"/>
+	<!-- UseDataPlotter determines whether the data each timestep is plotted on a graph. -->
+	<param name="UseDataPlotter" value="google2"/> <!-- google2 JFreeChart gnuplot none -->
+	<param name="DataPlotterParams"
+		value="Population changing over time,Year,Population,./statistics/,colStats,2,WRITE_AS_LONG"/>
+	<param name="UseTextTree" value="true"/>
+	<param name="UseGraphicalTreeViewer" value="false"/>
+	<param name="GraphicalTreeViewerParams"
+		value="/,15,50,1000,400,7,Xholon - Collisions - Composite Structure,false"/>
+	<param name="UseGraphicalNetworkViewer" value="false"/>
+	<param name="GraphicalNetworkViewerParams"
+		value="/,1000,600,9,LAYOUT_KK,false,Xholon - Collisions - Port Connections,false"/>
+</params>

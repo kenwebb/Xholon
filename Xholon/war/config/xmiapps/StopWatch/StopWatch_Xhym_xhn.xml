@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	StopWatch application - _xhn configuration
+	Author: KenWebb
+	Date:   08/03/2007
+	File:   StopWatch.mdzip
+	Target: Xholon 0.5 http://www.primordion.com/Xholon
+	UML: MagicDraw UML 11.5
+	XMI: 2.1, Thu Feb 22 12:53:05 EST 2007
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<params xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+<param name="ShowParams" value="false"/>
+<param name="ModelName" value="StopWatch_Xhym"/>
+<param name="AppM" value="true"/>
+<param name="InfoM" value="false"/>
+<param name="ErrorM" value="true"/>
+<param name="MaxProcessLoops" value="10"/>
+<param name="TimeStepInterval" value="10"/>
+<param name="SizeMessageQueue" value="20"/>
+<param name="InheritanceHierarchyFile" value="./config/xmiapps/StopWatch/StopWatch_InheritanceHierarchy_Xhym.xml"/>
+<param name="CompositeStructureHierarchyFile" value="./config/xmiapps/StopWatch/StopWatch_CompositeStructureHierarchy_Xhym.xml"/>
+<param name="ClassDetailsFile" value="./config/xmiapps/StopWatch/StopWatch_ClassDetails_Xhym.xml"/>
+<param name="InformationFile" value="./config/xmiapps/StopWatch/StopWatch_Information_Xhym.xml"/>
+<param name="JavaClassName" value="org.primordion.xholon.xmiapps.AppStopWatch_Xhym"/>
+<param name="JavaXhClassName" value="org.primordion.xholon.xmiapps.XhStopWatch_Xhym"/>
+<param name="MaxPorts" value="1"/>
+<!-- Viewers -->
+<!-- UseDataPlotter: none JFreeChart gnuplot -->
+<param name="UseDataPlotter" value="false"/>
+<!-- DataPlotterParams: Title,XAxisLabel,YAxisLabel,Path,TypeOfData,NameConcatLevels,WriteType -->
+<param name="DataPlotterParams" value="Title,Time (timesteps),Y,./statistics/,stats,1,WRITE_AS_LONG"/>
+<param name="UseGraphicalTreeViewer" value="false"/>
+<!-- GraphicalTreeViewerParams: XPathExpression,DistX,DistY,SizeX,SizeY,FontSize,Title,ShowNodeLabels -->
+<param name="GraphicalTreeViewerParams" value="appRoot/,20,20,800,500,9,Application Composite Structure,false"/>
+<param name="UseGraphicalNetworkViewer" value="false"/>
+<!-- GraphicalNetworkViewerParams: XPathExpression,SizeX,SizeY,FontSize,LayoutType,ShowContainers,Title,ShowNodeLabels -->
+<param name="GraphicalNetworkViewerParams" value="appRoot/Control[@roleName='View']/XhymSpace,800,500,14,LAYOUT_KK,true,Observer Port Connections,true"/>
+<param name="UseGridViewer" value="false"/>
+<param name="GridPanelClassName" value="org.primordion.xholon.samples.GridPanelMyApp"/>
+<!-- GridViewerParams: XPathExpression,CellSize,Title -->
+<param name="GridViewerParams" value="descendant::Row/..,5,Grid Viewer App"/>
+<param name="UseInteractions" value="true"/>
+<param name="InteractionParams" value="4,true,localhost,60001"/>
+<param name="UseVrml" value="false"/>
+<param name="VrmlWriterClassName" value="org.primordion.xholon.tutorials.VrmlWriterMyApp"/>
+<!-- VrmlParams: DoClassicStyle,VrmlWriteDir,UseLOD,CreateProtoFiles -->
+<param name="VrmlParams" value="true,./3d/,false,false"/>
+<param name="UseTextTree" value="false"/>
+<param name="SaveSnapshots" value="false"/>
+<!-- SnapshotParams: SnapshotSource(0 1),SnapshotTostring,Path -->
+<param name="SnapshotParams" value="0,true,./snapshot/"/>
+<!-- The following parameters, if any, are specific to this application -->
+	
+	<!-- Xhym -->
+	<!-- value should be a comma-separated list of parameters for the agent -->
+	<param name="XhymAgent" value="none"/>
+</params>

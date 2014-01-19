@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>Game of Life</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<section>
+<title/>
+<p>This model demonstrates how to implement a two-dimensional cellular automaton using Xholon.
+A cellular automaton performs actions based on specific rules.
+The two-dimensional grid is divided into cells.
+Each cell can be in either the "alive" or "dead" state, depending on what happened
+to its neighbors in the previous time step.</p>
+<p>The Game of Life is a particularly well-known cellular automaton.
+The rules of the Game of Life are:</p>
+<ul>
+<li>Each time step, each cell checks its state and that of its eight immediate neighbors.
+Based on this evaluation, it sets itself to either alive or dead.</li>
+<li>If it has fewer than two alive neighbors, the cell dies.</li>
+<li>If it has more than three alive neighbors, it dies.</li>
+<li>If it has exactly two alive neighbors, the cell remains in its current state.</li>
+<li>If it has exactly three alive neighbors, it becomes alive.</li>
+</ul>
+</section>
+<section>
+<title/>
+<p>There are certain recurring shapes in Life, for example, the "glider" and the "blinker".
+The glider wiggles across the world, retaining its shape.
+A blinker is a block of three cells (either up and down or left and right) that rotates
+between horizontal and vertical orientations.
+The glider is composed of 5 cells which form a small arrow-headed shape, like this:</p>
+</section>
+<section>
+<title/>
+<source>
+    X
+     X
+   XXX
+</source>
+</section>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+	<title/>
+	<p>Run it:</p>
+	<ol>
+	<li>Run the Java application through the Xhn GUI (org.primordion.xholon.app.Xhn.java),
+	and select File --> Open --> GameOfLife --> GameOfLife_xhn.xml.</li>
+	<li>A grid viewer and tree viewer will appear.
+	The grid viewer will display a random initial pattern.</li>
+	<li>Expand the Controller node in the tree viewer.</li>
+	<li>Press the Start node.</li>
+	<li>The grid viewer will show a constantly changing pattern of alive and dead cells.</li>
+	</ol>
+</section>
+<section>
+	<title/>
+	<p>Pause and Step the model:</p>
+	<ol>
+	<li>Press Pause to pause and un-pause the executing model.
+	Press Step to advance the paused model by one time step.
+	Press Start to un-pause the paused model.</li>
+	</ol>
+</section>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p>Find some objects that are alive but that don't move or change.</p>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p>Are there any recurring shapes other than gliders and blinkers?</p>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p>Alter the rules and see what happens.
+The rules are implemented by postAct() within XhGameOfLife.java.</p>
+<p>Experiment with using 4 neighbors for each cell instead of 8 neighbors.
+Change config instruction="Gmt" to config instruction="Gvt" in ClassDetails.xml.
+This changes it from a Moore type grid to a von Neumann type grid.</p>
+<p>The grid is currently a torus meaning that cells along the top, bottom, right and left
+edges include as neighbors cells that are along the opposite edge. Make it a true grid
+with hard edges by changing config instruction="Gmt" to config instruction="Gmg"
+in ClassDetails.xml.</p>
+<p>Allow the model to read in an initial arrangement of alive and dead cells.
+See the AntTrails model for an example of how to do this.</p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p>This application demonstrates how to implement a 2-D grid within a Xholon tree.
+See XhGameOfLife.java and its superclass AbstractGrid.</p>
+<p>It also demonstrates how to visualize the 2-D grid.
+See sections bracketed by if(useGridViewer) in AppGameOfLife.java,
+and see also GridPanelGameOfLife.java and GridPanel.java.</p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>Some of the information in this document is taken from:
+Wilensky, U. (1998). NetLogo Life model. http://ccl.northwestern.edu/netlogo/models/Life.
+Center for Connected Learning and Computer-Based Modeling, Northwestern University, Evanston, IL.</p>
+<p>The Game of Life was invented by John Horton Conway.</p>
+<p>See also:</p>
+<p>Martin Gardner, "Mathematical Games: The fantastic combinations of John Conway's new solitaire game `life',", Scientific American, October, 1970, pp. 120-123.</p>
+<p>Martin Gardner, "Mathematical Games: On cellular automata, self-reproduction, the Garden of Eden, and the game `life',", Scientific American, February, 1971, pp. 112-117.</p>
+<p>William Poundstone, The Recursive Universe, William Morrow: New York, 1985.</p>
+<p><a href="http://en.wikipedia.org/wiki/Conway's_Game_of_Life">Wikipedia</a></p>
+<p><a href="http://www.argentum.freeserve.co.uk/lex_home.htm">Life Lexicon</a></p>
+<p><a href="http://www.conwaylife.com/wiki/">LifeWiki</a></p>
+</section>
+
+</body>
+</document>

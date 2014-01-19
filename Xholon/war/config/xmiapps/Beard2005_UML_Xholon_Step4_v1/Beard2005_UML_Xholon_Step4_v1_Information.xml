@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+		<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+		-->
+<?xml-stylesheet type="text/xsl"href="../../../information/info2html.xsl"?>
+
+<?xml-stylesheet type="text/css"href="../../../information/info.css"?>
+
+<!--
+	Beard2005_UML_Xholon_Step4_v1 Displayable information about this application.
+	Author: KenWebb
+	Date:   22/02/2007
+	File:   Beard2005_UML_Xholon_Step4_v1.mdzip
+	Target: Xholon 0.5 http://www.primordion.com/Xholon
+	UML: MagicDraw UML 11.5
+	XMI: 2.1, Thu Feb 22 12:38:46 EST 2007
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<document xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+<header>
+<title>Beard2005_UML_Xholon_Step4_v1</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>Author:Ken Webb.
+Created:13/12/06 5:25 PM.
+Title:Beard 2005 - Replication using MagicDraw and Xholon.
+Comment:This is a replication of the work reported in:
+Beard DA. (2005). A Biophysical Model of the Mitochondrial Respiratory System and Oxidative Phosphorylation,
+PLoS Computational Biology, 1(4): e36.
+</p>
+<p>MMParams_Simulink: Simulink model
+Mitochondrial Model Parameter Values - PARAMETRES
+from Simulink model for Ken Webb</p>
+<p>Mitochondrion: The system under investigation.</p>
+<p>ExternalSpace: Beard, fig. 1.
+This is the Cytosol or Cytoplasm.
+Beard "external buffer".
+Beard "extra-mitochondrial buffer".</p>
+<p>OuterMembrane: Beard.
+Hannaert/Guillaud model.</p>
+<p>IntermembraneSpace: Beard, fig. 1.
+Beard, IM space.</p>
+<p>InnerMembrane: Beard.
+Hannaert/Guillaud model.</p>
+<p>MitochondrialMatrix: Beard, fig. 1.</p>
+<p>Membrane: A membrane includes a lipid bilayer consisting of phospholipids, and also proteins. The lipids passively constrain the movement of objects across the membrane.</p>
+<p>ATPsynthase: Beard, F1Fo ATPase.
+Hannaert/Guillaud model, ATP Synthase.</p>
+<p>ANT: Beard, adenine nucleotide translocase.</p>
+<p>PiHt: Beard, phosphate-hydrogen co-transporter.</p>
+<p>H: Beard, H+, proton, hydrogen ion.</p>
+<p>Q: Beard, oxidized ubiquinal.</p>
+<p>QH: Beard, reduced ubiquinal.</p>
+<p>SubstrateTransporter: Beard.
+A superclass.</p>
+<p>KHAntiporter: Beard, transporter for hydrogen and potassium ions on the inner membrane.</p>
+<p>ATP: total ATP = ATPf + ATPm</p>
+<p>ADP: total ADP = ADPf + ADPm</p>
+<p>MitochondrialCompartment: Beard, p. e36, "the model includes two mitochondrial compartments (matrix and intermembrane [IM] space)."</p>
+<p>ATPf: Beard, fATP.
+Beard, the magnesium-unbound component of ATP in the IM space and the matrix.</p>
+<p>ADPf: Beard, fADP.
+Beard, the magnesium-unbound component of ADP in the IM space and the matrix.</p>
+<p>ATPm: Beard, mATP.
+Beard, the magnesium-bound component of ATP in the IM space and the matrix.</p>
+<p>ADPm: Beard, mADP.
+Beard, the magnesium-bound component of ADP in the IM space and the matrix.</p>
+<p>O2: Beard, O2.
+Oxygen.</p>
+<p>H2O: Beard, H2O.
+Water.</p>
+<p>Pi: Beard, Pi, inorganic phosphate.</p>
+<p>CytC: Beard, cytochrome c.</p>
+<p>CytCRed: Beard, reduced form of cytochrome c.</p>
+<p>CytCOx: Beard, oxidized form of cytochrome c.</p>
+<p>Mg2: magnesium</p>
+<p>AK: Beard, adenylate kinase reaction.</p>
+<p>K: Beard, K+.
+potassium ion.</p>
+<p>RespiratoryComplex: Beard, respiratory chain complex.
+These are active objects.</p>
+<p>NADtot: total NAD</p>
+<p>Qtot: total Q</p>
+<p>Mgtot: total magnesium</p>
+<p>PH: pH</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<p/>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p/>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p/>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p/>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p/>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p/>
+</section>
+
+</body>
+</document>

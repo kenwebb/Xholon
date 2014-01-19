@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>Xholon - Cell Model with Aupopoiesis</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This is a model of a simple biological cell, demonstrating autopoiesis.</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+<title/>
+<p>Run it:</p>
+<ol>
+<li>Run the Java application through the XhnCellontro GUI (org.primordion.cellontro.app.XhnCell.java),
+and select File --> Open --> cellontro --> CellAutop --> Autop_xhn.xml.</li>
+<li>Expand the Controller node in the tree.</li>
+<li>Press the Start node.</li>
+<li>You should see some text in the console window,
+a line chart showing how the quantities of small molecules change over time,
+a graph showing the biochemical pathways,
+and a tree that shows the entire composite structure of the model.</li>
+</ol>
+</section>
+<section><title/>
+<source>
+
+</source>
+</section>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<section><title/>
+<p>The composite structure hierarchy can be viewed in the Xhn GUI.</p>
+<figure src="CellAutopJTree.png" alt="CellAutop - GUI"/>
+</section>
+<section><title/>
+<p>The composite structure hierarchy can also be viewed graphically if JUNG is installed.</p>
+<figure src="CellAutopTree.png" alt="CellAutop - Composite Structure Hierarchy"/>
+</section>
+<section><title/>
+<p>Connections between xholons can be viewed graphically if you have JUNG installed.
+In this network graph, bilayer active objects are yellow rectangles,
+other active objects (enzymes, the hydrophobic force of water, and lipid disintegration)
+are red rectangles with a circular area missing, and passive objects (small molecules) are green circles.</p>
+<figure src="CellAutopNetwork.png" alt="CellAutop - Lateral connections"/>
+</section>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>This model is based on a conference paper.</p>
+<p><a href="http://www.primordion.com/pub/publishedPapers/Sac2004_WebbWhite_Bioin.pdf">
+	Webb, K., &amp; White, T. (2004). Combining Analysis and Synthesis in a Model of a Biological Cell. SAC '04, March 14-17, 2004, Nicosia, Cyprus.</a></p>
+<p>This paper, and the model, is based partly on the published work of Francisco Varela and Barry McMullin.</p>
+</section>
+
+</body>
+</document>

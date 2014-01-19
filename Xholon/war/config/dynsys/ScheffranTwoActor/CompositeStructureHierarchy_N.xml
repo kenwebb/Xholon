@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Use comments to comment out unneeded actors.
+	(XML comments are the characters that preceed and follow this set of lines.)
+	ex: If you change "NumActors" in ScheffranNActor_xhn.xml from "10" to "9",
+	    then comment out the entire last actor in this file.
+-->
+<ScheffranNActorSystem>
+	<Actor roleName="actor1">
+		<attribute name="value"     value="-0.3"/>
+		<attribute name="cost"      value="30.0"/>
+		<attribute name="f"         value="0.01,-0.01,0.01,-0.01,0.01,0.01,-0.01,0.01,-0.01,0.01"/>
+		<attribute name="valueGoal" value="0.0"/>
+		<attribute name="k"         value="0.02"/>
+		<attribute name="maxCost"   value="60.0"/>
+		<attribute name="tau"       value="0.0"/>
+	</Actor>
+	<Actor roleName="actor2">
+		<attribute name="value"     value="0.3"/>
+		<attribute name="cost"      value="30.0"/>
+		<attribute name="f"         value="0.01,-0.01,0.01,-0.01,0.01,0.01,-0.01,0.01,-0.01,0.01"/>
+		<attribute name="valueGoal" value="0.0"/>
+		<attribute name="k"         value="0.02"/>
+		<attribute name="maxCost"   value="60.0"/>
+		<attribute name="tau"       value="0.0"/>
+	</Actor>
+	<Actor roleName="actor3">
+		<attribute name="value"     value="-0.25"/>
+		<attribute name="cost"      value="30.0"/>
+		<attribute name="f"         value="-0.01,-0.01,0.01,0.01,0.01,-0.01,-0.01,0.01,0.01,0.01"/>
+		<attribute name="valueGoal" value="0.0"/>
+		<attribute name="k"         value="0.02"/>
+		<attribute name="maxCost"   value="60.0"/>
+		<attribute name="tau"       value="0.0"/>
+	</Actor>
+	<Actor roleName="actor4">
+		<attribute name="value"     value="0.25"/>
+		<attribute name="cost"      value="30.0"/>
+		<attribute name="f"         value="-0.01,-0.01,0.01,0.01,0.01,-0.01,-0.01,0.01,0.01,0.01"/>
+		<attribute name="valueGoal" value="0.0"/>
+		<attribute name="k"         value="0.02"/>
+		<attribute name="maxCost"   value="60.0"/>
+		<attribute name="tau"       value="0.0"/>
+	</Actor>
+	<Actor roleName="actor5">
+		<attribute name="value"     value="0.2"/>
+		<attribute name="cost"      value="30.0"/>
+		<attribute name="f"         value="0.01,-0.01,0.01,-0.01,0.01,0.01,-0.01,0.01,-0.01,0.01"/>
+		<attribute name="valueGoal" value="0.0"/>
+		<attribute name="k"         value="0.02"/>
+		<attribute name="maxCost"   value="60.0"/>
+		<attribute name="tau"       value="0.0"/>
+	</Actor>
+		<Actor roleName="actorB1">
+		<attribute name="value"     value="-2.3"/>
+		<attribute name="cost"      value="20.0"/>
+		<attribute name="f"         value="0.01,-0.01,0.01,-0.01,0.01,0.01,-0.01,0.01,-0.01,0.01"/>
+		<attribute name="valueGoal" value="0.0"/>
+		<attribute name="k"         value="0.02"/>
+		<attribute name="maxCost"   value="60.0"/>
+		<attribute name="tau"       value="2.0"/>
+	</Actor>
+	<Actor roleName="actorB2">
+		<attribute name="value"     value="2.3"/>
+		<attribute name="cost"      value="20.0"/>
+		<attribute name="f"         value="0.01,-0.01,0.01,-0.01,0.01,0.01,-0.01,0.01,-0.01,0.01"/>
+		<attribute name="valueGoal" value="0.0"/>
+		<attribute name="k"         value="0.02"/>
+		<attribute name="maxCost"   value="60.0"/>
+		<attribute name="tau"       value="4.0"/>
+	</Actor>
+	<Actor roleName="actorB3">
+		<attribute name="value"     value="-2.25"/>
+		<attribute name="cost"      value="20.0"/>
+		<attribute name="f"         value="-0.01,-0.01,0.01,0.01,0.01,-0.01,-0.01,0.01,0.01,0.01"/>
+		<attribute name="valueGoal" value="0.0"/>
+		<attribute name="k"         value="0.02"/>
+		<attribute name="maxCost"   value="60.0"/>
+		<attribute name="tau"       value="6.0"/>
+	</Actor>
+	<Actor roleName="actorB4">
+		<attribute name="value"     value="2.25"/>
+		<attribute name="cost"      value="20.0"/>
+		<attribute name="f"         value="-0.01,-0.01,0.01,0.01,0.01,-0.01,-0.01,0.01,0.01,0.01"/>
+		<attribute name="valueGoal" value="0.0"/>
+		<attribute name="k"         value="0.02"/>
+		<attribute name="maxCost"   value="60.0"/>
+		<attribute name="tau"       value="8.0"/>
+	</Actor>
+	<Actor roleName="actorB5">
+		<attribute name="value"     value="2.2"/>
+		<attribute name="cost"      value="20.0"/>
+		<attribute name="f"         value="0.01,-0.01,0.01,-0.01,0.01,0.01,-0.01,0.01,-0.01,0.01"/>
+		<attribute name="valueGoal" value="0.0"/>
+		<attribute name="k"         value="0.02"/>
+		<attribute name="maxCost"   value="60.0"/>
+		<attribute name="tau"       value="10.0"/>
+	</Actor>
+</ScheffranNActorSystem>

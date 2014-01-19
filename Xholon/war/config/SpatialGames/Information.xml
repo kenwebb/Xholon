@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>Spatial Games</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This model demonstrates how to implement a two-dimensional cellular automaton using Xholon.
+</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<p></p>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p></p>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p></p>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p></p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p></p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>Source of model concept:
+     Nowak, Martin A. (2006).
+     Evolutionary Dynamics: Exploring the equations of life. Cambridge, MA: Belknap/Harvard.
+     chapter 9 - Spatial Games
+</p>
+<p>
+  see also
+  <a href="http://www.univie.ac.at/virtuallabs/">
+    VirtualLabs in evolutionary game theory, by Christoph Hauert
+  </a>
+</p>
+</section>
+
+</body>
+</document>

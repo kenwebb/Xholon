@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	StupidModel16 application - _xhn configuration
+	Xholon 0.5 http://www.primordion.com/Xholon
+-->
+<params>
+<param name="ShowParams" value="false"/>
+<param name="ModelName" value="StupidModel16"/>
+<param name="AppM" value="true"/>
+<param name="InfoM" value="false"/>
+<param name="ErrorM" value="true"/>
+<param name="MaxProcessLoops" value="1000"/>
+<param name="TimeStepInterval" value="0"/>
+<param name="SizeMessageQueue" value="10"/>
+<param name="InheritanceHierarchyFile" value="config/StupidModel/StupidModel16/StupidModel16_InheritanceHierarchy.xml"/>
+<param name="CompositeStructureHierarchyFile" value="config/StupidModel/StupidModel16/StupidModel16_CompositeStructureHierarchy.xml"/>
+<param name="ClassDetailsFile" value="config/StupidModel/StupidModel16/StupidModel16_ClassDetails.xml"/>
+<param name="InformationFile" value="config/StupidModel/StupidModel16/StupidModel16_Information.xml"/>
+<param name="JavaClassName" value="org.primordion.user.app.StupidModel.sm16.AppStupidModel16"/>
+<param name="JavaXhClassName" value="org.primordion.user.app.StupidModel.sm16.XhStupidModel16"/>
+<param name="MaxPorts" value="2"/>
+<!-- Viewers -->
+<param name="UseGridViewer" value="true"/>
+<param name="GridPanelClassName" value="org.primordion.user.app.StupidModel.sm16.GridPanelStupidModel16"/>
+<!-- GridViewerParams: XPathExpression,CellSize,Title,UseShapes  good sizes are 4 and 7 -->
+<param name="GridViewerParams" value="descendant::Row/..,4,Xholon - Stupid Model 16 - Grid Viewer,true"/>
+
+<!-- UseDataPlotter determines whether the data each timestep is plotted on a graph or written to a file. -->
+<param name="UseDataPlotter" value="google2"/> <!-- google2 JFreeChart gnuplot none -->
+<param name="DataPlotterParams"
+	value="Population Abundance,Time Step,Number of bugs alive,./statistics/,sm16_Stats,1,WRITE_AS_DOUBLE"/>
+
+<!-- UseHistogramPlotter: none JFreeChart gnuplot google2 d3 -->
+<param name="UseHistogramPlotter" value="d3"/>
+<!-- HistogramPlotterParams: HistRoot,XholonClass,NumBins,Title,XAxisLabel,YAxisLabel,OutputPath,TypeOfData,NameConcatLevels,WriteType -->
+<param name="HistogramPlotterParams" value="./,Bug,20,Xholon - Bug Histogram,Bug size,Number of bugs of each size,./statistics/,bug,1,WRITE_AS_DOUBLE"/>
+
+<!-- application specific parameters -->
+<param name="MaxConsumptionRate" value="1.0"/> <!-- maximum daily food consumption (a bug parameter) 1.0 -->
+<param name="MaxFoodProductionRate" value="0.01"/> <!-- maximum food production (a cell parameter) 0.01 -->
+<param name="SurvivalProbability" value="0.95"/> <!-- survival probability (a bug parameter) 0.95 -->
+<param name="InitialBugSizeMean" value="0.1"/> <!-- initial bug size mean (a bug parameter) 0.1 -->
+<param name="InitialBugSizeSD" value="0.03"/> <!-- initial bug size standard deviation (a bug parameter) 0.03 -->
+<param name="StupidCellData" value="./config/StupidModel/Stupid_Cell.Data"/>
+
+</params>

@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Elevator application - Class Details
+	Author: KenWebb
+	Date:   23/05/2007
+	File:   Elevator.mdzip
+	Target: Xholon 0.5 http://www.primordion.com/Xholon
+	portImplementation: iport
+	UML: MagicDraw UML 11.5
+	XMI: 2.1, Wed May 23 12:19:43 EDT 2007
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<xholonClassDetails xmlns:XholonStereotypes="http://www.magicdraw.com/schemas/XholonStereotypes.xmi" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+<Door xhType="XhtypePureActiveObject">
+<!-- port: bOpen -->
+<port name="port" index="PushbuttonMessages0" multiplicity="1" isConjugated="false" providedInterface="SIN_REQUESTED," requiredInterface="SOUT_ACK,SOUT_REQUEST_SATISFIED,">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::Elevator/ElevatorPanel/DoorControlButton[@roleName='bOpen']/attribute::port[2]/attribute::replication[1..*])"/>
+</port>
+<!-- port: bClose -->
+<port name="port" index="PushbuttonMessages1" multiplicity="1" isConjugated="false" providedInterface="SIN_REQUESTED," requiredInterface="SOUT_ACK,SOUT_REQUEST_SATISFIED,">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::Elevator/ElevatorPanel/DoorControlButton[@roleName='bClose']/attribute::port[2]/attribute::replication[1..*])"/>
+</port>
+<!-- port: doorControlG -->
+<port name="port" index="DoorControl3" multiplicity="1" isConjugated="false" providedInterface="SIN_DOOR_CLOSED,SIN_DOOR_OPENED," requiredInterface="SOUT_CLOSE_DOOR,SOUT_OPEN_DOOR,">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::AnElevatorSystem/UserJTree/attribute::port[4]/attribute::replication[1..*])"/>
+</port>
+<!-- port: doorControlH -->
+<port name="port" index="DoorHoistControl4" multiplicity="1" isConjugated="true" providedInterface="SIN_DOOR_LOCKED,SIN_DOOR_CLOSED," requiredInterface="SOUT_LOCK_DOOR,SOUT_UNLOCK_DOOR,">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::Elevator/Hoist/attribute::port[5]/attribute::replication[1..*])"/>
+</port>
+</Door>
+<DoorControlButton xhType="XhtypePureActiveObject">
+<!-- port: gui -->
+<port name="port" index="PushbuttonMessages0" multiplicity="1" isConjugated="false" providedInterface="SIN_REQUESTED," requiredInterface="SOUT_ACK,SOUT_REQUEST_SATISFIED,">
+<portReplication name="replication" index="0" connector="#xpointer(.[@roleName='bOpen']/ancestor::AnElevatorSystem/UserJTree/attribute::port[7]/attribute::replication[1..*])"/>
+</port>
+<!-- port: gui -->
+<port name="port" index="PushbuttonMessages0" multiplicity="1" isConjugated="false" providedInterface="SIN_REQUESTED," requiredInterface="SOUT_ACK,SOUT_REQUEST_SATISFIED,">
+<portReplication name="replication" index="0" connector="#xpointer(.[@roleName='bClose']/ancestor::AnElevatorSystem/UserJTree/attribute::port[8]/attribute::replication[1..*])"/>
+</port>
+<!-- port: client -->
+<port name="port" index="PushbuttonMessages1" multiplicity="1" isConjugated="true" providedInterface="SIN_REQUESTED," requiredInterface="SOUT_ACK,SOUT_REQUEST_SATISFIED,">
+<portReplication name="replication" index="0" connector="#xpointer(.[@roleName='bOpen']/ancestor::Elevator/Door/attribute::port[1]/attribute::replication[1..*])"/>
+</port>
+<!-- port: client -->
+<port name="port" index="PushbuttonMessages1" multiplicity="1" isConjugated="true" providedInterface="SIN_REQUESTED," requiredInterface="SOUT_ACK,SOUT_REQUEST_SATISFIED,">
+<portReplication name="replication" index="0" connector="#xpointer(.[@roleName='bClose']/ancestor::Elevator/Door/attribute::port[2]/attribute::replication[1..*])"/>
+</port>
+</DoorControlButton>
+<CallButton xhType="XhtypePureActiveObject">
+<!-- port: gui -->
+<port name="port" index="PushbuttonMessages0" multiplicity="1" isConjugated="false" providedInterface="SIN_REQUESTED," requiredInterface="SOUT_ACK,SOUT_REQUEST_SATISFIED,">
+<portReplication name="replication" index="0" connector="#xpointer(.[@roleName='bUp']/ancestor::AnElevatorSystem/UserJTree/attribute::port[1]/attribute::replication[1..*])"/>
+</port>
+<!-- port: gui -->
+<port name="port" index="PushbuttonMessages0" multiplicity="1" isConjugated="false" providedInterface="SIN_REQUESTED," requiredInterface="SOUT_ACK,SOUT_REQUEST_SATISFIED,">
+<portReplication name="replication" index="0" connector="#xpointer(.[@roleName='bDown']/ancestor::AnElevatorSystem/UserJTree/attribute::port[5]/attribute::replication[1..*])"/>
+</port>
+<!-- port: client -->
+<port name="port" index="PushbuttonMessages1" multiplicity="1" isConjugated="true" providedInterface="SIN_REQUESTED," requiredInterface="SOUT_ACK,SOUT_REQUEST_SATISFIED,">
+<portReplication name="replication" index="0" connector="#xpointer(.[@roleName='bUp']/ancestor::AnElevatorSystem/Dispatcher/attribute::port[1]/attribute::replication[1..*])"/>
+</port>
+<!-- port: client -->
+<port name="port" index="PushbuttonMessages1" multiplicity="1" isConjugated="true" providedInterface="SIN_REQUESTED," requiredInterface="SOUT_ACK,SOUT_REQUEST_SATISFIED,">
+<portReplication name="replication" index="0" connector="#xpointer(.[@roleName='bDown']/ancestor::AnElevatorSystem/Dispatcher/attribute::port[2]/attribute::replication[1..*])"/>
+</port>
+</CallButton>
+<Indicator xhType="XhtypePureActiveObject">
+<!-- port: gui -->
+<port name="port" index="LocationInfo0" multiplicity="1" isConjugated="false" providedInterface="" requiredInterface="">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::AnElevatorSystem/UserJTree/attribute::port[2]/attribute::replication[1..*])"/>
+</port>
+<!-- port: client -->
+<port name="port" index="LocationInfo1" multiplicity="1" isConjugated="true" providedInterface="" requiredInterface="">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::Elevator/Hoist/attribute::port[2]/attribute::replication[1..*])"/>
+</port>
+</Indicator>
+<Hoist xhType="XhtypePureActiveObject">
+<!-- port: gotoFloor -->
+<port name="port" index="PushbuttonMessages0" multiplicity="8" isConjugated="false" providedInterface="SIN_REQUESTED," requiredInterface="SOUT_ACK,SOUT_REQUEST_SATISFIED,">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::Elevator/ElevatorPanel/FloorSelectionButton[1..8]/attribute::port[2]/attribute::replication[1..*])"/>
+</port>
+<!-- port: iFloorDisp -->
+<port name="port" index="LocationInfo1" multiplicity="1" isConjugated="false" providedInterface="" requiredInterface="">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::Elevator/ElevatorPanel/Indicator/attribute::port[2]/attribute::replication[1..*])"/>
+</port>
+<!-- port: dispD -->
+<port name="port" index="ElevatorDispatch2" multiplicity="1" isConjugated="true" providedInterface="SIN_IS_AT,SIN_IS_READY_NO_DEST,SIN_IS_READY_DEST," requiredInterface="SOUT_MOVE_TO_FL_N,">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::AnElevatorSystem/Dispatcher/attribute::port[3]/attribute::replication[1..*])"/>
+</port>
+<!-- port: dispG -->
+<port name="port" index="ElevatorDispatch3" multiplicity="1" isConjugated="false" providedInterface="SIN_IS_AT,SIN_IS_READY_NO_DEST,SIN_IS_READY_DEST," requiredInterface="">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::AnElevatorSystem/UserJTree/attribute::port[3]/attribute::replication[1..*])"/>
+</port>
+<!-- port: doorControl -->
+<port name="port" index="DoorHoistControl4" multiplicity="1" isConjugated="false" providedInterface="SIN_DOOR_LOCKED,SIN_DOOR_CLOSED," requiredInterface="SOUT_LOCK_DOOR,SOUT_UNLOCK_DOOR,">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::Elevator/Door/attribute::port[5]/attribute::replication[1..*])"/>
+</port>
+<!-- port: ticks -->
+<port name="port" index="Ticks5" multiplicity="1" isConjugated="true" providedInterface="" requiredInterface="SOUT_TICK,">
+<portReplication name="replication" index="0" connector="#xpointer(TickGenerator/attribute::port[1]/attribute::replication[1..*])"/>
+</port>
+</Hoist>
+<Button xhType="XhtypePureActiveObject"/>
+<Dispatcher xhType="XhtypePureActiveObject">
+<!-- port: callUp -->
+<port name="port" index="PushbuttonMessages0" multiplicity="8" isConjugated="false" providedInterface="SIN_REQUESTED," requiredInterface="SOUT_ACK,SOUT_REQUEST_SATISFIED,">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::AnElevatorSystem/Floor[1..8]/CallButton[@roleName='bUp']/attribute::port[2]/attribute::replication[1..*])"/>
+</port>
+<!-- port: callDown -->
+<port name="port" index="PushbuttonMessages1" multiplicity="8" isConjugated="false" providedInterface="SIN_REQUESTED," requiredInterface="SOUT_ACK,SOUT_REQUEST_SATISFIED,">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::AnElevatorSystem/Floor[1..8]/CallButton[@roleName='bDown']/attribute::port[2]/attribute::replication[1..*])"/>
+</port>
+<!-- port: elevatorDispatchD -->
+<port name="port" index="ElevatorDispatch2" multiplicity="2" isConjugated="false" providedInterface="SIN_IS_AT,SIN_IS_READY_NO_DEST,SIN_IS_READY_DEST," requiredInterface="SOUT_MOVE_TO_FL_N,">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::AnElevatorSystem/Elevator[1..2]/Hoist/attribute::port[3]/attribute::replication[1..*])"/>
+</port>
+</Dispatcher>
+<TickGenerator xhType="XhtypePureActiveObject">
+<!-- port: ticks -->
+<port name="port" index="Ticks0" multiplicity="1" isConjugated="false" providedInterface="" requiredInterface="SOUT_TICK,">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::Hoist)"/>
+</port>
+</TickGenerator>
+<FloorSelectionButton xhType="XhtypePureActiveObject">
+<!-- port: gui -->
+<port name="port" index="PushbuttonMessages0" multiplicity="1" isConjugated="false" providedInterface="SIN_REQUESTED," requiredInterface="SOUT_ACK,SOUT_REQUEST_SATISFIED,">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::AnElevatorSystem/UserJTree/attribute::port[6]/attribute::replication[1..*])"/>
+</port>
+<!-- port: client -->
+<port name="port" index="PushbuttonMessages1" multiplicity="1" isConjugated="true" providedInterface="SIN_REQUESTED," requiredInterface="SOUT_ACK,SOUT_REQUEST_SATISFIED,">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::Elevator/Hoist/attribute::port[1]/attribute::replication[1..*])"/>
+</port>
+</FloorSelectionButton>
+<UserJTree xhType="XhtypePureActiveObject">
+<!-- port: bFlUp -->
+<port name="port" index="PushbuttonMessages0" multiplicity="8" isConjugated="true" providedInterface="SIN_REQUESTED," requiredInterface="SOUT_ACK,SOUT_REQUEST_SATISFIED,">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::AnElevatorSystem/Floor[1..8]/CallButton[@roleName='bUp']/attribute::port[1]/attribute::replication[1..*])"/>
+</port>
+<!-- port: bFlDown -->
+<port name="port" index="PushbuttonMessages4" multiplicity="8" isConjugated="true" providedInterface="SIN_REQUESTED," requiredInterface="SOUT_ACK,SOUT_REQUEST_SATISFIED,">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::AnElevatorSystem/Floor[1..8]/CallButton[@roleName='bDown']/attribute::port[1]/attribute::replication[1..*])"/>
+</port>
+<!-- port: bFloor -->
+<port name="port" index="PushbuttonMessages5" multiplicity="16" isConjugated="true" providedInterface="SIN_REQUESTED," requiredInterface="SOUT_ACK,SOUT_REQUEST_SATISFIED,">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::AnElevatorSystem/Elevator[1..2]/ElevatorPanel/FloorSelectionButton[1..8]/attribute::port[1]/attribute::replication[1..*])"/>
+</port>
+<!-- port: iFloor -->
+<port name="port" index="LocationInfo1" multiplicity="2" isConjugated="true" providedInterface="" requiredInterface="">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::AnElevatorSystem/Elevator[1..2]/ElevatorPanel/Indicator/attribute::port[1]/attribute::replication[1..*])"/>
+</port>
+<!-- port: bOpen -->
+<port name="port" index="PushbuttonMessages6" multiplicity="2" isConjugated="true" providedInterface="SIN_REQUESTED," requiredInterface="SOUT_ACK,SOUT_REQUEST_SATISFIED,">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::AnElevatorSystem/Elevator[1..2]/ElevatorPanel/DoorControlButton[@roleName='bOpen']/attribute::port[1]/attribute::replication[1..*])"/>
+</port>
+<!-- port: bClose -->
+<port name="port" index="PushbuttonMessages7" multiplicity="2" isConjugated="true" providedInterface="SIN_REQUESTED," requiredInterface="SOUT_ACK,SOUT_REQUEST_SATISFIED,">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::AnElevatorSystem/Elevator[1..2]/ElevatorPanel/DoorControlButton[@roleName='bClose']/attribute::port[1]/attribute::replication[1..*])"/>
+</port>
+<!-- port: doorControl -->
+<port name="port" index="DoorControl3" multiplicity="2" isConjugated="true" providedInterface="SIN_DOOR_CLOSED,SIN_DOOR_OPENED," requiredInterface="SOUT_CLOSE_DOOR,SOUT_OPEN_DOOR,">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::AnElevatorSystem/Elevator[1..2]/Door/attribute::port[4]/attribute::replication[1..*])"/>
+</port>
+<!-- port: elevatorDispatch -->
+<port name="port" index="ElevatorDispatch2" multiplicity="2" isConjugated="true" providedInterface="SIN_IS_AT,SIN_IS_READY_NO_DEST,SIN_IS_READY_DEST," requiredInterface="SOUT_MOVE_TO_FL_N,">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::AnElevatorSystem/Elevator[1..2]/Hoist/attribute::port[4]/attribute::replication[1..*])"/>
+</port>
+</UserJTree>
+<UserInject xhType="XhtypePureActiveObject"/>
+<State xhType="XhtypeStateMachineEntityActive"  implName="org.primordion.xholon.base.ObservableStateMachineEntity">
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='6531254']/ancestor::StateMachine/descendant::Transition[@uid='62861929'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='6531254']/ancestor::StateMachine/descendant::Transition[@uid='2151934'])"/>
+<port name="cnpt" index="CNPT_OUTGOING3" connector="#xpointer(.[@uid='6531254']/ancestor::StateMachine/descendant::Transition[@uid='56271939'])"/>
+<port name="cnpt" index="CNPT_OUTGOING4" connector="#xpointer(.[@uid='6531254']/ancestor::StateMachine/descendant::Transition[@uid='28611944'])"/>
+<port name="cnpt" index="CNPT_OUTGOING5" connector="#xpointer(.[@uid='6531254']/ancestor::StateMachine/descendant::Transition[@uid='97921953'])"/>
+<port name="cnpt" index="CNPT_OUTGOING6" connector="#xpointer(.[@uid='6531254']/ancestor::StateMachine/descendant::Transition[@uid='43591958'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='1151363']/ancestor::StateMachine/descendant::Transition[@uid='6131619'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='1151363']/ancestor::StateMachine/descendant::Transition[@uid='4391622'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='981395']/ancestor::StateMachine/descendant::Transition[@uid='7791557'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='981395']/ancestor::StateMachine/descendant::Transition[@uid='4191682'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='9291418']/ancestor::StateMachine/descendant::Transition[@uid='4371597'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='9291418']/ancestor::StateMachine/descendant::Transition[@uid='4391671'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='1591429']/ancestor::StateMachine/descendant::Transition[@uid='9771634'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='1591429']/ancestor::StateMachine/descendant::Transition[@uid='9421646'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='6621291']/ancestor::StateMachine/descendant::Transition[@uid='7151658'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='9121396']/ancestor::StateMachine/descendant::Transition[@uid='29931969'])"/>
+<port name="cnpt" index="CNPT_OUTGOING3" connector="#xpointer(.[@uid='9121396']/ancestor::StateMachine/descendant::Transition[@uid='27341974'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='9121396']/ancestor::StateMachine/descendant::Transition[@uid='8961979'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='4911496']/ancestor::StateMachine/descendant::Transition[@uid='131557'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='7791429']/ancestor::StateMachine/descendant::Transition[@uid='7391697'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='7791429']/ancestor::StateMachine/descendant::Transition[@uid='1591653'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='7991442']/ancestor::StateMachine/descendant::Transition[@uid='1271545'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='446192']/ancestor::StateMachine/descendant::Transition[@uid='559319'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='446192']/ancestor::StateMachine/descendant::Transition[@uid='896917'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='4731992']/ancestor::StateMachine/descendant::Transition[@uid='5341962'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='2731925']/ancestor::StateMachine/descendant::Transition[@uid='4841974'])"/>
+<port name="cnpt" index="CNPT_OUTGOING4" connector="#xpointer(.[@uid='1841281']/ancestor::StateMachine/descendant::Transition[@uid='6851397'])"/>
+<port name="cnpt" index="CNPT_OUTGOING5" connector="#xpointer(.[@uid='1841281']/ancestor::StateMachine/descendant::Transition[@uid='9661331'])"/>
+<port name="cnpt" index="CNPT_OUTGOING3" connector="#xpointer(.[@uid='1841281']/ancestor::StateMachine/descendant::Transition[@uid='3891342'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='1841281']/ancestor::StateMachine/descendant::Transition[@uid='2451366'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='1841281']/ancestor::StateMachine/descendant::Transition[@uid='881378'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='84241936']/ancestor::StateMachine/descendant::Transition[@uid='24151969'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='39921293']/ancestor::StateMachine/descendant::Transition[@uid='331912'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='39921293']/ancestor::StateMachine/descendant::Transition[@uid='9247194'])"/>
+<port name="cnpt" index="CNPT_OUTGOING3" connector="#xpointer(.[@uid='39921293']/ancestor::StateMachine/descendant::Transition[@uid='9381126'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='99221261']/ancestor::StateMachine/descendant::Transition[@uid='99491364'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='99221261']/ancestor::StateMachine/descendant::Transition[@uid='92171449'])"/>
+<port name="cnpt" index="CNPT_OUTGOING3" connector="#xpointer(.[@uid='99221261']/ancestor::StateMachine/descendant::Transition[@uid='79551447'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='93231283']/ancestor::StateMachine/descendant::Transition[@uid='76481348'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='74951332']/ancestor::StateMachine/descendant::Transition[@uid='27121451'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='85791436']/ancestor::StateMachine/descendant::Transition[@uid='74591478'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='85791436']/ancestor::StateMachine/descendant::Transition[@uid='17841518'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='89391494']/ancestor::StateMachine/descendant::Transition[@uid='74581923'])"/>
+</State>
+<PseudostateInitial xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity">
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='3321268']/ancestor::StateMachine/descendant::Transition[@uid='9621383'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='6861491']/ancestor::StateMachine/descendant::Transition[@uid='4241455'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='9911916']/ancestor::StateMachine/descendant::Transition[@uid='9821951'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='911274']/ancestor::StateMachine/descendant::Transition[@uid='2671293'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='3991827']/ancestor::StateMachine/descendant::Transition[@uid='26971949'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='99291998']/ancestor::StateMachine/descendant::Transition[@uid='971517'])"/>
+</PseudostateInitial>
+<PseudostateChoice xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity">
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='5381434']/ancestor::StateMachine/descendant::Transition[@uid='9581569'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='5381434']/ancestor::StateMachine/descendant::Transition[@uid='9991589'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='3141527']/ancestor::StateMachine/descendant::Transition[@uid='5591569'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='3141527']/ancestor::StateMachine/descendant::Transition[@uid='2991589'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='9611533']/ancestor::StateMachine/descendant::Transition[@uid='4891593'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='9611533']/ancestor::StateMachine/descendant::Transition[@uid='8821615'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='4541539']/ancestor::StateMachine/descendant::Transition[@uid='9351629'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='4541539']/ancestor::StateMachine/descendant::Transition[@uid='981649'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='883712']/ancestor::StateMachine/descendant::Transition[@uid='85771328'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='883712']/ancestor::StateMachine/descendant::Transition[@uid='81121372'])"/>
+<port name="cnpt" index="CNPT_OUTGOING3" connector="#xpointer(.[@uid='883712']/ancestor::StateMachine/descendant::Transition[@uid='64391395'])"/>
+<port name="cnpt" index="CNPT_OUTGOING4" connector="#xpointer(.[@uid='883712']/ancestor::StateMachine/descendant::Transition[@uid='22541498'])"/>
+</PseudostateChoice>
+<PseudostateJunction xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<PseudostateFork xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<PseudostateJoin xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<PseudostateEntryPoint xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity">
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='39691294']/ancestor::StateMachine/descendant::Transition[@uid='55851295'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='12191241']/ancestor::StateMachine/descendant::Transition[@uid='3941249'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='92831217']/ancestor::StateMachine/descendant::Transition[@uid='16991227'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='95641277']/ancestor::StateMachine/descendant::Transition[@uid='46731297'])"/>
+</PseudostateEntryPoint>
+<PseudostateExitPoint xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<TransitionExternal xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity">
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='7791557']/ancestor::StateMachine/descendant::PseudostateChoice[@uid='5381434'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='9581569']/ancestor::StateMachine/descendant::State[@uid='6621291'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='9991589']/ancestor::StateMachine/descendant::State[@uid='1591429'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='4371597']/ancestor::StateMachine/descendant::State[@uid='1151363'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='6131619']/ancestor::StateMachine/descendant::State[@uid='981395'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='4391622']/ancestor::StateMachine/descendant::State[@uid='981395'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='9771634']/ancestor::StateMachine/descendant::State[@uid='6621291'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='9421646']/ancestor::StateMachine/descendant::State[@uid='9291418'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='4391671']/ancestor::StateMachine/descendant::State[@uid='981395'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='4191682']/ancestor::StateMachine/descendant::State[@uid='9291418'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='9621383']/ancestor::StateMachine/descendant::State[@uid='1151363'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='7151658']/ancestor::StateMachine/descendant::State[@uid='9291418'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='4241455']/ancestor::StateMachine/descendant::State[@uid='4911496'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='1271545']/ancestor::StateMachine/descendant::State[@uid='7791429'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='131557']/ancestor::StateMachine/descendant::PseudostateChoice[@uid='3141527'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='5591569']/ancestor::StateMachine/descendant::State[@uid='4911496'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='2991589']/ancestor::StateMachine/descendant::PseudostateChoice[@uid='9611533'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='4891593']/ancestor::StateMachine/descendant::State[@uid='4911496'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='8821615']/ancestor::StateMachine/descendant::State[@uid='7991442'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='7391697']/ancestor::StateMachine/descendant::PseudostateChoice[@uid='4541539'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='9351629']/ancestor::StateMachine/descendant::State[@uid='7791429'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='981649']/ancestor::StateMachine/descendant::State[@uid='4911496'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='1591653']/ancestor::StateMachine/descendant::State[@uid='7791429'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='9821951']/ancestor::StateMachine/descendant::State[@uid='4731992'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='5341962']/ancestor::StateMachine/descendant::State[@uid='2731925'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='4841974']/ancestor::StateMachine/descendant::State[@uid='4731992'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='2671293']/ancestor::StateMachine/descendant::State[@uid='1841281'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='6851397']/ancestor::StateMachine/descendant::State[@uid='1841281'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='9661331']/ancestor::StateMachine/descendant::State[@uid='1841281'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='3891342']/ancestor::StateMachine/descendant::State[@uid='1841281'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='2451366']/ancestor::StateMachine/descendant::State[@uid='1841281'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='881378']/ancestor::StateMachine/descendant::State[@uid='1841281'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='26971949']/ancestor::StateMachine/descendant::State[@uid='84241936'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='24151969']/ancestor::StateMachine/descendant::State[@uid='84241936'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='55851295']/ancestor::StateMachine/descendant::State[@uid='85861293'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='3941249']/ancestor::StateMachine/descendant::State[@uid='92341239'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='331912']/ancestor::StateMachine/descendant::State[@uid='39921293'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='9247194']/ancestor::StateMachine/descendant::State[@uid='39921293'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='9381126']/ancestor::StateMachine/descendant::State[@uid='39921293'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='16991227']/ancestor::StateMachine/descendant::State[@uid='39921293'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='76481348']/ancestor::StateMachine/descendant::State[@uid='74951332'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='27121451']/ancestor::StateMachine/descendant::State[@uid='85791436'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='74591478']/ancestor::StateMachine/descendant::State[@uid='85791436'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='17841518']/ancestor::StateMachine/descendant::State[@uid='89391494'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='74581923']/ancestor::StateMachine/descendant::State[@uid='89391494'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='46731297']/ancestor::StateMachine/descendant::State[@uid='93231283'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='99491364']/ancestor::StateMachine/descendant::State[@uid='99221261'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='971517']/ancestor::StateMachine/descendant::PseudostateChoice[@uid='883712'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='85771328']/ancestor::StateMachine/descendant::PseudostateEntryPoint[@uid='95641277'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='81121372']/ancestor::StateMachine/descendant::PseudostateEntryPoint[@uid='92831217'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='64391395']/ancestor::StateMachine/descendant::PseudostateEntryPoint[@uid='12191241'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='22541498']/ancestor::StateMachine/descendant::PseudostateEntryPoint[@uid='39691294'])"/>
+</TransitionExternal>
+<TransitionInternal xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<TransitionLocal xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<StateMachineEntity xhType="XhtypeStateMachineEntity" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

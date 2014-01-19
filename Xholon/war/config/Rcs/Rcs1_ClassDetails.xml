@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Xholon Rcs Rcs1_ClassDetails.xml -->
+<xholonClassDetails>
+	<GlycogenPhosphorylase xhType="XhtypePureActiveObject">
+		<port name="port" index="Substrate" connector="#xpointer(ancestor::GlycogenPhosphorylaseSystem/Glycogen)"/>
+		<port name="port" index="Product" connector="#xpointer(ancestor::GlycogenPhosphorylaseSystem/Glucose_1_Phosphate)"/>
+	</GlycogenPhosphorylase>
+	<PhosphorylaseKinase xhType="XhtypePureActiveObject">
+		<port name="port" index="Regulation" connector="#xpointer(ancestor::GlycogenPhosphorylaseSystem/GlycogenPhosphorylase)"/>
+		<port name="port" index="Substrate" connector="#xpointer(ancestor::GlycogenPhosphorylaseSystem/Glucose_1_Phosphate)"/>
+	</PhosphorylaseKinase>
+	<PhosphorylasePhosphatase xhType="XhtypePureActiveObject">
+		<port name="port" index="Regulation" connector="#xpointer(ancestor::GlycogenPhosphorylaseSystem/GlycogenPhosphorylase)"/>
+		<port name="port" index="Substrate" connector="#xpointer(ancestor::GlycogenPhosphorylaseSystem/Glucose_1_Phosphate)"/>
+	</PhosphorylasePhosphatase>
+	<Glycogen xhType="XhtypePurePassiveObject"/>
+	<Glucose_1_Phosphate xhType="XhtypePurePassiveObject"/>
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

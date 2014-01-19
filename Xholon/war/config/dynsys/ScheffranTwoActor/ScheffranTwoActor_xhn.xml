@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ScheffranTwoActor configuration file
+	 Ken Webb
+	 January 16, 2007 -->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Dynamical System - ScheffranTwoActor"/>
+	<param name="AppM" value="false"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="60"/> <!-- 60 -->
+	<param name="TimeStepInterval" value="10"/>
+	<param name="InheritanceHierarchyFile" value="./config/dynsys/ScheffranTwoActor/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="./config/dynsys/ScheffranTwoActor/CompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="./config/dynsys/ScheffranTwoActor/ClassDetails.xml"/>
+	<param name="InformationFile" value="config/dynsys/ScheffranTwoActor/Information.xml"/>
+	<param name="JavaClassName" value="org.primordion.dynsys.app.AppScheffranTwoActor"/>
+	<param name="JavaXhClassName" value="org.primordion.dynsys.app.XhScheffranTwoActor"/>
+	<param name="MaxPorts" value="1"/>
+	<!-- UseDataPlotter determines whether the data each timestep is plotted on a graph. -->
+	<param name="UseDataPlotter" value="google2"/> <!-- JFreeChart gnuplot google2 none -->
+	<param name="DataPlotterParams"
+		value="Value changing over time,Time (days),Value,./statistics/,2actr,1,WRITE_AS_DOUBLE"/>
+</params>

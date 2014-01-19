@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+These are the IPCC AR pre-industrial levels for reservoirs, unless otherwise noted.
+See ar4-wg1-chapter7.pdf p.515 Figure 7.3.
+The units are gigatons carbon equivalent (Gt), where 1 Gt carbon = 3.66 Gt CO2 .
+-->
+<_-.reservoirs>
+  <!-- air -->
+  <Atmosphere>597.0</Atmosphere> <!-- 281.6 ppm -->
+  <!-- land -->
+  <!-- IPCC AR has "Vegetation, Soil and Detritus" 2300;
+  I could split this between Veg and Soil, using same ratio as in SVG.
+  But for now, combine them both into Veg. -->
+  <TerrestrialVegetation>2300.0</TerrestrialVegetation> <!-- 644.0 -->
+  <Soil>0.0</Soil> <!-- 1656.0 -->
+  <!-- ocean -->
+  <SurfaceOcean>900.0</SurfaceOcean>
+  <DeepOcean>37100.0</DeepOcean>
+  <SurfaceSediment>150.0</SurfaceSediment>
+  <MarineOrganisms>3.0</MarineOrganisms>
+  <DissolvedOrganicCarbon>0.0</DissolvedOrganicCarbon> <!-- missing from IPCC figure -->
+  <!-- fossil -->
+  <FossilCarbon>
+    <Coal>3700.0</Coal> <!-- the is the Fossil Fuels value from IPCC figure -->
+    <Oil>0.0</Oil>
+    <NaturalGas></NaturalGas>
+  </FossilCarbon>
+  <!-- other -->
+  <CarbonateRock/>
+  <Kerogen/>
+</_-.reservoirs>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	
+-->
+<TheSystem xmlns:xmi="http://schema.omg.org/spec/XMI/2.1"
+	xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+	<TurtleObserver/>
+	<PatchOwner>
+		<Row multiplicity="51">
+			<Grass multiplicity="51"></Grass>
+		</Row>
+	</PatchOwner>
+	<!-- Aggregators keep track of the population of each "breed" -->
+	<Aggregator roleName="Wolf"/>
+	<Aggregator roleName="Sheep"/>
+	<Aggregator roleName="Grass"/>
+</TheSystem>

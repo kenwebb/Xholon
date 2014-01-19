@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Xholon SpringIdol configuration file
+	 Ken Webb
+	 December 24, 2007 -->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Spring Idol"/>
+	<param name="AppM" value="true"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="1"/>
+	<param name="TimeStepInterval" value="10"/>
+	<param name="InheritanceHierarchyFile" value="config/SpringIdol/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="config/SpringIdol/CompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="config/SpringIdol/ClassDetails.xml"/>
+	<param name="InformationFile" value="config/SpringIdol/Information_SpringIdol.xml"/>
+	<param name="JavaClassName" value="org.primordion.user.app.SpringIdol.AppSpringIdol"/>
+	<param name="JavaXhClassName" value="org.primordion.user.app.SpringIdol.XhSpringIdol"/>
+	<param name="MaxPorts" value="0"/>
+</params>

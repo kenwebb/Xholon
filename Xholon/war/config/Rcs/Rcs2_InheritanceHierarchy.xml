@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+	
+	<GlycogenPhosphorylaseSystem/>
+	<Enzyme>
+		<RcsEnzyme>
+			<GlycogenPhosphorylase>
+				<GlycogenPhosphorylaseA/> <!-- Active -->
+				<GlycogenPhosphorylaseB/> <!-- Inactive -->
+			</GlycogenPhosphorylase>
+			<PhosphorylaseKinase/>
+			<PhosphorylasePhosphatase/>
+		</RcsEnzyme>
+	</Enzyme>
+	<SmallMolecule>
+		<Glucose/> <!-- glucose units within a glycogen chain -->
+		<Glucose_1_Phosphate/>
+		<Axp>
+			<Atp/> <!-- adenosine triphosphate -->
+			<Adp/> <!-- adenosine diphosphate -->
+		</Axp>
+		<PhosphorylGroup/> <!-- used to represent a state -->
+		<Adenosine/> <!-- base component of Atp and Adp -->
+	</SmallMolecule>
+	<Polysaccharide>
+		<Glycogen/>
+	</Polysaccharide>
+	<Solution/> <!-- container for individual Glucose_1_Phosphate -->
+	
+	<!-- Port -->
+	<!--<xi:include href="_mechanism/Port.xml"/>-->
+	<!-- Xholon Viewers -->
+	<!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

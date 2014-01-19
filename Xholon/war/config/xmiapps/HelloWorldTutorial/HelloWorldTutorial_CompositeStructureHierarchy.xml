@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	HelloWorldTutorial application - Composite Structure Hierarchy
+	Author: KenWebb
+	Date:   23/05/2007
+	File:   HelloWorldTutorial.mdzip
+	Target: Xholon 0.5 http://www.primordion.com/Xholon
+	UML: MagicDraw UML 11.5
+	XMI: 2.1, Thu Feb 22 12:47:48 EST 2007
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<HelloWorldSystem xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+<Hello roleName="">
+<StateMachine>
+<Region>
+<State uid="52891511" roleName="">
+<Region>
+<PseudostateInitial uid="65321596" roleName=""/>
+<State uid="69741522" roleName="SayingHello"/>
+<TransitionExternal uid="24581536" roleName="">
+<Activity uid="94941553"/>
+</TransitionExternal>
+</Region>
+</State>
+<TransitionExternal uid="94881548" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIGNAL_ONE"/>
+<Activity uid="83811557"/>
+</TransitionExternal>
+</Region>
+</StateMachine>
+</Hello>
+<World roleName="">
+<StateMachine>
+<Region>
+<State uid="96651572" roleName="">
+<Region>
+<PseudostateInitial uid="79381588" roleName=""/>
+<State uid="14811594" roleName="SayingWorld"/>
+<TransitionExternal uid="57921619" roleName=""/>
+<TransitionExternal uid="45721629" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIGNAL_ONE"/>
+<Activity uid="74791634"/>
+</TransitionExternal>
+</Region>
+</State>
+</Region>
+</StateMachine>
+</World>
+</HelloWorldSystem>

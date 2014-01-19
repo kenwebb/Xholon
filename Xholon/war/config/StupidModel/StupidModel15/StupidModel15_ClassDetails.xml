@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	StupidModel15 application - Class Details
+	Xholon 0.5 http://www.primordion.com/Xholon
+-->
+<xholonClassDetails>
+	<StupidModel xhType="XhtypePurePassiveObject"/>
+	<Grid xhType="XhtypeGridEntity" implName="org.primordion.user.app.StupidModel.sm15.HabitatCellStupidModel15"/>
+	<Row xhType="XhtypeGridEntity" implName="org.primordion.xholon.base.GridEntity"/>
+	<HabitatCell xhType="XhtypeGridEntityActivePassive" implName="org.primordion.user.app.StupidModel.sm15.HabitatCellStupidModel15">
+		<config instruction="Gmg"/>
+	</HabitatCell>
+	<Bugs xhType="XhtypePureActiveObject" implName="org.primordion.user.app.StupidModel.sm15.QueueStupidModel15"/>
+	<Bug xhType="XhtypePureActiveObject" implName="org.primordion.user.app.StupidModel.sm15.BugStupidModel15">
+		<port name="port" index="P_Statistics" connector="#xpointer(ancestor::Grid/../Statistics)"/>
+		<port name="port" index="P_Scheduler" connector="#xpointer(ancestor::Grid/../Bugs)"/>
+	</Bug>
+	<Statistics xhType="XhtypePureActiveObject"/>
+	<Aggregator xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_double"/>
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

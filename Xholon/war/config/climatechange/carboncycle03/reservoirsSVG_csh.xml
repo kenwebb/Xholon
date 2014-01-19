@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- these are the initial values for reservoirs, as found on the original wikipedia SVG diagram -->
+<_-.reservoirs>
+  <!-- initial values are from the diagram in (11), in billions of tonnes of carbon -->
+  <!-- air -->
+  <Atmosphere>750.0</Atmosphere>
+  <!-- land -->
+  <TerrestrialVegetation>610.0</TerrestrialVegetation>
+  <Soil>1600.0</Soil>
+  <!-- ocean -->
+  <SurfaceOcean>1020.0</SurfaceOcean>
+  <DeepOcean>40000.0</DeepOcean>
+  <SurfaceSediment>150.0</SurfaceSediment>
+  <MarineOrganisms>3.0</MarineOrganisms>
+  <DissolvedOrganicCarbon>700.0</DissolvedOrganicCarbon>
+  <!-- fossil -->
+  <FossilCarbon>
+    <Coal>4000.0</Coal> <!-- 3000.0 -->
+    <Oil>0.0</Oil> <!-- 300.0 oil and gas -->
+    <NaturalGas></NaturalGas>
+  </FossilCarbon>
+  <!-- other -->
+  <CarbonateRock/>
+  <Kerogen/>
+</_-.reservoirs>

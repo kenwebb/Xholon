@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>1D Cellular Automaton</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<title/>
+<p>This model demonstrates the simplest class of 1D Cellular Automata. In a neighbourhood
+of 3 cells, the center cell turns either black or white, depending on the state of its
+neighbours and which of 256 possible rules has been selected. For example, when applying
+Rule #30 in a given a neighbourhood configuration of 111, the center cell will turn white,
+yielding a new configuration of 101.</p>
+
+<p>Since a neighbourhood is made up of 3 cells, it has 2^3=8 possible states, which then
+allows for 2^8=256 possible rules, each of which over an arbitrary number of steps will
+produce a deterministic pattern of black and white cells. The rules are numbered according
+to Wolfram notation, where each of the 8 possible states for a neighbourhood produces a
+unique configuration of possible states for the center cell. This binary result is then
+converted to decimal form for convenience, for example Rule #30 is the new center cell
+configuration 0001 1110 = 30.  See http://en.wikipedia.org/wiki/Cellular_automaton for a
+brief outline on cellular automata or http://www.wolframscience.com/nksonline/toc.html
+(Chapter 3) for a more in-depth exploration of the subject.</p>
+
+<figure src="ca30.png" alt="Simple Cellular Automata - Rule #30"/>
+
+<p>The Xholon CA application can handle all 256 of these rules.</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+	<title/>
+	<p>Run it:</p>
+	<ol>
+	<li>Run the Java application through the Xhn GUI (org.primordion.xholon.app.Xhn.java),
+	and select File --> Open --> ca --> 1dSimple --> 1dSimple_xhn.xml.</li>
+	<li>A grid viewer and the Xholon GUI will appear.
+	The grid viewer will display the initial pattern, with only the top centre cell black.</li>
+	<li>Expand the Controller node in the GUI.</li>
+	<li>Press the Start node.</li>
+	</ol>
+</section>
+<section>
+	<title/>
+	<p>Pause and Step the model:</p>
+	<ol>
+	<li>Press Pause to pause and resume the executing model.
+	Press Step to advance the paused model by one time step.
+	Press Start to resume the paused model.</li>
+	</ol>
+</section>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p>There are 4 interesting behaviours that can be seen by applying the various rules;
+repetition, nesting, randomness, and the creation of localized structures.</p>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p>Edit 1dSimple_xhn.xml (param name="CaRuleNumber" value="30"/>) and view the graphical
+results of applying different rules.</p>
+
+<p>Alter the visual aspect of the graph by changing the cell size and the grid size.
+To change the cell size, edit the number of pixels per cell
+(by default 3) in 1dSimple_xhn.xml 
+(param name="GridViewerParams" value="descendant::Row/..,3,Xholon - 1D CA Simple".)
+Change the grid size by increasing the number of rows and columns in
+CompositeStructureHierarchy.xml to, for example, 200 and 400.</p>
+
+<p>Change the number of time steps the application will run for by editing 1dSimple_xhn.xml
+(param name="MaxProcessLoops" value="99"/>.)  Setting it to -1 will cause the application
+to run forever.</p>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p></p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p>Each cell in this cellular automata application is a xholon and communicates with
+the other cells (xholons) via ports.</p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p><a href="http://en.wikipedia.org/wiki/Cellular_automaton">
+	Wikepedia</a></p>
+
+<p><a href="http://www.wolframscience.com/nksonline/toc.html">
+	Stephen Wolfram: A New Kind of Science</a></p>
+</section>
+
+</body>
+</document>

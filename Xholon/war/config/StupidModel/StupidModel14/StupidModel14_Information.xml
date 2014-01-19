@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+		<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+		-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+
+<!--
+	StupidModel14 Displayable information about this application.
+	Xholon 0.6 http://www.primordion.com/Xholon (Ken Webb)
+-->
+<document>
+<header>
+<title>Xholon - Stupid Model 14 - Random Normal Initial Size</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This is the 14th in a series of 16 "Stupid Models". It's intended as a starting point for learning how to develop grid and agent-based models using Xholon. It can also be used to compare Xholon with other agent-based modeling tools that have also implemented the Stupid Model series.</p>
+<p>This model shows how to use a different random number distribution, in this case the normal distribution. Up to now, only a uniform distribution has been used. The model has two new parameters, initialBugSizeMean (0.1) and initialBugSizeSD (0.03). At the start of the simulation, bugs are initialized to a random size drawn from a normal distribution with this mean and standard deviation. Bug sizes must be greater than or equal to 0.0.</p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p>Xholon uses the random number distributions in the <a href="http://dsd.lbl.gov/~hoschek/colt/">colt</a> library, and Random.java from<a href="http://repast.sourceforge.net/"> Repast</a> to access the colt library. The postConfigure() method in BugStupidModel14.java initializes the size of each bug.</p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>Railsback, S., Lytinen, S., Grimm, V. (2005).
+StupidModel and Extensions: A Template and Teaching Tool for Agent-based Modeling Platforms.</p>
+<p><a href="http://www.swarm.org/wiki/Software_templates">Swarm page</a></p>
+<p><a href="http://condor.depaul.edu/~slytinen/abm/StupidModel/">Author's page</a></p>
+</section>
+
+</body>
+</document>

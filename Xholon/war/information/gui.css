@@ -1,0 +1,14 @@
+/* Defaults for the entire document */
+body {background-color: #f0f8ff}
+fieldset {background-color: #f3fff3}
+legend {font-size: 12pt; font-weight: normal}
+input {font-size: 12pt; background-color: #fff3f3; font-weight: normal}
+button {background-color: #f0edff; border-style: outset; font-weight: normal}
+hr {background-color: #e0e0e0; height: 5px; border-style: none}
+
+window {font-family: "Times New Roman", serif; font-size: 12pt; font-weight: normal; background-color: #f3fff3}
+title {font-size: 18pt; font-weight: bold; text-align: center}
+section {}
+p {margin-top: 12px; display: block}
+li {display: list-item; list-style-type: square; list-style-position: inside}
+source {white-space: pre; margin-top: 12px; font-family: "Courier"; font-size:10pt; display: block}

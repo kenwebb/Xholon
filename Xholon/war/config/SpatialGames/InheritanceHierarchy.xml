@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- source of model concept:
+     Nowak, Martin A. (2006).
+     Evolutionary Dynamics: Exploring the equations of life. Cambridge, MA: Belknap/Harvard.
+     chapter 9 - Spatial Games
+-->
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+	<SpatialGame/>
+	<Row/>
+	<GridCell> <!-- there are four types of individual or player -->
+		<CwasC/> <!-- (Blue)   Cooperator, was a Cooperator in the previous generation -->
+		<DwasD/> <!-- (Red)    Defector,   was a Defector   in the previous generation -->
+		<CwasD/> <!-- (Green)  Cooperator, was a Defector   in the previous generation -->
+		<DwasC/> <!-- (Yellow) Defector,   was a Cooperator in the previous generation -->
+	</GridCell>
+	
+	<!-- Xholon Viewers -->
+	<!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

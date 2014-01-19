@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+		<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+		-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+
+<!--
+	StupidModel9 Displayable information about this application.
+	Xholon 0.6 http://www.primordion.com/Xholon (Ken Webb)
+-->
+<document>
+<header>
+<title>Xholon - Stupid Model 9 - Randomized Agent Actions</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This is the 9th in a series of 16 "Stupid Models". It's intended as a starting point for learning how to develop grid and agent-based models using Xholon. It can also be used to compare Xholon with other agent-based modeling tools that have also implemented the Stupid Model series.</p>
+<p>This model shows how to randomize the order in which agents execute their actions. The order of the bugs' move action is shuffled each time step.</p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p>In the Xholon implementation of all the stupid models up to now (models 1 to 8), the bugs were simply children of habitat cells. With this model, they are also placed in a queue. Their location in space is now completely separated from the order in which they are invoked. Each bug is still a child of a habitat cell, but it is no longer invoked by that cell. Instead, each time step, the bug queue is shuffled, and then each bug is invoked in the shuffled order by calling its act() method. In StupidModel9_ClassDetails.xml, note that Bugs is now an instance of the QueueStupidModel9 Java class.</p>
+<p>In its act() method, instances of HabitatCellStupidModel9 no longer invoke any bugs that reside at that location.</p>
+<p>Note the changes in the postConfigure() method of XhStupidModel9.java, where the StupidModel object now not only randomly moves the bugs into the grid, but also puts them into the queue.</p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>Railsback, S., Lytinen, S., Grimm, V. (2005).
+StupidModel and Extensions: A Template and Teaching Tool for Agent-based Modeling Platforms.</p>
+<p><a href="http://www.swarm.org/wiki/Software_templates">Swarm page</a></p>
+<p><a href="http://condor.depaul.edu/~slytinen/abm/StupidModel/">Author's page</a></p>
+</section>
+
+</body>
+</document>

@@ -1,0 +1,1957 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="990"
+   height="765"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.44"
+   version="1.0"
+   sodipodi:docbase="C:\__RussAbbottSymposium"
+   sodipodi:docname="GlycogenPhosphorylase_Biology1.svg">
+  <defs
+     id="defs4">
+    <marker
+       inkscape:stockid="TriangleOutS"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="TriangleOutS"
+       style="overflow:visible">
+      <path
+         id="path18910"
+         d="M 5.77,0 L -2.88,5 L -2.88,-5 L 5.77,0 z "
+         style="fill-rule:evenodd;stroke:black;stroke-width:1pt;marker-start:none"
+         transform="scale(0.2,0.2)" />
+    </marker>
+    <marker
+       inkscape:stockid="TriangleOutM"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="TriangleOutM"
+       style="overflow:visible">
+      <path
+         id="path18913"
+         d="M 5.77,0 L -2.88,5 L -2.88,-5 L 5.77,0 z "
+         style="fill-rule:evenodd;stroke:black;stroke-width:1pt;marker-start:none"
+         transform="scale(0.4,0.4)" />
+    </marker>
+    <marker
+       inkscape:stockid="TriangleOutL"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="TriangleOutL"
+       style="overflow:visible">
+      <path
+         id="path18916"
+         d="M 5.77,0 L -2.88,5 L -2.88,-5 L 5.77,0 z "
+         style="fill-rule:evenodd;stroke:black;stroke-width:1pt;marker-start:none"
+         transform="scale(0.8,0.8)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend"
+       style="overflow:visible">
+      <path
+         id="path18993"
+         style="font-size:12px;fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.97309,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.71640486"
+     inkscape:cx="499.50001"
+     inkscape:cy="184.66308"
+     inkscape:document-units="in"
+     inkscape:current-layer="layer1"
+     width="765px"
+     height="990px"
+     showgrid="false"
+     inkscape:grid-points="false"
+     gridspacingx="0.1in"
+     gridspacingy="0.1in"
+     grid_units="in"
+     inkscape:grid-bbox="true"
+     inkscape:window-width="1024"
+     inkscape:window-height="708"
+     inkscape:window-x="-4"
+     inkscape:window-y="-4" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       d="M 910.30876,559.35 C 910.30876,559.35 910.30876,559.35 910.30876,559.35 C 910.30876,563.55707 913.7232,566.9715 917.93026,566.9715 C 922.13733,566.9715 925.55176,563.55707 926.23644,559.99014 L 943.65,560.63029 L 943.65,621.01273 L 900.19751,621.01273 L 900.19751,604.19788 L 855.45798,604.19788 L 855.45799,621.01273 L 811.26756,621.01273 L 811.26756,560.63029 L 828.9371,559.70242 C 829.45264,559.49385 829.30878,560.21315 829.30878,560.21315 C 829.74035,564.56408 832.72322,566.9715 836.93028,566.9715 C 841.13735,566.9715 844.55178,563.55707 845.0505,559.99014 L 877.45878,560.63029 L 909.50573,560.63029"
+       style="fill:#ffbef0;fill-opacity:1;stroke:#7f7f7f;stroke-width:2.70000005;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path8902"
+       sodipodi:nodetypes="ccscccccccccccsccc"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150" />
+    <path
+       transform="matrix(1.531664,0,0,1.531664,-552.3603,3.318526)"
+       d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+       sodipodi:ry="4.9759617"
+       sodipodi:rx="4.9759617"
+       sodipodi:cy="104.0625"
+       sodipodi:cx="104.0625"
+       id="path8914"
+       style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       sodipodi:type="arc" />
+    <g
+       id="g17821"
+       transform="translate(-42,0)">
+      <path
+         transform="matrix(1.531664,0,0,1.531664,-447.3603,-41.68147)"
+         d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+         sodipodi:ry="4.9759617"
+         sodipodi:rx="4.9759617"
+         sodipodi:cy="104.0625"
+         sodipodi:cx="104.0625"
+         id="path8921"
+         style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="arc" />
+      <path
+         sodipodi:type="star"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path8923"
+         sodipodi:sides="6"
+         sodipodi:cx="97.14286"
+         sodipodi:cy="189.50504"
+         sodipodi:r1="74.285713"
+         sodipodi:r2="64.333313"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:arg2="0.52359878"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         transform="matrix(0.289665,0,0,0.264527,-365.2709,67.23871)" />
+      <path
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M -314.63203,117.36799 L -296.63204,117.36799"
+         id="path8925" />
+    </g>
+    <g
+       id="g17826"
+       transform="translate(-42,0)">
+      <path
+         transform="matrix(1.531664,0,0,1.531664,-312.4173,30.31853)"
+         d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+         sodipodi:ry="4.9759617"
+         sodipodi:rx="4.9759617"
+         sodipodi:cy="104.0625"
+         sodipodi:cx="104.0625"
+         id="path6224"
+         style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="arc" />
+      <path
+         sodipodi:type="arc"
+         style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path8904"
+         sodipodi:cx="104.0625"
+         sodipodi:cy="104.0625"
+         sodipodi:rx="4.9759617"
+         sodipodi:ry="4.9759617"
+         d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+         transform="matrix(1.531664,0,0,1.531664,-231.4173,30.31853)" />
+      <path
+         sodipodi:nodetypes="cccsccccccccccscs"
+         id="path14262"
+         style="fill:#ffbef0;fill-opacity:1;stroke:#7f7f7f;stroke-width:2.70000005;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M -80.09276,191.66899 C -88.1045,191.66899 -112.54122,192.30914 -112.54122,192.30914 L -144.94949,191.66899 C -145.44822,195.23592 -148.86265,198.65035 -153.06972,198.65035 C -157.27678,198.65035 -160.69122,195.23592 -161.27868,191.66899 C -166.08272,192.30914 -178.73244,192.30914 -178.73244,192.30914 L -178.73244,252.69158 L -134.54201,252.69158 L -144.15051,235.87673 L -81.0948,235.87673 L -89.80249,252.69158 L -46.35,252.69158 L -46.35,192.30914 L -63.76356,191.66899 C -64.44824,195.23592 -67.86267,198.65035 -72.06974,198.65035 C -76.2768,198.65035 -79.81561,195.73341 -79.69124,191.7129 C -79.69124,191.7129 -80.09276,191.66899 -80.09276,191.66899 z " />
+    </g>
+    <g
+       id="g17866">
+      <path
+         transform="matrix(0.289665,0,0,0.264527,-407.2709,13.2387)"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         inkscape:randomized="0"
+         inkscape:rounded="0"
+         inkscape:flatsided="true"
+         sodipodi:arg2="0.52359878"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:r2="64.333313"
+         sodipodi:r1="74.285713"
+         sodipodi:cy="189.50504"
+         sodipodi:cx="97.14286"
+         sodipodi:sides="6"
+         id="path4418"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="star" />
+      <path
+         sodipodi:type="star"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path5309"
+         sodipodi:sides="6"
+         sodipodi:cx="97.14286"
+         sodipodi:cy="189.50504"
+         sodipodi:r1="74.285713"
+         sodipodi:r2="64.333313"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:arg2="0.52359878"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         transform="matrix(0.289665,0,0,0.264527,-344.2709,13.23871)" />
+      <path
+         id="path5311"
+         d="M -356.63204,63.36798 L -338.63204,63.36798"
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         transform="matrix(0.289665,0,0,0.264527,-281.2709,13.23871)"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         inkscape:randomized="0"
+         inkscape:rounded="0"
+         inkscape:flatsided="true"
+         sodipodi:arg2="0.52359878"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:r2="64.333313"
+         sodipodi:r1="74.285713"
+         sodipodi:cy="189.50504"
+         sodipodi:cx="97.14286"
+         sodipodi:sides="6"
+         id="path6198"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="star" />
+      <path
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M -293.63204,63.36798 L -275.63204,63.36798"
+         id="path6202" />
+      <path
+         sodipodi:type="star"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path17836"
+         sodipodi:sides="6"
+         sodipodi:cx="97.14286"
+         sodipodi:cy="189.50504"
+         sodipodi:r1="74.285713"
+         sodipodi:r2="64.333313"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:arg2="0.52359878"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         transform="matrix(0.289665,0,0,0.264527,-219.0069,13.2387)" />
+      <path
+         id="path17838"
+         d="M -231.368,63.36797 L -213.368,63.36797"
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         transform="matrix(0.289665,0,0,0.264527,-156.0069,13.2387)"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         inkscape:randomized="0"
+         inkscape:rounded="0"
+         inkscape:flatsided="true"
+         sodipodi:arg2="0.52359878"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:r2="64.333313"
+         sodipodi:r1="74.285713"
+         sodipodi:cy="189.50504"
+         sodipodi:cx="97.14286"
+         sodipodi:sides="6"
+         id="path17840"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="star" />
+      <path
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M -168.36796,63.36797 L -150.36796,63.36797"
+         id="path17842" />
+      <path
+         sodipodi:type="star"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path17844"
+         sodipodi:sides="6"
+         sodipodi:cx="97.14286"
+         sodipodi:cy="189.50504"
+         sodipodi:r1="74.285713"
+         sodipodi:r2="64.333313"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:arg2="0.52359878"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         transform="matrix(0.289665,0,0,0.264527,-93.00686,13.2387)" />
+      <path
+         id="path17846"
+         d="M -105.36792,63.36797 L -87.367918,63.36797"
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <g
+       id="g17879">
+      <path
+         transform="matrix(0.289665,0,0,0.264527,-389.2709,283.2387)"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         inkscape:randomized="0"
+         inkscape:rounded="0"
+         inkscape:flatsided="true"
+         sodipodi:arg2="0.52359878"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:r2="64.333313"
+         sodipodi:r1="74.285713"
+         sodipodi:cy="189.50504"
+         sodipodi:cx="97.14286"
+         sodipodi:sides="6"
+         id="path17848"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="star" />
+      <path
+         sodipodi:type="star"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path17850"
+         sodipodi:sides="6"
+         sodipodi:cx="97.14286"
+         sodipodi:cy="189.50504"
+         sodipodi:r1="74.285713"
+         sodipodi:r2="64.333313"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:arg2="0.52359878"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         transform="matrix(0.289665,0,0,0.264527,-326.2709,283.2387)" />
+      <path
+         id="path17852"
+         d="M -338.63204,333.36798 L -320.63204,333.36798"
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         transform="matrix(0.289665,0,0,0.264527,-264.0069,283.2387)"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         inkscape:randomized="0"
+         inkscape:rounded="0"
+         inkscape:flatsided="true"
+         sodipodi:arg2="0.52359878"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:r2="64.333313"
+         sodipodi:r1="74.285713"
+         sodipodi:cy="189.50504"
+         sodipodi:cx="97.14286"
+         sodipodi:sides="6"
+         id="path17854"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="star" />
+      <path
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M -276.368,333.36797 L -258.368,333.36797"
+         id="path17856" />
+      <path
+         sodipodi:type="star"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path17858"
+         sodipodi:sides="6"
+         sodipodi:cx="97.14286"
+         sodipodi:cy="189.50504"
+         sodipodi:r1="74.285713"
+         sodipodi:r2="64.333313"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:arg2="0.52359878"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         transform="matrix(0.289665,0,0,0.264527,-201.0069,283.2387)" />
+      <path
+         id="path17860"
+         d="M -213.36796,333.36797 L -195.36796,333.36797"
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         transform="matrix(0.289665,0,0,0.264527,-138.0069,283.2387)"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         inkscape:randomized="0"
+         inkscape:rounded="0"
+         inkscape:flatsided="true"
+         sodipodi:arg2="0.52359878"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:r2="64.333313"
+         sodipodi:r1="74.285713"
+         sodipodi:cy="189.50504"
+         sodipodi:cx="97.14286"
+         sodipodi:sides="6"
+         id="path17862"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="star" />
+      <path
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M -150.36792,333.36797 L -132.36792,333.36797"
+         id="path17864" />
+    </g>
+    <path
+       sodipodi:type="arc"
+       style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path17892"
+       sodipodi:cx="104.0625"
+       sodipodi:cy="104.0625"
+       sodipodi:rx="4.9759617"
+       sodipodi:ry="4.9759617"
+       d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+       transform="matrix(1.531664,0,0,1.531664,146.5827,-51.36029)"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1a.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150" />
+    <g
+       transform="matrix(-1,0,0,1,90,197.2642)"
+       id="g17894"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1a.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150">
+      <path
+         sodipodi:type="arc"
+         style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path17896"
+         sodipodi:cx="104.0625"
+         sodipodi:cy="104.0625"
+         sodipodi:rx="4.9759617"
+         sodipodi:ry="4.9759617"
+         d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+         transform="matrix(1.531664,0,0,1.531664,-447.3603,-41.68147)" />
+      <path
+         transform="matrix(0.289665,0,0,0.264527,-365.2709,67.23871)"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         inkscape:randomized="0"
+         inkscape:rounded="0"
+         inkscape:flatsided="true"
+         sodipodi:arg2="0.52359878"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:r2="64.333313"
+         sodipodi:r1="74.285713"
+         sodipodi:cy="189.50504"
+         sodipodi:cx="97.14286"
+         sodipodi:sides="6"
+         id="path17898"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="star" />
+      <path
+         id="path17900"
+         d="M -314.63203,117.36799 L -296.63204,117.36799"
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <g
+       transform="translate(558,-36.73581)"
+       id="g17902"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1a.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150">
+      <path
+         sodipodi:type="arc"
+         style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path17904"
+         sodipodi:cx="104.0625"
+         sodipodi:cy="104.0625"
+         sodipodi:rx="4.9759617"
+         sodipodi:ry="4.9759617"
+         d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+         transform="matrix(1.531664,0,0,1.531664,-312.4173,30.31853)" />
+      <path
+         transform="matrix(1.531664,0,0,1.531664,-231.4173,30.31853)"
+         d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+         sodipodi:ry="4.9759617"
+         sodipodi:rx="4.9759617"
+         sodipodi:cy="104.0625"
+         sodipodi:cx="104.0625"
+         id="path17906"
+         style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="arc" />
+      <path
+         d="M -80.09276,191.66899 C -88.1045,191.66899 -112.54122,192.30914 -112.54122,192.30914 L -144.94949,191.66899 C -145.44822,195.23592 -148.86265,198.65035 -153.06972,198.65035 C -157.27678,198.65035 -160.69122,195.23592 -161.27868,191.66899 C -166.08272,192.30914 -178.73244,192.30914 -178.73244,192.30914 L -178.73244,252.69158 L -134.54201,252.69158 L -144.15051,235.87673 L -81.0948,235.87673 L -89.80249,252.69158 L -46.35,252.69158 L -46.35,192.30914 L -63.76356,191.66899 C -64.44824,195.23592 -67.86267,198.65035 -72.06974,198.65035 C -76.2768,198.65035 -79.81561,195.73341 -79.69124,191.7129 C -79.69124,191.7129 -80.09276,191.66899 -80.09276,191.66899 z "
+         style="fill:#ffbef0;fill-opacity:1;stroke:#7f7f7f;stroke-width:2.70000005;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path17908"
+         sodipodi:nodetypes="cccsccccccccccscs" />
+    </g>
+    <g
+       id="g17910"
+       transform="translate(456,2.346496e-7)"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1a.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150">
+      <path
+         sodipodi:type="star"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path17912"
+         sodipodi:sides="6"
+         sodipodi:cx="97.14286"
+         sodipodi:cy="189.50504"
+         sodipodi:r1="74.285713"
+         sodipodi:r2="64.333313"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:arg2="0.52359878"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         transform="matrix(0.289665,0,0,0.264527,-407.2709,13.2387)" />
+      <path
+         transform="matrix(0.289665,0,0,0.264527,-344.2709,13.23871)"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         inkscape:randomized="0"
+         inkscape:rounded="0"
+         inkscape:flatsided="true"
+         sodipodi:arg2="0.52359878"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:r2="64.333313"
+         sodipodi:r1="74.285713"
+         sodipodi:cy="189.50504"
+         sodipodi:cx="97.14286"
+         sodipodi:sides="6"
+         id="path17914"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="star" />
+      <path
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M -356.63204,63.36798 L -338.63204,63.36798"
+         id="path17916" />
+      <path
+         sodipodi:type="star"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path17918"
+         sodipodi:sides="6"
+         sodipodi:cx="97.14286"
+         sodipodi:cy="189.50504"
+         sodipodi:r1="74.285713"
+         sodipodi:r2="64.333313"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:arg2="0.52359878"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         transform="matrix(0.289665,0,0,0.264527,-281.2709,13.23871)" />
+      <path
+         id="path17920"
+         d="M -293.63204,63.36798 L -275.63204,63.36798"
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         transform="matrix(0.289665,0,0,0.264527,-219.0069,13.2387)"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         inkscape:randomized="0"
+         inkscape:rounded="0"
+         inkscape:flatsided="true"
+         sodipodi:arg2="0.52359878"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:r2="64.333313"
+         sodipodi:r1="74.285713"
+         sodipodi:cy="189.50504"
+         sodipodi:cx="97.14286"
+         sodipodi:sides="6"
+         id="path17922"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="star" />
+      <path
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M -231.368,63.36797 L -213.368,63.36797"
+         id="path17924" />
+      <path
+         sodipodi:type="star"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path17926"
+         sodipodi:sides="6"
+         sodipodi:cx="97.14286"
+         sodipodi:cy="189.50504"
+         sodipodi:r1="74.285713"
+         sodipodi:r2="64.333313"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:arg2="0.52359878"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         transform="matrix(0.289665,0,0,0.264527,-156.0069,13.2387)" />
+      <path
+         id="path17928"
+         d="M -168.36796,63.36797 L -150.36796,63.36797"
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         transform="matrix(0.289665,0,0,0.264527,-93.00686,13.2387)"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         inkscape:randomized="0"
+         inkscape:rounded="0"
+         inkscape:flatsided="true"
+         sodipodi:arg2="0.52359878"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:r2="64.333313"
+         sodipodi:r1="74.285713"
+         sodipodi:cy="189.50504"
+         sodipodi:cx="97.14286"
+         sodipodi:sides="6"
+         id="path17930"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="star" />
+      <path
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M -105.36792,63.36797 L -87.367918,63.36797"
+         id="path17932" />
+    </g>
+    <g
+       id="g17934"
+       transform="translate(438,-18)"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1a.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150">
+      <path
+         sodipodi:type="star"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path17936"
+         sodipodi:sides="6"
+         sodipodi:cx="97.14286"
+         sodipodi:cy="189.50504"
+         sodipodi:r1="74.285713"
+         sodipodi:r2="64.333313"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:arg2="0.52359878"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         transform="matrix(0.289665,0,0,0.264527,-389.2709,283.2387)" />
+      <path
+         transform="matrix(0.289665,0,0,0.264527,-326.2709,283.2387)"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         inkscape:randomized="0"
+         inkscape:rounded="0"
+         inkscape:flatsided="true"
+         sodipodi:arg2="0.52359878"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:r2="64.333313"
+         sodipodi:r1="74.285713"
+         sodipodi:cy="189.50504"
+         sodipodi:cx="97.14286"
+         sodipodi:sides="6"
+         id="path17938"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="star" />
+      <path
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M -338.63204,333.36798 L -320.63204,333.36798"
+         id="path17940" />
+      <path
+         sodipodi:type="star"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path17942"
+         sodipodi:sides="6"
+         sodipodi:cx="97.14286"
+         sodipodi:cy="189.50504"
+         sodipodi:r1="74.285713"
+         sodipodi:r2="64.333313"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:arg2="0.52359878"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         transform="matrix(0.289665,0,0,0.264527,-264.0069,283.2387)" />
+      <path
+         id="path17944"
+         d="M -276.368,333.36797 L -258.368,333.36797"
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         transform="matrix(0.289665,0,0,0.264527,-201.0069,283.2387)"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         inkscape:randomized="0"
+         inkscape:rounded="0"
+         inkscape:flatsided="true"
+         sodipodi:arg2="0.52359878"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:r2="64.333313"
+         sodipodi:r1="74.285713"
+         sodipodi:cy="189.50504"
+         sodipodi:cx="97.14286"
+         sodipodi:sides="6"
+         id="path17946"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="star" />
+      <path
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M -213.36796,333.36797 L -195.36796,333.36797"
+         id="path17948" />
+      <path
+         sodipodi:type="star"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path17950"
+         sodipodi:sides="6"
+         sodipodi:cx="97.14286"
+         sodipodi:cy="189.50504"
+         sodipodi:r1="74.285713"
+         sodipodi:r2="64.333313"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:arg2="0.52359878"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         transform="matrix(0.289665,0,0,0.264527,-138.0069,283.2387)" />
+      <path
+         id="path17952"
+         d="M -150.36792,333.36797 L -132.36792,333.36797"
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <path
+       style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:black;stroke-width:4.5;stroke-linecap:round;stroke-linejoin:miter;marker-end:url(#TriangleOutM);stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 360,99 L 360,270"
+       id="path17954"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1a.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150" />
+    <path
+       style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:black;stroke-width:2.70000005;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 319.7854,108.68362 C 345.79583,113.73351 347.19572,120.771 350.44078,125.66378 C 353.99384,131.02094 351.32423,126.57073 359.91706,147.98145"
+       id="path19027"
+       sodipodi:nodetypes="css"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1a.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150" />
+    <path
+       transform="matrix(1.531664,0,0,1.531664,-465.4173,11.63971)"
+       d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+       sodipodi:ry="4.9759617"
+       sodipodi:rx="4.9759617"
+       sodipodi:cy="104.0625"
+       sodipodi:cx="104.0625"
+       id="path19031"
+       style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       sodipodi:type="arc" />
+    <path
+       sodipodi:type="arc"
+       style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path19033"
+       sodipodi:cx="104.0625"
+       sodipodi:cy="104.0625"
+       sodipodi:rx="4.9759617"
+       sodipodi:ry="4.9759617"
+       d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+       transform="matrix(1.531664,0,0,1.531664,-510.4173,11.63971)" />
+    <path
+       sodipodi:nodetypes="cccsccccssccccscs"
+       id="path19035"
+       style="fill:#e363ad;fill-opacity:1;stroke:#7f7f7f;stroke-width:2.70000005;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 693.98968,675.62741 C 685.97794,675.62741 661.54122,676.26756 661.54122,676.26756 L 629.13295,675.62741 C 628.63422,679.19434 619.66071,685.99256 615.45364,685.99256 C 611.24658,685.99256 613.39122,679.19434 612.80376,675.62741 C 607.99972,676.26756 595.35,676.26756 595.35,676.26756 L 595.35,736.65 L 639.54043,736.65 C 639.54043,736.65 616.57013,724.03886 629.93193,719.83515 C 643.29373,715.63144 679.40063,715.63144 692.98764,719.83515 C 706.57465,724.03886 684.27995,736.65 684.27995,736.65 L 727.73244,736.65 L 727.73244,676.26756 L 710.31888,675.62741 C 709.6342,679.19434 706.21977,678.49988 702.0127,678.49988 C 697.80564,678.49988 694.26683,679.69183 694.3912,675.67132 C 694.3912,675.67132 693.98968,675.62741 693.98968,675.62741 z "
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150" />
+    <path
+       transform="matrix(1.531664,0,0,1.531664,146.5827,353.6397)"
+       d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+       sodipodi:ry="4.9759617"
+       sodipodi:rx="4.9759617"
+       sodipodi:cy="104.0625"
+       sodipodi:cx="104.0625"
+       id="path19040"
+       style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       sodipodi:type="arc"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150" />
+    <g
+       id="g19042"
+       transform="matrix(-1,0,0,1,90,602.2642)"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150">
+      <path
+         transform="matrix(1.531664,0,0,1.531664,-447.3603,-41.68147)"
+         d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+         sodipodi:ry="4.9759617"
+         sodipodi:rx="4.9759617"
+         sodipodi:cy="104.0625"
+         sodipodi:cx="104.0625"
+         id="path19044"
+         style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="arc" />
+      <path
+         sodipodi:type="star"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path19046"
+         sodipodi:sides="6"
+         sodipodi:cx="97.14286"
+         sodipodi:cy="189.50504"
+         sodipodi:r1="74.285713"
+         sodipodi:r2="64.333313"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:arg2="0.52359878"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         transform="matrix(0.289665,0,0,0.264527,-365.2709,67.23871)" />
+      <path
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M -314.63203,117.36799 L -296.63204,117.36799"
+         id="path19048" />
+    </g>
+    <g
+       id="g19050"
+       transform="translate(558,368.2642)"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150">
+      <path
+         transform="matrix(1.531664,0,0,1.531664,-312.4173,30.31853)"
+         d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+         sodipodi:ry="4.9759617"
+         sodipodi:rx="4.9759617"
+         sodipodi:cy="104.0625"
+         sodipodi:cx="104.0625"
+         id="path19052"
+         style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="arc" />
+      <path
+         sodipodi:type="arc"
+         style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path19054"
+         sodipodi:cx="104.0625"
+         sodipodi:cy="104.0625"
+         sodipodi:rx="4.9759617"
+         sodipodi:ry="4.9759617"
+         d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+         transform="matrix(1.531664,0,0,1.531664,-231.4173,30.31853)" />
+      <path
+         sodipodi:nodetypes="cccsccccccccccscs"
+         id="path19056"
+         style="fill:#ffbef0;fill-opacity:1;stroke:#7f7f7f;stroke-width:2.70000005;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M -80.09276,191.66899 C -88.1045,191.66899 -112.54122,192.30914 -112.54122,192.30914 L -144.94949,191.66899 C -145.44822,195.23592 -148.86265,198.65035 -153.06972,198.65035 C -157.27678,198.65035 -160.69122,195.23592 -161.27868,191.66899 C -166.08272,192.30914 -178.73244,192.30914 -178.73244,192.30914 L -178.73244,252.69158 L -134.54201,252.69158 L -144.15051,235.87673 L -81.0948,235.87673 L -89.80249,252.69158 L -46.35,252.69158 L -46.35,192.30914 L -63.76356,191.66899 C -64.44824,195.23592 -67.86267,198.65035 -72.06974,198.65035 C -76.2768,198.65035 -79.81561,195.73341 -79.69124,191.7129 C -79.69124,191.7129 -80.09276,191.66899 -80.09276,191.66899 z " />
+    </g>
+    <g
+       transform="translate(456,405)"
+       id="g19058"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150">
+      <path
+         transform="matrix(0.289665,0,0,0.264527,-407.2709,13.2387)"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         inkscape:randomized="0"
+         inkscape:rounded="0"
+         inkscape:flatsided="true"
+         sodipodi:arg2="0.52359878"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:r2="64.333313"
+         sodipodi:r1="74.285713"
+         sodipodi:cy="189.50504"
+         sodipodi:cx="97.14286"
+         sodipodi:sides="6"
+         id="path19060"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="star" />
+      <path
+         sodipodi:type="star"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path19062"
+         sodipodi:sides="6"
+         sodipodi:cx="97.14286"
+         sodipodi:cy="189.50504"
+         sodipodi:r1="74.285713"
+         sodipodi:r2="64.333313"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:arg2="0.52359878"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         transform="matrix(0.289665,0,0,0.264527,-344.2709,13.23871)" />
+      <path
+         id="path19064"
+         d="M -356.63204,63.36798 L -338.63204,63.36798"
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         transform="matrix(0.289665,0,0,0.264527,-281.2709,13.23871)"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         inkscape:randomized="0"
+         inkscape:rounded="0"
+         inkscape:flatsided="true"
+         sodipodi:arg2="0.52359878"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:r2="64.333313"
+         sodipodi:r1="74.285713"
+         sodipodi:cy="189.50504"
+         sodipodi:cx="97.14286"
+         sodipodi:sides="6"
+         id="path19066"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="star" />
+      <path
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M -293.63204,63.36798 L -275.63204,63.36798"
+         id="path19068" />
+      <path
+         sodipodi:type="star"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path19070"
+         sodipodi:sides="6"
+         sodipodi:cx="97.14286"
+         sodipodi:cy="189.50504"
+         sodipodi:r1="74.285713"
+         sodipodi:r2="64.333313"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:arg2="0.52359878"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         transform="matrix(0.289665,0,0,0.264527,-219.0069,13.2387)" />
+      <path
+         id="path19072"
+         d="M -231.368,63.36797 L -213.368,63.36797"
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         transform="matrix(0.289665,0,0,0.264527,-156.0069,13.2387)"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         inkscape:randomized="0"
+         inkscape:rounded="0"
+         inkscape:flatsided="true"
+         sodipodi:arg2="0.52359878"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:r2="64.333313"
+         sodipodi:r1="74.285713"
+         sodipodi:cy="189.50504"
+         sodipodi:cx="97.14286"
+         sodipodi:sides="6"
+         id="path19074"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="star" />
+      <path
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M -168.36796,63.36797 L -150.36796,63.36797"
+         id="path19076" />
+      <path
+         sodipodi:type="star"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path19078"
+         sodipodi:sides="6"
+         sodipodi:cx="97.14286"
+         sodipodi:cy="189.50504"
+         sodipodi:r1="74.285713"
+         sodipodi:r2="64.333313"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:arg2="0.52359878"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         transform="matrix(0.289665,0,0,0.264527,-93.00686,13.2387)" />
+      <path
+         id="path19080"
+         d="M -105.36792,63.36797 L -87.367918,63.36797"
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <g
+       transform="translate(438,387)"
+       id="g19082"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150">
+      <path
+         transform="matrix(0.289665,0,0,0.264527,-389.2709,283.2387)"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         inkscape:randomized="0"
+         inkscape:rounded="0"
+         inkscape:flatsided="true"
+         sodipodi:arg2="0.52359878"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:r2="64.333313"
+         sodipodi:r1="74.285713"
+         sodipodi:cy="189.50504"
+         sodipodi:cx="97.14286"
+         sodipodi:sides="6"
+         id="path19084"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="star" />
+      <path
+         sodipodi:type="star"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path19086"
+         sodipodi:sides="6"
+         sodipodi:cx="97.14286"
+         sodipodi:cy="189.50504"
+         sodipodi:r1="74.285713"
+         sodipodi:r2="64.333313"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:arg2="0.52359878"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         transform="matrix(0.289665,0,0,0.264527,-326.2709,283.2387)" />
+      <path
+         id="path19088"
+         d="M -338.63204,333.36798 L -320.63204,333.36798"
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         transform="matrix(0.289665,0,0,0.264527,-264.0069,283.2387)"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         inkscape:randomized="0"
+         inkscape:rounded="0"
+         inkscape:flatsided="true"
+         sodipodi:arg2="0.52359878"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:r2="64.333313"
+         sodipodi:r1="74.285713"
+         sodipodi:cy="189.50504"
+         sodipodi:cx="97.14286"
+         sodipodi:sides="6"
+         id="path19090"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="star" />
+      <path
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M -276.368,333.36797 L -258.368,333.36797"
+         id="path19092" />
+      <path
+         sodipodi:type="star"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path19094"
+         sodipodi:sides="6"
+         sodipodi:cx="97.14286"
+         sodipodi:cy="189.50504"
+         sodipodi:r1="74.285713"
+         sodipodi:r2="64.333313"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:arg2="0.52359878"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         transform="matrix(0.289665,0,0,0.264527,-201.0069,283.2387)" />
+      <path
+         id="path19096"
+         d="M -213.36796,333.36797 L -195.36796,333.36797"
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         transform="matrix(0.289665,0,0,0.264527,-138.0069,283.2387)"
+         d="M 171.42857,189.50504 L 134.28572,253.83835 L 60.000004,253.83835 L 22.857147,189.50504 L 60.000004,125.17172 L 134.28572,125.17172 L 171.42857,189.50504 z "
+         inkscape:randomized="0"
+         inkscape:rounded="0"
+         inkscape:flatsided="true"
+         sodipodi:arg2="0.52359878"
+         sodipodi:arg1="-1.2243198e-014"
+         sodipodi:r2="64.333313"
+         sodipodi:r1="74.285713"
+         sodipodi:cy="189.50504"
+         sodipodi:cx="97.14286"
+         sodipodi:sides="6"
+         id="path19098"
+         style="fill:#abd0ff;fill-opacity:1;stroke:#7f7f7f;stroke-width:9.75395489;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="star" />
+      <path
+         style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#7f7f7f;stroke-width:2.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M -150.36792,333.36797 L -132.36792,333.36797"
+         id="path19100" />
+    </g>
+    <path
+       id="path19102"
+       d="M 360,504 L 360,675"
+       style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:black;stroke-width:4.5;stroke-linecap:round;stroke-linejoin:miter;marker-end:url(#TriangleOutM);stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150" />
+    <path
+       sodipodi:nodetypes="css"
+       id="path19104"
+       d="M 319.7854,513.68362 C 345.79583,518.73351 347.19572,525.771 350.44078,530.66378 C 353.99384,536.02094 351.32423,531.57073 359.91706,552.98145"
+       style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:black;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150" />
+    <path
+       d="M 693.98968,450.62741 C 685.97794,450.62741 661.54122,451.26756 661.54122,451.26756 L 629.13295,450.62741 C 633.52538,450.45404 624.84625,450.5116 620.63918,450.5116 C 616.43212,450.5116 616.00597,451.20606 612.80376,450.62741 C 607.99972,451.26756 595.35,451.26756 595.35,451.26756 L 595.35,511.65 L 639.54043,511.65 L 629.93193,494.83515 L 659.00268,506.19991 L 692.98764,494.83515 L 684.27995,511.65 L 727.73244,511.65 L 727.73244,451.26756 L 710.31888,450.62741 C 709.6342,454.19434 714.85124,468.3981 702.0127,457.60877 C 700.6828,467.10338 689.51952,454.69183 694.3912,450.67132 C 694.3912,450.67132 693.98968,450.62741 693.98968,450.62741 z "
+       style="fill:#ff907c;fill-opacity:1;stroke:#7f7f7f;stroke-width:2.70000005;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path19106"
+       sodipodi:nodetypes="cccscccccccccccccs"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150" />
+    <path
+       d="M -305.09276,496.35 C -313.1045,496.35 -337.54122,496.99015 -337.54122,496.99015 L -369.94949,496.35 C -370.44822,499.91693 -379.42173,506.71515 -383.6288,506.71515 C -387.83586,506.71515 -385.69122,499.91693 -386.27868,496.35 C -391.08272,496.99015 -403.73244,496.99015 -403.73244,496.99015 L -403.73244,557.37259 L -359.54201,557.37259 C -359.54201,557.37259 -382.51231,544.76145 -369.15051,540.55774 C -355.78871,536.35403 -319.68181,536.35403 -306.0948,540.55774 C -292.50779,544.76145 -314.80249,557.37259 -314.80249,557.37259 L -271.35,557.37259 L -271.35,496.99015 L -288.76356,496.35 C -289.44824,499.91693 -292.86267,499.22247 -297.06974,499.22247 C -301.2768,499.22247 -304.81561,500.41442 -304.69124,496.39391 C -304.69124,496.39391 -305.09276,496.35 -305.09276,496.35 z "
+       style="fill:#e363ad;fill-opacity:1;stroke:#7f7f7f;stroke-width:2.70000005;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path19993"
+       sodipodi:nodetypes="cccsccccssccccscs" />
+    <path
+       sodipodi:nodetypes="cccscccccccccccccs"
+       id="path19995"
+       style="fill:#ff907c;fill-opacity:1;stroke:#7f7f7f;stroke-width:2.70000005;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M -305.09276,406.47498 C -313.1045,406.47498 -337.54122,407.11513 -337.54122,407.11513 L -369.94949,406.47498 C -365.55706,406.30161 -374.23619,406.35917 -378.44326,406.35917 C -382.65032,406.35917 -383.07647,407.05363 -386.27868,406.47498 C -391.08272,407.11513 -403.73244,407.11513 -403.73244,407.11513 L -403.73244,467.49757 L -359.54201,467.49757 L -369.15051,450.68272 L -340.07976,462.04748 L -306.0948,450.68272 L -314.80249,467.49757 L -271.35,467.49757 L -271.35,407.11513 L -288.76356,406.47498 C -289.44824,410.04191 -284.2312,424.24567 -297.06974,413.45634 C -298.39964,422.95095 -309.56292,410.5394 -304.69124,406.51889 C -304.69124,406.51889 -305.09276,406.47498 -305.09276,406.47498 z " />
+    <path
+       sodipodi:nodetypes="ccscccccccccccsccc"
+       id="path19997"
+       style="fill:#ffbef0;fill-opacity:1;stroke:#7f7f7f;stroke-width:2.70000005;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M -304.6088,206.98727 C -304.6088,206.98727 -304.6088,206.98727 -304.6088,206.98727 C -304.6088,211.19434 -301.19436,214.60877 -296.9873,214.60877 C -292.78023,214.60877 -289.3658,211.19434 -288.68112,207.62741 L -271.26756,208.26756 L -271.26756,268.65 L -314.72005,268.65 L -314.72005,251.83515 L -359.45958,251.83515 L -359.45957,268.65 L -403.65,268.65 L -403.65,208.26756 L -385.98046,207.33969 C -385.46492,207.13112 -385.60878,207.85042 -385.60878,207.85042 C -385.17721,212.20135 -382.19434,214.60877 -377.98728,214.60877 C -373.78021,214.60877 -370.36578,211.19434 -369.86706,207.62741 L -337.45878,208.26756 L -305.41183,208.26756" />
+    <path
+       style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:black;stroke-width:4.5;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;marker-end:url(#TriangleOutM)"
+       d="M 799.54102,566.32324 C 778.27148,557.92969 726.50808,537.19845 659.70703,537.75879 C 593.65723,538.31909 549.99756,555.63354 532.35352,562.58789"
+       id="path19999"
+       sodipodi:nodetypes="css"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150" />
+    <path
+       sodipodi:nodetypes="css"
+       id="path20886"
+       d="M 524.25,617.17441 C 545.51954,625.56796 597.28294,646.2992 664.08399,645.73886 C 730.13379,645.17856 773.79346,627.86411 791.4375,620.90976"
+       style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:black;stroke-width:4.5;stroke-linecap:round;stroke-linejoin:miter;marker-end:url(#TriangleOutM);stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150" />
+    <path
+       sodipodi:nodetypes="css"
+       id="path20888"
+       d="M 783.21233,514.58755 C 761.87283,522.97985 726.3747,536.98439 659.35391,536.42413 C 593.08684,535.86392 556.75425,521.54031 539.05217,514.58699"
+       style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:black;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:miter;marker-end:url(#TriangleOutM);stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150" />
+    <path
+       style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:black;stroke-width:1.79999995;stroke-linecap:round;stroke-linejoin:miter;marker-end:url(#TriangleOutM);stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 658.00793,648.9 C 724.275,649.46021 760.98113,666.39857 778.68321,673.35189"
+       id="path22660"
+       sodipodi:nodetypes="cs"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150" />
+    <g
+       id="g22676">
+      <path
+         transform="matrix(1.531664,0,0,1.531664,-330.3603,308.5827)"
+         d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+         sodipodi:ry="4.9759617"
+         sodipodi:rx="4.9759617"
+         sodipodi:cy="104.0625"
+         sodipodi:cx="104.0625"
+         id="path22662"
+         style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="arc" />
+      <rect
+         y="477.83484"
+         x="-179.16516"
+         height="16.330324"
+         width="34.330307"
+         id="rect22664"
+         style="fill:#e1ff00;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.66968656;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         sodipodi:type="arc"
+         style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path22666"
+         sodipodi:cx="104.0625"
+         sodipodi:cy="104.0625"
+         sodipodi:rx="4.9759617"
+         sodipodi:ry="4.9759617"
+         d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+         transform="matrix(1.531664,0,0,1.531664,-330.4173,272.6397)" />
+      <path
+         transform="matrix(1.531664,0,0,1.531664,-330.4173,290.6397)"
+         d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+         sodipodi:ry="4.9759617"
+         sodipodi:rx="4.9759617"
+         sodipodi:cy="104.0625"
+         sodipodi:cx="104.0625"
+         id="path22668"
+         style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="arc" />
+    </g>
+    <g
+       id="g22682">
+      <path
+         sodipodi:type="arc"
+         style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path22670"
+         sodipodi:cx="104.0625"
+         sodipodi:cy="104.0625"
+         sodipodi:rx="4.9759617"
+         sodipodi:ry="4.9759617"
+         d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+         transform="matrix(1.531664,0,0,1.531664,-276.3603,308.5827)" />
+      <rect
+         style="fill:#e1ff00;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.66968656;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect22672"
+         width="34.330307"
+         height="16.330324"
+         x="-125.16515"
+         y="477.83484" />
+      <path
+         sodipodi:type="arc"
+         style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path22674"
+         sodipodi:cx="104.0625"
+         sodipodi:cy="104.0625"
+         sodipodi:rx="4.9759617"
+         sodipodi:ry="4.9759617"
+         d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+         transform="matrix(1.531664,0,0,1.531664,-276.4173,290.6397)" />
+    </g>
+    <g
+       id="g22687"
+       transform="translate(972,26.94302)"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150">
+      <path
+         sodipodi:type="arc"
+         style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path22689"
+         sodipodi:cx="104.0625"
+         sodipodi:cy="104.0625"
+         sodipodi:rx="4.9759617"
+         sodipodi:ry="4.9759617"
+         d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+         transform="matrix(1.531664,0,0,1.531664,-330.3603,308.5827)" />
+      <rect
+         style="fill:#e1ff00;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.66968656;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect22691"
+         width="34.330307"
+         height="16.330324"
+         x="-179.16516"
+         y="477.83484" />
+      <path
+         transform="matrix(1.531664,0,0,1.531664,-330.4173,272.6397)"
+         d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+         sodipodi:ry="4.9759617"
+         sodipodi:rx="4.9759617"
+         sodipodi:cy="104.0625"
+         sodipodi:cx="104.0625"
+         id="path22693"
+         style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="arc" />
+      <path
+         sodipodi:type="arc"
+         style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path22695"
+         sodipodi:cx="104.0625"
+         sodipodi:cy="104.0625"
+         sodipodi:rx="4.9759617"
+         sodipodi:ry="4.9759617"
+         d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+         transform="matrix(1.531664,0,0,1.531664,-330.4173,290.6397)" />
+    </g>
+    <g
+       id="g22697"
+       transform="translate(621,26.94302)"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150">
+      <path
+         transform="matrix(1.531664,0,0,1.531664,-276.3603,308.5827)"
+         d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+         sodipodi:ry="4.9759617"
+         sodipodi:rx="4.9759617"
+         sodipodi:cy="104.0625"
+         sodipodi:cx="104.0625"
+         id="path22699"
+         style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="arc" />
+      <rect
+         y="477.83484"
+         x="-125.16515"
+         height="16.330324"
+         width="34.330307"
+         id="rect22701"
+         style="fill:#e1ff00;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.66968656;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         transform="matrix(1.531664,0,0,1.531664,-276.4173,290.6397)"
+         d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+         sodipodi:ry="4.9759617"
+         sodipodi:rx="4.9759617"
+         sodipodi:cy="104.0625"
+         sodipodi:cx="104.0625"
+         id="path22703"
+         style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="arc" />
+    </g>
+    <path
+       sodipodi:type="arc"
+       style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path22705"
+       sodipodi:cx="104.0625"
+       sodipodi:cy="104.0625"
+       sodipodi:rx="4.9759617"
+       sodipodi:ry="4.9759617"
+       d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+       transform="matrix(1.531664,0,0,1.531664,641.5827,515.6397)"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150" />
+    <g
+       transform="translate(1017,26.94302)"
+       id="g22707"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150">
+      <path
+         transform="matrix(1.531664,0,0,1.531664,-330.3603,308.5827)"
+         d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+         sodipodi:ry="4.9759617"
+         sodipodi:rx="4.9759617"
+         sodipodi:cy="104.0625"
+         sodipodi:cx="104.0625"
+         id="path22709"
+         style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="arc" />
+      <rect
+         y="477.83484"
+         x="-179.16516"
+         height="16.330324"
+         width="34.330307"
+         id="rect22711"
+         style="fill:#e1ff00;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.66968656;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         sodipodi:type="arc"
+         style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path22713"
+         sodipodi:cx="104.0625"
+         sodipodi:cy="104.0625"
+         sodipodi:rx="4.9759617"
+         sodipodi:ry="4.9759617"
+         d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+         transform="matrix(1.531664,0,0,1.531664,-330.4173,272.6397)" />
+      <path
+         transform="matrix(1.531664,0,0,1.531664,-330.4173,290.6397)"
+         d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+         sodipodi:ry="4.9759617"
+         sodipodi:rx="4.9759617"
+         sodipodi:cy="104.0625"
+         sodipodi:cx="104.0625"
+         id="path22715"
+         style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         sodipodi:type="arc" />
+    </g>
+    <g
+       transform="translate(576,26.94302)"
+       id="g22717"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150">
+      <path
+         sodipodi:type="arc"
+         style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path22719"
+         sodipodi:cx="104.0625"
+         sodipodi:cy="104.0625"
+         sodipodi:rx="4.9759617"
+         sodipodi:ry="4.9759617"
+         d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+         transform="matrix(1.531664,0,0,1.531664,-276.3603,308.5827)" />
+      <rect
+         style="fill:#e1ff00;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.66968656;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect22721"
+         width="34.330307"
+         height="16.330324"
+         x="-125.16515"
+         y="477.83484" />
+      <path
+         sodipodi:type="arc"
+         style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path22723"
+         sodipodi:cx="104.0625"
+         sodipodi:cy="104.0625"
+         sodipodi:rx="4.9759617"
+         sodipodi:ry="4.9759617"
+         d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+         transform="matrix(1.531664,0,0,1.531664,-276.4173,290.6397)" />
+    </g>
+    <path
+       transform="matrix(1.531664,0,0,1.531664,668.5827,515.6397)"
+       d="M 109.03846 104.0625 A 4.9759617 4.9759617 0 1 1  99.086538,104.0625 A 4.9759617 4.9759617 0 1 1  109.03846 104.0625 z"
+       sodipodi:ry="4.9759617"
+       sodipodi:rx="4.9759617"
+       sodipodi:cy="104.0625"
+       sodipodi:cx="104.0625"
+       id="path22725"
+       style="fill:lime;fill-opacity:1;stroke:#7f7f7f;stroke-width:1.76278865;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       sodipodi:type="arc"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text22731"
+       y="301.47656"
+       x="287.38281"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       xml:space="preserve"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1a.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         sodipodi:role="line"
+         id="tspan22735"
+         x="287.38281"
+         y="301.47656">Gly</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       x="350.38281"
+       y="85.476563"
+       id="text22737"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1a.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         y="85.476563"
+         x="350.38281"
+         id="tspan22739"
+         sodipodi:role="line">Gly</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       x="260.21875"
+       y="121.46094"
+       id="text22741"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1a.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         y="121.46094"
+         x="260.21875"
+         id="tspan22743"
+         sodipodi:role="line">PGrp</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text22745"
+       y="300.27344"
+       x="388.05469"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       xml:space="preserve"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1a.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         sodipodi:role="line"
+         id="tspan22747"
+         x="388.05469"
+         y="300.27344">G1P</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       x="413.46875"
+       y="147.27344"
+       id="text22749"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1a.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         y="147.27344"
+         x="413.46875"
+         id="tspan22751"
+         sodipodi:role="line">GPaseA</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       x="287.38281"
+       y="705.47656"
+       id="text22753"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         y="705.47656"
+         x="287.38281"
+         id="tspan22755"
+         sodipodi:role="line">Gly</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text22757"
+       y="489.47656"
+       x="350.38281"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       xml:space="preserve"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         sodipodi:role="line"
+         id="tspan22759"
+         x="350.38281"
+         y="489.47656">Gly</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text22761"
+       y="525.46094"
+       x="260.21875"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       xml:space="preserve"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         sodipodi:role="line"
+         id="tspan22763"
+         x="260.21875"
+         y="525.46094">PGrp</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       x="388.05469"
+       y="704.27344"
+       id="text22765"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         y="704.27344"
+         x="388.05469"
+         id="tspan22767"
+         sodipodi:role="line">G1P</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text22769"
+       y="551.27344"
+       x="413.46875"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       xml:space="preserve"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         sodipodi:role="line"
+         id="tspan22771"
+         x="413.46875"
+         y="551.27344">GPaseA</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       x="466"
+       y="462.45313"
+       id="text22773"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         y="462.45313"
+         x="466"
+         id="tspan22775"
+         sodipodi:role="line">Adp (2)</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text22777"
+       y="445.46094"
+       x="808.97656"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       xml:space="preserve"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         sodipodi:role="line"
+         id="tspan22779"
+         x="808.97656"
+         y="445.46094">Atp (2)</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       x="800.21875"
+       y="697.46094"
+       id="text22781"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         y="697.46094"
+         x="800.21875"
+         id="tspan22783"
+         sodipodi:role="line">PGrp (2)</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       x="849.46875"
+       y="551.27344"
+       id="text22785"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         y="551.27344"
+         x="849.46875"
+         id="tspan22787"
+         sodipodi:role="line">GPaseB</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       x="629.38281"
+       y="440.46094"
+       id="text22789"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         y="440.46094"
+         x="629.38281"
+         id="tspan22791"
+         sodipodi:role="line">PKinase</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text22793"
+       y="755.14063"
+       x="609.21875"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       xml:space="preserve"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         sodipodi:role="line"
+         id="tspan22795"
+         x="609.21875"
+         y="755.14063">PPhosphatase</tspan></text>
+    <text
+       inkscape:export-ydpi="150"
+       inkscape:export-xdpi="150"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1a.png"
+       sodipodi:linespacing="125%"
+       id="text2047"
+       y="69.202896"
+       x="64.579163"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       xml:space="preserve"><tspan
+         sodipodi:role="line"
+         id="tspan2049"
+         x="64.579163"
+         y="69.202896">Glc</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       x="126.57916"
+       y="69.202896"
+       id="text2051"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1a.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         y="69.202896"
+         x="126.57916"
+         id="tspan2053"
+         sodipodi:role="line">Glc</tspan></text>
+    <text
+       inkscape:export-ydpi="150"
+       inkscape:export-xdpi="150"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1a.png"
+       sodipodi:linespacing="125%"
+       id="text2055"
+       y="69.202896"
+       x="190.57916"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       xml:space="preserve"><tspan
+         sodipodi:role="line"
+         id="tspan2057"
+         x="190.57916"
+         y="69.202896">Glc</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       x="252.57916"
+       y="69.202896"
+       id="text2059"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1a.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         y="69.202896"
+         x="252.57916"
+         id="tspan2061"
+         sodipodi:role="line">Glc</tspan></text>
+    <text
+       inkscape:export-ydpi="150"
+       inkscape:export-xdpi="150"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1a.png"
+       sodipodi:linespacing="125%"
+       id="text2063"
+       y="69.202896"
+       x="316.57916"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       xml:space="preserve"><tspan
+         sodipodi:role="line"
+         id="tspan2065"
+         x="316.57916"
+         y="69.202896">Glc</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       x="378.57916"
+       y="69.202896"
+       id="text2067"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1a.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         y="69.202896"
+         x="378.57916"
+         id="tspan2069"
+         sodipodi:role="line">Glc</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       x="64.579163"
+       y="321.20291"
+       id="text2071"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1a.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         y="321.20291"
+         x="64.579163"
+         id="tspan2073"
+         sodipodi:role="line">Glc</tspan></text>
+    <text
+       inkscape:export-ydpi="150"
+       inkscape:export-xdpi="150"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1a.png"
+       sodipodi:linespacing="125%"
+       id="text2075"
+       y="321.20291"
+       x="126.57916"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       xml:space="preserve"><tspan
+         sodipodi:role="line"
+         id="tspan2077"
+         x="126.57916"
+         y="321.20291">Glc</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       x="190.57916"
+       y="321.20291"
+       id="text2079"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1a.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         y="321.20291"
+         x="190.57916"
+         id="tspan2081"
+         sodipodi:role="line">Glc</tspan></text>
+    <text
+       inkscape:export-ydpi="150"
+       inkscape:export-xdpi="150"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1a.png"
+       sodipodi:linespacing="125%"
+       id="text2083"
+       y="321.20291"
+       x="252.57916"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       xml:space="preserve"><tspan
+         sodipodi:role="line"
+         id="tspan2085"
+         x="252.57916"
+         y="321.20291">Glc</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       x="316.57916"
+       y="321.20291"
+       id="text2087"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1a.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         y="321.20291"
+         x="316.57916"
+         id="tspan2089"
+         sodipodi:role="line">Glc</tspan></text>
+    <text
+       inkscape:export-ydpi="150"
+       inkscape:export-xdpi="150"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1a.png"
+       sodipodi:linespacing="125%"
+       id="text2091"
+       y="320.63898"
+       x="415.79901"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       xml:space="preserve"><tspan
+         sodipodi:role="line"
+         id="tspan2093"
+         x="415.79901"
+         y="320.63898">Glc</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       x="64.579163"
+       y="475.20291"
+       id="text2095"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         y="475.20291"
+         x="64.579163"
+         id="tspan2097"
+         sodipodi:role="line">Glc</tspan></text>
+    <text
+       inkscape:export-ydpi="150"
+       inkscape:export-xdpi="150"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       sodipodi:linespacing="125%"
+       id="text2099"
+       y="475.20291"
+       x="126.57916"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       xml:space="preserve"><tspan
+         sodipodi:role="line"
+         id="tspan2101"
+         x="126.57916"
+         y="475.20291">Glc</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       x="190.57916"
+       y="475.20291"
+       id="text2103"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         y="475.20291"
+         x="190.57916"
+         id="tspan2105"
+         sodipodi:role="line">Glc</tspan></text>
+    <text
+       inkscape:export-ydpi="150"
+       inkscape:export-xdpi="150"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       sodipodi:linespacing="125%"
+       id="text2107"
+       y="475.20291"
+       x="252.57916"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       xml:space="preserve"><tspan
+         sodipodi:role="line"
+         id="tspan2109"
+         x="252.57916"
+         y="475.20291">Glc</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       x="316.57916"
+       y="475.20291"
+       id="text2111"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         y="475.20291"
+         x="316.57916"
+         id="tspan2113"
+         sodipodi:role="line">Glc</tspan></text>
+    <text
+       inkscape:export-ydpi="150"
+       inkscape:export-xdpi="150"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       sodipodi:linespacing="125%"
+       id="text2115"
+       y="475.20291"
+       x="378.57916"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       xml:space="preserve"><tspan
+         sodipodi:role="line"
+         id="tspan2117"
+         x="378.57916"
+         y="475.20291">Glc</tspan></text>
+    <text
+       inkscape:export-ydpi="150"
+       inkscape:export-xdpi="150"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       sodipodi:linespacing="125%"
+       id="text2119"
+       y="726.07501"
+       x="64.579163"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       xml:space="preserve"><tspan
+         sodipodi:role="line"
+         id="tspan2121"
+         x="64.579163"
+         y="726.07501">Glc</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       x="126.57916"
+       y="726.07501"
+       id="text2123"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         y="726.07501"
+         x="126.57916"
+         id="tspan2125"
+         sodipodi:role="line">Glc</tspan></text>
+    <text
+       inkscape:export-ydpi="150"
+       inkscape:export-xdpi="150"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       sodipodi:linespacing="125%"
+       id="text2127"
+       y="726.07501"
+       x="190.57916"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       xml:space="preserve"><tspan
+         sodipodi:role="line"
+         id="tspan2129"
+         x="190.57916"
+         y="726.07501">Glc</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       x="252.57916"
+       y="726.07501"
+       id="text2131"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         y="726.07501"
+         x="252.57916"
+         id="tspan2133"
+         sodipodi:role="line">Glc</tspan></text>
+    <text
+       inkscape:export-ydpi="150"
+       inkscape:export-xdpi="150"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       sodipodi:linespacing="125%"
+       id="text2135"
+       y="726.07501"
+       x="316.57916"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       xml:space="preserve"><tspan
+         sodipodi:role="line"
+         id="tspan2137"
+         x="316.57916"
+         y="726.07501">Glc</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Comic Sans MS"
+       x="415.79901"
+       y="724.94714"
+       id="text2139"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\__RussAbbottSymposium\GlycogenPhosphorylase_Biology1b.png"
+       inkscape:export-xdpi="150"
+       inkscape:export-ydpi="150"><tspan
+         y="724.94714"
+         x="415.79901"
+         id="tspan2141"
+         sodipodi:role="line">Glc</tspan></text>
+  </g>
+</svg>

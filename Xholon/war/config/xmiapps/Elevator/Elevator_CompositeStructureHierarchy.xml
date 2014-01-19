@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Elevator application - Composite Structure Hierarchy
+	Author: KenWebb
+	Date:   23/05/2007
+	File:   Elevator.mdzip
+	Target: Xholon 0.5 http://www.primordion.com/Xholon
+	UML: MagicDraw UML 11.5
+	XMI: 2.1, Wed May 23 12:19:43 EDT 2007
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<AnElevatorSystem xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+<UserJTree roleName="gui">
+<StateMachine>
+<Region>
+<State uid="3191929" roleName="StateMachine_UserJTree">
+<Region>
+<PseudostateInitial uid="99291998" roleName=""/>
+<PseudostateChoice uid="883712" roleName="whichTestScenario"/>
+<State uid="6381319" roleName="scenario101">
+<Region>
+<State uid="99221261" roleName="Submachine_Scenario101">
+<PseudostateEntryPoint uid="95641277" roleName=""/>
+<Region>
+<State uid="93231283" roleName="FloorRequestSent"/>
+<State uid="74951332" roleName="AckReceived"/>
+<State uid="85791436" roleName="MoveToFloorNReceived"/>
+<State uid="89391494" roleName="RequestSatisfiedReceived"/>
+<TransitionExternal uid="76481348" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SOUT_ACK"/>
+<Guard uid="6391414"/>
+<Activity uid="17981369"/>
+</TransitionExternal>
+<TransitionExternal uid="27121451" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SOUT_MOVE_TO_FL_N"/>
+<Activity uid="74591463"/>
+</TransitionExternal>
+<TransitionExternal uid="74591478" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SOUT_MOVE_TO_FL_N"/>
+<Activity uid="89151499"/>
+</TransitionExternal>
+<TransitionExternal uid="17841518" roleName="CNPT_OUTGOING2">
+<Trigger roleName="SOUT_REQUEST_SATISFIED"/>
+<Guard uid="58631522"/>
+<Activity uid="71661529"/>
+</TransitionExternal>
+<TransitionExternal uid="74581923" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SOUT_MOVE_TO_FL_N"/>
+<Activity uid="75991936"/>
+</TransitionExternal>
+<TransitionInternal uid="92171449" roleName="InternalTransition2">
+<Trigger roleName="SOUT_CLOSE_DOOR"/>
+<Activity uid="99111443"/>
+</TransitionInternal>
+<TransitionInternal uid="79551447" roleName="InternalTransition3">
+<Trigger roleName="SOUT_OPEN_DOOR"/>
+<Activity uid="19711459"/>
+</TransitionInternal>
+</Region>
+</State>
+<TransitionExternal uid="46731297" roleName="">
+<Activity uid="9961345"/>
+</TransitionExternal>
+<TransitionExternal uid="99491364" roleName="Any1">
+<Trigger roleName="SIGNAL_ANY"/>
+<Activity uid="21171377"/>
+</TransitionExternal>
+</Region>
+</State>
+<State uid="48421351" roleName="scenario102">
+<Region>
+<State uid="151999" roleName="Submachine_Scenario102">
+<PseudostateEntryPoint uid="92831217" roleName=""/>
+<Region>
+<State uid="39921293" roleName="Ready"/>
+<TransitionExternal uid="331912" roleName="Scen102_1">
+<Trigger roleName="SOUT_CLOSE_DOOR"/>
+<Activity uid="465139"/>
+</TransitionExternal>
+<TransitionExternal uid="9247194" roleName="Scen102_2">
+<Trigger roleName="SOUT_OPEN_DOOR"/>
+<Activity uid="853142"/>
+</TransitionExternal>
+<TransitionExternal uid="9381126" roleName="Scen102_3">
+<Trigger roleName="SOUT_MOVE_TO_FL_N"/>
+<Activity uid="9971145"/>
+</TransitionExternal>
+</Region>
+</State>
+<TransitionExternal uid="16991227" roleName="">
+<Activity uid="99441966"/>
+</TransitionExternal>
+</Region>
+</State>
+<State uid="27671376" roleName="scenario103">
+<Region>
+<State uid="81591238" roleName="Submachine_Scenario103">
+<PseudostateEntryPoint uid="12191241" roleName=""/>
+<Region>
+<State uid="92341239" roleName="Ready"/>
+</Region>
+</State>
+<TransitionExternal uid="3941249" roleName=""/>
+</Region>
+</State>
+<State uid="33841399" roleName="otherScenario">
+<Region>
+<State uid="91291292" roleName="Submachine_OtherScenario">
+<PseudostateEntryPoint uid="39691294" roleName=""/>
+<Region>
+<State uid="85861293" roleName="Ready"/>
+</Region>
+</State>
+<TransitionExternal uid="55851295" roleName="">
+<Activity uid="87781429"/>
+</TransitionExternal>
+</Region>
+</State>
+<TransitionExternal uid="971517" roleName="">
+<Activity uid="189418"/>
+</TransitionExternal>
+<TransitionExternal uid="85771328" roleName="sc1">
+<Guard uid="93821329"/>
+</TransitionExternal>
+<TransitionExternal uid="81121372" roleName="sc2">
+<Guard uid="97821373"/>
+</TransitionExternal>
+<TransitionExternal uid="64391395" roleName="sc3">
+<Guard uid="1251396"/>
+</TransitionExternal>
+<TransitionExternal uid="22541498" roleName="sc4">
+<Guard uid="87941499"/>
+</TransitionExternal>
+</Region>
+</State>
+</Region>
+</StateMachine>
+<!--<UserInject multiplicity="46" roleName="Press_Button"/>-->
+</UserJTree>
+<Floor multiplicity="8" roleName="floor">
+<CallButton roleName="bUp">
+<StateMachine>
+<Region>
+<State uid="446192" roleName="StateMachine_Button">
+<Region>
+<PseudostateInitial uid="9911916" roleName=""/>
+<State uid="4731992" roleName="NotSelected"/>
+<State uid="2731925" roleName="Selected"/>
+<TransitionExternal uid="9821951" roleName=""/>
+<TransitionExternal uid="5341962" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIN_REQUESTED"/>
+<Activity uid="9481597"/>
+</TransitionExternal>
+<TransitionExternal uid="4841974" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SOUT_REQUEST_SATISFIED"/>
+<Activity uid="9791612"/>
+</TransitionExternal>
+<TransitionInternal uid="559319" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIN_REQUESTED"/>
+<Activity uid="676215"/>
+</TransitionInternal>
+<TransitionInternal uid="896917" roleName="CNPT_OUTGOING2">
+<Trigger roleName="SOUT_REQUEST_SATISFIED"/>
+<Activity uid="6385199"/>
+</TransitionInternal>
+</Region>
+</State>
+</Region>
+</StateMachine>
+</CallButton>
+<CallButton roleName="bDown">
+<StateMachine>
+<Region>
+<State uid="446192" roleName="StateMachine_Button">
+<Region>
+<PseudostateInitial uid="9911916" roleName=""/>
+<State uid="4731992" roleName="NotSelected"/>
+<State uid="2731925" roleName="Selected"/>
+<TransitionExternal uid="9821951" roleName=""/>
+<TransitionExternal uid="5341962" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIN_REQUESTED"/>
+<Activity uid="9481597"/>
+</TransitionExternal>
+<TransitionExternal uid="4841974" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SOUT_REQUEST_SATISFIED"/>
+<Activity uid="9791612"/>
+</TransitionExternal>
+<TransitionInternal uid="559319" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIN_REQUESTED"/>
+<Activity uid="676215"/>
+</TransitionInternal>
+<TransitionInternal uid="896917" roleName="CNPT_OUTGOING2">
+<Trigger roleName="SOUT_REQUEST_SATISFIED"/>
+<Activity uid="6385199"/>
+</TransitionInternal>
+</Region>
+</State>
+</Region>
+</StateMachine>
+</CallButton>
+</Floor>
+<Elevator multiplicity="2" roleName="elevator">
+<ElevatorPanel roleName="panel">
+<Indicator roleName="iFloor"/>
+<DoorControlButton roleName="bOpen">
+<StateMachine>
+<Region>
+<State uid="446192" roleName="StateMachine_Button">
+<Region>
+<PseudostateInitial uid="9911916" roleName=""/>
+<State uid="4731992" roleName="NotSelected"/>
+<State uid="2731925" roleName="Selected"/>
+<TransitionExternal uid="9821951" roleName=""/>
+<TransitionExternal uid="5341962" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIN_REQUESTED"/>
+<Activity uid="9481597"/>
+</TransitionExternal>
+<TransitionExternal uid="4841974" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SOUT_REQUEST_SATISFIED"/>
+<Activity uid="9791612"/>
+</TransitionExternal>
+<TransitionInternal uid="559319" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIN_REQUESTED"/>
+<Activity uid="676215"/>
+</TransitionInternal>
+<TransitionInternal uid="896917" roleName="CNPT_OUTGOING2">
+<Trigger roleName="SOUT_REQUEST_SATISFIED"/>
+<Activity uid="6385199"/>
+</TransitionInternal>
+</Region>
+</State>
+</Region>
+</StateMachine>
+</DoorControlButton>
+<DoorControlButton roleName="bClose">
+<StateMachine>
+<Region>
+<State uid="446192" roleName="StateMachine_Button">
+<Region>
+<PseudostateInitial uid="9911916" roleName=""/>
+<State uid="4731992" roleName="NotSelected"/>
+<State uid="2731925" roleName="Selected"/>
+<TransitionExternal uid="9821951" roleName=""/>
+<TransitionExternal uid="5341962" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIN_REQUESTED"/>
+<Activity uid="9481597"/>
+</TransitionExternal>
+<TransitionExternal uid="4841974" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SOUT_REQUEST_SATISFIED"/>
+<Activity uid="9791612"/>
+</TransitionExternal>
+<TransitionInternal uid="559319" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIN_REQUESTED"/>
+<Activity uid="676215"/>
+</TransitionInternal>
+<TransitionInternal uid="896917" roleName="CNPT_OUTGOING2">
+<Trigger roleName="SOUT_REQUEST_SATISFIED"/>
+<Activity uid="6385199"/>
+</TransitionInternal>
+</Region>
+</State>
+</Region>
+</StateMachine>
+</DoorControlButton>
+<FloorSelectionButton multiplicity="8" roleName="bFloor">
+<StateMachine>
+<Region>
+<State uid="446192" roleName="StateMachine_Button">
+<Region>
+<PseudostateInitial uid="9911916" roleName=""/>
+<State uid="4731992" roleName="NotSelected"/>
+<State uid="2731925" roleName="Selected"/>
+<TransitionExternal uid="9821951" roleName=""/>
+<TransitionExternal uid="5341962" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIN_REQUESTED"/>
+<Activity uid="9481597"/>
+</TransitionExternal>
+<TransitionExternal uid="4841974" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SOUT_REQUEST_SATISFIED"/>
+<Activity uid="9791612"/>
+</TransitionExternal>
+<TransitionInternal uid="559319" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIN_REQUESTED"/>
+<Activity uid="676215"/>
+</TransitionInternal>
+<TransitionInternal uid="896917" roleName="CNPT_OUTGOING2">
+<Trigger roleName="SOUT_REQUEST_SATISFIED"/>
+<Activity uid="6385199"/>
+</TransitionInternal>
+</Region>
+</State>
+</Region>
+</StateMachine>
+</FloorSelectionButton>
+</ElevatorPanel>
+<Door roleName="door">
+<StateMachine>
+<Region>
+<State uid="6531254" roleName="StateMachine_Door">
+<Region>
+<PseudostateInitial uid="3321268" roleName=""/>
+<State uid="761276" roleName="Unlocked">
+<Region>
+<State uid="1151363" roleName="Open">
+<EntryActivity uid="19541938"/>
+</State>
+<State uid="981395" roleName="Closing">
+<EntryActivity uid="39431949"/>
+</State>
+<State uid="9291418" roleName="Opening">
+<EntryActivity uid="51991945"/>
+</State>
+<State uid="1591429" roleName="Closed">
+<EntryActivity uid="87991943"/>
+</State>
+<PseudostateChoice uid="5381434" roleName="WasLockRequested"/>
+<TransitionExternal uid="7791557" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIN_DOOR_CLOSED"/>
+<Activity uid="1181833"/>
+</TransitionExternal>
+<TransitionExternal uid="9581569" roleName="Choice1">
+<Guard uid="6731592"/>
+</TransitionExternal>
+<TransitionExternal uid="9991589" roleName="Choice2">
+<Guard uid="2141594"/>
+</TransitionExternal>
+<TransitionExternal uid="4371597" roleName="CNPT_OUTGOING2">
+<Trigger roleName="SIN_DOOR_OPENED"/>
+<Activity uid="9521824"/>
+</TransitionExternal>
+<TransitionExternal uid="6131619" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIN_REQUESTED"/>
+<Guard uid="85971929"/>
+<Activity uid="3771899"/>
+</TransitionExternal>
+<TransitionExternal uid="4391622" roleName="CNPT_OUTGOING2">
+<Trigger roleName="ISignal.SIGNAL_TIMEOUT"/>
+<Activity uid="9941743"/>
+</TransitionExternal>
+<TransitionExternal uid="9771634" roleName="CNPT_OUTGOING2">
+<Trigger roleName="SOUT_LOCK_DOOR"/>
+<Activity uid="5451839"/>
+</TransitionExternal>
+<TransitionExternal uid="9421646" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIN_REQUESTED"/>
+<Guard uid="89781927"/>
+<Activity uid="1911836"/>
+</TransitionExternal>
+<TransitionExternal uid="4391671" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIN_REQUESTED"/>
+<Guard uid="58431923"/>
+<Activity uid="5241827"/>
+</TransitionExternal>
+<TransitionExternal uid="4191682" roleName="CNPT_OUTGOING2">
+<Trigger roleName="SIN_REQUESTED"/>
+<Guard uid="96391925"/>
+<Activity uid="5811831"/>
+</TransitionExternal>
+</Region>
+</State>
+<State uid="6621291" roleName="Locked">
+<EntryActivity uid="2881951"/>
+</State>
+<PseudostateJunction uid="5351377" roleName=""/>
+<TransitionExternal uid="9621383" roleName="">
+<Activity uid="25991997"/>
+</TransitionExternal>
+<TransitionExternal uid="7151658" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SOUT_UNLOCK_DOOR"/>
+<Activity uid="5591895"/>
+</TransitionExternal>
+<TransitionInternal uid="62861929" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIN_DOOR_OPENED"/>
+<Activity uid="52641933"/>
+</TransitionInternal>
+<TransitionInternal uid="2151934" roleName="CNPT_OUTGOING2">
+<Trigger roleName="SIN_DOOR_CLOSED"/>
+<Activity uid="53931938"/>
+</TransitionInternal>
+<TransitionInternal uid="56271939" roleName="CNPT_OUTGOING3">
+<Trigger roleName="SOUT_LOCK_DOOR"/>
+<Activity uid="41911943"/>
+</TransitionInternal>
+<TransitionInternal uid="28611944" roleName="CNPT_OUTGOING4">
+<Trigger roleName="SOUT_UNLOCK_DOOR"/>
+<Activity uid="94951948"/>
+</TransitionInternal>
+<TransitionInternal uid="97921953" roleName="CNPT_OUTGOING5">
+<Trigger roleName="SIN_REQUESTED"/>
+<Guard uid="69591963"/>
+<Activity uid="99621957"/>
+</TransitionInternal>
+<TransitionInternal uid="43591958" roleName="CNPT_OUTGOING6">
+<Trigger roleName="SIN_REQUESTED"/>
+<Guard uid="7971965"/>
+<Activity uid="19991962"/>
+</TransitionInternal>
+</Region>
+</State>
+</Region>
+</StateMachine>
+</Door>
+<Hoist roleName="hoist">
+<StateMachine>
+<Region>
+<State uid="9121396" roleName="StateMachine_Hoist">
+<Region>
+<PseudostateInitial uid="6861491" roleName=""/>
+<State uid="4911496" roleName="Idle">
+<EntryActivity uid="84691431"/>
+</State>
+<State uid="7791429" roleName="Moving">
+<EntryActivity uid="79791428"/>
+</State>
+<State uid="7991442" roleName="MoveRequested">
+<EntryActivity uid="5661426"/>
+</State>
+<PseudostateChoice uid="3141527" roleName="isNewDestination"/>
+<PseudostateChoice uid="9611533" roleName="isAlreadyThere"/>
+<PseudostateChoice uid="4541539" roleName="isAtDestinationFloor"/>
+<TransitionExternal uid="4241455" roleName="">
+<Activity uid="55461997"/>
+</TransitionExternal>
+<TransitionExternal uid="1271545" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIN_DOOR_LOCKED"/>
+<Activity uid="8771862"/>
+</TransitionExternal>
+<TransitionExternal uid="131557" roleName="">
+<Trigger roleName="SOUT_TICK"/>
+<Activity uid="9511859"/>
+</TransitionExternal>
+<TransitionExternal uid="5591569" roleName="Choice2">
+<Guard uid="61461429"/>
+<Activity uid="59911921"/>
+</TransitionExternal>
+<TransitionExternal uid="2991589" roleName="Choice1">
+<Guard uid="1971869"/>
+</TransitionExternal>
+<TransitionExternal uid="4891593" roleName="Choice1">
+<Guard uid="5571873"/>
+<Activity uid="23991924"/>
+</TransitionExternal>
+<TransitionExternal uid="8821615" roleName="Choice2">
+<Guard uid="5641879"/>
+<Activity uid="85341922"/>
+</TransitionExternal>
+<TransitionExternal uid="7391697" roleName="CNPT_OUTGOING2">
+<Trigger roleName="SIN_IS_AT"/>
+<Activity uid="9611868"/>
+</TransitionExternal>
+<TransitionExternal uid="9351629" roleName="Choice2">
+<Guard uid="381875"/>
+<Activity uid="91991929"/>
+</TransitionExternal>
+<TransitionExternal uid="981649" roleName="Choice1">
+<Guard uid="6611877"/>
+<Activity uid="28451939"/>
+</TransitionExternal>
+<TransitionExternal uid="1591653" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIN_REQUESTED"/>
+<Activity uid="9841865"/>
+</TransitionExternal>
+<TransitionInternal uid="29931969" roleName="CNPT_OUTGOING2">
+<Trigger roleName="SIN_REQUESTED"/>
+<Activity uid="48421973"/>
+</TransitionInternal>
+<TransitionInternal uid="27341974" roleName="CNPT_OUTGOING3">
+<Trigger roleName="SOUT_MOVE_TO_FL_N"/>
+<Activity uid="51191978"/>
+</TransitionInternal>
+<TransitionInternal uid="8961979" roleName="CNPT_OUTGOING1">
+<Trigger roleName="ISignal.SIGNAL_TIMEOUT"/>
+<Activity uid="83791983"/>
+</TransitionInternal>
+</Region>
+</State>
+</Region>
+</StateMachine>
+<TickGenerator roleName="tickGen">
+<StateMachine>
+<Region>
+<State uid="9111893" roleName="StateMachine_TickGenerator">
+<Region>
+<PseudostateInitial uid="3991827" roleName=""/>
+<State uid="84241936" roleName="Ticking"/>
+<TransitionExternal uid="26971949" roleName="">
+<Activity uid="7111951"/>
+</TransitionExternal>
+</Region>
+</State>
+<TransitionExternal uid="24151969" roleName="CNPT_OUTGOING1">
+<Trigger roleName="ISignal.SIGNAL_TIMEOUT"/>
+<Activity uid="7431962"/>
+</TransitionExternal>
+</Region>
+</StateMachine>
+</TickGenerator>
+</Hoist>
+</Elevator>
+<Dispatcher roleName="dispatcher">
+<StateMachine>
+<Region>
+<State uid="2311261" roleName="StateMachine_Dispatcher">
+<Region>
+<PseudostateInitial uid="911274" roleName=""/>
+<State uid="1841281" roleName="Ready"/>
+<TransitionExternal uid="2671293" roleName="">
+<Activity uid="89211499"/>
+</TransitionExternal>
+<TransitionExternal uid="6851397" roleName="CNPT_OUTGOING4">
+<Trigger roleName="SIN_IS_READY_DEST"/>
+<Activity uid="791894"/>
+</TransitionExternal>
+<TransitionExternal uid="9661331" roleName="CNPT_OUTGOING5">
+<Trigger roleName="SIN_IS_READY_NO_DEST"/>
+<Activity uid="8971897"/>
+</TransitionExternal>
+<TransitionExternal uid="3891342" roleName="CNPT_OUTGOING3">
+<Trigger roleName="SIN_IS_AT"/>
+<Activity uid="8471911"/>
+</TransitionExternal>
+<TransitionExternal uid="2451366" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIN_REQUESTED"/>
+<Guard uid="423419"/>
+<Activity uid="6681888"/>
+</TransitionExternal>
+<TransitionExternal uid="881378" roleName="CNPT_OUTGOING2">
+<Trigger roleName="SIN_REQUESTED"/>
+<Guard uid="868113"/>
+<Activity uid="1731899"/>
+</TransitionExternal>
+</Region>
+</State>
+</Region>
+</StateMachine>
+</Dispatcher>
+</AnElevatorSystem>

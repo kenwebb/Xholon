@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	model04 application - Class Details
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<xholonClassDetails>
+	<Sun xhType="XhtypePureActiveObject" implName="org.primordion.user.app.climatechange.model04.Sun">
+	  <port name="space" connector="#xpointer(ancestor::SolarSystem/Space)"/>
+	</Sun>
+	<Space xhType="XhtypePureActiveObject" implName="org.primordion.user.app.climatechange.model04.Space">
+	  <port name="planet" connector="#xpointer(ancestor::SolarSystem/Earth/TopOfAtmosphere)"/>
+	</Space>
+	<Earth xhType="XhtypePureContainer" implName="org.primordion.user.app.climatechange.model04.Earth"/>
+	<TopOfAtmosphere xhType="XhtypePureActiveObject" implName="org.primordion.user.app.climatechange.model04.TopOfAtmosphere">
+	  <port name="space" connector="#xpointer(ancestor::SolarSystem/Space)"/>
+	  <port name="atmosphere" connector="#xpointer(ancestor::Earth/Atmosphere)"/>
+	</TopOfAtmosphere>
+	<Atmosphere xhType="XhtypePureActiveObject" implName="org.primordion.user.app.climatechange.model04.Atmosphere">
+	  <port name="topOfAtmosphere" connector="#xpointer(ancestor::Earth/TopOfAtmosphere)"/>
+	  <port name="surface" connector="#xpointer(ancestor::Earth/Surface)"/>
+	</Atmosphere>
+	<CarbonDioxide xhType="XhtypePureActiveObject" implName="org.primordion.user.app.climatechange.model04.CarbonDioxide">
+	  <port name="atmosphere" connector="#xpointer(ancestor::Atmosphere)"/>
+	  <port name="ghgLevelObj" connector="carboncycle03#xpointer(Reservoirs/Atmosphere)"/>
+	</CarbonDioxide>
+	<Methane xhType="XhtypePureActiveObject" implName="org.primordion.user.app.climatechange.model04.Methane">
+	  <port name="atmosphere" connector="#xpointer(ancestor::Atmosphere)"/>
+	</Methane>
+	<NitrousOxide xhType="XhtypePureActiveObject" implName="org.primordion.user.app.climatechange.model04.NitrousOxide">
+	  <port name="atmosphere" connector="#xpointer(ancestor::Atmosphere)"/>
+	</NitrousOxide>	
+	<Cfc11 xhType="XhtypePureActiveObject" implName="org.primordion.user.app.climatechange.model04.Cfc11">
+	  <port name="atmosphere" connector="#xpointer(ancestor::Atmosphere)"/>
+	</Cfc11>
+	<Cfc12 xhType="XhtypePureActiveObject" implName="org.primordion.user.app.climatechange.model04.Cfc12">
+	  <port name="atmosphere" connector="#xpointer(ancestor::Atmosphere)"/>
+	</Cfc12>
+	<OtherGhg xhType="XhtypePureActiveObject" implName="org.primordion.user.app.climatechange.model04.OtherGhg">
+	  <port name="atmosphere" connector="#xpointer(ancestor::Atmosphere)"/>
+	</OtherGhg>
+	<Surface xhType="XhtypePureActiveObject" implName="org.primordion.user.app.climatechange.model04.Surface">
+	  <port name="atmosphere" connector="#xpointer(ancestor::Earth/Atmosphere)"/>
+	</Surface>
+	<TransformerAO xhType="XhtypePureActiveObject">
+	  <port name="planet" connector="#xpointer(..)"/>
+	</TransformerAO>
+	<AveragerAO implName="org.primordion.user.app.climatechange.model04.AveragerAO"/>
+    <AtmosphericAlbedoAO implName="org.primordion.user.app.climatechange.model04.AtmosphericAlbedoAO"/>
+    <SurfaceAlbedoAO implName="org.primordion.user.app.climatechange.model04.SurfaceAlbedoAO"/>
+    <EmissivityAO implName="org.primordion.user.app.climatechange.model04.EmissivityAO"/>
+	
+	<Viewable xhType="XhtypePurePassiveObject" implName="org.primordion.user.app.climatechange.model04.Viewable">
+	  <port name="topOfAtmosphere" connector="#xpointer(ancestor::ClimateChangeSystem/SolarSystem/Earth/TopOfAtmosphere)"/>
+	  <port name="atmosphere" connector="#xpointer(ancestor::ClimateChangeSystem/SolarSystem/Earth/Atmosphere)"/>
+	  <port name="surface" connector="#xpointer(ancestor::ClimateChangeSystem/SolarSystem/Earth/Surface)"/>
+	</Viewable>
+	<!--<EnergyBudgetView xhType="XhtypePureActiveObject" implName="org.primordion.user.app.climatechange.model04.EnergyBudgetView">
+	  <port name="viewables" connector="#xpointer(ancestor::ClimateChangeSystem/Viewables)"/>
+	</EnergyBudgetView>
+	<SvgViewable implName="org.primordion.user.app.climatechange.model04.SvgViewable">
+	  <port name="energyBudgetView" connector="#xpointer(..)"/>
+	</SvgViewable>
+	<SvgLabel implName="org.primordion.user.app.climatechange.model04.SvgLabel">
+	  <port name="energyBudgetView" connector="#xpointer(..)"/>
+	</SvgLabel>-->
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

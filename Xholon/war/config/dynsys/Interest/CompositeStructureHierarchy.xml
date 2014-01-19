@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterestSystem>
+	<SavingsAccountBalance>
+		<attribute name="val" value="100.00"/> <!-- dollars -->
+	</SavingsAccountBalance>
+	<Interest/>
+	<InterestRate>
+		<attribute name="val" value="0.1"/>
+	</InterestRate>
+</InterestSystem>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+		<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+		-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+
+<!--
+	StopWatch Displayable information about this application.
+	Author: KenWebb
+	Date:   08/03/2007
+	File:   StopWatch.mdzip
+	Target: Xholon 0.5 http://www.primordion.com/Xholon
+	UML: MagicDraw UML 11.5
+	XMI: 2.1, Thu Feb 22 12:53:05 EST 2007
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<document xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+<header>
+<title>StopWatch</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>Author:Ken Webb.
+Created:18/02/07 10:06 PM.
+Title: Stop Watch.
+Comment:
+&lt;p&gt;This very simple model of a stop watch is based on a Apache Software Foundation, Commons SCXML project at: http://jakarta.apache.org/commons/scxml/usecases/scxml-stopwatch.html.&lt;/p&gt;
+
+&lt;p&gt;The intent of this Xholon application is to demonstrate an initial level of compatibility between UML, Xholon and SCXML. This sample application builds a simple model using a UML tool (MagicDraw 11.5), transforms it to Xholon format using XSLT scripts, executes it with the Xholon runtime framework, exports it to Scxml format from the Xholon GUI, and executes the exported file using the Commons SCXML software. A future version of Xholon will include more extensive support for the SCXML format.&lt;/p&gt;
+
+&lt;p&gt;The executing Xholon application will log the following output:&lt;/p&gt;
+Stop_Watch:state_4 activeSubState is ready:state_6
+stateMachine_2 activeSubState is Stop_Watch:state_4
+
+Testing the Stop Watch state machine ...
+Stop_Watch:state_4 activeSubState is running:state_7
+stateMachine_2 activeSubState is Stop_Watch:state_4
+
+Stop_Watch:state_4 activeSubState is paused:state_9
+stateMachine_2 activeSubState is Stop_Watch:state_4
+
+Stop_Watch:state_4 activeSubState is stopped:state_8
+stateMachine_2 activeSubState is Stop_Watch:state_4
+
+Stop_Watch:state_4 activeSubState is ready:state_6
+stateMachine_2 activeSubState is Stop_Watch:state_4
+
+Stop_Watch:state_4 activeSubState is running:state_7
+stateMachine_2 activeSubState is Stop_Watch:state_4
+
+Stop_Watch:state_4 activeSubState is stopped:state_8
+stateMachine_2 activeSubState is Stop_Watch:state_4
+
+Stop_Watch:state_4 activeSubState is ready:state_6
+stateMachine_2 activeSubState is Stop_Watch:state_4
+
+Stop_Watch:state_4 activeSubState is running:state_7
+stateMachine_2 activeSubState is Stop_Watch:state_4
+
+Stop_Watch:state_4 activeSubState is paused:state_9
+stateMachine_2 activeSubState is Stop_Watch:state_4
+
+Stop_Watch:state_4 activeSubState is running:state_7
+stateMachine_2 activeSubState is Stop_Watch:state_4
+
+Stop_Watch:state_4 activeSubState is paused:state_9
+stateMachine_2 activeSubState is Stop_Watch:state_4
+
+Stop_Watch:state_4 activeSubState is stopped:state_8
+stateMachine_2 activeSubState is Stop_Watch:state_4
+
+Stop_Watch:state_4 activeSubState is ready:state_6
+stateMachine_2 activeSubState is Stop_Watch:state_4
+
+&lt;p&gt;The Interaction file will contain content similar to the following:&lt;/p&gt;
+.PS
+copy "sequence.pic";
+
+# Model: StopWatch
+# Date: 1171894596906 Mon Feb 19 09:16:36 EST 2007
+
+# Define the objects
+object(Xh1,"sw:StopWatch");
+object(Xh24,":TestHarness");
+step();
+
+# Message sequences
+async();
+message(Xh24,Xh1,"start()");
+message(Xh24,Xh1,"split()");
+message(Xh24,Xh1,"stop()");
+message(Xh24,Xh1,"reset()");
+message(Xh24,Xh1,"start()");
+message(Xh24,Xh1,"stop()");
+message(Xh24,Xh1,"reset()");
+message(Xh24,Xh1,"start()");
+message(Xh24,Xh1,"split()");
+message(Xh24,Xh1,"unsplit()");
+message(Xh24,Xh1,"split()");
+message(Xh24,Xh1,"stop()");
+message(Xh24,Xh1,"reset()");
+
+# Complete the lifelines
+step();
+complete(Xh1);
+complete(Xh24);
+.PE</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<p/>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p/>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p/>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p/>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p/>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p/>
+</section>
+
+</body>
+</document>

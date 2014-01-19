@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	StupidModel5tg application - _xhn configuration
+	Xholon 0.5 http://www.primordion.com/Xholon
+-->
+<params>
+<param name="ShowParams" value="false"/>
+<param name="ModelName" value="StupidModel5 Two Grids"/>
+<param name="AppM" value="true"/>
+<param name="InfoM" value="false"/>
+<param name="ErrorM" value="true"/>
+<param name="MaxProcessLoops" value="-1"/>
+<param name="TimeStepInterval" value="0"/>
+<param name="SizeMessageQueue" value="10"/>
+<param name="InheritanceHierarchyFile" value="config/StupidModel/StupidModel5tg/StupidModel5tg_InheritanceHierarchy.xml"/>
+<param name="CompositeStructureHierarchyFile" value="config/StupidModel/StupidModel5tg/StupidModel5tg_CompositeStructureHierarchy.xml"/>
+<param name="ClassDetailsFile" value="config/StupidModel/StupidModel5tg/StupidModel5tg_ClassDetails.xml"/>
+<param name="InformationFile" value="config/StupidModel/StupidModel5tg/StupidModel5tg_Information.xml"/>
+<param name="JavaClassName" value="org.primordion.user.app.StupidModel.sm5tg.AppStupidModel5tg"/>
+<param name="JavaXhClassName" value="org.primordion.user.app.StupidModel.sm5tg.XhStupidModel5tg"/>
+<param name="MaxPorts" value="1"/>
+<!-- Viewers -->
+<param name="UseGridViewer" value="true"/>
+<param name="GridPanelClassName" value="org.primordion.user.app.StupidModel.sm5tg.GridPanelStupidModel5tg"/>
+<!-- GridViewerParams: XPathExpression,CellSize,Title,UseShapes  good sizes are 4 and 7 -->
+<param name="GridViewerParams" value="Population/descendant::Row/..,5,Xholon - SM5tg Population 1,true"/>
+<param name="GridViewerParams" value="Population[2]/descendant::Row/..,2,Xholon - SM5tg Pop 2,true"/>
+<param name="GridViewerParams" value="Population[3]/descendant::Row/..,2,Xholon - SM5tg Pop 3,true"/>
+
+<!-- application specific parameters -->
+<param name="MaxConsumptionRate" value="1.0"/> <!-- maximum daily food consumption (a bug parameter) 1.0 -->
+<param name="MaxFoodProductionRate" value="0.01"/> <!-- maximum food production (a cell parameter) 0.01 -->
+
+</params>

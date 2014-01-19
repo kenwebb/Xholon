@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ScheffranNActor configuration file
+	 Ken Webb
+	 February 5, 2007 -->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Dynamical System - ScheffranNActor"/>
+	<param name="AppM" value="false"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="60"/> <!-- 60 -->
+	<param name="TimeStepInterval" value="10"/>
+	<param name="InheritanceHierarchyFile" value="./config/dynsys/ScheffranTwoActor/InheritanceHierarchy_N.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="./config/dynsys/ScheffranTwoActor/CompositeStructureHierarchy_N.xml"/>
+	<param name="ClassDetailsFile" value="./config/dynsys/ScheffranTwoActor/ClassDetails_N.xml"/>
+	<param name="InformationFile" value="config/dynsys/ScheffranTwoActor/Information_N.xml"/>
+	<param name="JavaClassName" value="org.primordion.dynsys.app.AppScheffranNActor"/>
+	<param name="JavaXhClassName" value="org.primordion.dynsys.app.XhScheffranNActor"/>
+	<!--<param name="MaxPorts" value="2"/>-->
+	<!-- UseDataPlotter determines whether the data each timestep is plotted on a graph. -->
+	<param name="UseDataPlotter" value="google2"/> <!-- JFreeChart gnuplot google2 none -->
+	<param name="DataPlotterParams"
+		value="N Actor Model,Time (days),Value,./statistics/,2actr,1,WRITE_AS_DOUBLE"/>
+	<param name="UseGraphicalTreeViewer" value="false"/>
+	<param name="GraphicalTreeViewerParams"
+		value="/,15,50,300,200,12,Xholon - ScheffranNActor - Composite Structure,false"/>
+	<param name="UseGraphicalNetworkViewer" value="false"/>
+	<param name="GraphicalNetworkViewerParams"
+		value="/,1000,600,12,LAYOUT_CIRCLE,false,Xholon - ScheffranNActor - Connections between Actors,true"/>
+	<param name="NumActors" value="10"/>
+</params>

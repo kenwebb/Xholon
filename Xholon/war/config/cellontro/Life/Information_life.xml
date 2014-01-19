@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>Xholon - Life</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This is a model of various biological systems, from individual cells, to organisms, to an entire ecosystem.
+It's purpose is to explore how Xholon can be used to model a large system,
+in this case a set of nested biological systems.</p>
+<p>The model includes a Sun to provide light and energy, and an ecology in which various organisms can interact.
+The ecology includes a lettuce plant and a human being. The lettuce photosynthesizes the light,
+and sometimes reflects it to the eye of the human. The lettuce also absorbs water, carbon dioxide, and nutrients
+from its environment (a lake, an atmosphere, and some soil). The human can see the lettuce, and through a
+nervous system can move its mouth to eat some of the lettuce. The digestive system then converts nutrients
+in the lettuce into a more usable form. The circulatory system circulates blood, that transports nutrients
+between different parts of the body.</p>
+<p>There's a lot happening in this simulation, so you'll need to take some time to explore it.</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+<title/>
+<p>Run it:</p>
+<ol>
+<li>Run the Java application through the Xholon GUI (org.primordion.xholon.app.Xhn.java),
+and select File --> Open --> cellontro --> Life --> Life_xhn.xml.</li>
+<li>Expand the Controller node in the tree.</li>
+<li>Press the Start node.</li>
+<li>You should initially see a list of the parameters used in the model, displayed in the console window.
+Each time step, various objects in the simulation will display information about themselves, for example:</li>
+</ol>
+</section>
+<section><title/>
+<source>
+sun_2 is shining.
+lettuce_21707 is absorbing nutrients from soil_21721.
+
+lettuce_21707 is reflecting received light to coneOuterSegment_261.
+sun_2 is shining.
+At timestep 1, gPase:gPase_177 is slicing glycogen_59 into glucose_1_Phosphate_58 49.0,1.0 .
+lettuce_21707 is absorbing nutrients from soil_21721.
+
+...
+
+axonSegment_6849 is sending an action potential to terminalButtons_6855.
+coneOuterSegment_261 is sending a PSP to neuronCellBody_14.
+axonHillock_6847 is sending an action potential to axonSegment_6849.
+lettuce_21707 is photosynthesizing received light.
+neuronCellBody_6801 is sending a PSP to axonHillock_6847.
+neuronCellBody_6801 is sending a PSP to axonHillock_6847.
+sun_2 is shining.
+lettuce_21707 is absorbing nutrients from soil_21721.
+
+...
+
+axonSegment_6849 is sending an action potential to terminalButtons_6855.
+axonSegment_6943 is sending an action potential to terminalButtons_6949.
+axonSegment_7045 is sending an action potential to terminalButtons_7051.
+coneOuterSegment_261 is sending a PSP to neuronCellBody_14.
+axonHillock_6746 is sending an action potential to axonSegment_6748.
+axonHillock_6847 is sending an action potential to axonSegment_6849.
+axonHillock_6941 is sending an action potential to axonSegment_6943.
+axonHillock_7143 is sending an action potential to axonSegment_7145.
+lettuce_21707 is reflecting received light to coneOuterSegment_261.
+neuronCellBody_6700 is sending a PSP to axonHillock_6746.
+neuronCellBody_6801 is sending a PSP to axonHillock_6847.
+neuronCellBody_6801 is sending a PSP to axonHillock_6847.
+neuronCellBody_6895 is sending a PSP to axonHillock_6941.
+neuronCellBody_6895 is sending a PSP to axonHillock_6941.
+neuronCellBody_6997 is sending a PSP to axonHillock_7043.
+neuronCellBody_7097 is sending a PSP to axonHillock_7143.
+sun_2 is shining.
+mucosalCell_21661 bilayer is transporting glucose to bloodPlasma_5228.
+lettuce_21707 is absorbing nutrients from soil_21721.
+</source>
+</section>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p>The model could be extended by adding additional detail to any of the subsystems already in it.
+The challenge with this model is to keep adding detail, while still allowing everything that's already there
+to continue working. This is the goal of Xholon itself.</p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon and Ealontro features</title>
+<p>A version of the model, Life_StaticFactory_xhn.xml, uses a static factory rather than the usual dynamic factory,
+to create xholon instances at runtime.</p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>This model is partly described in a journal paper.</p>
+<p><a href="http://www.primordion.com/pub/publishedPapers/Jai2005_WebbWhite.pdf">
+	Webb, K., &amp; White, T. (2005). Cell Modeling with Reusable Agent-based Formalisms. JAI 2005.</a></p>
+<p>An older version of this model is described in the appendices to Ken Webb's university honors project.</p>
+<p><a href="http://www.primordion.com/pub/baCoursework/BaHonProj2003app_Webb.pdf">
+	Webb, K. (2003). Autopoiesis - A comparison of two computational models. Ottawa, Canada: Carleton University, BA Honours Project.</a></p>
+</section>
+
+</body>
+</document>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../../../Xholon/information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../../Xholon/information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>Dynamical System - Fibonacci - Xholon App</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This model implements a dynamical system that creates the Fibonacci series, where
+	each successive number is the sum of the two preceding numbers.
+This demonstrates how to model dynamical systems using Xholon.</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+<title/>
+<p>Run it:</p>
+<ol>
+<li>Run the Java application through the Xholon GUI (org.primordion.xholon.app.Xhn.java),
+and select File --> Open --> dynsys --> Fibonacci --> Fibonacci_xhn.xml.</li>
+<li>Expand the Controller node in the tree.</li>
+<li>Press the Start node.</li>
+<li>If you have JFreeChart installed you should see a chart showing the Fibonacci series over time.</li>
+<li>If you don't have JFreeChart installed, then change the value of UseDataPlotter to "gnuplot",
+and look at the results that are saved to a .csv file in the statistics folder.
+If you have gnuplot installed, it can read the .plt script in the statistics folder
+to produce a displayable .png file from the .csv file, that should look similar to the one below.</li>
+</ol>
+</section>
+<section><title/>
+<source>
+
+</source>
+</section>
+<section><title/>
+<figure src="DynSys_Fibonacci_1.png" alt="Dynamical System - Fibonacci"></figure>
+</section>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p>Since the default values are ints, the output is valid only until n=47. See the next
+	section 'Things to try' for instructions on how to extend this.</p>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p>Extend the maximum range of the application by converting the java variables to doubles.
+	First, select the desired 'n' value by editing Fibonacci_xhn.xml
+	(param name="MaxProcessLoops" value="21"/>)</p>
+	
+<p>	Then edit XhFibonacci.java. Declare getVal_int() and and getVal as doubles, and change
+	each occurrence of getVal_int() to getVal_double(). In the act() method change
+	((XhFibonacci)port[P_DEPVAR]).setVal(0) to ...setVal(0.0), and
+	((XhFibonacci)port[P_DEPVAR]).setVal(1) to ...setVal(1.0)</p>
+	
+<p>Note that for n values greater than 68 JFreeChart will no longer display the range
+	values clearly. You can still get a sense of the magnitude of the result for large
+	n's by right clicking JFreeChart to see how it has autoscaled the Y-axis maximum
+	value.</p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon and Ealontro features</title>
+<p>Each successive number is a new xholon that has been instantiated as a result of the preceding
+	two numbers (xholons) interacting with each other via their ports.</p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p></p>
+<p><a href="http://en.wikipedia.org/wiki/Fibonacci_number">wikipedia Fibonacci numbers</a></p>
+</section>
+
+</body>
+</document>

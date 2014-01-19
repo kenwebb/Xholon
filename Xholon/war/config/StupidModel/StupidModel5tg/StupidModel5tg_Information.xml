@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+		<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+		-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+
+<!--
+	StupidModel5tg Displayable information about this application.
+	Xholon 0.6 http://www.primordion.com/Xholon (Ken Webb)
+-->
+<document>
+<header>
+<title>Xholon - Stupid Model 5tg - Two or more Grids</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This is a Xholon-specific version of the 5th in a series of 16 "Stupid Models". It's intended as a starting point for learning how to develop grid and agent-based models using Xholon. It can also be used to compare Xholon with other agent-based modeling tools that have also implemented the Stupid Model series.</p>
+<p>The model includes three separate grids. Bugs in two of the grids migrate to the third grid whenever a bug tries to occupy an already occupied cell. Initially all the bugs, except for one in the third grid, are evenly divided between grids 1 and 2. The third grid starts to fill up fairly quickly.</p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p>Migration between grids is easy to do, because everything in a Xholon model is part of a tree structure, and any component can interact with any other component.</p>
+<p>The move() method of BugStupidModel5tg.java implements the migration.</p>
+<p>When the bug moves, it changes its class from Bug (BugCE) to DisplacedBug (DisplacedBugCE). This makes it easier to give bugs a different behavior once they move to the new grid. The move() method checks to see if the bug is of class BugCE. This could be done in a number of other ways, such as by using a variable called "state".</p>
+<p>In GridPanelStupidModel5tg.java, the color of the bug is determined by its class. A Bug is a red circle, while a DisplacedBug is a blue star.</p>
+<p>DisplacedBug is defined in StupidModel5tg_InheritanceHierarchy.xml, as a subclass of Bug.</p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>Railsback, S., Lytinen, S., Grimm, V. (2005).
+StupidModel and Extensions: A Template and Teaching Tool for Agent-based Modeling Platforms.</p>
+<p><a href="http://www.swarm.org/wiki/Software_templates">Swarm page</a></p>
+<p><a href="http://condor.depaul.edu/~slytinen/abm/StupidModel/">Author's page</a></p>
+</section>
+
+</body>
+</document>

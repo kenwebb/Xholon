@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../../../Xholon/information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../../Xholon/information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>Life with 3d VRML - Cellontro/Xholon App</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This is a model of a biological cell, based on the other cellontro models.
+It includes two cells, each with a membrane, cytoplasm, and a nucleus.
+The application generates a 3d VRML representation of itself, in one of two selectable formats.</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+<title/>
+<p>Run it:</p>
+<ol>
+<li>Run the Java application through the Xholon GUI (org.primordion.xholon.app.Xhn.java),
+and select File --> Open --> cellontro --> Life3d --> Life3d_SingleCells_xhn.xml.</li>
+<li>Expand the Controller node in the tree.</li>
+<li>Press the Start node.</li>
+<li>You should see a list of the parameters used.</li>
+</ol>
+</section>
+<section><title/>
+<source>
+
+</source>
+</section>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p>Look in the Xholon/3d directory. You should see an updated version of the rootCell.wrl file.
+If you have a VRML browser installed, it should be able to load and display this file, in 3D.</p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon and Ealontro features</title>
+<p>VRML files are organized as trees,
+and it is quite straight-forward to write out a VRML tree from a Xholon composite structure tree.</p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>For more information on VRML, see 
+<a href="http://en.wikipedia.org/wiki/VRML">Wikipedia</a></p>
+</section>
+
+</body>
+</document>

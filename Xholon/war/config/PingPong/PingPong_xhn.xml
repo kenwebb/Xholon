@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- PingPong configuration file
+	 Ken Webb
+	 December 2, 2005 -->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Ping Pong"/>
+	<param name="AppM" value="true"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<!--
+	<param name="MaxXholons" value="10"/>
+	<param name="MaxXholonClasses" value="5"/>
+	<param name="MaxStateMachineEntities" value="0"/>
+	<param name="TreeNodeFactoryDynamic" value="false"/>
+	-->
+	<param name="MaxProcessLoops" value="10"/>
+	<param name="TimeStepInterval" value="1000"/>
+	
+	<!-- GWT development mode and production mode -->
+	<param name="InheritanceHierarchyFile" value="config/PingPong/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="config/PingPong/CompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="config/PingPong/ClassDetails.xml"/>
+	<param name="InformationFile" value="config/PingPong/Information_pingpong.xml"/>
+	
+	<param name="JavaClassName" value="org.primordion.user.app.PingPong.AppPingPong"/>
+	<param name="JavaXhClassName" value="org.primordion.user.app.PingPong.XhPingPong"/>
+	<param name="MaxPorts" value="1"/>
+	
+	<!--<param name="UseXholon2Gui" value="false"/>-->
+</params>

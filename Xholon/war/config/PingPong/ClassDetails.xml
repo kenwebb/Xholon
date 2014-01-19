@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Xholon PingPong ClassDetails.xml -->
+<xholonClassDetails>
+	<PingPongEntity xhType="XhtypeBehFgsxxx">
+		<port name="port" index="P_PARTNER" connector="#xpointer(ancestor::PingPongSystem/PingPongEntity[-1])"/>
+	</PingPongEntity>
+	<XholonClass xhType="XhtypePureContainer">
+	</XholonClass>
+</xholonClassDetails>

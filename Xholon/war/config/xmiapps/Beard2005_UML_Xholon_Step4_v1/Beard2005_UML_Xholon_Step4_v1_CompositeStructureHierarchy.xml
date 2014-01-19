@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Beard2005_UML_Xholon_Step4_v1 application - Composite Structure Hierarchy
+	Author: KenWebb
+	Date:   22/02/2007
+	File:   Beard2005_UML_Xholon_Step4_v1.mdzip
+	Target: Xholon 0.5 http://www.primordion.com/Xholon
+	UML: MagicDraw UML 11.5
+	XMI: 2.1, Thu Feb 22 12:38:46 EST 2007
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<CardiacCellModel xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+<ExtraCellularSolution roleName=""/>
+<EukaryoticCell roleName="cardiacCell">
+<ExternalSpace roleName="cytoplasm">
+<O2 roleName="">
+<attribute name="val" value="2.6e-5"/>
+</O2>
+<H2O roleName="">
+<attribute name="val" value="0.0"/>
+</H2O>
+<ATP roleName="">
+<attribute name="val" value="0.0"/>
+</ATP>
+<ADP roleName="">
+<attribute name="val" value="1.3e-3"/>
+</ADP>
+<AMP roleName="">
+<attribute name="val" value="0.0"/>
+</AMP>
+<Pi roleName="">
+<attribute name="val" value="3e-3"/>
+</Pi>
+<ADPm roleName="">
+<attribute name="val" value="0.0"/>
+</ADPm>
+<ADPf roleName="">
+<attribute name="val" value="0.0"/>
+</ADPf>
+<Mgtot roleName="">
+<attribute name="val" value="0.005"/>
+</Mgtot>
+<Mg2 roleName="">
+<attribute name="val" value="0.0"/>
+</Mg2>
+<H roleName="">
+<attribute name="val" value="0.0"/>
+</H>
+<PH roleName="">
+<attribute name="val" value="7.1"/>
+</PH>
+<K roleName="">
+<attribute name="val" value="0.150"/>
+</K>
+</ExternalSpace>
+<Mitochondrion roleName="">
+<OuterMembrane roleName=""/>
+<IntermembraneSpace roleName="">
+<CytCOx roleName="">
+<attribute name="val" value="0.0"/>
+</CytCOx>
+<CytCRed roleName="">
+<attribute name="val" value="0.001"/>
+</CytCRed>
+<H roleName="">
+<attribute name="val" value="0.0"/>
+</H>
+<K roleName="">
+<attribute name="val" value="0.0"/>
+</K>
+<ATPf roleName="">
+<attribute name="val" value="0.0"/>
+</ATPf>
+<ATPm roleName="">
+<attribute name="val" value="0.0"/>
+</ATPm>
+<ADPf roleName="">
+<attribute name="val" value="0.0"/>
+</ADPf>
+<ADPm roleName="">
+<attribute name="val" value="0.0"/>
+</ADPm>
+<AMP roleName="">
+<attribute name="val" value="0.0"/>
+</AMP>
+<Pi roleName="">
+<attribute name="val" value="0.001"/>
+</Pi>
+<ATP roleName="">
+<attribute name="val" value="0.0"/>
+</ATP>
+<ADP roleName="">
+<attribute name="val" value="0.0"/>
+</ADP>
+<H2PO4 roleName="">
+<attribute name="val" value="0.0"/>
+</H2PO4>
+<O2 roleName="">
+<attribute name="val" value="0.0"/>
+</O2>
+<Mg2 roleName="">
+<attribute name="val" value="0.0"/>
+</Mg2>
+<MagnesiumBinding roleName=""/>
+<AK roleName=""/>
+</IntermembraneSpace>
+<InnerMembrane roleName="">
+<ComplexI roleName=""/>
+<ComplexIII roleName=""/>
+<ComplexIV roleName=""/>
+<ATPsynthase roleName=""/>
+<ANT roleName=""/>
+<PiHt roleName=""/>
+<KHAntiporter roleName=""/>
+</InnerMembrane>
+<MitochondrialMatrix roleName="">
+<NAD roleName="">
+<attribute name="val" value="0.0"/>
+</NAD>
+<NADH roleName="">
+<attribute name="val" value="8.36e-15"/>
+</NADH>
+<Q roleName="">
+<attribute name="val" value="0.0"/>
+</Q>
+<QH roleName="">
+<attribute name="val" value="1e-7"/>
+</QH>
+<H roleName="">
+<attribute name="val" value="0.0"/>
+</H>
+<K roleName="">
+<attribute name="val" value="0.14"/>
+</K>
+<ATPf roleName="">
+<attribute name="val" value="0.0"/>
+</ATPf>
+<ATPm roleName="">
+<attribute name="val" value="0.0"/>
+</ATPm>
+<ADPf roleName="">
+<attribute name="val" value="0.0"/>
+</ADPf>
+<ADPm roleName="">
+<attribute name="val" value="0.0"/>
+</ADPm>
+<Pi roleName="">
+<attribute name="val" value="0.001"/>
+</Pi>
+<ATP roleName="">
+<attribute name="val" value="0.0001"/>
+</ATP>
+<PH roleName="">
+<attribute name="val" value="7.1"/>
+</PH>
+<ADP roleName="">
+<attribute name="val" value="0.0099"/>
+</ADP>
+<Mg2 roleName="">
+<attribute name="val" value="0.005"/>
+</Mg2>
+<MagnesiumBinding roleName=""/>
+<DehydrogenaseFlux roleName=""/>
+</MitochondrialMatrix>
+</Mitochondrion>
+</EukaryoticCell>
+</CardiacCellModel>

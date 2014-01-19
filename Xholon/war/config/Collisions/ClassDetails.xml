@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Xholon Collisions ClassDetails.xml -->
+<xholonClassDetails>
+	<Population xhType="XhtypeBehFgsxxx"/>
+	<Driver xhType="XhtypeBehFgsxxx"/>
+	<Death xhType="XhtypeBehFgsxxx"/>
+	<Injury xhType="XhtypeBehFgsxxx"/>
+	<Collision xhType="XhtypeBehFgsxxx"/>
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

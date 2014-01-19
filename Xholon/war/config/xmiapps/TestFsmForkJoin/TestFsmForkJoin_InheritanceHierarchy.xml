@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	TestFsmForkJoin application - Inheritance Hierarchy
+	Author: KenWebb
+	Date:   23/05/2007
+	File:   TestFsmForkJoin.mdzip
+	Target: Xholon 0.5 http://www.primordion.com/Xholon
+	UML: MagicDraw UML 11.5
+	XMI: 2.1, Wed Apr 04 14:40:41 EDT 2007
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+<TestHarness/>
+<TestFsmSystem/>
+<FsmXholon_14_68/>
+<FsmXholon_14_71/>
+<!-- StateMachineEntity -->
+<!--<xi:include href="_mechanism/StateMachineEntity.xml"/> GWT-->
+<!-- Port -->
+<!--<xi:include href="_mechanism/Port.xml"/> GWT-->
+<!-- Xholon Viewers -->
+<!--<xi:include href="_viewer/XholonViewer.xml"/> GWT-->
+</XholonClass>

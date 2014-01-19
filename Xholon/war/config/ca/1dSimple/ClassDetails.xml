@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Xholon CA 1dSimple ClassDetails.xml -->
+<xholonClassDetails>
+	<GridCell xhType="XhtypeBehFgsxxx">
+		<config instruction="Gct"/>
+	</GridCell>
+	<XholonClass xhType="XhtypePureContainer">
+	</XholonClass>
+</xholonClassDetails>

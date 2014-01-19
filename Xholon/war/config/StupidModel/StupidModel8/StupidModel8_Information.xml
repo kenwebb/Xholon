@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+		<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+		-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+
+<!--
+	StupidModel8 Displayable information about this application.
+	Xholon 0.6 http://www.primordion.com/Xholon (Ken Webb)
+-->
+<document>
+<header>
+<title>Xholon - Stupid Model 8 - File Output</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This is the 8th in a series of 16 "Stupid Models". It's intended as a starting point for learning how to develop grid and agent-based models using Xholon. It can also be used to compare Xholon with other agent-based modeling tools that have also implemented the Stupid Model series.</p>
+<p>This model demonstrates how to write results to an output file. Each time step, it should write the minimum, mean, and maximum bug size to one line of an output file.</p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<section>
+<title/>
+<p>The easiest way to do this in Xholon is to enable the gnuplot line chart capability. Every time step it can write comma-separated data to an output file. Optionally, this data can be plotted later.</p>
+<p>Specify details in StupidModel8_xhn.xml. The UseDataPlotter parameter should be set to "gnuplot". Also look at the DataPlotterParams parameter values.</p>
+<p>StupidModel8_CompositeStructureHierarchy.xml includes four aggregators, which gather statistics about objects in the grid. The minimum, mean, and maximum values are each maintained in its own aggregator.</p>
+<p>The shouldBePlotted() method in AppStupidModel8.java determines which objects will be written to the output file each time step. In this case it looks for any instance of Aggregator that is not just a simple count. This class, in its step() method, calls chartViewer.capture() each time step to record the current values of minimum, mean, and maximum.</p>
+<p>The following is a sample of what the output file looks like (it's saved in the "statistics" directory in a file with a name like a1180389315357_sm8_Stats.csv):</p>
+</section>
+<section><title/>
+<source>
+#time,minimum:aggregator_3,mean:aggregator_4,maximum:aggregator_5,
+0.0,0.0,0.0,0.0,
+1.0,1.0,1.0019910208472986,1.0097022650519742,
+2.0,1.0004643268652638,1.0095674153157645,1.0262259489733176,
+3.0,1.0060119053314747,1.0217061437540778,1.0427319696020914,
+4.0,1.0123960316227099,1.0376411151187632,1.0694676191541803,
+5.0,1.0347474119967652,1.0603441700026108,1.095720861915768,
+</source>
+</section>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>Railsback, S., Lytinen, S., Grimm, V. (2005).
+StupidModel and Extensions: A Template and Teaching Tool for Agent-based Modeling Platforms.</p>
+<p><a href="http://www.swarm.org/wiki/Software_templates">Swarm page</a></p>
+<p><a href="http://condor.depaul.edu/~slytinen/abm/StupidModel/">Author's page</a></p>
+</section>
+
+</body>
+</document>

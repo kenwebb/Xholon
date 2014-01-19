@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+		Initial Quantities
+		==================
+This describes how the pheneVal quantities were determined.
+There are some inconsistencies in these calculations, which is OK for now.
+Assume:
+	a 100 by 100 grid. This is a space containing 10000 locations.
+	that the membrane is in a diamond shape, and divides the space in half.
+Therefore:
+	half the locations are outside the membrane.           5000
+	the membrane itself consists of 100 + 100 spaces.       200
+	the remaining spaces are inside the membrane           4800
+	                                                      =====
+	Total:                                                10000
+-->
+<ExtraCellularSpace>
+	<ExtraCellularSolution>
+		<Water>4000.0</Water>
+		<Glucose>1000.0</Glucose>
+	</ExtraCellularSolution>
+	<EukaryoticCell multiplicity="1">
+		<CellMembrane>
+			<CellBilayer>
+				<Phosphatidyl_Ethanolamine>200.0</Phosphatidyl_Ethanolamine>
+				<Ethanolamine>10.0</Ethanolamine> <!-- disintegration product -->
+				<Phosphatidic_Acid>10.0</Phosphatidic_Acid> <!-- disintegration product -->
+				<LipidDisintegration/>
+			</CellBilayer>
+		</CellMembrane>
+		<Cytoplasm>
+			<Cytosol>
+				<Water>3000.0</Water>
+				<Glucose>100.0</Glucose>
+				<Ethanolamine>350.0</Ethanolamine>
+				<Phosphatidic_Acid>350.0</Phosphatidic_Acid>
+				<Phosphatidyl_Ethanolamine>750.0</Phosphatidyl_Ethanolamine>
+				<PE_InVicinity>250.0</PE_InVicinity>
+			</Cytosol>
+			<Phosphatidic_Acid_Phosphatase>1.0</Phosphatidic_Acid_Phosphatase>
+		</Cytoplasm>
+	</EukaryoticCell>
+</ExtraCellularSpace>

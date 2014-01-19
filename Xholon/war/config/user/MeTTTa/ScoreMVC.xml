@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This is a complete set of MVC nodes that functions as a mini-app within the MeTTTa app.
+This entire tree is intended to be pasted in as a last child of MeTTTaView in MeTTTa.
+The model (ScoreModelnode) and controller (ScoreControllernode) are included here
+as children of a JButton, which is the most convenient place to put them for
+configuration purposes.
+
+Instead of pasting in the text itself, an xi:include can be pasted in as follows:
+<_-.forest>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="./config/user/MeTTTa/ScoreMVC.xml"/>
+</_-.forest>
+-->
+<JFrame Title="Player">
+  <JPanel>
+    <VBox>
+      <HBox>
+        <JLabel Text="Name"/>
+        <JTextField Columns="10"/>
+      </HBox>
+      <Strut Height="10"/>
+      <HBox>
+        <JLabel Text="City"/>
+        <JTextField Columns="10"/>
+      </HBox>
+      <Strut Height="10"/>
+      <HBox>
+        <JLabel Text="Country"/>
+        <JTextField Columns="10"/>
+      </HBox>
+      <Strut Height="10"/>
+      <JButton Text="Submit" ActionCommand="submit">
+        <ScoreControlnode/>
+        <ScoreModelnode/>
+      </JButton>
+      <Strut Height="10"/>
+      <HBox roleName = "Score">
+        <JLabel Text="Score"/>
+        <JTextField Columns="5" Editable="false"/>
+      </HBox>
+    </VBox>
+  </JPanel>
+</JFrame>

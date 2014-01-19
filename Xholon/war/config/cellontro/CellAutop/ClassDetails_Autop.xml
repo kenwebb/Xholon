@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Cellontro cellontro/CellAutop ClassDetails_Autop.xml -->
+<xholonClassDetails>
+	<Phosphatidic_Acid_Phosphatase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::Cytoplasm/Cytosol/Phosphatidic_Acid)"/>
+		<port name="port" index="P_SM_SUB2" connector="#xpointer(ancestor::Cytoplasm/Cytosol/Ethanolamine)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::Cytoplasm/Cytosol/Phosphatidyl_Ethanolamine)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="10"/>
+	</Phosphatidic_Acid_Phosphatase>
+	<CellBilayer xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_EXT1" connector="#xpointer(ancestor::ExtraCellularSpace/ExtraCellularSolution/Glucose)"/>
+		<port name="port" index="P_SM_INT1" connector="#xpointer(ancestor::EukaryoticCell/Cytoplasm/Cytosol/Glucose)"/>
+		<port name="port" index="P_SM_EXT2" connector="#xpointer(ancestor::ExtraCellularSpace/ExtraCellularSolution/Water)"/>
+		<port name="port" index="P_SM_INT2" connector="#xpointer(ancestor::EukaryoticCell/Cytoplasm/Cytosol/Water)"/>
+		<port name="port" index="P_SM_INT3" connector="#xpointer(ancestor::EukaryoticCell/Cytoplasm/Cytosol/PE_InVicinity)"/>
+		<port name="port" index="P_SM_STR3" connector="#xpointer(Phosphatidyl_Ethanolamine)"/>
+		<port name="port" index="P_SM_STR4" connector="#xpointer(Phosphatidic_Acid)"/>
+		<port name="port" index="P_SM_INT4" connector="#xpointer(ancestor::EukaryoticCell/Cytoplasm/Cytosol/Phosphatidic_Acid)"/>
+		<port name="port" index="P_SM_STR5" connector="#xpointer(Ethanolamine)"/>
+		<port name="port" index="P_SM_INT5" connector="#xpointer(ancestor::EukaryoticCell/Cytoplasm/Cytosol/Ethanolamine)"/>
+		<attribute name="geneVal" index="0" value="1"/>
+	</CellBilayer>
+	<LipidDisintegration xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::CellBilayer/Phosphatidyl_Ethanolamine)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::CellBilayer/Phosphatidic_Acid)"/>
+		<port name="port" index="P_SM_PRD2" connector="#xpointer(ancestor::CellBilayer/Ethanolamine)"/>
+	</LipidDisintegration>
+	<Water xhType="XhtypeBehFgsxxx">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::Cytosol/Phosphatidyl_Ethanolamine)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::Cytosol/PE_InVicinity)"/>
+	</Water>
+	<SmallMolecule xhType="XhtypePurePassiveObject">
+	</SmallMolecule>
+	<CellularSolution xhType="XhtypePureContainer">
+	</CellularSolution>
+	<XholonClass xhType="XhtypePureContainer">
+	</XholonClass>
+</xholonClassDetails>

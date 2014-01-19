@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	MeTTTa application - Class Details
+	Xholon 0.7.1 http://www.primordion.com/Xholon
+-->
+<xholonClassDetails>
+	
+	<!-- MVC entities -->
+	<MeTTTaModel xhType="XhtypePureActiveObject" implName="org.primordion.user.app.MeTTTa.MeTTTaModel">
+		<port name="view" connector="#xpointer(ancestor::AppClientMVC/AppClientView)"/>
+	</MeTTTaModel>
+	<MeTTTaView xhType="XhtypePureActiveObject" implName="org.primordion.user.app.MeTTTa.MeTTTaView"/>
+	<MeTTTaController xhType="XhtypePureActiveObject" implName="org.primordion.user.app.MeTTTa.MeTTTaController">
+		<port name="model" connector="#xpointer(ancestor::AppClientMVC/AppClientModel)"/>
+		<port name="worker" connector="#xpointer(ancestor::AppClientMVC/../AppClientWorker)"/>
+	</MeTTTaController>
+	<MeTTTaWorker xhType="XhtypePureActiveObject" implName="org.primordion.user.app.MeTTTa.MeTTTaWorker">
+		<port name="businessDelegate" connector="#xpointer(ancestor::AppClientMVC/AppClientBusinessDelegate)"/>
+	</MeTTTaWorker>
+	<MeTTTaBusinessDelegate xhType="XhtypePureActiveObject" implName="org.primordion.user.app.MeTTTa.MeTTTaBusinessDelegateLocal"/>-->
+	<!--<MeTTTaBusinessDelegate xhType="XhtypePureActiveObject" implName="org.primordion.user.app.MeTTTa.MeTTTaBusinessDelegateRemote"/>-->
+	
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

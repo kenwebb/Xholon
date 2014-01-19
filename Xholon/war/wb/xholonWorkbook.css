@@ -1,0 +1,76 @@
+body {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 13px;
+}
+
+.WbiItems ul {
+  list-style: none outside none;
+  padding-left: 0px;
+}
+
+.WbiItems a {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  text-decoration: none;
+}
+.WbiItems a:link {
+  color: #005987;
+}
+.WbiItems a:visited {
+  color: #678D00;
+}
+.WbiItems a:hover {
+  color: #000000;
+}
+
+/* this style will be applied by CodeMirror */
+.dmphasize {
+  opacity: 0.25;
+}
+
+.copyright, .license {
+  font-size: 10px;
+}
+
+p.legend {
+  margin:0px 0px 0px 0px;
+}
+
+li.ApiItem {
+  list-style-type:none;
+  margin-top:5.5px;
+  margin-bottom:5.5px;
+  border-bottom-width:1px;
+  border-bottom-color:#EEEEEE;
+}
+
+li.ApiItem > h3 {
+  color:#0F67A1;
+  margin-bottom:0px;
+}
+
+li.ApiItem > p {
+  margin-bottom:0px;
+}
+
+pre.ApiExample {
+  margin-top:0px;
+}
+
+/* defaults */
+hr {
+  margin:20px 0px 0px 0px;
+}
+p {
+  margin:1px 0px 10px 0px;
+}
+fieldset {
+  margin:0px 0px 0px 0px;
+  border:1px 1px 1px 1px;
+  padding:1px 1px 1px 1px;
+}
+legend {
+  font-size: 9px;
+}
+

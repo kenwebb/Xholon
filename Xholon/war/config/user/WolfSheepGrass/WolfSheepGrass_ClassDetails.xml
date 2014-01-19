@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	
+-->
+<xholonClassDetails
+	xmlns:XholonStereotypes="http://www.magicdraw.com/schemas/XholonStereotypes.xmi"
+	xmlns:xmi="http://schema.omg.org/spec/XMI/2.1"
+	xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+	<TurtleObserver xhType="XhtypePureActiveObject">
+		<!-- port: p -->
+		<port name="port" index="PatchOwner"
+			connector="#xpointer(ancestor::TheSystem/PatchOwner)"/>
+	</TurtleObserver>
+	<Turtle xhType="XhtypePureActiveObject" implName="org.primordion.user.app.WolfSheepGrass.WolfSheep"/>
+	<PatchOwner xhType="XhtypeGridEntity" implName="org.primordion.xholon.base.PatchOwner"/>
+	<Row xhType="XhtypeGridEntity" implName="org.primordion.xholon.base.GridEntity"/>
+	<Grass xhType="XhtypeGridEntityActivePassive" implName="org.primordion.user.app.WolfSheepGrass.Grass">
+		<config instruction="Gmt"/> <!-- Gmt -->
+	</Grass>
+	<Aggregator xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_double"/>
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

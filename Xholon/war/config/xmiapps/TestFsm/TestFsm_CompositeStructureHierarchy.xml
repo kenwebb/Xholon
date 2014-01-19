@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	TestFsm application - Composite Structure Hierarchy
+	Author: KenWebb
+	Date:   26/06/2007
+	File:   TestFsm.mdzip
+	Target: Xholon 0.5 http://www.primordion.com/Xholon
+	UML: MagicDraw UML 11.5
+	XMI: 2.1, Tue Jun 26 17:39:57 EDT 2007
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<TestFsmSystem xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+<TestHarness roleName=""/>
+<FsmXholon roleName="">
+<StateMachine>
+<Region>
+<State uid="8371529" roleName="Top">
+<Region>
+<PseudostateInitial uid="6351559" roleName=""/>
+<State uid="5591545" roleName="StateA">
+<EntryActivity uid="1641291"/>
+<PseudostateEntryPoint uid="9711978" roleName=""/>
+<PseudostateExitPoint uid="9621999" roleName=""/>
+<Region>
+<State uid="8631578" roleName="StateA1">
+<EntryActivity uid="3691739"/>
+<ExitActivity uid="1141733"/>
+<DeferrableTrigger uid="876219" roleName="">
+<Trigger roleName="SIG3"/>
+</DeferrableTrigger>
+</State>
+<State uid="9411599" roleName="StateA2">
+<EntryActivity uid="6291735"/>
+</State>
+<State uid="251614" roleName="StateA3">
+<EntryActivity uid="5991737"/>
+</State>
+<PseudostateChoice uid="9271632" roleName=""/>
+<PseudostateTerminate uid="941127" roleName=""/>
+<TransitionExternal uid="7971638" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIG2"/>
+<Activity uid="6621749"/>
+</TransitionExternal>
+<TransitionExternal uid="1231651" roleName="2">
+<Guard uid="4651742"/>
+<Activity uid="1571744"/>
+</TransitionExternal>
+<TransitionExternal uid="9471674" roleName="CNPT_OUTGOING2">
+<Trigger roleName="SIG1"/>
+<Guard uid="9661724"/>
+<Activity uid="9761723"/>
+</TransitionExternal>
+<TransitionExternal uid="9961698" roleName="CNPT_OUTGOING3">
+<Trigger roleName="SIG1"/>
+<Guard uid="4621726"/>
+<Activity uid="5181731"/>
+</TransitionExternal>
+<TransitionExternal uid="796133" roleName="CNPT_OUTGOING_1">
+<Trigger roleName="SIG1"/>
+<Activity uid="439146"/>
+</TransitionExternal>
+<TransitionExternal uid="4221925" roleName="CNPT_OUT3">
+<Trigger roleName="SIG3"/>
+<Activity uid="8341955"/>
+</TransitionExternal>
+<TransitionExternal uid="2371936" roleName="1">
+<Guard uid="1111937"/>
+<Activity uid="7291938"/>
+</TransitionExternal>
+</Region>
+</State>
+<State uid="1171565" roleName="StateB"/>
+<FinalState uid="41916" roleName=""/>
+<TransitionExternal uid="1731697" roleName="">
+<Activity uid="9161769"/>
+</TransitionExternal>
+<TransitionExternal uid="241791" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIG3"/>
+<Activity uid="5681751"/>
+</TransitionExternal>
+<TransitionExternal uid="977192" roleName="CNPT_OUTGOING2">
+<Trigger roleName="SIG2"/>
+<Activity uid="891125"/>
+</TransitionExternal>
+<TransitionExternal uid="921984" roleName="CNPT_OUTGOING3">
+<Trigger roleName="SIG1"/>
+<Activity uid="9421219"/>
+</TransitionExternal>
+<TransitionExternal uid="4111996" roleName="">
+<Activity uid="79713"/>
+</TransitionExternal>
+<TransitionExternal uid="8621942" roleName="">
+<Activity uid="3631956"/>
+</TransitionExternal>
+</Region>
+</State>
+</Region>
+</StateMachine>
+</FsmXholon>
+</TestFsmSystem>

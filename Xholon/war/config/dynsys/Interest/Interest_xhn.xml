@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Interest configuration file
+	 Ken Webb
+	 January 16, 2007 -->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Dynamical System - Interest"/>
+	<param name="AppM" value="false"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="10"/>
+	<param name="TimeStepInterval" value="10"/>
+	<param name="InheritanceHierarchyFile" value="./config/dynsys/Interest/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="./config/dynsys/Interest/CompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="./config/dynsys/Interest/ClassDetails.xml"/>
+	<param name="InformationFile" value="config/dynsys/Interest/Information_Interest.xml"/>
+	<param name="JavaClassName" value="org.primordion.dynsys.app.AppInterest"/>
+	<param name="JavaXhClassName" value="org.primordion.dynsys.app.XhInterest"/>
+	<param name="MaxPorts" value="3"/>
+	<!-- UseDataPlotter determines whether the data each timestep is plotted on a graph. -->
+	<param name="UseDataPlotter" value="google2"/> <!-- JFreeChart gnuplot google2 none -->
+	<param name="DataPlotterParams"
+		value="Savings Account Balance ($),Time (years),Balance ($),./statistics/,ntrst,1,WRITE_AS_DOUBLE"/>
+</params>

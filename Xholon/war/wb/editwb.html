@@ -1,0 +1,198 @@
+<!doctype html>
+<html>
+<head>
+  <title>Start new workbook</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="author" content="Ken Webb" />
+  <meta name="copyright" content="MIT License, Copyright (C) 2013 Ken Webb" />
+  
+  <!-- jQuery -->
+  <!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>-->
+  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+  <!-- Xholon Workbook -->
+  <script src="xholonWorkbook.js"></script>
+  <link rel="stylesheet" href="xholonWorkbook.css" type="text/css" />
+  <script src="webtoolkit.base64.js"></script>
+  
+  <!-- CodeMirror editor, syntax highlighter, hints -->
+  <script src="codemirror/codemirror.js"></script>
+  <link rel="stylesheet" href="codemirror/codemirror.css" />
+  <script src="codemirror/xml.js"></script>
+  <script src="codemirror/javascript.js"></script>
+  <!--<script src="codemirror/rst.js"></script>-->
+  <script src="codemirror/markdown.js"></script>
+  <script src="codemirror/closetag.js"></script>
+  <script src="codemirror/show-hint.js"></script>
+  <script src="codemirror/javascript-hint.js"></script>
+  <script src="notes-hint.js"></script>
+  <script src="quantityih-hint.js"></script>
+  <script src="quantitycd-hint.js"></script>
+  <script src="quantitycsh-hint.js"></script>
+  <script src="svg-hint.js"></script>
+  <link rel="stylesheet" href="codemirror/3024-day.css" />
+  <link rel="stylesheet" href="codemirror/base16-light.css" />
+  <link rel="stylesheet" href="codemirror/blackboard.css" />
+  <link rel="stylesheet" href="codemirror/cobalt.css" />
+  <link rel="stylesheet" href="codemirror/eclipse.css" />
+  <link rel="stylesheet" href="codemirror/elegant.css" />
+  <link rel="stylesheet" href="codemirror/monokai.css" />
+  <link rel="stylesheet" href="codemirror/neat.css" />
+  <link rel="stylesheet" href="codemirror/night.css" />
+  <link rel="stylesheet" href="codemirror/paraiso-light.css" />
+  <link rel="stylesheet" href="codemirror/rubyblue.css" />
+  <link rel="stylesheet" href="codemirror/show-hint.css" />
+  <style type="text/css">
+    .CodeMirror {height: auto}
+    .CodeMirror-scroll {height: auto; overflow-y: hidden; overflow-x: auto; width: 100%}
+  </style>
+</head>
+
+<body>
+  <h2 class="modelname">
+    <a href="http://www.primordion.com/Xholon/gwt/">Start new workbook</a>
+  </h2>
+  
+  <!--<button class="selectall" title="Select content of all editors">Select all</button>-->
+  <!--<button class="unselectall" title="Unselect content of all editors">Unselect all</button>-->
+  
+  <div class="selectTheme" style="display:inline;" title="Select a theme for all editors">Theme: <select>
+    <option>default</option>
+    <option>3024-day</option>
+    <option>base16-light</option>
+    <option>blackboard</option>
+    <option>cobalt</option>
+    <option>eclipse</option>
+    <option>elegant</option>
+    <option>monokai</option>
+    <option selected="selected">neat</option>
+    <option>night</option>
+    <option>paraiso-light</option>
+    <option>rubyblue</option>
+    </select>
+  </div>
+  
+  <!--<button class="run" title="Run app in another tab or window">Run</button>-->
+  <div style="display:inline;">
+    <fieldset style="display:inline;">
+      <legend>Run app in a named tab or window</legend>
+      <button class="runclsc" title="Use the classic GUI">clsc</button>
+      <button class="rund3cp" title="Use the d3 circle-packing GUI">d3cp</button>
+      <button class="runnone" title="Use a minimal GUI">none</button>
+    </fieldset>
+  </div>
+  
+  <button class="savecontent" style="display:inline;" title="Enable local save by opening workbook XML in a separate tab or window">Save locally</button>
+  
+  <!-- TODO do I want to get this working ? -->
+  <!--<div style="display:inline;">
+    <fieldset style="display:inline;">
+      <legend>Save this workbook to your existing GitHub account</legend>
+      <button class="savegithub" title="Save this workbook to your existing GitHub account, as a gist">Save gist</button>
+      <input type="text" name="gu" id="gu" size="6" title="Your GitHub login id"/>:<input type="password" name="gp" id="gp" size="6" title="Your GitHub password"/>
+      <p class="gistid" style="display:inline;"></p>
+    </fieldset>
+  </div>-->
+  
+  <button class="refresh" style="display:inline;"
+   title="Refresh layout of editors (possibly useful if layout looks seriously wrong)">
+  Refresh</button>
+  
+  <div class="AboutXholon">
+    <p style="font-size: 9px;">Return to <a href="..">parent</a>.</p>
+  </div>
+  
+  <p>A Xholon Workbook is a complete web-based application.
+  All of the code (XML, JavaScript, SVG) and notes on this page can be edited in place.
+  The code includes a simple working example about the height of a block.
+  Click the Run button above, to run the app in a separate tab or window with <a href="..">Xholon GWT</a>.</p>
+  
+  <!-- rst  (see https://github.com/marijnh/CodeMirror/issues/2015) -->
+  <div id="xhednotes">
+    <br/>
+    <p class="legend"
+     title="Ctrl-Space select from lists of special characters">
+    Notes</p>
+    <textarea class="markdown"> </textarea>
+  </div>
+  
+  <!-- ih -->
+  <div id="xhedih">
+    <br/>
+    <p class="legend"
+     title="Ctrl-Space select from list of quantities, Ctrl-/ reindent">
+    Inheritance Hierarchy</p>
+    <textarea class="xml"> </textarea>
+  </div>
+  
+  <!-- cd -->
+  <div id="xhedcd">
+    <br/>
+    <p class="legend"
+     title="Ctrl-Space select from list of possible ports, Ctrl-/ reindent, Ctrl-, add selected from csh, Ctrl-. add all from csh">
+    Class Details</p>
+    <textarea class="xml"> </textarea>
+  </div>
+  
+  <!-- csh -->
+  <div id="xhedcsh">
+    <br/>
+    <p class="legend"
+     title="Ctrl-Space select from list of valid nodes, Ctrl-/ reindent">
+    Composite Structure Hierarchy</p>
+    <textarea class="xml"> </textarea>
+  </div>
+  
+  <!-- behaviors -->
+  <div id="xhedbehs">
+    <br/>
+    <p class="legend"
+     title="Ctrl-Space autocomplete. As an example, a behavior script called Blockbehavior will be inserted as a child of Block">
+    Behaviors</p>
+    <!-- zero or more individual behaviors will be inserted here -->
+  </div>
+
+  <!-- SVG -->
+  <div id="xhedsvg">
+    <br/>
+    <p class="legend"
+     title="Ctrl-Space select from list of examples">
+    SVG</p>
+    <textarea class="xml"> </textarea>
+    <p style="font-size: 9px;">Edit and display with the <a href="http://svg-edit.googlecode.com/svn/branches/2.6/editor/svg-editor.html">svg-edit</a>
+    visual editor. Select <em>Edit Source</em>, and paste in the above lines starting and ending with the &lt;svg> tags.</p>
+    <p style="font-size: 9px;">Display by pasting into your browser address bar, the above lines starting with <em>data:image/svg+xml,</em>
+  and ending with the closing <em>&lt;/svg</em> tag.</p>
+  </div>
+
+  <div id="XholonWorkbook" style="display:none;"></div>
+  <div id="XholonApplicationsDiv" class='XholonApplications'></div>
+  <div id="runAppDiv">
+	<script type="text/javascript">
+	// wait for jQuery to finish loading
+	$(document).ready(function() {
+	  $('div.XholonApplications').xholonWorkbook('postConfigure');
+	  $(window).bind('beforeunload', function() { return 'Do you really want to leave?' ; });
+	});
+    </script>
+    <noscript>For app to work, you will need to enable JavaScript</noscript>
+  </div>
+  
+  <hr/>
+  <!--<p style="font-size: 9px;">This page uses<a href="http://codemirror.net/">CodeMirror</a> and <a href="http://jquery.com/">jQuery</a>.</p>-->
+  <div class="twitter">
+    <a href="https://twitter.com/KenSWebb" class="twitter-follow-button" data-show-count="false">Follow @KenSWebb</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    <a href="https://twitter.com/share" class="twitter-share-button" data-via="KenSWebb" data-count="none">Tweet</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+  </div>
+  <div class="copyright" style="font-size: 9px;"><p>Xholon GWT is a <a href="..">Xholon</a> project. Copyright (C) 2013 Ken Webb. This page uses <a href="http://codemirror.net/">CodeMirror</a> and <a href="http://jquery.com/">jQuery</a>.</p></div>
+  <div class="aatt" style="font-size: 9px;"><pre style="font-size: 9px;">
+@QWERTYUIk
+OPASmDFGHe
+primordion
+JKLZcXCVB.
+  </pre></div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>Hex</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<title/>
+<p>This model demonstrates how to implement a hexagonal grid using Xholon. The game begins
+	with a number of creatures in the upper left corner. At each time step they can move
+	to any adjacent blue hexagon.</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+	<title/>
+	<p>Run it:</p>
+	<ol>
+	<li>Run the Java application through the Xhn GUI (org.primordion.xholon.app.Xhn.java),
+	and select File --> Open --> GridSamples --> Hex_xhn.xml.</li>
+	<li>A grid viewer and tree viewer will appear.
+	The grid viewer will display a random initial pattern.</li>
+	<li>Expand the Controller node in the tree viewer.</li>
+	<li>Press the Start node.</li>
+	</ol>
+</section>
+<section>
+	<title/>
+	<p>Pause and Step the model:</p>
+	<ol>
+	<li>Press Pause to pause and resume the executing model.
+	Press Step to advance the paused model by one time step.
+	Press Start to resume the paused model.</li>
+	</ol>
+</section>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p>The grid is a toroidal structure so the creatures are free to go out one side
+	and come back in the opposite side.</p>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p>Create a grid of square cells by editing Hex_ClassDetails. In (config instruction="Ght"/>
+	change the 'h' to a 'v'. The 'h' signifies 'haxagonal' where each cell has 6 neighbors,
+	while 'v' stands for 'Von Neumann' neighborhood
+	where each cell has 4 neighbors.</p>
+
+<p>Change the number of creatures in the game by editing Hex_CompositeStructureHierarchy
+	(Creature multiplicity="200"/>).</p>
+
+<p>Change any of the colours presented by editing GridPanelHex.java in
+    src/org.primordion.xholon.samples.</p>
+    
+<p>There are two things you can do to make the model run dramatically faster.
+(1) In the Hex_xhn.xml file, change TimeStepInterval from "10" to "0".
+This will prevent the model from sleeping for 10 milliseconds at the end of each time step.
+(2) In the Xholon GUI, press View --> gridViewer. This will temporarily display the graphics.
+Press this node again to re-enable the graphics.</p>
+
+<p>You can also change the size of the grid in Hex_CompositeStructureHierarchy.</p>
+<ol>
+<li>In line 8: edit HexGridCell multiplicity="49" roleName="gridcell"> to, for example, 100.</li>
+<li>In line 12: set HexRow multiplicity="49" roleName="row"> to the same number</li>
+<li>In line 13: set HexGridCell multiplicity="50" roleName="gridcell"> to that same number PLUS ONE.</li>
+</ol>
+
+<p>To make use of the "Monster" XholonClass and Java class:</p>
+<p>(1) Load and Start the GridSamples --> Hex model.</p>
+<p>(2) Select and copy the following text to the clipboard:
+<pre>&lt;Monster xhType='XhtypePureActiveObject' implName='org.primordion.xholon.samples.XhHexMonster'/&gt;</pre>
+</p>
+<p>(3) In the XholonGui, select InheritanceHierarchy --> XholonClass --> Creature.
+Right-click the Creature node and select Edit --> Paste After .</p>
+<p>(4) Select and copy the following text to the clipboard: <pre>&lt;Monster/&gt;</pre></p>
+<p>(5) In the XholonGui, select CompositeStructureHierarchy --> hex_0 --> row:hexRow_1 --> gridCell:hexGridCell_2 .
+Right-click the HexGridCell node and select Edit --> Paste Last Child .</p>
+<p>Something new should start to happen, whatever is coded in the act() method below.</p>
+
+<p>To do an XQuery that gets the current number of Creature and Monster nodes:</p>
+<p>(1) Select and copy the following text to the clipboard:
+<pre>return (count($x//Creature), count($x//Monster))</pre>
+</p>
+<p>(2) In the XholonGui, select CompositeStructureHierarchy --> hex_0 .
+Right-click the Hex node and select Edit --> XQuery Thru Clipboard .</p>
+<p>(3) The result will be returned in the clipboard, replacing the query that you previously copied there.
+To access this reulst, open a text editor, and paste the contents of the clipboard onto a blank line.
+You can usually do this by pressing Ctrl-V .</p>
+
+</section>
+
+</body>
+</document>

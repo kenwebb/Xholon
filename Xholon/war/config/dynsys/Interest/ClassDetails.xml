@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- DynamicalSystems dynsys/Interest ClassDetails.xml -->
+<xholonClassDetails>
+	<Interest xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SavAcctBalance" connector="#xpointer(ancestor::InterestSystem/SavingsAccountBalance)"/>
+		<port name="port" index="P_InterestRate" connector="#xpointer(ancestor::InterestSystem/InterestRate)"/>
+	</Interest>
+	<SavingsAccountBalance xhType="XhtypePurePassiveObject"/>
+	<InterestRate xhType="XhtypePurePassiveObject"/>
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

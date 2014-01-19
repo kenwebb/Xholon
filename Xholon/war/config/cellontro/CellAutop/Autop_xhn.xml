@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- CellAutop configuration file
+	 Ken Webb
+	 December 3, 2005 -->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Cell Autopoiesis"/>
+	<param name="AppM" value="true"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<!--
+	<param name="MaxXholons" value="100"/>
+	<param name="MaxXholonClasses" value="600"/>
+	<param name="MaxStateMachineEntities" value="0"/>
+	<param name="TreeNodeFactoryDynamic" value="false"/>
+	-->
+	<param name="MaxProcessLoops" value="100"/>
+	<param name="TimeStepInterval" value="10"/>
+	<param name="InheritanceHierarchyFile" value="config/cellontro/Cell/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="config/cellontro/CellAutop/CompositeStructureHierarchy_Autop.xml"/>
+	<param name="ClassDetailsFile" value="config/cellontro/CellAutop/ClassDetails_Autop.xml"/>
+	<param name="InformationFile" value="config/cellontro/CellAutop/Information_cellautop.xml"/>
+	<param name="JavaClassName" value="org.primordion.cellontro.app.AppCellAutop"/>
+	<param name="JavaXhClassName" value="org.primordion.cellontro.app.XhCellAutop"/>
+	<param name="JavaXhClassClassName" value="org.primordion.cellontro.base.BioXholonClass"/>
+	<param name="MaxPorts" value="10"/>
+	<!-- UseDataPlotter determines whether the data each timestep is plotted on a graph. -->
+	<param name="UseDataPlotter" value="google2"/>
+	<param name="DataPlotterParams"
+		value="Small molecule quantities changing over time,Time (timesteps),Quantities of each molecule,./statistics/,cellAutop,1,WRITE_AS_LONG"/>
+	<!-- Graphics -->
+	<param name="UseTextTree" value="false"/>
+	<param name="UseGraphicalTreeViewer" value="false"/>
+	<param name="GraphicalTreeViewerParams" value="/,50,50,1000,400,9,Cellontro - Cell Autopoiesis,false"/>
+	<param name="UseGraphicalNetworkViewer" value="false"/>
+	<param name="GraphicalNetworkViewerClassName"
+		value="org.primordion.cellontro.io.NetworkViewerJungCell"/>
+	<param name="GraphicalNetworkViewerParams"
+		value="/,1000,600,10,LAYOUT_ISOM,false,Cellontro - CellAutop Biochemical Network,false"/>
+</params>

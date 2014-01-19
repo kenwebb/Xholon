@@ -1,0 +1,1893 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LifeTheUniverseAndEverything xmlns:xi="http://www.w3.org/2001/XInclude">
+	<SolarSystem>
+		<Sun/>
+		<Earth>
+			<SimpleEcology>
+				<HumanBeing>
+					<Eye>
+						<RetinaConesAndRods>
+							<ExtraCellularSpace>
+								<ExtraCellularSolution>
+									<Water>5000000.0</Water>
+									<Glucose>100000.0</Glucose>
+								</ExtraCellularSolution>
+								<Synapses>
+									<!-- SynapticCleft structures will be dynamically created here at run-time -->
+								</Synapses>
+								<Cone>
+									<NeuronCellBody>
+										<xi:include href="user/Nucleus.xml"/>
+										<Cytoplasm>
+											<Cytosol>
+												<Water>100000.0</Water>
+												<Glucose>100000.0</Glucose>
+												<Glucose_6_Phosphate>100000.0</Glucose_6_Phosphate>
+												<Fructose_6_Phosphate>100000.0</Fructose_6_Phosphate>
+												<Fructose_1x6_Biphosphate>100000.0</Fructose_1x6_Biphosphate>
+												<DihydroxyacetonePhosphate>100000.0</DihydroxyacetonePhosphate>
+												<Glyceraldehyde_3_Phosphate>100000.0</Glyceraldehyde_3_Phosphate>
+												<X1x3_BisphosphoGlycerate>100000.0</X1x3_BisphosphoGlycerate>
+												<X3_PhosphoGlycerate>100000.0</X3_PhosphoGlycerate>
+												<X2_PhosphoGlycerate>100000.0</X2_PhosphoGlycerate>
+												<PhosphoEnolPyruvate>100000.0</PhosphoEnolPyruvate>
+												<Pyruvate>100000.0</Pyruvate>
+												<Glucose_1_Phosphate>0.0</Glucose_1_Phosphate> <!-- from Rcs_GP_FSM -->
+												<Glycogen>50.0</Glycogen> <!-- from Rcs_GP_FSM -->
+											</Cytosol>
+											<Mitochondrion multiplicity="3">
+												<MitochondrialDualMembrane>
+													<MitochondrialOuterMembrane>
+														<MitochondrialOuterBilayer/>
+													</MitochondrialOuterMembrane>
+													<MitochondrialIntermembraneSpace>
+														<MitochondrialIntermembranesol>
+															<Water><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Water>
+															<Pyruvate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Pyruvate>
+														</MitochondrialIntermembranesol>
+													</MitochondrialIntermembraneSpace>
+													<MitochondrialInnerMembrane>
+														<MitochondrialInnerBilayer/>
+														<PyruvateTransporter/>
+													</MitochondrialInnerMembrane>
+												</MitochondrialDualMembrane>
+												<Matrix>
+													<Matrixsol>
+														<Water><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Water>
+														<Pyruvate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Pyruvate>
+														<AcetylCoA><Attribute_double roleName="pheneVal">100000.0</Attribute_double></AcetylCoA>
+														<Citrate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Citrate>
+														<Isocitrate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Isocitrate>
+														<A_Ketoglutarate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></A_Ketoglutarate>
+														<SuccinylCoa><Attribute_double roleName="pheneVal">100000.0</Attribute_double></SuccinylCoa>
+														<Succinate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Succinate>
+														<Fumarate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Fumarate>
+														<Malate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Malate>
+														<Oxaloacetate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Oxaloacetate>
+													</Matrixsol>
+													<PyruvateDehydrogenase><Attribute_double roleName="pheneVal">1.0</Attribute_double></PyruvateDehydrogenase>
+													<CitrateSynthase><Attribute_double roleName="pheneVal">1.0</Attribute_double></CitrateSynthase>
+													<Aconitase><Attribute_double roleName="pheneVal">1.0</Attribute_double></Aconitase>
+													<IsocitrateDehydrogenase><Attribute_double roleName="pheneVal">1.0</Attribute_double></IsocitrateDehydrogenase>
+													<A_KetoglutarateDehydrogenase><Attribute_double roleName="pheneVal">1.0</Attribute_double></A_KetoglutarateDehydrogenase>
+													<SuccinylCoASynthetase><Attribute_double roleName="pheneVal">1.0</Attribute_double></SuccinylCoASynthetase>
+													<SuccinateDehydrogenase><Attribute_double roleName="pheneVal">1.0</Attribute_double></SuccinateDehydrogenase>
+													<FumarateHydratase><Attribute_double roleName="pheneVal">1.0</Attribute_double></FumarateHydratase>
+													<MalateDehydrogenase><Attribute_double roleName="pheneVal">1.0</Attribute_double></MalateDehydrogenase>
+												</Matrix>
+											</Mitochondrion>
+											<Hexokinase><Attribute_double roleName="pheneVal">1.0</Attribute_double></Hexokinase>
+											<PhosphoGlucoIsomerase><Attribute_double roleName="pheneVal">1.0</Attribute_double></PhosphoGlucoIsomerase>
+											<PhosphoFructokinase><Attribute_double roleName="pheneVal">1.0</Attribute_double></PhosphoFructokinase>
+											<Aldolase><Attribute_double roleName="pheneVal">1.0</Attribute_double></Aldolase>
+											<TriosePhosphateIsomerase><Attribute_double roleName="pheneVal">1.0</Attribute_double></TriosePhosphateIsomerase>
+											<Glyceraldehyde_3_phosphateDehydrogenase><Attribute_double roleName="pheneVal">1.0</Attribute_double></Glyceraldehyde_3_phosphateDehydrogenase>
+											<PhosphoGlycerokinase><Attribute_double roleName="pheneVal">1.0</Attribute_double></PhosphoGlycerokinase>
+											<PhosphoGlyceromutase><Attribute_double roleName="pheneVal">1.0</Attribute_double></PhosphoGlyceromutase>
+											<Enolase><Attribute_double roleName="pheneVal">1.0</Attribute_double></Enolase>
+											<PyruvateKinase><Attribute_double roleName="pheneVal">1.0</Attribute_double></PyruvateKinase>
+											<PyruvateDecarboxylase><Attribute_double roleName="pheneVal">1.0</Attribute_double></PyruvateDecarboxylase>
+											<LactateDehydrogenase><Attribute_double roleName="pheneVal">1.0</Attribute_double></LactateDehydrogenase>
+											<AlcoholDehydrogenase><Attribute_double roleName="pheneVal">1.0</Attribute_double></AlcoholDehydrogenase>
+											<PyruvateCarboxylase><Attribute_double roleName="pheneVal">1.0</Attribute_double></PyruvateCarboxylase>
+											<PhosphoenolPyruvateCarboxykinase><Attribute_double roleName="pheneVal">1.0</Attribute_double></PhosphoenolPyruvateCarboxykinase>
+											<Fructose_1x6_bisphosphatase><Attribute_double roleName="pheneVal">1.0</Attribute_double></Fructose_1x6_bisphosphatase>
+											<Glucose_6_phosphatase><Attribute_double roleName="pheneVal">1.0</Attribute_double></Glucose_6_phosphatase>
+											<xi:include href="user/GPaseSystem.xml"/> <!-- from Rcs_GP_FSM -->
+											<MRna/>
+										</Cytoplasm>
+										<CellMembrane>
+											<CellBilayer/>
+										</CellMembrane>
+									</NeuronCellBody>
+									<Axon>
+										<AxonHillock>
+											<MembranePotential>-65.0</MembranePotential>
+										</AxonHillock>
+										<AxonSegment multiplicity="2">
+											<AxonMembrane>
+												<AxonBilayer/>
+											</AxonMembrane>
+										</AxonSegment>
+									</Axon>
+									<TerminalButtons>
+										<TerminalButton multiplicity="2">
+											<TerminalButtonPlasm>
+												<TerminalButtonFluid>
+													<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+												</TerminalButtonFluid>
+												<SynapticVesicle>
+													<SynapticVesicleMembrane>
+														<SynapticVesicleBilayer/>
+														<Synaptotagmin/>
+													</SynapticVesicleMembrane>
+													<SynapticVesicleSpace>
+														<SynapticVesicleFluid>
+															<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+														</SynapticVesicleFluid>
+													</SynapticVesicleSpace>
+												</SynapticVesicle>
+												<xi:include href="user/Endosome.xml"/>
+											</TerminalButtonPlasm>
+											<TerminalButtonMembrane>
+												<TerminalButtonBilayer/>
+												<VoltageGatedCaChannel/>
+											</TerminalButtonMembrane>
+										</TerminalButton>
+									</TerminalButtons>
+									<ConeOuterSegment/>
+								</Cone>
+								<Rod/>
+							</ExtraCellularSpace>
+						</RetinaConesAndRods>
+					</Eye>
+					<Mouth>
+						<Muscle>
+							<ExtraCellularSpace>
+								<ExtraCellularSolution>
+									<Water>5000000.0</Water>
+									<Glucose>100000.0</Glucose>
+								</ExtraCellularSolution>
+								<Synapses>
+								</Synapses>
+								<SkeletalMuscleCell>
+									<MuscleCellBody>
+										<xi:include href="user/Nucleus.xml"/>
+										<Cytoplasm>
+											<Cytosol>
+												<Water>100000.0</Water>
+											</Cytosol>
+											<MRna/>
+										</Cytoplasm>
+										<CellMembrane>
+											<CellBilayer/>
+										</CellMembrane>
+									</MuscleCellBody>
+									<MotorEndPlate>
+										<Dendrites>
+											<Dendrite multiplicity="2">
+												<DendriteMembrane>
+													<DendriteBilayer/>
+													<NmdaReceptor/>
+												</DendriteMembrane>
+											</Dendrite>
+										</Dendrites>
+									</MotorEndPlate>
+									<MuscleFiber/>
+								</SkeletalMuscleCell>
+							</ExtraCellularSpace>
+						</Muscle>
+					</Mouth>
+					<Lung/>
+					<CirculatorySystem>
+						<BoneMarrow>
+							<ExtraCellularSpace>
+								<xi:include href="user/ExtraCellularSolution.xml"/>
+								<Erythrocyte multiplicity="444">
+									<Nucleus/>
+									<Cytoplasm>
+										<Cytosol>
+											<Water><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Water>
+											<Glucose><Attribute_double roleName="pheneVal">101000.0</Attribute_double></Glucose>
+											<Oxygen><Attribute_double roleName="pheneVal">102000.0</Attribute_double></Oxygen>
+											<CarbonDioxide><Attribute_double roleName="pheneVal">103000.0</Attribute_double></CarbonDioxide>
+										</Cytosol>
+										<MRna/>
+									</Cytoplasm>
+									<CellMembrane>
+										<CellBilayer/>
+									</CellMembrane>
+								</Erythrocyte>
+							</ExtraCellularSpace>
+						</BoneMarrow>
+						<Heart>
+							<LeftAtrium/>
+							<RightAtrium/>
+							<TheArrowOfTime/>
+							<LeftVentricle>
+								<BloodPlasma multiplicity="222">
+									<ExtraCellularSolution>
+										<Water><Attribute_double roleName="pheneVal">5000000.0</Attribute_double></Water>
+										<Glucose><Attribute_double roleName="pheneVal">110000.0</Attribute_double></Glucose>
+										<Oxygen><Attribute_double roleName="pheneVal">112000.0</Attribute_double></Oxygen>
+										<CarbonDioxide><Attribute_double roleName="pheneVal">114000.0</Attribute_double></CarbonDioxide>
+									</ExtraCellularSolution>
+								</BloodPlasma>
+							</LeftVentricle>
+							<RightVentricle/>
+						</Heart>
+						<Artery roleName="pulmonaryArtery"/>
+						<Artery roleName="digestiveArtery"/>
+						<Artery roleName="carotidArtery"/>
+						<SpinalArtery roleName="spinalArtery"/>
+						<NeuronCapillaryConnectors>
+							<Astrocyte/>
+							<NeuronCapillaryConnector multiplicity="62"/>
+						</NeuronCapillaryConnectors>
+						<Vein roleName="pulmonaryVein"/>
+						<Vein roleName="digestiveVein"/>
+						<Vein roleName="jugularVein"/>
+						<SpinalVein roleName="spinalVein"/>
+						<Capillary roleName="pCapillary"/> <!-- pulmonary -->
+						<Capillary roleName="dCapillary"/> <!-- digestive -->
+						<Capillary roleName="hCapillary"/> <!-- neurons -->
+						<Capillary multiplicity="62" roleName="sCapillary"/> <!-- spinal -->
+					</CirculatorySystem>
+					<NervousSystem>
+						<CentralNervousSystem>
+							<Brain>
+								<ForeBrain>
+									<Diencephalon>
+										<Thalamus>
+											<LateralGeniculateNucleus>
+												<ExtraCellularSpace>
+													<ExtraCellularSolution>
+														<Water>5000000.0</Water>
+														<Glucose>100000.0</Glucose>
+													</ExtraCellularSolution>
+													<Synapses>
+													</Synapses>
+													<Astrocyte/>
+													<CentralNeuron>
+														<NeuronCellBody>
+															<xi:include href="user/Nucleus.xml"/>
+															<Cytoplasm>
+																<Cytosol>
+																	<Water>100000.0</Water>
+																</Cytosol>
+																<MRna/>
+															</Cytoplasm>
+															<CellMembrane>
+																<CellBilayer/>
+															</CellMembrane>
+														</NeuronCellBody>
+														<Dendrites>
+															<Dendrite multiplicity="2">
+																<DendriteMembrane>
+																	<DendriteBilayer/>
+																	<NmdaReceptor/>
+																</DendriteMembrane>
+															</Dendrite>
+														</Dendrites>
+														<Axon>
+															<AxonHillock>
+																<MembranePotential>-65.0</MembranePotential>
+															</AxonHillock>
+															<AxonSegment multiplicity="2">
+																<AxonMembrane>
+																	<AxonBilayer/>
+																</AxonMembrane>
+															</AxonSegment>
+														</Axon>
+														<TerminalButtons>
+															<TerminalButton multiplicity="2">
+																<TerminalButtonPlasm>
+																	<TerminalButtonFluid>
+																		<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+																	</TerminalButtonFluid>
+																	<SynapticVesicle>
+																		<SynapticVesicleMembrane>
+																			<SynapticVesicleBilayer/>
+																			<Synaptotagmin/>
+																		</SynapticVesicleMembrane>
+																		<SynapticVesicleSpace>
+																			<SynapticVesicleFluid>
+																				<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+																			</SynapticVesicleFluid>
+																		</SynapticVesicleSpace>
+																	</SynapticVesicle>
+																	<xi:include href="user/Endosome.xml"/>
+																</TerminalButtonPlasm>
+																<TerminalButtonMembrane>
+																	<TerminalButtonBilayer/>
+																	<VoltageGatedCaChannel/>
+																</TerminalButtonMembrane>
+															</TerminalButton>
+														</TerminalButtons>
+													</CentralNeuron>
+												</ExtraCellularSpace>
+											</LateralGeniculateNucleus>
+										</Thalamus>
+										<HypoThalamus/>
+										<Retina>
+											<ExtraCellularSpace>
+												<ExtraCellularSolution>
+													<Water>5000000.0</Water>
+													<Glucose>100000.0</Glucose>
+												</ExtraCellularSolution>
+												<Synapses>
+												</Synapses>
+												<BipolarCell multiplicity="1">
+													<NeuronCellBody>
+														<xi:include href="user/Nucleus.xml"/>
+														<Cytoplasm>
+															<Cytosol>
+																<Water><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Water>
+															</Cytosol>
+															<MRna/>
+														</Cytoplasm>
+														<CellMembrane>
+															<CellBilayer/>
+														</CellMembrane>
+													</NeuronCellBody>
+													<Dendrites>
+														<Dendrite multiplicity="2">
+															<DendriteMembrane>
+																<DendriteBilayer/>
+																<NmdaReceptor/>
+															</DendriteMembrane>
+														</Dendrite>
+													</Dendrites>
+													<Axon>
+														<AxonHillock>
+															<MembranePotential>-65.0</MembranePotential>
+														</AxonHillock>
+														<AxonSegment multiplicity="2">
+															<AxonMembrane>
+																<AxonBilayer/>
+															</AxonMembrane>
+														</AxonSegment>
+													</Axon>
+													<TerminalButtons>
+														<TerminalButton multiplicity="2">
+															<TerminalButtonPlasm>
+																<TerminalButtonFluid>
+																	<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+																</TerminalButtonFluid>
+																<SynapticVesicle>
+																	<SynapticVesicleMembrane>
+																		<SynapticVesicleBilayer/>
+																		<Synaptotagmin/>
+																	</SynapticVesicleMembrane>
+																	<SynapticVesicleSpace>
+																		<SynapticVesicleFluid>
+																			<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+																		</SynapticVesicleFluid>
+																	</SynapticVesicleSpace>
+																</SynapticVesicle>
+																<xi:include href="user/Endosome.xml"/>
+															</TerminalButtonPlasm>
+															<TerminalButtonMembrane>
+																<TerminalButtonBilayer/>
+																<VoltageGatedCaChannel/>
+															</TerminalButtonMembrane>
+														</TerminalButton>
+													</TerminalButtons>
+												</BipolarCell>
+												<GanglionCell>
+													<NeuronCellBody>
+														<xi:include href="user/Nucleus.xml"/>
+														<Cytoplasm>
+															<Cytosol>
+																<Water>100000.0</Water>
+															</Cytosol>
+															<MRna/>
+														</Cytoplasm>
+														<CellMembrane>
+															<CellBilayer/>
+														</CellMembrane>
+													</NeuronCellBody>
+													<Dendrites>
+														<Dendrite multiplicity="2">
+															<DendriteMembrane>
+																<DendriteBilayer/>
+																<NmdaReceptor/>
+															</DendriteMembrane>
+														</Dendrite>
+													</Dendrites>
+													<Axon>
+														<AxonHillock>
+															<MembranePotential>-65.0</MembranePotential>
+														</AxonHillock>
+														<AxonSegment multiplicity="2">
+															<AxonMembrane>
+																<AxonBilayer/>
+															</AxonMembrane>
+														</AxonSegment>
+													</Axon>
+													<TerminalButtons>
+														<TerminalButton multiplicity="2">
+															<TerminalButtonPlasm>
+																<TerminalButtonFluid>
+																	<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+																</TerminalButtonFluid>
+																<SynapticVesicle>
+																	<SynapticVesicleMembrane>
+																		<SynapticVesicleBilayer/>
+																		<Synaptotagmin/>
+																	</SynapticVesicleMembrane>
+																	<SynapticVesicleSpace>
+																		<SynapticVesicleFluid>
+																			<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+																		</SynapticVesicleFluid>
+																	</SynapticVesicleSpace>
+																</SynapticVesicle>
+																<xi:include href="user/Endosome.xml"/>
+															</TerminalButtonPlasm>
+															<TerminalButtonMembrane>
+																<TerminalButtonBilayer/>
+																<VoltageGatedCaChannel/>
+															</TerminalButtonMembrane>
+														</TerminalButton>
+													</TerminalButtons>
+												</GanglionCell>
+											</ExtraCellularSpace>
+										</Retina>
+									</Diencephalon>
+									<Cerebrum>
+										<CerebralCortex>
+											<PrimaryVisualCortex>
+												<ExtraCellularSpace>
+													<ExtraCellularSolution>
+														<Water>5000000.0</Water>
+														<Glucose>100000.0</Glucose>
+													</ExtraCellularSolution>
+													<Synapses>
+													</Synapses>
+													<CentralNeuron>
+														<NeuronCellBody>
+															<xi:include href="user/Nucleus.xml"/>
+															<Cytoplasm>
+																<Cytosol>
+																	<Water>100000.0</Water>
+																</Cytosol>
+																<MRna/>
+															</Cytoplasm>
+															<CellMembrane>
+																<CellBilayer/>
+															</CellMembrane>
+														</NeuronCellBody>
+														<Dendrites>
+															<Dendrite multiplicity="2">
+																<DendriteMembrane>
+																	<DendriteBilayer/>
+																	<NmdaReceptor/>
+																</DendriteMembrane>
+															</Dendrite>
+														</Dendrites>
+														<Axon>
+															<AxonHillock>
+																<MembranePotential>-65.0</MembranePotential>
+															</AxonHillock>
+															<AxonSegment multiplicity="2">
+																<AxonMembrane>
+																	<AxonBilayer/>
+																</AxonMembrane>
+															</AxonSegment>
+														</Axon>
+														<TerminalButtons>
+															<TerminalButton multiplicity="2">
+																<TerminalButtonPlasm>
+																	<TerminalButtonFluid>
+																		<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+																	</TerminalButtonFluid>
+																	<SynapticVesicle>
+																		<SynapticVesicleMembrane>
+																			<SynapticVesicleBilayer/>
+																			<Synaptotagmin/>
+																		</SynapticVesicleMembrane>
+																		<SynapticVesicleSpace>
+																			<SynapticVesicleFluid>
+																				<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+																			</SynapticVesicleFluid>
+																		</SynapticVesicleSpace>
+																	</SynapticVesicle>
+																	<xi:include href="user/Endosome.xml"/>
+																</TerminalButtonPlasm>
+																<TerminalButtonMembrane>
+																	<TerminalButtonBilayer/>
+																	<VoltageGatedCaChannel/>
+																</TerminalButtonMembrane>
+															</TerminalButton>
+														</TerminalButtons>
+													</CentralNeuron>
+												</ExtraCellularSpace>
+											</PrimaryVisualCortex>
+											<MotorCortex>
+												<ExtraCellularSpace>
+													<ExtraCellularSolution>
+														<Water>5000000.0</Water>
+														<Glucose>100000.0</Glucose>
+													</ExtraCellularSolution>
+													<Synapses>
+													</Synapses>
+													<MotorNeuron>
+														<NeuronCellBody>
+															<xi:include href="user/Nucleus.xml"/>
+															<Cytoplasm>
+																<Cytosol>
+																	<Water>100000.0</Water>
+																</Cytosol>
+																<MRna/>
+															</Cytoplasm>
+															<CellMembrane>
+																<CellBilayer/>
+															</CellMembrane>
+														</NeuronCellBody>
+														<Dendrites>
+															<Dendrite multiplicity="2">
+																<DendriteMembrane>
+																	<DendriteBilayer/>
+																	<NmdaReceptor/>
+																</DendriteMembrane>
+															</Dendrite>
+														</Dendrites>
+														<Axon>
+															<AxonHillock>
+																<MembranePotential>-65.0</MembranePotential>
+															</AxonHillock>
+															<AxonSegment multiplicity="2">
+																<AxonMembrane>
+																	<AxonBilayer/>
+																</AxonMembrane>
+															</AxonSegment>
+														</Axon>
+														<TerminalButtons>
+															<TerminalButton multiplicity="2">
+																<TerminalButtonPlasm>
+																	<TerminalButtonFluid>
+																		<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+																	</TerminalButtonFluid>
+																	<SynapticVesicle>
+																		<SynapticVesicleMembrane>
+																			<SynapticVesicleBilayer/>
+																			<Synaptotagmin/>
+																		</SynapticVesicleMembrane>
+																		<SynapticVesicleSpace>
+																			<SynapticVesicleFluid>
+																				<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+																			</SynapticVesicleFluid>
+																		</SynapticVesicleSpace>
+																	</SynapticVesicle>
+																	<xi:include href="user/Endosome.xml"/>
+																</TerminalButtonPlasm>
+																<TerminalButtonMembrane>
+																	<TerminalButtonBilayer/>
+																	<VoltageGatedCaChannel/>
+																</TerminalButtonMembrane>
+															</TerminalButton>
+														</TerminalButtons>
+													</MotorNeuron>
+												</ExtraCellularSpace>
+											</MotorCortex>
+										</CerebralCortex>
+									</Cerebrum>
+								</ForeBrain>
+								<MidBrain/>
+								<HindBrain/>
+							</Brain>
+							<SpinalCord>
+								<SpinalCordCervicalRegion>
+									<VentralHornLeft multiplicity="8">
+										<MotorNeuron multiplicity="2">
+											<NeuronCellBody>
+												<xi:include href="user/Nucleus.xml"/>
+												<Cytoplasm>
+													<Cytosol>
+														<Water><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Water>
+													</Cytosol>
+													<MRna/>
+												</Cytoplasm>
+												<CellMembrane>
+													<CellBilayer/>
+												</CellMembrane>
+											</NeuronCellBody>
+											<Dendrites>
+												<Dendrite multiplicity="2">
+													<DendriteMembrane>
+														<DendriteBilayer/>
+														<NmdaReceptor/>
+													</DendriteMembrane>
+												</Dendrite>
+											</Dendrites>
+											<Axon>
+												<AxonHillock>
+													<MembranePotential><Attribute_double roleName="pheneVal">-65.0</Attribute_double></MembranePotential>
+												</AxonHillock>
+												<AxonSegment multiplicity="2">
+													<AxonMembrane>
+														<AxonBilayer/>
+													</AxonMembrane>
+												</AxonSegment>
+											</Axon>
+											<TerminalButtons>
+												<TerminalButton multiplicity="2">
+													<TerminalButtonPlasm>
+														<TerminalButtonFluid>
+															<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+														</TerminalButtonFluid>
+														<SynapticVesicle>
+															<SynapticVesicleMembrane>
+																<SynapticVesicleBilayer/>
+																<Synaptotagmin/>
+															</SynapticVesicleMembrane>
+															<SynapticVesicleSpace>
+																<SynapticVesicleFluid>
+																	<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+																</SynapticVesicleFluid>
+															</SynapticVesicleSpace>
+														</SynapticVesicle>
+														<xi:include href="user/Endosome.xml"/>
+													</TerminalButtonPlasm>
+													<TerminalButtonMembrane>
+														<TerminalButtonBilayer/>
+														<VoltageGatedCaChannel/>
+													</TerminalButtonMembrane>
+												</TerminalButton>
+											</TerminalButtons>
+										</MotorNeuron>
+									</VentralHornLeft>
+									<DorsalHornLeft multiplicity="8">
+										<SpinalInterNeuron multiplicity="2">
+											<NeuronCellBody>
+												<xi:include href="user/Nucleus.xml"/>
+												<Cytoplasm>
+													<Cytosol>
+														<Water><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Water>
+													</Cytosol>
+													<MRna/>
+												</Cytoplasm>
+												<CellMembrane>
+													<CellBilayer/>
+												</CellMembrane>
+											</NeuronCellBody>
+											<Dendrites>
+												<Dendrite multiplicity="2">
+													<DendriteMembrane>
+														<DendriteBilayer/>
+														<NmdaReceptor/>
+													</DendriteMembrane>
+												</Dendrite>
+											</Dendrites>
+											<Axon>
+												<AxonHillock>
+													<MembranePotential><Attribute_double roleName="pheneVal">-65.0</Attribute_double></MembranePotential>
+												</AxonHillock>
+												<AxonSegment multiplicity="2">
+													<AxonMembrane>
+														<AxonBilayer/>
+													</AxonMembrane>
+												</AxonSegment>
+											</Axon>
+											<TerminalButtons>
+												<TerminalButton multiplicity="2">
+													<TerminalButtonPlasm>
+														<TerminalButtonFluid>
+															<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+														</TerminalButtonFluid>
+														<SynapticVesicle>
+															<SynapticVesicleMembrane>
+																<SynapticVesicleBilayer/>
+																<Synaptotagmin/>
+															</SynapticVesicleMembrane>
+															<SynapticVesicleSpace>
+																<SynapticVesicleFluid>
+																	<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+																</SynapticVesicleFluid>
+															</SynapticVesicleSpace>
+														</SynapticVesicle>
+														<xi:include href="user/Endosome.xml"/>
+													</TerminalButtonPlasm>
+													<TerminalButtonMembrane>
+														<TerminalButtonBilayer/>
+														<VoltageGatedCaChannel/>
+													</TerminalButtonMembrane>
+												</TerminalButton>
+											</TerminalButtons>
+										</SpinalInterNeuron>
+										<NeuronCapillaryConnector/>
+										<NeuronCapillaryConnector/>
+									</DorsalHornLeft>
+									<DorsalHornRight multiplicity="8">
+										<SpinalInterNeuron multiplicity="2">
+											<NeuronCellBody>
+												<xi:include href="user/Nucleus.xml"/>
+												<Cytoplasm>
+													<Cytosol>
+														<Water><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Water>
+													</Cytosol>
+													<MRna/>
+												</Cytoplasm>
+												<CellMembrane>
+													<CellBilayer/>
+												</CellMembrane>
+											</NeuronCellBody>
+											<Dendrites>
+												<Dendrite multiplicity="2">
+													<DendriteMembrane>
+														<DendriteBilayer/>
+														<NmdaReceptor/>
+													</DendriteMembrane>
+												</Dendrite>
+											</Dendrites>
+											<Axon>
+												<AxonHillock>
+													<MembranePotential><Attribute_double roleName="pheneVal">-65.0</Attribute_double></MembranePotential>
+												</AxonHillock>
+												<AxonSegment multiplicity="2">
+													<AxonMembrane>
+														<AxonBilayer/>
+													</AxonMembrane>
+												</AxonSegment>
+											</Axon>
+											<TerminalButtons>
+												<TerminalButton multiplicity="2">
+													<TerminalButtonPlasm>
+														<TerminalButtonFluid>
+															<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+														</TerminalButtonFluid>
+														<SynapticVesicle>
+															<SynapticVesicleMembrane>
+																<SynapticVesicleBilayer/>
+																<Synaptotagmin/>
+															</SynapticVesicleMembrane>
+															<SynapticVesicleSpace>
+																<SynapticVesicleFluid>
+																	<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+																</SynapticVesicleFluid>
+															</SynapticVesicleSpace>
+														</SynapticVesicle>
+														<xi:include href="user/Endosome.xml"/>
+													</TerminalButtonPlasm>
+													<TerminalButtonMembrane>
+														<TerminalButtonBilayer/>
+														<VoltageGatedCaChannel/>
+													</TerminalButtonMembrane>
+												</TerminalButton>
+											</TerminalButtons>
+										</SpinalInterNeuron>
+									</DorsalHornRight>
+									<VentralHornRight multiplicity="8">
+										<MotorNeuron multiplicity="2">
+											<NeuronCellBody>
+												<xi:include href="user/Nucleus.xml"/>
+												<Cytoplasm>
+													<Cytosol>
+														<Water><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Water>
+													</Cytosol>
+													<MRna/>
+												</Cytoplasm>
+												<CellMembrane>
+													<CellBilayer/>
+												</CellMembrane>
+											</NeuronCellBody>
+											<Dendrites>
+												<Dendrite multiplicity="2">
+													<DendriteMembrane>
+														<DendriteBilayer/>
+														<NmdaReceptor/>
+													</DendriteMembrane>
+												</Dendrite>
+											</Dendrites>
+											<Axon>
+												<AxonHillock>
+													<MembranePotential><Attribute_double roleName="pheneVal">-65.0</Attribute_double></MembranePotential>
+												</AxonHillock>
+												<AxonSegment multiplicity="2">
+													<AxonMembrane>
+														<AxonBilayer/>
+													</AxonMembrane>
+												</AxonSegment>
+											</Axon>
+											<TerminalButtons>
+												<TerminalButton multiplicity="2">
+													<TerminalButtonPlasm>
+														<TerminalButtonFluid>
+															<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+														</TerminalButtonFluid>
+														<SynapticVesicle>
+															<SynapticVesicleMembrane>
+																<SynapticVesicleBilayer/>
+																<Synaptotagmin/>
+															</SynapticVesicleMembrane>
+															<SynapticVesicleSpace>
+																<SynapticVesicleFluid>
+																	<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+																</SynapticVesicleFluid>
+															</SynapticVesicleSpace>
+														</SynapticVesicle>
+														<xi:include href="user/Endosome.xml"/>
+													</TerminalButtonPlasm>
+													<TerminalButtonMembrane>
+														<TerminalButtonBilayer/>
+														<VoltageGatedCaChannel/>
+													</TerminalButtonMembrane>
+												</TerminalButton>
+											</TerminalButtons>
+										</MotorNeuron>
+									</VentralHornRight>
+								</SpinalCordCervicalRegion>
+								<SpinalCordThoracicRegion>
+									<VentralHornLeft>
+										<MotorNeuron multiplicity="2">
+											<NeuronCellBody>
+												<xi:include href="user/Nucleus.xml"/>
+												<Cytoplasm>
+													<Cytosol>
+														<Water><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Water>
+													</Cytosol>
+													<MRna/>
+												</Cytoplasm>
+												<CellMembrane>
+													<CellBilayer/>
+												</CellMembrane>
+											</NeuronCellBody>
+											<Dendrites>
+												<Dendrite multiplicity="2">
+													<DendriteMembrane>
+														<DendriteBilayer/>
+														<NmdaReceptor/>
+													</DendriteMembrane>
+												</Dendrite>
+											</Dendrites>
+											<Axon>
+												<AxonHillock>
+													<MembranePotential><Attribute_double roleName="pheneVal">-65.0</Attribute_double></MembranePotential>
+												</AxonHillock>
+												<AxonSegment multiplicity="2">
+													<AxonMembrane>
+														<AxonBilayer/>
+													</AxonMembrane>
+												</AxonSegment>
+											</Axon>
+											<TerminalButtons>
+												<TerminalButton multiplicity="2">
+													<TerminalButtonPlasm>
+														<TerminalButtonFluid>
+															<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+														</TerminalButtonFluid>
+														<SynapticVesicle>
+															<SynapticVesicleMembrane>
+																<SynapticVesicleBilayer/>
+																<Synaptotagmin/>
+															</SynapticVesicleMembrane>
+															<SynapticVesicleSpace>
+																<SynapticVesicleFluid>
+																	<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+																</SynapticVesicleFluid>
+															</SynapticVesicleSpace>
+														</SynapticVesicle>
+														<xi:include href="user/Endosome.xml"/>
+													</TerminalButtonPlasm>
+													<TerminalButtonMembrane>
+														<TerminalButtonBilayer/>
+														<VoltageGatedCaChannel/>
+													</TerminalButtonMembrane>
+												</TerminalButton>
+											</TerminalButtons>
+										</MotorNeuron>
+									</VentralHornLeft>
+									<DorsalHornLeft>
+										<SpinalInterNeuron multiplicity="2">
+											<NeuronCellBody>
+												<xi:include href="user/Nucleus.xml"/>
+												<Cytoplasm>
+													<Cytosol>
+														<Water><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Water>
+													</Cytosol>
+													<MRna/>
+												</Cytoplasm>
+												<CellMembrane>
+													<CellBilayer/>
+												</CellMembrane>
+											</NeuronCellBody>
+											<Dendrites>
+												<Dendrite multiplicity="2">
+													<DendriteMembrane>
+														<DendriteBilayer/>
+														<NmdaReceptor/>
+													</DendriteMembrane>
+												</Dendrite>
+											</Dendrites>
+											<Axon>
+												<AxonHillock>
+													<MembranePotential><Attribute_double roleName="pheneVal">-65.0</Attribute_double></MembranePotential>
+												</AxonHillock>
+												<AxonSegment multiplicity="2">
+													<AxonMembrane>
+														<AxonBilayer/>
+													</AxonMembrane>
+												</AxonSegment>
+											</Axon>
+											<TerminalButtons>
+												<TerminalButton multiplicity="2">
+													<TerminalButtonPlasm>
+														<TerminalButtonFluid>
+															<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+														</TerminalButtonFluid>
+														<SynapticVesicle>
+															<SynapticVesicleMembrane>
+																<SynapticVesicleBilayer/>
+																<Synaptotagmin/>
+															</SynapticVesicleMembrane>
+															<SynapticVesicleSpace>
+																<SynapticVesicleFluid>
+																	<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+																</SynapticVesicleFluid>
+															</SynapticVesicleSpace>
+														</SynapticVesicle>
+														<xi:include href="user/Endosome.xml"/>
+													</TerminalButtonPlasm>
+													<TerminalButtonMembrane>
+														<TerminalButtonBilayer/>
+														<VoltageGatedCaChannel/>
+													</TerminalButtonMembrane>
+												</TerminalButton>
+											</TerminalButtons>
+										</SpinalInterNeuron>
+										<NeuronCapillaryConnector/>
+										<NeuronCapillaryConnector/>
+									</DorsalHornLeft>
+									<DorsalHornRight>
+										<SpinalInterNeuron multiplicity="2">
+											<NeuronCellBody>
+												<xi:include href="user/Nucleus.xml"/>
+												<Cytoplasm>
+													<Cytosol>
+														<Water><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Water>
+													</Cytosol>
+													<MRna/>
+												</Cytoplasm>
+												<CellMembrane>
+													<CellBilayer/>
+												</CellMembrane>
+											</NeuronCellBody>
+											<Dendrites>
+												<Dendrite multiplicity="2">
+													<DendriteMembrane>
+														<DendriteBilayer/>
+														<NmdaReceptor/>
+													</DendriteMembrane>
+												</Dendrite>
+											</Dendrites>
+											<Axon>
+												<AxonHillock>
+													<MembranePotential><Attribute_double roleName="pheneVal">-65.0</Attribute_double></MembranePotential>
+												</AxonHillock>
+												<AxonSegment multiplicity="2">
+													<AxonMembrane>
+														<AxonBilayer/>
+													</AxonMembrane>
+												</AxonSegment>
+											</Axon>
+											<TerminalButtons>
+												<TerminalButton multiplicity="2">
+													<TerminalButtonPlasm>
+														<TerminalButtonFluid>
+															<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+														</TerminalButtonFluid>
+														<SynapticVesicle>
+															<SynapticVesicleMembrane>
+																<SynapticVesicleBilayer/>
+																<Synaptotagmin/>
+															</SynapticVesicleMembrane>
+															<SynapticVesicleSpace>
+																<SynapticVesicleFluid>
+																	<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+																</SynapticVesicleFluid>
+															</SynapticVesicleSpace>
+														</SynapticVesicle>
+														<xi:include href="user/Endosome.xml"/>
+													</TerminalButtonPlasm>
+													<TerminalButtonMembrane>
+														<TerminalButtonBilayer/>
+														<VoltageGatedCaChannel/>
+													</TerminalButtonMembrane>
+												</TerminalButton>
+											</TerminalButtons>
+										</SpinalInterNeuron>
+									</DorsalHornRight>
+									<VentralHornRight>
+										<MotorNeuron multiplicity="2">
+											<NeuronCellBody>
+												<xi:include href="user/Nucleus.xml"/>
+												<Cytoplasm>
+													<Cytosol>
+														<Water><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Water>
+													</Cytosol>
+													<MRna/>
+												</Cytoplasm>
+												<CellMembrane>
+													<CellBilayer/>
+												</CellMembrane>
+											</NeuronCellBody>
+											<Dendrites>
+												<Dendrite multiplicity="2">
+													<DendriteMembrane>
+														<DendriteBilayer/>
+														<NmdaReceptor/>
+													</DendriteMembrane>
+												</Dendrite>
+											</Dendrites>
+											<Axon>
+												<AxonHillock>
+													<MembranePotential><Attribute_double roleName="pheneVal">-65.0</Attribute_double></MembranePotential>
+												</AxonHillock>
+												<AxonSegment multiplicity="2">
+													<AxonMembrane>
+														<AxonBilayer/>
+													</AxonMembrane>
+												</AxonSegment>
+											</Axon>
+											<TerminalButtons>
+												<TerminalButton multiplicity="2">
+													<TerminalButtonPlasm>
+														<TerminalButtonFluid>
+															<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+														</TerminalButtonFluid>
+														<SynapticVesicle>
+															<SynapticVesicleMembrane>
+																<SynapticVesicleBilayer/>
+																<Synaptotagmin/>
+															</SynapticVesicleMembrane>
+															<SynapticVesicleSpace>
+																<SynapticVesicleFluid>
+																	<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+																</SynapticVesicleFluid>
+															</SynapticVesicleSpace>
+														</SynapticVesicle>
+														<xi:include href="user/Endosome.xml"/>
+													</TerminalButtonPlasm>
+													<TerminalButtonMembrane>
+														<TerminalButtonBilayer/>
+														<VoltageGatedCaChannel/>
+													</TerminalButtonMembrane>
+												</TerminalButton>
+											</TerminalButtons>
+										</MotorNeuron>
+									</VentralHornRight>
+								</SpinalCordThoracicRegion>
+								<SpinalCordLumbarRegion>
+									<VentralHornLeft>
+										<MotorNeuron multiplicity="2">
+											<NeuronCellBody>
+												<xi:include href="user/Nucleus.xml"/>
+												<Cytoplasm>
+													<Cytosol>
+														<Water><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Water>
+													</Cytosol>
+													<MRna/>
+												</Cytoplasm>
+												<CellMembrane>
+													<CellBilayer/>
+												</CellMembrane>
+											</NeuronCellBody>
+											<Dendrites>
+												<Dendrite multiplicity="2">
+													<DendriteMembrane>
+														<DendriteBilayer/>
+														<NmdaReceptor/>
+													</DendriteMembrane>
+												</Dendrite>
+											</Dendrites>
+											<Axon>
+												<AxonHillock>
+													<MembranePotential><Attribute_double roleName="pheneVal">-65.0</Attribute_double></MembranePotential>
+												</AxonHillock>
+												<AxonSegment multiplicity="2">
+													<AxonMembrane>
+														<AxonBilayer/>
+													</AxonMembrane>
+												</AxonSegment>
+											</Axon>
+											<TerminalButtons>
+												<TerminalButton multiplicity="2">
+													<TerminalButtonPlasm>
+														<TerminalButtonFluid>
+															<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+														</TerminalButtonFluid>
+														<SynapticVesicle>
+															<SynapticVesicleMembrane>
+																<SynapticVesicleBilayer/>
+																<Synaptotagmin/>
+															</SynapticVesicleMembrane>
+															<SynapticVesicleSpace>
+																<SynapticVesicleFluid>
+																	<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+																</SynapticVesicleFluid>
+															</SynapticVesicleSpace>
+														</SynapticVesicle>
+														<xi:include href="user/Endosome.xml"/>
+													</TerminalButtonPlasm>
+													<TerminalButtonMembrane>
+														<TerminalButtonBilayer/>
+														<VoltageGatedCaChannel/>
+													</TerminalButtonMembrane>
+												</TerminalButton>
+											</TerminalButtons>
+										</MotorNeuron>
+									</VentralHornLeft>
+									<DorsalHornLeft>
+										<SpinalInterNeuron multiplicity="2">
+											<NeuronCellBody>
+												<xi:include href="user/Nucleus.xml"/>
+												<Cytoplasm>
+													<Cytosol>
+														<Water><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Water>
+													</Cytosol>
+													<MRna/>
+												</Cytoplasm>
+												<CellMembrane>
+													<CellBilayer/>
+												</CellMembrane>
+											</NeuronCellBody>
+											<Dendrites>
+												<Dendrite multiplicity="2">
+													<DendriteMembrane>
+														<DendriteBilayer/>
+														<NmdaReceptor/>
+													</DendriteMembrane>
+												</Dendrite>
+											</Dendrites>
+											<Axon>
+												<AxonHillock>
+													<MembranePotential><Attribute_double roleName="pheneVal">-65.0</Attribute_double></MembranePotential>
+												</AxonHillock>
+												<AxonSegment multiplicity="2">
+													<AxonMembrane>
+														<AxonBilayer/>
+													</AxonMembrane>
+												</AxonSegment>
+											</Axon>
+											<TerminalButtons>
+												<TerminalButton multiplicity="2">
+													<TerminalButtonPlasm>
+														<TerminalButtonFluid>
+															<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+														</TerminalButtonFluid>
+														<SynapticVesicle>
+															<SynapticVesicleMembrane>
+																<SynapticVesicleBilayer/>
+																<Synaptotagmin/>
+															</SynapticVesicleMembrane>
+															<SynapticVesicleSpace>
+																<SynapticVesicleFluid>
+																	<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+																</SynapticVesicleFluid>
+															</SynapticVesicleSpace>
+														</SynapticVesicle>
+														<xi:include href="user/Endosome.xml"/>
+													</TerminalButtonPlasm>
+													<TerminalButtonMembrane>
+														<TerminalButtonBilayer/>
+														<VoltageGatedCaChannel/>
+													</TerminalButtonMembrane>
+												</TerminalButton>
+											</TerminalButtons>
+										</SpinalInterNeuron>
+										<NeuronCapillaryConnector/>
+										<NeuronCapillaryConnector/>
+									</DorsalHornLeft>
+									<DorsalHornRight>
+										<SpinalInterNeuron multiplicity="2">
+											<NeuronCellBody>
+												<xi:include href="user/Nucleus.xml"/>
+												<Cytoplasm>
+													<Cytosol>
+														<Water><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Water>
+													</Cytosol>
+													<MRna/>
+												</Cytoplasm>
+												<CellMembrane>
+													<CellBilayer/>
+												</CellMembrane>
+											</NeuronCellBody>
+											<Dendrites>
+												<Dendrite multiplicity="2">
+													<DendriteMembrane>
+														<DendriteBilayer/>
+														<NmdaReceptor/>
+													</DendriteMembrane>
+												</Dendrite>
+											</Dendrites>
+											<Axon>
+												<AxonHillock>
+													<MembranePotential><Attribute_double roleName="pheneVal">-65.0</Attribute_double></MembranePotential>
+												</AxonHillock>
+												<AxonSegment multiplicity="2">
+													<AxonMembrane>
+														<AxonBilayer/>
+													</AxonMembrane>
+												</AxonSegment>
+											</Axon>
+											<TerminalButtons>
+												<TerminalButton multiplicity="2">
+													<TerminalButtonPlasm>
+														<TerminalButtonFluid>
+															<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+														</TerminalButtonFluid>
+														<SynapticVesicle>
+															<SynapticVesicleMembrane>
+																<SynapticVesicleBilayer/>
+																<Synaptotagmin/>
+															</SynapticVesicleMembrane>
+															<SynapticVesicleSpace>
+																<SynapticVesicleFluid>
+																	<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+																</SynapticVesicleFluid>
+															</SynapticVesicleSpace>
+														</SynapticVesicle>
+														<xi:include href="user/Endosome.xml"/>
+													</TerminalButtonPlasm>
+													<TerminalButtonMembrane>
+														<TerminalButtonBilayer/>
+														<VoltageGatedCaChannel/>
+													</TerminalButtonMembrane>
+												</TerminalButton>
+											</TerminalButtons>
+										</SpinalInterNeuron>
+									</DorsalHornRight>
+									<VentralHornRight>
+										<MotorNeuron multiplicity="2">
+											<NeuronCellBody>
+												<xi:include href="user/Nucleus.xml"/>
+												<Cytoplasm>
+													<Cytosol>
+														<Water><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Water>
+													</Cytosol>
+													<MRna/>
+												</Cytoplasm>
+												<CellMembrane>
+													<CellBilayer/>
+												</CellMembrane>
+											</NeuronCellBody>
+											<Dendrites>
+												<Dendrite multiplicity="2">
+													<DendriteMembrane>
+														<DendriteBilayer/>
+														<NmdaReceptor/>
+													</DendriteMembrane>
+												</Dendrite>
+											</Dendrites>
+											<Axon>
+												<AxonHillock>
+													<MembranePotential><Attribute_double roleName="pheneVal">-65.0</Attribute_double></MembranePotential>
+												</AxonHillock>
+												<AxonSegment multiplicity="2">
+													<AxonMembrane>
+														<AxonBilayer/>
+													</AxonMembrane>
+												</AxonSegment>
+											</Axon>
+											<TerminalButtons>
+												<TerminalButton multiplicity="2">
+													<TerminalButtonPlasm>
+														<TerminalButtonFluid>
+															<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+														</TerminalButtonFluid>
+														<SynapticVesicle>
+															<SynapticVesicleMembrane>
+																<SynapticVesicleBilayer/>
+																<Synaptotagmin/>
+															</SynapticVesicleMembrane>
+															<SynapticVesicleSpace>
+																<SynapticVesicleFluid>
+																	<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+																</SynapticVesicleFluid>
+															</SynapticVesicleSpace>
+														</SynapticVesicle>
+														<xi:include href="user/Endosome.xml"/>
+													</TerminalButtonPlasm>
+													<TerminalButtonMembrane>
+														<TerminalButtonBilayer/>
+														<VoltageGatedCaChannel/>
+													</TerminalButtonMembrane>
+												</TerminalButton>
+											</TerminalButtons>
+										</MotorNeuron>
+									</VentralHornRight>
+								</SpinalCordLumbarRegion>
+								<SpinalCordSacralRegion>
+									<VentralHornLeft>
+										<MotorNeuron multiplicity="2">
+											<NeuronCellBody>
+												<xi:include href="user/Nucleus.xml"/>
+												<Cytoplasm>
+													<Cytosol>
+														<Water><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Water>
+													</Cytosol>
+													<MRna/>
+												</Cytoplasm>
+												<CellMembrane>
+													<CellBilayer/>
+												</CellMembrane>
+											</NeuronCellBody>
+											<Dendrites>
+												<Dendrite multiplicity="2">
+													<DendriteMembrane>
+														<DendriteBilayer/>
+														<NmdaReceptor/>
+													</DendriteMembrane>
+												</Dendrite>
+											</Dendrites>
+											<Axon>
+												<AxonHillock>
+													<MembranePotential><Attribute_double roleName="pheneVal">-65.0</Attribute_double></MembranePotential>
+												</AxonHillock>
+												<AxonSegment multiplicity="2">
+													<AxonMembrane>
+														<AxonBilayer/>
+													</AxonMembrane>
+												</AxonSegment>
+											</Axon>
+											<TerminalButtons>
+												<TerminalButton multiplicity="2">
+													<TerminalButtonPlasm>
+														<TerminalButtonFluid>
+															<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+														</TerminalButtonFluid>
+														<SynapticVesicle>
+															<SynapticVesicleMembrane>
+																<SynapticVesicleBilayer/>
+																<Synaptotagmin/>
+															</SynapticVesicleMembrane>
+															<SynapticVesicleSpace>
+																<SynapticVesicleFluid>
+																	<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+																</SynapticVesicleFluid>
+															</SynapticVesicleSpace>
+														</SynapticVesicle>
+														<xi:include href="user/Endosome.xml"/>
+													</TerminalButtonPlasm>
+													<TerminalButtonMembrane>
+														<TerminalButtonBilayer/>
+														<VoltageGatedCaChannel/>
+													</TerminalButtonMembrane>
+												</TerminalButton>
+											</TerminalButtons>
+										</MotorNeuron>
+									</VentralHornLeft>
+									<DorsalHornLeft>
+										<SpinalInterNeuron multiplicity="2">
+											<NeuronCellBody>
+												<xi:include href="user/Nucleus.xml"/>
+												<Cytoplasm>
+													<Cytosol>
+														<Water><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Water>
+													</Cytosol>
+													<MRna/>
+												</Cytoplasm>
+												<CellMembrane>
+													<CellBilayer/>
+												</CellMembrane>
+											</NeuronCellBody>
+											<Dendrites>
+												<Dendrite multiplicity="2">
+													<DendriteMembrane>
+														<DendriteBilayer/>
+														<NmdaReceptor/>
+													</DendriteMembrane>
+												</Dendrite>
+											</Dendrites>
+											<Axon>
+												<AxonHillock>
+													<MembranePotential><Attribute_double roleName="pheneVal">-65.0</Attribute_double></MembranePotential>
+												</AxonHillock>
+												<AxonSegment multiplicity="2">
+													<AxonMembrane>
+														<AxonBilayer/>
+													</AxonMembrane>
+												</AxonSegment>
+											</Axon>
+											<TerminalButtons>
+												<TerminalButton multiplicity="2">
+													<TerminalButtonPlasm>
+														<TerminalButtonFluid>
+															<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+														</TerminalButtonFluid>
+														<SynapticVesicle>
+															<SynapticVesicleMembrane>
+																<SynapticVesicleBilayer/>
+																<Synaptotagmin/>
+															</SynapticVesicleMembrane>
+															<SynapticVesicleSpace>
+																<SynapticVesicleFluid>
+																	<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+																</SynapticVesicleFluid>
+															</SynapticVesicleSpace>
+														</SynapticVesicle>
+														<xi:include href="user/Endosome.xml"/>
+													</TerminalButtonPlasm>
+													<TerminalButtonMembrane>
+														<TerminalButtonBilayer/>
+														<VoltageGatedCaChannel/>
+													</TerminalButtonMembrane>
+												</TerminalButton>
+											</TerminalButtons>
+										</SpinalInterNeuron>
+										<NeuronCapillaryConnector/>
+										<NeuronCapillaryConnector/>
+									</DorsalHornLeft>
+									<DorsalHornRight>
+										<SpinalInterNeuron multiplicity="2">
+											<NeuronCellBody>
+												<xi:include href="user/Nucleus.xml"/>
+												<Cytoplasm>
+													<Cytosol>
+														<Water><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Water>
+													</Cytosol>
+													<MRna/>
+												</Cytoplasm>
+												<CellMembrane>
+													<CellBilayer/>
+												</CellMembrane>
+											</NeuronCellBody>
+											<Dendrites>
+												<Dendrite multiplicity="2">
+													<DendriteMembrane>
+														<DendriteBilayer/>
+														<NmdaReceptor/>
+													</DendriteMembrane>
+												</Dendrite>
+											</Dendrites>
+											<Axon>
+												<AxonHillock>
+													<MembranePotential><Attribute_double roleName="pheneVal">-65.0</Attribute_double></MembranePotential>
+												</AxonHillock>
+												<AxonSegment multiplicity="2">
+													<AxonMembrane>
+														<AxonBilayer/>
+													</AxonMembrane>
+												</AxonSegment>
+											</Axon>
+											<TerminalButtons>
+												<TerminalButton multiplicity="2">
+													<TerminalButtonPlasm>
+														<TerminalButtonFluid>
+															<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+														</TerminalButtonFluid>
+														<SynapticVesicle>
+															<SynapticVesicleMembrane>
+																<SynapticVesicleBilayer/>
+																<Synaptotagmin/>
+															</SynapticVesicleMembrane>
+															<SynapticVesicleSpace>
+																<SynapticVesicleFluid>
+																	<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+																</SynapticVesicleFluid>
+															</SynapticVesicleSpace>
+														</SynapticVesicle>
+														<xi:include href="user/Endosome.xml"/>
+													</TerminalButtonPlasm>
+													<TerminalButtonMembrane>
+														<TerminalButtonBilayer/>
+														<VoltageGatedCaChannel/>
+													</TerminalButtonMembrane>
+												</TerminalButton>
+											</TerminalButtons>
+										</SpinalInterNeuron>
+									</DorsalHornRight>
+									<VentralHornRight>
+										<MotorNeuron multiplicity="2">
+											<NeuronCellBody>
+												<xi:include href="user/Nucleus.xml"/>
+												<Cytoplasm>
+													<Cytosol>
+														<Water><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Water>
+													</Cytosol>
+													<MRna/>
+												</Cytoplasm>
+												<CellMembrane>
+													<CellBilayer/>
+												</CellMembrane>
+											</NeuronCellBody>
+											<Dendrites>
+												<Dendrite multiplicity="2">
+													<DendriteMembrane>
+														<DendriteBilayer/>
+														<NmdaReceptor/>
+													</DendriteMembrane>
+												</Dendrite>
+											</Dendrites>
+											<Axon>
+												<AxonHillock>
+													<MembranePotential><Attribute_double roleName="pheneVal">-65.0</Attribute_double></MembranePotential>
+												</AxonHillock>
+												<AxonSegment multiplicity="2">
+													<AxonMembrane>
+														<AxonBilayer/>
+													</AxonMembrane>
+												</AxonSegment>
+											</Axon>
+											<TerminalButtons>
+												<TerminalButton multiplicity="2">
+													<TerminalButtonPlasm>
+														<TerminalButtonFluid>
+															<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+														</TerminalButtonFluid>
+														<SynapticVesicle>
+															<SynapticVesicleMembrane>
+																<SynapticVesicleBilayer/>
+																<Synaptotagmin/>
+															</SynapticVesicleMembrane>
+															<SynapticVesicleSpace>
+																<SynapticVesicleFluid>
+																	<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+																</SynapticVesicleFluid>
+															</SynapticVesicleSpace>
+														</SynapticVesicle>
+														<xi:include href="user/Endosome.xml"/>
+													</TerminalButtonPlasm>
+													<TerminalButtonMembrane>
+														<TerminalButtonBilayer/>
+														<VoltageGatedCaChannel/>
+													</TerminalButtonMembrane>
+												</TerminalButton>
+											</TerminalButtons>
+										</MotorNeuron>
+									</VentralHornRight>
+								</SpinalCordSacralRegion>
+								<SpinalCordCoccygealRegion>
+									<VentralHornLeft>
+										<MotorNeuron multiplicity="2">
+											<NeuronCellBody>
+												<xi:include href="user/Nucleus.xml"/>
+												<Cytoplasm>
+													<Cytosol>
+														<Water><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Water>
+													</Cytosol>
+													<MRna/>
+												</Cytoplasm>
+												<CellMembrane>
+													<CellBilayer/>
+												</CellMembrane>
+											</NeuronCellBody>
+											<Dendrites>
+												<Dendrite multiplicity="2">
+													<DendriteMembrane>
+														<DendriteBilayer/>
+														<NmdaReceptor/>
+													</DendriteMembrane>
+												</Dendrite>
+											</Dendrites>
+											<Axon>
+												<AxonHillock>
+													<MembranePotential><Attribute_double roleName="pheneVal">-65.0</Attribute_double></MembranePotential>
+												</AxonHillock>
+												<AxonSegment multiplicity="2">
+													<AxonMembrane>
+														<AxonBilayer/>
+													</AxonMembrane>
+												</AxonSegment>
+											</Axon>
+											<TerminalButtons>
+												<TerminalButton multiplicity="2">
+													<TerminalButtonPlasm>
+														<TerminalButtonFluid>
+															<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+														</TerminalButtonFluid>
+														<SynapticVesicle>
+															<SynapticVesicleMembrane>
+																<SynapticVesicleBilayer/>
+																<Synaptotagmin/>
+															</SynapticVesicleMembrane>
+															<SynapticVesicleSpace>
+																<SynapticVesicleFluid>
+																	<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+																</SynapticVesicleFluid>
+															</SynapticVesicleSpace>
+														</SynapticVesicle>
+														<xi:include href="user/Endosome.xml"/>
+													</TerminalButtonPlasm>
+													<TerminalButtonMembrane>
+														<TerminalButtonBilayer/>
+														<VoltageGatedCaChannel/>
+													</TerminalButtonMembrane>
+												</TerminalButton>
+											</TerminalButtons>
+										</MotorNeuron>
+									</VentralHornLeft>
+									<DorsalHornLeft>
+										<SpinalInterNeuron multiplicity="2">
+											<NeuronCellBody>
+												<xi:include href="user/Nucleus.xml"/>
+												<Cytoplasm>
+													<Cytosol>
+														<Water><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Water>
+													</Cytosol>
+													<MRna/>
+												</Cytoplasm>
+												<CellMembrane>
+													<CellBilayer/>
+												</CellMembrane>
+											</NeuronCellBody>
+											<Dendrites>
+												<Dendrite multiplicity="2">
+													<DendriteMembrane>
+														<DendriteBilayer/>
+														<NmdaReceptor/>
+													</DendriteMembrane>
+												</Dendrite>
+											</Dendrites>
+											<Axon>
+												<AxonHillock>
+													<MembranePotential><Attribute_double roleName="pheneVal">-65.0</Attribute_double></MembranePotential>
+												</AxonHillock>
+												<AxonSegment multiplicity="2">
+													<AxonMembrane>
+														<AxonBilayer/>
+													</AxonMembrane>
+												</AxonSegment>
+											</Axon>
+											<TerminalButtons>
+												<TerminalButton multiplicity="2">
+													<TerminalButtonPlasm>
+														<TerminalButtonFluid>
+															<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+														</TerminalButtonFluid>
+														<SynapticVesicle>
+															<SynapticVesicleMembrane>
+																<SynapticVesicleBilayer/>
+																<Synaptotagmin/>
+															</SynapticVesicleMembrane>
+															<SynapticVesicleSpace>
+																<SynapticVesicleFluid>
+																	<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+																</SynapticVesicleFluid>
+															</SynapticVesicleSpace>
+														</SynapticVesicle>
+														<xi:include href="user/Endosome.xml"/>
+													</TerminalButtonPlasm>
+													<TerminalButtonMembrane>
+														<TerminalButtonBilayer/>
+														<VoltageGatedCaChannel/>
+													</TerminalButtonMembrane>
+												</TerminalButton>
+											</TerminalButtons>
+										</SpinalInterNeuron>
+										<NeuronCapillaryConnector/>
+										<NeuronCapillaryConnector/>
+									</DorsalHornLeft>
+									<DorsalHornRight>
+										<SpinalInterNeuron multiplicity="2">
+											<NeuronCellBody>
+												<xi:include href="user/Nucleus.xml"/>
+												<Cytoplasm>
+													<Cytosol>
+														<Water><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Water>
+													</Cytosol>
+													<MRna/>
+												</Cytoplasm>
+												<CellMembrane>
+													<CellBilayer/>
+												</CellMembrane>
+											</NeuronCellBody>
+											<Dendrites>
+												<Dendrite multiplicity="2">
+													<DendriteMembrane>
+														<DendriteBilayer/>
+														<NmdaReceptor/>
+													</DendriteMembrane>
+												</Dendrite>
+											</Dendrites>
+											<Axon>
+												<AxonHillock>
+													<MembranePotential><Attribute_double roleName="pheneVal">-65.0</Attribute_double></MembranePotential>
+												</AxonHillock>
+												<AxonSegment multiplicity="2">
+													<AxonMembrane>
+														<AxonBilayer/>
+													</AxonMembrane>
+												</AxonSegment>
+											</Axon>
+											<TerminalButtons>
+												<TerminalButton multiplicity="2">
+													<TerminalButtonPlasm>
+														<TerminalButtonFluid>
+															<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+														</TerminalButtonFluid>
+														<SynapticVesicle>
+															<SynapticVesicleMembrane>
+																<SynapticVesicleBilayer/>
+																<Synaptotagmin/>
+															</SynapticVesicleMembrane>
+															<SynapticVesicleSpace>
+																<SynapticVesicleFluid>
+																	<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+																</SynapticVesicleFluid>
+															</SynapticVesicleSpace>
+														</SynapticVesicle>
+														<xi:include href="user/Endosome.xml"/>
+													</TerminalButtonPlasm>
+													<TerminalButtonMembrane>
+														<TerminalButtonBilayer/>
+														<VoltageGatedCaChannel/>
+													</TerminalButtonMembrane>
+												</TerminalButton>
+											</TerminalButtons>
+										</SpinalInterNeuron>
+									</DorsalHornRight>
+									<VentralHornRight>
+										<MotorNeuron multiplicity="2">
+											<NeuronCellBody>
+												<xi:include href="user/Nucleus.xml"/>
+												<Cytoplasm>
+													<Cytosol>
+														<Water><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Water>
+													</Cytosol>
+													<MRna/>
+												</Cytoplasm>
+												<CellMembrane>
+													<CellBilayer/>
+												</CellMembrane>
+											</NeuronCellBody>
+											<Dendrites>
+												<Dendrite multiplicity="2">
+													<DendriteMembrane>
+														<DendriteBilayer/>
+														<NmdaReceptor/>
+													</DendriteMembrane>
+												</Dendrite>
+											</Dendrites>
+											<Axon>
+												<AxonHillock>
+													<MembranePotential><Attribute_double roleName="pheneVal">-65.0</Attribute_double></MembranePotential>
+												</AxonHillock>
+												<AxonSegment multiplicity="2">
+													<AxonMembrane>
+														<AxonBilayer/>
+													</AxonMembrane>
+												</AxonSegment>
+											</Axon>
+											<TerminalButtons>
+												<TerminalButton multiplicity="2">
+													<TerminalButtonPlasm>
+														<TerminalButtonFluid>
+															<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+														</TerminalButtonFluid>
+														<SynapticVesicle>
+															<SynapticVesicleMembrane>
+																<SynapticVesicleBilayer/>
+																<Synaptotagmin/>
+															</SynapticVesicleMembrane>
+															<SynapticVesicleSpace>
+																<SynapticVesicleFluid>
+																	<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+																</SynapticVesicleFluid>
+															</SynapticVesicleSpace>
+														</SynapticVesicle>
+														<xi:include href="user/Endosome.xml"/>
+													</TerminalButtonPlasm>
+													<TerminalButtonMembrane>
+														<TerminalButtonBilayer/>
+														<VoltageGatedCaChannel/>
+													</TerminalButtonMembrane>
+												</TerminalButton>
+											</TerminalButtons>
+										</MotorNeuron>
+									</VentralHornRight>
+								</SpinalCordCoccygealRegion>
+							</SpinalCord>
+						</CentralNervousSystem>
+						<PeripheralNervousSystem>
+							<DorsalRootGanglion multiplicity="31">
+								<FreeNerveEndingNeuron multiplicity="2">
+									<NeuronCellBody>
+										<xi:include href="user/Nucleus.xml"/>
+										<Cytoplasm>
+											<Cytosol>
+												<Water><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Water>
+											</Cytosol>
+											<MRna/>
+										</Cytoplasm>
+										<CellMembrane>
+											<CellBilayer/>
+										</CellMembrane>
+									</NeuronCellBody>
+									<Axon>
+										<AxonHillock>
+											<MembranePotential><Attribute_double roleName="pheneVal">-65.0</Attribute_double></MembranePotential>
+										</AxonHillock>
+										<AxonSegment multiplicity="2">
+											<AxonMembrane>
+												<AxonBilayer/>
+											</AxonMembrane>
+										</AxonSegment>
+									</Axon>
+									<TerminalButtons>
+										<TerminalButton multiplicity="2">
+											<TerminalButtonPlasm>
+												<TerminalButtonFluid>
+													<Ca><Attribute_double roleName="pheneVal">100.0</Attribute_double></Ca>
+												</TerminalButtonFluid>
+												<SynapticVesicle>
+													<SynapticVesicleMembrane>
+														<SynapticVesicleBilayer/>
+														<Synaptotagmin/>
+													</SynapticVesicleMembrane>
+													<SynapticVesicleSpace>
+														<SynapticVesicleFluid>
+															<Glutamate><Attribute_double roleName="pheneVal">100000.0</Attribute_double></Glutamate>
+														</SynapticVesicleFluid>
+													</SynapticVesicleSpace>
+												</SynapticVesicle>
+												<xi:include href="user/Endosome.xml"/>
+											</TerminalButtonPlasm>
+											<TerminalButtonMembrane>
+												<TerminalButtonBilayer/>
+												<VoltageGatedCaChannel/>
+											</TerminalButtonMembrane>
+										</TerminalButton>
+									</TerminalButtons>
+									<FreeNerveEnding/>
+								</FreeNerveEndingNeuron>
+							</DorsalRootGanglion>
+						</PeripheralNervousSystem>
+					</NervousSystem>
+					<DigestiveSystem>
+						<Esophagus/>
+						<SmallIntestine>
+							<MucosalCell>
+								<xi:include href="user/Nucleus.xml"/>
+								<Cytoplasm>
+									<Cytosol>
+										<Water>100000.0</Water>
+										<Glucose>100000.0</Glucose>
+										<Sucrose>100000.0</Sucrose>
+									</Cytosol>
+									<Sucrase>1.0</Sucrase>
+									<MRna/>
+								</Cytoplasm>
+								<MucosalCellMembrane>
+									<CellBilayer/>
+									<SucroseTransporter/>
+								</MucosalCellMembrane>
+							</MucosalCell>
+							<DigestedFood/>
+								<!-- Small molecules will be created here at run-time -->
+						</SmallIntestine>
+						<Stomach>
+							<Food/>
+								<!-- Small molecules will be created here at run-time -->
+						</Stomach>
+						<Colon>
+							<LargeIntestine/>
+							<Rectum/>
+						</Colon>
+					</DigestiveSystem>
+				</HumanBeing>
+				<Lettuce>
+					<Glucose>100000.0</Glucose>
+					<Sucrose>1000000000000.0</Sucrose>
+					<Water>100000.0</Water>
+					<Oxygen>10000000.0</Oxygen>
+					<CarbonDioxide>100000.0</CarbonDioxide>
+					<Ca>1000000.0</Ca>
+				</Lettuce>
+				<BodyOfWater>
+					<Water>1000000000.0</Water>
+				</BodyOfWater>
+				<Atmosphere>
+					<CarbonDioxide>10000000.0</CarbonDioxide>
+					<Oxygen>210000000.0</Oxygen>
+				</Atmosphere>
+				<Land>
+					<Rock/>
+					<Soil>
+						<OrganicMatter>1000000000.0</OrganicMatter>
+					</Soil>
+				</Land>
+			</SimpleEcology>
+		</Earth>
+	</SolarSystem>
+</LifeTheUniverseAndEverything>

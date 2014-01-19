@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- DynamicalSystems dynsys/ScheffranTwoActor ClassDetails.xml -->
+<xholonClassDetails>
+	<!--<Actor xhType="XhtypeBehFgsxxx">--> <!-- active + passive -->
+	<Actor xhType="XhtypeGridEntityActivePassive" implName="org.primordion.dynsys.app.XhScheffranNActor">
+		<config instructions="Gss"/>
+		<!--<port name="port" index="P_Other" connector="#xpointer(ancestor::ScheffranTwoActorSystem/Actor[-1])"/>-->
+	</Actor>
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

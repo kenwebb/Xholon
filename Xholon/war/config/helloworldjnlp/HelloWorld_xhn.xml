@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- HelloWorld configuration file
+	 Ken Webb
+	 May 15, 2010 -->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Hello World"/>
+	<param name="AppM" value="true"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="10"/> <!-- 10 -->
+	<param name="TimeStepInterval" value="10"/> <!-- 10 -->
+	<param name="SizeMessageQueue" value="5"/>
+	
+	<!-- GWT development mode and production mode -->
+	<param name="InheritanceHierarchyFile" value="config/helloworldjnlp/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="config/helloworldjnlp/CompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="config/helloworldjnlp/ClassDetails.xml"/>
+	<param name="InformationFile" value="config/helloworldjnlp/Information_helloworld.xml"/>
+	
+	<param name="JavaClassName" value="org.primordion.user.app.helloworldjnlp.AppHelloWorld"/>
+	<param name="JavaXhClassName" value="org.primordion.user.app.helloworldjnlp.XhHelloWorld"/>
+	<param name="MaxPorts" value="1"/>
+	<!-- Whether or not to capture interactions between Xholons, and output as a graphical UML Sequence Diagram. -->
+	<param name="UseInteractions" value="true"/>
+	<param name="InteractionParams" value="32,true,localhost,60001"/>
+	<param name="UseXholon2Gui" value="false"/>
+</params>

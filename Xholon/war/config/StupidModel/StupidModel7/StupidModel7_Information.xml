@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+		<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+		-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+
+<!--
+	StupidModel7 Displayable information about this application.
+	Xholon 0.6 http://www.primordion.com/Xholon (Ken Webb)
+-->
+<document>
+<header>
+<title>Xholon - Stupid Model 7 - Stopping the Model</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This is the 7th in a series of 16 "Stupid Models". It's intended as a starting point for learning how to develop grid and agent-based models using Xholon. It can also be used to compare Xholon with other agent-based modeling tools that have also implemented the Stupid Model series.</p>
+<p>This model is intended to show how a model can stop once a pre-defined condition is met. In this case the model should stop when some bug reaches a size of 100. When this happens, the grid display window should close, but the Xholon GUI will remain.</p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p>Each time step, each bug, in its act() method in BugStupidModel7.java, checks to see if its size is greater than or equal to 100. If so, it sets the static processingComplete variable to true, which is subsequently checked by AppStupidModel7 in its step() method. It sets the control state to STOPPED, and removes all grid viewers.</p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>Railsback, S., Lytinen, S., Grimm, V. (2005).
+StupidModel and Extensions: A Template and teaching Tool for Agent-based Modeling Platforms</p>
+</section>
+
+</body>
+</document>

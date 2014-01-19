@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	model04 application - _xhn configuration
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+	sources:
+	  Kiehl, J.T. and Trenberth, Kevin E. (1997) "Earth's Annual Global Mean Energy Budget".
+	  Trenberth, Kevin E., et al (2009) "Earth's Global Energy Budget".
+	  Neelin, J. David (2011) Climate Change and Climate Modeling.
+	  https://commons.wikimedia.org/wiki/File:Sun_climate_system_alternative_%28German%29_2008.svg
+	  http://en.wikipedia.org/wiki/Global_climate_model
+-->
+<params>
+<param name="ShowParams" value="false"/>
+<param name="ModelName" value="model04"/>
+<param name="AppM" value="true"/>
+<param name="InfoM" value="false"/>
+<param name="ErrorM" value="true"/>
+<param name="MaxProcessLoops" value="-1"/>
+<param name="TimeStepInterval" value="500"/>
+<param name="SizeMessageQueue" value="10"/>
+<param name="InheritanceHierarchyFile" value="config/climatechange/model04/ih.xml"/>
+<param name="CompositeStructureHierarchyFile" value="config/climatechange/model04/csh.xml"/>
+<param name="ClassDetailsFile" value="config/climatechange/model04/cd.xml"/>
+<!--<param name="InformationFile" value="config/climatechange/model04/info.xml"/>-->
+<param name="InformationFile" value="http://de.wikipedia.org/wiki/Globale_Erw%C3%A4rmung"/>
+<!--<param name="InformationFile" value="http://en.wikipedia.org/w/index.php?title=Global_climate_model&amp;oldid=440351913"/>-->
+<param name="JavaClassName" value="org.primordion.user.app.climatechange.model04.Appmodel04"/>
+<param name="JavaXhClassName" value="org.primordion.user.app.climatechange.model04.Xhmodel04"/>
+<param name="MaxPorts" value="0"/>
+<!-- Viewers -->
+<!-- UseDataPlotter: none JFreeChart gnuplot google2 -->
+<param name="UseDataPlotter" value="google2"/>
+<!-- DataPlotterParams: Title,XAxisLabel,YAxisLabel,Path,TypeOfData,NameConcatLevels,WriteType -->
+<param name="DataPlotterParams" value="Climate Model - Kiehl and Trenberth (1997),Time (timesteps),Energy flux (W/m2),./statistics/,clmchng04,1,WRITE_AS_DOUBLE"/>
+<param name="UseGraphicalTreeViewer" value="false"/>
+<!-- GraphicalTreeViewerParams: XPathExpression,DistX,DistY,SizeX,SizeY,FontSize,Title,ShowNodeLabels -->
+<param name="GraphicalTreeViewerParams" value="/,20,20,800,500,9,Application Composite Structure,false"/>
+<param name="UseGraphicalNetworkViewer" value="false"/>
+<!-- GraphicalNetworkViewerParams: XPathExpression,SizeX,SizeY,FontSize,LayoutType,ShowContainers,Title,ShowNodeLabels -->
+<param name="GraphicalNetworkViewerParams" value="/,800,500,9,LAYOUT_KK,false,Application Port Connections,false"/>
+<param name="UseGridViewer" value="false"/>
+<param name="GridPanelClassName" value="org.primordion.xholon.samples.GridPanelMyApp"/>
+<!-- GridViewerParams: XPathExpression,CellSize,Title -->
+<param name="GridViewerParams" value="descendant::Row/..,5,Grid Viewer App"/>
+<param name="UseInteractions" value="true"/>
+<param name="InteractionParams" value="32,true,localhost,60001"/>
+<param name="UseVrml" value="false"/>
+<param name="VrmlWriterClassName" value="org.primordion.xholon.tutorials.VrmlWriterMyApp"/>
+<!-- VrmlParams: DoClassicStyle,VrmlWriteDir,UseLOD,CreateProtoFiles -->
+<param name="VrmlParams" value="true,./3d/,false,false"/>
+<param name="UseTextTree" value="false"/>
+<param name="SaveSnapshots" value="false"/>
+<!-- SnapshotParams: SnapshotSource(0 1),SnapshotTostring,Path -->
+<param name="SnapshotParams" value="0,true,./snapshot/"/>
+
+</params>

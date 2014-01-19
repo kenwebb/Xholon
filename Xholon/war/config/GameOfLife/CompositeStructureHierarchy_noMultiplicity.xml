@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GameOfLife>
+  <!--
+	<Row multiplicity="20">
+		<GridCell multiplicity="20">
+			<attribute name="val" value="!"/> !=random
+		</GridCell>
+	</Row>
+	-->
+	
+	<Row>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+	</Row>
+	<Row>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+	</Row>
+	<Row>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+	</Row>
+	<Row>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+	</Row>
+	<Row>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+	</Row>
+	<Row>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+	</Row>
+	<Row>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+	</Row>
+	<Row>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+	</Row>
+	<Row>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+	</Row>
+	<Row>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+	</Row>
+	<Row>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+	</Row>
+	<Row>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+	</Row>
+	<Row>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+	</Row>
+	<Row>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+	</Row>
+	<Row>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+	</Row>
+	<Row>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+	</Row>
+	<Row>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+	</Row>
+	<Row>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+	</Row>
+	<Row>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+	</Row>
+	<Row>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+		<GridCell><attribute name="val" value="!"/></GridCell>
+	</Row>
+
+</GameOfLife>

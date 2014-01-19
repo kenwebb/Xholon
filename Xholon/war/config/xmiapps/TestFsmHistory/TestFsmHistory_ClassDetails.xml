@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	TestFsmHistory application - Class Details
+	Author: KenWebb
+	Date:   Sat Sep 01 15:20:22 EDT 2007
+	File:   TestFsmHistory.mdxml
+	Target: Xholon 0.5 http://www.primordion.com/Xholon
+	portImplementation: iport
+	UML: MagicDraw UML 11.5
+	XMI: 2.1, Mon Jun 25 18:16:57 EDT 2007
+	XSLT: 1.0, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<xholonClassDetails>
+<FsmXholon_14_147deep xhType="XhtypePureActiveObject"/>
+<TestHarness xhType="XhtypePureActiveObject">
+<!-- port: p -->
+<port name="port" index="Partner" multiplicity="1" isConjugated="true" providedInterface="SIG1,SIG2,SIG3," requiredInterface="">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::TestFsmSystem/FsmXholon_14_147/attribute::port[1]/attribute::replication[1..*])"/>
+</port>
+</TestHarness>
+<FsmXholon_14_147 xhType="XhtypePureActiveObject">
+<!-- port: p -->
+<port name="port" index="Partner" multiplicity="1" isConjugated="false" providedInterface="SIG1,SIG2,SIG3," requiredInterface="">
+<portReplication name="replication" index="0" connector="#xpointer(ancestor::TestFsmSystem/TestHarness/attribute::port[1]/attribute::replication[1..*])"/>
+</port>
+</FsmXholon_14_147>
+<State xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.ObservableStateMachineEntity">
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='42291369']/ancestor::StateMachine/descendant::Transition[@uid='2991595'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='96711371']/ancestor::StateMachine/descendant::Transition[@uid='8991563'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='81811384']/ancestor::StateMachine/descendant::Transition[@uid='21291539'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='91181385']/ancestor::StateMachine/descendant::Transition[@uid='34161527'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='37121379']/ancestor::StateMachine/descendant::Transition[@uid='47971575'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='19194']/ancestor::StateMachine/descendant::Transition[@uid='13641917'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='4688129']/ancestor::StateMachine/descendant::Transition[@uid='71791967'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='967159']/ancestor::StateMachine/descendant::Transition[@uid='92371955'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='1479173']/ancestor::StateMachine/descendant::Transition[@uid='641943'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='2447145']/ancestor::StateMachine/descendant::Transition[@uid='41971943'])"/>
+</State>
+<PseudostateInitial xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity">
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='9261368']/ancestor::StateMachine/descendant::Transition[@uid='78731513'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='944516']/ancestor::StateMachine/descendant::Transition[@uid='1223195'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='695512']/ancestor::StateMachine/descendant::Transition[@uid='225618'])"/>
+</PseudostateInitial>
+<PseudostateChoice xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<PseudostateJunction xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<PseudostateFork xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<PseudostateJoin xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<PseudostateShallowHistory xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity">
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='5361189']/ancestor::StateMachine/descendant::Transition[@uid='11841999'])"/>
+</PseudostateShallowHistory>
+<PseudostateDeepHistory xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity">
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='43751497']/ancestor::StateMachine/descendant::Transition[@uid='78551559'])"/>
+</PseudostateDeepHistory>
+<PseudostateEntryPoint xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<PseudostateExitPoint xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<TransitionExternal xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity">
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='34161527']/ancestor::StateMachine/descendant::State[@uid='81811384'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='21291539']/ancestor::StateMachine/descendant::State[@uid='91181385'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='78551559']/ancestor::StateMachine/descendant::State[@uid='91181385'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='78731513']/ancestor::StateMachine/descendant::State[@uid='42291369'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='2991595']/ancestor::StateMachine/descendant::State[@uid='81811384'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='8991563']/ancestor::StateMachine/descendant::State[@uid='37121379'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='47971575']/ancestor::StateMachine/descendant::Pseudostate[@uid='43751497'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='641943']/ancestor::StateMachine/descendant::State[@uid='967159'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='92371955']/ancestor::StateMachine/descendant::State[@uid='1479173'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='11841999']/ancestor::StateMachine/descendant::State[@uid='1479173'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='225618']/ancestor::StateMachine/descendant::Pseudostate[@uid='5361189'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='1223195']/ancestor::StateMachine/descendant::State[@uid='19194'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='13641917']/ancestor::StateMachine/descendant::State[@uid='967159'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='71791967']/ancestor::StateMachine/descendant::State[@uid='2447145'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='41971943']/ancestor::StateMachine/descendant::Pseudostate[@uid='5361189'])"/>
+</TransitionExternal>
+<TransitionInternal xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<TransitionLocal xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<StateMachineEntity xhType="XhtypeStateMachineEntity" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

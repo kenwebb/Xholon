@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Rcs_GP_FSM_Grid application - Composite Structure Hierarchy
+	Author: KenWebb
+	Date:   23/05/2007
+	File:   Rcs_GP_FSM_Grid.mdzip
+	Target: Xholon 0.5 http://www.primordion.com/Xholon
+	UML: MagicDraw UML 11.5
+	XMI: 2.1, Wed May 23 13:17:28 EDT 2007
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<GPaseSystemWithGrid xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+<GPaseSystem roleName="">
+<GPase multiplicity="30" roleName="gPase">
+<StateMachine>
+<Region>
+<State uid="614719275" roleName="">
+<Region>
+<PseudostateInitial uid="337219299" roleName=""/>
+<State uid="121219297" roleName="Inactive"/>
+<State uid="446919399" roleName="Active">
+<DoActivity uid="446219361"/>
+</State>
+<TransitionExternal uid="84819325" roleName="initializing1"/>
+<TransitionExternal uid="968519337" roleName="activating1">
+<Trigger roleName="S_ACTIVATE"/>
+</TransitionExternal>
+<TransitionExternal uid="698119349" roleName="deactivating1">
+<Trigger roleName="S_DEACTIVATE"/>
+</TransitionExternal>
+</Region>
+</State>
+</Region>
+</StateMachine>
+</GPase>
+<PKinase multiplicity="50" roleName="pKinase">
+<StateMachine>
+<Region>
+<State uid="68719382" roleName="">
+<Region>
+<PseudostateInitial uid="13819398" roleName=""/>
+<State uid="934719414" roleName="Active">
+<DoActivity uid="856619429"/>
+</State>
+<TransitionExternal uid="581719498" roleName=""/>
+</Region>
+</State>
+</Region>
+</StateMachine>
+</PKinase>
+<PPhosphatase multiplicity="20" roleName="pPhosphatase">
+<StateMachine>
+<Region>
+<State uid="649519445" roleName="">
+<Region>
+<PseudostateInitial uid="493519469" roleName=""/>
+<State uid="575319467" roleName="Active">
+<DoActivity uid="199619492"/>
+</State>
+<TransitionExternal uid="521619489" roleName=""/>
+</Region>
+</State>
+</Region>
+</StateMachine>
+</PPhosphatase>
+<G1P multiplicity="1" roleName="g1P"/>
+<Gly multiplicity="10" roleName="gly">
+<Glc multiplicity="50" roleName="g"/>
+</Gly>
+</GPaseSystem>
+<Grid roleName="">
+<Row multiplicity="20" roleName="row">
+<GridCell multiplicity="20" roleName="gridcell"/>
+</Row>
+</Grid>
+<Aggregator roleName="">
+<Aggregator_Glc roleName=""/>
+<Aggregator_G1P roleName=""/>
+</Aggregator>
+</GPaseSystemWithGrid>

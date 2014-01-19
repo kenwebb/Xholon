@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- RCS1 configuration file
+	 Regulated Catalyzing System - Glycogen Phosphorylase (GP) - Symbolic.
+	 This version of the GP system uses symbols for state and event, rather than a UML MagicDraw FSM.
+	 It is manually coded rather than generated from a UML MagicDraw model.
+
+	 Ken Webb
+	 January 26, 2006 -->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Regulated Catalyzing System (RCS) - Glycogen Phosphorylase (GP) - Symbolic"/>
+	<param name="AppM" value="true"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="100"/>
+	<param name="TimeStepInterval" value="10"/>
+	<param name="SizeMessageQueue" value="5"/>
+	<param name="InheritanceHierarchyFile" value="config/Rcs/Rcs1_InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="config/Rcs/Rcs1_CompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="config/Rcs/Rcs1_ClassDetails.xml"/>
+	<param name="InformationFile" value="config/Rcs/Information.xml"/>
+	<param name="JavaClassName" value="org.primordion.user.app.rcs.Rcs1.AppRcs1"/>
+	<param name="JavaXhClassName" value="org.primordion.user.app.rcs.Rcs1.XhRcs1"/>
+	<param name="MaxPorts" value="2"/>
+	<!-- UseDataPlotter determines whether the data each timestep is plotted on a graph. -->
+	<param name="UseDataPlotter" value="google2"/> <!-- google2 JFreeChart gnuplot none -->
+	<param name="DataPlotterParams"
+		value="Quantity of Substances changing over time,Time Step,Substance Quantity,./statistics/,rcsStats,1,WRITE_AS_LONG"/>
+	<!-- Whether or not to capture interactions between Xholons, and output as a graphical UML Sequence Diagram. -->
+	<param name="UseInteractions" value="true"/>
+	<param name="InteractionParams" value="32,false,localhost,60001"/>
+	<!-- Graphical Viewers -->
+	<param name="UseGraphicalTreeViewer" value="false"/>
+	<param name="GraphicalTreeViewerParams"
+		value="/,160,60,1000,200,10,Xholon - Rcs1 - Composite Structure,false"/>
+	<param name="UseGraphicalNetworkViewer" value="false"/>
+	<param name="GraphicalNetworkViewerParams"
+		value="/,1000,600,9,LAYOUT_KK,false,Xholon - Rcs1 - Port Connections,false"/>
+</params>

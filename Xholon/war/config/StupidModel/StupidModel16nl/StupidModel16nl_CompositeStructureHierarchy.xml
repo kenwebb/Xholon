@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	StupidModel16nl application - Composite Structure Hierarchy
+	Xholon 0.5 http://www.primordion.com/Xholon
+-->
+<StupidModel>
+	<Statistics>
+		<Aggregator roleName="count"/>
+		<Aggregator roleName="minimum"/>
+		<Aggregator roleName="mean"/>
+		<Aggregator roleName="maximum"/>
+	</Statistics>
+	<Bugs>
+		<Bug multiplicity="100"/> <!-- bugs that will inhabit the grid at runtime -->
+	</Bugs>
+	<Predators>
+		<Predator multiplicity="200"/> <!-- predators that will inhabit the grid at runtime -->
+	</Predators>
+	<Grid>
+		<Row multiplicity="113">
+			<HabitatCell multiplicity="251"></HabitatCell>
+		</Row>
+	</Grid>
+</StupidModel>

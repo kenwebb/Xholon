@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	MeTTTa application - Inheritance Hierarchy
+	Xholon 0.7.1 http://www.primordion.com/Xholon
+-->
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+	<TheSystem/>
+	
+	<!-- Model View Controller for the meTTTa application client -->
+	<MeTTTaModel superClass="AppClientModel"/>
+	<MeTTTaView superClass="AppClientView"/>
+	<MeTTTaController superClass="AppClientController"/>
+	<MeTTTaWorker superClass="AppClientWorker"/>
+	<MeTTTaBusinessDelegate superClass="AppClientBusinessDelegate"/>
+	
+	<!-- Xholon Viewers -->
+	<!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

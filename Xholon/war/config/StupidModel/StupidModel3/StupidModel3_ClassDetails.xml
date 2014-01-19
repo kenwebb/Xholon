@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	StupidModel3 application - Class Details
+	Xholon 0.5 http://www.primordion.com/Xholon
+-->
+<xholonClassDetails>
+	<StupidModel xhType="XhtypePurePassiveObject"/>
+	<Grid xhType="XhtypeGridEntity" implName="org.primordion.xholon.base.GridEntity"/>
+	<Row xhType="XhtypeGridEntity" implName="org.primordion.xholon.base.GridEntity"/>
+	<HabitatCell xhType="XhtypeGridEntityActivePassive" implName="org.primordion.user.app.StupidModel.sm3.HabitatCellStupidModel3">
+		<config instruction="Gmt"/>
+	</HabitatCell>
+	<Bug xhType="XhtypePureActiveObject" implName="org.primordion.user.app.StupidModel.sm3.BugStupidModel3"/>
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

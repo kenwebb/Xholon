@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	TurtleExample1 application - Class Details
+	Author: KenWebb
+	Date:   21/02/2007
+	File:   TurtleExample1.mdzip
+	Target: Xholon 0.5 http://www.primordion.com/Xholon
+	useIPorts:   false
+	UML: MagicDraw UML 11.5
+	XMI: 2.1, Wed Feb 21 13:46:13 EST 2007
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<xholonClassDetails
+	xmlns:XholonStereotypes="http://www.magicdraw.com/schemas/XholonStereotypes.xmi"
+	xmlns:xmi="http://schema.omg.org/spec/XMI/2.1"
+	xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+	<TurtleObserver xhType="XhtypePureActiveObject">
+		<!-- port: p -->
+		<port name="port" index="PatchOwner"
+			connector="#xpointer(ancestor::TheSystem/PatchOwner)"/>
+	</TurtleObserver>
+	<Turtle xhType="XhtypePureActiveObject" implName="org.primordion.user.app.TurtleExample1.TurtleExample"/>
+	<PatchOwner xhType="XhtypeGridEntity" implName="org.primordion.xholon.base.PatchOwner"/> <!-- gridOwner -->
+	<Row xhType="XhtypeGridEntity" implName="org.primordion.xholon.base.GridEntity"/>
+	<Patch xhType="XhtypeGridEntityActivePassive" implName="org.primordion.xholon.base.Patch">
+		<config instruction="Gmt"/>
+	</Patch>
+	<State xhType="XhtypeStateMachineEntityActive"/>
+	<PseudostateInitial xhType="XhtypeStateMachineEntityActive"/>
+	<PseudostateChoice xhType="XhtypeStateMachineEntityActive"/>
+	<PseudostateEntryPoint xhType="XhtypeStateMachineEntityActive"/>
+	<PseudostateExitPoint xhType="XhtypeStateMachineEntityActive"/>
+	<Transition xhType="XhtypeStateMachineEntityActive"/>
+	<StateMachineEntity xhType="XhtypeStateMachineEntity"/>
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

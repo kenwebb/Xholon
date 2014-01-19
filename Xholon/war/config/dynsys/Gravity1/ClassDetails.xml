@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- DynamicalSystems dynsys/Gravity1 ClassDetails.xml -->
+<xholonClassDetails>
+	<SuspendedMass xhType="XhtypeBehFgsxxx"> <!-- active + passive -->
+		<port name="port" index="P_Gravity" connector="#xpointer(ancestor::GravitySystem/Earth)"/>
+	</SuspendedMass>
+	<Earth xhType="XhtypePurePassiveObject"/>
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

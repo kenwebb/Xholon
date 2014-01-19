@@ -1,0 +1,737 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="author" content="Ken Webb" />
+    <meta name="copyright" content="MIT License, Copyright (C) 2013 Ken Webb" />
+    <title>Xholon Showcase</title>
+  </head>
+  
+  <body>
+    <h3>Xholon Showcase</h3>
+    
+    <p>
+    Xholon is a tool for working on whatever I'm interested in,
+    and I hope that other people will also find it useful.
+    The focus is on hierarchical structure, building complex worlds,
+    open-ended dynamic interactions, visualization,
+    and letting people paste in new content while the application is running.
+    This page lists some of the applications I've developed over the years,
+    converted to run using HTML5, JavaScript, CSS, SVG, and canvas.
+    All of these apps run entirely locally in the browser,
+    with no server processing required (except to initially download the web content).
+    The apps require a modern browser (Firefox, Chrome, Opera, Safari, IE9),
+    and a fairly high-speed internet connection.
+    These sample apps are primarily intended to test and demonstrate ideas, approaches,
+    and features for Xholon, and to explore other domains that I'm interested in.
+    They are all incomplete.
+    </p>
+    
+    <p>
+    Each app offers three Graphical User Interface (GUI) options.
+    </p>
+    <ol>
+      <li>A classic tree-based view of the hierarchy (clsc).</li>
+      <li>A contour view of the hierarchy, using the circle-packing layout from the D3 graphics library (d3cp).</li>
+      <li>A minimal view that just runs the application (none).</li>
+    </ol>
+    
+    <table>
+    <tr title="A simple Hello World app.">
+      <td><a href="Xholon.html?app=HelloWorld&gui=clsc">Hello World</a></td>
+      <td><a href="Xholon.html?app=HelloWorld&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=HelloWorld&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Another simple Hello World app.">
+      <td><a href="Xholon.html?app=PingPong&gui=clsc">Ping Pong</a></td>
+      <td><a href="Xholon.html?app=PingPong&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=PingPong&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Implementation of the model from my paper published in BioSystems journal.">
+      <td><a href="Xholon.html?app=Cell&gui=clsc">Cell Metabolism</a></td>
+      <td><a href="Xholon.html?app=Cell&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=Cell&gui=none">no gui</a></td>
+    </tr>
+    <tr title="A complex biology simulation (20,000+ nodes).">
+      <td><a href="Xholon.html?app=Life&gui=clsc">Life - cells, organism, ecology</a></td>
+      <td><a href="Xholon.html?app=Life&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=Life&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Single biological cells, with 3D visualization.">
+      <td><a href="Xholon.html?app=Life3d&gui=clsc">Life - single cells in 3d</a></td>
+      <td><a href="Xholon.html?app=Life3d&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=Life3d&gui=none">no gui</a></td>
+    </tr>
+    <tr title="A small biology simulation demonstrating autopoiesis.">
+      <td><a href="Xholon.html?app=Autop&gui=clsc">Cell Autopoiesis</a></td>
+      <td><a href="Xholon.html?app=Autop&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=Autop&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Conway's classic cellular automaton in a 20 x 20 grid">
+      <td><a href="Xholon.html?app=GameOfLife&gui=clsc">Game of Life</a></td>
+      <td><a href="Xholon.html?app=GameOfLife&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=GameOfLife&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Conway's classic cellular automaton in a 100 x 100 grid">
+      <td><a href="Xholon.html?app=GameOfLife_Big&gui=clsc">Game of Life (Big)</a></td>
+      <td><a href="Xholon.html?app=GameOfLife_Big&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=GameOfLife_Big&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Conway's classic cellular automaton in a 500 x 500 grid (250,000 nodes).">
+      <td><a href="Xholon.html?app=GameOfLife_Huge&gui=clsc">Game of Life (Huge)</a></td>
+      <td><a href="Xholon.html?app=GameOfLife_Huge&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=GameOfLife_Huge&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Chameleon can become whatever you want.">
+      <td><a href="Xholon.html?app=Chameleon&gui=clsc">Chameleon</a></td>
+      <td><a href="Xholon.html?app=Chameleon&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=Chameleon&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Furcifer is a sample app for QUnit JavaScript unit testing.">
+      <td><a href="XholonQUnit.html?app=Furcifer&gui=clsc">Furcifer</a></td>
+      <td><a href="XholonQUnit.html?app=Furcifer&gui=d3cp">D3 gui</a></td>
+      <td><a href="XholonQUnit.html?app=Furcifer&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Another simple Hello World model, demonstrating Xholon timers.">
+      <td><a href="Xholon.html?app=HelloWorld_TestTime&gui=clsc">Hello World (with timeouts)</a></td>
+      <td><a href="Xholon.html?app=HelloWorld_TestTime&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=HelloWorld_TestTime&gui=none">no gui</a></td>
+    </tr>
+    <tr title="A simple cellular automaton (CA) (large grid).">
+      <td><a href="Xholon.html?app=ca_1dSimple&gui=clsc">CA 1d Simple</a></td>
+      <td><a href="Xholon.html?app=ca_1dSimple&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=ca_1dSimple&gui=none">no gui</a></td>
+    </tr>
+    <tr title="A simple model that dynamically adds generic nodes while it's running.">
+      <td><a href="Xholon.html?app=Generic&gui=clsc">Generic</a></td>
+      <td><a href="Xholon.html?app=Generic&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=Generic&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Energy balance model, using a Wikipedia SVG image.">
+      <td><a href="Xholon.html?app=climatechange_model04&gui=clsc">Climate Change - Model 04</a></td>
+      <td><a href="Xholon.html?app=climatechange_model04&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=climatechange_model04&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Carbon cycle dynamics, using a Wikipedia SVG image.">
+      <td><a href="Xholon.html?app=climatechange_carboncycle03&gui=clsc">Climate Change - Carbon cycle 03</a></td>
+      <td><a href="Xholon.html?app=climatechange_carboncycle03&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=climatechange_carboncycle03&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Reimplementation of the 'Spring Idol' example in 'Spring in Action' book.">
+      <td><a href="Xholon.html?app=SpringIdol&gui=clsc">Spring Idol</a></td>
+      <td><a href="Xholon.html?app=SpringIdol&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=SpringIdol&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Dynamic environment with cats, humans, zombie's and more.">
+      <td><a href="Xholon.html?app=Bestiary&gui=clsc">Bestiary</a></td>
+      <td><a href="Xholon.html?app=Bestiary&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=Bestiary&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Examples of NetLogo-like Turtle Graphics (large grid).">
+      <td><a href="Xholon.html?app=TurtleExample1&gui=clsc">Turtle Example</a></td>
+      <td><a href="Xholon.html?app=TurtleExample1&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=TurtleExample1&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Reimplementation of NetLogo sample app.">
+      <td><a href="Xholon.html?app=WolfSheepGrass&gui=clsc">Wolf Sheep Grass</a></td>
+      <td><a href="Xholon.html?app=WolfSheepGrass&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=WolfSheepGrass&gui=none">no gui</a></td>
+    </tr>
+    <tr title="">
+      <td><a href="Xholon.html?app=mdcs_m2_1mp&gui=clsc">No-Atmosphere Climate Model</a></td>
+      <td><a href="Xholon.html?app=mdcs_m2_1mp&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=mdcs_m2_1mp&gui=none">no gui</a></td>
+    </tr>
+    <tr title="">
+      <td><a href="Xholon.html?app=mdcs_m2_2mp&gui=clsc">One-Layer Atmosphere Model</a></td>
+      <td><a href="Xholon.html?app=mdcs_m2_2mp&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=mdcs_m2_2mp&gui=none">no gui</a></td>
+    </tr>
+    <tr title="">
+      <td><a href="Xholon.html?app=igm&gui=clsc">Idealized Greenhouse Model</a></td>
+      <td><a href="Xholon.html?app=igm&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=igm&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Continuous Time Recurrent Neural Network">
+      <td><a href="Xholon.html?app=ctrnn_AdapSysLab&gui=clsc">CTRNN - Adaptive Systems Lab</a></td>
+      <td><a href="Xholon.html?app=ctrnn_AdapSysLab&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=ctrnn_AdapSysLab&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Game of Tic Tac Toe from my book 'Distributed Systems - A C Programmer's Development Guide'.">
+      <td><a href="Xholon.html?app=MeTTTa&gui=clsc">MeTTTa</a></td>
+      <td><a href="Xholon.html?app=MeTTTa&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=MeTTTa&gui=none&hide=xhtabs">no gui</a></td>
+    </tr>
+    <tr title="Simple test of Xholon modules.">
+      <td><a href="Xholon.html?app=solarsystemtest&gui=clsc">Solar System test (with modules)</a></td>
+      <td><a href="Xholon.html?app=solarsystemtest&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=solarsystemtest&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Implementation of a model from a social sciences paper.">
+      <td><a href="Xholon.html?app=Collisions&gui=clsc">Collisions</a></td>
+      <td><a href="Xholon.html?app=Collisions&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=Collisions&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Example of a hexagonal grid in Xholon (large grid).">
+      <td><a href="Xholon.html?app=Hex&gui=clsc">Hexagonal grid</a></td>
+      <td><a href="Xholon.html?app=Hex&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=Hex&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Example from the book 'Evolutionary Dynamics' (large grid).">
+      <td><a href="Xholon.html?app=SpatialGames&gui=clsc">Evolutionary Dynamics - Spatial Games</a></td>
+      <td><a href="Xholon.html?app=SpatialGames&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=SpatialGames&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Regulated Catalyzing System (RCS) - Glycogen Phosphorylase (GP) - Symbolic">
+      <td><a href="Xholon.html?app=Rcs1&gui=clsc">Regulated Catalyzing System 1</a></td>
+      <td><a href="Xholon.html?app=Rcs1&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=Rcs1&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Regulated Catalyzing System (RCS) - with Molecular Machine (MM)">
+      <td><a href="Xholon.html?app=Rcs2&gui=clsc">Regulated Catalyzing System 2</a></td>
+      <td><a href="Xholon.html?app=Rcs2&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=Rcs2&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Simple example of bigraphs in Xholon.">
+      <td><a href="Xholon.html?app=bigraphRG&gui=clsc">Bigraph - Rooms and Ghosts</a></td>
+      <td><a href="Xholon.html?app=bigraphRG&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=bigraphRG&gui=none">no gui</a></td>
+    </tr>
+    </table>
+    
+    <p>State Machine and other UML apps (generated using MagicDraw UML)</p>
+    <table>
+    <tr title="">
+      <td><a href="Xholon.html?app=TestFsm&gui=clsc">Test FSM</a></td>
+      <td><a href="Xholon.html?app=TestFsm&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=TestFsm&gui=none">no gui</a></td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=TestFsmForkJoin&gui=clsc">Test FSM Fork Join</a></td>
+      <td><a href="Xholon.html?app=TestFsmForkJoin&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=TestFsmForkJoin&gui=none">no gui</a></td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=TestFsmHistory&gui=clsc">Test FSM History</a></td>
+      <td><a href="Xholon.html?app=TestFsmHistory&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=TestFsmHistory&gui=none">no gui</a></td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=TestFsmJunction&gui=clsc">Test FSM Junction</a></td>
+      <td><a href="Xholon.html?app=TestFsmJunction&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=TestFsmJunction&gui=none">no gui</a></td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=TestFsmOrthogonal&gui=clsc">Test FSM Orthogonal</a></td>
+      <td><a href="Xholon.html?app=TestFsmOrthogonal&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=TestFsmOrthogonal&gui=none">no gui</a></td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=Elevator&gui=clsc">Elevator</a></td>
+      <td><a href="Xholon.html?app=Elevator&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=Elevator&gui=none">no gui</a></td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=Elevator_ShowStates&gui=clsc">Elevator - Show States</a></td>
+      <td><a href="Xholon.html?app=Elevator_ShowStates&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=Elevator_ShowStates&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Beard DA. (2005). A Biophysical Model of the Mitochondrial Respiratory System and Oxidative Phosphorylation, PLoS Computational Biology, 1(4): e36.">
+      <td><a href="Xholon.html?app=beard41&gui=clsc">Beard 4 1 - Mitochondrial Model</a></td>
+      <td><a href="Xholon.html?app=beard41&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=beard41&gui=none">no gui</a></td>
+    </tr>
+    </table>
+    
+    <p>Petri Net apps</p>
+    <table>
+    <tr>
+      <td><a href="Xholon.html?app=Feinberg1&gui=clsc">Feinberg1</a></td>
+      <td><a href="Xholon.html?app=Feinberg1&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=Feinberg1&gui=none">no gui</a></td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=azimuth_pn01&gui=clsc">Azimuth - simple petri net</a></td>
+      <td><a href="Xholon.html?app=azimuth_pn01&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=azimuth_pn01&gui=none&hide=xhtabs">no gui</a></td>
+    </tr>
+    </table>
+    
+    <p>Dynamical Systems apps</p>
+    <table>
+    <tr>
+      <td><a href="Xholon.html?app=Fibonacci&gui=clsc">Fibonacci</a></td>
+      <td><a href="Xholon.html?app=Fibonacci&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=Fibonacci&gui=none">no gui</a></td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=Gravity1&gui=clsc">Gravity 1</a></td>
+      <td><a href="Xholon.html?app=Gravity1&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=Gravity1&gui=none">no gui</a></td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=Interest&gui=clsc">Interest</a></td>
+      <td><a href="Xholon.html?app=Interest&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=Interest&gui=none">no gui</a></td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=ScheffranTwoActor&gui=clsc">Scheffran - Two Actors</a></td>
+      <td><a href="Xholon.html?app=ScheffranTwoActor&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=ScheffranTwoActor&gui=none">no gui</a></td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=ScheffranNActor&gui=clsc">Scheffran - N Actors</a></td>
+      <td><a href="Xholon.html?app=ScheffranNActor&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=ScheffranNActor&gui=none">no gui</a></td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=Train&gui=clsc">Train</a></td>
+      <td><a href="Xholon.html?app=Train&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=Train&gui=none">no gui</a></td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=leakybucket&gui=clsc">Leaky Bucket</a></td>
+      <td><a href="Xholon.html?app=leakybucket&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=leakybucket&gui=none">no gui</a></td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=stability&gui=clsc">Stability</a></td>
+      <td><a href="Xholon.html?app=stability&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=stability&gui=none">no gui</a></td>
+    </tr>
+    </table>
+    
+    <p>Agent Base Modeling (ABM) - Stupid Models (<a href="http://condor.depaul.edu/slytinen/abm/StupidModel/">a standard set of ABM test models</a>)</p>
+    <table>
+    <tr title="Agent Based Modeling - 'stupid model' 1.">
+      <td><a href="Xholon.html?app=StupidModel1&gui=clsc">Stupid Model 1</a></td>
+      <td><a href="Xholon.html?app=StupidModel1&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=StupidModel1&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Agent Based Modeling - 'stupid model' 2.">
+      <td><a href="Xholon.html?app=StupidModel2&gui=clsc">Stupid Model 2</a></td>
+      <td><a href="Xholon.html?app=StupidModel2&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=StupidModel2&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Agent Based Modeling - 'stupid model' 3.">
+      <td><a href="Xholon.html?app=StupidModel3&gui=clsc">Stupid Model 3</a></td>
+      <td><a href="Xholon.html?app=StupidModel3&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=StupidModel3&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Agent Based Modeling - 'stupid model' 4.">
+      <td><a href="Xholon.html?app=StupidModel4&gui=clsc">Stupid Model 4</a></td>
+      <td><a href="Xholon.html?app=StupidModel4&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=StupidModel4&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Agent Based Modeling - 'stupid model' 5.">
+      <td><a href="Xholon.html?app=StupidModel5&gui=clsc">Stupid Model 5</a></td>
+      <td><a href="Xholon.html?app=StupidModel5&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=StupidModel5&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Agent Based Modeling - 'stupid model' 5tg.">
+      <td><a href="Xholon.html?app=StupidModel5tg&gui=clsc">Stupid Model 5tg</a></td>
+      <td><a href="Xholon.html?app=StupidModel5tg&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=StupidModel5tg&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Agent Based Modeling - 'stupid model' 6.">
+      <td><a href="Xholon.html?app=StupidModel6&gui=clsc">Stupid Model 6</a></td>
+      <td><a href="Xholon.html?app=StupidModel6&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=StupidModel6&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Agent Based Modeling - 'stupid model' 7.">
+      <td><a href="Xholon.html?app=StupidModel7&gui=clsc">Stupid Model 7</a></td>
+      <td><a href="Xholon.html?app=StupidModel7&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=StupidModel7&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Agent Based Modeling - 'stupid model' 8.">
+      <td><a href="Xholon.html?app=StupidModel8&gui=clsc">Stupid Model 8</a></td>
+      <td><a href="Xholon.html?app=StupidModel8&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=StupidModel8&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Agent Based Modeling - 'stupid model' 9.">
+      <td><a href="Xholon.html?app=StupidModel9&gui=clsc">Stupid Model 9</a></td>
+      <td><a href="Xholon.html?app=StupidModel9&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=StupidModel9&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Agent Based Modeling - 'stupid model' 10.">
+      <td><a href="Xholon.html?app=StupidModel10&gui=clsc">Stupid Model 10</a></td>
+      <td><a href="Xholon.html?app=StupidModel10&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=StupidModel10&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Agent Based Modeling - 'stupid model' 11.">
+      <td><a href="Xholon.html?app=StupidModel11&gui=clsc">Stupid Model 11</a></td>
+      <td><a href="Xholon.html?app=StupidModel11&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=StupidModel11&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Agent Based Modeling - 'stupid model' 12.">
+      <td><a href="Xholon.html?app=StupidModel12&gui=clsc">Stupid Model 12</a></td>
+      <td><a href="Xholon.html?app=StupidModel12&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=StupidModel12&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Agent Based Modeling - 'stupid model' 13.">
+      <td><a href="Xholon.html?app=StupidModel13&gui=clsc">Stupid Model 13</a></td>
+      <td><a href="Xholon.html?app=StupidModel13&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=StupidModel13&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Agent Based Modeling - 'stupid model' 14.">
+      <td><a href="Xholon.html?app=StupidModel14&gui=clsc">Stupid Model 14</a></td>
+      <td><a href="Xholon.html?app=StupidModel14&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=StupidModel14&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Agent Based Modeling - 'stupid model' 15.">
+      <td><a href="Xholon.html?app=StupidModel15&gui=clsc">Stupid Model 15</a></td>
+      <td><a href="Xholon.html?app=StupidModel15&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=StupidModel15&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Agent Based Modeling - 'stupid model' 16.">
+      <td><a href="Xholon.html?app=StupidModel16&gui=clsc">Stupid Model 16</a></td>
+      <td><a href="Xholon.html?app=StupidModel16&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=StupidModel16&gui=none">no gui</a></td>
+    </tr>
+    <tr title="Agent Based Modeling - 'stupid model' 16nl.">
+      <td><a href="Xholon.html?app=StupidModel16nl&gui=clsc">Stupid Model 16nl</a></td>
+      <td><a href="Xholon.html?app=StupidModel16nl&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=StupidModel16nl&gui=none">no gui</a></td>
+    </tr>
+    </table>
+    
+    <p>Chameleon apps (hosted at github as numbered XholonWorkbook gists))</p>
+    <table>
+    <tr>
+      <td><a href="Xholon.html?app=8289853&src=gist&gui=clsc">8289853</a></td>
+      <td><a href="wb/editwb.html?app=8289853&src=gist">[preview]</a></td>
+      <td><a href="Xholon.html?app=8289853&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=8289853&src=gist&gui=none">no gui</a></td>
+      <td>The Lord of the Rings</td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=7890549&src=gist&gui=clsc">7890549</a></td>
+      <td><a href="wb/editwb.html?app=7890549&src=gist">[preview]</a></td>
+      <td><a href="Xholon.html?app=7890549&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=7890549&src=gist&gui=none">no gui</a></td>
+      <td>Automatic graph layout with JointJS and Dagre </td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=7888333&src=gist&gui=clsc">7888333</a></td>
+      <td><a href="wb/editwb.html?app=7888333&src=gist">[preview]</a></td>
+      <td><a href="Xholon.html?app=7888333&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=7888333&src=gist&gui=none">no gui</a></td>
+      <td>Graphviz and Microsoft Automatic Graph Layout </td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=7851572&src=gist&gui=clsc">7851572</a></td>
+      <td><a href="wb/editwb.html?app=7851572&src=gist">[preview]</a></td>
+      <td><a href="Xholon.html?app=7851572&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=7851572&src=gist&gui=none">no gui</a></td>
+      <td>Countries of Europe </td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=7747121&src=gist&gui=clsc">7747121</a></td>
+      <td><a href="wb/editwb.html?app=7747121&src=gist">[preview]</a></td>
+      <td><a href="Xholon.html?app=7747121&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=7747121&src=gist&gui=none">no gui</a></td>
+      <td>Xholon tutorial - My Hello World 1 </td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=7571513&src=gist&gui=clsc">7571513</a></td>
+      <td><a href="wb/editwb.html?app=7571513&src=gist">[preview]</a></td>
+      <td><a href="Xholon.html?app=7571513&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=7571513&src=gist&gui=none">no gui</a></td>
+      <td>Flashcards (SVG images, JavaScript prototypes)</td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=7401979&src=gist&gui=clsc">7401979</a></td>
+      <td><a href="wb/editwb.html?app=7401979&src=gist">[preview]</a></td>
+      <td><a href="Xholon.html?app=7401979&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=7401979&src=gist&gui=none">no gui</a></td>
+      <td>Leaky Bucket (Xholon GWT)</td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=7362931&src=gist&gui=clsc">7362931</a></td>
+      <td><a href="wb/editwb.html?app=7362931&src=gist">[preview]</a></td>
+      <td><a href="Xholon.html?app=7362931&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=7362931&src=gist&gui=none">no gui</a></td>
+      <td>Write a Xholon view-behavior using Snap.svg or d3</td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=7242373&src=gist&gui=clsc">7242373</a></td>
+      <td><a href="wb/editwb.html?app=7242373&src=gist">[preview]</a></td>
+      <td><a href="Xholon.html?app=7242373&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=7242373&src=gist&gui=none">no gui</a></td>
+      <td>Xholon and Snap.svg</td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=7159922&src=gist&gui=clsc">7159922</a></td>
+      <td><a href="wb/editwb.html?app=7159922&src=gist">[preview]</a></td>
+      <td><a href="Xholon.html?app=7159922&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=7159922&src=gist&gui=none">no gui</a></td>
+      <td>One-Layer Atmosphere Model (Xholon GWT)</td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=3378212&src=gist&gui=clsc">3378212</a></td>
+      <td><a href="wb/editwb.html?app=3378212&src=gist">[preview]</a></td>
+      <td><a href="Xholon.html?app=3378212&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=3378212&src=gist&gui=none">no gui</a></td>
+      <td>Petri nets - various</td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=3378073&src=gist&gui=clsc">3378073</a></td>
+      <td><a href="wb/editwb.html?app=3378073&src=gist">[preview]</a></td>
+      <td><a href="Xholon.html?app=3378073&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=3378073&src=gist&gui=none">no gui</a></td>
+      <td>Petri nets - Jensen protocol example</td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=3377945&src=gist&gui=clsc">3377945</a></td>
+      <td><a href="wb/editwb.html?app=3377945&src=gist">[preview]</a></td>
+      <td><a href="Xholon.html?app=3377945&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=3377945&src=gist&gui=none">no gui</a></td>
+      <td>Petri net - Cell model</td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=3377668&src=gist&gui=clsc">3377668</a></td>
+      <td><a href="wb/editwb.html?app=3377668&src=gist">[preview]</a></td>
+      <td><a href="Xholon.html?app=3377668&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=3377668&src=gist&gui=none">no gui</a></td>
+      <td>Feinberg - Chemical Reaction Networks 1.1</td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=3375621&src=gist&gui=clsc">3375621</a></td>
+      <td><a href="wb/editwb.html?app=3375621&src=gist">[preview]</a></td>
+      <td><a href="Xholon.html?app=3375621&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=3375621&src=gist&gui=none">no gui</a></td>
+      <td>Petri net - Climate model</td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=3374405&src=gist&gui=clsc">3374405</a></td>
+      <td><a href="wb/editwb.html?app=3374405&src=gist">[preview]</a></td>
+      <td><a href="Xholon.html?app=3374405&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=3374405&src=gist&gui=none">no gui</a></td>
+      <td>Glycolysis Petri net, with mass action kinetics</td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=3370679&src=gist&gui=clsc">3370679</a></td>
+      <td><a href="wb/editwb.html?app=3370679&src=gist">[preview]</a></td>
+      <td><a href="Xholon.html?app=3370679&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=3370679&src=gist&gui=none">no gui</a></td>
+      <td>Petri Nets and Membrane Computing</td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=3128966&src=gist&gui=clsc">3128966</a></td>
+      <td><a href="wb/editwb.html?app=3128966&src=gist">[preview]</a></td>
+      <td><a href="Xholon.html?app=3128966&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=3128966&src=gist&gui=none">no gui</a></td>
+      <td>Particles of the Standard Model</td>
+    </tr>
+    <!--<tr>
+      <td><a href="Xholon.html?app=2470836,xholonWorkbookGwt.xml&src=gist&gui=clsc">2470836</a></td>
+      <td></td>
+      <td><a href="Xholon.html?app=2470836,xholonWorkbookGwt.xml&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=2470836,xholonWorkbookGwt.xml&src=gist&gui=none">no gui</a></td>
+      <td>Flashcards (SVG images)</td>
+    </tr>-->
+    <tr>
+      <td><a href="Xholon.html?app=2159078&src=gist&gui=clsc">2159078</a></td>
+      <td><a href="wb/editwb.html?app=2159078&src=gist">[preview]</a></td>
+      <td><a href="Xholon.html?app=2159078&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=2159078&src=gist&gui=none">no gui</a></td>
+      <td>Coin Flipping Example</td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=2113518&src=gist&gui=clsc">2113518</a></td>
+      <td><a href="wb/editwb.html?app=2113518&src=gist">[preview]</a></td>
+      <td><a href="Xholon.html?app=2113518&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=2113518&src=gist&gui=none">no gui</a></td>
+      <td>How much extra energy are we adding to the earth system?</td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=1809763&src=gist&gui=clsc">1809763</a></td>
+      <td><a href="wb/editwb.html?app=1809763&src=gist">[preview]</a></td>
+      <td><a href="Xholon.html?app=1809763&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=1809763&src=gist&gui=none">no gui</a></td>
+      <td>Leaky Bucket (from gist.github.com)</td>
+    </tr>
+    
+    <!-- there are multiple Petri Net workbooks in gist 3457105, each with a different file name -->
+    <tr>
+      <td><a href="Xholon.html?app=3457105,crn_1_1_csh.xml&src=gist&gui=clsc">3457105,crn_1_1</a></td>
+      <td></td>
+      <td><a href="Xholon.html?app=3457105,crn_1_1_csh.xml&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=3457105,crn_1_1_csh.xml&src=gist&gui=none">no gui</a></td>
+      <td>Feinberg network 1.1</td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=3457105,crn_2_31_csh.xml&src=gist&gui=clsc">3457105,crn_2_31</a></td>
+      <td></td>
+      <td><a href="Xholon.html?app=3457105,crn_2_31_csh.xml&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=3457105,crn_2_31_csh.xml&src=gist&gui=none">no gui</a></td>
+      <td>Feinberg network 2.31</td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=3457105,crn_2_34_csh.xml&src=gist&gui=clsc">3457105,crn_2_34</a></td>
+      <td></td>
+      <td><a href="Xholon.html?app=3457105,crn_2_34_csh.xml&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=3457105,crn_2_34_csh.xml&src=gist&gui=none">no gui</a></td>
+      <td>Feinberg network 2.34</td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=3457105,crn_2_38_csh.xml&src=gist&gui=clsc">3457105,crn_2_38</a></td>
+      <td></td>
+      <td><a href="Xholon.html?app=3457105,crn_2_38_csh.xml&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=3457105,crn_2_38_csh.xml&src=gist&gui=none">no gui</a></td>
+      <td>Feinberg network 2.38</td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=3457105,crn_2_44_csh.xml&src=gist&gui=clsc">3457105,crn_2_44</a></td>
+      <td></td>
+      <td><a href="Xholon.html?app=3457105,crn_2_44_csh.xml&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=3457105,crn_2_44_csh.xml&src=gist&gui=none">no gui</a></td>
+      <td>Feinberg network 2.44</td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=3457105,crn_1987_6_5_csh.xml&src=gist&gui=clsc">3457105,crn_1987_6_5</a></td>
+      <td></td>
+      <td><a href="Xholon.html?app=3457105,crn_1987_6_5_csh.xml&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=3457105,crn_1987_6_5_csh.xml&src=gist&gui=none">no gui</a></td>
+      <td>Feinberg network (1987) 6.5</td>
+    </tr>
+    <tr>
+      <td><a href="Xholon.html?app=3457105,crn_1987_6_7_csh.xml&src=gist&gui=clsc">3457105,crn_1987_6_7</a></td>
+      <td></td>
+      <td><a href="Xholon.html?app=3457105,crn_1987_6_7_csh.xml&src=gist&gui=d3cp">D3 gui</a></td>
+      <td><a href="Xholon.html?app=3457105,crn_1987_6_7_csh.xml&src=gist&gui=none">no gui</a></td>
+      <td>Feinberg network (1987) 6.7</td>
+    </tr>
+    
+    </table>
+    
+    <div>
+    <p>You can open or view workbooks that have been saved as public gists in <a href="https://gist.github.com/">GitHub</a>.
+    If you have a GitHub account, you will also be able to save a new or edited workbook as a gist.
+    To open or view a gist, you will need to know the gist id,
+    which you can find by searching GitHub for <em>XholonWorkbook</em>.
+    If you don't know what GitHub is, then just ignore this part.</p>
+    
+    <!-- Open with classic gui -->
+    <form id="gistformopen" action="Xholon.html" method="get" target = "_blank">
+      <input id="gistid" type="text" name="app" size="8" title="A workbook gist id"/>
+      <input id="gistsrc" type="hidden" name="src" value="gist"/>
+      <input id="gisturl" type="hidden" name="gui" value="clsc"/>
+      <button id="opengist" type="submit" title="Open a workbook gist with the classic gui">Open</button>
+    </form>
+    
+    <!-- View -->
+    <form id="gistformview" action="http://www.primordion.com/Xholon/wb/gistwb.php" method="get" target = "_blank">
+      <input id="gistid" type="text" name="q" size="8" title="A workbook gist id"/>
+      <button id="viewgist" type="submit" title="Preview a workbook gist">Preview</button>
+    </form>
+    
+    <!-- Open with D3 gui -->
+    <form id="gistformopen" action="Xholon.html" method="get" target = "_blank">
+      <input id="gistid" type="text" name="app" size="8" title="A workbook gist id"/>
+      <input id="gistsrc" type="hidden" name="src" value="gist"/>
+      <input id="gisturl" type="hidden" name="gui" value="d3cp"/>
+      <button id="opengist" type="submit" title="Open a workbook gist with the D3 gui">Open (D3 gui)</button>
+    </form>
+    
+    <!-- Open with no gui -->
+    <form id="gistformopen" action="Xholon.html" method="get" target = "_blank">
+      <input id="gistid" type="text" name="app" size="8" title="A workbook gist id"/>
+      <input id="gistsrc" type="hidden" name="src" value="gist"/>
+      <input id="gisturl" type="hidden" name="gui" value="none"/>
+      <button id="opengist" type="submit" title="Open a workbook gist with no gui">Open (no gui)</button>
+    </form>
+    
+    <!-- Fork -->
+    <!--<form id="gistformfork" action="forkwb.php" method="post" target = "_blank">
+      <input id="gistid" type="text" name="q" size="8" title="The gist id of another user's workbook, that you wish to fork"/>
+      <button id="forkgist" type="submit" title="Fork another user's workbook gist">Fork</button>
+      <input type="text" name="gu" id="gu" size="6" title="Your GitHub login id"/>:<input type="password" name="gp" id="gp" size="6" title="Your GitHub password"/>
+    </form>-->
+    
+    <!-- Edit -->
+    <!--<form id="gistformopen" action="http://www.primordion.com/Xholon/wb/openwb.php" method="get" target = "_blank">
+      <input id="gistid" type="text" name="q" size="8" title="A workbook gist id"/>
+      <input id="gisturl" type="hidden" name="f" value="gist.github.com/raw/"/>
+      <button id="opengist" type="submit" title="Edit (and optionally save) an existing workbook gist">Edit</button>
+    </form>-->
+    <!-- Edit -->
+    <form id="gistformopen" action="http://www.primordion.com/Xholon/gwt/wb/editwb.html" method="get" target = "_blank">
+      <input id="gistid" type="text" name="app" size="8" title="A workbook gist id"/>
+      <input id="gisturl" type="hidden" name="src" value="gist"/>
+      <button id="opengist" type="submit" title="Edit (and optionally save) an existing workbook gist">Edit</button>
+    </form>
+    
+    <!-- List -->
+    <p>Show a current clickable list of public workbook gists for a GitHub user.</p>
+    <form id="gistformlist" action="http://www.primordion.com/Xholon/wb/listgistwb.php" method="get" target = "_blank">
+      <input id="loginid" type="text" name="q" size="8" title="A GitHub login id" value="kenwebb"/>
+      <button id="listgist" type="submit" title="List the workbook gists">List</button>
+    </form>
+    </div>
+    
+    <div>
+    <p>You can also open workbooks located in your browser's localStorage.</p>
+    
+    <!-- Open from localStorage with classic gui -->
+    <form id="lstrformopen" action="Xholon.html" method="get" target = "_blank">
+      <input id="lstrid" type="text" name="app" size="8" title="A workbook localStorage id"/>
+      <input id="lstrsrc" type="hidden" name="src" value="lstr"/>
+      <input id="lstrurl" type="hidden" name="gui" value="clsc"/>
+      <button id="openlstr" type="submit" title="Open a localStorage workbook with the classic gui">Open</button>
+    </form>
+    
+    <!-- Open from localStorage with D3 gui -->
+    <form id="lstrformopen" action="Xholon.html" method="get" target="_blank">
+      <input id="lstrid" type="text" name="app" size="8" title="A workbook lstr id"/>
+      <input id="lstrsrc" type="hidden" name="src" value="lstr"/>
+      <input id="lstrurl" type="hidden" name="gui" value="d3cp"/>
+      <button id="openlstr" type="submit" title="Open a localStorage workbook with the D3 gui">Open (D3 gui)</button>
+    </form>
+    
+    <!-- Open from localStorage with no gui -->
+    <form id="lstrformopen" action="Xholon.html" method="get" target="_blank">
+      <input id="lstrid" type="text" name="app" size="8" title="A workbook lstr id"/>
+      <input id="lstrsrc" type="hidden" name="src" value="lstr"/>
+      <input id="lstrurl" type="hidden" name="gui" value="none"/>
+      <button id="openlstr" type="submit" title="Open a localStorage workbook with no gui">Open (no gui)</button>
+    </form>
+
+    <!-- Edit from localStorage -->
+    <form id="lstrformopen" action="wb/editwb.html" method="get" target = "_blank">
+      <input id="lstrid" type="text" name="app" size="8" title="A workbook lstr id"/>
+      <input id="lstrurl" type="hidden" name="src" value="lstr"/>
+      <button id="opengist" type="submit" title="Edit (and optionally save) an existing localStorage workbook">Edit</button>
+    </form>
+    
+    <!-- Start new workbook, with auto-save to localStorage -->
+    <p>Start a <a href="wb/editwb.html">new workbook</a>, with auto-save to localStorage.</p>
+    
+    </div>
+        
+  <hr/>
+  <h3>Help</h3>
+  <div class="help">
+    <p>Get <a href="help.html">help</a></p>
+    <p>View Xholon <a href="javadoc/index.html">javadoc</a> Java class documentation</p>
+    <p>View Xholon <a href="jsapidoc/index.html">jsapidoc</a> JavaScript API documentation</p>
+  </div>
+
+  <hr/>
+  <div class="twitter">
+    <a href="https://twitter.com/KenSWebb" class="twitter-follow-button" data-show-count="false">Follow @KenSWebb</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    <a href="https://twitter.com/share" class="twitter-share-button" data-via="KenSWebb" data-count="none">Tweet</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+  </div>
+  <div class="license"  style="font-size: 9px;"><p>Xholon GWT is a <a href="..">Xholon</a> project. Copyright (C) 2013, 2014 Ken Webb</p></div>
+  <div class="aatt" style="font-size: 9px;"><pre style="font-size: 9px;">
+@QWERTYUIk
+OPASmDFGHe
+primordion
+JKLZcXCVB.
+  </pre></div>
+    
+  </body>
+  
+</html>

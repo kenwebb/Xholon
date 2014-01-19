@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	StupidModel8 application - Class Details
+	Xholon 0.5 http://www.primordion.com/Xholon
+-->
+<xholonClassDetails>
+	<StupidModel xhType="XhtypePurePassiveObject"/>
+	<Grid xhType="XhtypeGridEntity" implName="org.primordion.xholon.base.GridEntity"/>
+	<Row xhType="XhtypeGridEntity" implName="org.primordion.xholon.base.GridEntity"/>
+	<HabitatCell xhType="XhtypeGridEntityActivePassive" implName="org.primordion.user.app.StupidModel.sm8.HabitatCellStupidModel8">
+		<config instruction="Gmt"/>
+	</HabitatCell>
+	<Bug xhType="XhtypePureActiveObject" implName="org.primordion.user.app.StupidModel.sm8.BugStupidModel8">
+		<port name="port" index="P_Statistics" connector="#xpointer(ancestor::Grid/../Statistics)"/>
+	</Bug>
+	<Statistics xhType="XhtypePureActiveObject"/>
+	<Aggregator xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_double"/>
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

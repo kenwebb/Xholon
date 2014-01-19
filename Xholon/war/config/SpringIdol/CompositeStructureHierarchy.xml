@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Xholon SpringIdol CompositeStructure.xml -->
+<SpringIdol>
+	<Instruments>
+		<Cymbal/>
+		<Guitar/>
+		<Harmonica/>
+		<Piano/>
+		<Saxophone/>
+	</Instruments>
+	<Performers>
+		<OneManBand roleName="hank"/>
+		<PoeticJuggler roleName="duke"/>
+		<BaseSaxophonist roleName="kenny"/>
+	</Performers>
+	<Songs>
+		<Song>
+			<Attribute_String roleName="Title">Jingle Bells</Attribute_String>
+		</Song>
+	</Songs>
+	<Poems>
+		<!--<Sonnet29/>-->
+		<Damoyselle/>
+	</Poems>
+</SpringIdol>

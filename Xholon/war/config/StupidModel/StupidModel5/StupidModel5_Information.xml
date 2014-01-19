@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+		<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+		-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+
+<!--
+	StupidModel5 Displayable information about this application.
+	Xholon 0.6 http://www.primordion.com/Xholon (Ken Webb)
+-->
+<document>
+<header>
+<title>Xholon - Stupid Model 5 - Parameters and Parameter Displays</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This is the 5th in a series of 16 "Stupid Models". It's intended as a starting point for learning how to develop grid and agent-based models using Xholon. It can also be used to compare Xholon with other agent-based modeling tools that have also implemented the Stupid Model series.</p>
+<p>This model shows how to add parameters that can be accessed at runtime by the simulation. Specifically, three parameters are to be added:</p>
+<ul>
+<li>Initial number of bugs (a model parameter),</li>
+<li>Maximum daily food consumption (a bug parameter), and</li>
+<li>Maximum food production (a cell parameter).</li>
+</ul>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p>The model parameter is set in StupidModel5_CompositeStructureHierarchy.xml, by specifying multiplicity="100" for the Bug class. In Xholon, this is normally how the quantity of some object, such as an agent or grid cell, is specified.</p>
+<p>The other two parameters are set in StupidModel5_xhn.xml, where there's a separate param line for each of MaxConsumptionRate and MaxFoodProductionRate. To handle these two parameters, set methods are implemented in AppStupidModel5.java, and variables are defined in BugStupidModel5.java and HabitatCellStupidModel5.java .</p>
+<p>By default, all parameters are displayed in the console window when the application starts running. This can be changed by setting ShowParams in StupidModel5_xhn.xml to false.</p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>Railsback, S., Lytinen, S., Grimm, V. (2005).
+StupidModel and Extensions: A Template and Teaching Tool for Agent-based Modeling Platforms.</p>
+<p><a href="http://www.swarm.org/wiki/Software_templates">Swarm page</a></p>
+<p><a href="http://condor.depaul.edu/~slytinen/abm/StupidModel/">Author's page</a></p>
+</section>
+
+</body>
+</document>

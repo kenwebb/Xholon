@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	StupidModel16nl application - Class Details
+	Xholon 0.5 http://www.primordion.com/Xholon
+-->
+<xholonClassDetails>
+	<StupidModel xhType="XhtypePurePassiveObject"/>
+	<Grid xhType="XhtypeGridEntity" implName="org.primordion.xholon.base.PatchOwner"/>
+	<!--<Grid xhType="XhtypeGridEntity" implName="org.primordion.user.app.StupidModel.HabitatCellStupidModel16nl"/>-->
+	<Row xhType="XhtypeGridEntity" implName="org.primordion.xholon.base.GridEntity"/>
+	<HabitatCell xhType="XhtypeGridEntityActivePassive" implName="org.primordion.user.app.StupidModel.sm16nl.HabitatCellStupidModel16nl">
+		<config instruction="Gmg"/>
+	</HabitatCell>
+	<Bugs xhType="XhtypePureActiveObject" implName="org.primordion.user.app.StupidModel.sm16nl.QueueStupidModel16nl"/>
+	<Bug xhType="XhtypePureActiveObject" implName="org.primordion.user.app.StupidModel.sm16nl.BugStupidModel16nl">
+		<port name="port" index="P_Statistics" connector="#xpointer(ancestor::Grid/../Statistics)"/>
+		<port name="port" index="P_Scheduler" connector="#xpointer(ancestor::Grid/../Bugs)"/>
+	</Bug>
+	<Predators xhType="XhtypePureActiveObject" implName="org.primordion.user.app.StupidModel.sm16nl.QueueStupidModel16nl"/>
+	<Predator xhType="XhtypePureActiveObject" implName="org.primordion.user.app.StupidModel.sm16nl.BugStupidModel16nl">
+		<port name="port" index="P_Scheduler" connector="#xpointer(ancestor::Grid/../Predators)"/>
+	</Predator>
+	<Statistics xhType="XhtypePureActiveObject"/>
+	<Aggregator xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_double"/>
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

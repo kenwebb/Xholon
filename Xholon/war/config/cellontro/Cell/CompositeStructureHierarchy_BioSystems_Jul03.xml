@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExtraCellularSpace>
+	<ExtraCellularSolution>
+		<Glucose>100000.0</Glucose>		
+	</ExtraCellularSolution>
+	<EukaryoticCell>
+		<CellMembrane>
+			<CellBilayer/>
+		</CellMembrane>
+		<Cytoplasm>
+			<Cytosol>
+				<Glucose>100000.0</Glucose>
+				<Glucose_6_Phosphate>100000.0</Glucose_6_Phosphate>
+				<Fructose_6_Phosphate>100000.0</Fructose_6_Phosphate>
+				<Fructose_1x6_Biphosphate>100000.0</Fructose_1x6_Biphosphate>
+				<DihydroxyacetonePhosphate>100000.0</DihydroxyacetonePhosphate>
+				<Glyceraldehyde_3_Phosphate>100000.0</Glyceraldehyde_3_Phosphate>
+				<X1x3_BisphosphoGlycerate>100000.0</X1x3_BisphosphoGlycerate>
+				<X3_PhosphoGlycerate>100000.0</X3_PhosphoGlycerate>
+				<X2_PhosphoGlycerate>100000.0</X2_PhosphoGlycerate>
+				<PhosphoEnolPyruvate>100000.0</PhosphoEnolPyruvate>
+				<Pyruvate>100000.0</Pyruvate>
+			</Cytosol>
+			<Hexokinase>1.0</Hexokinase>
+			<PhosphoGlucoIsomerase>1.0</PhosphoGlucoIsomerase>
+			<PhosphoFructokinase>1.0</PhosphoFructokinase>
+			<Aldolase>1.0</Aldolase>
+			<TriosePhosphateIsomerase>1.0</TriosePhosphateIsomerase>
+			<Glyceraldehyde_3_phosphateDehydrogenase>1.0</Glyceraldehyde_3_phosphateDehydrogenase>
+			<PhosphoGlycerokinase>1.0</PhosphoGlycerokinase>
+			<PhosphoGlyceromutase>1.0</PhosphoGlyceromutase>
+			<Enolase>1.0</Enolase>
+			<PyruvateKinase>1.0</PyruvateKinase>
+		</Cytoplasm>
+	</EukaryoticCell>
+</ExtraCellularSpace>

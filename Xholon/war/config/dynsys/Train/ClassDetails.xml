@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- DynamicalSystems dynsys/Train ClassDetails.xml -->
+<xholonClassDetails>
+	<Engine xhType="XhtypeBehFgsxxx"> <!-- active + passive -->
+		<port name="port" index="P_Spring" connector="#xpointer(ancestor::TrainSystem/ToyTrain/Spring)"/>
+	</Engine>
+	<Spring xhType="XhtypePureActiveObject">
+		<port name="port" index="P_Mass1" connector="#xpointer(ancestor::TrainSystem/ToyTrain/Engine)"/>
+		<port name="port" index="P_Mass2" connector="#xpointer(ancestor::TrainSystem/ToyTrain/Car)"/>
+	</Spring>
+	<Car xhType="XhtypeBehFgsxxx"> <!-- active + passive -->
+		<port name="port" index="P_Spring" connector="#xpointer(ancestor::TrainSystem/ToyTrain/Spring)"/>
+	</Car>
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

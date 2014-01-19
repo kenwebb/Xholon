@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Beard2005_UML_Xholon_Step4_v1 application - Class Details
+	Author: KenWebb
+	Date:   22/02/2007
+	File:   Beard2005_UML_Xholon_Step4_v1.mdzip
+	Target: Xholon 0.5 http://www.primordion.com/Xholon
+	portImplementation: ixholon
+	UML: MagicDraw UML 11.5
+	XMI: 2.1, Thu Feb 22 12:38:46 EST 2007
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<xholonClassDetails xmlns:XholonStereotypes="http://www.magicdraw.com/schemas/XholonStereotypes.xmi" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+<ExternalSpace xhType="XhtypePureActiveObject">
+<!-- port: adp -->
+<port name="port" index="P0" connector="#xpointer(ADP)"/>
+<!-- port: mgtot -->
+<port name="port" index="P3" connector="#xpointer(Mgtot)"/>
+<!-- port: adpm -->
+<port name="port" index="P1" connector="#xpointer(ADPm)"/>
+<!-- port: adpf -->
+<port name="port" index="P2" connector="#xpointer(ADPf)"/>
+<!-- port: mg -->
+<port name="port" index="P4" connector="#xpointer(Mg2)"/>
+<!-- port: h -->
+<port name="port" index="P5" connector="#xpointer(H)"/>
+<!-- port: pH -->
+<port name="port" index="P6" connector="#xpointer(PH)"/>
+</ExternalSpace>
+<OuterMembrane xhType="XhtypePureActiveObject">
+<!-- port: atpE -->
+<port name="port" index="P0" connector="#xpointer(ancestor::EukaryoticCell/ExternalSpace/ATP)"/>
+<!-- port: atpI -->
+<port name="port" index="P1" connector="#xpointer(ancestor::Mitochondrion/IntermembraneSpace/ATP)"/>
+<!-- port: adpE -->
+<port name="port" index="P2" connector="#xpointer(ancestor::EukaryoticCell/ExternalSpace/ADP)"/>
+<!-- port: adpI -->
+<port name="port" index="P3" connector="#xpointer(ancestor::Mitochondrion/IntermembraneSpace/ADP)"/>
+<!-- port: ampE -->
+<port name="port" index="P4" connector="#xpointer(ancestor::EukaryoticCell/ExternalSpace/AMP)"/>
+<!-- port: ampI -->
+<port name="port" index="P5" connector="#xpointer(ancestor::Mitochondrion/IntermembraneSpace/AMP)"/>
+<!-- port: piE -->
+<port name="port" index="P6" connector="#xpointer(ancestor::EukaryoticCell/ExternalSpace/Pi)"/>
+<!-- port: piI -->
+<port name="port" index="P7" connector="#xpointer(ancestor::Mitochondrion/IntermembraneSpace/Pi)"/>
+<!-- port: hE -->
+<port name="port" index="P8" connector="#xpointer(ancestor::EukaryoticCell/ExternalSpace/H)"/>
+<!-- port: hI -->
+<port name="port" index="P9" connector="#xpointer(ancestor::Mitochondrion/IntermembraneSpace/H)"/>
+<!-- port: mgE -->
+<port name="port" index="P10" connector="#xpointer(ancestor::EukaryoticCell/ExternalSpace/Mg2)"/>
+<!-- port: mgI -->
+<port name="port" index="P11" connector="#xpointer(ancestor::Mitochondrion/IntermembraneSpace/Mg2)"/>
+<!-- port: kE -->
+<port name="port" index="P12" connector="#xpointer(ancestor::EukaryoticCell/ExternalSpace/K)"/>
+<!-- port: kI -->
+<port name="port" index="P13" connector="#xpointer(ancestor::Mitochondrion/IntermembraneSpace/K)"/>
+</OuterMembrane>
+<IntermembraneSpace xhType="XhtypePureActiveObject">
+<!-- port: cytCRed -->
+<port name="port" index="P0" connector="#xpointer(CytCRed)"/>
+<!-- port: cytCOx -->
+<port name="port" index="P1" connector="#xpointer(CytCOx)"/>
+<!-- port: adp -->
+<port name="port" index="P2" connector="#xpointer(ADP)"/>
+<!-- port: atp -->
+<port name="port" index="P5" connector="#xpointer(ATP)"/>
+<!-- port: adpm -->
+<port name="port" index="P3" connector="#xpointer(ADPm)"/>
+<!-- port: adpf -->
+<port name="port" index="P4" connector="#xpointer(ADPf)"/>
+<!-- port: atpm -->
+<port name="port" index="P6" connector="#xpointer(ATPm)"/>
+<!-- port: atpf -->
+<port name="port" index="P7" connector="#xpointer(ATPf)"/>
+</IntermembraneSpace>
+<InnerMembrane xhType="XhtypePureActiveObject">
+<!-- port: hI_ib -->
+<port name="port" index="P0" connector="#xpointer(ancestor::Mitochondrion/IntermembraneSpace/H)"/>
+<!-- port: kI_ib -->
+<port name="port" index="P2" connector="#xpointer(ancestor::Mitochondrion/IntermembraneSpace/K)"/>
+<!-- port: hX_ib -->
+<port name="port" index="P1" connector="#xpointer(ancestor::Mitochondrion/MitochondrialMatrix/H)"/>
+<!-- port: kX_ib -->
+<port name="port" index="P3" connector="#xpointer(ancestor::Mitochondrion/MitochondrialMatrix/K)"/>
+</InnerMembrane>
+<MitochondrialMatrix xhType="XhtypePureActiveObject">
+<!-- port: nad -->
+<port name="port" index="P1" connector="#xpointer(NAD)"/>
+<!-- port: nadh -->
+<port name="port" index="P0" connector="#xpointer(NADH)"/>
+<!-- port: qh -->
+<port name="port" index="P2" connector="#xpointer(QH)"/>
+<!-- port: q -->
+<port name="port" index="P3" connector="#xpointer(Q)"/>
+<!-- port: adp -->
+<port name="port" index="P4" connector="#xpointer(ADP)"/>
+<!-- port: adpf -->
+<port name="port" index="P6" connector="#xpointer(ADPf)"/>
+<!-- port: adpm -->
+<port name="port" index="P5" connector="#xpointer(ADPm)"/>
+<!-- port: atp -->
+<port name="port" index="P7" connector="#xpointer(ATP)"/>
+<!-- port: atpf -->
+<port name="port" index="P9" connector="#xpointer(ATPf)"/>
+<!-- port: atpm -->
+<port name="port" index="P8" connector="#xpointer(ATPm)"/>
+<!-- port: ph -->
+<port name="port" index="P10" connector="#xpointer(PH)"/>
+<!-- port: h -->
+<port name="port" index="P11" connector="#xpointer(H)"/>
+</MitochondrialMatrix>
+<Membrane xhType="XhtypePureActiveObject"/>
+<ComplexI xhType="XhtypePureActiveObject">
+<!-- port: hI -->
+<port name="port" index="P0" connector="#xpointer(ancestor::Mitochondrion/IntermembraneSpace/H)"/>
+<!-- port: hX -->
+<port name="port" index="P1" connector="#xpointer(ancestor::Mitochondrion/MitochondrialMatrix/H)"/>
+<!-- port: q -->
+<port name="port" index="P2" connector="#xpointer(ancestor::Mitochondrion/MitochondrialMatrix/Q)"/>
+<!-- port: qh -->
+<port name="port" index="P3" connector="#xpointer(ancestor::Mitochondrion/MitochondrialMatrix/QH)"/>
+<!-- port: nad -->
+<port name="port" index="P4" connector="#xpointer(ancestor::Mitochondrion/MitochondrialMatrix/NAD)"/>
+<!-- port: nadh -->
+<port name="port" index="P5" connector="#xpointer(ancestor::Mitochondrion/MitochondrialMatrix/NADH)"/>
+</ComplexI>
+<ComplexIV xhType="XhtypePureActiveObject">
+<!-- port: hI -->
+<port name="port" index="P0" connector="#xpointer(ancestor::Mitochondrion/IntermembraneSpace/H)"/>
+<!-- port: hX -->
+<port name="port" index="P1" connector="#xpointer(ancestor::Mitochondrion/MitochondrialMatrix/H)"/>
+<!-- port: cytoCOx -->
+<port name="port" index="P2" connector="#xpointer(ancestor::Mitochondrion/IntermembraneSpace/CytCOx)"/>
+<!-- port: cytoCRed -->
+<port name="port" index="P3" connector="#xpointer(ancestor::Mitochondrion/IntermembraneSpace/CytCRed)"/>
+<!-- port: o2 -->
+<port name="port" index="P4" connector="#xpointer(ancestor::Mitochondrion/IntermembraneSpace/O2)"/>
+</ComplexIV>
+<ComplexIII xhType="XhtypePureActiveObject">
+<!-- port: hI -->
+<port name="port" index="P0" connector="#xpointer(ancestor::Mitochondrion/IntermembraneSpace/H)"/>
+<!-- port: cytoCOx -->
+<port name="port" index="P2" connector="#xpointer(ancestor::Mitochondrion/IntermembraneSpace/CytCOx)"/>
+<!-- port: cytoCRed -->
+<port name="port" index="P3" connector="#xpointer(ancestor::Mitochondrion/IntermembraneSpace/CytCRed)"/>
+<!-- port: hX -->
+<port name="port" index="P1" connector="#xpointer(ancestor::Mitochondrion/MitochondrialMatrix/H)"/>
+<!-- port: q -->
+<port name="port" index="P4" connector="#xpointer(ancestor::Mitochondrion/MitochondrialMatrix/Q)"/>
+<!-- port: qh -->
+<port name="port" index="P5" connector="#xpointer(ancestor::Mitochondrion/MitochondrialMatrix/QH)"/>
+<!-- port: piX -->
+<port name="port" index="P6" connector="#xpointer(ancestor::Mitochondrion/MitochondrialMatrix/Pi)"/>
+</ComplexIII>
+<ATPsynthase xhType="XhtypePureActiveObject">
+<!-- port: hI -->
+<port name="port" index="P0" connector="#xpointer(ancestor::Mitochondrion/IntermembraneSpace/H)"/>
+<!-- port: hX -->
+<port name="port" index="P1" connector="#xpointer(ancestor::Mitochondrion/MitochondrialMatrix/H)"/>
+<!-- port: adpm -->
+<port name="port" index="P2" connector="#xpointer(ancestor::Mitochondrion/MitochondrialMatrix/ADPm)"/>
+<!-- port: atpm -->
+<port name="port" index="P3" connector="#xpointer(ancestor::Mitochondrion/MitochondrialMatrix/ATPm)"/>
+<!-- port: piX -->
+<port name="port" index="P4" connector="#xpointer(ancestor::Mitochondrion/MitochondrialMatrix/Pi)"/>
+</ATPsynthase>
+<ANT xhType="XhtypePureActiveObject">
+<!-- port: adpfI -->
+<port name="port" index="P0" connector="#xpointer(ancestor::Mitochondrion/IntermembraneSpace/ADPf)"/>
+<!-- port: atpfI -->
+<port name="port" index="P2" connector="#xpointer(ancestor::Mitochondrion/IntermembraneSpace/ATPf)"/>
+<!-- port: adpfX -->
+<port name="port" index="P1" connector="#xpointer(ancestor::Mitochondrion/MitochondrialMatrix/ADPf)"/>
+<!-- port: atpfX -->
+<port name="port" index="P3" connector="#xpointer(ancestor::Mitochondrion/MitochondrialMatrix/ATPf)"/>
+</ANT>
+<PiHt xhType="XhtypePureActiveObject">
+<!-- port: hI -->
+<port name="port" index="P0" connector="#xpointer(ancestor::Mitochondrion/IntermembraneSpace/H)"/>
+<!-- port: piI -->
+<port name="port" index="P2" connector="#xpointer(ancestor::Mitochondrion/IntermembraneSpace/Pi)"/>
+<!-- port: hX -->
+<port name="port" index="P1" connector="#xpointer(ancestor::Mitochondrion/MitochondrialMatrix/H)"/>
+<!-- port: piX -->
+<port name="port" index="P3" connector="#xpointer(ancestor::Mitochondrion/MitochondrialMatrix/Pi)"/>
+</PiHt>
+<KHAntiporter xhType="XhtypePureActiveObject">
+<!-- port: hI -->
+<port name="port" index="P0" connector="#xpointer(ancestor::Mitochondrion/IntermembraneSpace/H)"/>
+<!-- port: kI -->
+<port name="port" index="P2" connector="#xpointer(ancestor::Mitochondrion/IntermembraneSpace/K)"/>
+<!-- port: hX -->
+<port name="port" index="P1" connector="#xpointer(ancestor::Mitochondrion/MitochondrialMatrix/H)"/>
+<!-- port: kX -->
+<port name="port" index="P3" connector="#xpointer(ancestor::Mitochondrion/MitochondrialMatrix/K)"/>
+</KHAntiporter>
+<ProteinComplex xhType="XhtypePureActiveObject"/>
+<AK xhType="XhtypePureActiveObject">
+<!-- port: atp -->
+<port name="port" index="P0" connector="#xpointer(ancestor::IntermembraneSpace/ATP)"/>
+<!-- port: adp -->
+<port name="port" index="P1" connector="#xpointer(ancestor::IntermembraneSpace/ADP)"/>
+<!-- port: amp -->
+<port name="port" index="P2" connector="#xpointer(ancestor::IntermembraneSpace/AMP)"/>
+</AK>
+<RespiratoryComplex xhType="XhtypePureActiveObject"/>
+<SmallMolecule xhType="XhtypePurePassiveObject"/>
+<Transporter xhType="XhtypePureActiveObject"/>
+<MagnesiumBinding xhType="XhtypePureActiveObject">
+<!-- port: atpf -->
+<port name="port" index="P0" connector="#xpointer(ancestor::IntermembraneSpace/ATPf)"/>
+<!-- port: atpf -->
+<port name="port" index="P0" connector="#xpointer(ancestor::MitochondrialMatrix/ATPf)"/>
+<!-- port: atpm -->
+<port name="port" index="P1" connector="#xpointer(ancestor::IntermembraneSpace/ATPm)"/>
+<!-- port: atpm -->
+<port name="port" index="P1" connector="#xpointer(ancestor::MitochondrialMatrix/ATPm)"/>
+<!-- port: adpf -->
+<port name="port" index="P2" connector="#xpointer(ancestor::IntermembraneSpace/ADPf)"/>
+<!-- port: adpf -->
+<port name="port" index="P2" connector="#xpointer(ancestor::MitochondrialMatrix/ADPf)"/>
+<!-- port: adpm -->
+<port name="port" index="P3" connector="#xpointer(ancestor::IntermembraneSpace/ADPm)"/>
+<!-- port: adpm -->
+<port name="port" index="P3" connector="#xpointer(ancestor::MitochondrialMatrix/ADPm)"/>
+<!-- port: mg2 -->
+<port name="port" index="P4" connector="#xpointer(ancestor::IntermembraneSpace/Mg2)"/>
+<!-- port: mg2 -->
+<port name="port" index="P4" connector="#xpointer(ancestor::MitochondrialMatrix/Mg2)"/>
+</MagnesiumBinding>
+<DehydrogenaseFlux xhType="XhtypePureActiveObject">
+<!-- port: nad -->
+<port name="port" index="P0" connector="#xpointer(ancestor::MitochondrialMatrix/NAD)"/>
+<!-- port: nadh -->
+<port name="port" index="P1" connector="#xpointer(ancestor::MitochondrialMatrix/NADH)"/>
+<!-- port: pi -->
+<port name="port" index="P2" connector="#xpointer(ancestor::MitochondrialMatrix/Pi)"/>
+</DehydrogenaseFlux>
+<State xhType="XhtypeStateMachineEntityActive"/>
+<PseudostateInitial xhType="XhtypeStateMachineEntityActive"/>
+<PseudostateChoice xhType="XhtypeStateMachineEntityActive"/>
+<PseudostateEntryPoint xhType="XhtypeStateMachineEntityActive"/>
+<PseudostateExitPoint xhType="XhtypeStateMachineEntityActive"/>
+<Transition xhType="XhtypeStateMachineEntityActive"/>
+<StateMachineEntity xhType="XhtypeStateMachineEntity"/>
+<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

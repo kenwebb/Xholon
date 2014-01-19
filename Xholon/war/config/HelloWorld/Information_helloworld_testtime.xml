@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>Hello World - Test Time</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This model is a very simple example of how to write and run a Xholon application.
+Several xholon objects cooperate to continuously write the words Hello and World.</p>
+<p>It extends the basic HelloWorld model by setting a couple of timers and responding
+to timeout events in addition to normally sent messages.</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+<title/>
+<p>Run it:</p>
+<ol>
+<li>Run the Java application through the Xhn GUI (org.primordion.xholon.app.Xhn.java),
+and select File --> Open --> HelloWorld --> HelloWorld_TestTime_xhn.xml.</li>
+<li>Expand the Controller node in the tree.</li>
+<li>Press the Start node.</li>
+<li>You should see a display of all the parameters that are set in the HelloWorld_TestTime_xhn.xml file,
+followed by a continuous display in the console window (see below).</li>
+</ol>
+</section>
+<section>
+<title/>
+<source>
+Hello Hello scheduledExecutionTime: 1151422428441
+[Hello] signal:-1 data:HELLO sender:XholonTime receiver:hello_1
+Hello scheduledExecutionTime: 1151422429441
+[World] signal:-1 data:WORLD sender:XholonTime receiver:world_2
+[Hello] signal:-1 data:HELLO sender:XholonTime receiver:hello_1
+Hello scheduledExecutionTime: 1151422430441
+[Hello] signal:-1 data:HELLO sender:XholonTime receiver:hello_1
+Hello scheduledExecutionTime: 1151422431441
+[Hello] signal:-1 data:HELLO sender:XholonTime receiver:hello_1
+Hello scheduledExecutionTime: 1151422432441
+[Hello] signal:-1 data:HELLO sender:XholonTime receiver:hello_1
+Hello scheduledExecutionTime: 1151422433441
+</source>
+</section>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p>MaxProcessLoops is set to -1 in HelloWorld_TestTime_xhn.xml in the config/HelloWorld folder.
+It will continue to loop forever.</p>
+<p>Study the XhHelloWorld_TestTime class (in src/...tutorials):</p>
+<p>* Both Hello and World create repeating timers using the timeoutRepeat() method of the XholonTime class.
+They do this once in their act() functions, but then set their state to 1 to prevent that initialization
+code from being executed again.</p>
+<p>* The timer set by Hello times out every 1000 milliseconds (once per second).
+This causes it to receive a IXholonTime.SIGNAL_TIMEOUT (signal: -1) message.
+Each of these messages includes the same data (the String "HELLO"), has sender: XholonTime,
+and receiver:hello_1.</p>
+<p>* The timer set by World times out after 2000 milliseconds. World then cancels the timer.</p>
+<p>Examine the seq&lt;TIMESTAMP&gt;.pic file in the Xholon/interaction folder.
+It should correspond with the messages displayed on the console window.
+For each message, it shows the sender, receiver, and signal number (SIGNAL_TIMEOUT: -1, and SIGNAL_ONE: 100)
+The signal ID (-1) originates from the timer routine. UnknownClassNam is the internal name given to XholonTime.
+</p>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p>Change the timeout periods in XhHelloWorld_TestTime.java from the current 1000 and 2000 ms.</p>
+<p>Comment out the cancel() function in World's processReceivedMessage() function.</p>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p>Uncomment the various xhTime.timeoutRelative() functions. This is a one-time timer,
+rather than the repeating timer currently used.</p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p>How to use timers as the source of events in a Xholon model.</p>
+<p>Examine the XholonTime and XholonTimerTask classes (src/...xholon.base) to learn more about these features.</p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>The Xholon classes are based on the Java Timer and TimerTask classes.</p>
+<p>The Xholon web site includes a Hello World Tutorial that will walk you through creating the basic Hello World application.</p>
+<p><a href="http://www.primordion.com/Xholon/doc/tutorial.html">Hello World Tutorial</a></p>
+</section>
+
+</body>
+</document>

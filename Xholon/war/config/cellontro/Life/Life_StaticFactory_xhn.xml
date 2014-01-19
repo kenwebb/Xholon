@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Life configuration file
+	 Ken Webb
+	 December 3, 2005 -->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Life - cells, organism, ecology"/>
+	<param name="AppM" value="false"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<!-- uses TreeNodeFactoryStatic rather than TreeNodeFactoryDynamic -->
+	<param name="MaxXholons" value="41000"/>
+	<param name="MaxXholonClasses" value="600"/>
+	<param name="MaxStateMachineEntities" value="100"/>
+	<param name="MaxActivities" value="0"/>
+	<param name="TreeNodeFactoryDynamic" value="false"/>
+	<!-- end of StaticFactory params -->
+	<param name="MaxProcessLoops" value="200"/>
+	<param name="TimeStepInterval" value="300"/>
+	<param name="SizeMessageQueue" value="100"/>
+	<param name="InheritanceHierarchyFile" value="./config/cellontro/Cell/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="./config/cellontro/Life/CompositeStructureHierarchy_Life7.xml"/>
+	<param name="ClassDetailsFile" value="./config/cellontro/Life/ClassDetails_Life2.xml"/>
+	<param name="InformationFile" value="./config/cellontro/Life/Information_life.xml"/>
+	<param name="JavaClassName" value="org.primordion.cellontro.app.AppLife"/>
+	<param name="JavaXhClassName" value="org.primordion.cellontro.app.XhLife"/>
+	<param name="JavaXhClassClassName" value="org.primordion.cellontro.base.BioXholonClass"/>
+	<param name="MaxPorts" value="8"/>
+	<!-- UseDataPlotter determines whether the data each timestep is plotted on a graph. -->
+	<param name="UseDataPlotter" value="gnuplot"/> <!-- JFreeChart gnuplot none -->
+	<param name="DataPlotterParams"
+		value="Small molecule quantities changing over time,Time (timesteps),Quantities of each molecule,./statistics/,lifeStats,1,WRITE_AS_LONG"/>
+	<!-- 2D Graphics -->
+	<param name="UseGraphicalTreeViewer" value="false"/>
+	<param name="GraphicalTreeViewerParams"
+		value="./descendant::Heart/RightVentricle/BloodPlasma[1],50,50,1000,400,9,Cellontro - Life - Composite Structure,false"/>
+	<param name="UseGraphicalNetworkViewer" value="false"/>
+	<param name="GraphicalNetworkViewerClassName"
+		value="org.primordion.cellontro.io.NetworkViewerJungCell"/>
+	<param name="GraphicalNetworkViewerParams"
+		value="./descendant::Heart/RightVentricle/BloodPlasma[1],1000,600,8,LAYOUT_ISOM,false,Cellontro - Life - Biochemical Network,false"/>
+	<!-- VRML 3D graphics -->
+	<param name="UseVrml" value="false"/>
+	<!-- Interactions -->
+	<param name="UseInteractions" value="false"/>
+</params>

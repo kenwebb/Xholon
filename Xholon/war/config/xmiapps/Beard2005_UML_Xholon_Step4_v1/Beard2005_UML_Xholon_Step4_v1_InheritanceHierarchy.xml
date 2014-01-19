@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Beard2005_UML_Xholon_Step4_v1 application - Inheritance Hierarchy
+	Author: KenWebb
+	Date:   22/02/2007
+	File:   Beard2005_UML_Xholon_Step4_v1.mdzip
+	Target: Xholon 0.5 http://www.primordion.com/Xholon
+	UML: MagicDraw UML 11.5
+	XMI: 2.1, Thu Feb 22 12:38:46 EST 2007
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+<Mitochondrion/>
+<ExternalSpace/>
+<Membrane>
+<OuterMembrane/>
+<InnerMembrane/>
+</Membrane>
+<MitochondrialCompartment>
+<IntermembraneSpace/>
+<MitochondrialMatrix/>
+</MitochondrialCompartment>
+<SmallMolecule>
+<NADH/>
+<NAD/>
+<H/>
+<Q/>
+<QH/>
+<ATP/>
+<AMP/>
+<ADP/>
+<ATPf/>
+<ADPf/>
+<ATPm/>
+<ADPm/>
+<O2/>
+<H2O/>
+<Pi/>
+<CytC/>
+<CytCRed/>
+<CytCOx/>
+<Mg2/>
+<H2PO4/>
+<HPO4/>
+<K/>
+<NADtot/>
+<Qtot/>
+<Mgtot/>
+<PH/>
+</SmallMolecule>
+<MacroMolecularComplex>
+<ProteinComplex>
+<ATPsynthase/>
+<AK/>
+<RespiratoryComplex>
+<ComplexI/>
+<ComplexIV/>
+<ComplexIII/>
+</RespiratoryComplex>
+<Transporter>
+<ANT/>
+<PiHt/>
+<KHAntiporter/>
+</Transporter>
+</ProteinComplex>
+</MacroMolecularComplex>
+<MagnesiumBinding/>
+<DehydrogenaseFlux/>
+<ExtraCellularSolution/>
+<CardiacCellModel/>
+<EukaryoticCell/>
+<!-- StateMachineEntity -->
+<!--<xi:include href="_mechanism/StateMachineEntity.xml"/>-->
+<!-- Port -->
+<!--<xi:include href="_mechanism/Port.xml"/>-->
+<!-- Xholon Viewers -->
+<!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

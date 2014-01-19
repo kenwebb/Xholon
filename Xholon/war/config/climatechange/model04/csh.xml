@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+information sources:
+  Kiehl, J.T. and Trenberth, Kevin E. (1997) "Earth's Annual Global Mean Energy Budget".
+notes:
+-->
+<ClimateChangeSystem xmlns:xi="http://www.w3.org/2001/XInclude">
+  <SolarSystem>
+    <Sun>
+      <!--<SunspotAO/>-->
+    </Sun>
+    <Space/>
+    <Earth>
+      <TopOfAtmosphere>
+        <AveragerAO/>
+      </TopOfAtmosphere>
+      <Atmosphere>
+        <AtmosphericAlbedoAO/>
+        <Clouds/>
+        <Aerosols/>
+        <AtmosphericGases>
+          <GreenhouseGases>
+            <CarbonDioxide/>
+            <Methane/>
+            <NitrousOxide/>
+            <Ozone/>
+            <WaterVapor/>
+            <Cfc11/>
+		    <Cfc12/>
+		    <OtherGhg/>
+          </GreenhouseGases>
+          <!-- include other gases ??? -->
+        </AtmosphericGases>
+        <Heat/>
+      </Atmosphere>
+      <Surface>
+        <SurfaceAlbedoAO/>
+        <Heat/>
+      </Surface>
+    </Earth>
+  </SolarSystem>
+  
+  <Viewables>
+    <SolarConstantV/>
+    <IncomingSolarRadiationV/>
+    <ReflectedByAtmosphereV/>
+    <ReflectedBySurfaceV/>
+    <ReflectedTotalV/>
+    <AbsorbedByAtmosphereV/>
+    <AbsorbedBySurfaceSwV/>
+    <SensibleHeatV/> <!-- Thermals -->
+    <LatentHeatV/> <!-- Evapo-transpiration -->
+    <SurfaceRadiationV/>
+    <SurfaceToAtmosphereV/> <!-- SurfaceRadiationV - AtmosphericWindowV -->
+    <AtmosphericWindowV/>
+    <BackRadiationV/>
+    <AbsorbedBySurfaceLwV/>
+    <EmittedByAtmosphereV/>
+    <EmittedByCloudsV/>
+    <NetAbsorbedByEarthV/>
+    <OutgoingLongwaveV/>
+  </Viewables>
+  
+    <!-- SVG -->
+  <!--<EnergyBudgetView>
+    <xi:include href="./org/primordion/user/app/climatechange/model04/SvgViewables.xml"/>
+    <xi:include href="./org/primordion/user/app/climatechange/model04/i18n/EnergyBudgetSvgLabels_en.xml"/>
+  </EnergyBudgetView>-->
+  <SvgClient>
+    <Attribute_String roleName="setup">Energy Budget,http://upload.wikimedia.org/wikipedia/commons/d/d2/Sun_climate_system_alternative_(German)_2008.svg,config/climatechange/model04/Sun_climate_system_alternative_(German)_2008.svg,config/climatechange/model04/i18n/EnergyBudgetSvgLabels_en.xml,Viewables,config/climatechange/model04/SvgViewables.xml,%.1f,true</Attribute_String>
+    <Attribute_String roleName="makeText">This early version is incomplete and inaccurate.,5.0,575.0</Attribute_String>
+  </SvgClient>
+  
+</ClimateChangeSystem>

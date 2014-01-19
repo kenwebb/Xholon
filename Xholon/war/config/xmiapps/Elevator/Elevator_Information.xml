@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+		<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+		-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+
+<!--
+	Elevator Displayable information about this application.
+	Author: KenWebb
+	Date:   23/05/2007
+	File:   Elevator.mdzip
+	Target: Xholon 0.5 http://www.primordion.com/Xholon
+	UML: MagicDraw UML 11.5
+	XMI: 2.1, Wed May 23 12:19:43 EDT 2007
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<document xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+<header>
+<title>Elevator</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>Author:Ken Webb.
+Created:9/1/06 10:20 PM.
+Title:Elevator System.
+Comment:
+&lt;p&gt;The Elevator System has been modeled using MagicDraw 11.5. It is intended as an example of a fairly complex application that can be modeled using a UML 2.0 modeling tool such as MagicDraw, transformed into code using a code generation process, and executed using the Xholon runtime framework.&lt;/p&gt;
+&lt;p&gt;To execute the UML model, save it as a normal XMI MagicDraw file, generate code by running the script "xmi2xh all Elevator AnElevatorSystem", compile the resulting Java code, and execute it by running the script "xhn Xholon" and selecting File --&gt; Open --&gt; xmiapps --&gt; Elevator --&gt; Elevator_xhn.xml .&lt;/p&gt;
+&lt;p&gt;March 8, 2007. Various self-transitions are now internal transitions, to prevent them from reinvoking the initial transition each time they are executed. These internal transitions do not cause any change in state. They merely perform some necessary activity.&lt;/p&gt;
+</p>
+<p>LocationInfo0: No signals.
+Not actively used.
+This is just a placeholder.</p>
+<p>LocationInfo1: No signals.
+Not actively used.
+This is just a placeholder.</p>
+<p>XholonClass: The root class from which all xholon classes inherit.</p>
+<p>IXholonTime: </p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<p/>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p/>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p/>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p/>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p/>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p/>
+</section>
+
+</body>
+</document>

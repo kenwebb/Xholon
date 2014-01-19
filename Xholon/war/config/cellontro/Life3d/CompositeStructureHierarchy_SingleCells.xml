@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExtraCellularSpace xmlns:xi="http://www.w3.org/2001/XInclude">
+	<ExtraCellularSolution>
+		<Water><attribute name="pheneVal" value="5000000"/></Water>
+		<Glucose><attribute name="pheneVal" value="100000"/></Glucose>
+	</ExtraCellularSolution>
+	<EukaryoticCell multiplicity="2">
+		<CellMembrane>
+			<CellBilayer>
+				<Phosphatidyl_Ethanolamine>	<!-- CellAutop -->
+					<attribute name="pheneVal" value="500000000"/>
+				</Phosphatidyl_Ethanolamine>
+			</CellBilayer>
+		</CellMembrane>
+		<Cytoplasm>
+			<Cytosol>
+				<Water><attribute name="pheneVal" value="1000000000"/></Water>
+				<H><attribute name="pheneVal" value="10000"/></H>
+				<Glucose><attribute name="pheneVal" value="10000000000"/></Glucose>
+				<Glucose_6_Phosphate><attribute name="pheneVal" value="500000000"/></Glucose_6_Phosphate>
+				<Fructose_6_Phosphate><attribute name="pheneVal" value="500000000"/></Fructose_6_Phosphate>
+				<Fructose_1x6_Biphosphate><attribute name="pheneVal" value="500000000"/></Fructose_1x6_Biphosphate>
+				<DihydroxyacetonePhosphate><attribute name="pheneVal" value="500000000"/></DihydroxyacetonePhosphate>
+				<Glyceraldehyde_3_Phosphate><attribute name="pheneVal" value="500000000"/></Glyceraldehyde_3_Phosphate>
+				<X1x3_BisphosphoGlycerate><attribute name="pheneVal" value="500000000"/></X1x3_BisphosphoGlycerate>
+				<X3_PhosphoGlycerate><attribute name="pheneVal" value="500000000"/></X3_PhosphoGlycerate>
+				<X2_PhosphoGlycerate><attribute name="pheneVal" value="500000000"/></X2_PhosphoGlycerate>
+				<PhosphoEnolPyruvate><attribute name="pheneVal" value="500000000"/></PhosphoEnolPyruvate>
+				<Pyruvate><attribute name="pheneVal" value="500000000"/></Pyruvate>
+				<Ethanolamine><attribute name="pheneVal" value="500000000"/></Ethanolamine>	<!-- CellAutop -->
+				<Phosphatidic_Acid><attribute name="pheneVal" value="500000000"/></Phosphatidic_Acid>	<!-- CellAutop -->
+				<Phosphatidyl_Ethanolamine><attribute name="pheneVal" value="500000000"/></Phosphatidyl_Ethanolamine>	<!-- CellAutop -->
+				<PE_InVicinity><attribute name="pheneVal" value="500000000"/></PE_InVicinity>	<!-- CellAutop -->
+			</Cytosol>
+			<RoughEr>
+				<ErMembrane>
+					<ErBilayer/>
+				</ErMembrane>
+				<CisternalSpace>
+					<ErFluid/>
+				</CisternalSpace>
+			</RoughEr>
+			<SmoothEr>
+				<ErMembrane>
+					<ErBilayer/>
+				</ErMembrane>
+				<CisternalSpace>
+					<ErFluid/>
+				</CisternalSpace>
+			</SmoothEr>
+			<GolgiComplex multiplicity="2">
+				<GolgiSaccule>
+					<GolgiMembrane>
+						<GolgiBilayer/>
+					</GolgiMembrane>
+					<GolgiSpace>
+						<GolgiFluid/>
+					</GolgiSpace>
+				</GolgiSaccule>
+			</GolgiComplex>
+			<Mitochondrion multiplicity="10">
+				<MitochondrialDualMembrane>
+					<MitochondrialOuterMembrane>
+						<MitochondrialOuterBilayer/>
+					</MitochondrialOuterMembrane>
+					<MitochondrialIntermembraneSpace>
+						<MitochondrialIntermembranesol>
+							<Water><attribute name="pheneVal" value="100000"/></Water>
+							<Pyruvate><attribute name="pheneVal" value="100000"/></Pyruvate>
+						</MitochondrialIntermembranesol>
+					</MitochondrialIntermembraneSpace>
+					<MitochondrialInnerMembrane>
+						<MitochondrialInnerBilayer/>
+						<PyruvateTransporter/>
+					</MitochondrialInnerMembrane>
+				</MitochondrialDualMembrane>
+				<Matrix>
+					<Matrixsol>
+						<Water><attribute name="pheneVal" value="10000000"/></Water>
+						<H><attribute name="pheneVal" value="10000"/></H>
+						<Pyruvate><attribute name="pheneVal" value="100000"/></Pyruvate>
+						<AcetylCoA><attribute name="pheneVal" value="100000"/></AcetylCoA>
+						<Citrate><attribute name="pheneVal" value="100000"/></Citrate>
+						<Isocitrate><attribute name="pheneVal" value="100000"/></Isocitrate>
+						<A_Ketoglutarate><attribute name="pheneVal" value="100000"/></A_Ketoglutarate>
+						<SuccinylCoa><attribute name="pheneVal" value="100000"/></SuccinylCoa>
+						<Succinate><attribute name="pheneVal" value="100000"/></Succinate>
+						<Fumarate><attribute name="pheneVal" value="100000"/></Fumarate>
+						<Malate><attribute name="pheneVal" value="100000"/></Malate>
+						<Oxaloacetate><attribute name="pheneVal" value="100000"/></Oxaloacetate>
+					</Matrixsol>
+					<PyruvateDehydrogenase><attribute name="pheneVal" value="1"/></PyruvateDehydrogenase>
+					<CitrateSynthase><attribute name="pheneVal" value="1"/></CitrateSynthase>
+					<Aconitase><attribute name="pheneVal" value="1"/></Aconitase>
+					<IsocitrateDehydrogenase><attribute name="pheneVal" value="1"/></IsocitrateDehydrogenase>
+					<A_KetoglutarateDehydrogenase><attribute name="pheneVal" value="1"/></A_KetoglutarateDehydrogenase>
+					<SuccinylCoASynthetase><attribute name="pheneVal" value="1"/></SuccinylCoASynthetase>
+					<SuccinateDehydrogenase><attribute name="pheneVal" value="1"/></SuccinateDehydrogenase>
+					<FumarateHydratase><attribute name="pheneVal" value="1"/></FumarateHydratase>
+					<MalateDehydrogenase><attribute name="pheneVal" value="1"/></MalateDehydrogenase>
+				</Matrix>
+			</Mitochondrion>
+			<Ribosome/>
+			<Hexokinase><attribute name="pheneVal" value="1"/></Hexokinase>
+			<PhosphoGlucoIsomerase><attribute name="pheneVal" value="1"/></PhosphoGlucoIsomerase>
+			<PhosphoFructokinase><attribute name="pheneVal" value="1"/></PhosphoFructokinase>
+			<Aldolase><attribute name="pheneVal" value="1"/></Aldolase>
+			<TriosePhosphateIsomerase><attribute name="pheneVal" value="1"/></TriosePhosphateIsomerase>
+			<Glyceraldehyde_3_phosphateDehydrogenase><attribute name="pheneVal" value="1"/></Glyceraldehyde_3_phosphateDehydrogenase>
+			<PhosphoGlycerokinase><attribute name="pheneVal" value="1"/></PhosphoGlycerokinase>
+			<PhosphoGlyceromutase><attribute name="pheneVal" value="1"/></PhosphoGlyceromutase>
+			<Enolase><attribute name="pheneVal" value="1"/></Enolase>
+			<PyruvateKinase><attribute name="pheneVal" value="1"/></PyruvateKinase>
+			<PyruvateDecarboxylase><attribute name="pheneVal" value="1"/></PyruvateDecarboxylase>
+			<LactateDehydrogenase><attribute name="pheneVal" value="1"/></LactateDehydrogenase>
+			<AlcoholDehydrogenase><attribute name="pheneVal" value="1"/></AlcoholDehydrogenase>
+			<PyruvateCarboxylase><attribute name="pheneVal" value="1"/></PyruvateCarboxylase>
+			<PhosphoenolPyruvateCarboxykinase><attribute name="pheneVal" value="1"/></PhosphoenolPyruvateCarboxykinase>
+			<Fructose_1x6_bisphosphatase><attribute name="pheneVal" value="1"/></Fructose_1x6_bisphosphatase>
+			<Glucose_6_phosphatase><attribute name="pheneVal" value="1"/></Glucose_6_phosphatase>
+		</Cytoplasm>
+		<xi:include href="config/_common/user/Nucleus.xml"/>
+		<!--
+		<Nucleus>
+			<Nucleoplasm>
+				<Nucleolus>
+					<Fibril/>
+					<Granule/>
+					<RnaPolymeraseI/>
+				</Nucleolus>
+				<Chromosome>
+					<Dna/>
+				</Chromosome>
+				<Nucleosol/>
+				<TranscriptionComplexII>
+					<RnaPolymeraseII/>
+					<TfIID/>
+					<TfIIB/>
+					<TfIIE/>
+					<TfIIF/>
+					<TfIIH/>
+				</TranscriptionComplexII>
+				<TranscriptionComplexIII/>
+				<RegulatoryComplex>
+					<Ctf/>
+					<Sp1/>
+				</RegulatoryComplex>
+			</Nucleoplasm>
+			<NuclearEnvelope>
+				<NuclearPore>
+					<Transporter/>
+					<NuclearPoreAqueousChannel/>
+				</NuclearPore>
+				<NuclearOuterMembrane>
+					<NuclearOuterBilayer/>
+				</NuclearOuterMembrane>
+				<NuclearInnerMembrane>
+					<NuclearInnerBilayer/>
+				</NuclearInnerMembrane>
+			</NuclearEnvelope>
+			<NuclearLamina/>
+		</Nucleus>
+		-->
+	</EukaryoticCell>
+</ExtraCellularSpace>

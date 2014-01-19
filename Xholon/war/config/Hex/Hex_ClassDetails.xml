@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Xholon GameOfLife ClassDetails.xml -->
+<xholonClassDetails>
+	<!--<HexGridCell xhType="XhtypeBehFgsxxx">-->
+	<HexGridCell xhType="XhtypeGridEntityActivePassive" implName="org.primordion.user.app.Hex.XhHex">
+		<config instruction="Ght"/>
+	</HexGridCell>
+	<Creature xhType="XhtypePureActiveObject"></Creature>
+	<XholonClass xhType="XhtypePureContainer">
+	</XholonClass>
+</xholonClassDetails>

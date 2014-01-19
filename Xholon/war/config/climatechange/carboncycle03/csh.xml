@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+information sources:
+  - see _xhn.xml
+notes:
+-->
+<CarbonCycleSystem xmlns:xi="http://www.w3.org/2001/XInclude">
+  
+  <Reservoirs>
+    <!--<xi:include href="config/climatechange/carboncycle03/reservoirsEAS_csh.xml"/>-->
+    <xi:include href="config/climatechange/carboncycle03/reservoirsIPCCAR_csh.xml"/>
+  </Reservoirs>
+  <Flows>
+    <!--<xi:include href="config/climatechange/carboncycle03/flowsEAS_csh.xml"/>-->
+    <xi:include href="config/climatechange/carboncycle03/flowsIPCCAR_csh.xml"/>
+  </Flows>
+  
+  <!-- SVG -->
+  <!--<CarbonCycleView>
+    <xi:include href="config/climatechange/carboncycle03/SvgViewables.xml"/>
+    <xi:include href="config/climatechange/carboncycle03/i18n/CarbonCycleSvgLabels_en.xml"/>
+  </CarbonCycleView>-->
+  <SvgClient>
+    <Attribute_String roleName="setup">Carbon Cycle,config/climatechange/carboncycle03/cc12_plain.svg,,config/climatechange/carboncycle03/i18n/CarbonCycleSvgLabels_en.xml,./,config/climatechange/carboncycle03/SvgViewables.xml,%.1f,true</Attribute_String>
+    <Attribute_String roleName="makeText">This early version is incomplete and inaccurate.,5.0,15.0</Attribute_String>
+  </SvgClient>
+  
+</CarbonCycleSystem>

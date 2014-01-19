@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Fibonacci configuration file
+	 Ken Webb
+	 December 30, 2005 -->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Dynamical System - Fibonacci"/>
+	<param name="AppM" value="false"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="21"/> <!-- 21 -->
+	<param name="TimeStepInterval" value="10"/>
+	<param name="InheritanceHierarchyFile" value="./config/dynsys/Fibonacci/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="./config/dynsys/Fibonacci/CompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="./config/dynsys/Fibonacci/ClassDetails.xml"/>
+	<param name="InformationFile" value="config/dynsys/Fibonacci/Information_Fibonacci.xml"/>
+	<param name="JavaClassName" value="org.primordion.dynsys.app.AppFibonacci"/>
+	<param name="JavaXhClassName" value="org.primordion.dynsys.app.XhFibonacci"/>
+	<param name="MaxPorts" value="3"/>
+	<!-- UseDataPlotter determines whether the data each timestep is plotted on a graph. -->
+	<param name="UseDataPlotter" value="google2"/> <!-- JFreeChart gnuplot jdbc jpa google2 none -->
+	<param name="DataPlotterParams"
+		value="Fibonacci - Function changing over time,n,f(n),./statistics/,fib,1,WRITE_AS_LONG"/>
+</params>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Xholon GameOfLife ClassDetails.xml -->
+<xholonClassDetails>
+	<GridCell xhType="XhtypeBehFgsxxx">
+		<config instruction="Gmt"/>
+	</GridCell>
+	<XholonClass xhType="XhtypePureContainer">
+	</XholonClass>
+</xholonClassDetails>

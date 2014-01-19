@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../../../Xholon/information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../../Xholon/information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>Dynamical System - Train - Xholon App</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This model implements a dynamical system in which a toy train starts up and stops.</p>
+<p>It replicates a system modeled using Simulink and demonstrates how to model dynamical
+systems using Xholon.</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+<title/>
+<p>Run it:</p>
+<ol>
+<li>Run the Java application through the Xhn GUI (org.primordion.xholon.app.Xhn.java),
+and select File --> Open --> dynsys --> Train --> Train_xhn.xml.</li>
+<li>Expand the Controller node in the tree.</li>
+<li>Press the Start node.</li>
+<li>If you have JFreeChart installed you should see a chart identical to the one below
+showing the acceleration of the train's cars over time.</li>
+</ol>
+</section>
+<section><title/>
+<source>
+
+</source>
+</section>
+<section><title/>
+<figure src="DynSys_Train_Acceleration.png" alt="Dynamical System - Train Acceleration"></figure>
+</section>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p>In the acceleration graph you can see the effects the cars have on each
+	other during acceleration and deceleration. This is done in Xholon by having the car, engine, and coupler,
+	which are themselves xholons, communicating with each other via ports.</p>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p>In addition to the acceleration graph, you can output position/time or velocity/time.
+In Train_xhn.xml, select which one to output by placing 1, 2, or 3 in
+param name="PlotType" value="3"/>, then uncomment the appropriate labels to appear on
+the graph.</p>
+
+<p>Change the mass of the train by editing CompositeStructureHierarchy.xml. If you
+	set it to 100kg the train will not travel so far.</p>
+
+<p>Change the length of time for the train to run by editing Train_xhn.xml 
+(param name="MaxProcessLoops" value="1000"/>).</p>
+
+<p>Try changing the value of timeStepMultiplier in XhTrain.java.
+The default value is IIntegration.M_8, which means that it will break each time step into 8 smaller intervals.
+This is Xholon's approach to implementing an Euler-type numerical integration.
+Compare what happens if the value is set to M_4, M_2, M1, or M_32.</p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p>This application produces smooth and continuous graphical outputs using discretized
+	 blocks of XholonTime. </p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>source: Simulink Modeling Tutorial, Train System http://www.library.cmu.edu/ctms/ctms/simulink/model/model.htm</p>
+</section>
+
+</body>
+</document>

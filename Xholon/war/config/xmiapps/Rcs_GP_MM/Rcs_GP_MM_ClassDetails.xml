@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Rcs_GP_MM application - Class Details
+	Author: KenWebb
+	Date:   23/05/2007
+	File:   Rcs_GP_MM.mdzip
+	Target: Xholon 0.5 http://www.primordion.com/Xholon
+	portImplementation: ixholon
+	UML: MagicDraw UML 11.5
+	XMI: 2.1, Thu Feb 22 15:14:26 EST 2007
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<xholonClassDetails xmlns:XholonStereotypes="http://www.magicdraw.com/schemas/XholonStereotypes.xmi" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+<GPase xhType="XhtypePureActiveObject"/>
+<PKinase xhType="XhtypePureActiveObject">
+<!-- port: sub -->
+<port name="port" index="Substrate" connector="#xpointer(ancestor::GPaseSystem/Solution)"/>
+<!-- port: reg -->
+<port name="port" index="Regulation" connector="#xpointer(ancestor::GPaseSystem/GPaseB)"/>
+<!-- port: axp -->
+<port name="port" index="AxpPort" connector="#xpointer(ancestor::GPaseSystem/Atp[@roleName='atp1'])"/>
+</PKinase>
+<PPhosphatase xhType="XhtypePureActiveObject">
+<!-- port: sub -->
+<port name="port" index="Substrate" connector="#xpointer(ancestor::GPaseSystem/Solution)"/>
+<!-- port: reg -->
+<port name="port" index="Regulation" connector="#xpointer(ancestor::GPaseSystem/GPaseB)"/>
+<!-- port: axp -->
+<port name="port" index="AxpPort" connector="#xpointer(ancestor::GPaseSystem/Atp[@roleName='atp1'])"/>
+</PPhosphatase>
+<Enzyme xhType="XhtypePureActiveObject"/>
+<SmallMolecule xhType="XhtypePurePassiveObject"/>
+<Polysaccharide xhType="XhtypePurePassiveObject"/>
+<GPaseA xhType="XhtypePureActiveObject"/>
+<GPaseB xhType="XhtypePureActiveObject">
+<!-- port: sub -->
+<port name="port" index="Substrate" connector="#xpointer(ancestor::GPaseSystem/Gly)"/>
+<!-- port: reg -->
+<port name="port" index="Regulation" connector="#xpointer(ancestor::GPaseSystem/PKinase)"/>
+<!-- port: reg -->
+<port name="port" index="Regulation" connector="#xpointer(ancestor::GPaseSystem/PPhosphatase)"/>
+<!-- port: prd -->
+<port name="port" index="Product" connector="#xpointer(ancestor::GPaseSystem/Solution)"/>
+<!-- port: axp -->
+<port name="port" index="AxpPort" connector="#xpointer(ancestor::GPaseSystem/Atp[@roleName='axp'][1..50])"/>
+</GPaseB>
+<State xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<PseudostateInitial xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<PseudostateChoice xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<PseudostateJunction xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<PseudostateFork xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<PseudostateJoin xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<PseudostateEntryPoint xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<PseudostateExitPoint xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<TransitionExternal xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<TransitionInternal xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<TransitionLocal xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<StateMachineEntity xhType="XhtypeStateMachineEntity" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

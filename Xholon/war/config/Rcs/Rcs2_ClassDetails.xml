@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Xholon Rcs Rcs2_ClassDetails.xml -->
+<xholonClassDetails>
+	<GlycogenPhosphorylase xhType="XhtypePureActiveObject">
+		<port name="port" index="Substrate" connector="#xpointer(ancestor::GlycogenPhosphorylaseSystem/Glycogen)"/>
+		<port name="port" index="Product" connector="#xpointer(ancestor::GlycogenPhosphorylaseSystem/Solution)"/>
+		<port name="port" index="AxpPort" connector="#xpointer(ancestor::GlycogenPhosphorylaseSystem/Axp[3])"/>
+	</GlycogenPhosphorylase>
+	<PhosphorylaseKinase xhType="XhtypePureActiveObject">
+		<port name="port" index="Regulation" connector="#xpointer(ancestor::GlycogenPhosphorylaseSystem/GlycogenPhosphorylase)"/>
+		<port name="port" index="Substrate" connector="#xpointer(ancestor::GlycogenPhosphorylaseSystem/Solution)"/>
+		<port name="port" index="AxpPort" connector="#xpointer(ancestor::GlycogenPhosphorylaseSystem/Axp[1])"/>
+	</PhosphorylaseKinase>
+	<PhosphorylasePhosphatase xhType="XhtypePureActiveObject">
+		<port name="port" index="Regulation" connector="#xpointer(ancestor::GlycogenPhosphorylaseSystem/GlycogenPhosphorylase)"/>
+		<port name="port" index="Substrate" connector="#xpointer(ancestor::GlycogenPhosphorylaseSystem/Solution)"/>
+		<port name="port" index="AxpPort" connector="#xpointer(ancestor::GlycogenPhosphorylaseSystem/Axp[1])"/>
+	</PhosphorylasePhosphatase>
+	<SmallMolecule xhType="XhtypePurePassiveObject"/>
+	<Polysaccharide xhType="XhtypePurePassiveObject"/>
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

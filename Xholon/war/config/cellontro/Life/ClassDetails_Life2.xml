@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Cellontro cellontro/Life ClassDetails_Life2.xml -->
+<xholonClassDetails>
+	<Sun xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SOLAR_ENERGY" connector="#xpointer(ancestor::SolarSystem/Earth/SimpleEcology/Lettuce)"/>
+	</Sun>
+	<Plant xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_EXT1" connector="#xpointer(ancestor::SimpleEcology/Atmosphere/CarbonDioxide)"/>
+		<port name="port" index="P_SM_EXT2" connector="#xpointer(ancestor::SimpleEcology/BodyOfWater/Water)"/>
+		<port name="port" index="P_SM_INT1" connector="#xpointer(Glucose)"/>
+		<port name="port" index="P_SM_INT2" connector="#xpointer(Sucrose)"/>
+		<port name="port" index="P_SM_EXT3" connector="#xpointer(ancestor::SimpleEcology/Atmosphere/Oxygen)"/>
+		<port name="port" index="P_CALCIUM" connector="#xpointer(Ca)"/>
+		<port name="port" index="P_REFLECTED_LIGHT" connector="#xpointer(ancestor::SimpleEcology/Animal/Eye/descendant::Cone/ConeOuterSegment)"/>
+		<port name="port" index="P_NUTRIENTS" connector="#xpointer(ancestor::SimpleEcology/Land/descendant::OrganicMatter)"/>
+	</Plant>
+	<Lung xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_EXT1" connector="#xpointer(ancestor::SimpleEcology/Atmosphere/Oxygen)"/>
+		<port name="port" index="P_SM_INT1" connector="#xpointer(ancestor::Animal/CirculatorySystem/Capillary[@roleName='pCapillary'])"/>
+		<port name="port" index="P_SM_EXT2" connector="#xpointer(ancestor::SimpleEcology/Atmosphere/CarbonDioxide)"/>
+		<port name="port" index="P_SM_INT2" connector="#xpointer(ancestor::Animal/CirculatorySystem/Capillary[@roleName='pCapillary'])"/>
+		<attribute name="geneVal" index="0" value="1000"/>
+	</Lung>
+	<Cone xhType="XhtypeConfigContainer">
+		<port name="port" index="P_SM_EXT1" connector="#xpointer(ancestor::Animal/NervousSystem/CentralNervousSystem/Brain/ForeBrain/Diencephalon/Retina/descendant::BipolarCell[random(1,last())])"/>
+	</Cone>
+	<BipolarCell xhType="XhtypeConfigContainer">
+		<port name="port" index="P_SM_EXT1" connector="#xpointer(ancestor::Retina/descendant::GanglionCell[random(1,last())])"/>
+	</BipolarCell>
+	<GanglionCell xhType="XhtypeConfigContainer">
+		<port name="port" index="P_SM_EXT1" connector="#xpointer(ancestor::Diencephalon/Thalamus/LateralGeniculateNucleus/descendant::CentralNeuron[random(1,last())])"/>
+	</GanglionCell>
+	<CentralNeuron xhType="XhtypeConfigContainer">
+		<port name="port" index="P_SM_EXT1" connector="#xpointer(ancestor::CerebralCortex/MotorCortex/descendant::MotorNeuron[random(1,last())])"/>
+		<port name="port" index="P_SM_EXT1" connector="#xpointer(ancestor::ForeBrain/Cerebrum/CerebralCortex/PrimaryVisualCortex/descendant::CentralNeuron[random(1,last())])"/>
+	</CentralNeuron>
+	<MotorNeuron xhType="XhtypeConfigContainer">
+		<port name="port" index="P_SM_EXT1" connector="#xpointer(ancestor::Animal/Mouth/Muscle/descendant::SkeletalMuscleCell/MotorEndPlate[random(1,last())])"/>
+	</MotorNeuron>
+	<Sensor xhType="XhtypePureActiveObject">
+		<port name="port" index="P_NEURON_IN_SPACE_PASSAGEWAY" connector="#xpointer(ancestor::Neuron/NeuronCellBody)"/>
+	</Sensor>
+	<NeuronCellBody xhType="XhtypePureActiveObject">
+		<port name="port" index="P_NEURON_IN_SPACE_PASSAGEWAY" connector="#xpointer(ancestor::Neuron/Axon/AxonHillock)"/>
+	</NeuronCellBody>
+	<AxonHillock xhType="XhtypePureActiveObject">
+		<port name="port" index="P_NEURON_OUT_SPACE_PASSAGEWAY" connector="#xpointer(ancestor::Neuron/Axon/AxonSegment)"/>
+		<port name="port" index="P_MEMBRANE_POTENTIAL" connector="#xpointer(MembranePotential)"/>
+	</AxonHillock>
+	<AxonSegment xhType="XhtypePureActiveObject">
+		<port name="port" index="P_NEURON_OUT_SPACE_PASSAGEWAY" connector="#xpointer(ancestor::Neuron/TerminalButtons)"/>
+	</AxonSegment>
+	<TerminalButtons xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_INT1" connector="#xpointer(TerminalButton[1]/TerminalButtonMembrane/VoltageGatedCaChannel)"/>
+		<port name="port" index="P_SM_INT2" connector="#xpointer(TerminalButton[2]/TerminalButtonMembrane/VoltageGatedCaChannel)"/>
+	</TerminalButtons>
+	<TerminalButton xhType="XhtypeConfigContainer">
+		<port name="port" index="P_SM_EXT1" connector="#xpointer(ancestor::Neuron/attribute::port[2]/Dendrites/Dendrite[random(1,last())])"/>
+	</TerminalButton>
+	<VoltageGatedCaChannel xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_INT1" connector="#xpointer(ancestor::TerminalButton/TerminalButtonPlasm/TerminalButtonFluid/Ca)"/>
+	</VoltageGatedCaChannel>
+	<Synaptotagmin xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_EXT1" connector="#xpointer(ancestor::TerminalButtonPlasm/TerminalButtonFluid/Ca)"/>
+		<port name="port" index="P_FUSE" connector="#xpointer(ancestor::Membrane/SynapticVesicleBilayer)"/>
+	</Synaptotagmin>
+	<SynapticVesicleBilayer xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_INT1" connector="#xpointer(ancestor::SynapticVesicle/descendant::SynapticVesicleFluid/Neurotransmitter)"/>
+		<attribute name="geneVal" index="0" value="0"/>
+		<config instruction="S"/>
+	</SynapticVesicleBilayer>
+	<LgNeuroreceptor xhType="XhtypePureActiveObject">
+		<port name="port" index="P_NEURON_IN_SPACE_PASSAGEWAY" connector="#xpointer(ancestor::Neuron/NeuronCellBody)"/>
+		<port name="port" index="P_NEURON_IN_SPACE_PASSAGEWAY" connector="#xpointer(ancestor::SkeletalMuscleCell/MuscleFiber)"/>
+	</LgNeuroreceptor>
+	<MuscleFiber xhType="XhtypePureActiveObject">
+		<port name="port" index="P_MOUTH" connector="#xpointer(ancestor::Mouth)"/>
+	</MuscleFiber>
+	<Mouth xhType="XhtypePureActiveObject">
+		<port name="port" index="P_EAT" connector="#xpointer(ancestor::SimpleEcology/Lettuce)"/>
+		<port name="port" index="P_GUT" connector="#xpointer(ancestor::HumanBeing/DigestiveSystem/Stomach/Food)"/>
+		<port name="port" index="P_DIGESTION" connector="#xpointer(ancestor::HumanBeing/DigestiveSystem/SmallIntestine)"/>
+	</Mouth>
+	<SmallIntestine xhType="XhtypePureActiveObject">
+		<port name="port" index="P_FOOD" connector="#xpointer(ancestor::DigestiveSystem/Stomach/Food)"/>
+		<port name="port" index="P_DIGESTED_FOOD" connector="#xpointer(DigestedFood)"/>
+		<port name="port" index="P_DIGESTION" connector="#xpointer(ancestor::DigestiveSystem/Colon/Rectum)"/>
+	</SmallIntestine>
+	<Rectum xhType="XhtypePureActiveObject">
+		<port name="port" index="P_COMPLETELY_DIGESTED_FOOD" connector="#xpointer(ancestor::DigestiveSystem/SmallIntestine/DigestedFood)"/>
+		<port name="port" index="P_ORGANIC_MATTER" connector="#xpointer(ancestor::SimpleEcology/Land/Soil/OrganicMatter)"/>
+	</Rectum>
+	<OrganicMatter xhType="XhtypePurePassiveObject">
+	</OrganicMatter>
+	<BoneMarrow xhType="XhtypeConfigContainer">
+		<port name="port" index="P_LEFT_VENTRICLE" connector="#xpointer(ancestor::CirculatorySystem/Heart/LeftVentricle)"/>
+		<config instruction="E"/>
+	</BoneMarrow>
+	<TheArrowOfTime xhType="XhtypePureActiveObject">
+		<port name="port" index="P_BEAT_LEFT_VENTRICLE" connector="#xpointer(ancestor::Heart/LeftVentricle)"/>
+		<port name="port" index="P_BEAT_RIGHT_VENTRICLE" connector="#xpointer(ancestor::Heart/RightVentricle)"/>
+	</TheArrowOfTime>
+	<LeftVentricle xhType="XhtypePureActiveObject">
+		<port name="port" index="P_BLOOD_FLOW_1" connector="#xpointer(ancestor::CirculatorySystem/Artery[@roleName='carotidArtery'])"/>
+		<port name="port" index="P_BLOOD_FLOW_2" connector="#xpointer(ancestor::CirculatorySystem/SpinalArtery[@roleName='spinalArtery'])"/>
+		<port name="port" index="P_BLOOD_FLOW_3" connector="#xpointer(ancestor::CirculatorySystem/Artery[@roleName='digestiveArtery'])"/>
+	</LeftVentricle>
+	<RightVentricle xhType="XhtypePureActiveObject">
+		<port name="port" index="P_BLOOD_FLOW_1" connector="#xpointer(ancestor::CirculatorySystem/Artery[@roleName='pulmonaryArtery'])"/>
+	</RightVentricle>
+	<Artery xhType="XhtypePureActiveObject">
+		<port name="port" index="P_BLOOD_FLOW" connector="#xpointer(.[@roleName='pulmonaryArtery']/ancestor::CirculatorySystem/Capillary[@roleName='pCapillary'])"/>
+		<port name="port" index="P_BLOOD_FLOW" connector="#xpointer(.[@roleName='digestiveArtery']/ancestor::CirculatorySystem/Capillary[@roleName='dCapillary'])"/>
+		<port name="port" index="P_BLOOD_FLOW" connector="#xpointer(.[@roleName='carotidArtery']/ancestor::CirculatorySystem/Capillary[@roleName='hCapillary'])"/>
+		<port name="port" index="P_BLOOD_FLOW" connector="#xpointer(.[@roleName='spinalArtery']/ancestor::CirculatorySystem/Capillary[@roleName='sCapillary'])"/>
+	</Artery>
+	<Capillary xhType="XhtypePureActiveObject">
+		<port name="port" index="P_BLOOD_FLOW" connector="#xpointer(.[@roleName='pCapillary']/ancestor::CirculatorySystem/Vein[@roleName='pulmonaryVein'])"/>
+		<port name="port" index="P_BLOOD_FLOW" connector="#xpointer(.[@roleName='dCapillary']/ancestor::CirculatorySystem/Vein[@roleName='digestiveVein'])"/>
+		<port name="port" index="P_BLOOD_FLOW" connector="#xpointer(.[@roleName='hCapillary']/ancestor::CirculatorySystem/Vein[@roleName='jugularVein'])"/>
+		<port name="port" index="P_BLOOD_FLOW" connector="#xpointer(.[@roleName='sCapillary']/ancestor::CirculatorySystem/SpinalVein[@roleName='spinalVein'])"/>
+	</Capillary>
+	<Vein xhType="XhtypePureActiveObject">
+		<port name="port" index="P_BLOOD_FLOW" connector="#xpointer(.[@roleName='pulmonaryVein']/ancestor::CirculatorySystem/Heart/LeftVentricle)"/>
+		<port name="port" index="P_BLOOD_FLOW" connector="#xpointer(ancestor::CirculatorySystem/Heart/RightVentricle)"/>
+	</Vein>
+	<Hexokinase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Glucose)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Glucose_6_Phosphate)"/>
+		<port name="port" index="P_SM_INH1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Glucose_6_Phosphate)"/>
+		<attribute name="geneVal" index="0" value="1500"/>
+		<attribute name="geneVal" index="1" value="100"/>
+		<attribute name="geneVal" index="2" value="500"/>
+	</Hexokinase>
+	<PhosphoGlucoIsomerase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Glucose_6_Phosphate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Fructose_6_Phosphate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="10"/>
+	</PhosphoGlucoIsomerase>
+	<PhosphoFructokinase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Fructose_6_Phosphate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Fructose_1x6_Biphosphate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="40"/>
+	</PhosphoFructokinase>
+	<Aldolase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Fructose_1x6_Biphosphate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Glyceraldehyde_3_Phosphate)"/>
+		<port name="port" index="P_SM_PRD2" connector="#xpointer(ancestor::CellularSpace/CellularSolution/DihydroxyacetonePhosphate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="70"/>
+	</Aldolase>
+	<TriosePhosphateIsomerase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/DihydroxyacetonePhosphate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Glyceraldehyde_3_Phosphate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="400"/>
+	</TriosePhosphateIsomerase>
+	<Glyceraldehyde_3_phosphateDehydrogenase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Glyceraldehyde_3_Phosphate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/X1x3_BisphosphoGlycerate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="200"/>
+	</Glyceraldehyde_3_phosphateDehydrogenase>
+	<PhosphoGlycerokinase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/X1x3_BisphosphoGlycerate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/X3_PhosphoGlycerate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="300"/>
+	</PhosphoGlycerokinase>
+	<PhosphoGlyceromutase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/X3_PhosphoGlycerate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/X2_PhosphoGlycerate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="500"/>
+	</PhosphoGlyceromutase>
+	<Enolase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/X2_PhosphoGlycerate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/PhosphoEnolPyruvate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="150"/>
+	</Enolase>
+	<PyruvateKinase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/PhosphoEnolPyruvate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Pyruvate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="180"/>
+	</PyruvateKinase>
+	<PyruvateDehydrogenase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Pyruvate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/AcetylCoA)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="1000"/>
+	</PyruvateDehydrogenase>
+	<CitrateSynthase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/AcetylCoA)"/>
+		<port name="port" index="P_SM_SUB2" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Oxaloacetate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Citrate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="900"/>
+	</CitrateSynthase>
+	<Aconitase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Citrate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Isocitrate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="800"/>
+	</Aconitase>
+	<IsocitrateDehydrogenase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Isocitrate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/A_Ketoglutarate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="700"/>
+	</IsocitrateDehydrogenase>
+	<A_KetoglutarateDehydrogenase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/A_Ketoglutarate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/SuccinylCoa)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="600"/>
+	</A_KetoglutarateDehydrogenase>
+	<SuccinylCoASynthetase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/SuccinylCoa)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Succinate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="500"/>
+	</SuccinylCoASynthetase>
+	<SuccinateDehydrogenase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Succinate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Fumarate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="400"/>
+	</SuccinateDehydrogenase>
+	<FumarateHydratase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Fumarate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Malate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="300"/>
+	</FumarateHydratase>
+	<MalateDehydrogenase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Malate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Oxaloacetate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="200"/>
+	</MalateDehydrogenase>
+	<Sucrase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Sucrose)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::CellularSpace/CellularSolution/Glucose)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="10"/>
+	</Sucrase>
+	<Acetylcholinesterase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::EnclosedSpace/CellularSolution/Neurotransmitter)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::EnclosedSpace/CellularSolution/Choline)"/>
+		<port name="port" index="P_SM_PRD2" connector="#xpointer(ancestor::EnclosedSpace/CellularSolution/Acetate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="100"/>
+	</Acetylcholinesterase>
+	<CellBilayer xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_EXT1" connector="#xpointer(ancestor::EnclosedSpace/ExtraCellularSolution/Glucose)"/>
+		<port name="port" index="P_SM_EXT1" connector="#xpointer(ancestor::MucosalCell/ancestor::Animal/CirculatorySystem/Capillary[@roleName='dCapillary'])"/>
+		<port name="port" index="P_SM_INT1" connector="#xpointer(ancestor::EukaryoticCell/Cytoplasm/Cytosol/Glucose)"/>
+		<port name="port" index="P_SM_EXT2" connector="#xpointer(ancestor::EnclosedSpace/ExtraCellularSolution/Water)"/>
+		<port name="port" index="P_SM_INT2" connector="#xpointer(ancestor::EukaryoticCell/Cytoplasm/Cytosol/Water)"/>
+		<port name="port" index="P_SM_EXT3" connector="#xpointer(ancestor::EnclosedSpace/ExtraCellularSolution/Oxygen)"/>
+		<port name="port" index="P_SM_INT3" connector="#xpointer(ancestor::EukaryoticCell/Cytoplasm/Cytosol/Oxygen)"/>
+		<port name="port" index="P_SM_EXT4" connector="#xpointer(ancestor::EnclosedSpace/ExtraCellularSolution/CarbonDioxide)"/>
+		<port name="port" index="P_SM_INT4" connector="#xpointer(ancestor::EukaryoticCell/Cytoplasm/Cytosol/CarbonDioxide)"/>
+		<attribute name="geneVal" index="0" value="2"/> <!-- was 10 -->
+	</CellBilayer>
+	<MitochondrialOuterBilayer xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_EXT1" connector="#xpointer(ancestor::Cytoplasm/Cytosol/Pyruvate)"/>
+		<port name="port" index="P_SM_INT1" connector="#xpointer(ancestor::MitochondrialDualMembrane/descendant::MitochondrialIntermembranesol/Pyruvate)"/>
+		<attribute name="geneVal" index="0" value="10"/>
+	</MitochondrialOuterBilayer>
+	<MitochondrialInnerBilayer xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_EXT1" connector="#xpointer(ancestor::MitochondrialDualMembrane/descendant::MitochondrialIntermembranesol/Water)"/>
+		<port name="port" index="P_SM_INT1" connector="#xpointer(ancestor::Mitochondrion/Matrix/Matrixsol/Water)"/>
+		<attribute name="geneVal" index="0" value="10"/>
+	</MitochondrialInnerBilayer>
+	<PyruvateTransporter xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_EXT1" connector="#xpointer(ancestor::MitochondrialDualMembrane/descendant::MitochondrialIntermembranesol/Pyruvate)"/>
+		<port name="port" index="P_SM_INT1" connector="#xpointer(ancestor::Mitochondrion/Matrix/Matrixsol/Pyruvate)"/>
+		<attribute name="geneVal" index="0" value="500"/>
+	</PyruvateTransporter>
+	<SucroseTransporter xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_EXT1" connector="#xpointer(ancestor::SmallIntestine/DigestedFood/Sucrose)"/>
+		<port name="port" index="P_SM_INT1" connector="#xpointer(ancestor::EukaryoticCell/Cytoplasm/Cytosol/Sucrose)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="500"/>
+	</SucroseTransporter>
+	<Attribute xhType="XhtypePurePassiveObject">
+	</Attribute>
+	<LipidBilayer xhType="XhtypePureActiveObject">
+	</LipidBilayer>
+	<SmallMolecule xhType="XhtypePurePassiveObject">
+	</SmallMolecule>
+	<CellularSolution xhType="XhtypePureContainer">
+	</CellularSolution>
+	<XholonClass xhType="XhtypePureContainer">
+	</XholonClass>
+	
+	<!-- from Rcs_GP_FSM -->
+	<GPase xhType="XhtypePureActiveObject">
+		<!-- port: prd -->
+		<port name="port" index="Product"
+			connector="#xpointer(ancestor::Cytoplasm/Cytosol/Glucose_1_Phosphate)"/>
+		<!-- port: sub -->
+		<port name="port" index="Substrate"
+			connector="#xpointer(ancestor::Cytoplasm/Cytosol/Glycogen)"/>
+		<!-- port: reg -->
+		<port name="port" index="Regulation"
+			connector="#xpointer(ancestor::GPaseSystem/PPhosphatase)"/>
+		<!-- port: reg -->
+		<port name="port" index="Regulation"
+			connector="#xpointer(ancestor::GPaseSystem/PKinase)"/>
+	</GPase>
+	<PKinase xhType="XhtypePureActiveObject">
+		<!-- port: sub -->
+		<port name="port" index="Substrate"
+			connector="#xpointer(ancestor::Cytoplasm/Cytosol/Glucose_1_Phosphate)"/>
+		<!-- port: reg -->
+		<port name="port" index="Regulation"
+			connector="#xpointer(ancestor::GPaseSystem/GPase)"/>
+	</PKinase>
+	<PPhosphatase xhType="XhtypePureActiveObject">
+		<!-- port: sub -->
+		<port name="port" index="Substrate"
+			connector="#xpointer(ancestor::Cytoplasm/Cytosol/Glucose_1_Phosphate)"/>
+		<!-- port: reg -->
+		<port name="port" index="Regulation"
+			connector="#xpointer(ancestor::GPaseSystem/GPase)"/>
+	</PPhosphatase>
+	<Polysaccharide xhType="XhtypePurePassiveObject"/>
+	<State xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.ObservableStateMachineEntity">
+		<port name="cnpt" index="CNPT_OUTGOING1"
+			connector="#xpointer(.[@uid='121219297']/ancestor::StateMachine/descendant::Transition[@uid='968519337'])"/>
+		<port name="cnpt" index="CNPT_OUTGOING1"
+			connector="#xpointer(.[@uid='446919399']/ancestor::StateMachine/descendant::Transition[@uid='698119349'])"/>
+	</State>
+	<PseudostateInitial xhType="XhtypeStateMachineEntityActive">
+		<port name="cnpt" index="CNPT_OUTGOING1"
+			connector="#xpointer(.[@uid='337219299']/ancestor::StateMachine/descendant::Transition[@uid='84819325'])"/>
+		<port name="cnpt" index="CNPT_OUTGOING1"
+			connector="#xpointer(.[@uid='13819398']/ancestor::StateMachine/descendant::Transition[@uid='581719498'])"/>
+		<port name="cnpt" index="CNPT_OUTGOING1"
+			connector="#xpointer(.[@uid='493519469']/ancestor::StateMachine/descendant::Transition[@uid='521619489'])"/>
+	</PseudostateInitial>
+	<PseudostateChoice xhType="XhtypeStateMachineEntityActive"/>
+	<PseudostateEntryPoint xhType="XhtypeStateMachineEntityActive"/>
+	<PseudostateExitPoint xhType="XhtypeStateMachineEntityActive"/>
+	<Transition xhType="XhtypeStateMachineEntityActive">
+		<port name="cnpt" index="CNPT_TARGET"
+			connector="#xpointer(.[@uid='84819325']/ancestor::StateMachine/descendant::State[@uid='121219297'])"/>
+		<port name="cnpt" index="CNPT_TARGET"
+			connector="#xpointer(.[@uid='968519337']/ancestor::StateMachine/descendant::State[@uid='446919399'])"/>
+		<port name="cnpt" index="CNPT_TARGET"
+			connector="#xpointer(.[@uid='698119349']/ancestor::StateMachine/descendant::State[@uid='121219297'])"/>
+		<port name="cnpt" index="CNPT_TARGET"
+			connector="#xpointer(.[@uid='581719498']/ancestor::StateMachine/descendant::State[@uid='934719414'])"/>
+		<port name="cnpt" index="CNPT_TARGET"
+			connector="#xpointer(.[@uid='521619489']/ancestor::StateMachine/descendant::State[@uid='575319467'])"/>
+	</Transition>
+	<StateMachine xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.ObservableStateMachineEntity"/>
+	<StateMachineEntity xhType="XhtypeStateMachineEntity" implName="org.primordion.xholon.base.StateMachineEntity"/>
+	
+	<!-- end of elements from Rcs_GP_FSM -->
+	
+</xholonClassDetails>

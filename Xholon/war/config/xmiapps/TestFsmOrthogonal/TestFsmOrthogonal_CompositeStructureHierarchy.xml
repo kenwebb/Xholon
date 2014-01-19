@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	TestFsmOrthogonal application - Composite Structure Hierarchy
+	Author: KenWebb
+	Date:   23/05/2007
+	File:   TestFsmOrthogonal.mdzip
+	Target: Xholon 0.5 http://www.primordion.com/Xholon
+	UML: MagicDraw UML 11.5
+	XMI: 2.1, Wed Apr 04 14:59:39 EDT 2007
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<TestFsmSystem xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+<TestHarness roleName=""/>
+<FsmXholon roleName="">
+<StateMachine>
+<Region>
+<State uid="3941939" roleName="CourseAttempt">
+<Region>
+<PseudostateInitial uid="3511236" roleName=""/>
+<State uid="181953" roleName="Studying">
+<Region>
+<PseudostateInitial uid="1431242" roleName=""/>
+<State uid="2571979" roleName="Lab1"/>
+<State uid="151984" roleName="Lab2"/>
+<FinalState uid="4981261" roleName=""/>
+<TransitionExternal uid="9261291" roleName=""/>
+<TransitionExternal uid="5561326" roleName="CNPT_OUTGOING1">
+<Trigger roleName="LAB_DONE"/>
+<Activity uid="3271624"/>
+</TransitionExternal>
+<TransitionExternal uid="91338" roleName="1">
+<Trigger roleName="LAB_DONE"/>
+<Activity uid="3961627"/>
+</TransitionExternal>
+</Region>
+<Region>
+<PseudostateInitial uid="111248" roleName=""/>
+<State uid="8491997" roleName="TermProject"/>
+<FinalState uid="6731266" roleName=""/>
+<TransitionExternal uid="971312" roleName=""/>
+<TransitionExternal uid="5351351" roleName="CNPT_OUTGOING1">
+<Trigger roleName="PROJECT_DONE"/>
+<Activity uid="6671631"/>
+</TransitionExternal>
+</Region>
+<Region>
+<PseudostateInitial uid="5381254" roleName=""/>
+<State uid="4611291" roleName="FinalTest"/>
+<State uid="7941223" roleName=""/>
+<FinalState uid="9281272" roleName=""/>
+<TransitionExternal uid="3191394" roleName=""/>
+<TransitionExternal uid="9941362" roleName="CNPT_OUTGOING1">
+<Trigger roleName="PASS"/>
+<Activity uid="5781633"/>
+</TransitionExternal>
+<TransitionExternal uid="7241386" roleName="CNPT_OUTGOING2">
+<Trigger roleName="FAIL"/>
+<Activity uid="381636"/>
+</TransitionExternal>
+</Region>
+</State>
+<FinalState uid="9141374" roleName="Failed"/>
+<FinalState uid="8441381" roleName="Passed"/>
+<TransitionExternal uid="91278" roleName=""/>
+<TransitionExternal uid="961398" roleName="CNPT_OUTGOING1">
+<Activity uid="811259"/>
+</TransitionExternal>
+</Region>
+</State>
+</Region>
+</StateMachine>
+</FsmXholon>
+</TestFsmSystem>

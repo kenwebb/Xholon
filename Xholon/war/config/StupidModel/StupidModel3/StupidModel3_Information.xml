@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+		<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+		-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+
+<!--
+	StupidModel3 Displayable information about this application.
+	Xholon 0.6 http://www.primordion.com/Xholon (Ken Webb)
+-->
+<document>
+<header>
+<title>Xholon - Stupid Model 3 - Habitat Cells and Resource</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This is the third in a series of 16 "Stupid Models". It's intended as a starting point for learning how to develop grid and agent-based models using Xholon. It can also be used to compare Xholon with other agent-based modeling tools that have also implemented the Stupid Model series.</p>
+<p>In this model, a habitat is introduced, that has food (initially 0.0) and specifies a maximum food production rate (0.01). Each time step, the amount of food at each habitat cell is increased by the food production rate, which is a random number between 0.0 and the maximum food production rate. The habitat produces its food each time step before the bug actions occur. A bug grows by exactly how much it eats. Its food consumption is the minimum of (1) the bugs' maximum consumption rate of 1.0, and (2) the amount of food currently available at the bug's habitat cell. Whatever the bug eats is subtracted from the food availability at its current habitat cell.</p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p>The HabitatCellStupidModel3.java class implements the habitat.</p>
+<p>Look at StupidModel3_ClassDetails.xml in the config/StupidModels/StupidModel3 directory. The grid cell has changed name from GridCell to HabitatCell, and now implements the HabitatCellStupidModel3 class.</p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>Railsback, S., Lytinen, S., Grimm, V. (2005).
+StupidModel and Extensions: A Template and Teaching Tool for Agent-based Modeling Platforms.</p>
+<p><a href="http://www.swarm.org/wiki/Software_templates">Swarm page</a></p>
+<p><a href="http://condor.depaul.edu/~slytinen/abm/StupidModel/">Author's page</a></p>
+</section>
+
+</body>
+</document>

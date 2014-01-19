@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Cellontro cellontro/Cell ClassDetails_BioSystems_Jul03.xml -->
+<xholonClassDetails>
+	<Hexokinase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::Cytoplasm/Cytosol/Glucose)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::Cytoplasm/Cytosol/Glucose_6_Phosphate)"/>
+		<attribute name="geneVal" index="0" value="1500"/>
+		<attribute name="geneVal" index="1" value="100"/>
+	</Hexokinase>
+	<PhosphoGlucoIsomerase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::Cytoplasm/Cytosol/Glucose_6_Phosphate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::Cytoplasm/Cytosol/Fructose_6_Phosphate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="10"/>
+	</PhosphoGlucoIsomerase>
+	<PhosphoFructokinase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::Cytoplasm/Cytosol/Fructose_6_Phosphate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::Cytoplasm/Cytosol/Fructose_1x6_Biphosphate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="40"/>
+	</PhosphoFructokinase>
+	<Aldolase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::Cytoplasm/Cytosol/Fructose_1x6_Biphosphate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::Cytoplasm/Cytosol/Glyceraldehyde_3_Phosphate)"/>
+		<port name="port" index="P_SM_PRD2" connector="#xpointer(ancestor::Cytoplasm/Cytosol/DihydroxyacetonePhosphate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="70"/>
+	</Aldolase>
+	<TriosePhosphateIsomerase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::Cytoplasm/Cytosol/DihydroxyacetonePhosphate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::Cytoplasm/Cytosol/Glyceraldehyde_3_Phosphate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="400"/>
+	</TriosePhosphateIsomerase>
+	<Glyceraldehyde_3_phosphateDehydrogenase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::Cytoplasm/Cytosol/Glyceraldehyde_3_Phosphate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::Cytoplasm/Cytosol/X1x3_BisphosphoGlycerate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="300"/>
+	</Glyceraldehyde_3_phosphateDehydrogenase>
+	<PhosphoGlycerokinase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::Cytoplasm/Cytosol/X1x3_BisphosphoGlycerate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::Cytoplasm/Cytosol/X3_PhosphoGlycerate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="300"/>
+	</PhosphoGlycerokinase>
+	<PhosphoGlyceromutase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::Cytoplasm/Cytosol/X3_PhosphoGlycerate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::Cytoplasm/Cytosol/X2_PhosphoGlycerate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="500"/>
+	</PhosphoGlyceromutase>
+	<Enolase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::Cytoplasm/Cytosol/X2_PhosphoGlycerate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::Cytoplasm/Cytosol/PhosphoEnolPyruvate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="150"/>
+	</Enolase>
+	<PyruvateKinase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::Cytoplasm/Cytosol/PhosphoEnolPyruvate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::Cytoplasm/Cytosol/Pyruvate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="180"/>
+	</PyruvateKinase>
+	<PyruvateDehydrogenase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::Matrix/Matrixsol/Pyruvate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::Matrix/Matrixsol/AcetylCoA)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="1000"/>
+	</PyruvateDehydrogenase>
+	<CitrateSynthase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::Matrix/Matrixsol/AcetylCoA)"/>
+		<port name="port" index="P_SM_SUB2" connector="#xpointer(ancestor::Matrix/Matrixsol/Oxaloacetate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::Matrix/Matrixsol/Citrate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="900"/>
+	</CitrateSynthase>
+	<Aconitase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::Matrix/Matrixsol/Citrate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::Matrix/Matrixsol/Isocitrate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="800"/>
+	</Aconitase>
+	<IsocitrateDehydrogenase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::Matrix/Matrixsol/Isocitrate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::Matrix/Matrixsol/A_Ketoglutarate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="700"/>
+	</IsocitrateDehydrogenase>
+	<A_KetoglutarateDehydrogenase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::Matrix/Matrixsol/A_Ketoglutarate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::Matrix/Matrixsol/SuccinylCoa)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="600"/>
+	</A_KetoglutarateDehydrogenase>
+	<SuccinylCoASynthetase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::Matrix/Matrixsol/SuccinylCoa)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::Matrix/Matrixsol/Succinate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="500"/>
+	</SuccinylCoASynthetase>
+	<SuccinateDehydrogenase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::Matrix/Matrixsol/Succinate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::Matrix/Matrixsol/Fumarate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="400"/>
+	</SuccinateDehydrogenase>
+	<FumarateHydratase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::Matrix/Matrixsol/Fumarate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::Matrix/Matrixsol/Malate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="300"/>
+	</FumarateHydratase>
+	<MalateDehydrogenase xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_SUB1" connector="#xpointer(ancestor::Matrix/Matrixsol/Malate)"/>
+		<port name="port" index="P_SM_PRD1" connector="#xpointer(ancestor::Matrix/Matrixsol/Oxaloacetate)"/>
+		<attribute name="geneVal" index="0" value="10000"/>
+		<attribute name="geneVal" index="1" value="200"/>
+	</MalateDehydrogenase>
+	<CellBilayer xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_EXT1" connector="#xpointer(ancestor::ExtraCellularSpace/ExtraCellularSolution/Glucose)"/>
+		<port name="port" index="P_SM_INT1" connector="#xpointer(ancestor::EukaryoticCell/Cytoplasm/Cytosol/Glucose)"/>
+		<port name="port" index="P_SM_EXT2" connector="#xpointer(ancestor::ExtraCellularSpace/ExtraCellularSolution/Water)"/>
+		<port name="port" index="P_SM_INT2" connector="#xpointer(ancestor::EukaryoticCell/Cytoplasm/Cytosol/Water)"/>
+		<attribute name="geneVal" index="0" value="0"/>
+	</CellBilayer>
+	<MitochondrialOuterBilayer xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_EXT1" connector="#xpointer(ancestor::Cytoplasm/Cytosol/Pyruvate)"/>
+		<port name="port" index="P_SM_INT1" connector="#xpointer(ancestor::MitochondrialDualMembrane/descendant::MitochondrialIntermembranesol/Pyruvate)"/>
+		<attribute name="geneVal" index="0" value="10"/>
+	</MitochondrialOuterBilayer>
+	<MitochondrialInnerBilayer xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_EXT1" connector="#xpointer(ancestor::MitochondrialDualMembrane/descendant::MitochondrialIntermembranesol/Water)"/>
+		<port name="port" index="P_SM_INT1" connector="#xpointer(ancestor::Mitochondrion/Matrix/Matrixsol/Water)"/>
+		<attribute name="geneVal" index="0" value="10"/>
+	</MitochondrialInnerBilayer>
+	<PyruvateTransporter xhType="XhtypePureActiveObject">
+		<port name="port" index="P_SM_EXT1" connector="#xpointer(ancestor::MitochondrialDualMembrane/descendant::MitochondrialIntermembranesol/Pyruvate)"/>
+		<port name="port" index="P_SM_INT1" connector="#xpointer(ancestor::Mitochondrion/Matrix/Matrixsol/Pyruvate)"/>
+		<attribute name="geneVal" index="0" value="10"/>
+	</PyruvateTransporter>
+	<Enzyme><Icon>images/Cellontro/enzyme.png</Icon></Enzyme>
+	<LipidBilayer><Icon>images/Cellontro/bilayer.png</Icon></LipidBilayer>
+	<EnclosedSpace><Icon>images/Cellontro/container.png</Icon></EnclosedSpace>
+	<Membrane><Icon>images/Cellontro/container.png</Icon></Membrane>
+	<EukaryoticCell><Icon>images/Cellontro/container.png</Icon></EukaryoticCell>
+	<SmallMolecule xhType="XhtypePurePassiveObject">
+		<Icon>images/Cellontro/substrate.png</Icon>
+	</SmallMolecule>
+	<CellularSolution xhType="XhtypePureContainer">
+		<Icon>images/Cellontro/container.png</Icon>
+	</CellularSolution>
+	<XholonClass xhType="XhtypePureContainer">
+	</XholonClass>
+</xholonClassDetails>

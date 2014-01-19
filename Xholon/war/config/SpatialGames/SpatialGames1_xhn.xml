@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Source of model concept:
+     Nowak, Martin A. (2006).
+     Evolutionary Dynamics: Exploring the equations of life. Cambridge, MA: Belknap/Harvard.
+     chapter 9 - Spatial Games
+     see also http://www.univie.ac.at/virtuallabs/ "VirtualLabs in evolutionary game theory", by Christoph Hauert
+-->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Spatial Game"/>
+	<param name="AppM" value="false"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="false"/>
+	<param name="MaxProcessLoops" value="-1"/>
+	<param name="TimeStepInterval" value="100"/>
+	<param name="InheritanceHierarchyFile" value="config/SpatialGames/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="config/SpatialGames/CompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="config/SpatialGames/ClassDetails.xml"/>
+	<param name="InformationFile" value="config/SpatialGames/Information.xml"/>
+	<param name="JavaClassName" value="org.primordion.user.app.SpatialGames.App09SpatialGames"/>
+	<param name="JavaXhClassName" value="org.primordion.user.app.SpatialGames.Xh09SpatialGames"/>
+	<param name="MaxPorts" value="8"/>
+	<!-- Use 2D graphics to view the grid. -->
+	<param name="UseGridViewer" value="true"/>
+	<param name="GridPanelClassName" value="org.primordion.user.app.SpatialGames.GridPanel09SpatialGames"/>
+	<param name="GridViewerParams" value="descendant::Row/..,4,Spatial Games"/>
+	<param name="UseGraphicalNetworkViewer" value="false"/>
+	<param name="GraphicalNetworkViewerParams"
+		value="/,1000,600,9,LAYOUT_KK,false,Xholon - Spatial Games - Grid Connections,false"/>
+	
+	<!-- 1.10 1.15 1.24 1.35 1.55 1.65 1.70 -->
+	<param name="PayoffB" value="1.65"/>
+	<!-- LAYOUT_RANDOM=0 LAYOUT_SINGLE_DEFECTOR=1 -->
+	<param name="Layout" value="0"/>
+</params>

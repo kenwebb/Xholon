@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../../../Xholon/information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../../Xholon/information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>Dynamical System - Interest - Xholon App</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This model implements a dynamical system, a savings account with interest.
+The same model has been previously implemented using Simulink and Vensim, and it
+demonstrates how to model dynamical systems using Xholon.</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+<title/>
+<p>Run it:</p>
+<ol>
+<li>Run the Java application through the Xhn GUI (org.primordion.xholon.app.Xhn.java),
+and select File --> Open --> dynsys --> Interest --> Interest_xhn.xml.</li>
+<li>Expand the Controller node in the tree.</li>
+<li>Press the Start node.</li>
+<li>If you have JFreeChart installed you should see a chart like the one below showing the
+	Savings Account Balance series over time.
+</li>
+</ol>
+</section>
+<section><title/>
+<source>
+
+</source>
+</section>
+<section><title/>
+<figure src="DynSys_Interest_1.png" alt="Dynamical System - Interest"></figure>
+</section>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p>You can edit the number of years of compound interest in Interest_xhn.xml
+	(param name="MaxProcessLoops" value="10"/>)</p>
+	
+<p>Change the interest rate or the starting balance in CompositeStructureHierarchy.</p>
+	
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p>Interest is modelled as an active xholon, which acts upon the savings balance,
+	a passive xholon.</p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>source of the model: Sandefur, J. (1990). Discrete Dynamical Systems. Oxford University Press. (p. 4)</p>
+</section>
+
+</body>
+</document>

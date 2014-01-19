@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<_-.flows>
+  <Photosynthesis/>
+  <Respiration/>
+  <Decay/>
+  <LandUseChange/>
+  <Death/>
+  <GasExchangeUp/>
+  <GasExchangeDown/>
+  <FossilFuelBurning/>
+  <MarinePhotosynthesis/>
+  <MarineRespiration/>
+  <MarineDetritus/>
+  <DissolvedOrgCarbToOcean/>
+  <MarineBiotaToDissolvedOrgCarb/>
+  <Downwelling/>
+  <Upwelling/>
+  <Sedimentation/>
+</_-.flows>

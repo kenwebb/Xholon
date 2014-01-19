@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScheffranTwoActorSystem>
+	<Actor roleName="actor1">
+		<attribute name="value"     value="-0.3"/>  <!-- Value1     -->
+		<attribute name="cost"      value="30.0"/>  <!-- Cost1      -->
+		<attribute name="f1"        value="0.01"/>  <!-- f11        -->
+		<attribute name="f2"        value="-0.01"/> <!-- f12        -->
+		<attribute name="valueGoal" value="0.0"/>   <!-- valueGoal1 -->
+		<attribute name="k"         value="0.02"/>  <!-- k1         -->
+		<attribute name="maxCost"   value="60.0"/>  <!-- MaxCost1   -->
+		<attribute name="tau"       value="1.0"/>   <!-- tau1       -->
+	</Actor>
+	<Actor roleName="actor2">
+		<attribute name="value"     value="0.3"/>   <!-- Value2     -->
+		<attribute name="cost"      value="30.0"/>  <!-- Cost2      -->
+		<attribute name="f1"        value="-0.01"/> <!-- f21        -->
+		<attribute name="f2"        value="0.01"/>  <!-- f22        -->
+		<attribute name="valueGoal" value="0.0"/>   <!-- valueGoal2 -->
+		<attribute name="k"         value="0.02"/>  <!-- k2         -->
+		<attribute name="maxCost"   value="60.0"/>  <!-- MaxCost2   -->
+		<attribute name="tau"       value="1.0"/>   <!-- tau2       -->
+	</Actor>
+</ScheffranTwoActorSystem>

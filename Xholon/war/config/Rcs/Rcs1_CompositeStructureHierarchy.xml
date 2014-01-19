@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlycogenPhosphorylaseSystem>   <!-- CatalyzingSystem  -->
+  <GlycogenPhosphorylase/>    <!-- RegulatedCatalyst -->
+  <Glycogen><attribute name="val" value="50.0"/></Glycogen> <!-- Substrate -->
+  <Glucose_1_Phosphate><attribute name="val" value="0.0"/></Glucose_1_Phosphate> <!-- Product -->
+  <PhosphorylaseKinase/>      <!-- Activator         -->
+  <PhosphorylasePhosphatase/> <!-- Deactivator       -->
+  
+  <SvgClient>
+    <Attribute_String roleName="setup">${MODELNAME_DEFAULT},config/Rcs/svg/GPSystem_CompositeStructure.svg</Attribute_String>
+  </SvgClient>
+  <SvgClient>
+    <Attribute_String roleName="setup">${MODELNAME_DEFAULT},config/Rcs/svg/GlycogenPhosphorylase_Fsm.svg</Attribute_String>
+  </SvgClient>
+</GlycogenPhosphorylaseSystem>

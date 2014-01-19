@@ -1,0 +1,8 @@
+/* Defaults for the entire document */
+document {font-family: "Times New Roman", serif; font-size: 12pt; background-color: #f0f8ff}
+title {font-size: 18pt; font-weight: bold; text-align: center}
+section {}
+p {margin-top: 12px; display: block}
+li {display: list-item; list-style-type: square; list-style-position: inside}
+source {white-space: pre; margin-top: 12px; font-family: "Courier"; font-size:10pt; display: block}
+

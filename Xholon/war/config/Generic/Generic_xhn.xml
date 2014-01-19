@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generic configuration file
+	 Ken Webb
+	 December 3, 2005 -->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Generic Test Application"/>
+	<param name="AppM" value="true"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="false"/>
+	<param name="MaxProcessLoops" value="10"/>
+	<param name="TimeStepInterval" value="10"/>
+	<param name="InheritanceHierarchyFile" value="./config/Generic/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="./config/Generic/CompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="./config/Generic/ClassDetails.xml"/>
+	<param name="InformationFile" value="config/Generic/Information.xml"/>
+	<param name="JavaClassName" value="org.primordion.user.app.Generic.AppGeneric"/>
+	<param name="JavaXhClassName" value="org.primordion.user.app.Generic.XhGeneric"/>
+	<!-- Use simple text-based 2D tree drawer. -->
+	<param name="UseTextTree" value="true"/>
+	<!-- Which test to run (1 to 13) -->
+	<param name="TestNumber" value="1"/>
+</params>

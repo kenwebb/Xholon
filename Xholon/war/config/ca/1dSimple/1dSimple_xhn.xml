@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 1D Cellular Automaton configuration file
+	 Ken Webb
+	 February 15, 2007 -->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="1D Cellular Automaton"/>
+	<param name="AppM" value="false"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="99"/> <!-- 99 -->
+	<param name="TimeStepInterval" value="10"/>
+	<param name="SizeMessageQueue" value="2"/>
+	<param name="InheritanceHierarchyFile" value="config/ca/1dSimple/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="config/ca/1dSimple/CompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="config/ca/1dSimple/ClassDetails.xml"/>
+	<param name="InformationFile" value="config/ca/1dSimple/Information_1dSimple.xml"/>
+	<param name="JavaClassName" value="org.primordion.user.app.Simple1d.App1dSimple"/>
+	<param name="JavaXhClassName" value="org.primordion.user.app.Simple1d.Xh1dSimple"/>
+	<param name="MaxPorts" value="3"/>
+	<!-- Use 2D graphics to view the grid. -->
+	<param name="UseGridViewer" value="true"/>
+	<param name="GridPanelClassName" value="org.primordion.user.app.Simple1d.GridPanel1dSimple"/>
+	<param name="GridViewerParams" value="descendant::Row/..,3,Xholon - 1D CA Simple"/>
+	<!-- CA Rule Number, a number between 0 and 255 -->
+	<param name="CaRuleNumber" value="30"/>
+</params>

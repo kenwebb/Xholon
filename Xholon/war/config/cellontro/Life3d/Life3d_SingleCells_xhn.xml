@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- life3d SingleCells configuration file
+	 Ken Webb
+	 December 3, 2005 -->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Life 3d"/>
+	<param name="AppM" value="false"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<!--
+	<param name="MaxXholons" value="1000"/>
+	<param name="MaxXholonClasses" value="600"/>
+	<param name="MaxStateMachineEntities" value="0"/>
+	<param name="TreeNodeFactoryDynamic" value="false"/>
+	-->
+	<param name="MaxProcessLoops" value="10"/>
+	<param name="TimeStepInterval" value="10"/>
+	<param name="InheritanceHierarchyFile" value="config/cellontro/Cell/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile"
+		value="config/cellontro/Life3d/CompositeStructureHierarchy_SingleCells.xml"/>
+	<param name="ClassDetailsFile" value="config/cellontro/Life3d/ClassDetails_SingleCells.xml"/>
+	<param name="InformationFile" value="config/cellontro/Life3d/Information_life3d.xml"/>
+	<param name="JavaClassName" value="org.primordion.cellontro.app.AppLife"/>
+	<param name="JavaXhClassName" value="org.primordion.cellontro.app.XhLife"/>
+	<param name="JavaXhClassClassName" value="org.primordion.cellontro.base.BioXholonClass"/>
+	<param name="MaxPorts" value="8"/>
+	<!-- UseDataPlotter determines whether the data each timestep is plotted on a graph. -->
+	<param name="UseDataPlotter" value="none"/>
+	<param name="DataPlotterParams"
+		value="Small molecule quantities changing over time,Time (timesteps),Quantities of each molecule,./statistics/,cell3dStats,1,WRITE_AS_LONG"/>
+	<!-- 2D Graphics -->
+	<param name="UseGraphicalTreeViewer" value="false"/>
+	<param name="UseGraphicalNetworkViewer" value="false"/>
+	<!-- VRML 3D graphics -->
+	<param name="UseVrml" value="true"/>
+	<param name="VrmlWriterClassName" value="org.primordion.cellontro.io.vrml.VrmlWriterCell"/>
+	<param name="VrmlParams" value="false,./3d/,true,false"/>
+	<!-- include path -->
+	<param name="XincludePath" value="./config/_common/"/>
+</params>

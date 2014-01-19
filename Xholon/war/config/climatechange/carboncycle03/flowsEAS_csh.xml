@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+These are the EAS initial values for flow rates, unless otherwise noted.
+The units are Gt/year .
+-->
+<_-.flows>
+  <Photosynthesis>110.0</Photosynthesis>
+  <Respiration>55.0</Respiration>
+  <Decay>55.0</Decay>
+  <LandUseChange implName="org.primordion.user.app.climatechange.carboncycle03.Xhcarboncycle03">1.6</LandUseChange> <!-- 1750 to 1850 0.5 ?; from SVG diagram 1.6; current IPCC 1.6 -->
+  <Death>55.0</Death>
+  <GasExchangeUp>90.0</GasExchangeUp>
+  <GasExchangeDown>92.0</GasExchangeDown>
+  <Weathering implName="org.primordion.user.app.climatechange.carboncycle03.Xhcarboncycle03">0.5</Weathering>--> <!-- from SVG diagram 0.5; IPCC ar4 0.2+0.2+0.4 -->
+  <!-- FossilFuelBurning steady-state value:0.0  EAS value:6.0 -->
+  <!--<FossilFuelBurning implName="org.primordion.user.app.climatechange.carboncycle03.CoalBurning">0.0</FossilFuelBurning>-->
+  <FossilFuelBurning implName="org.primordion.user.app.climatechange.carboncycle03.GlobalCarbonEmissions">0.0</FossilFuelBurning>
+  <MarinePhotosynthesis implName="org.primordion.user.app.climatechange.carboncycle03.Xhcarboncycle03">50.0</MarinePhotosynthesis> <!-- from SVG diagram -->
+  <MarineRespiration implName="org.primordion.user.app.climatechange.carboncycle03.Xhcarboncycle03">40.0</MarineRespiration> <!-- from SVG diagram -->
+  <MarineDetritus implName="org.primordion.user.app.climatechange.carboncycle03.Xhcarboncycle03">4.0</MarineDetritus>
+  <DissolvedOrgCarbToOcean implName="org.primordion.user.app.climatechange.carboncycle03.Xhcarboncycle03">6.0</DissolvedOrgCarbToOcean> <!-- from SVG diagram -->
+  <MarineBiotaToDissolvedOrgCarb implName="org.primordion.user.app.climatechange.carboncycle03.Xhcarboncycle03">6.0</MarineBiotaToDissolvedOrgCarb> <!-- from SVG diagram -->
+  <Downwelling>38.0</Downwelling>
+  <Upwelling>40.0</Upwelling>
+  <Sedimentation>0.2</Sedimentation> <!-- from SVG diagram -->
+</_-.flows>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+		<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+		-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+
+<!--
+	StupidModel16 Displayable information about this application.
+	Xholon 0.6 http://www.primordion.com/Xholon (Ken Webb)
+-->
+<document>
+<header>
+<title>Xholon - Stupid Model 16 - Predators</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This is the last in a series of 16 "Stupid Models". It's intended as a starting point for learning how to develop grid and agent-based models using Xholon. It can also be used to compare Xholon with other agent-based modeling tools that have also implemented the Stupid Model series.</p>
+<p>This model introduces 200 predators that implement a hunt() method. Each time step each predator looks through a shuffled list of its immediate cell neighbors. It eats the first bug it finds in that list, and then moves into that habitat cell.</p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p>New xholon classes Predators and Predator are added to StupidModel16_InheritanceHierarchy.xml and CeStupidModel16.java. New instances of these xholon classes are added to StupidModel16_CompositeStructureHierarchy.xml. StupidModel16_ClassDetails.xml specifies that Predators is implemented by QueueStupidModel16.java. So in this model, there will be one queue to hold bugs and a second queue to hold predators.</p>
+<p>BugStupidModel16.java implements both the Predator and the Bug behaviors, including hunt().</p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>Railsback, S., Lytinen, S., Grimm, V. (2005).
+StupidModel and Extensions: A Template and Teaching Tool for Agent-based Modeling Platforms.</p>
+<p><a href="http://www.swarm.org/wiki/Software_templates">Swarm page</a></p>
+<p><a href="http://condor.depaul.edu/~slytinen/abm/StupidModel/">Author's page</a></p>
+</section>
+
+</body>
+</document>

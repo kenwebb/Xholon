@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>Ping Pong - Sample Xholon App</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>Ping Pong is a sample Xholon application.
+Two active objects of the same class collaborate to count from 0 to 19.
+They coordinate their behaviors by writing directly into each others
+public variables, through ports. Compare this with the Hello World tutorial
+in which two active objects collaborate by passing messages through ports.</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+<title/>
+<p>Run it:</p>
+<ol>
+<li>Run the Java application through the Xhn GUI (org.primordion.xholon.app.Xhn.java),
+and select File --> Open --> PingPong --> PingPong_xhn.xml.</li>
+<li>Expand the Controller node in the tree.</li>
+<li>Press the Start node.</li>
+<li>You should see pairs of messages on the console from pingPongEntity_1: 0 to pingPongEntity_2: 19</li>
+</ol>
+</section>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p>pingPongEntity_1 and pingPongEntity_2 are both instances of the PingPongEntity xholon class.
+Each has a single port through which it directly accesses the sum variable in the other instance
+(see the act() function in XhPingPong.java).</p>
+<p>The first instance outputs the even numbers, and the second instance the odd numbers.</p>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p>The maximum count can be controlled by varying the MaxProcessLoops parameter in PingPong_xhn.xml.
+Each instance of PingPongEntity is invoked once per process loop (time step).</p>
+<p>You can run AppPingPong.java (src/...samples) directly without using the Xhn GUI.</p>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<section>
+<title/>
+<p>Instead of directly accessing the sum variable, the two PingPongEntity xholons could implement the
+function public void incVal(double incAmount) from the IXholon interface.
+For example:</p>
+<source>
+public void incVal(double incAmount)
+{
+	sum += (int)incAmount;
+}
+</source>
+</section>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p>How xholons can directly access public variables through ports.</p>
+<p>How to set default attribute values for Xholon instances using the XML attribute tag.
+See CompositeStructureHierarchy.xml .</p>
+<p>A Xholon can be both an active object and a passive object at the same time.
+A XholonClass can have the XhtypeBehFgsxxx xhType, specifying that it can both act on
+other Xholons and be passively acted upon by other ones.
+Beh means that it has active behavior,
+and the Fgs means that it has passive fine-grained structure (attributes) that can be acted upon.
+See ClassDetails.xml .</p>
+<p>These are useful features to have in complex biological simulations,
+one of the reasons for the Xholon project.
+Cells and small biochemical entities typically interact directly with each other through binding sites,
+and are better modeled by directly interacting with each other's attributes
+(or calling simple get(), set(), increment() and decrement() methods to accomplish the same thing),
+rather than sending asynchronous messages.</p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>This application only demonstrates internal features of Xholon.</p>
+</section>
+
+</body>
+</document>

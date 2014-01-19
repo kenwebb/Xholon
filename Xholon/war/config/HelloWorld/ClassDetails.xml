@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Xholon HelloWorld ClassDetails.xml -->
+<xholonClassDetails>
+	<Hello xhType="XhtypePureActiveObject">
+		<port name="port" index="P_PARTNER" connector="#xpointer(ancestor::HelloWorldSystem/World)"/>
+	</Hello>
+	<World xhType="XhtypePureActiveObject">
+		<port name="port" index="P_PARTNER" connector="#xpointer(ancestor::HelloWorldSystem/Hello)"/>
+	</World>
+	<XholonClass xhType="XhtypePureContainer">
+	</XholonClass>
+</xholonClassDetails>

@@ -1,0 +1,31 @@
+<Downwelling implName="org.primordion.user.app.climatechange.carboncycle03.Flow_beanshell"><![CDATA[
+import org.primordion.xholon.base.IXholon;
+import org.primordion.user.app.climatechange.carboncycle03.Flows;
+
+behavior() {
+  
+  private double rateFactor = 0.0;
+  private IXholon surfaceOcean = null;
+  private IXholon deepOcean = null;
+  
+  public void postConfigure() {
+    surfaceOcean = ((Flows)contextNodeKey.getParentNode()).getSurfaceOcean();
+    deepOcean = ((Flows)contextNodeKey.getParentNode()).getDeepOcean();
+    rateFactor = contextNodeKey.getVal() / surfaceOcean.getVal();
+  }
+  
+  public void act() {
+    double rate = contextNodeKey.getVal();
+    surfaceOcean.decVal(rate);
+    deepOcean.incVal(rate);
+  }
+  
+  public void postAct() {
+    contextNodeKey.setVal(surfaceOcean.getVal() * rateFactor);
+  }
+  
+return this;
+}
+
+behaviorObject = behavior();
+]]></Downwelling>

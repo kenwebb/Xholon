@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- source of model concept:
+     Nowak, Martin A. (2006).
+     Evolutionary Dynamics: Exploring the equations of life. Cambridge, MA: Belknap/Harvard.
+     chapter 9 - Spatial Games
+-->
+<xholonClassDetails>
+	<GridCell xhType="XhtypeGridEntityActivePassive" implName="org.primordion.user.app.SpatialGames.Xh09SpatialGames">
+		<config instruction="Gmt"/>
+	</GridCell>
+	<XholonClass xhType="XhtypePureContainer">
+	</XholonClass>
+</xholonClassDetails>

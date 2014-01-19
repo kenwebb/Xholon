@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- DynamicalSystems dynsys/Fibonacci ClassDetails.xml -->
+<xholonClassDetails>
+	<FibonacciFunction xhType="XhtypePureActiveObject">
+		<port name="port" index="P_INDVAR1" connector="#xpointer(ancestor::FibonacciSystem/NMinus1)"/>
+		<port name="port" index="P_INDVAR2" connector="#xpointer(ancestor::FibonacciSystem/NMinus2)"/>
+		<port name="port" index="P_DEPVAR" connector="#xpointer(ancestor::FibonacciSystem/N)"/>
+	</FibonacciFunction>
+	<N xhType="XhtypePurePassiveObject"/>
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>Generic Test Application for Xholon</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>
+This simple application demonstrates and tests some core internal functions of the Xholon runtime framework.
+To see the code that calls these functions, look at toString() in XhGeneric.java.
+</p><p>
+This application also shows how to add new nodes to the composite structure tree.
+See the act() function in XhGeneric.java.
+</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+	<title/>
+	<p>Run it:</p>
+	<ol>
+	<li>Run the Java application (org.primordion.xholon.app.Xhn.java),
+		and select File --> Open --> Generic --> Generic_xhn.xml.</li>
+	<li>Expand the Model node in the tree, and then the CompositeStructureHierarchy node.</li>
+	<li>You will now see a hierarchy of nodes called node_0, node_1, ..., node_11.</li>
+	<li>Click on any node to see information about that node at the bottom of the Xholon window.</li>
+	<li>The information will vary depending on the value of TestNumber in the Generic_xhn.xml file.</li>
+	<li>Expand the Controller node in the tree.</li>
+	<li>Press the Start node.</li>
+	<li>The application will now add additional nodes to the tree.</li>
+	<li>Press the Refresh node to update the view.</li>
+	<li>Re-expand the Model and CompositeStructureHierarchy nodes.</li>
+	<li>You will see a number of new nodes, shown as children of node_0.</li>
+	<li>Click on any of these nodes to see information about it at the bottom of the window.</li>
+	</ol>
+</section>
+<section>
+	<title/>
+	<p>Specify which test to run:</p>
+	<ol>
+	<li>Open the configuration file Generic_xhn.xml.</li>
+	<li>Edit the TestNumber param, chaning the value field to a number between 1 and 13.</li>
+	<li>Save the file.</li>
+	<li>Exit from the Xholon application.</li>
+	<li>Rerun the Generic Test Application as described above.</li>
+	</ol>
+</section>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p>The simple GUI does not automatically update the view. You must click on the Restart node to do this.</p>
+<p>Dynamically added new nodes have IDs starting with the next unassigned ID.
+The various unnumbered nodes (such as Application, Model, etc.) are given IDs, but these are not shown in the GUI.</p>
+<p>The Reset node under Controller does not currently work. It is intended to restart the current application.</p>
+<p>The GUI can only run one application. You must exit and re-run it to load another application.</p>
+<p>In Generic_xhn.xml, the UseTextTree parameter is set to true. This causes a simple text-based tree to be drawn
+in the console window. Only the first letter of each node name is shown.</p>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p>Try all 13 cases.</p>
+<p>One new node is added each time the act() function is called for node_0.
+The number of new nodes can be controlled by varying the MaxProcessLoops parameter in Generic_xhn.xml.</p>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p>You can test different Xholon functions by adding additional cases to toString().</p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p>See above for various Xholon features.</p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>This application only tests internal features of Xholon.</p>
+</section>
+
+</body>
+</document>

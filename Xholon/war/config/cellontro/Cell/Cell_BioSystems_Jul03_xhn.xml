@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Cell Jul03 configuration file
+	 Ken Webb
+	 December 3, 2005 -->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Cell - BioSystems paper"/>
+	<param name="AppM" value="true"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="500"/>
+	<param name="TimeStepInterval" value="10"/>
+	<param name="InheritanceHierarchyFile" value="config/cellontro/Cell/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile"
+		value="config/cellontro/Cell/CompositeStructureHierarchy_BioSystems_Jul03.xml"/>
+	<param name="ClassDetailsFile" value="config/cellontro/Cell/ClassDetails_BioSystems_Jul03.xml"/>
+	<param name="InformationFile" value="config/cellontro/Cell/Information_cell.xml"/>
+	<param name="ImageFile" value="config/cellontro/Cell/ExtraCellularSpace_0_1319344004318.svg"/>
+	<param name="JavaClassName" value="org.primordion.cellontro.app.AppCell"/>
+	<param name="JavaXhClassName" value="org.primordion.cellontro.app.XhCell"/>
+	<param name="JavaXhClassClassName" value="org.primordion.cellontro.base.BioXholonClass"/>
+	<param name="MaxPorts" value="8"/>
+	<!-- UseDataPlotter determines whether the data each timestep is plotted on a graph. -->
+	<param name="UseDataPlotter" value="google2"/> <!-- JFreeChart gnuplot jdbc jpa google2 none -->
+	<param name="DataPlotterParams"
+		value="Xholon - Small molecule quantities changing over time,Time (timesteps),Quantities of each molecule,./statistics/,cellStats,1,WRITE_AS_LONG"/>
+	<!-- Graphics -->
+	<param name="UseGraphicalTreeViewer" value="false"/>
+	<param name="GraphicalTreeViewerParams"
+		value="/,50,50,1000,400,9,Cellontro - Cell - Composite Structure,false"/>
+	<param name="UseGraphicalNetworkViewer" value="false"/>
+	<param name="GraphicalNetworkViewerClassName"
+		value="org.primordion.cellontro.io.NetworkViewerJungCell"/>
+	<param name="GraphicalNetworkViewerParams"
+		value="/,1000,600,12,LAYOUT_ISOM,false,Xholon - Cell - Biochemical Network,false"/>
+	<!-- Whether or not to create a web-based or other special purpose GUI. -->
+	<param name="UseXholon2Gui" value="false"/>
+	<param name="Xholon2GuiParams" value="./gui/,2,200,file:///C:/Xholon/gui/,true,false,true"/>
+	<param name="Xholon2GuiClassName" value="org.primordion.xholon.io.Xholon2Xul"/>
+</params>

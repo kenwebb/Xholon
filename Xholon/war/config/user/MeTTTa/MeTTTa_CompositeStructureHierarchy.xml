@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  MeTTTa application - Composite Structure Hierarchy
+  Xholon 0.7.1 http://www.primordion.com/Xholon
+-->
+<TheSystem xmlns:xi="http://www.w3.org/2001/XInclude">
+  <AppClientMVC>
+    <AppClientMVC multiplicity="1">
+      <MeTTTaModel/>
+      <MeTTTaView>
+        <!-- meTTTa GUI -->
+        <!--<xi:include href="./config/user/MeTTTa/MeTTTa_JFrame_Tiny.xml"/>-->
+      </MeTTTaView>
+      <MeTTTaController/>
+    </AppClientMVC>
+    <MeTTTaWorker/>
+    <MeTTTaBusinessDelegate/>
+  </AppClientMVC>
+</TheSystem>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	carboncycle03 application - _xhn configuration
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+	sources:
+	  (1) http://en.wikipedia.org/wiki/Carbon_cycle
+	  (2) Odum, Eugene P. (1975) Ecology, 2nd ed. (p.100-101)
+	  (3) http://carboncycle.aos.wisc.edu/global-carbon-cycle/ and http://www.gfdl.noaa.gov/anthropogenic-carbon-cycle
+	  (4) http://earthobservatory.nasa.gov/Features/CarbonCycle/page1.php
+	  (5) (diagram in 4) http://public.ornl.gov/hgmis/gallery/detail.cfm?id=313&topic=&citation=24&general=&restsection=
+	  (6) http://public.ornl.gov/hgmis/gallery/default.cfm?restsection=
+	  (7) http://www.globalcarbonproject.org/
+	  (8) http://www.gcrio.org/CONSEQUENCES/vol4no1/carbcycle.html
+	  (9) (1998, source of diagram in (1)???) http://www.gcrio.org/CONSEQUENCES/vol4no1/figure1.html
+	 (10) google images: carbon cycle (there are lots of images; only the one .svg)
+	 (11) (jpg diagram, "The present carbon cycle") http://www.grida.no/publications/vg/climate/page/3066.aspx
+	 (12) (diagram, similar to (11) "carbon_cycle.jpg") http://maps.grida.no/go/graphic/carbon_cycle
+	 (13) (runnable STELLA model) http://www.shodor.org/master/environmental/general/carbon/carboncs.html
+	 (14) (useful links) http://www.globalcarbonproject.org/products/internetResources.htm
+	 (15) Neelin (2011) p.64-68
+	 (16) http://en.wikipedia.org/wiki/Biological_pump
+	 (17) http://en.wikipedia.org/wiki/Ocean_acidification
+	 (18) IPCC /home/ken/Documents/ClimateChange/IPCC/Report2007_AR4/ar4-wg1-chapter7.pdf
+-->
+<params>
+<param name="ShowParams" value="false"/>
+<param name="ModelName" value="carboncycle03"/>
+<param name="AppM" value="true"/>
+<param name="InfoM" value="false"/>
+<param name="ErrorM" value="true"/>
+<param name="MaxProcessLoops" value="-1"/>
+<param name="TimeStepInterval" value="500"/>
+<param name="TimeStep" value="1751"/>
+<param name="SizeMessageQueue" value="10"/>
+<param name="InheritanceHierarchyFile" value="config/climatechange/carboncycle03/ih.xml"/>
+<param name="CompositeStructureHierarchyFile" value="config/climatechange/carboncycle03/csh.xml"/>
+<param name="ClassDetailsFile" value="config/climatechange/carboncycle03/cd.xml"/>
+<!--<param name="InformationFile" value="config/climatechange/carboncycle03/info.xml"/>-->
+<param name="InformationFile" value="http://en.wikipedia.org/wiki/Carbon_cycle"/>
+<param name="JavaClassName" value="org.primordion.user.app.climatechange.carboncycle03.Appcarboncycle03"/>
+<param name="JavaXhClassName" value="org.primordion.user.app.climatechange.carboncycle03.Xhcarboncycle03"/>
+<param name="MaxPorts" value="0"/>
+<!-- Viewers -->
+<!-- UseDataPlotter: none JFreeChart gnuplot google2 -->
+<param name="UseDataPlotter" value="gnuplot"/>
+<!-- DataPlotterParams: Title,XAxisLabel,YAxisLabel,Path,TypeOfData,NameConcatLevels,WriteType -->
+<param name="DataPlotterParams" value="Carbon Cycle,Time (year),CO2 (GtC),./statistics/,ipcc01,1,WRITE_AS_DOUBLE"/>
+<param name="UseGraphicalTreeViewer" value="false"/>
+<!-- GraphicalTreeViewerParams: XPathExpression,DistX,DistY,SizeX,SizeY,FontSize,Title,ShowNodeLabels -->
+<param name="GraphicalTreeViewerParams" value="/,20,20,800,500,9,Application Composite Structure,false"/>
+<param name="UseGraphicalNetworkViewer" value="false"/>
+<!-- GraphicalNetworkViewerParams: XPathExpression,SizeX,SizeY,FontSize,LayoutType,ShowContainers,Title,ShowNodeLabels -->
+<param name="GraphicalNetworkViewerParams" value="/,800,500,9,LAYOUT_KK,false,Application Port Connections,false"/>
+<param name="UseGridViewer" value="false"/>
+<param name="GridPanelClassName" value="org.primordion.xholon.samples.GridPanelMyApp"/>
+<!-- GridViewerParams: XPathExpression,CellSize,Title -->
+<param name="GridViewerParams" value="descendant::Row/..,5,Grid Viewer App"/>
+<param name="UseInteractions" value="true"/>
+<param name="InteractionParams" value="4,true,localhost,60001"/>
+<param name="UseVrml" value="false"/>
+<param name="VrmlWriterClassName" value="org.primordion.xholon.tutorials.VrmlWriterMyApp"/>
+<!-- VrmlParams: DoClassicStyle,VrmlWriteDir,UseLOD,CreateProtoFiles -->
+<param name="VrmlParams" value="true,./3d/,false,false"/>
+<param name="UseTextTree" value="false"/>
+<param name="SaveSnapshots" value="false"/>
+<!-- SnapshotParams: SnapshotSource(0 1),SnapshotTostring,Path -->
+<param name="SnapshotParams" value="0,true,./snapshot/"/>
+</params>

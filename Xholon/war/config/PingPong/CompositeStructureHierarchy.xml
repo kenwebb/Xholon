@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PingPongSystem>
+	<PingPongEntity><attribute name="val" value="0"/></PingPongEntity>
+	<PingPongEntity><attribute name="val" value="0"/></PingPongEntity>
+	<!-- long data type
+	<PingPongEntity><attribute name="val" value="9060404178364531554L"/></PingPongEntity>
+	<PingPongEntity><attribute name="val" value="543210l"/></PingPongEntity>
+	-->
+</PingPongSystem>

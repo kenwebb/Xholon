@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CollisionSystem>
+	<Populations>
+		<PopA0019>
+			<PopGm>4038600<Attribute_float roleName="rate">0.0029137847f</Attribute_float></PopGm>
+			<PopGf>3831300<Attribute_float roleName="rate">0.0027961733f</Attribute_float></PopGf>
+		</PopA0019>
+		<PopA2024>
+			<PopGm>1066900<Attribute_float roleName="rate">-0.000041961674f</Attribute_float></PopGm>
+			<PopGf>1023200<Attribute_float roleName="rate">-0.00004348755f</Attribute_float></PopGf>
+		</PopA2024>
+		<PopA2534>
+			<PopGm>2195300<Attribute_float roleName="rate">0.003751087f</Attribute_float></PopGm>
+			<PopGf>2143200<Attribute_float roleName="rate">0.003587198f</Attribute_float></PopGf>
+		</PopA2534>
+		<PopA3544>
+			<PopGm>2656400<Attribute_float roleName="rate">-0.0005919457f</Attribute_float></PopGm>
+			<PopGf>2628900<Attribute_float roleName="rate">-0.0009802342f</Attribute_float></PopGf>
+		</PopA3544>
+		<PopA4554>
+			<PopGm>2236600<Attribute_float roleName="rate">0.0045180325f</Attribute_float></PopGm>
+			<PopGf>2251000<Attribute_float roleName="rate">0.003356743f</Attribute_float></PopGf>
+		</PopA4554>
+		<PopA5564>
+			<PopGm>1432400<Attribute_float roleName="rate">0.02252779f</Attribute_float></PopGm>
+			<PopGf>1478800<Attribute_float roleName="rate">0.02122803f</Attribute_float></PopGf>
+		</PopA5564>
+		<PopA6599>
+			<PopGm>1677200<Attribute_float roleName="rate">0.03177578f</Attribute_float></PopGm>
+			<PopGf>2253900<Attribute_float roleName="rate">0.026610876f</Attribute_float></PopGf>
+		</PopA6599>
+		<PopGm/>
+		<PopGf/>
+	</Populations>
+	<Drivers>
+		<DriverA0019><Attribute_int roleName="avgVehicleKilometers">5324</Attribute_int><Attribute_float roleName="proportionLicensed">0.138f</Attribute_float>
+			<DriverGm><Attribute_int roleName="avgVehicleKilometers">5657</Attribute_int><Attribute_float roleName="proportionLicensed">0.145f</Attribute_float></DriverGm>
+			<DriverGf><Attribute_int roleName="avgVehicleKilometers">4936</Attribute_int><Attribute_float roleName="proportionLicensed">0.132f</Attribute_float></DriverGf>
+		</DriverA0019>
+		<DriverA2024><Attribute_int roleName="avgVehicleKilometers">9287</Attribute_int><Attribute_float roleName="proportionLicensed">0.816f</Attribute_float>
+			<DriverGm><Attribute_int roleName="avgVehicleKilometers">10396</Attribute_int><Attribute_float roleName="proportionLicensed">0.834f</Attribute_float></DriverGm>
+			<DriverGf><Attribute_int roleName="avgVehicleKilometers">8071</Attribute_int><Attribute_float roleName="proportionLicensed">0.798f</Attribute_float></DriverGf>
+		</DriverA2024>
+		<DriverA2534><Attribute_int roleName="avgVehicleKilometers">12658</Attribute_int><Attribute_float roleName="proportionLicensed">0.878f</Attribute_float>
+			<DriverGm><Attribute_int roleName="avgVehicleKilometers">17140</Attribute_int><Attribute_float roleName="proportionLicensed">0.893f</Attribute_float></DriverGm>
+			<DriverGf><Attribute_int roleName="avgVehicleKilometers">7873</Attribute_int><Attribute_float roleName="proportionLicensed">0.863f</Attribute_float></DriverGf>
+		</DriverA2534>
+		<DriverA3544><Attribute_int roleName="avgVehicleKilometers">17159</Attribute_int><Attribute_float roleName="proportionLicensed">0.908f</Attribute_float>
+			<DriverGm><Attribute_int roleName="avgVehicleKilometers">22407</Attribute_int><Attribute_float roleName="proportionLicensed">0.925f</Attribute_float></DriverGm>
+			<DriverGf><Attribute_int roleName="avgVehicleKilometers">11544</Attribute_int><Attribute_float roleName="proportionLicensed">0.890f</Attribute_float></DriverGf>
+		</DriverA3544>
+		<DriverA4554><Attribute_int roleName="avgVehicleKilometers">20000</Attribute_int><Attribute_float roleName="proportionLicensed">0.912f</Attribute_float>
+			<DriverGm><Attribute_int roleName="avgVehicleKilometers">26894</Attribute_int><Attribute_float roleName="proportionLicensed">0.944f</Attribute_float></DriverGm>
+			<DriverGf><Attribute_int roleName="avgVehicleKilometers">12484</Attribute_int><Attribute_float roleName="proportionLicensed">0.881f</Attribute_float></DriverGf>
+		</DriverA4554>
+		<DriverA5564><Attribute_int roleName="avgVehicleKilometers">16755</Attribute_int><Attribute_float roleName="proportionLicensed">0.878f</Attribute_float>
+			<DriverGm><Attribute_int roleName="avgVehicleKilometers">24523</Attribute_int><Attribute_float roleName="proportionLicensed">0.948f</Attribute_float></DriverGm>
+			<DriverGf><Attribute_int roleName="avgVehicleKilometers">7687</Attribute_int><Attribute_float roleName="proportionLicensed">0.813f</Attribute_float></DriverGf>
+		</DriverA5564>
+		<DriverA6599><Attribute_int roleName="avgVehicleKilometers">11279</Attribute_int><Attribute_float roleName="proportionLicensed">0.652f</Attribute_float>
+			<DriverGm><Attribute_int roleName="avgVehicleKilometers">15643</Attribute_int><Attribute_float roleName="proportionLicensed">0.867f</Attribute_float></DriverGm>
+			<DriverGf><Attribute_int roleName="avgVehicleKilometers">5551</Attribute_int><Attribute_float roleName="proportionLicensed">0.492f</Attribute_float></DriverGf>
+		</DriverA6599>
+		<DriverGm/>
+		<DriverGf/>
+	</Drivers>
+	<Scenarios>
+		<Scenario><Attribute_float roleName="rate">0.0f</Attribute_float></Scenario>
+		<Scenario><Attribute_float roleName="rate">0.002f</Attribute_float></Scenario>
+		<Scenario><Attribute_float roleName="rate">0.002f</Attribute_float></Scenario>
+		<Scenario><Attribute_float roleName="rate">0.01f</Attribute_float></Scenario>
+	</Scenarios>
+	<Deaths>
+		<Death/>
+	</Deaths>
+	<Injuries>
+		<Injury/>
+	</Injuries>
+	<Collisions>
+		<Collision/>
+	</Collisions>
+</CollisionSystem>

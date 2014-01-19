@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+<!--
+	MeTTTa Displayable information about this application.
+	Xholon 0.7 http://www.primordion.com/Xholon
+-->
+<document>
+<header>
+<title>MeTTTa</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>MeTTTa demonstrates a number of features using a simple game of Tic Tac Toe.
+</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<p>OpenEJB</p>
+<p>Download and install OpenEJB (openejb-3.0), from http://openejb.apache.org .</p>
+<p>Create an environment variable called OPENEJB_HOME, and add OPENEJB_HOME/bin to the path.</p>
+<p>Look at the simple HelloWorld example at http://openejb.apache.org/hello-world.html .</p>
+<p>Create the remote interface, the bean class, and other Java classes:</p>
+<p>Compile:
+javac -cp %OPENEJB_HOME%/lib/javaee-api-5.0-1.jar -d . *.java</p>
+<p>Package the EJB:
+jar cvf mettta.jar org</p>
+<p>Start the Server:
+bin\openejb start</p>
+<p>Deploy the EJB:
+%OPENEJB_HOME%\bin\openejb deploy mettta.jar</p>
+<p>Run the Xholon client.</p>
+<p>Note: The server-side Java classes are:</p>
+<ul>
+	<li>MeTTTa.java (remote interface)</li>
+	<li>MeTTTaBean.java (bean)</li>
+	<li>IMeTTTaConstants.java (constants)</li>
+	<li>IMeTTTaPojo.java (POJO interface)</li>
+	<li>MeTTTaPojo.java (the business logic in a POJO)</li>
+</ul>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p/>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p/>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p/>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p/>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p/>
+</section>
+
+</body>
+</document>

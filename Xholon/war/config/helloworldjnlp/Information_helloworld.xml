@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>Hello World - Sample Xholon App</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This model is a very simple example of how to write and run a Xholon application.
+Several xholon objects cooperate to
+write the words Hello and World a specified number of times.
+This requires writing four XML configuration files, one XML information file,
+an application Java class, a detailed
+action Java class, and a Java constants interface.
+The same number of files are required whether it's a Hello World application,
+or a much more complex system.</p>
+<p>HelloWorld_Vrml_xhn.xml is a variation of Hello World that creates a 3d VRML file.</p>
+<p>HelloWorld_TestTime_xhn.xml is a variation of Hello World that shows how to use a periodic timer
+to perform a regular action in a Xholon application.</p>
+<p>XhHelloWorld_str.java (src/...tutorials) shows how the same tasks are accomplished with
+strings.  It does not require the extra CE class identifying the preset int values and it is potentially
+much more flexible in that it allows new classes to be created on the fly. The disadvantage is that
+it can be expected to run 10 - 20% slower as is typical when employing string comparisons.</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+<title/>
+<p>Run it:</p>
+<ol>
+<li>Run the Java application through the Xhn GUI (org.primordion.xholon.app.Xhn.java),
+and select File --> Open --> HelloWorld --> HelloWorld_xhn.xml.</li>
+<li>Expand the Controller node in the tree.</li>
+<li>Press the Start node.</li>
+<li>You should see a display of all the parameters that are set in the HelloWorld_xhn.xml file,
+followed by the words "Hello World" displayed five times in the console window (see below).</li>
+</ol>
+</section>
+<section>
+<title/>
+<source>
+Hello World !
+Hello World !
+Hello World !
+Hello World !
+Hello World !
+</source>
+</section>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p>Take a look at the XML configuration files in the config/HelloWorld folder.</p>
+<p>Look at XhHelloWorld.java (src/...tutorials) to see how xholon objects send messages to each other, and how they receive messages.
+The HelloWorldSystem object processes received messages in the act() function.
+Hello and World send messages using the sendMessage() function.
+Each message contains a signal, for example the int SIGNAL_ONE in this application.</p>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p>Change the MaxProcessLoops parameter in HelloWorld_xhn.xml.
+What happens if this is an even number? An odd number?
+If you set it to -1 the application will run forever.</p>
+<p>Set the ShowParams parameter to false.</p>
+<p>Change the TimeStepInterval parameter to 100. Set it to 0. Set it to 1.
+This parameter determines how long the application sleeps after each time step.</p>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p>This is a very simple model that can be extended in many ways.</p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p>This application demonstrates most of the essential features of a Xholon application:</p>
+<ul>
+<li>The use of Java and XML.</li>
+<li>Hierarchical structure, with two active objects inside a container.</li>
+<li>The use of ports.</li>
+</ul>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>The Xholon web site includes a Hello World Tutorial that will walk you through creating the Hello World application.</p>
+<p><a href="http://www.primordion.com/Xholon/doc/tutorial.html">Hello World Tutorial</a></p>
+</section>
+
+</body>
+</document>

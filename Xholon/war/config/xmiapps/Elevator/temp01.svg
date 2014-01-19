@@ -1,0 +1,581 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" version="1.1" width="990.0" height="765.0">
+<style>
+rect {
+  fill: #efffdf;
+  stroke: #a121f1;
+  stroke-width: 1px;
+}
+rect.alt {
+  fill: white
+}
+rect:active {
+  stroke-width: 2px;
+}
+text {
+  font-family: "Courier New",courier,monospace;
+  font-size: 8px;
+  /*font-weight: bold;*/
+  fill: black;
+  pointer-events: none;
+}
+rect[id*=".port["] {
+  fill: #0000ff;
+  stroke: #e0e0f8;
+  stroke-width: 1px;
+}
+rect[id*=".conjport["], polygon[id*=".conjport["] {
+  fill: #e0e0f8;
+  stroke: #0000ff;
+  stroke-width: 1px;
+}
+</style>
+<script>
+console.log("blah");
+</script>
+ <title>Elevator</title>
+ <g id="toplevelgroup" transform="translate(0,0) scale(1) rotate(0)">
+  <g id="g1">
+   <title>anElevatorSystem_0</title>
+   <rect id="AnElevatorSystem" x="10" y="10" width="112" height="50"/>
+   <text id="text2" x="15" y="20">AnElevatorSystem</text>
+  </g>
+  <g id="g3">
+   <title>gui:userJTree_1 [ port:_1_1171 port:_1_1174 port:_1_1178 port:_1_1177 port:_1_1172 port:_1_1173 port:_1_1175 port:_1_1176]</title>
+   <rect id="AnElevatorSystem/UserJTree" x="20" y="30" width="91" height="20" class="alt"/>
+   <text id="text4" x="25" y="40">gui:UserJTree</text>
+   <!--port[0]:-->
+   <rect id="userJTree_1.port[0]" x="17" y="34" ry="2.5" width="6" height="6"/>
+   <!--port[1]:-->
+   <rect id="userJTree_1.port[1]" x="17" y="34" ry="2.5" width="6" height="6"/>
+   <!--port[2]:-->
+   <rect id="userJTree_1.port[2]" x="17" y="34" ry="2.5" width="6" height="6"/>
+   <!--port[3]:-->
+   <rect id="userJTree_1.port[3]" x="17" y="34" ry="2.5" width="6" height="6"/>
+   <!--port[4]:-->
+   <rect id="userJTree_1.port[4]" x="17" y="34" ry="2.5" width="6" height="6"/>
+   <!--port[5]:-->
+   <rect id="userJTree_1.port[5]" x="17" y="34" ry="2.5" width="6" height="6"/>
+   <!--port[6]:-->
+   <rect id="userJTree_1.port[6]" x="17" y="34" ry="2.5" width="6" height="6"/>
+   <!--port[7]:-->
+   <rect id="userJTree_1.port[7]" x="17" y="34" ry="2.5" width="6" height="6"/>
+  </g>
+  <g transform="translate(20,20)">
+   <g id="g5">
+    <title>floor:floor_87</title>
+    <rect id="AnElevatorSystem/Floor[1]" x="12" y="10" width="77" height="50" class="alt"/>
+    <text id="text6" x="17" y="20">floor:Floor</text>
+   </g>
+   <g id="g7">
+    <title>bUp:callButton_88 [ port:_88_1181 port:_88_1183]</title>
+    <rect id="AnElevatorSystem/Floor[1]/CallButton[@roleName='bUp']" x="20" y="30" width="98" height="20"/>
+    <text id="text8" x="25" y="40">bUp:CallButton</text>
+    <!--port[0]:-->
+    <rect id="callButton_88.port[0]" x="17" y="34" ry="2.5" width="6" height="6"/>
+    <!--port[1]:-->
+    <rect id="callButton_88.port[1]" x="17" y="34" ry="2.5" width="6" height="6"/>
+   </g>
+   <g id="g9">
+    <title>bDown:callButton_109 [ port:_109_1185 port:_109_1187]</title>
+    <rect id="AnElevatorSystem/Floor[1]/CallButton[@roleName='bDown']" x="22" y="30" width="112" height="20"/>
+    <text id="text10" x="27" y="40">bDown:CallButton</text>
+    <!--port[0]:-->
+    <rect id="callButton_109.port[0]" x="19" y="34" ry="2.5" width="6" height="6"/>
+    <!--port[1]:-->
+    <rect id="callButton_109.port[1]" x="19" y="34" ry="2.5" width="6" height="6"/>
+   </g>
+  </g>
+  <g transform="translate(20,20)">
+   <g id="g11">
+    <title>floor:floor_130</title>
+    <rect id="AnElevatorSystem/Floor[2]" x="14" y="10" width="77" height="50" class="alt"/>
+    <text id="text12" x="19" y="20">floor:Floor</text>
+   </g>
+   <g id="g13">
+    <title>bUp:callButton_131 [ port:_131_1189 port:_131_1191]</title>
+    <rect id="AnElevatorSystem/Floor[2]/CallButton[@roleName='bUp']" x="20" y="30" width="98" height="20"/>
+    <text id="text14" x="25" y="40">bUp:CallButton</text>
+    <!--port[0]:-->
+    <rect id="callButton_131.port[0]" x="17" y="34" ry="2.5" width="6" height="6"/>
+    <!--port[1]:-->
+    <rect id="callButton_131.port[1]" x="17" y="34" ry="2.5" width="6" height="6"/>
+   </g>
+   <g id="g15">
+    <title>bDown:callButton_152 [ port:_152_1193 port:_152_1195]</title>
+    <rect id="AnElevatorSystem/Floor[2]/CallButton[@roleName='bDown']" x="22" y="30" width="112" height="20"/>
+    <text id="text16" x="27" y="40">bDown:CallButton</text>
+    <!--port[0]:-->
+    <rect id="callButton_152.port[0]" x="19" y="34" ry="2.5" width="6" height="6"/>
+    <!--port[1]:-->
+    <rect id="callButton_152.port[1]" x="19" y="34" ry="2.5" width="6" height="6"/>
+   </g>
+  </g>
+  <g transform="translate(20,20)">
+   <g id="g17">
+    <title>floor:floor_173</title>
+    <rect id="AnElevatorSystem/Floor[3]" x="16" y="10" width="77" height="50" class="alt"/>
+    <text id="text18" x="21" y="20">floor:Floor</text>
+   </g>
+   <g id="g19">
+    <title>bUp:callButton_174 [ port:_174_1197 port:_174_1199]</title>
+    <rect id="AnElevatorSystem/Floor[3]/CallButton[@roleName='bUp']" x="20" y="30" width="98" height="20"/>
+    <text id="text20" x="25" y="40">bUp:CallButton</text>
+    <!--port[0]:-->
+    <rect id="callButton_174.port[0]" x="17" y="34" ry="2.5" width="6" height="6"/>
+    <!--port[1]:-->
+    <rect id="callButton_174.port[1]" x="17" y="34" ry="2.5" width="6" height="6"/>
+   </g>
+   <g id="g21">
+    <title>bDown:callButton_195 [ port:_195_1201 port:_195_1203]</title>
+    <rect id="AnElevatorSystem/Floor[3]/CallButton[@roleName='bDown']" x="22" y="30" width="112" height="20"/>
+    <text id="text22" x="27" y="40">bDown:CallButton</text>
+    <!--port[0]:-->
+    <rect id="callButton_195.port[0]" x="19" y="34" ry="2.5" width="6" height="6"/>
+    <!--port[1]:-->
+    <rect id="callButton_195.port[1]" x="19" y="34" ry="2.5" width="6" height="6"/>
+   </g>
+  </g>
+  <g transform="translate(20,20)">
+   <g id="g23">
+    <title>floor:floor_216</title>
+    <rect id="AnElevatorSystem/Floor[4]" x="18" y="10" width="77" height="50" class="alt"/>
+    <text id="text24" x="23" y="20">floor:Floor</text>
+   </g>
+   <g id="g25">
+    <title>bUp:callButton_217 [ port:_217_1205 port:_217_1207]</title>
+    <rect id="AnElevatorSystem/Floor[4]/CallButton[@roleName='bUp']" x="20" y="30" width="98" height="20"/>
+    <text id="text26" x="25" y="40">bUp:CallButton</text>
+    <!--port[0]:-->
+    <rect id="callButton_217.port[0]" x="17" y="34" ry="2.5" width="6" height="6"/>
+    <!--port[1]:-->
+    <rect id="callButton_217.port[1]" x="17" y="34" ry="2.5" width="6" height="6"/>
+   </g>
+   <g id="g27">
+    <title>bDown:callButton_238 [ port:_238_1209 port:_238_1211]</title>
+    <rect id="AnElevatorSystem/Floor[4]/CallButton[@roleName='bDown']" x="22" y="30" width="112" height="20"/>
+    <text id="text28" x="27" y="40">bDown:CallButton</text>
+    <!--port[0]:-->
+    <rect id="callButton_238.port[0]" x="19" y="34" ry="2.5" width="6" height="6"/>
+    <!--port[1]:-->
+    <rect id="callButton_238.port[1]" x="19" y="34" ry="2.5" width="6" height="6"/>
+   </g>
+  </g>
+  <g transform="translate(20,20)">
+   <g id="g29">
+    <title>floor:floor_259</title>
+    <rect id="AnElevatorSystem/Floor[5]" x="20" y="10" width="77" height="50" class="alt"/>
+    <text id="text30" x="25" y="20">floor:Floor</text>
+   </g>
+   <g id="g31">
+    <title>bUp:callButton_260 [ port:_260_1213 port:_260_1215]</title>
+    <rect id="AnElevatorSystem/Floor[5]/CallButton[@roleName='bUp']" x="20" y="30" width="98" height="20"/>
+    <text id="text32" x="25" y="40">bUp:CallButton</text>
+    <!--port[0]:-->
+    <rect id="callButton_260.port[0]" x="17" y="34" ry="2.5" width="6" height="6"/>
+    <!--port[1]:-->
+    <rect id="callButton_260.port[1]" x="17" y="34" ry="2.5" width="6" height="6"/>
+   </g>
+   <g id="g33">
+    <title>bDown:callButton_281 [ port:_281_1217 port:_281_1219]</title>
+    <rect id="AnElevatorSystem/Floor[5]/CallButton[@roleName='bDown']" x="22" y="30" width="112" height="20"/>
+    <text id="text34" x="27" y="40">bDown:CallButton</text>
+    <!--port[0]:-->
+    <rect id="callButton_281.port[0]" x="19" y="34" ry="2.5" width="6" height="6"/>
+    <!--port[1]:-->
+    <rect id="callButton_281.port[1]" x="19" y="34" ry="2.5" width="6" height="6"/>
+   </g>
+  </g>
+  <g transform="translate(20,20)">
+   <g id="g35">
+    <title>floor:floor_302</title>
+    <rect id="AnElevatorSystem/Floor[6]" x="22" y="10" width="77" height="50" class="alt"/>
+    <text id="text36" x="27" y="20">floor:Floor</text>
+   </g>
+   <g id="g37">
+    <title>bUp:callButton_303 [ port:_303_1221 port:_303_1223]</title>
+    <rect id="AnElevatorSystem/Floor[6]/CallButton[@roleName='bUp']" x="20" y="30" width="98" height="20"/>
+    <text id="text38" x="25" y="40">bUp:CallButton</text>
+    <!--port[0]:-->
+    <rect id="callButton_303.port[0]" x="17" y="34" ry="2.5" width="6" height="6"/>
+    <!--port[1]:-->
+    <rect id="callButton_303.port[1]" x="17" y="34" ry="2.5" width="6" height="6"/>
+   </g>
+   <g id="g39">
+    <title>bDown:callButton_324 [ port:_324_1225 port:_324_1227]</title>
+    <rect id="AnElevatorSystem/Floor[6]/CallButton[@roleName='bDown']" x="22" y="30" width="112" height="20"/>
+    <text id="text40" x="27" y="40">bDown:CallButton</text>
+    <!--port[0]:-->
+    <rect id="callButton_324.port[0]" x="19" y="34" ry="2.5" width="6" height="6"/>
+    <!--port[1]:-->
+    <rect id="callButton_324.port[1]" x="19" y="34" ry="2.5" width="6" height="6"/>
+   </g>
+  </g>
+  <g transform="translate(20,20)">
+   <g id="g41">
+    <title>floor:floor_345</title>
+    <rect id="AnElevatorSystem/Floor[7]" x="24" y="10" width="77" height="50" class="alt"/>
+    <text id="text42" x="29" y="20">floor:Floor</text>
+   </g>
+   <g id="g43">
+    <title>bUp:callButton_346 [ port:_346_1229 port:_346_1231]</title>
+    <rect id="AnElevatorSystem/Floor[7]/CallButton[@roleName='bUp']" x="20" y="30" width="98" height="20"/>
+    <text id="text44" x="25" y="40">bUp:CallButton</text>
+    <!--port[0]:-->
+    <rect id="callButton_346.port[0]" x="17" y="34" ry="2.5" width="6" height="6"/>
+    <!--port[1]:-->
+    <rect id="callButton_346.port[1]" x="17" y="34" ry="2.5" width="6" height="6"/>
+   </g>
+   <g id="g45">
+    <title>bDown:callButton_367 [ port:_367_1233 port:_367_1235]</title>
+    <rect id="AnElevatorSystem/Floor[7]/CallButton[@roleName='bDown']" x="22" y="30" width="112" height="20"/>
+    <text id="text46" x="27" y="40">bDown:CallButton</text>
+    <!--port[0]:-->
+    <rect id="callButton_367.port[0]" x="19" y="34" ry="2.5" width="6" height="6"/>
+    <!--port[1]:-->
+    <rect id="callButton_367.port[1]" x="19" y="34" ry="2.5" width="6" height="6"/>
+   </g>
+  </g>
+  <g transform="translate(20,20)">
+   <g id="g47">
+    <title>floor:floor_388</title>
+    <rect id="AnElevatorSystem/Floor[8]" x="26" y="10" width="77" height="50" class="alt"/>
+    <text id="text48" x="31" y="20">floor:Floor</text>
+   </g>
+   <g id="g49">
+    <title>bUp:callButton_389 [ port:_389_1237 port:_389_1239]</title>
+    <rect id="AnElevatorSystem/Floor[8]/CallButton[@roleName='bUp']" x="20" y="30" width="98" height="20"/>
+    <text id="text50" x="25" y="40">bUp:CallButton</text>
+    <!--port[0]:-->
+    <rect id="callButton_389.port[0]" x="17" y="34" ry="2.5" width="6" height="6"/>
+    <!--port[1]:-->
+    <rect id="callButton_389.port[1]" x="17" y="34" ry="2.5" width="6" height="6"/>
+   </g>
+   <g id="g51">
+    <title>bDown:callButton_410 [ port:_410_1241 port:_410_1243]</title>
+    <rect id="AnElevatorSystem/Floor[8]/CallButton[@roleName='bDown']" x="22" y="30" width="112" height="20"/>
+    <text id="text52" x="27" y="40">bDown:CallButton</text>
+    <!--port[0]:-->
+    <rect id="callButton_410.port[0]" x="19" y="34" ry="2.5" width="6" height="6"/>
+    <!--port[1]:-->
+    <rect id="callButton_410.port[1]" x="19" y="34" ry="2.5" width="6" height="6"/>
+   </g>
+  </g>
+  <g transform="translate(20,20)">
+   <g id="g53">
+    <title>elevator:elevator_431</title>
+    <rect id="AnElevatorSystem/Elevator[1]" x="28" y="10" width="119" height="50" class="alt"/>
+    <text id="text54" x="33" y="20">elevator:Elevator</text>
+   </g>
+   <g transform="translate(20,20)">
+    <g id="g55">
+     <title>panel:elevatorPanel_432</title>
+     <rect id="AnElevatorSystem/Elevator[1]/ElevatorPanel" x="10" y="10" width="133" height="50"/>
+     <text id="text56" x="15" y="20">panel:ElevatorPanel</text>
+    </g>
+    <g id="g57">
+     <title>iFloor:indicator_433 [ port:_433_1244 port:_433_1245]</title>
+     <rect id="AnElevatorSystem/Elevator[1]/ElevatorPanel/Indicator" x="20" y="30" width="112" height="20" class="alt"/>
+     <text id="text58" x="25" y="40">iFloor:Indicator</text>
+     <!--port[0]:-->
+     <rect id="indicator_433.port[0]" x="17" y="34" ry="2.5" width="6" height="6"/>
+     <!--port[1]:-->
+     <rect id="indicator_433.port[1]" x="17" y="34" ry="2.5" width="6" height="6"/>
+    </g>
+    <g id="g59">
+     <title>bOpen:doorControlButton_434 [ port:_434_1247 port:_434_1249]</title>
+     <rect id="AnElevatorSystem/Elevator[1]/ElevatorPanel/DoorControlButton[@roleName='bOpen']" x="22" y="30" width="161" height="20" class="alt"/>
+     <text id="text60" x="27" y="40">bOpen:DoorControlButton</text>
+     <!--port[0]:-->
+     <rect id="doorControlButton_434.port[0]" x="19" y="34" ry="2.5" width="6" height="6"/>
+     <!--port[1]:-->
+     <rect id="doorControlButton_434.port[1]" x="19" y="34" ry="2.5" width="6" height="6"/>
+    </g>
+    <g id="g61">
+     <title>bClose:doorControlButton_455 [ port:_455_1251 port:_455_1253]</title>
+     <rect id="AnElevatorSystem/Elevator[1]/ElevatorPanel/DoorControlButton[@roleName='bClose']" x="24" y="30" width="168" height="20" class="alt"/>
+     <text id="text62" x="29" y="40">bClose:DoorControlButton</text>
+     <!--port[0]:-->
+     <rect id="doorControlButton_455.port[0]" x="21" y="34" ry="2.5" width="6" height="6"/>
+     <!--port[1]:-->
+     <rect id="doorControlButton_455.port[1]" x="21" y="34" ry="2.5" width="6" height="6"/>
+    </g>
+    <g id="g63">
+     <title>bFloor:floorSelectionButton_476 [ port:_476_1254 port:_476_1255]</title>
+     <rect id="AnElevatorSystem/Elevator[1]/ElevatorPanel/FloorSelectionButton[1]" x="26" y="30" width="189" height="20" class="alt"/>
+     <text id="text64" x="31" y="40">bFloor:FloorSelectionButton</text>
+     <!--port[0]:-->
+     <rect id="floorSelectionButton_476.port[0]" x="23" y="34" ry="2.5" width="6" height="6"/>
+     <!--port[1]:-->
+     <rect id="floorSelectionButton_476.port[1]" x="23" y="34" ry="2.5" width="6" height="6"/>
+    </g>
+    <g id="g65">
+     <title>bFloor:floorSelectionButton_497 [ port:_497_1256 port:_497_1257]</title>
+     <rect id="AnElevatorSystem/Elevator[1]/ElevatorPanel/FloorSelectionButton[2]" x="28" y="30" width="189" height="20" class="alt"/>
+     <text id="text66" x="33" y="40">bFloor:FloorSelectionButton</text>
+     <!--port[0]:-->
+     <rect id="floorSelectionButton_497.port[0]" x="25" y="34" ry="2.5" width="6" height="6"/>
+     <!--port[1]:-->
+     <rect id="floorSelectionButton_497.port[1]" x="25" y="34" ry="2.5" width="6" height="6"/>
+    </g>
+    <g id="g67">
+     <title>bFloor:floorSelectionButton_518 [ port:_518_1258 port:_518_1259]</title>
+     <rect id="AnElevatorSystem/Elevator[1]/ElevatorPanel/FloorSelectionButton[3]" x="30" y="30" width="189" height="20" class="alt"/>
+     <text id="text68" x="35" y="40">bFloor:FloorSelectionButton</text>
+     <!--port[0]:-->
+     <rect id="floorSelectionButton_518.port[0]" x="27" y="34" ry="2.5" width="6" height="6"/>
+     <!--port[1]:-->
+     <rect id="floorSelectionButton_518.port[1]" x="27" y="34" ry="2.5" width="6" height="6"/>
+    </g>
+    <g id="g69">
+     <title>bFloor:floorSelectionButton_539 [ port:_539_1260 port:_539_1261]</title>
+     <rect id="AnElevatorSystem/Elevator[1]/ElevatorPanel/FloorSelectionButton[4]" x="32" y="30" width="189" height="20" class="alt"/>
+     <text id="text70" x="37" y="40">bFloor:FloorSelectionButton</text>
+     <!--port[0]:-->
+     <rect id="floorSelectionButton_539.port[0]" x="29" y="34" ry="2.5" width="6" height="6"/>
+     <!--port[1]:-->
+     <rect id="floorSelectionButton_539.port[1]" x="29" y="34" ry="2.5" width="6" height="6"/>
+    </g>
+    <g id="g71">
+     <title>bFloor:floorSelectionButton_560 [ port:_560_1262 port:_560_1263]</title>
+     <rect id="AnElevatorSystem/Elevator[1]/ElevatorPanel/FloorSelectionButton[5]" x="34" y="30" width="189" height="20" class="alt"/>
+     <text id="text72" x="39" y="40">bFloor:FloorSelectionButton</text>
+     <!--port[0]:-->
+     <rect id="floorSelectionButton_560.port[0]" x="31" y="34" ry="2.5" width="6" height="6"/>
+     <!--port[1]:-->
+     <rect id="floorSelectionButton_560.port[1]" x="31" y="34" ry="2.5" width="6" height="6"/>
+    </g>
+    <g id="g73">
+     <title>bFloor:floorSelectionButton_581 [ port:_581_1264 port:_581_1265]</title>
+     <rect id="AnElevatorSystem/Elevator[1]/ElevatorPanel/FloorSelectionButton[6]" x="36" y="30" width="189" height="20" class="alt"/>
+     <text id="text74" x="41" y="40">bFloor:FloorSelectionButton</text>
+     <!--port[0]:-->
+     <rect id="floorSelectionButton_581.port[0]" x="33" y="34" ry="2.5" width="6" height="6"/>
+     <!--port[1]:-->
+     <rect id="floorSelectionButton_581.port[1]" x="33" y="34" ry="2.5" width="6" height="6"/>
+    </g>
+    <g id="g75">
+     <title>bFloor:floorSelectionButton_602 [ port:_602_1266 port:_602_1267]</title>
+     <rect id="AnElevatorSystem/Elevator[1]/ElevatorPanel/FloorSelectionButton[7]" x="38" y="30" width="189" height="20" class="alt"/>
+     <text id="text76" x="43" y="40">bFloor:FloorSelectionButton</text>
+     <!--port[0]:-->
+     <rect id="floorSelectionButton_602.port[0]" x="35" y="34" ry="2.5" width="6" height="6"/>
+     <!--port[1]:-->
+     <rect id="floorSelectionButton_602.port[1]" x="35" y="34" ry="2.5" width="6" height="6"/>
+    </g>
+    <g id="g77">
+     <title>bFloor:floorSelectionButton_623 [ port:_623_1268 port:_623_1269]</title>
+     <rect id="AnElevatorSystem/Elevator[1]/ElevatorPanel/FloorSelectionButton[8]" x="40" y="30" width="189" height="20" class="alt"/>
+     <text id="text78" x="45" y="40">bFloor:FloorSelectionButton</text>
+     <!--port[0]:-->
+     <rect id="floorSelectionButton_623.port[0]" x="37" y="34" ry="2.5" width="6" height="6"/>
+     <!--port[1]:-->
+     <rect id="floorSelectionButton_623.port[1]" x="37" y="34" ry="2.5" width="6" height="6"/>
+    </g>
+   </g>
+   <g id="g79">
+    <title>door:door_644 [ port:_644_1270 port:_644_1271 port:_644_1272 port:_644_1273]</title>
+    <rect id="AnElevatorSystem/Elevator[1]/Door" x="22" y="30" width="63" height="20"/>
+    <text id="text80" x="27" y="40">door:Door</text>
+    <!--port[0]:-->
+    <rect id="door_644.port[0]" x="19" y="34" ry="2.5" width="6" height="6"/>
+    <!--port[1]:-->
+    <rect id="door_644.port[1]" x="19" y="34" ry="2.5" width="6" height="6"/>
+    <!--port[3]:-->
+    <rect id="door_644.port[3]" x="19" y="34" ry="2.5" width="6" height="6"/>
+    <!--port[4]:-->
+    <rect id="door_644.port[4]" x="19" y="34" ry="2.5" width="6" height="6"/>
+   </g>
+   <g transform="translate(20,20)">
+    <g id="g81">
+     <title>hoist:hoist_721 [ port:_721_1274 port:_721_1275 port:_721_1276 port:_721_1277 port:_721_1278 port:_721_1279]</title>
+     <rect id="AnElevatorSystem/Elevator[1]/Hoist" x="14" y="10" width="77" height="50"/>
+     <text id="text82" x="19" y="20">hoist:Hoist</text>
+     <!--port[0]:-->
+     <rect id="hoist_721.port[0]" x="11" y="14" ry="2.5" width="6" height="6"/>
+     <!--port[1]:-->
+     <rect id="hoist_721.port[1]" x="11" y="14" ry="2.5" width="6" height="6"/>
+     <!--port[2]:-->
+     <rect id="hoist_721.port[2]" x="11" y="14" ry="2.5" width="6" height="6"/>
+     <!--port[3]:-->
+     <rect id="hoist_721.port[3]" x="11" y="14" ry="2.5" width="6" height="6"/>
+     <!--port[4]:-->
+     <rect id="hoist_721.port[4]" x="11" y="14" ry="2.5" width="6" height="6"/>
+     <!--port[5]:-->
+     <rect id="hoist_721.port[5]" x="11" y="14" ry="2.5" width="6" height="6"/>
+    </g>
+    <g id="g83">
+     <title>tickGen:tickGenerator_776 [ port:_776_1280]</title>
+     <rect id="AnElevatorSystem/Elevator[1]/Hoist/TickGenerator" x="22" y="30" width="147" height="20" class="alt"/>
+     <text id="text84" x="27" y="40">tickGen:TickGenerator</text>
+     <!--port[0]:-->
+     <rect id="tickGenerator_776.port[0]" x="19" y="34" ry="2.5" width="6" height="6"/>
+    </g>
+   </g>
+  </g>
+  <g transform="translate(20,20)">
+   <g id="g85">
+    <title>elevator:elevator_788</title>
+    <rect id="AnElevatorSystem/Elevator[2]" x="30" y="10" width="119" height="50" class="alt"/>
+    <text id="text86" x="35" y="20">elevator:Elevator</text>
+   </g>
+   <g transform="translate(20,20)">
+    <g id="g87">
+     <title>panel:elevatorPanel_789</title>
+     <rect id="AnElevatorSystem/Elevator[2]/ElevatorPanel" x="10" y="10" width="133" height="50"/>
+     <text id="text88" x="15" y="20">panel:ElevatorPanel</text>
+    </g>
+    <g id="g89">
+     <title>iFloor:indicator_790 [ port:_790_1281 port:_790_1282]</title>
+     <rect id="AnElevatorSystem/Elevator[2]/ElevatorPanel/Indicator" x="20" y="30" width="112" height="20" class="alt"/>
+     <text id="text90" x="25" y="40">iFloor:Indicator</text>
+     <!--port[0]:-->
+     <rect id="indicator_790.port[0]" x="17" y="34" ry="2.5" width="6" height="6"/>
+     <!--port[1]:-->
+     <rect id="indicator_790.port[1]" x="17" y="34" ry="2.5" width="6" height="6"/>
+    </g>
+    <g id="g91">
+     <title>bOpen:doorControlButton_791 [ port:_791_1284 port:_791_1286]</title>
+     <rect id="AnElevatorSystem/Elevator[2]/ElevatorPanel/DoorControlButton[@roleName='bOpen']" x="22" y="30" width="161" height="20" class="alt"/>
+     <text id="text92" x="27" y="40">bOpen:DoorControlButton</text>
+     <!--port[0]:-->
+     <rect id="doorControlButton_791.port[0]" x="19" y="34" ry="2.5" width="6" height="6"/>
+     <!--port[1]:-->
+     <rect id="doorControlButton_791.port[1]" x="19" y="34" ry="2.5" width="6" height="6"/>
+    </g>
+    <g id="g93">
+     <title>bClose:doorControlButton_812 [ port:_812_1288 port:_812_1290]</title>
+     <rect id="AnElevatorSystem/Elevator[2]/ElevatorPanel/DoorControlButton[@roleName='bClose']" x="24" y="30" width="168" height="20" class="alt"/>
+     <text id="text94" x="29" y="40">bClose:DoorControlButton</text>
+     <!--port[0]:-->
+     <rect id="doorControlButton_812.port[0]" x="21" y="34" ry="2.5" width="6" height="6"/>
+     <!--port[1]:-->
+     <rect id="doorControlButton_812.port[1]" x="21" y="34" ry="2.5" width="6" height="6"/>
+    </g>
+    <g id="g95">
+     <title>bFloor:floorSelectionButton_833 [ port:_833_1291 port:_833_1292]</title>
+     <rect id="AnElevatorSystem/Elevator[2]/ElevatorPanel/FloorSelectionButton[1]" x="26" y="30" width="189" height="20" class="alt"/>
+     <text id="text96" x="31" y="40">bFloor:FloorSelectionButton</text>
+     <!--port[0]:-->
+     <rect id="floorSelectionButton_833.port[0]" x="23" y="34" ry="2.5" width="6" height="6"/>
+     <!--port[1]:-->
+     <rect id="floorSelectionButton_833.port[1]" x="23" y="34" ry="2.5" width="6" height="6"/>
+    </g>
+    <g id="g97">
+     <title>bFloor:floorSelectionButton_854 [ port:_854_1293 port:_854_1294]</title>
+     <rect id="AnElevatorSystem/Elevator[2]/ElevatorPanel/FloorSelectionButton[2]" x="28" y="30" width="189" height="20" class="alt"/>
+     <text id="text98" x="33" y="40">bFloor:FloorSelectionButton</text>
+     <!--port[0]:-->
+     <rect id="floorSelectionButton_854.port[0]" x="25" y="34" ry="2.5" width="6" height="6"/>
+     <!--port[1]:-->
+     <rect id="floorSelectionButton_854.port[1]" x="25" y="34" ry="2.5" width="6" height="6"/>
+    </g>
+    <g id="g99">
+     <title>bFloor:floorSelectionButton_875 [ port:_875_1295 port:_875_1296]</title>
+     <rect id="AnElevatorSystem/Elevator[2]/ElevatorPanel/FloorSelectionButton[3]" x="30" y="30" width="189" height="20" class="alt"/>
+     <text id="text100" x="35" y="40">bFloor:FloorSelectionButton</text>
+     <!--port[0]:-->
+     <rect id="floorSelectionButton_875.port[0]" x="27" y="34" ry="2.5" width="6" height="6"/>
+     <!--port[1]:-->
+     <rect id="floorSelectionButton_875.port[1]" x="27" y="34" ry="2.5" width="6" height="6"/>
+    </g>
+    <g id="g101">
+     <title>bFloor:floorSelectionButton_896 [ port:_896_1297 port:_896_1298]</title>
+     <rect id="AnElevatorSystem/Elevator[2]/ElevatorPanel/FloorSelectionButton[4]" x="32" y="30" width="189" height="20" class="alt"/>
+     <text id="text102" x="37" y="40">bFloor:FloorSelectionButton</text>
+     <!--port[0]:-->
+     <rect id="floorSelectionButton_896.port[0]" x="29" y="34" ry="2.5" width="6" height="6"/>
+     <!--port[1]:-->
+     <rect id="floorSelectionButton_896.port[1]" x="29" y="34" ry="2.5" width="6" height="6"/>
+    </g>
+    <g id="g103">
+     <title>bFloor:floorSelectionButton_917 [ port:_917_1299 port:_917_1300]</title>
+     <rect id="AnElevatorSystem/Elevator[2]/ElevatorPanel/FloorSelectionButton[5]" x="34" y="30" width="189" height="20" class="alt"/>
+     <text id="text104" x="39" y="40">bFloor:FloorSelectionButton</text>
+     <!--port[0]:-->
+     <rect id="floorSelectionButton_917.port[0]" x="31" y="34" ry="2.5" width="6" height="6"/>
+     <!--port[1]:-->
+     <rect id="floorSelectionButton_917.port[1]" x="31" y="34" ry="2.5" width="6" height="6"/>
+    </g>
+    <g id="g105">
+     <title>bFloor:floorSelectionButton_938 [ port:_938_1301 port:_938_1302]</title>
+     <rect id="AnElevatorSystem/Elevator[2]/ElevatorPanel/FloorSelectionButton[6]" x="36" y="30" width="189" height="20" class="alt"/>
+     <text id="text106" x="41" y="40">bFloor:FloorSelectionButton</text>
+     <!--port[0]:-->
+     <rect id="floorSelectionButton_938.port[0]" x="33" y="34" ry="2.5" width="6" height="6"/>
+     <!--port[1]:-->
+     <rect id="floorSelectionButton_938.port[1]" x="33" y="34" ry="2.5" width="6" height="6"/>
+    </g>
+    <g id="g107">
+     <title>bFloor:floorSelectionButton_959 [ port:_959_1303 port:_959_1304]</title>
+     <rect id="AnElevatorSystem/Elevator[2]/ElevatorPanel/FloorSelectionButton[7]" x="38" y="30" width="189" height="20" class="alt"/>
+     <text id="text108" x="43" y="40">bFloor:FloorSelectionButton</text>
+     <!--port[0]:-->
+     <rect id="floorSelectionButton_959.port[0]" x="35" y="34" ry="2.5" width="6" height="6"/>
+     <!--port[1]:-->
+     <rect id="floorSelectionButton_959.port[1]" x="35" y="34" ry="2.5" width="6" height="6"/>
+    </g>
+    <g id="g109">
+     <title>bFloor:floorSelectionButton_980 [ port:_980_1305 port:_980_1306]</title>
+     <rect id="AnElevatorSystem/Elevator[2]/ElevatorPanel/FloorSelectionButton[8]" x="40" y="30" width="189" height="20" class="alt"/>
+     <text id="text110" x="45" y="40">bFloor:FloorSelectionButton</text>
+     <!--port[0]:-->
+     <rect id="floorSelectionButton_980.port[0]" x="37" y="34" ry="2.5" width="6" height="6"/>
+     <!--port[1]:-->
+     <rect id="floorSelectionButton_980.port[1]" x="37" y="34" ry="2.5" width="6" height="6"/>
+    </g>
+   </g>
+   <g id="g111">
+    <title>door:door_1001 [ port:_1001_1307 port:_1001_1308 port:_1001_1309 port:_1001_1310]</title>
+    <rect id="AnElevatorSystem/Elevator[2]/Door" x="22" y="30" width="63" height="20"/>
+    <text id="text112" x="27" y="40">door:Door</text>
+    <!--port[0]:-->
+    <rect id="door_1001.port[0]" x="19" y="34" ry="2.5" width="6" height="6"/>
+    <!--port[1]:-->
+    <rect id="door_1001.port[1]" x="19" y="34" ry="2.5" width="6" height="6"/>
+    <!--port[3]:-->
+    <rect id="door_1001.port[3]" x="19" y="34" ry="2.5" width="6" height="6"/>
+    <!--port[4]:-->
+    <rect id="door_1001.port[4]" x="19" y="34" ry="2.5" width="6" height="6"/>
+   </g>
+   <g transform="translate(20,20)">
+    <g id="g113">
+     <title>hoist:hoist_1078 [ port:_1078_1311 port:_1078_1312 port:_1078_1313 port:_1078_1314 port:_1078_1315 port:_1078_1316]</title>
+     <rect id="AnElevatorSystem/Elevator[2]/Hoist" x="14" y="10" width="77" height="50"/>
+     <text id="text114" x="19" y="20">hoist:Hoist</text>
+     <!--port[0]:-->
+     <rect id="hoist_1078.port[0]" x="11" y="14" ry="2.5" width="6" height="6"/>
+     <!--port[1]:-->
+     <rect id="hoist_1078.port[1]" x="11" y="14" ry="2.5" width="6" height="6"/>
+     <!--port[2]:-->
+     <rect id="hoist_1078.port[2]" x="11" y="14" ry="2.5" width="6" height="6"/>
+     <!--port[3]:-->
+     <rect id="hoist_1078.port[3]" x="11" y="14" ry="2.5" width="6" height="6"/>
+     <!--port[4]:-->
+     <rect id="hoist_1078.port[4]" x="11" y="14" ry="2.5" width="6" height="6"/>
+     <!--port[5]:-->
+     <rect id="hoist_1078.port[5]" x="11" y="14" ry="2.5" width="6" height="6"/>
+    </g>
+    <g id="g115">
+     <title>tickGen:tickGenerator_1133 [ port:_1133_1317]</title>
+     <rect id="AnElevatorSystem/Elevator[2]/Hoist/TickGenerator" x="22" y="30" width="147" height="20" class="alt"/>
+     <text id="text116" x="27" y="40">tickGen:TickGenerator</text>
+     <!--port[0]:-->
+     <rect id="tickGenerator_1133.port[0]" x="19" y="34" ry="2.5" width="6" height="6"/>
+    </g>
+   </g>
+  </g>
+  <g id="g117">
+   <title>dispatcher:dispatcher_1145 [ port:_1145_1318 port:_1145_1319 port:_1145_1320]</title>
+   <rect id="AnElevatorSystem/Dispatcher" x="42" y="30" width="147" height="20" class="alt"/>
+   <text id="text118" x="47" y="40">dispatcher:Dispatcher</text>
+   <!--port[0]:-->
+   <rect id="dispatcher_1145.port[0]" x="39" y="34" ry="2.5" width="6" height="6"/>
+   <!--port[1]:-->
+   <rect id="dispatcher_1145.port[1]" x="39" y="34" ry="2.5" width="6" height="6"/>
+   <!--port[2]:-->
+   <rect id="dispatcher_1145.port[2]" x="39" y="34" ry="2.5" width="6" height="6"/>
+  </g>
+ <!--
+ -->
+ </g>
+</svg>

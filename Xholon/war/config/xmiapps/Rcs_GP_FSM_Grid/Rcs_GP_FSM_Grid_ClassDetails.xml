@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Rcs_GP_FSM_Grid application - Class Details
+	Author: KenWebb
+	Date:   23/05/2007
+	File:   Rcs_GP_FSM_Grid.mdzip
+	Target: Xholon 0.5 http://www.primordion.com/Xholon
+	portImplementation: ixholon
+	UML: MagicDraw UML 11.5
+	XMI: 2.1, Wed May 23 13:17:28 EDT 2007
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<xholonClassDetails xmlns:XholonStereotypes="http://www.magicdraw.com/schemas/XholonStereotypes.xmi" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+<GPase xhType="XhtypePureActiveObject">
+<!-- port: prd -->
+<port name="port" index="Product" connector="#xpointer(ancestor::GPaseSystem/G1P)"/>
+<!-- port: sub -->
+<port name="port" index="Substrate" connector="#xpointer(ancestor::GPaseSystem/Gly[1..10])"/>
+<!-- port: reg -->
+<port name="port" index="Regulation" connector="#xpointer(ancestor::GPaseSystem/PPhosphatase[1..20])"/>
+<!-- port: reg -->
+<port name="port" index="Regulation" connector="#xpointer(ancestor::GPaseSystem/PKinase[1..50])"/>
+</GPase>
+<PKinase xhType="XhtypePureActiveObject">
+<!-- port: sub -->
+<port name="port" index="Substrate" connector="#xpointer(ancestor::GPaseSystem/G1P)"/>
+<!-- port: reg -->
+<port name="port" index="Regulation" connector="#xpointer(ancestor::GPaseSystem/GPase[1..30])"/>
+</PKinase>
+<PPhosphatase xhType="XhtypePureActiveObject">
+<!-- port: sub -->
+<port name="port" index="Substrate" connector="#xpointer(ancestor::GPaseSystem/G1P)"/>
+<!-- port: reg -->
+<port name="port" index="Regulation" connector="#xpointer(ancestor::GPaseSystem/GPase[1..30])"/>
+</PPhosphatase>
+<Enzyme xhType="XhtypePureActiveObject"/>
+<SmallMolecule xhType="XhtypePurePassiveObject"/>
+<Polysaccharide xhType="XhtypePurePassiveObject"/>
+<Grid xhType="XhtypeGridEntity" implName="org.primordion.xholon.base.GridEntity"/>
+<Row xhType="XhtypeGridEntity" implName="org.primordion.xholon.base.GridEntity"/>
+<GridCell xhType="XhtypeGridEntityActivePassive" implName="org.primordion.xholon.base.GridEntity">
+<!--TODO set the instruction to the correct value: Gmt Gvt Gmg Gvg Ght Ghg etc.-->
+<config instruction="Gmt"/>
+</GridCell>
+<Aggregator_G1P xhType="XhtypePurePassiveObject"/>
+<Aggregator_Glc xhType="XhtypePurePassiveObject"/>
+<State xhType="XhtypeStateMachineEntityActive"  implName="org.primordion.xholon.base.ObservableStateMachineEntity">
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='121219297']/ancestor::StateMachine/descendant::Transition[@uid='968519337'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='446919399']/ancestor::StateMachine/descendant::Transition[@uid='698119349'])"/>
+</State>
+<PseudostateInitial xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity">
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='337219299']/ancestor::StateMachine/descendant::Transition[@uid='84819325'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='13819398']/ancestor::StateMachine/descendant::Transition[@uid='581719498'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='493519469']/ancestor::StateMachine/descendant::Transition[@uid='521619489'])"/>
+</PseudostateInitial>
+<PseudostateChoice xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<PseudostateJunction xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<PseudostateFork xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<PseudostateJoin xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<PseudostateEntryPoint xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<PseudostateExitPoint xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<TransitionExternal xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity">
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='84819325']/ancestor::StateMachine/descendant::State[@uid='121219297'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='968519337']/ancestor::StateMachine/descendant::State[@uid='446919399'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='698119349']/ancestor::StateMachine/descendant::State[@uid='121219297'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='581719498']/ancestor::StateMachine/descendant::State[@uid='934719414'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='521619489']/ancestor::StateMachine/descendant::State[@uid='575319467'])"/>
+</TransitionExternal>
+<TransitionInternal xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<TransitionLocal xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<StateMachineEntity xhType="XhtypeStateMachineEntity" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

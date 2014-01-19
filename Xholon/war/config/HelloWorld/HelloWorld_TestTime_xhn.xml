@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- HelloWorld_TestTime configuration file
+	 Ken Webb
+	 May 4, 2006 -->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Hello World (with timeouts)"/>
+	<param name="AppM" value="true"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="-1"/>
+	<!-- number of milliseconds per time step  -->
+	<param name="TimeStepInterval" value="100"/>
+	<param name="SizeMessageQueue" value="10"/>
+	<param name="InheritanceHierarchyFile" value="config/HelloWorld/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="config/HelloWorld/CompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="config/HelloWorld/ClassDetails.xml"/>
+	<param name="InformationFile" value="config/HelloWorld/Information_helloworld_testtime.xml"/>
+	<param name="JavaClassName" value="org.primordion.user.app.HelloWorld_TestTime.AppHelloWorld_TestTime"/>
+	<param name="JavaXhClassName" value="org.primordion.user.app.HelloWorld_TestTime.XhHelloWorld_TestTime"/>
+	<param name="MaxPorts" value="1"/>
+	<!-- Whether or not to capture interactions between Xholons, and output as a graphical UML Sequence Diagram. -->
+	<param name="UseInteractions" value="false"/>
+	<param name="InteractionParams" value="7,true,localhost,60001"/>
+</params>

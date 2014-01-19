@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlycogenPhosphorylaseSystem>   <!-- CatalyzingSystem  -->
+  <GlycogenPhosphorylaseB/>    <!-- RegulatedCatalyst, Inactive initially -->
+  <Glycogen> <!-- Substrate container -->
+    <Glucose multiplicity="50"/> <!-- Substrate -->
+  </Glycogen>
+  <PhosphorylaseKinase/>      <!-- Activator         -->
+  <PhosphorylasePhosphatase/> <!-- Deactivator       -->
+  <Solution/> <!-- Product container -->
+  <Atp multiplicity="52">
+    <PhosphorylGroup/>
+    <PhosphorylGroup/>
+    <PhosphorylGroup/>
+    <Adenosine/>
+  </Atp>
+  
+  <SvgClient>
+    <Attribute_String roleName="setup">${MODELNAME_DEFAULT},config/Rcs/svg/GlycogenPhosphorylase_Biology1.svg</Attribute_String>
+  </SvgClient>
+  <SvgClient>
+    <Attribute_String roleName="setup">${MODELNAME_DEFAULT},config/Rcs/svg/GPSystem_InheritanceHierarchy.svg</Attribute_String>
+  </SvgClient>
+</GlycogenPhosphorylaseSystem>

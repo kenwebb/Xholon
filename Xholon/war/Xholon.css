@@ -1,0 +1,138 @@
+/** Add css rules here for your application. */
+
+
+/** Example rules used by the template application (remove for your app) */
+h1 {
+  font-size: 2em;
+  font-weight: bold;
+  color: #777777;
+  margin: 40px 0px 70px;
+  text-align: center;
+}
+
+.sendButton {
+  display: block;
+  font-size: 16pt;
+}
+
+/** Most GWT widgets already have a style name defined */
+.gwt-DialogBox {
+  width: 400px;
+}
+
+.dialogVPanel {
+  margin: 5px;
+}
+
+.serverResponseLabelError {
+  color: red;
+}
+
+/** Set ids using widget.getElement().setId("idOfElement") */
+#closeButton {
+  margin: 15px 6px 6px;
+}
+
+// Xholon
+
+.xh-TextArea {
+  background-color: #F0F8FF;
+}
+
+/** see http://code.google.com/p/google-web-toolkit/issues/detail?id=3800&q=tree%20item%20selected&colspec=ID%20Type%20Status%20Owner%20Milestone%20Summary%20Stars */
+.gwt-Tree .gwt-TreeItem-selected  {
+  display: table !important;
+}
+
+.controlButton {
+  padding: 0px 3px 0px 1px;
+  margin: 0px 15px 0px 0px;
+  border-style: none;
+  color: #4E7BB4;
+  background-color: WhiteSmoke;
+}
+
+.toolbar, .mainMenu {
+  background-color: WhiteSmoke;
+}
+
+.xhgui {
+  border-style: double;
+}
+
+/** D3 SVG Circle Packing */
+.d3cpnode circle {
+  fill: rgb(31, 119, 180);
+  fill-opacity: .10;
+  stroke: rgb(31, 119, 180);
+  stroke-width: .5px;
+}
+.d3cpleaf circle {
+  /** fill: #ffd8b0; */
+  /** fill: none; */
+  fill: rgb(31, 119, 180);
+  fill-opacity: 0;
+  stroke-width: 0px;
+}
+
+/** D3 SVG Bubble Chart */
+.d3bubnode circle {
+  fill-opacity: 1;
+  stroke-width: 0px;
+}
+
+/** D3 SVG Treemap */
+.d3tmnode {
+  border: solid 1px white;
+  font: 10px "Courier New",courier,monospace;
+  line-height: 12px;
+  overflow: hidden;
+  position: absolute;
+  text-indent: 2px;
+}
+
+/** D3 SVG Cluster Dendrogram, radial Tree */
+.d3clsnode circle, .d3treenode circle {
+  fill: #fff;
+  fill-opacity: 1;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+.d3clslink, .d3treelink {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
+
+/** D3 text */
+.d3cpleaf text, .d3bubnode text, .d3clsnode text, .d3treenode text {
+  font: 9px "Courier New",courier,monospace;
+}
+
+/** D3 Hierarchical Edge Bundling */
+.d3hebnode {
+  font: 9px sans-serif;
+}
+.d3heblink {
+  stroke: steelblue;
+  stroke-opacity: .4;
+  fill: none;
+}
+
+/** D3 Histogram */
+g.bar rect {
+  fill: steelblue;
+  shape-rendering: crispEdges;
+}
+
+g.bar text {
+  font: 10px sans-serif;
+  fill: #fff;
+}
+
+g.axis path, g.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+

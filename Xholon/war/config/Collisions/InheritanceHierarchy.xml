@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+	<!-- Model classes -->
+	<CollisionSystem/>
+	<Population>
+		<PopAge>
+			<PopA0019/>
+			<PopA2024/>
+			<PopA2534/>
+			<PopA3544/>
+			<PopA4554/>
+			<PopA5564/>
+			<PopA6599/>
+		</PopAge>
+		<PopGmGf>
+			<PopGm/>
+			<PopGf/>
+		</PopGmGf>
+	</Population>
+	<Populations/>
+	<Driver>
+		<DriverAge>
+			<DriverA0019/>
+			<DriverA2024/>
+			<DriverA2534/>
+			<DriverA3544/>
+			<DriverA4554/>
+			<DriverA5564/>
+			<DriverA6599/>
+		</DriverAge>
+		<DriverGmGf>
+			<DriverGm/>
+			<DriverGf/>
+		</DriverGmGf>
+	</Driver>
+	<Drivers/>
+	<Scenario/>
+	<Scenarios/>
+	<Death/>
+	<Deaths/>
+	<Injury/>
+	<Injuries/>
+	<Collision/>
+	<Collisions/>
+	
+	<!-- Xholon Viewers -->
+	<!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>
