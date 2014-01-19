@@ -18,7 +18,7 @@ public interface Resources extends ClientBundleWithLookup {
   @Source("InheritanceHierarchy.xml")
   ExternalTextResource ih();
   
-  @Source("org/public/config/_common/_default_xhn.xml")
+  @Source("org/client/config/_common/_default_xhn.xml")
   ExternalTextResource default_xhn();
   
 }
