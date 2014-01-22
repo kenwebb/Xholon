@@ -190,17 +190,20 @@ test("Classifiable", 3, function() {
  * Composable
  * IXholon nodes are composed into a hierarchy (a tree structure, with a single unique root).
  * for testing, assume that root has at least 2 children
- * this tests first() next() prev() parent()
+ * this tests first() last() next() prev() parent()
  */
-test("Composable", 3, function() {
+test("Composable", 4, function() {
   var root = xh.root();
   var first = root.first();
+  var last = root.last();
   var next = first.next();
   var prev = next.prev();
   var parentFirst = first.parent();
   var parentNext = next.parent();
+  var parentLast = last.parent();
   equal(parentFirst, root, "root.first().parent() shall == root");
   equal(parentNext, root, "root.first().next().parent() shall == root");
+  equal(parentLast, root, "root.last().parent() shall == root");
   equal(prev, first, "first.next().prev() shall == first");
 });
 
@@ -498,38 +501,66 @@ test("XPath 1.0", 14, function() {
 /**
  * Restructuring the tree
  * A IXholon node can be moved around in the tree.
- * this tests remove() appendto() prependto() before() after()
+ * this tests remove() append() appendto() prepend() prependto() before() insertBefore() after() insertAfter()
  */
-test("Restructuring the tree", 10, function() {
+test("Restructuring the tree", 22, function() {
   var root = xh.root();
   var universe = root.xpath("descendant::Universe");
   // initial location
   equal(universe.parent().name(), "helloWorldSystem_4", "Universe parent is helloWorldSystem_4");
   equal(universe.prev().name(), "world_6", "Universe prev is world_6");
   var hello = universe.parent().first();
-  // remove() before()
-  universe.remove().before(hello);
-  equal(universe.next().name(), "hello_5", "Universe next is hello_5");
-  // remove() after()
-  universe.remove().after(hello);
-  equal(universe.prev().name(), "hello_5", "Universe prev is hello_5");
-  equal(universe.next().name(), "world_6", "Universe next is world_6");
-  equal(universe.parent().name(), "helloWorldSystem_4", "Universe parent is still helloWorldSystem_4");
+  
+  // remove() insertbefore()
+  universe.remove().insertbefore(hello);
+  equal(universe.next().name(), "hello_5", "insertbefore() Universe next is hello_5");
+  // remove() insertafter()
+  universe.remove().insertafter(hello);
+  equal(universe.prev().name(), "hello_5", "insertafter() Universe prev is hello_5");
+  equal(universe.next().name(), "world_6", "insertafter() Universe next is world_6");
+  equal(universe.parent().name(), "helloWorldSystem_4", "insertafter() Universe parent is still helloWorldSystem_4");
   // remove() prependto()
   var hws = universe.parent();
-  //console.log(universe.toString());
-  //console.log(universe.parent().toString());
   universe.remove().prependto(hws);
-  //console.log(universe.toString());
-  //console.log(universe.parent().toString());
-  //console.log(universe.parent().first());
-  equal(hws.first().name(), "universe_7", "Universe is first child of its parent");
+  equal(hws.first().name(), "universe_7", "prependto() Universe is first child of its parent");
   // remove() appendto()
   universe.remove().appendto(hws);
-  equal(hws.first().next().next().name(), "universe_7", "Universe is last child of its parent");
+  equal(hws.first().next().next().name(), "universe_7", "appendto() Universe is last child of its parent");
+  
   // final location should be same as initial location
   equal(universe.parent().name(), "helloWorldSystem_4", "Universe parent is again helloWorldSystem_4");
   equal(universe.prev().name(), "world_6", "Universe prev is again world_6");
+  
+  // remove() before()
+  hello.before(universe.remove());
+  equal(universe.next().name(), "hello_5", "before() Universe next is hello_5");
+  // remove() after()
+  hello.after(universe.remove());
+  equal(universe.prev().name(), "hello_5", "after() Universe prev is hello_5");
+  equal(universe.next().name(), "world_6", "after() Universe next is world_6");
+  equal(universe.parent().name(), "helloWorldSystem_4", "insertafter() Universe parent is still helloWorldSystem_4");
+  // remove() prepend()
+  var hws = universe.parent();
+  hws.prepend(universe.remove());
+  equal(hws.first().name(), "universe_7", "prepend() Universe is first child of its parent");
+  // remove() append()
+  hws.append(universe.remove());
+  equal(hws.first().next().next().name(), "universe_7", "append() Universe is last child of its parent");
+  
+  // final location should be same as initial location
+  equal(universe.parent().name(), "helloWorldSystem_4", "Universe parent is once again helloWorldSystem_4");
+  equal(universe.prev().name(), "world_6", "Universe prev is once again world_6");
+  
+  // prepend(xmlString) append(xmlString) before(xmlString) after(xmlString)
+  universe.prepend('<Galaxy roleName="zero"/>');
+  equal(universe.first().role(), "zero", "prepend(xmlString)");
+  universe.append('<Galaxy roleName="five"/>');
+  var last = universe.first().next().next().next().next().next().next();
+  equal(last.role(), "five", "append(xmlString)");
+  last.before('<Galaxy roleName="beforeFive"/>');
+  equal(last.prev().role(), "beforeFive", "before(xmlString)");
+  last.after('<Galaxy roleName="afterFive"/>');
+  equal(last.next().role(), "afterFive", "after(xmlString)");
 });
 
 /**

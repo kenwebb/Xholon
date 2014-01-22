@@ -90,6 +90,7 @@ public class XholonJsApi {
   public static native void exportTopLevelApi(IApplication app) /*-{
     
   	$wnd.xh = {};
+  	//xh = $wnd.xh; // make xh available from within Xholon; GWT alraedy has a xh function
   	$wnd.xh.html = new Object();
   	
   	// app
@@ -204,6 +205,11 @@ public class XholonJsApi {
       return this.@org.primordion.xholon.base.IXholon::getFirstChild()();
     });
     
+    // last
+    api.last = $entry(function() {
+      return this.@org.primordion.xholon.base.IXholon::getLastChild()();
+    });
+    
     // next
     api.next = $entry(function() {
       return this.@org.primordion.xholon.base.IXholon::getNextSibling()();
@@ -220,27 +226,79 @@ public class XholonJsApi {
       return this;
     });
     
-    // appendto   TODO appendTo ???
-    api.appendto = $entry(function(newParentNode) {
-      this.@org.primordion.xholon.base.IXholon::appendChild(Lorg/primordion/xholon/base/IXholon;)(newParentNode);
+    // append
+    api.append = $entry(function(content) {
+      if (content) {
+        if (typeof content == "string") {
+          $wnd.xh.service('XholonHelperService').call(-2013, content, this);
+        }
+        else {
+          content.@org.primordion.xholon.base.IXholon::appendChild(Lorg/primordion/xholon/base/IXholon;)(this);
+        }
+      }
       return this;
     });
     
-    // prependto   TODO prependTo ???
-    api.prependto = $entry(function(newParentNode) {
-      this.@org.primordion.xholon.base.IXholon::insertFirstChild(Lorg/primordion/xholon/base/IXholon;)(newParentNode);
+    // appendto   TODO appendTo as in jQuery ?
+    api.appendto = $entry(function(target) {
+      this.@org.primordion.xholon.base.IXholon::appendChild(Lorg/primordion/xholon/base/IXholon;)(target);
+      return this;
+    });
+    
+    // prepend
+    api.prepend = $entry(function(content) {
+      if (content) {
+        if (typeof content == "string") {
+          $wnd.xh.service('XholonHelperService').call(-2014, content, this);
+        }
+        else {
+          content.@org.primordion.xholon.base.IXholon::insertFirstChild(Lorg/primordion/xholon/base/IXholon;)(this);
+        }
+      }
+      return this;
+    });
+    
+    // prependto   TODO prependTo as in jQuery ?
+    api.prependto = $entry(function(target) {
+      this.@org.primordion.xholon.base.IXholon::insertFirstChild(Lorg/primordion/xholon/base/IXholon;)(target);
       return this;
     });
     
     // before
-    api.before = $entry(function(newNextSibling) {
-      this.@org.primordion.xholon.base.IXholon::insertBefore(Lorg/primordion/xholon/base/IXholon;)(newNextSibling);
+    api.before = $entry(function(content) {
+      if (content) {
+        if (typeof content == "string") {
+          $wnd.xh.service('XholonHelperService').call(-2016, content, this);
+        }
+        else {
+          content.@org.primordion.xholon.base.IXholon::insertBefore(Lorg/primordion/xholon/base/IXholon;)(this);
+        }
+      }
+      return this;
+    });
+    
+    // insertbefore TODO insertBefore as in jQuery ?
+    api.insertbefore = $entry(function(target) {
+      this.@org.primordion.xholon.base.IXholon::insertBefore(Lorg/primordion/xholon/base/IXholon;)(target);
       return this;
     });
     
     // after
-    api.after = $entry(function(newLeftSibling) {
-      this.@org.primordion.xholon.base.IXholon::insertAfter(Lorg/primordion/xholon/base/IXholon;)(newLeftSibling);
+    api.after = $entry(function(content) {
+      if (content) {
+        if (typeof content == "string") {
+          $wnd.xh.service('XholonHelperService').call(-2015, content, this);
+        }
+        else {
+          content.@org.primordion.xholon.base.IXholon::insertAfter(Lorg/primordion/xholon/base/IXholon;)(this);
+        }
+      }
+      return this;
+    });
+    
+    // insertafter TODO insertAfter as in jQuery ?
+    api.insertafter = $entry(function(target) {
+      this.@org.primordion.xholon.base.IXholon::insertAfter(Lorg/primordion/xholon/base/IXholon;)(target);
       return this;
     });
     
