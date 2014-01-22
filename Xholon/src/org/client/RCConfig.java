@@ -4,6 +4,9 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundleWithLookup;
 import com.google.gwt.resources.client.TextResource;
 
+/**
+ * @see the separate files in config/_common
+ */
 public interface RCConfig extends ClientBundleWithLookup {
   public static final RCConfig INSTANCE = GWT.create(RCConfig.class);
 
