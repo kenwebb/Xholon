@@ -2732,7 +2732,13 @@ public abstract class Application extends AbstractApplication implements IApplic
       String infoStr = rcConfig("info", findGwtClientBundle());
       // display this infoStr
       if ((infoStr != null) && (infoStr.length() != 0)) {
-        url = "data:text/xml," + URL.encode(infoStr);
+        infoStr = infoStr.trim();
+        if (infoStr.startsWith("<!doctype html>") || infoStr.startsWith("<html>")) {
+          url = "data:text/html," + URL.encode(infoStr);
+        }
+        else {
+          url = "data:text/xml," + URL.encode(infoStr);
+        }
       }
 		  else {
 			  url = GwtEnvironment.gwtHostPageBaseURL + informationFile;
