@@ -19,7 +19,7 @@ public interface Resources extends ClientBundleWithLookup {
   @Source("Furcifer_CompositeStructureHierarchy.xml")
   TextResource csh();
   
-  @Source("Furcifer_Information.xml")
+  @Source("Furcifer_Information.html")
   TextResource info();
   
   @Source("default.svg")
