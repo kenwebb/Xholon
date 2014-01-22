@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Quantity module
+To use this in a Xholon app, paste the following line into your ih.xml file:
+  <xi:include href="config/_common/_module/QuantityIh.xml"/>
+-->
+<_-.module xmlns:xi="http://www.w3.org/2001/XInclude">
+  <Quantity/>
+  <!--<xi:include href="config/_common/_mechanism/Quantity.xml"/>
+  <xi:include href="config/_common/_mechanism/QuantityCd.xml"/>
+  <xi:include href="config/_common/_mechanism/i18n/QuantityOther_en.xml"/>
+  <xi:include href="config/_common/_mechanism/i18n/QuantityOtherCd_en.xml"/>
+  <xi:include href="config/_common/_mechanism/QuantityConstant.xml"/>
+  <xi:include href="config/_common/_mechanism/QuantityConstantCd.xml"/>-->
+  <xholonClassDetails>
+    <!--<QuantityConstant implName="org.primordion.xholon.service.mathscieng.QuantityConstant"/>-->
+    <Quantity implName="org.primordion.xholon.service.mathscieng.Quantity"/>
+    <!--<Quantity implName="factory:org.primordion.xholon.service.mathscieng.QuantityFactory"/>-->
+  </xholonClassDetails>
+</_-.module>
