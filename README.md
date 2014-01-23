@@ -7,7 +7,8 @@ dynamic interactions, visualization, dynamic content updates, ...
 
 Xholon uses [Google Web Toolkit] [6] (GWT 2.5.1) to compile this repository's Java source code
 (documented [here] [7]) into a 100%-JavaScript library.
-The [JavaScript API] [1] enables writing web applications that run entirely in the browser.
+The [JavaScript API] [1] (with a [jQuery] [13]-like syntax) enables writing web applications
+that run entirely in the browser.
 
 Some of the numerous [sample apps] [2] were written in Java,
 and some exist as XML and JavaScript Xholon Workbooks available as individual [gist files] [3].
@@ -31,9 +32,13 @@ View the source code and run it, and then make a small edit in the source code a
 
 ### Other Links
 [Original Xholon site] [8]
+
 [Original Xholon wiki] [9]
+
 [Original Xholon Sourceforge project] [10]
+
 [Xholon Collaborative apps blog] [11]
+
 [Primordion site] [12]
 
   [1]: http://www.primordion.com/Xholon/gwt/jsapidoc/    "JavaScript API"
@@ -48,4 +53,5 @@ View the source code and run it, and then make a small edit in the source code a
   [10]: http://sourceforge.net/projects/xholon/    "SF project"
   [11]: http://primordion.com/collabapp/    "Collaborative apps"
   [12]: http://www.primordion.com/    "Primordion site"
+  [13]: http://api.jquery.com/    "jQuery API"
   
