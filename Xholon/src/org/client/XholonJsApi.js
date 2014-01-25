@@ -171,13 +171,13 @@ $wnd.xh.html.toggle = $entry(function(elementId) {
 
 /**
  * Get an array of top-level "xh" element id's.
- * @method html.elements
+ * @method html.xhElements
  * @return {String} a comma-delimited list
  *   (ex: "xhtop,xhgui,xhappspecific,xhconsole,xhtabs,xhchart,xhcanvas,xhgraph,xhsvg,xhimg").
  * @example
- *     $wnd.xh.html.xhelements();
+ *     $wnd.xh.html.xhElements();
  */
-$wnd.xh.html.xhelements = $entry(function() {
+$wnd.xh.html.xhElements = $entry(function() {
   return @org.client.HtmlElementCache::getTopLevelElementNames()();
 });
 
@@ -227,6 +227,17 @@ api.first = $entry(function() {
 });
 
 /**
+ * Get last (rightmost) child of this node.
+ * @method last
+ * @return {IXholon} Last child, or null.
+ * @example
+ *     var f = node.last();
+ */
+api.last = $entry(function() {
+  return this.@org.primordion.xholon.base.IXholon::getLastChild()();
+});
+
+/**
  * Get next (right) sibling of this node.
  * @method next
  * @return {IXholon} Next sibling, or null.
@@ -261,7 +272,7 @@ api.prev = $entry(function() {
  * @chainable
  * @return {IXholon} this
  * @example
- *     node.remove().appendto(newParentNode);
+ *     node.remove().appendTo(target);
  */
 api.remove = $entry(function() {
   this.@org.primordion.xholon.base.IXholon::removeChild()();
@@ -269,60 +280,154 @@ api.remove = $entry(function() {
 });
 
 /**
- * Append this node as the last child of its new parent node.
- * TODO appendTo ???
- * @method appendto
+ * Append a node as the last child of this node.
+ * @method append
  * @chainable
- * @param {IXholon} newParentNode New parent of this node.
+ * @param {IXholon|String} content An existing IXholon node,
+ * or an XML String that defines a new node or subtree.
  * @return {IXholon} this
  * @example
- *     node.remove().appendto(newParentNode);
+ *     node.append(otherNode.remove());
+ *     node.append('<One/>');
+ *     node.append('<One><Two roleName="subtreeNode"/></One>');
  */
-api.appendto = $entry(function(newParentNode) {
-  this.@org.primordion.xholon.base.IXholon::appendChild(Lorg/primordion/xholon/base/IXholon;)(newParentNode);
+api.append = $entry(function(content) {
+  if (content) {
+    if (typeof content == "string") {
+      $wnd.xh.service('XholonHelperService').call(-2013, content, this);
+    }
+    else {
+      content.@org.primordion.xholon.base.IXholon::appendChild(Lorg/primordion/xholon/base/IXholon;)(this);
+    }
+  }
+  return this;
+});
+
+/**
+ * Append this node as the last child of its new parent node.
+ * @method appendTo
+ * @chainable
+ * @param {IXholon} target New parent of this node.
+ * @return {IXholon} this
+ * @example
+ *     node.remove().appendTo(target);
+ */
+api.appendTo = $entry(function(target) {
+  this.@org.primordion.xholon.base.IXholon::appendChild(Lorg/primordion/xholon/base/IXholon;)(target);
+  return this;
+});
+
+/**
+ * Insert a node as the first child of this node.
+ * @method prepend
+ * @chainable
+ * @param {IXholon|String} content An existing IXholon node,
+ * or an XML String that defines a new node or subtree.
+ * @return {IXholon} this
+ * @example
+ *     node.prepend(otherNode.remove());
+ *     node.prepend('<One/>');
+ *     node.prepend('<One><Two roleName="subtreeNode"/></One>');
+ */
+api.prepend = $entry(function(content) {
+  if (content) {
+    if (typeof content == "string") {
+      $wnd.xh.service('XholonHelperService').call(-2014, content, this);
+    }
+    else {
+      content.@org.primordion.xholon.base.IXholon::insertFirstChild(Lorg/primordion/xholon/base/IXholon;)(this);
+    }
+  }
   return this;
 });
 
 /**
  * Insert this node as the first child of its new parent node.
- * TODO prependTo ???
- * @method prependto
+ * @method prependTo
  * @chainable
- * @param {IXholon} newParentNode New parent of this node.
+ * @param {IXholon} target New parent of this node.
  * @return {IXholon} this
  * @example
- *     node.remove().prependto(newParentNode);
+ *     node.remove().prependTo(target);
  */
-api.prependto = $entry(function(newParentNode) {
-  this.@org.primordion.xholon.base.IXholon::insertFirstChild(Lorg/primordion/xholon/base/IXholon;)(newParentNode);
+api.prependTo = $entry(function(target) {
+  this.@org.primordion.xholon.base.IXholon::insertFirstChild(Lorg/primordion/xholon/base/IXholon;)(target);
+  return this;
+});
+
+/**
+ * Insert a node before this node.
+ * @method before
+ * @chainable
+ * @param {IXholon|String} content An existing IXholon node,
+ * or an XML String that defines a new node or subtree.
+ * @return {IXholon} this
+ * @example
+ *     node.before(otherNode.remove());
+ *     node.before('<One/>');
+ *     node.before('<One><Two roleName="subtreeNode"/></One>');
+ */
+api.before = $entry(function(content) {
+  if (content) {
+    if (typeof content == "string") {
+      $wnd.xh.service('XholonHelperService').call(-2016, content, this);
+    }
+    else {
+      content.@org.primordion.xholon.base.IXholon::insertBefore(Lorg/primordion/xholon/base/IXholon;)(this);
+    }
+  }
   return this;
 });
 
 /**
  * Insert this node before its new next sibling node.
- * @method before
+ * @method insertBefore
  * @chainable
- * @param {IXholon} newNextSibling New next sibling of this node.
+ * @param {IXholon} target New next sibling of this node.
  * @return {IXholon} this
  * @example
- *     node.before(otherNode);
+ *     node.insertBefore(target);
  */
-api.before = $entry(function(newNextSibling) {
-  this.@org.primordion.xholon.base.IXholon::insertBefore(Lorg/primordion/xholon/base/IXholon;)(newNextSibling);
+api.insertBefore = $entry(function(target) {
+  this.@org.primordion.xholon.base.IXholon::insertBefore(Lorg/primordion/xholon/base/IXholon;)(target);
+  return this;
+});
+
+/**
+ * Insert a node after this node.
+ * @method after
+ * @chainable
+ * @param {IXholon|String} content An existing IXholon node,
+ * or an XML String that defines a new node or subtree.
+ * @return {IXholon} this
+ * @example
+ *     node.after(otherNode.remove());
+ *     node.after('<One/>');
+ *     node.after('<One><Two roleName="subtreeNode"/></One>');
+ */
+api.after = $entry(function(content) {
+  if (content) {
+    if (typeof content == "string") {
+      $wnd.xh.service('XholonHelperService').call(-2015, content, this);
+    }
+    else {
+      content.@org.primordion.xholon.base.IXholon::insertAfter(Lorg/primordion/xholon/base/IXholon;)(this);
+    }
+  }
   return this;
 });
 
 /**
  * Insert this node after its new previous sibling node.
- * @method after
+ * @method insertAfter
  * @chainable
- * @param {IXholon} newPreviousSibling New previous sibling of this node.
+ * @param {IXholon} target New previous sibling of this node.
  * @return {IXholon} this
  * @example
- *     node.after(otherNode);
+ *     node.insertAfter(target);
  */
-api.after = $entry(function(newPreviousSibling) {
-  this.@org.primordion.xholon.base.IXholon::insertAfter(Lorg/primordion/xholon/base/IXholon;)(newLeftSibling);
+api.insertAfter = $entry(function(target) {
+  this.@org.primordion.xholon.base.IXholon::insertAfter(Lorg/primordion/xholon/base/IXholon;)(target);
   return this;
 });
 
@@ -698,23 +803,23 @@ api.ports = $entry(function() {
 
 /**
  * Get all ports as an array.
- * @method portspec
+ * @method portSpec
  * @return {PortInformation[]} An array of PortInformation objects, or an empty array.
  * @example
- *     console.log(node.portspec()[0].obj().reffedNode.toString());
+ *     console.log(node.portSpec()[0].obj().reffedNode.toString());
  */
-api.portspec = $entry(function() {
-  return @org.client.XholonJsApi::portspec(Lorg/primordion/xholon/base/IXholon;)(this);
+api.portSpec = $entry(function() {
+  return @org.client.XholonJsApi::portSpec(Lorg/primordion/xholon/base/IXholon;)(this);
 });
 
 /**
  * Get the names of all ports.
- * @method portnames
+ * @method portNames
  * @return {String} A comma-separated list of port names and indexes.
  * @example
- *     console.log(node.portnames());
+ *     console.log(node.portNames());
  */
-api.portnames = $entry(function() {
+api.portNames = $entry(function() {
   var node = this;
   var clazz = node.@org.primordion.xholon.base.IXholon::getClass()();
   var app = $wnd.xh.app();
@@ -751,13 +856,13 @@ api.attr = $entry(function(attrName, attrVal) {
 
 /**
  * Is there an attribute with the specified name.
- * @method isattr
+ * @method isAttr
  * @param {String} attrName An attribute name.
  * @return {boolean} true or false
  * @example
- *     console.log(node.isattr("myAttr"));
+ *     console.log(node.isAttr("myAttr"));
  */
-api.isattr = $entry(function(attrName) {
+api.isAttr = $entry(function(attrName) {
   var node = this;
   var clazz = node.@org.primordion.xholon.base.IXholon::getClass()();
   var app = $wnd.xh.app();

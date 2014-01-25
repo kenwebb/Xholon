@@ -121,8 +121,8 @@ test("Attrs", 1, function() {
   ok(true, "JavaScript attributes of root are written to the browser console.");
 });
 
-test("html.xhelements", 1, function() {
-  var eleNames = xh.html.xhelements();
+test("html.xhElements", 1, function() {
+  var eleNames = xh.html.xhElements();
   var expected = "xhtop,xhgui,xhappspecific,xhconsole,xhtabs,xhchart,xhcanvas,xhgraph,xhsvg,xhimg,xhunittest,xhfooter";
   notEqual(eleNames, null,
     "List of top-level HTML div elements can be generated and returned: " + eleNames);
@@ -153,9 +153,9 @@ test("Attributable", 11, function() {
     "node.attr(attrName, attrValue) setter shall return node (chainable)");
   equal(root.attr(), null, "node.attr() with no attrName shall return null");
   
-  equal(first.isattr("state"), true, 'first has an attribute called "state"');
-  equal(first.isattr("State"), true, 'first has an attribute called "State" (case-insensitive)');
-  equal(first.isattr("abc"), false, 'first does not have an attribute called "abc"');
+  equal(first.isAttr("state"), true, 'first has an attribute called "state"');
+  equal(first.isAttr("State"), true, 'first has an attribute called "State" (case-insensitive)');
+  equal(first.isAttr("abc"), false, 'first does not have an attribute called "abc"');
   equal(root.attr("state"), 0, 'the "state" attribute in root has a value of 0');
   root.attr("state", "18");
   equal(root.attr("state"), "18", 'the value of the "state" attribute in root can be set using a String');
@@ -178,12 +178,18 @@ test("Attributable", 11, function() {
  * An IXholon node shall have an associated IXholonClass.
  * this tests xhc()
  */
-test("Classifiable", 3, function() {
+test("Classifiable", 7, function() {
   var root = xh.root();
   var xhc = root.xhc();
   notEqual(xhc, null, "each IXholon node shall reference a IXholonClass class node");
   equal(typeof xhc.id(), "number", "xhc.id() shall return a unique identifying number");
   notEqual(xhc.name(), null, "xhc.name() shall not == null");
+  // hasClass()
+  var galaxy = root.last().last().first();
+  equal(galaxy.hasClass("Galaxy"), true, "a galaxy is a Galaxy");
+  equal(galaxy.hasClass("AstronomicalObject"), true, "a galaxy is an AstronomicalObject");
+  equal(galaxy.hasClass("XholonClass"), true, "a galaxy is a XholonClass");
+  equal(galaxy.hasClass("Asteroid"), false, "a galaxy is not an Asteroid");
 });
 
 /**
@@ -212,7 +218,7 @@ test("Composable", 4, function() {
  * An IXholon node may be connected to other nodes by ports.
  * for testing, assume that root has at least 2 children,
  * and that the first 2 children are bidirectionally connected by ports
- * this tests port(0) port("x") portnames() ports() portspec()
+ * this tests port(0) port("x") portNames() ports() portSpec()
  */
 test("Connectable", 17, function() {
   var root = xh.root();
@@ -222,14 +228,14 @@ test("Connectable", 17, function() {
   var nextPort = next.port(0);
   equal(nextPort, first, "next.port(0) == first");
   equal(firstPort, next, "first.port(0) == next");
-  console.log(first.portnames()); // 0,
+  console.log(first.portNames()); // 0,
   console.log(first.ports()); // array of 1 "org.primordion.xholon.base.PortInformation"
-  console.log(first.portspec()); // array of 1 "org.primordion.xholon.base.PortInformation"
+  console.log(first.portSpec()); // array of 1 "org.primordion.xholon.base.PortInformation"
   console.log(first.ports()[0].obj());
-  console.log(first.portspec()[0].obj());
-  equal(first.portnames(), "0,", 'portnames() == "0,"');
+  console.log(first.portSpec()[0].obj());
+  equal(first.portNames(), "0,", 'portNames() == "0,"');
   notEqual(first.ports(), null, "ports()");
-  notEqual(first.portspec(), null, "portspec()");
+  notEqual(first.portSpec(), null, "portSpec()");
   
   // ports()[0].obj()
   var portInfoObj = first.ports()[0].obj();
@@ -501,7 +507,7 @@ test("XPath 1.0", 14, function() {
 /**
  * Restructuring the tree
  * A IXholon node can be moved around in the tree.
- * this tests remove() append() appendto() prepend() prependto() before() insertBefore() after() insertAfter()
+ * this tests remove() append() appendTo() prepend() prependTo() before() insertBefore() after() insertAfter()
  */
 test("Restructuring the tree", 22, function() {
   var root = xh.root();
@@ -511,21 +517,21 @@ test("Restructuring the tree", 22, function() {
   equal(universe.prev().name(), "world_6", "Universe prev is world_6");
   var hello = universe.parent().first();
   
-  // remove() insertbefore()
-  universe.remove().insertbefore(hello);
-  equal(universe.next().name(), "hello_5", "insertbefore() Universe next is hello_5");
-  // remove() insertafter()
-  universe.remove().insertafter(hello);
-  equal(universe.prev().name(), "hello_5", "insertafter() Universe prev is hello_5");
-  equal(universe.next().name(), "world_6", "insertafter() Universe next is world_6");
-  equal(universe.parent().name(), "helloWorldSystem_4", "insertafter() Universe parent is still helloWorldSystem_4");
-  // remove() prependto()
+  // remove() insertBefore()
+  universe.remove().insertBefore(hello);
+  equal(universe.next().name(), "hello_5", "insertBefore() Universe next is hello_5");
+  // remove() insertAfter()
+  universe.remove().insertAfter(hello);
+  equal(universe.prev().name(), "hello_5", "insertAfter() Universe prev is hello_5");
+  equal(universe.next().name(), "world_6", "insertAfter() Universe next is world_6");
+  equal(universe.parent().name(), "helloWorldSystem_4", "insertAfter() Universe parent is still helloWorldSystem_4");
+  // remove() prependTo()
   var hws = universe.parent();
-  universe.remove().prependto(hws);
-  equal(hws.first().name(), "universe_7", "prependto() Universe is first child of its parent");
-  // remove() appendto()
-  universe.remove().appendto(hws);
-  equal(hws.first().next().next().name(), "universe_7", "appendto() Universe is last child of its parent");
+  universe.remove().prependTo(hws);
+  equal(hws.first().name(), "universe_7", "prependTo() Universe is first child of its parent");
+  // remove() appendTo()
+  universe.remove().appendTo(hws);
+  equal(hws.first().next().next().name(), "universe_7", "appendTo() Universe is last child of its parent");
   
   // final location should be same as initial location
   equal(universe.parent().name(), "helloWorldSystem_4", "Universe parent is again helloWorldSystem_4");
@@ -538,7 +544,7 @@ test("Restructuring the tree", 22, function() {
   hello.after(universe.remove());
   equal(universe.prev().name(), "hello_5", "after() Universe prev is hello_5");
   equal(universe.next().name(), "world_6", "after() Universe next is world_6");
-  equal(universe.parent().name(), "helloWorldSystem_4", "insertafter() Universe parent is still helloWorldSystem_4");
+  equal(universe.parent().name(), "helloWorldSystem_4", "after() Universe parent is still helloWorldSystem_4");
   // remove() prepend()
   var hws = universe.parent();
   hws.prepend(universe.remove());

@@ -68,7 +68,7 @@ public class XholonJsApi {
    * @param node
    * @return An array of PortInformation objects, or an empty array.
    */
-  public static Object[] portspec(IXholon node) {
+  public static Object[] portSpec(IXholon node) {
     return ReflectionFactory.instance().getAllPorts(node, false).toArray();
   }
   
@@ -90,7 +90,7 @@ public class XholonJsApi {
   public static native void exportTopLevelApi(IApplication app) /*-{
     
   	$wnd.xh = {};
-  	//xh = $wnd.xh; // make xh available from within Xholon; GWT alraedy has a xh function
+  	//xh = $wnd.xh; // make xh available from within Xholon; GWT already has a xh function
   	$wnd.xh.html = new Object();
   	
   	// app
@@ -167,8 +167,8 @@ public class XholonJsApi {
       @org.client.HtmlElementCache::toggleElementDisplay(Ljava/lang/String;)(elementId);
     });
     
-    // html.xhelements
-    $wnd.xh.html.xhelements = $entry(function() {
+    // html.xhElements
+    $wnd.xh.html.xhElements = $entry(function() {
       return @org.client.HtmlElementCache::getTopLevelElementNames()();
     });
     
@@ -239,8 +239,8 @@ public class XholonJsApi {
       return this;
     });
     
-    // appendto   TODO appendTo as in jQuery ?
-    api.appendto = $entry(function(target) {
+    // appendTo
+    api.appendTo = $entry(function(target) {
       this.@org.primordion.xholon.base.IXholon::appendChild(Lorg/primordion/xholon/base/IXholon;)(target);
       return this;
     });
@@ -258,8 +258,8 @@ public class XholonJsApi {
       return this;
     });
     
-    // prependto   TODO prependTo as in jQuery ?
-    api.prependto = $entry(function(target) {
+    // prependTo
+    api.prependTo = $entry(function(target) {
       this.@org.primordion.xholon.base.IXholon::insertFirstChild(Lorg/primordion/xholon/base/IXholon;)(target);
       return this;
     });
@@ -277,8 +277,8 @@ public class XholonJsApi {
       return this;
     });
     
-    // insertbefore TODO insertBefore as in jQuery ?
-    api.insertbefore = $entry(function(target) {
+    // insertBefore
+    api.insertBefore = $entry(function(target) {
       this.@org.primordion.xholon.base.IXholon::insertBefore(Lorg/primordion/xholon/base/IXholon;)(target);
       return this;
     });
@@ -296,8 +296,8 @@ public class XholonJsApi {
       return this;
     });
     
-    // insertafter TODO insertAfter as in jQuery ?
-    api.insertafter = $entry(function(target) {
+    // insertAfter
+    api.insertAfter = $entry(function(target) {
       this.@org.primordion.xholon.base.IXholon::insertAfter(Lorg/primordion/xholon/base/IXholon;)(target);
       return this;
     });
@@ -472,13 +472,13 @@ public class XholonJsApi {
       return @org.client.XholonJsApi::ports(Lorg/primordion/xholon/base/IXholon;)(this);
     });
     
-    // ports (from Reflection and xhc)
-    api.portspec = $entry(function() {
-      return @org.client.XholonJsApi::portspec(Lorg/primordion/xholon/base/IXholon;)(this);
+    // portSpec (from Reflection and xhc)
+    api.portSpec = $entry(function() {
+      return @org.client.XholonJsApi::portSpec(Lorg/primordion/xholon/base/IXholon;)(this);
     });
     
-    // portnames
-    api.portnames = $entry(function() {
+    // portNames
+    api.portNames = $entry(function() {
       var node = this;
       var clazz = node.@org.primordion.xholon.base.IXholon::getClass()();
       var app = $wnd.xh.app();
@@ -503,8 +503,8 @@ public class XholonJsApi {
       }
     });
     
-    // isattr
-    api.isattr = $entry(function(attrName) {
+    // isAttr
+    api.isAttr = $entry(function(attrName) {
       var node = this;
       var clazz = node.@org.primordion.xholon.base.IXholon::getClass()();
       var app = $wnd.xh.app();
@@ -522,6 +522,12 @@ public class XholonJsApi {
     // xpath
     api.xpath = $entry(function(expression) {
       return @org.client.XholonJsApi::xpath(Ljava/lang/String;Lorg/primordion/xholon/base/IXholon;)(expression, this);
+    });
+    
+    // hasClass
+    api.hasClass = $entry(function(className) {
+      var xhc = this.@org.primordion.xholon.base.IXholon::getXhc()();
+      return xhc.@org.primordion.xholon.base.IXholonClass::hasAncestor(Ljava/lang/String;)(className);
     });
     
     // TODO pcs(expression) and select(expression)
