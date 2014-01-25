@@ -8,8 +8,10 @@
 	<HelloWorldSystem/>
   <Hello/>
   <World/>
-  <Universe/>
-  <Galaxy/>
+  <AstronomicalObject>
+    <Universe/>
+    <Galaxy/>
+  </AstronomicalObject>
 	
 	<!-- quantities -->
 	<xi:include href="config/_common/_module/QuantityIh.xml"/>
