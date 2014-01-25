@@ -16,7 +16,7 @@
 
     move: function() {
       var destination = zombie.parent().port(direction);
-      zombie.remove().appendto(destination);
+      zombie.remove().appendTo(destination);
     },
 
     toString: function() {

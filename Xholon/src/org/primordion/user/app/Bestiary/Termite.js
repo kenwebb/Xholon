@@ -60,7 +60,7 @@ var beh = {
           }
       }
       if (destination) {
-        termite.remove().appendto(destination);
+        termite.remove().appendTo(destination);
         foundNewLocation = true;
       }
     }

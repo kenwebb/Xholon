@@ -61,7 +61,7 @@ var beh = {
           }
       }
       if (destination) {
-        dog.remove().appendto(destination);
+        dog.remove().appendTo(destination);
         foundNewLocation = true;
       }
     }
