@@ -1,0 +1,119 @@
+/* Ealontro - systems that evolve and adapt to their environment
+ * Copyright (C) 2006, 2007, 2008 Ken Webb
+ *
+ * This library is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ */
+
+package org.primordion.ealontro.app;
+
+import org.primordion.xholon.base.IActivity;
+import org.primordion.xholon.base.IXholon;
+import org.primordion.xholon.base.XholonWithPorts;
+
+/**
+ * ECJ Ant.
+ * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
+ * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
+ * @since 0.3 (Created on May 31, 2006)
+ */
+public class XhEcjAntTrail extends XholonWithPorts implements IActivity, CeAntTrail {
+	
+	// state variables, control variables
+	public double val = 0.0; // food
+	public String roleName = null;
+
+	/**
+	 * Constructor.
+	 */
+	public XhEcjAntTrail() {}
+
+	/*
+	 * @see org.primordion.xholon.base.IXholon#initialize()
+	 */
+	public void initialize()
+	{
+		super.initialize();
+		val = 0.0;
+		roleName = null;
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.IXholon#getVal()
+	 */
+	public double getVal()
+	{ return this.val; }
+	
+	/*
+	 * @see org.primordion.xholon.base.IXholon#setVal(double)
+	 */
+	public void setVal(double val)
+	{ this.val = val; }
+	
+	/*
+	 * @see org.primordion.xholon.base.IXholon#incVal(double)
+	 */
+	public void incVal(double incAmount)
+	{ this.val += incAmount; }
+	
+	/*
+	 * @see org.primordion.xholon.base.IXholon#decVal(double)
+	 */
+	public void decVal(double decAmount)
+	{ this.val += decAmount; }
+	
+	/*
+	 * @see org.primordion.xholon.base.IXholon#setRoleName(java.lang.String)
+	 */
+	public void setRoleName(String roleName)
+	{ this.roleName = roleName; }
+	
+	/*
+	 * @see org.primordion.xholon.base.IXholon#getRoleName()
+	 */
+	public String getRoleName()
+	{ return roleName; }
+	
+	/*
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		String outStr = getName();
+		IXholon node;
+		switch(xhc.getId()) {
+		case GeneticProgramCE:
+			outStr += "[sizeOfPfTree:" + (treeSize() - 1) + "]";
+			break;
+		case EcjAntTrailSystemCE:
+			node = getFirstChild().getNextSibling();
+			outStr += "[sizeOfPfTree:" + (node.treeSize() - 1) + "]";
+			break;
+		case FoodCE:
+			outStr += " [val:" + val + "]";
+			break;
+		default:
+			break;
+		} // end switch
+		if ((port != null) && (port.length > 0)) {
+			outStr += " [";
+			for (int i = 0; i < port.length; i++) {
+				if (port[i] != null) {
+					outStr += " port:" + port[i].getName();
+				}
+			}
+			outStr += "]";
+		}
+		return outStr;
+	}
+}

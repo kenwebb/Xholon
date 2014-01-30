@@ -1,0 +1,273 @@
+/* Ealontro - systems that evolve and adapt to their environment
+ * Copyright (C) 2006, 2007, 2008 Ken Webb
+ *
+ * This library is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ */
+
+package org.primordion.ealontro.app;
+
+import org.primordion.ealontro.gp.XhKozaStatistics;
+import org.primordion.ealontro.gp.XhSimpleEvolutionState;
+import org.primordion.xholon.app.Application;
+import org.primordion.xholon.base.IControl;
+import org.primordion.xholon.base.IXholon;
+import org.primordion.xholon.base.XholonTime;
+import org.primordion.xholon.exception.XholonConfigurationException;
+import org.primordion.xholon.util.StringTokenizer;
+
+import ec.EvolutionState;
+import ec.Evolve;
+//import ec.util.Output;
+import ec.util.Parameter;
+import ec.util.ParameterDatabase;
+
+/**
+ * ECJ Application superclass.
+ * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
+ * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
+ * @since 0.3 (Created on June 14, 2006)
+ */
+public abstract class AppEcj extends Application {
+
+	// Chart worst, average, and best fitness in each generation
+	protected static final int CHART_WORST_FITNESS = 0;
+	protected static final int CHART_AVERAGE_FITNESS = 1;
+	protected static final int CHART_BEST_FITNESS = 2;
+	protected static final int NUM_FITNESS_VALUES = 3;
+	protected static String fitnessValueNames[] = {"Worst", "Average", "Best"}; //= new String[NUM_FITNESS_VALUES];
+	
+	// ECJ
+	protected String ecjArgs;
+	protected String[] ecjArgsArray; // array version of ecjArgs
+	protected EvolutionState state;
+	protected ParameterDatabase parameters;
+	protected int currentJob = 0;
+	protected int numJobs = 1;
+	
+	/**
+	 * Constructor.
+	 */
+	public AppEcj()
+	{
+		super();
+		chartViewer = null;
+	}
+	
+	//                                        Setters for input parameters	
+	/** @param ecjArgs The ecjArgs to set. */
+	public void setEcjArgs(String ecjArgs)
+	{
+		this.ecjArgs = ecjArgs;
+		//this.ecjArgsArray = ecjArgs.split(" ");
+		StringTokenizer st = new StringTokenizer(ecjArgs, " ");
+		this.ecjArgsArray = new String[st.countTokens()];
+		for (int i = 0; i < st.countTokens(); i++) {
+			this.ecjArgsArray[i] = st.nextToken();
+		}
+		
+	}
+	
+	//                                        Getters for input parameters
+	
+	/** @return The ecjArgs to get. */
+	public String getEcjArgs() {return ecjArgs;}
+
+	/*
+	 * @see org.primordion.xholon.app.Application#setParam(java.lang.String, java.lang.String)
+	 */
+	public boolean setParam(String pName, String pValue)
+	{
+		if ("EcjArgs".equals(pName)) {setEcjArgs(pValue); return true;}
+		return super.setParam(pName, pValue);
+	}
+
+	/*
+	 * @see org.primordion.xholon.app.IApplication#initialize(java.lang.String)
+	 */
+	public void initialize( String configFileName ) throws XholonConfigurationException
+	{
+		modelName = configFileName;
+		super.initialize(configFileName);		
+		ecjInitialize(ecjArgsArray); // ECJ
+	}
+	
+	/**
+	 * Get the default class that Xholons in this application will belong to.
+	 * @return The Xholon class.
+	 */
+	public abstract Class getXhClass();
+
+	/*
+	 * @see org.primordion.xholon.app.IApplication#process()
+	 */
+	public void process()
+	{
+		while ((getControllerState() != IControl.CS_RUNNING)
+				&& (getControllerState() != IControl.CS_STEPPING)) {
+			root.processSystemMessageQ();
+			XholonTime.sleep(500);
+		}
+		root.processSystemMessageQ();
+		saveSnapshot();
+		ecjProcess(); // ECJ
+	}
+
+	/*
+	 * @see org.primordion.xholon.app.IApplication#wrapup()
+	 */
+	public void wrapup()
+	{
+		super.wrapup();
+		ecjWrapup(); // ECJ
+		saveSnapshot();
+	}
+	
+	/*
+	 * @see org.primordion.xholon.app.Application#shouldBePlotted(org.primordion.xholon.base.IXholon)
+	 */
+	protected boolean shouldBePlotted(IXholon modelNode)
+	{
+		// No data in the tree is plotted; only the fitness values.
+		return false;
+	}
+	
+	/**
+	 * This code is taken from ECJ Evolve.main()
+	 */
+	protected void ecjInitialize(String[] args)
+	{
+		state = Evolve.possiblyRestoreFromCheckpoint(args);
+		if (state != null) {
+			try {
+				if (state.runtimeArguments == null) {
+					logger.error("Checkpoint completed from job started by foreign program. Exiting...");
+					//Output.initialError("Checkpoint completed from job started by foreign program. Exiting...");
+				}
+				args = state.runtimeArguments;
+				currentJob = ((Integer)(state.job[0])).intValue() + 1;
+			}
+			catch (Exception e) {
+				logger.error("EvolutionState's jobs variable is not set up properly. Exiting...");
+				//Output.initialError("EvolutionState's jobs variable is not set up properly. Exiting...");
+			}
+			state.startFromCheckpoint(); // see EvolutionState.run()
+			Evolve.cleanup(state);
+		}
+		parameters = Evolve.loadParameterDatabase(args);
+		numJobs = parameters.getIntWithDefault(new Parameter("jobs"), null, 1);
+		if (numJobs < 1) {
+			logger.error("The 'jobs' parameter must be >= 1 (or not exist, which defaults to 1)");
+			//Output.initialError("The 'jobs' parameter must be >= 1 (or not exist, which defaults to 1)");
+		}
+		XhKozaStatistics.setCshFilePath(modelName);
+	}
+	/**
+	 * ECJ main process loop.
+	 */
+	protected void ecjProcess()
+	{
+		for (int job = currentJob; job < numJobs; job++) {
+			if (parameters == null) {
+				parameters = Evolve.loadParameterDatabase(ecjArgsArray);
+			}
+			state = Evolve.initialize(parameters, job);
+			state.output.systemMessage("Job: " + job);
+			state.job = new Object[1];
+			state.job[0] = new Integer(job);
+			state.runtimeArguments = ecjArgsArray;
+			if (numJobs > 1) {
+				String jobFilePrefix = "job." + job + ".";
+				state.output.setFilePrefix(jobFilePrefix);
+				state.checkpointPrefix = jobFilePrefix + state.checkpointPrefix;
+			}
+			XhSimpleEvolutionState.setRoot(getRoot());
+			ecjRun(); // ECJ
+		}
+		setControllerState(IControl.CS_STOPPED);
+	}
+	
+	/**
+	 * Get the root node that will be used by ECJ.
+	 * @return The ECJ root node.
+	 */
+	// Application now has getRoot()
+	//protected IXholon getRoot()
+	//{
+	//	return root;
+	//}
+	
+	/**
+	 * ECJ main process loop for one job.
+	 */
+	protected void ecjRun()
+	{
+		state.startFresh();
+		int result = EvolutionState.R_NOTDONE;
+		int gen = 0; // independently keep track of current generation
+		while (result == EvolutionState.R_NOTDONE) {
+			while (getControllerState() == IControl.CS_PAUSED) {
+				XholonTime.sleep(500);
+			}
+			result = state.evolve();
+			capture(gen); // capture chart data
+			gen++;
+			if (getControllerState() == IControl.CS_STEPPING) {
+				setControllerState(IControl.CS_PAUSED);
+			}
+			if (getControllerState() == IControl.CS_STOPPED) {
+				break;
+			}
+			XholonTime.sleep( getTimeStepInterval() );
+			// save a snapshot at the start of each generation
+			saveSnapshot();
+		}
+		state.finish(result);
+	}
+	
+	/**
+	 * Wrapup ECJ.
+	 */
+	protected void ecjWrapup()
+	{
+		for (int job = currentJob; job < numJobs; job++) {
+			Evolve.cleanup(state);
+			parameters = null;
+		}
+	}
+	
+	/*
+	 * @see org.primordion.xholon.app.Application#createChart(org.primordion.xholon.base.IXholon)
+	 */
+	public void createChart(IXholon chartRoot)
+	{
+		super.createChart(chartRoot);
+		chartViewer.createXySeries(NUM_FITNESS_VALUES, fitnessValueNames);
+		chartViewer.setYFormat("%.4f");
+	}
+	
+	/**
+	 * Capture chart data.
+	 */
+	protected void capture(int gen)
+	{
+		double yVal[] = new double[NUM_FITNESS_VALUES];
+		if (getUseDataPlotter()) {
+			yVal[CHART_WORST_FITNESS] = ((XhKozaStatistics)state.statistics).getWorstFitnessThisGeneration();
+			yVal[CHART_AVERAGE_FITNESS] = ((XhKozaStatistics)state.statistics).getAverageFitnessThisGeneration();
+			yVal[CHART_BEST_FITNESS] = ((XhKozaStatistics)state.statistics).getBestFitnessThisGeneration();
+			chartViewer.capture(NUM_FITNESS_VALUES, gen, yVal);
+		}
+	}
+}

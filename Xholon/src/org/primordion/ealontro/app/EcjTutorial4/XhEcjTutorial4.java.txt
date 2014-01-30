@@ -1,0 +1,98 @@
+/* Ealontro - systems that evolve and adapt to their environment
+ * Copyright (C) 2006, 2007, 2008 Ken Webb
+ *
+ * This library is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ */
+
+package org.primordion.ealontro.app;
+
+import org.primordion.xholon.base.IActivity;
+import org.primordion.xholon.base.IXholon;
+import org.primordion.xholon.base.XholonWithPorts;
+
+/**
+ * ECJ Tutorial 4.
+ * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
+ * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
+ * @since 0.3 (Created on May 27, 2006)
+ */
+public class XhEcjTutorial4 extends XholonWithPorts implements IActivity, CeTutorial4 {
+	
+	// state variables, control variables
+	//public double val; // xVariable, yVariable
+	public String roleName = null;
+
+	/**
+	 * Constructor.
+	 */
+	public XhEcjTutorial4()	{}
+
+	/*
+	 * @see org.primordion.xholon.base.IXholon#initialize()
+	 */
+	public void initialize()
+	{
+		super.initialize();
+		roleName = null;
+	}	
+	
+	/*
+	 * @see org.primordion.xholon.base.IXholon#setRoleName(java.lang.String)
+	 */
+	public void setRoleName(String roleName)
+	{
+		this.roleName = roleName;
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.IXholon#getRoleName()
+	 */
+	public String getRoleName()
+	{
+		return roleName;
+	}
+
+	/*
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		String outStr = getName();
+		IXholon node;
+		switch(xhc.getId()) {
+		case GeneticProgramCE:
+			outStr += "[sizeOfPfTree:" + (treeSize() - 1)
+					+ "]";
+			break;
+		case EcjTutorial4SystemCE:
+			node = getFirstChild().getNextSibling();
+			outStr += "[sizeOfPfTree:" + (node.treeSize() - 1) + "]";
+			break;
+		case MultiValuedRegressionCE:
+			break;
+		default:
+			break;
+		} // end switch
+		if ((port != null) && (port.length > 0)) {
+			outStr += " [";
+			for (int i = 0; i < port.length; i++) {
+				if (port[i] != null) {
+					outStr += " port:" + port[i].getName();
+				}
+			}
+			outStr += "]";
+		}
+		return outStr;
+	}
+}

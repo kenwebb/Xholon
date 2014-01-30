@@ -1,0 +1,81 @@
+package org.primordion.user.app.Risk;
+
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.FlowLayout;
+
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import org.apache.batik.swing.JSVGCanvas;
+import org.apache.batik.swing.svg.SVGDocumentLoaderAdapter;
+import org.apache.batik.swing.svg.SVGDocumentLoaderEvent;
+import org.w3c.dom.svg.SVGDocument;
+
+public class GameViewSvgBatik extends XhRisk {
+	
+	JSVGCanvas svgCanvas = null;
+	
+	/*
+	 * @see org.primordion.user.app.Risk.XhRisk#postConfigure()
+	 */
+	public void postConfigure() {
+		testSvg();
+	}
+	
+	public void testSvg() {
+		// Create a new JFrame.
+        JFrame f = new JFrame("Batik");
+        
+        // Add components to the frame.
+        f.getContentPane().add(createComponents());
+
+        // Display the frame
+        f.setSize(400, 400);
+        f.setVisible(true);
+
+	}
+	
+	public JComponent createComponents() {
+        // Create a panel and add the button, status label and the SVG canvas.
+        final JPanel panel = new JPanel(new BorderLayout());
+
+        JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        svgCanvas = new JSVGCanvas();
+        String uri = "file:///home/ken/workspace/Xholon/gui/World_78_1264559639895.svg";
+        //svgCanvas.setURI(uri); // this works
+        svgCanvas.loadSVGDocument(uri); // and this also works
+        svgCanvas.addSVGDocumentLoaderListener(new SVGDocumentLoaderAdapter() {
+		     public void documentLoadingCompleted(SVGDocumentLoaderEvent evt) {
+		    	 println("documentLoadingCompleted: " + evt);
+		         SVGDocument svgDoc = svgCanvas.getSVGDocument();
+		         if (svgDoc != null) {
+		 			println(svgDoc.getFirstChild());
+		 		}
+		     }
+		 });
+
+        panel.add("North", p);
+        panel.add("Center", svgCanvas);
+
+        showComponents(svgCanvas);
+
+        return panel;
+	}
+	
+	protected void showComponents(JSVGCanvas svgCanvas)
+	{
+		if (svgCanvas == null) {return;}
+		println("svgCanvas has components: " + svgCanvas.getComponentCount());
+		Component[] component = svgCanvas.getComponents();
+		for (int i = 0; i < component.length; i++) {
+			println(component.toString());
+		}
+		SVGDocument doc = svgCanvas.getSVGDocument();
+		if (doc != null) {
+			println(doc.getFirstChild());
+		}
+	}
+	
+}

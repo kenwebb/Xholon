@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This file is for use with https://upload.wikimedia.org/wikipedia/commons/4/4a/Risk_board.svg
+It should be pasted into an instance of the SvgViewSalamander service at runtime.
+-->
+<_-.SvgAttributes>
+  
+  <!-- NorthAmerica> -->
+      <SvgAttribute svgId="alaska" attr="id" newValue="World/NorthAmerica/Alaska"/>
+      <SvgAttribute svgId="alberta" attr="id" newValue="World/NorthAmerica/Alberta"/>
+      <SvgAttribute svgId="central_america" attr="id" newValue="World/NorthAmerica/CentralAmerica"/>
+      <SvgAttribute svgId="eastern_united_states" attr="id" newValue="World/NorthAmerica/EasternUnitedStates"/>
+      <SvgAttribute svgId="greenland" attr="id" newValue="World/NorthAmerica/Greenland"/>
+      <SvgAttribute svgId="northwest_territory" attr="id" newValue="World/NorthAmerica/NorthwestTerritory"/>
+      <SvgAttribute svgId="ontario" attr="id" newValue="World/NorthAmerica/Ontario"/>
+      <SvgAttribute svgId="quebec" attr="id" newValue="World/NorthAmerica/Quebec"/>
+      <SvgAttribute svgId="western_united_states" attr="id" newValue="World/NorthAmerica/WesternUnitedStates"/>
+   
+   <!-- <SouthAmerica> -->
+      <SvgAttribute svgId="argentina" attr="id" newValue="World/SouthAmerica/Argentina"/>
+      <SvgAttribute svgId="brazil" attr="id" newValue="World/SouthAmerica/Brazil"/>
+      <SvgAttribute svgId="peru" attr="id" newValue="World/SouthAmerica/Peru"/>
+      <SvgAttribute svgId="venezuela" attr="id" newValue="World/SouthAmerica/Venezuela"/>
+   
+   <!-- <Europe> -->
+      <SvgAttribute svgId="great_britain" attr="id" newValue="World/Europe/GreatBritain"/>
+      <SvgAttribute svgId="iceland" attr="id" newValue="World/Europe/Iceland"/>
+      <SvgAttribute svgId="northern_europe" attr="id" newValue="World/Europe/NorthernEurope"/>
+      <SvgAttribute svgId="scandinavia" attr="id" newValue="World/Europe/Scandinavia"/>
+      <SvgAttribute svgId="southern_europe" attr="id" newValue="World/Europe/SouthernEurope"/>
+      <SvgAttribute svgId="ukraine" attr="id" newValue="World/Europe/Ukraine"/>
+      <SvgAttribute svgId="western_europe" attr="id" newValue="World/Europe/WesternEurope"/>
+   
+   <!-- <Africa> -->
+      <SvgAttribute svgId="congo" attr="id" newValue="World/Africa/Congo"/>
+      <SvgAttribute svgId="east_africa" attr="id" newValue="World/Africa/EastAfrica"/>
+      <SvgAttribute svgId="egypt" attr="id" newValue="World/Africa/Egypt"/>
+      <SvgAttribute svgId="madagascar" attr="id" newValue="World/Africa/Madagascar"/>
+      <SvgAttribute svgId="north_africa" attr="id" newValue="World/Africa/NorthAfrica"/>
+      <SvgAttribute svgId="south_africa" attr="id" newValue="World/Africa/SouthAfrica"/>
+   
+   <!-- <Asia> -->
+      <SvgAttribute svgId="afghanistan" attr="id" newValue="World/Asia/Afghanistan"/>
+      <SvgAttribute svgId="china" attr="id" newValue="World/Asia/China"/>
+      <SvgAttribute svgId="india" attr="id" newValue="World/Asia/India"/>
+      <SvgAttribute svgId="irkutsk" attr="id" newValue="World/Asia/Irkutsk"/>
+      <SvgAttribute svgId="japan" attr="id" newValue="World/Asia/Japan"/>
+      <SvgAttribute svgId="kamchatka" attr="id" newValue="World/Asia/Kamchatka"/>
+      <SvgAttribute svgId="middle_east" attr="id" newValue="World/Asia/MiddleEast"/>
+      <SvgAttribute svgId="mongolia" attr="id" newValue="World/Asia/Mongolia"/>
+      <SvgAttribute svgId="siam" attr="id" newValue="World/Asia/Siam"/>
+      <SvgAttribute svgId="siberia" attr="id" newValue="World/Asia/Siberia"/>
+      <SvgAttribute svgId="ural" attr="id" newValue="World/Asia/Ural"/>
+      <SvgAttribute svgId="yakursk" attr="id" newValue="World/Asia/Yakutsk"/>
+   
+   <!-- <Australia> -->
+      <SvgAttribute svgId="eastern_australia" attr="id" newValue="World/Australia/EasternAustralia"/>
+      <SvgAttribute svgId="indonesia" attr="id" newValue="World/Australia/Indonesia"/>
+      <SvgAttribute svgId="new_guinea" attr="id" newValue="World/Australia/NewGuinea"/>
+      <SvgAttribute svgId="western_australia" attr="id" newValue="World/Australia/WesternAustralia"/>
+   
+</_-.SvgAttributes>
