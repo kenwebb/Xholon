@@ -195,6 +195,19 @@ public class Xholon implements EntryPoint {
     else if ("Rcs2".equals(appName)) {Rcs2(withGui);}
     else if ("bigraphRG".equals(appName)) {bigraphRG(withGui);}
     else if ("beard41".equals(appName)) {beard41(withGui);}
+    //else if ("risk".equals(appName)) {risk(withGui);}
+    else if ("English2French".equals(appName)) {English2French(withGui);}
+    else if ("XBar".equals(appName)) {XBar(withGui);}
+    else if ("RavaszHnm".equals(appName)) {RavaszHnm(withGui);}
+    else if ("Red".equals(appName)) {Red(withGui);}
+    else if ("TweenTrees".equals(appName)) {TweenTrees(withGui);}
+    else if ("WaterLogic".equals(appName)) {WaterLogic(withGui);}
+    
+    // Ealontro (non-Genetic Programming versions)
+    else if ("AntForaging".equals(appName)) {AntForaging(withGui);}
+    else if ("CartCentering".equals(appName)) {CartCentering(withGui);}
+    else if ("EcjAntTrail".equals(appName)) {EcjAntTrail(withGui);}
+    else if ("EcjTutorial4".equals(appName)) {EcjTutorial4(withGui);}
     
     // Agent Base Modeling (ABM) - Stupid Models
     else if ("StupidModel1".equals(appName)) {stupidModel1(withGui);}
@@ -800,6 +813,107 @@ public class Xholon implements EntryPoint {
     xhn(withGui,
       (IApplication)GWT.create(org.primordion.user.xmiapps.beard41.AppBeard2005_UML_Xholon_Step4_v1.class),
       "config/xmiapps/Beard2005_UML_Xholon_Step4_v1/Beard2005_UML_Xholon_Step4_v1_xhn.xml");
+  }
+  
+  /**
+   * risk
+   */
+  /*private void risk(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.user.app.Risk.AppRisk.class),
+      "config/user/Risk/Risk_xhn.xml");
+  }*/
+  
+  /**
+   * English2French
+   */
+  private void English2French(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.user.app.English2French.AppEnglish2French.class),
+      "config/user/English2French/English2French_xhn.xml");
+  }
+  
+  /**
+   * XBar
+   */
+  private void XBar(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.user.app.XBar.AppXBar_ex1.class),
+      "config/user/XBar/XBar_xhn.xml");
+  }
+  
+  // Ealontro
+  
+  /**
+   * AntForaging
+   */
+  private void AntForaging(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.ealontro.app.AntForaging.AppAntForaging.class),
+      "config/ealontro/AntForaging/AntForaging_xhn.xml");
+  }
+  
+  /**
+   * CartCentering
+   */
+  private void CartCentering(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.ealontro.app.CartCentering.AppCartCentering.class),
+      "config/ealontro/CartCentering/CartCentering_xhn.xml");
+  }
+  
+  /**
+   * EcjAntTrail
+   */
+  private void EcjAntTrail(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.ealontro.app.EcjAntTrail.AppAntTrail.class),
+      "config/ealontro/EcjAntTrail/AntTrail_1_xhn.xml");
+  }
+  
+  /**
+   * EcjTutorial4
+   */
+  private void EcjTutorial4(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.ealontro.app.EcjTutorial4.AppTutorial4.class),
+      "config/ealontro/EcjTutorial4/Tutorial4_1_xhn.xml");
+  }
+  
+  /**
+   * RavaszHnm
+   */
+  private void RavaszHnm(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.user.app.RavaszHnm.AppRavaszHnm.class),
+      "config/user/RavaszHnm/RavaszHnm_xhn.xml");
+  }
+  
+  /**
+   * Red
+   */
+  private void Red(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.user.app.Red.AppRed.class),
+      "config/user/Red/xhn.xml");
+  }
+  
+  /**
+   * TweenTrees
+   */
+  private void TweenTrees(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.user.app.TweenTrees.AppTweenTrees.class),
+      "config/user/TweenTrees/TweenTrees_xhn.xml");
+  }
+  
+  /**
+   * WaterLogic
+   */
+  private void WaterLogic(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.user.app.WaterLogic.AppWaterLogic.class),
+      "config/user/WaterLogic/WaterLogic_xhn.xml");
   }
   
   /**
