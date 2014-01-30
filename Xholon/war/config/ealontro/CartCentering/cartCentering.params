@@ -1,0 +1,48 @@
+# Copyright 2006 by Sean Luke and George Mason University
+# Licensed under the Academic Free License version 3.0
+# See the file "LICENSE" for more information
+# Adapted for use in Xholon by Ken Webb
+
+parent.0 = ../koza.params
+
+# the next four items are already defined in koza.params, but we
+# put them here to be clear.
+
+# We have one function set, of class GPFunctionSet
+gp.fs.size = 1
+gp.fs.0 = ec.gp.GPFunctionSet
+# We'll call the function set "f0".  It uses the default GPFuncInfo class
+gp.fs.0.name = f0
+gp.fs.0.info = ec.gp.GPFuncInfo
+
+# We have five functions in the function set.  They are:
+gp.fs.0.size = 8
+gp.fs.0.func.0 = org.primordion.ealontro.ec.app.cartcentering.XPosition
+gp.fs.0.func.0.nc = nc0
+gp.fs.0.func.1 = org.primordion.ealontro.ec.app.cartcentering.Velocity
+gp.fs.0.func.1.nc = nc0
+gp.fs.0.func.2 = org.primordion.ealontro.ec.app.cartcentering.Add
+gp.fs.0.func.2.nc = nc2
+gp.fs.0.func.3 = org.primordion.ealontro.ec.app.cartcentering.Subtract
+gp.fs.0.func.3.nc = nc2
+gp.fs.0.func.4 = org.primordion.ealontro.ec.app.cartcentering.Multiply
+gp.fs.0.func.4.nc = nc2
+gp.fs.0.func.5 = org.primordion.ealontro.ec.app.cartcentering.Divide
+gp.fs.0.func.5.nc = nc2
+gp.fs.0.func.6 = org.primordion.ealontro.ec.app.cartcentering.GT
+gp.fs.0.func.6.nc = nc2
+gp.fs.0.func.7 = org.primordion.ealontro.ec.app.cartcentering.ABS
+gp.fs.0.func.7.nc = nc1
+
+eval.problem = org.primordion.ealontro.ec.app.cartcentering.CartCentering
+eval.problem.data = org.primordion.ealontro.ec.app.cartcentering.DoubleData
+# The following should almost *always* be the same as eval.problem.data
+# For those who are interested, it defines the data object used internally
+# inside ADF stack contexts
+eval.problem.stack.context.data = org.primordion.ealontro.ec.app.cartcentering.DoubleData
+
+# initial values for variables in CartCentering.java
+eval.problem.moves = 500
+eval.problem.xPosition = 0.0
+eval.problem.velocity = 100.0
+eval.problem.mass = 2.0

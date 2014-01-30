@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XholonClass>
+	<EcjAntTrailSystem/>
+	<Grid/>
+	<Row/>
+	<GridCell/>
+	<Problem>
+		<Ant/>
+	</Problem>
+	<Trail/>
+	<Food/>
+	<Population/>
+	<Primitive>
+		<NonTerminal>
+			<PfIfFoodAhead/>
+			<PfProgn2/>
+			<PfProgn3/>
+			<PfProgn4/>
+			<PfProgn5/>
+			<PfProgn6/>
+			<PfProgn7/>
+		</NonTerminal>
+		<Terminal>
+			<PfLeft/>
+			<PfRight/>
+			<PfMove/>
+		</Terminal>
+		<PfWrapper/>
+	</Primitive>
+	<Structure/>
+	<Behavior>
+		<GeneticProgram/>
+	</Behavior>
+	<!-- View chart classes -->
+	<XYChart/>
+	<XAxisLabel/>
+	<YAxisLabel/>
+	<XYSeries/>
+</XholonClass>

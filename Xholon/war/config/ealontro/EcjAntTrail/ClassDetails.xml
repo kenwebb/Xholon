@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Ealontro ealontro/EcjAntTrail ClassDetails.xml -->
+<xholonClassDetails>
+	<GridCell xhType="XhtypeBehFgsxxx">
+		<config instruction="Gvt"/> <!-- Grid, Von Neumann 4 neighbors, torus -->
+	</GridCell>
+	<Ant xhType="XhtypePureActiveObject">
+		<port name="port" index="P_BEHAVIOR" connector="#xpointer(ancestor::EcjAntTrailSystem/GeneticProgram)"/>
+		<port name="port" index="P_GRID" connector="#xpointer(ancestor::Structure/Grid/Row/GridCell)"/>
+		<port name="port" index="P_FOOD" connector="#xpointer(Food)"/>
+	</Ant>
+	<!-- Food variables -->
+	<Food xhType="XhtypePurePassiveObject"/>
+	<!-- Primitive Functions -->
+	<PfIfFoodAhead xhType="XhtypeActivity" implName="org.primordion.xholon.base.Activity">
+		<config instructions="f5"/>
+	</PfIfFoodAhead>
+	<PfProgn2 xhType="XhtypeActivity" implName="org.primordion.xholon.base.Activity">
+		<config instructions="f5"/>
+	</PfProgn2>
+	<PfProgn3 xhType="XhtypeActivity" implName="org.primordion.xholon.base.Activity">
+		<config instructions="f6"/>
+	</PfProgn3>
+	<!-- end Primitive Functions -->
+	<GeneticProgram xhType="XhtypePureContainer"/>
+	<Primitive xhType="XhtypeActivity" implName="org.primordion.xholon.base.Activity"/>
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

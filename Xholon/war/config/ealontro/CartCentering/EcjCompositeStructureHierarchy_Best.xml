@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Best of run for CartCenteringSystem
+raw fitness: 500927.0 adjusted fitness: 1.996295E-6 hits: 4073
+size of best tree: 15 starting at PfWrapper
+Wed Sep 12 17:25:44 EDT 2007 (1189632344828)
+-->
+<Population>
+	<CartCenteringSystem> <!-- xholon instance 226 -->
+		<Structure>
+			<CartCentering>
+				<Cart>
+					<XPosition/>
+					<Velocity/>
+					<Acceleration/>
+				</Cart>
+				<Force/>
+			</CartCentering>
+		</Structure>
+		<GeneticProgram>
+			<PfWrapper>
+				<PfDivide>
+					<PfGT>
+						<PfDivide>
+							<PfXPosition/>
+							<PfVelocity/>
+						</PfDivide>
+						<PfSubtract>
+							<PfVelocity/>
+							<PfVelocity/>
+						</PfSubtract>
+					</PfGT>
+					<PfSubtract>
+						<PfGT>
+							<PfVelocity/>
+							<PfXPosition/>
+						</PfGT>
+						<PfABS>
+							<PfXPosition/>
+						</PfABS>
+					</PfSubtract>
+				</PfDivide>
+			</PfWrapper>
+		</GeneticProgram>
+	</CartCenteringSystem>
+</Population>

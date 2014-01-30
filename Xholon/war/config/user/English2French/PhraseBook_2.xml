@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+PHRASE BOOK - useful phrases in English
+These phrases are intended as an independent test of the English to French app.
+source: "French Bilingual Dictionary"
+French special characters: àâ éèê î ô ùû ç ÀÂ ÉÈÊ Î Ô ÙÛ Ç
+-->
+
+<SEngs roleName="PHRASE BOOK 2">
+
+	<SEng>They are going to Paris.
+	<SFr>Ils vont à Paris .</SFr></SEng>
+	
+	<SEng>The bee likes the flower.
+	<SFr>L' abeille aime la fleur .</SFr></SEng>
+	
+	<SEng>The apricot is delicious.
+	<SFr>L' abricot est délicieux .</SFr></SEng>
+	
+	<SEng>George is absent today.
+	<SFr>George est absent aujourd'hui .</SFr></SEng>
+	
+	<SEng>Do you want to play with me?
+	<SFr>Veux-tu jouer avec moi ?</SFr></SEng>
+	
+	<SEng>The boy is buying a ball.
+	<SFr>Le garçon achète une balle .</SFr></SEng>
+	
+	<SEng>The actor is handsome.
+	<SFr>L' acteur est beau .</SFr></SEng>
+	
+	<SEng>After dinner, dad asks for the check.
+	<SFr>Après le dîner, papa demande l'addition .</SFr></SEng>
+	
+	<SEng>What is your address?
+	<SFr>Quelle est votre adresse ?</SFr></SEng>
+	
+	<SEng>There are so many airplanes at the airport.
+	<SFr>Il y a tant d'avions à l'aéroport !</SFr></SEng>
+	
+	<SEng>How old are you.
+	<SFr>Quel âge as-tu ?</SFr></SEng>
+	
+	<SEng>I am eight.
+	<SFr>J' ai huit ans .</SFr></SEng>
+	
+	<SEng>The policeman directs traffic.
+	<SFr>L' agent de police dirige la circulation.</SFr></SEng>
+	
+	<SEng>Spring is a pleasant season.
+	<SFr>Le printemps est une saison agréable .</SFr></SEng>
+	
+	<SEng>John helps his sister carry the books.
+	<SFr>Jean aide sa soeur à porter les livres .</SFr></SEng>
+	
+</SEngs>

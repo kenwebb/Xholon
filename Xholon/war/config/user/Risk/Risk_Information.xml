@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+<!--
+	Risk Displayable information about this application.
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<document>
+<header>
+<title>The Game of Risk</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This is a Xholon implementation of the Risk board game.
+</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<p/>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p/>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p/>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p/>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p/>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>The Risk_game_map_2.png file is from http://upload.wikimedia.org/wikipedia/commons/a/ac/Risk_game_map_2.png</p>
+</section>
+
+</body>
+</document>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Quilter "traces a quilt-like tesselating pattern across the toroidal grid"
+source: Koza, J. (1992). Genetic Programming. p.151
+-->
+<Population>
+	<EcjAntTrailSystem>
+		<Structure>
+			<Trail/>
+			<Ant>
+				<Food/>
+			</Ant>
+			<Grid>
+				<Row multiplicity="32">
+					<GridCell multiplicity="32"/>
+				</Row>
+			</Grid>
+		</Structure>
+		<GeneticProgram>
+			<PfWrapper>
+				<PfProgn3>
+					<PfRight/>
+					<PfProgn3>
+						<PfMove/>
+						<PfMove/>
+						<PfMove/>
+					</PfProgn3>
+					<PfProgn2>
+						<PfLeft/>
+						<PfMove/>
+					</PfProgn2>
+				</PfProgn3>
+			</PfWrapper>
+		</GeneticProgram>
+	</EcjAntTrailSystem>
+</Population>

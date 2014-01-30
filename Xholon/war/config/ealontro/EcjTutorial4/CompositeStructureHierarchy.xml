@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Best of run for EcjTutorial4System
+raw fitness: 0.0 adjusted fitness: 1.0 hits: 10
+size of best tree: 10 starting at PfWrapper
+Fri Jun 09 18:30:35 EDT 2006 (1149892235458)
+-->
+<Population>
+	<EcjTutorial4System>
+		<Structure>
+			<MultiValuedRegression>
+				<XVariable><attribute name="val" value="-2.0"/></XVariable> <!-- -2.0 -->
+				<YVariable><attribute name="val" value="-3.0"/></YVariable> <!-- -3.0 -->
+				<Result/>
+				<ExpectedResult/>
+			</MultiValuedRegression>
+		</Structure>
+		<GeneticProgram>
+			<PfWrapper>
+				<PfAdd>
+					<PfY/>
+					<PfMul>
+						<PfAdd>
+							<PfY/>
+							<PfMul>
+								<PfX/>
+								<PfY/>
+							</PfMul>
+						</PfAdd>
+						<PfX/>
+					</PfMul>
+				</PfAdd>
+			</PfWrapper>
+		</GeneticProgram>
+	</EcjTutorial4System>
+</Population>

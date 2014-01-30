@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Avoider - avoids eating any food
+source: Koza, J. (1992). Genetic Programming. p.151
+-->
+<Population>
+	<EcjAntTrailSystem>
+		<Structure>
+			<Trail/>
+			<Ant>
+				<Food/>
+			</Ant>
+			<Grid>
+				<Row multiplicity="32">
+					<GridCell multiplicity="32"/>
+				</Row>
+			</Grid>
+		</Structure>
+		<GeneticProgram>
+			<PfWrapper>
+				<PfIfFoodAhead>
+					<PfRight/>
+					<PfIfFoodAhead>
+						<PfRight/>
+						<PfProgn2>
+							<PfMove/>
+							<PfLeft/>
+						</PfProgn2>
+					</PfIfFoodAhead>
+				</PfIfFoodAhead>
+			</PfWrapper>
+		</GeneticProgram>
+	</EcjAntTrailSystem>
+</Population>

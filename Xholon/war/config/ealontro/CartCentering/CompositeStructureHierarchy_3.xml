@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Best of run for CartCenteringSystem
+raw fitness: 484.0 adjusted fitness: 0.0020618557 hits: 16
+size of best tree: 12 starting at PfWrapper
+Tue Jun 13 16:54:08 EDT 2006 (1150232048218)
+
+Final Statistics
+================
+Total Individuals Evaluated: 52224
+
+Best Individual of Run:
+Evaluated: true
+Fitness: Raw=484.0 Adjusted=0.0020618557 Hits=16
+Tree 0:
+ (> (> x (+ v x)) (/ (/ x v) v))	
+-->
+<Population>
+	<CartCenteringSystem multiplicity="1">
+		<Structure>
+			<CartCentering>
+				<Cart>
+					<attribute name="val" value="2.0"/> <!-- constant mass -->
+					<XPosition>
+						<attribute name="val" value="0.0"/> <!-- initial x position -->
+					</XPosition>
+					<Velocity>
+						<attribute name="val" value="100.0"/> <!-- initial velocity -->
+					</Velocity>
+					<Acceleration/>
+				</Cart>
+				<Force/>
+			</CartCentering>
+		</Structure>
+		<GeneticProgram> <!-- Control Strategy -->
+			<PfWrapper>
+				<PfGT>
+					<PfGT>
+						<PfXPosition/>
+						<PfAdd>
+							<PfVelocity/>
+							<PfXPosition/>
+						</PfAdd>
+					</PfGT>
+					<PfDivide>
+						<PfDivide>
+							<PfXPosition/>
+							<PfVelocity/>
+						</PfDivide>
+						<PfVelocity/>
+					</PfDivide>
+				</PfGT>
+			</PfWrapper>
+		</GeneticProgram>
+	</CartCenteringSystem>
+</Population>

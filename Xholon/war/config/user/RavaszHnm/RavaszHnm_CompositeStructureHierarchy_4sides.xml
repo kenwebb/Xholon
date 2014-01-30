@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	RavaszHnm: Ravasz, Barabasi Hierarchical Network Model application - Composite Structure Hierarchy
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<HierarchicalNetworkModel val="3.0">
+
+	<CentralNode multiplicity="1">
+		<PeripheralNode multiplicity="4"/>
+		<CentralNode multiplicity="4">
+			<PeripheralNode multiplicity="4"/>
+		</CentralNode>
+		
+		<CentralNode multiplicity="4">
+			<PeripheralNode multiplicity="4"/>
+			<CentralNode multiplicity="4">
+				<PeripheralNode multiplicity="4"/>
+			</CentralNode>
+		</CentralNode>
+			
+	</CentralNode>
+	
+</HierarchicalNetworkModel>

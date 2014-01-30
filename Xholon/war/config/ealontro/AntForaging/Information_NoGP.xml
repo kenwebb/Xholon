@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../../../Xholon/information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../../Xholon/information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>Ant Foraging - Xholon App (No GP)</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This model implements a solution to the ant foraging problem.</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+<title/>
+<p>Run it:</p>
+<ol>
+<li>Run the Java application through the XhnEalontro GUI (org.primordion.xholon.app.Xhn.java),
+and select File --> Open --> ealontro --> AntForaging --> AntForaging_xhn.xml.</li>
+<li>The tree-based GUI, and a graphical grid will appear.</li>
+<li>Expand the Controller node in the tree.</li>
+<li>Press the Start node.</li>
+<li>You should see the ants moving around, picking up food from the two food areas, carrying the food
+back to the nest, laying down pheromone as they return to the nest, and following previously laid-down
+pheromone to locate food.</li>
+<li>If you have JFreeChart installed, and if you have selected "JFreeChart" as the value of the UseDataPlotter
+parameter in AntForaging_xhn.xml, you should see a chart showing the increasing amount of food accumulated
+at the nest.
+If you don't have JFreeChart installed, then change the value of UseDataPlotter to "gnuplot",
+and look at the results that are saved to a .csv file in the statistics folder.
+If you have gnuplot installed, it can read the .plt script in the statistics folder
+to produce a displayable .png file from the .csv file, that should look similar to the one below.</li>
+</ol>
+</section>
+<section><title/>
+<source>
+
+</source>
+</section>
+<section><title/>
+<figure src="AntForaging_NoGP_JFreeChart_1.png" alt="ECJ Ant Foraging with GP"></figure>
+</section>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p>If you have UseGraphicalTreeViewer set to "true" in AntForaging_xhn.xml, and if you have JUNG
+installed, then you will see a JUNG graph showing the hierarchical structure of the behavior tree.</p>
+<figure src="BehaviorCompositeTree.png" alt="Behavior composite tree"></figure>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p></p>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p></p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon and Ealontro features</title>
+<p></p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>This application was described in: Koza, J. (1992). Genetic Programming. p.329-344</p>
+</section>
+
+</body>
+</document>

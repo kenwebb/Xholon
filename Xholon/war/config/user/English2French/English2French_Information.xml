@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+<!--
+	English2French Displayable information about this application.
+	Xholon 0.7 http://www.primordion.com/Xholon
+-->
+<document>
+<header>
+<title>English to French</title>
+</header>
+<body>
+
+<section id="introduction">
+<title>Introduction</title>
+<p>This book is for anyone learning French without benefit of a teacher.
+You may be planning a trip to a French-speaking country,
+or you may have some non-travel end in mind.
+Depending on your goal, you can use this as either a "How-To",
+or a "Teach-Yourself" book. More likely you'll combine the two approaches.</p>
+<p>In a "How-To" book the end result is all important.</p>
+<p>In a "Teach-Yourself" book the end may still be very important,
+but so are the means to that end.</p>
+</section>
+
+<section id="pronunciation">
+<title>French Pronunciation</title>
+<p></p>
+</section>
+
+<section id="puzzles">
+<title>PUZZLES</title>
+<p></p>
+</section>
+
+<section id="intro2puzzles">
+<title>Introduction to the PUZZLES</title>
+<p></p>
+</section>
+
+<section id="wordpuzzles">
+<title>Word Puzzles</title>
+<p></p>
+</section>
+
+<section id="grammarpuzzles">
+<title>Grammar Puzzles</title>
+<p></p>
+</section>
+
+<section id="sentencepuzzles">
+<title>Sentence Puzzles</title>
+<p></p>
+</section>
+
+<section id="just4funpuzzles">
+<title>Just-For-Fun Puzzles</title>
+<p></p>
+</section>
+
+<section id="frenglish">
+<title>How to Speak FRENGLISH</title>
+<p></p>
+</section>
+
+<section id="games">
+<title>GAMES</title>
+<p></p>
+</section>
+
+<section id="partII">
+<title>Part II - The TRANSLATOR</title>
+<p></p>
+</section>
+
+<section id="intro2translator">
+<title>Introduction to the TRANSLATOR</title>
+<p>The TRANSLATOR is the heart of this book.
+It combines all of the following into one integrated package:</p>
+<ul>
+<li>A Phrase Book.
+The TRANSLATOR gives even the complete beginner the power to say or write
+just about any common phrase in French. The translator will automatically
+translate English sentences into French, provided the sentence:
+(1) includes only the words contained in the WORD_LIST (this limitation can
+be overcome by buying a dictionary, and following the DICTIONARY_INTERFACE
+rules on page .), and
+(2) is not exceptionally long and involved. Try to keep your sentences below ten words.
+This book also includes as examples many already translated phrases.
+</li>
+<li>A Beginner's English to French Dictionary</li>
+<li>A Basic Grammar</li>
+</ul>
+</section>
+
+<section id="howtotranslate">
+<title>How to Translate a Sentence</title>
+<p>In translating a sentence you will go through several steps.</p>
+<ol>
+<li>Write down an English sentence that you wish to translate.</li>
+<li>If your sentence is a question, go through the NORMALIZE procedure.</li>
+<li>
+Look up each word, or word sequence, of the sentence, in the WORD_LIST.
+The introduction to the WORD_PASS section tells you how to interpret
+the instructions found with each English word.
+</li>
+<li>
+Look up each "flag", generated in step #3, in the FLAG_LIST.
+Flags look like "A-FPL-A" "C-PLU-A" etc. They let you know exactly
+how to change the word-for-word translation produced in step #3,
+into a gramatically correct sentence. See the introduction to the
+FLAG_PASS section for details.
+</li>
+</ol>
+</section>
+
+<section id="normalize">
+<title>NORMALIZE</title>
+<p></p>
+</section>
+
+<section id="word_pass">
+<title>WORD_PASS</title>
+<p></p>
+</section>
+
+<section id="wp_detailedinstructions">
+<title>Detailed Instructions</title>
+<p></p>
+</section>
+
+<section id="word_list">
+<title>WORD_LIST</title>
+<p></p>
+</section>
+
+<section id="flagpass">
+<title>FLAG_PASS</title>
+<p></p>
+</section>
+
+<section id="fp_generalinstructions">
+<title>General Instructions</title>
+<p></p>
+</section>
+
+<section id="flag_list">
+<title>FLAG_LIST</title>
+<p></p>
+</section>
+
+<section id="workedexamples">
+<title>WORKED EXAMPLES</title>
+<p></p>
+</section>
+
+</body>
+</document>

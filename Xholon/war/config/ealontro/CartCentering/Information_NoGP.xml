@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../../../Xholon/information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../../Xholon/information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>Cart Centering - Xholon App (No GP)</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This model implements a solution to the cart centering problem.</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+<title/>
+<p>Run it:</p>
+<ol>
+<li>Run the Java application through the XhnEalontro GUI (org.primordion.xholon.app.Xhn.java),
+and select File --> Open --> ealontro --> CartCentering --> CartCentering_xhn.xml.</li>
+<li>Expand the Controller node in the tree.</li>
+<li>Press the Start node.</li>
+<li>You should see ...</li>
+<li>If you have JFreeChart installed, and if you have selected "JFreeChart" as the value of the UseDataPlotter
+parameter in AntForaging_xhn.xml, you should see a chart.
+If you don't have JFreeChart installed, then change the value of UseDataPlotter to "gnuplot",
+and look at the results that are saved to a .csv file in the statistics folder.
+If you have gnuplot installed, it can read the .plt script in the statistics folder
+to produce a displayable .png file from the .csv file.</li>
+</ol>
+</section>
+<section><title/>
+<source>
+
+</source>
+</section>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p></p>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p></p>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p></p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon and Ealontro features</title>
+<p></p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>This application was described in: Koza, J. (1992). Genetic Programming. p.122-147</p>
+</section>
+
+</body>
+</document>

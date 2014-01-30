@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Ealontro ealontro/EcjTutorial4 ClassDetails.xml -->
+<xholonClassDetails>
+	<MultiValuedRegression xhType="XhtypePureActiveObject">
+		<port name="port" index="P_BEHAVIOR" connector="#xpointer(ancestor::EcjTutorial4System/GeneticProgram)"/>
+		<port name="port" index="P_XVARIABLE" connector="#xpointer(XVariable)"/>
+		<port name="port" index="P_YVARIABLE" connector="#xpointer(YVariable)"/>
+		<port name="port" index="P_RESULT" connector="#xpointer(Result)"/>
+		<port name="port" index="P_EXPECTED_RESULT" connector="#xpointer(ExpectedResult)"/>
+	</MultiValuedRegression>
+	<!-- X and Y variables -->
+	<XVariable xhType="XhtypePurePassiveObject"/>
+	<YVariable xhType="XhtypePurePassiveObject"/>
+	<Result xhType="XhtypePurePassiveObject"/>
+	<ExpectedResult xhType="XhtypePurePassiveObject"/>
+	<!-- Primitive Functions -->
+	<PfAdd xhType="XhtypeActivity" implName="org.primordion.xholon.base.Activity">
+		<config instructions="f5"/>
+	</PfAdd>
+	<PfSub xhType="XhtypeActivity" implName="org.primordion.xholon.base.Activity">
+		<config instructions="f5"/>
+	</PfSub>
+	<PfMul xhType="XhtypeActivity" implName="org.primordion.xholon.base.Activity">
+		<config instructions="f5"/>
+	</PfMul>
+	<!-- end Primitive Functions -->
+	<GeneticProgram xhType="XhtypePureContainer"/>
+	<Primitive xhType="XhtypeActivity" implName="org.primordion.xholon.base.Activity"/>
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Tibetan bo
+Lemma uses Wylie transcription.
+source: Goldstein, M. (1984) English-Tibetan Dictionary of Modern Tibetan.
+-->
+<Lexicon>
+	<Lexeme>
+		<Lemma>nga</Lemma> <!-- I -->
+		<Pos>Pron</Pos>
+	</Lexeme>
+	<Lexeme>
+		<Lemma>yin</Lemma> <!-- am -->
+		<Pos>V</Pos>
+	</Lexeme>
+	<Lexeme>
+		<Lemma>dge rgan</Lemma> <!-- teacher -->
+		<Pos>N</Pos>
+	</Lexeme>
+	<Lexeme>
+		<Lemma>kho</Lemma> <!-- he -->
+		<Pos>Pron</Pos>
+	</Lexeme>
+	<Lexeme>
+		<Lemma>red</Lemma> <!-- is -->
+		<Pos>V</Pos>
+	</Lexeme>
+	<Lexeme>
+		<Lemma></Lemma>
+		<Pos></Pos>
+	</Lexeme>
+	<Lexeme>
+		<Lemma></Lemma>
+		<Pos></Pos>
+	</Lexeme>
+	<Lexeme>
+		<Lemma></Lemma>
+		<Pos></Pos>
+	</Lexeme>
+	<Lexeme>
+		<Lemma></Lemma>
+		<Pos></Pos>
+	</Lexeme>
+	<Lexeme>
+		<Lemma></Lemma>
+		<Pos></Pos>
+	</Lexeme>
+</Lexicon>

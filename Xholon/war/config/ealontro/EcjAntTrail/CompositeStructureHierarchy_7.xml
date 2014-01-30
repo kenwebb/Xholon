@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Best of run for EcjAntTrailSystem
+raw fitness: 0.0 adjusted fitness: 1.0 hits: 89
+size of best tree: 66 starting at PfWrapper
+Fri Jun 09 16:25:52 EDT 2006 (1149884752770)
+	
+Final Statistics
+================
+Total Individuals Evaluated: 38912
+
+Best Individual of Run:
+Evaluated: true
+Fitness: Raw=0.0 Adjusted=1.0 Hits=89
+Tree 0:
+ (progn3 (if-food-ahead (progn3 (progn2 move
+     move) move right) (progn2 left left)) (if-food-ahead
+     (progn2 move move) (if-food-ahead (progn2
+     left left) (progn2 left move))) (if-food-ahead
+     (progn2 (progn2 move move) left) (if-food-ahead
+     (if-food-ahead (progn3 move right move) (if-food-ahead
+         (progn3 left (progn2 (progn3 (progn2 left
+             left) right move) right) right) (if-food-ahead
+         move right))) (if-food-ahead (progn3 (progn3
+     (progn2 left left) right (if-food-ahead left
+     left)) left (progn3 right left move)) left))))
+
+
+Best Individual's Map
+=====================
+acde............................
+...f............................
+...g....................bcdefg..
+...h....................a....h..
+...i....................z....i..
+...jklmnopqrs.......uvwxy....j..
+............t.......t........k..
+............u.......s........l..
+............v.......r........m..
+............w.......q........n..
+............x.......p........o..
+............y.......o........p..
+............z.......n........q..
+............a.......m........r..
+............b.......l..yxwvuts..
+............c...ghijk..z........
+............d...f......a........
+............e...e......b........
+............f...d......cdefg....
+............g...c..........h....
+............h...b..........i....
+............i...a..........j....
+............j...z......onmlk....
+............k...y......p........
+.wvutsrqponml...x......q........
+.x..............w......r........
+.y..............v......s........
+.z.....lmnopqrstu...............
+.a.....k........................
+.b.....j........................
+.cdefghi........................
+................................
+-->
+<Population>
+	<EcjAntTrailSystem>
+		<Structure>
+			<Trail/>
+			<Ant>
+				<Food/>
+			</Ant>
+			<Grid>
+				<Row multiplicity="32">
+					<GridCell multiplicity="32"/>
+				</Row>
+			</Grid>
+		</Structure>
+		<GeneticProgram>
+			<PfWrapper>
+				<PfProgn3>
+					<PfIfFoodAhead>
+						<PfProgn3>
+							<PfProgn2>
+								<PfMove/>
+								<PfMove/>
+							</PfProgn2>
+							<PfMove/>
+							<PfRight/>
+						</PfProgn3>
+						<PfProgn2>
+							<PfLeft/>
+							<PfLeft/>
+						</PfProgn2>
+					</PfIfFoodAhead>
+					<PfIfFoodAhead>
+						<PfProgn2>
+							<PfMove/>
+							<PfMove/>
+						</PfProgn2>
+						<PfIfFoodAhead>
+							<PfProgn2>
+								<PfLeft/>
+								<PfLeft/>
+							</PfProgn2>
+							<PfProgn2>
+								<PfLeft/>
+								<PfMove/>
+							</PfProgn2>
+						</PfIfFoodAhead>
+					</PfIfFoodAhead>
+					<PfIfFoodAhead>
+						<PfProgn2>
+							<PfProgn2>
+								<PfMove/>
+								<PfMove/>
+							</PfProgn2>
+							<PfLeft/>
+						</PfProgn2>
+						<PfIfFoodAhead>
+							<PfIfFoodAhead>
+								<PfProgn3>
+									<PfMove/>
+									<PfRight/>
+									<PfMove/>
+								</PfProgn3>
+								<PfIfFoodAhead>
+									<PfProgn3>
+										<PfLeft/>
+										<PfProgn2>
+											<PfProgn3>
+												<PfProgn2>
+													<PfLeft/>
+													<PfLeft/>
+												</PfProgn2>
+												<PfRight/>
+												<PfMove/>
+											</PfProgn3>
+											<PfRight/>
+										</PfProgn2>
+										<PfRight/>
+									</PfProgn3>
+									<PfIfFoodAhead>
+										<PfMove/>
+										<PfRight/>
+									</PfIfFoodAhead>
+								</PfIfFoodAhead>
+							</PfIfFoodAhead>
+							<PfIfFoodAhead>
+								<PfProgn3>
+									<PfProgn3>
+										<PfProgn2>
+											<PfLeft/>
+											<PfLeft/>
+										</PfProgn2>
+										<PfRight/>
+										<PfIfFoodAhead>
+											<PfLeft/>
+											<PfLeft/>
+										</PfIfFoodAhead>
+									</PfProgn3>
+									<PfLeft/>
+									<PfProgn3>
+										<PfRight/>
+										<PfLeft/>
+										<PfMove/>
+									</PfProgn3>
+								</PfProgn3>
+								<PfLeft/>
+							</PfIfFoodAhead>
+						</PfIfFoodAhead>
+					</PfIfFoodAhead>
+				</PfProgn3>
+			</PfWrapper>
+		</GeneticProgram>
+	</EcjAntTrailSystem>
+</Population>

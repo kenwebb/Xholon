@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+	<EcjTutorial4System/>
+	<Problem> <!-- ECJ GPProblem -->
+		<MultiValuedRegression/> <!-- ECJ MultiValuedRegression -->
+	</Problem>
+	<XVariable/> <!-- ECJ MultiValuedRegression currentX -->
+	<YVariable/> <!-- ECJ MultiValuedRegression currentY -->
+	<Result/> <!-- ECJ MultiValuedRegression result -->
+	<ExpectedResult/> <!-- ECJ MultiValuedRegression expectedResult -->
+	<Population/>
+	<Primitive>
+		<NonTerminal> <!-- ECJ GPNode, nc2 -->
+			<PfAdd/> <!-- ECJ Add class -->
+			<PfSub/> <!-- ECJ Sub class -->
+			<PfMul/> <!-- ECJ Mul class -->
+		</NonTerminal>
+		<Terminal> <!-- ECJ GPNode, nc0 -->
+			<PfX/> <!-- ECJ X class -->
+			<PfY/> <!-- ECJ Y class -->
+		</Terminal>
+		<PfWrapper/> <!-- ECJ GPTree -->
+	</Primitive>
+	<Structure/> <!-- ECJ problem -->
+	<Behavior>
+		<GeneticProgram/> <!-- ECJ GPIndividual -->
+	</Behavior>
+	
+	<!-- Xholon Viewers -->
+	<!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

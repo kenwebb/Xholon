@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Risk application - Composite Structure Hierarchy
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<GameOfRisk>
+	
+	<!-- 2 to 6 players -->
+	<Players>
+		<HumanPlayer roleName="me" color="#f0fff0"> <!-- light green -->
+			<OwnedCards/>
+		</HumanPlayer>
+		<ComputerPlayer roleName="one" color="#f0f0f0"> <!-- light grey -->
+			<OwnedCards/>
+		</ComputerPlayer>
+		<ComputerPlayer roleName="two" color="#f0f0ff"> <!-- light purple -->
+			<OwnedCards/>
+		</ComputerPlayer>
+		<ComputerPlayer roleName="three" color="#fff0f0"> <!-- light orange -->
+			<OwnedCards/>
+		</ComputerPlayer>
+		<ComputerPlayer roleName="four" color="#f0ffff"> <!-- light blue -->
+			<OwnedCards/>
+		</ComputerPlayer>
+		<ComputerPlayer roleName="five" color="#fff0ff"> <!-- pinkish -->
+			<OwnedCards/>
+		</ComputerPlayer>
+	</Players>
+	
+	<!-- 3 AttackerDie, 2 DefenderDie -->
+	<Dice>
+		<AttackerDie multiplicity="3"/>
+		<DefenderDie multiplicity="2"/>
+	</Dice>
+	
+	<!-- there are 44 or 72 cards of various types -->
+	<Cards>
+		<TerritoryCard multiplicity="42"/>
+		<WildCard multiplicity="2"/>
+	</Cards>
+	
+	<Figures>
+		<FootSoldier/>
+		<Horseman/>
+		<Cannon/>
+	</Figures>
+	
+	<!-- a computer player may employ one of several available strategies -->
+	<Strategy/>
+	
+	<Quantities>
+		<Zero/>
+		<One/>
+		<Two/>
+		<Three/>
+		<Five/>
+		<Ten/>
+		<Twenty/>
+		<Thirty/>
+		<Fifty/>
+		<Hundred/>
+		<All/>
+	</Quantities>
+	
+	<World>
+		<NorthAmerica bonusArmies="5">
+			<Alaska/>
+			<Alberta/>
+			<CentralAmerica/>
+			<EasternUnitedStates/>
+			<Greenland/>
+			<NorthwestTerritory/>
+			<Ontario/>
+			<Quebec/>
+			<WesternUnitedStates/>
+		</NorthAmerica>
+		<SouthAmerica bonusArmies="2">
+			<Argentina/>
+			<Brazil/>
+			<Peru/>
+			<Venezuela/>
+		</SouthAmerica>
+		<Europe bonusArmies="5">
+			<GreatBritain/>
+			<Iceland/>
+			<NorthernEurope/>
+			<Scandinavia/>
+			<SouthernEurope/>
+			<Ukraine/>
+			<WesternEurope/>
+		</Europe>
+		<Africa bonusArmies="3">
+			<Congo/>
+			<EastAfrica/>
+			<Egypt/>
+			<Madagascar/>
+			<NorthAfrica/>
+			<SouthAfrica/>
+		</Africa>
+		<Asia bonusArmies="7">
+			<Afghanistan/>
+			<China/>
+			<India/>
+			<Irkutsk/>
+			<Japan/>
+			<Kamchatka/>
+			<MiddleEast/>
+			<Mongolia/>
+			<Siam/>
+			<Siberia/>
+			<Ural/>
+			<Yakutsk/>
+		</Asia>
+		<Australia bonusArmies="2">
+			<EasternAustralia/>
+			<Indonesia/>
+			<NewGuinea/>
+			<WesternAustralia/>
+		</Australia>
+	</World>
+	
+	<GameEngine>
+		<GameModel/>
+		<GameView>
+		  <!--<Attribute_String roleName="setup">${MODELNAME_DEFAULT},file:///home/ken/workspace/Xholon/gui/World_78_1264559639895.svg</Attribute_String>-->
+		  <Attribute_String roleName="setup">${MODELNAME_DEFAULT},http://www.primordion.com/Xholon/jnlp/World_78_1264559639895.svg</Attribute_String>
+		</GameView>
+		<!--<GameView>
+		  <Attribute_String roleName="svgAttributesUri">/org/primordion/user/app/Risk/SvgAttributes.xml</Attribute_String>
+		  <Attribute_String roleName="setup">${MODELNAME_DEFAULT},https://upload.wikimedia.org/wikipedia/commons/4/4a/Risk_board.svg</Attribute_String>
+		</GameView>
+		<GameView>
+		  <Attribute_String roleName="setup">${MODELNAME_DEFAULT},file:///home/ken/workspace/Xholon/gui/RiskQuantities.svg</Attribute_String>
+		</GameView>-->
+		<!--<GameView>
+		  <Attribute_String roleName="setup">${MODELNAME_DEFAULT},file:///home/ken/workspace/Xholon/gui/RiskQuantitiesTest.svg</Attribute_String>
+		</GameView>-->
+		<GameController/>
+	</GameEngine>
+	
+</GameOfRisk>

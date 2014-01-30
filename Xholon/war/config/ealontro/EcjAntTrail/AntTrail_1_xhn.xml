@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- AntTrail configuration file
+	 Ken Webb
+	 June 7, 2006 -->
+<params>
+	<!-- Standard xholon parameters -->
+	<param name="ModelName" value="Ant Trail"/>
+	<param name="ShowParams" value="false"/>
+	<param name="AppM" value="false"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="400"/> <!-- Koza, ECJ default: 400 -->
+	<param name="TimeStepInterval" value="100"/>
+	<param name="InheritanceHierarchyFile" value="config/ealontro/EcjAntTrail/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="config/ealontro/EcjAntTrail/CompositeStructureHierarchy_Koza.xml"/>
+	<param name="ClassDetailsFile" value="config/ealontro/EcjAntTrail/ClassDetails.xml"/>
+	<param name="InformationFile" value="config/ealontro/EcjAntTrail/Information_NoGP.xml"/>
+	<param name="JavaClassName" value="org.primordion.ealontro.app.EcjAntTrail.AppAntTrail"/>
+	<param name="JavaXhClassName" value="org.primordion.ealontro.app.EcjAntTrail.XhAntTrail"/>
+	<!--<param name="JavaActivityClassName" value="org.primordion.xholon.base.Activity"/>-->
+	<param name="MaxPorts" value="4"/>
+	<param name="UseDataPlotter" value="none"/> <!-- JFreeChart gnuplot none -->
+	<param name="DataPlotterParams"
+		value="ECJ Ant Trail,Time Step,Food found,./statistics/,atStats,1,WRITE_AS_DOUBLE"/>
+	<param name="SaveSnapshots" value="false"/>
+	<!-- Use 2D graphics to view the grid. -->
+	<param name="UseGridViewer" value="true"/>
+	<param name="GridPanelClassName" value="org.primordion.ealontro.app.EcjAntTrail.GridPanelAntTrail"/>
+	<param name="GridViewerParams" value="descendant::Row/..,10,Ant Trail System"/>
+	<!-- Name of trail file santafe.trl losaltos.trl -->
+	<param name="TrailFile" value="config/ealontro/EcjAntTrail/santafe.trl"/>
+	<!--
+	              MaxFood MaxMoves
+	Santa Fe Trail -   89 and  400
+	Los Altos Trail - 156 and 2000
+	-->
+	<param name="MaxFood" value="89"/>
+	<param name="MaxMoves" value="400"/>
+</params>

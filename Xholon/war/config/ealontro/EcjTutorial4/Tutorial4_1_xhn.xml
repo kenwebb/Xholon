@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- EcjTutorial4 configuration file
+	 Ken Webb
+	 June 12, 2006 -->
+<params>
+	<!-- Standard xholon parameters -->
+	<param name="ModelName" value="Tutorial 4"/>
+	<param name="ShowParams" value="false"/>
+	<param name="AppM" value="false"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="40"/> <!-- my default: 40 -->
+	<param name="TimeStepInterval" value="10"/>
+	<param name="InheritanceHierarchyFile" value="config/ealontro/EcjTutorial4/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="config/ealontro/EcjTutorial4/CompositeStructureHierarchy_1.xml"/>
+	<param name="ClassDetailsFile" value="config/ealontro/EcjTutorial4/ClassDetails.xml"/>
+	<param name="InformationFile" value="config/ealontro/EcjTutorial4/Information_NoGP.xml"/>
+	<param name="JavaClassName" value="org.primordion.ealontro.app.EcjTutorial4.AppTutorial4"/>
+	<param name="JavaXhClassName" value="org.primordion.ealontro.app.EcjTutorial4.XhTutorial4"/>
+	<!--<param name="JavaActivityClassName" value="org.primordion.xholon.base.Activity"/>-->
+	<param name="MaxPorts" value="5"/>
+	<param name="UseDataPlotter" value="none"/> <!-- JFreeChart gnuplot none -->
+	<param name="DataPlotterParams" value="ECJ Tutorial 4,Time Step,Values,./statistics/,t4Stats,1,WRITE_AS_DOUBLE"/>
+	<param name="SaveSnapshots" value="false"/>
+</params>

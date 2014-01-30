@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	TweenTrees application - Composite Structure Hierarchy
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<TheSystem>
+	
+	<!-- the main Xholon app tree -->
+	<Aaa>
+		<Bbb/>
+		<Ccc/>
+	</Aaa>
+	
+	<!-- the tween tree -->
+	<!-- remove these comments to run it without the script
+	<Rrr>
+		<Sss/>
+		<Ttt/>
+		<Uuu/>
+		<Vvv/>
+	</Rrr>
+	-->
+	
+</TheSystem>

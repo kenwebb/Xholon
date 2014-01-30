@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Population>
+	<CartCenteringSystem multiplicity="1">
+		<Structure>
+			<CartCentering>
+				<Cart>
+					<attribute name="val" value="2.0"/> <!-- constant mass -->
+					<XPosition>
+						<attribute name="val" value="0.0"/> <!-- initial x position -->
+					</XPosition>
+					<Velocity>
+						<attribute name="val" value="100.0"/> <!-- initial velocity -->
+					</Velocity>
+					<Acceleration/>
+				</Cart>
+				<Force/>
+			</CartCentering>
+		</Structure>
+		<GeneticProgram> <!-- Control Strategy -->
+			<PfWrapper>
+				<!-- (GT (* -1 X) (* V (ABS V))) -->
+				<PfGT>
+					<PfMultiply>
+						<PfNegOne/>
+						<PfXPosition/>
+					</PfMultiply>
+					<PfMultiply>
+						<PfVelocity/>
+						<PfABS>
+							<PfVelocity/>
+						</PfABS>
+					</PfMultiply>
+				</PfGT>
+			</PfWrapper>
+		</GeneticProgram>
+	</CartCenteringSystem>
+</Population>

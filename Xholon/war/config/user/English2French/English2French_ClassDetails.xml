@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	English2French application - Class Details
+	Xholon 0.7 http://www.primordion.com/Xholon
+-->
+<xholonClassDetails>
+	
+	<Lexicon xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.Lexicon"/>
+	<Lexeme xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.Lexeme"/>
+	<Transforms xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.Transforms"/>
+	<Transform xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.Transform"/>
+	<ClosedBracket xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.ClosedBracket"/>
+	<WordRule xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.WordRule"/>
+	<Lemma xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.XhEnglish2French"/>
+	<Drill xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.Drill">
+		<port name="lexicon" index="-1" connector="#xpointer(ancestor::Fr2EngSystem/Lexicon)"/>
+	</Drill>
+	
+	<!-- FLAG_LIST Flags -->
+	<!-- TODO there should be a separate Java class for each Xholon class -->
+	<A_FPL_A xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_A_FPL"/>
+	<A_FPL_B xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_A_FPL"/>
+	<A_FPL_C xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_A_FPL"/>
+	<A_FPL_D xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_A_FPL"/>
+	<A_FPL_E xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_A_FPL"/>
+	<A_FPL_F xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_A_FPL"/>
+	<A_FPL_G xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_A_FPL"/>
+	<A_FPL_H xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_A_FPL"/>
+	<A_FPL_I xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_A_FPL"/>
+	<A_FPL_L xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_A_FPL"/>
+	<A_FPL_N xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_A_FPL"/>
+	<A_FPL_R xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_A_FPL"/>
+	<A_FPL_S xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_A_FPL"/>
+	<A_FPL_T xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_A_FPL"/>
+	<A_FPL_W xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_A_FPL"/>
+	<A_FPL_X xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_A_FPL"/>
+	<A_FPL_Y xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_A_FPL"/>
+	<A_FPL_Z xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_A_FPL"/>
+	<B_CET_A xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_B_CET_A"/>
+	<B_LEL_A xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_B_LEL_A"/>
+	<B_POS_A xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_B_POS_A"/>
+	<B_UNE_A xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_B_UNE_A"/>
+	<C_CEL_A xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_C_CEL_A"/>
+	<C_FEM_A xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_C_FEM_A"/>
+	<C_FEM_E xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_C_FEM_E"/>
+	<C_FPL_A xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_C_FPL"/>
+	<C_JEV_H xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_C_JEV_H"/>
+	<C_PLU_A xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_C_PLU"/>
+	<C_PLU_L xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_C_PLU"/>
+	<C_PLU_U xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_C_PLU"/>
+	<C_PLU_X xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_C_PLU"/>
+	<C_POS_B xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_C_POS_B"/>
+	<C_POS_E xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_C_POS_E"/>
+	<C_REF_X xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_C_REF_X"/>
+	<D_ALE_A xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_D_ALE_A"/>
+	<D_DED_E xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_D_DED_E"/>
+	<D_DLE_S xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_D_DLE_S"/>
+	<G_CEL_B xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_G_CEL_B"/>
+	<G_CIL_A xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_G_CIL"/>
+	<G_CIL_B xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_G_CIL"/>
+	<G_PLU_S xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_G_PLU_S"/>
+	<G_QUE_A xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_G_QUE_A"/>
+	<G_SUP_A xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_G_SUP_A"/>
+	<H_series xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_H_series"/>
+	<I_series xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_I_series"/>
+	<J_AND_A xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_J_AND_A"/>
+	<N_JAM_A xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_N_JAM_A"/>
+	<N_PAS_A xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_N_PAS_A"/>
+	<N_RIN_A xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_N_RIN_A"/>
+	<Q_QUI_Q xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_Q_QUI_Q"/>
+	<Q_QUI_R xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_Q_QUI_R"/>
+	<T_AFT_A xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_T_AFT_A"/>
+	<T_PRO_N xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_T_PRO_N"/>
+	<V_AVO_R xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_V_AVO_R"/>
+	<V_IMP_A xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_V_IMP_A"/>
+	<V_QUE_A xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_V_QUE"/>
+	<V_QUE_B xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_V_QUE"/>
+	<V_QUE_C xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_V_QUE"/>
+	<V_QUE_D xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_V_QUE"/>
+	<V_QUE_E xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_V_QUE"/>
+	<V_QUE_F xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_V_QUE"/>
+	<X_QQQ_Q xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_X_QQQ_Q"/>
+	<X_XXX_X xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_X_XXX_X"/>
+	<!-- default for any other flag class -->
+	<Flag xhType="XhtypePureActiveObject" implName="org.primordion.user.app.English2French.rule.Rule_Flag"/>
+	
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

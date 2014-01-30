@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+<!--
+	RavaszHnm Displayable information about this application.
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<document>
+<header>
+<title>RavaszHnm</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This is an implementation of a hierarchical network model described in papers by Ravasz et al.
+</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<p/>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p/>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p/>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p/>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p/>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>Barabasi, A-L.
+Linked.
+Cambridge: Perseus Publishing, 2002, p.233+ .
+</p>
+<p>Ravasz, E. and Barabasi, A-L. (2003)
+Hierarchical organization in complex networks.
+Phys. Rev. E 67, 026112.</p>
+<p>Ravasz, E. et al. (2002)
+Hierarchical Organization of Modularity in Metabolic Networks.
+Science 297, 1551.
+</p>
+</section>
+
+</body>
+</document>

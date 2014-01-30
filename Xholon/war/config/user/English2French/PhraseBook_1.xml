@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+PHRASE BOOK - useful phrases in English
+These phrases are intended as an independent test of the English to French app.
+source: "Passport to French"
+French special characters: àâ éèê î ô ùû ç ÀÂ ÉÈÊ Î Ô ÙÛ Ç
+-->
+
+<SEngs roleName="PHRASE BOOK">
+	<SEng>Do you speak English?</SEng>
+	<SEng>I speak French a little.</SEng>
+	<SEng>Do you understand?</SEng>
+	<SEng>I understand</SEng>
+	<SEng>I don't understand.</SEng>
+	<SEng>Very well.</SEng>
+	<SEng>Speak slowly please.</SEng>
+	<SEng>Repeat please.</SEng>
+	<SEng>Write it down.</SEng>
+	<SEng>Who is it?</SEng>
+	<SEng>Come in.</SEng>
+	<SEng>Don't come in.</SEng>
+	<SEng>Stop!</SEng>
+	<SEng>Where is the telephone?</SEng>
+</SEngs>

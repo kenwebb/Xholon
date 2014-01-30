@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Ealontro ealontro/AntForaging ClassDetails.xml -->
+<xholonClassDetails>
+	<!--<GridCell xhType="XhtypeBehFgsxxx">-->
+	<GridCell xhType="XhtypeGridEntityActivePassive" implName="org.primordion.ealontro.app.AntForaging.XhAntForaging">
+		<config instruction="Gmt"/>
+	</GridCell>
+	<Ant xhType="XhtypePureActiveObject">
+		<port name="port" index="0" connector="#xpointer(ancestor::AntForagingSystem/GeneticProgram)"/>
+	</Ant>
+	<Food xhType="XhtypeBehFgsxxx">
+		<port name="port" index="0" connector="#xpointer(ancestor::AntForagingSystem/GeneticProgram)"/>
+	</Food>
+	<GeneticProgram xhType="XhtypePureContainer"/>
+	<Primitive xhType="XhtypeActivity" implName="org.primordion.xholon.base.Activity"/>
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

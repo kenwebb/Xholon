@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Ealontro ealontro/CartCentering ClassDetails_NoGP.xml -->
+<xholonClassDetails>
+	<Force xhType="XhtypePureActiveObject">
+		<!--
+		<port name="port" index="P_BEHAVIOR" connector="#xpointer(ancestor::CartCenteringSystem/GeneticProgram)"/>
+		<port name="port" index="P_CART" connector="#xpointer(ancestor::CartCentering/Cart)"/>
+		<port name="port" index="P_XPOSITION" connector="#xpointer(ancestor::CartCentering/Cart/XPosition)"/>
+		<port name="port" index="P_VELOCITY" connector="#xpointer(ancestor::CartCentering/Cart/Velocity)"/>
+		<port name="port" index="P_ACCELERATION" connector="#xpointer(ancestor::CartCentering/Cart/Acceleration)"/>
+		-->
+	</Force>
+	<Cart xhType="XhtypePureActiveObject">
+		<!--
+		<port name="port" index="P_XPOSITION" connector="#xpointer(XPosition)"/>
+		<port name="port" index="P_VELOCITY" connector="#xpointer(Velocity)"/>
+		<port name="port" index="P_ACCELERATION" connector="#xpointer(Acceleration)"/>
+		-->	
+	</Cart>
+	<!-- position and velocity of Cart -->
+	<XPosition xhType="XhtypePurePassiveObject"/>
+	<Velocity xhType="XhtypePurePassiveObject"/>
+	<!-- Primitive Functions -->
+	<PfAdd xhType="XhtypeActivity" implName="org.primordion.xholon.base.Activity"/>
+	<PfSubtract xhType="XhtypeActivity" implName="org.primordion.xholon.base.Activity"/>
+	<PfMultiply xhType="XhtypeActivity" implName="org.primordion.xholon.base.Activity"/>
+	<PfDivide xhType="XhtypeActivity" implName="org.primordion.xholon.base.Activity"/>
+	<PfABS xhType="XhtypeActivity" implName="org.primordion.xholon.base.Activity"/>
+	<PfGT xhType="XhtypeActivity" implName="org.primordion.xholon.base.Activity"/>
+	<!-- end Primitive Functions -->
+	<GeneticProgram xhType="XhtypePureContainer"/>
+	<Primitive xhType="XhtypeActivity" implName="org.primordion.xholon.base.Activity"/>
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

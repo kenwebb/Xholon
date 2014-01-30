@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Population>
+	<EcjTutorial4System multiplicity="1024"> <!-- 1024 -->
+		<Structure>
+			<MultiValuedRegression/> <!-- f(X,Y) -->
+		</Structure>
+		<GeneticProgram> <!-- Control Strategy, ECJ GPIndividual -->
+		</GeneticProgram>
+	</EcjTutorial4System>
+</Population>

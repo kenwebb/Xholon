@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- AntForaging configuration file
+	 Ken Webb
+	 June 14, 2006 -->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="AppM" value="false"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="1000"/>
+	<param name="TimeStepInterval" value="10"/>
+	<param name="InheritanceHierarchyFile" value="config/ealontro/AntForaging/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="config/ealontro/AntForaging/EcjCompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="config/ealontro/AntForaging/EcjClassDetails.xml"/>
+	<param name="InformationFile" value="config/ealontro/AntForaging/Information_GP.xml"/>
+	<param name="JavaClassName" value="org.primordion.ealontro.ec.app.antforaging.AntForaging.AppEcjAntForaging"/>
+	<param name="JavaXhClassName" value="org.primordion.ealontro.ec.app.antforaging.AntForaging.XhEcjAntForaging"/>
+	<!--<param name="JavaActivityClassName" value="org.primordion.xholon.base.Activity"/>-->
+	<param name="MaxPorts" value="8"/>
+	<param name="UseDataPlotter" value="none"/> <!-- JFreeChart gnuplot none -->
+	<param name="DataPlotterParams"
+		value="ECJ Ant Foraging,Generation,Standardized Fitness (Raw Fitness),./statistics/,afStats,1,WRITE_AS_DOUBLE"/>
+	<param name="SaveSnapshots" value="false"/>
+	<!-- ECJ GP parameters -->
+	<param name="EcjArgs" value="-file ./config/ealontro/AntForaging/antForaging.params"/>	
+</params>

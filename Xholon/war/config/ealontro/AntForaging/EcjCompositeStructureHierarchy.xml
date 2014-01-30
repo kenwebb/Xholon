@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AntForagingGP>
+	<!-- The single grid is reused by the entire population -->
+	<Grid>
+		<Row multiplicity="2">
+			<GridCell multiplicity="32"/>
+		</Row>
+		<Row>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell><attribute name="food" value="8"/></GridCell>
+			<GridCell><attribute name="food" value="8"/></GridCell>
+			<GridCell><attribute name="food" value="8"/></GridCell>
+			<GridCell multiplicity="21"/>
+		</Row>
+		<Row>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell><attribute name="food" value="8"/></GridCell>
+			<GridCell><attribute name="food" value="8"/></GridCell>
+			<GridCell><attribute name="food" value="8"/></GridCell>
+			<GridCell multiplicity="21"/>
+		</Row>
+		<Row>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell><attribute name="food" value="8"/></GridCell>
+			<GridCell><attribute name="food" value="8"/></GridCell>
+			<GridCell><attribute name="food" value="8"/></GridCell>
+			<GridCell multiplicity="21"/>
+		</Row>
+		<Row multiplicity="6">
+			<GridCell multiplicity="32"/>
+		</Row>
+		<Row>
+			<GridCell/>
+			<GridCell><attribute name="food" value="8"/></GridCell>
+			<GridCell><attribute name="food" value="8"/></GridCell>
+			<GridCell><attribute name="food" value="8"/></GridCell>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell multiplicity="21"/>
+		</Row>
+		<Row>
+			<GridCell/>
+			<GridCell><attribute name="food" value="8"/></GridCell>
+			<GridCell><attribute name="food" value="8"/></GridCell>
+			<GridCell><attribute name="food" value="8"/></GridCell>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell multiplicity="21"/>
+		</Row>
+		<Row>
+			<GridCell/>
+			<GridCell><attribute name="food" value="8"/></GridCell>
+			<GridCell><attribute name="food" value="8"/></GridCell>
+			<GridCell><attribute name="food" value="8"/></GridCell>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell multiplicity="21"/>
+		</Row>
+		<Row>
+			<GridCell multiplicity="32"/>
+		</Row>
+		<Row>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell><attribute name="hasNest" value="true."/></GridCell>
+			<GridCell><attribute name="hasNest" value="true."/></GridCell>
+			<GridCell><attribute name="hasNest" value="true."/></GridCell>
+			<GridCell multiplicity="14"/>
+		</Row>
+		<Row>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell><attribute name="hasNest" value="true."/></GridCell>
+			<GridCell><attribute name="hasNest" value="true."/>
+				<Nest>
+					<Food/>
+				</Nest>
+				<Ant multiplicity="20"/>
+			</GridCell>
+			<GridCell><attribute name="hasNest" value="true."/></GridCell>
+			<GridCell multiplicity="14"/>
+		</Row>
+		<Row>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell/>
+			<GridCell><attribute name="hasNest" value="true."/></GridCell>
+			<GridCell><attribute name="hasNest" value="true."/></GridCell>
+			<GridCell><attribute name="hasNest" value="true."/></GridCell>
+			<GridCell multiplicity="14"/>
+		</Row>
+		<Row multiplicity="14">
+			<GridCell multiplicity="32"/>
+		</Row>
+	</Grid>
+	<Population>
+		<AntForagingSystem multiplicity="1024">
+			<Structure>
+				<GridReference/> <!-- references the single grid -->
+			</Structure>
+			<GeneticProgram>
+			</GeneticProgram>
+		</AntForagingSystem>
+	</Population>
+</AntForagingGP>

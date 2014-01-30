@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Los Altos trail
+source: Koza, J. (1992). Genetic Programming. p.147-162
+This is the perfect-scoring S-expression found on p.158
+-->
+<Population>
+	<EcjAntTrailSystem>
+		<Structure>
+			<Trail/>
+			<Ant>
+				<Food/>
+			</Ant>
+			<Grid>
+				<Row multiplicity="68">
+					<GridCell multiplicity="50"/>
+				</Row>
+			</Grid>
+		</Structure>
+		<GeneticProgram>
+			<PfWrapper>
+				<PfProgn7>
+					<PfIfFoodAhead>
+						<PfProgn5>
+							<PfMove/>
+							<PfMove/>
+							<PfMove/>
+							<PfRight/>
+							<PfIfFoodAhead>
+								<PfMove/>
+								<PfProgn5>
+									<PfRight/>
+									<PfMove/>
+									<PfRight/>
+									<PfMove/>
+									<PfMove/>
+								</PfProgn5>
+							</PfIfFoodAhead>
+						</PfProgn5>
+						<PfProgn5>
+							<PfRight/>
+							<PfMove/>
+							<PfRight/>
+							<PfMove/>
+							<PfMove/>
+						</PfProgn5>
+					</PfIfFoodAhead>
+					<PfIfFoodAhead>
+						<PfMove/>
+						<PfRight/>
+					</PfIfFoodAhead>
+					<PfMove/>
+					<PfMove/>
+					<PfRight/>
+					<PfIfFoodAhead>
+						<PfProgn5>
+							<PfMove/>
+							<PfMove/>
+							<PfMove/>
+							<PfRight/>
+							<PfMove/>
+						</PfProgn5>
+						<PfMove/>
+					</PfIfFoodAhead>
+					<PfMove/>
+				</PfProgn7>
+				
+				<PfIfFoodAhead>
+					<PfMove/>
+					<PfProgn3>
+						<PfLeft/>
+						<PfProgn2>
+							<PfIfFoodAhead>
+								<PfMove/>
+								<PfRight/>
+							</PfIfFoodAhead>
+							<PfProgn2>
+								<PfRight/>
+								<PfProgn2>
+									<PfLeft/>
+									<PfRight/>
+								</PfProgn2>
+							</PfProgn2>
+						</PfProgn2>
+						<PfProgn2>
+							<PfIfFoodAhead>
+								<PfMove/>
+								<PfLeft/>
+							</PfIfFoodAhead>
+							<PfMove/>
+						</PfProgn2>
+					</PfProgn3>
+				</PfIfFoodAhead>
+			</PfWrapper>
+		</GeneticProgram>
+	</EcjAntTrailSystem>
+</Population>

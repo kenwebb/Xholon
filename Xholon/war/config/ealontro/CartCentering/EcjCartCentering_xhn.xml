@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- CartCentering configuration file
+	 Ken Webb
+	 June 12, 2006 -->
+<params>
+	<!-- Standard xholon parameters -->
+	<param name="ShowParams" value="false"/>
+	<param name="AppM" value="false"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="500"/> <!-- my default: 500 -->
+	<param name="TimeStepInterval" value="10"/>
+	<param name="InheritanceHierarchyFile" value="./config/ealontro/CartCentering/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="./config/ealontro/CartCentering/EcjCompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="./config/ealontro/CartCentering/EcjClassDetails.xml"/>
+	<param name="InformationFile" value="./config/ealontro/CartCentering/Information_GP.xml"/>
+	<param name="JavaClassName" value="org.primordion.ealontro.ec.app.cartcentering.AppEcjCartCentering"/>
+	<param name="JavaXhClassName" value="org.primordion.ealontro.ec.app.cartcentering.XhEcjCartCentering"/>
+	<!--<param name="JavaActivityClassName" value="org.primordion.xholon.base.Activity"/>-->
+	<param name="MaxPorts" value="5"/>
+	<param name="UseDataPlotter" value="JFreeChart"/> <!-- JFreeChart gnuplot none -->
+	<param name="DataPlotterParams"
+		value="ECJ Cart Centering,Generation,Standardized Fitness (Raw Fitness),./statistics/,ccStats,1,WRITE_AS_DOUBLE"/>
+	<param name="SaveSnapshots" value="false"/>
+	<!-- ECJ GP parameters -->
+	<param name="EcjArgs" value="-file ./config/ealontro/CartCentering/cartCentering.params"/>	
+</params>

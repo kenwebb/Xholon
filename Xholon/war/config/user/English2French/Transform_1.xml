@@ -1,0 +1,3058 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- Transforms
+French special characters: àâ éèê î ô ùû ç ÀÂ ÉÈÊ Î Ô ÙÛ Ç
+
+finished all words through page 94, start with "university"
+-->
+
+<Transforms>
+
+<!-- ######################################## A ############################################## -->
+
+<Transform>
+	<CM_pp/>
+	<Lemma>à</Lemma>
+	<D_ALE_A/>
+</Transform>
+
+<Transform>
+	<CM_pp/>
+	<Lemma>à cause de</Lemma>
+	<D_DLE_S/>
+</Transform>
+
+<Transform>
+	<CM_pp/>
+	<Lemma>à côté de</Lemma>
+	<D_DLE_S/>
+</Transform>
+
+<Transform>
+	<Lemma>à elle</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>à eux</Lemma>
+	<C_FEM_A/>
+	<C_POS_E/>
+	<GenderMP/>
+	<CM_np/>
+</Transform>
+
+<Transform>
+	<Lemma>à l'heure</Lemma>
+	<CM_nn/>
+</Transform>
+
+<Transform>
+	<Lemma>à lui</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>à moi</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>à nous</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>à toi</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>à vous</Lemma>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<Lemma>acheté</Lemma>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>9</VerbClass><Lemma>acheter</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>aéroport</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>agréable</Lemma>
+	<A_FPL_A/>
+	<T_AFT_A/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<Lemma>aidé</Lemma>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>3</VerbClass><Lemma>aider</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>3</VerbClass><Lemma>aimer</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>2</VerbClass><Lemma>être</Lemma></ClosedBracket>
+	<CM_vc/>
+	<Lemma>allé</Lemma>
+	<A_FPL_A/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>4</VerbClass><Lemma>aller</Lemma></ClosedBracket>
+	<CM_vv/>
+	<OpenBracket><FourLetterCode>nfnv</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>ami</Lemma>
+	<C_FEM_A/>
+	<C_FPL_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>an</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>anglais</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>anneé</Lemma>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>6</VerbClass><Lemma>appeler</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>43</VerbClass><Lemma>apprendre</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Key>apprendre à</Key>
+	<ClosedBracket><VerbClass>43</VerbClass><Lemma>apprendre</Lemma></ClosedBracket>
+	<Lemma>à</Lemma>
+	<OpenBracket><FourLetterCode>nfnv</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<Lemma>appris</Lemma>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<Lemma>appris à</Lemma>
+	<OpenBracket><FourLetterCode>nfnv</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<CM_pp/>
+	<Lemma>après</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>arc</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>argent</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>2</VerbClass><Lemma>être</Lemma></ClosedBracket>
+	<CM_vc/>
+	<Lemma>arrivé</Lemma>
+	<A_FPL_A/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>3</VerbClass><Lemma>arriver</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>art</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>33</VerbClass><Lemma>asseoir</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>2</VerbClass><Lemma>être</Lemma></ClosedBracket>
+	<CM_vc/>
+	<Lemma>assis</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>Attention!</Lemma>
+</Transform>
+
+<Transform>
+	<CM_pp/>
+	<Lemma>au lieu de</Lemma>
+	<D_DLE_S/>
+</Transform>
+
+<Transform>
+	<Lemma>Au revoir.</Lemma>
+</Transform>
+
+<Transform>
+	<CM_pp/>
+	<Lemma>au-dessus de</Lemma>
+	<D_DLE_S/>
+</Transform>
+
+<Transform>
+	<Lemma>aujourd'hui</Lemma>
+	<CM_nn/>
+</Transform>
+
+<Transform>
+	<Lemma>aussi</Lemma>
+	<G_QUE_A/>
+</Transform>
+
+<Transform>
+	<Lemma>automobile</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<CM_pp/>
+	<Lemma>autour de</Lemma>
+	<D_DLE_S/>
+</Transform>
+
+<Transform>
+	<Lemma>autre</Lemma>
+	<A_FPL_H/>
+</Transform>
+
+<Transform>
+	<CM_pp/>
+	<Lemma>avant</Lemma>
+</Transform>
+
+<Transform>
+	<CM_pp/>
+	<Lemma>avec</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>avenue</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>avion</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Key>avoir besoin de</Key>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<CM_vv/>
+	<Lemma>besoin de</Lemma>
+	<D_DLE_S/>
+</Transform>
+
+<!-- ######################################## B ############################################## -->
+
+<Transform>
+	<Lemma>bagages</Lemma>
+	<GenderMP/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cwxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>banque</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>beau</Lemma>
+	<A_FPL_L/>
+</Transform>
+
+<Transform>
+	<Lemma>beaucoup de</Lemma>
+	<D_DLE_S/>
+</Transform>
+
+<Transform>
+	<Lemma>bien</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>blanc</Lemma>
+	<A_FPL_C/>
+	<T_AFT_A/>
+</Transform>
+
+<Transform>
+	<Lemma>bleu</Lemma>
+	<A_FPL_A/>
+	<T_AFT_A/>
+</Transform>
+
+<Transform>
+	<Lemma>blond</Lemma>
+	<A_FPL_A/>
+	<T_AFT_A/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>32</VerbClass><Lemma>boire</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>bon</Lemma>
+	<A_FPL_N/>
+</Transform>
+
+<Transform>
+	<Lemma>bon marché</Lemma>
+	<G_PLU_S/>
+	<T_AFT_A/>
+</Transform>
+
+<Transform>
+	<Lemma>Bonjour.</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>Bonne nuit.</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>Bonsoir.</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>boulevard</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>bras</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<Lemma>bu</Lemma>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>bureau</Lemma>
+	<C_PLU_U/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>bureau de poste</Lemma>
+	<C_PLU_U/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>bus</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<!-- ######################################## C ############################################## -->
+
+<Transform>
+	<Lemma>c'</Lemma>
+	<B_CET_A/>
+	<G_CIL_A/>
+</Transform>
+
+<Transform>
+	<Lemma>C'est aujourd'hui le sept juin.</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>C'est moi.</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>ça</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>cadeau</Lemma>
+	<C_PLU_U/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>café</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>camera</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>Canada</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>canal</Lemma>
+	<C_PLU_L/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>carte</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>carte postale</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>cathédrale</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>ce</Lemma>
+	<B_CET_A/>
+	<G_CIL_A/>
+</Transform>
+
+<Transform>
+	<Lemma>ce qui</Lemma>
+	<Q_QUI_R/>
+</Transform>
+
+<Transform>
+	<Lemma>ce soir</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>ceci</Lemma>
+	<GenderM/>
+	<CM_np/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>celui</Lemma>
+	<C_CEL_A/>
+	<G_CEL_B/>
+</Transform>
+
+<Transform>
+	<Lemma>cent</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>centre</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>centre commercial</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>centre de la ville</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>ces</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>ceux</Lemma>
+	<C_CEL_A/>
+	<G_CEL_B/>
+	<GenderMP/>
+	<CM_np/>
+</Transform>
+
+<Transform>
+	<Lemma>chaise</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>chambre</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>chandail</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>chaque</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>chaud</Lemma>
+	<A_FPL_A/>
+	<T_AFT_A/>
+</Transform>
+
+<Transform>
+	<Lemma>chemise</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>chèque de voyage</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>cher</Lemma>
+	<A_FPL_R/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<Lemma>cherché</Lemma>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>3</VerbClass><Lemma>chercher</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>cheval</Lemma>
+	<C_PLU_L/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>cheveu</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>cheveux</Lemma>
+	<GenderMP/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<CM_pp/>
+	<Lemma>chez</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>chien</Lemma>
+	<C_FEM_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>10</VerbClass><Lemma>choisir</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>chose</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>cimetière</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>cinèma</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>cinq</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>circulation</Lemma>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>clef</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>combien</Lemma>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>8</VerbClass><Lemma>commencer</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>Comment allez-vous?</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>Comment vous appelez-vous?</Lemma>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>43</VerbClass><Lemma>comprendre</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>48</VerbClass><Lemma>connaître</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<Lemma>connu</Lemma>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<CM_pp/>
+	<Lemma>contre</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>couleur</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>couramment</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>courant</Lemma>
+	<A_FPL_A/>
+	<T_AFT_A/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>11</VerbClass><Lemma>courir</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>court</Lemma>
+	<A_FPL_A/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<Lemma>couru</Lemma>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>3</VerbClass><Lemma>coûter</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>couverture</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>crayon</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>31</VerbClass><Lemma>croire</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<!-- ######################################## D ############################################## -->
+
+<Transform>
+	<CM_pp/>
+	<Lemma>de</Lemma>
+	<D_DLE_S/>
+</Transform>
+
+<Transform>
+	<Lemma>De rien.</Lemma>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<Lemma>décidé de</Lemma>
+	<OpenBracket><FourLetterCode>nfnv</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>3</VerbClass><Lemma>décider</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Key>décider de</Key>
+	<ClosedBracket><VerbClass>3</VerbClass><Lemma>décider</Lemma></ClosedBracket>
+	<Lemma>de</Lemma>
+	<OpenBracket><FourLetterCode>nfnv</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>délicieux</Lemma>
+	<A_FPL_Y/>
+	<T_AFT_A/>
+</Transform>
+
+<Transform>
+	<Lemma>demain</Lemma>
+	<CM_nn/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>2</VerbClass><Lemma>être</Lemma></ClosedBracket>
+	<CM_vc/>
+	<Lemma>dépêché</Lemma>
+	<A_FPL_A/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>3</VerbClass><Lemma>dépêcher</Lemma></ClosedBracket>
+	<CM_vc/>
+</Transform>
+
+<Transform>
+	<Lemma>dernier</Lemma>
+	<A_FPL_R/>
+	<T_AFT_A/>
+</Transform>
+
+<Transform>
+	<CM_pp/>
+	<Lemma>derriére</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>deux</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>deuxième</Lemma>
+	<T_AFT_A/>
+</Transform>
+
+<Transform>
+	<CM_pp/>
+	<Lemma>devant</Lemma>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>27</VerbClass><Lemma>devoir</Lemma></ClosedBracket>
+	<OpenBracket><FourLetterCode>nfnv</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>difficile</Lemma>
+	<A_FPL_H/>
+	<T_AFT_A/>
+</Transform>
+
+<Transform>
+	<Lemma>dimanche</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>44</VerbClass><Lemma>dire</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>dix</Lemma>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<Lemma>donné</Lemma>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>3</VerbClass><Lemma>donner</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<Lemma>dormi</Lemma>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>13</VerbClass><Lemma>dormir</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>douche</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>doux</Lemma>
+	<A_FPL_X/>
+</Transform>
+
+<Transform>
+	<Lemma>douzaine</Lemma>
+	<C_FEM_A/>
+	<GenderF/>
+	<CM_nn/>
+	<Lemma>de</Lemma>
+	<D_DLE_S/>
+</Transform>
+
+<Transform>
+	<Lemma>drapeau</Lemma>
+	<C_PLU_U/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<!-- ######################################## E ############################################## -->
+
+<Transform>
+	<Lemma>eau</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>école</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<Lemma>écouté</Lemma>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>3</VerbClass><Lemma>écouter</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>46</VerbClass><Lemma>écrire</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<Lemma>écrit</Lemma>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>église</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>elle</Lemma>
+	<GenderF/>
+	<CM_np/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>elles</Lemma>
+	<GenderFP/>
+	<CM_np/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>5</VerbClass><Lemma>employer</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>enfant</Lemma>
+	<C_FEM_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<CM_pp/>
+	<Lemma>entre</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>entrée</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>épais</Lemma>
+	<A_FPL_B/>
+</Transform>
+
+<Transform>
+	<Lemma>est</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>est-ce que</Lemma>
+</Transform>
+
+<Transform>
+	<CM_jj/>
+	<Lemma>et</Lemma>
+	<J_AND_A/>
+</Transform>
+
+<Transform>
+	<Lemma>États-Unis</Lemma>
+	<GenderMP/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>2</VerbClass><Lemma>être</Lemma></ClosedBracket>
+	<CM_vc/>
+</Transform>
+
+<Transform>
+	<Lemma>eux</Lemma>
+	<C_FEM_A/>
+	<C_POS_E/>
+	<GenderMP/>
+	<CM_np/>
+</Transform>
+
+<Transform>
+	<Lemma>exposition</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<!-- ######################################## F ############################################## -->
+
+<Transform>
+	<Lemma>faim</Lemma>
+	<V_AVO_R/>
+	<GenderF/>
+	<CM_nn/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>47</VerbClass><Lemma>faire</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<Lemma>fait</Lemma>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>fatigué</Lemma>
+	<A_FPL_A/>
+</Transform>
+
+<Transform>
+	<Lemma>faux</Lemma>
+	<A_FPL_Z/>
+</Transform>
+
+<Transform>
+	<Lemma>femme</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>femme de chambre</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>fille</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>film</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>fils</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<Lemma>fini</Lemma>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>10</VerbClass><Lemma>finir</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>fontaine</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>forêt</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>forteresse</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>fourchette</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>frais</Lemma>
+	<A_FPL_E/>
+</Transform>
+
+<Transform>
+	<Lemma>français</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>français</Lemma>
+	<A_FPL_A/> <!-- ? -->
+	<T_AFT_A/>
+</Transform>
+
+<Transform>
+	<Lemma>France</Lemma>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>frére</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>froid</Lemma>
+	<A_FPL_A/>
+	<T_AFT_A/>
+</Transform>
+
+<Transform>
+	<Lemma>fruit</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<!-- ######################################## G ############################################## -->
+
+<Transform>
+	<Lemma>galerie d'art</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>garçon</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>gare</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>gauche</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>grand</Lemma>
+	<A_FPL_A/>
+</Transform>
+
+<Transform>
+	<Lemma>grand-mére</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>grand-pére</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<!-- ######################################## H ############################################## -->
+
+<Transform>
+	<ClosedBracket><VerbClass>3</VerbClass><Lemma>habiter</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>haricots verts</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>heure</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>heureux</Lemma>
+	<A_FPL_Y/>
+</Transform>
+
+<Transform>
+	<Lemma>hier</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>homme</Lemma>
+	<C_PLU_L/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>hôpital</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>hôtel</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>hôtel de ville</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>huit</Lemma>
+</Transform>
+
+<!-- ######################################## I ############################################## -->
+
+<Transform>
+	<Lemma>ici</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>il</Lemma>
+	<GenderM/>
+	<CM_np/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>Il est quatre heures moins le quart.</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>Il est sept heures et demie.</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>Il fait chaud.</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>Il fait du vent.</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>Il fait froid.</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>il y a</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>ils</Lemma>
+	<GenderMP/>
+	<CM_np/>
+	<OpenBracket><FourLetterCode>cwxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>important</Lemma>
+	<A_FPL_A/>
+	<T_AFT_A/>
+</Transform>
+
+<Transform>
+	<Lemma>intéressant</Lemma>
+	<A_FPL_A/>
+	<T_AFT_A/>
+</Transform>
+
+<!-- ######################################## J ############################################## -->
+
+<Transform>
+	<Lemma>jardin</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>jaune</Lemma>
+	<A_FPL_H/>
+	<T_AFT_A/>
+</Transform>
+
+<Transform>
+	<Lemma>je</Lemma>
+	<C_JEV_H/>
+	<GenderM/>
+	<CM_np/>
+	<OpenBracket><FourLetterCode>avxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>Je vais bien.</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>jeudi</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>jeune</Lemma>
+	<A_FPL_H/>
+</Transform>
+
+<Transform>
+	<Lemma>joli</Lemma>
+	<A_FPL_A/>
+</Transform>
+
+<Transform>
+	<Lemma>jour</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>journal</Lemma>
+	<C_PLU_L/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>journée</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>jupe</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<CM_pp/>
+	<Lemma>jusqu'a</Lemma>
+	<D_ALE_A/>
+</Transform>
+
+<!-- ######################################## K ############################################## -->
+
+<Transform>
+	<Lemma>kilogramme</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>kiosque à journaux</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<!-- ######################################## L ############################################## -->
+
+<Transform>
+	<Lemma>la</Lemma>
+	<B_LEL_A/>
+</Transform>
+
+<Transform>
+	<Lemma>là</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>la plupart</Lemma>
+	<CM_pp/>
+	<Lemma>de</Lemma>
+	<D_DLE_S/>
+</Transform>
+
+<Transform>
+	<Lemma>la plupart</Lemma>
+	<CM_pp/>
+	<Lemma>de</Lemma>
+	<D_DLE_S/>
+	<Lemma>le</Lemma>
+	<B_LEL_A/>
+</Transform>
+
+<Transform>
+	<Lemma>lac</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<Lemma>laissé</Lemma>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>0</VerbClass><Lemma>laisser</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>lait</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>langue</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>le</Lemma>
+	<B_LEL_A/>
+</Transform>
+
+<Transform>
+	<Lemma>le mien</Lemma>
+	<C_POS_B/>
+</Transform>
+
+<Transform>
+	<Lemma>le nôtre</Lemma>
+	<C_POS_B/>
+</Transform>
+
+<Transform>
+	<Lemma>le sien</Lemma>
+	<C_POS_B/>
+</Transform>
+
+<Transform>
+	<Lemma>le tien</Lemma>
+	<C_POS_B/>
+</Transform>
+
+<Transform>
+	<Lemma>le vôtre</Lemma>
+	<C_POS_B/>
+</Transform>
+
+<Transform>
+	<Lemma>léger</Lemma>
+	<B_LEL_A/> <!-- ? -->
+	<T_AFT_A/>
+</Transform>
+
+<Transform>
+	<Lemma>lent</Lemma>
+	<A_FPL_A/>
+</Transform>
+
+<Transform>
+	<Lemma>lequel</Lemma>
+	<A_FPL_D/>
+</Transform>
+
+<Transform>
+	<Lemma>les</Lemma>
+	<T_PRO_N/>
+</Transform>
+
+<Transform>
+	<Lemma>les français</Lemma>
+	<GenderMP/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>lettre</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>leur</Lemma>
+	<B_POS_A/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>2</VerbClass><Lemma>être</Lemma></ClosedBracket>
+	<CM_vc/>
+	<Lemma>levé</Lemma>
+	<A_FPL_A/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>3</VerbClass><Lemma>lever</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>45</VerbClass><Lemma>lire</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>lit</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>livre</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<CM_pp/>
+	<Lemma>loin de</Lemma>
+	<D_DLE_S/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<Lemma>lu</Lemma>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>lui</Lemma>
+	<T_PRO_N/>
+	<CM_np/>
+</Transform>
+
+<Transform>
+	<Lemma>lumiére</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>lundi</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<!-- ######################################## M ############################################## -->
+
+<Transform>
+	<Lemma>magasin</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<CM_jj/>
+	<Lemma>mais</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>maison</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<Lemma>mangé</Lemma>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>7</VerbClass><Lemma>manger</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>manteau</Lemma>
+	<C_PLU_U/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>marché</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>3</VerbClass><Lemma>marcher</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>mardi</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>mari</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>me</Lemma>
+	<T_PRO_N/>
+	<CM_np/>
+</Transform>
+
+<Transform>
+	<Lemma>meilleur</Lemma>
+	<A_FPL_A/>
+</Transform>
+
+<Transform>
+	<Lemma>même</Lemma>
+	<A_FPL_H/>
+</Transform>
+
+<Transform>
+	<Lemma>Merci.</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>mercredi</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>mére</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>métro</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>41</VerbClass><Lemma>mettre</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>midi</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>mieux</Lemma>
+	<A_FPL_A/>
+</Transform>
+
+<Transform>
+	<Lemma>mille</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>minuit</Lemma>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<Lemma>mis</Lemma>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>moi</Lemma>
+	<CM_np/>
+	<T_PRO_N/>
+</Transform>
+
+<Transform>
+	<Lemma>moins</Lemma>
+	<G_SUP_A/>
+</Transform>
+
+<Transform>
+	<Lemma>moins de</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>mois</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>mon</Lemma>
+	<B_POS_A/>
+</Transform>
+
+<Transform>
+	<Lemma>monument</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>morceau</Lemma>
+	<C_PLU_U/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>16</VerbClass><Lemma>mourir</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>musée</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<!-- ######################################## N ############################################## -->
+
+<Transform>
+	<Key>ne[PAS]</Key>
+	<Lemma>ne</Lemma>
+	<N_PAS_A/>
+</Transform>
+
+<Transform>
+	<Key>ne[RIN]</Key>
+	<Lemma>ne</Lemma>
+	<N_RIN_A/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>3</VerbClass><Lemma>neiger</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Key>neuf[ADJ]</Key>
+	<Lemma>neuf</Lemma>
+	<A_FPL_F/>
+</Transform>
+
+<Transform>
+	<Key>neuf[NUM]</Key>
+	<Lemma>neuf</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>noir</Lemma>
+	<A_FPL_A/>
+	<T_AFT_A/>
+</Transform>
+
+<Transform>
+	<Lemma>nom</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>Non.</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>nord</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>notre</Lemma>
+	<B_POS_A/>
+</Transform>
+
+<Transform>
+	<Key>nous[US]</Key>
+	<Lemma>nous</Lemma>
+	<T_PRO_N/>
+	<CM_np/>
+</Transform>
+
+<Transform>
+	<Key>nous[WE]</Key>
+	<Lemma>nous</Lemma>
+	<C_FEM_A/>
+	<GenderMP/>
+	<CM_np/>
+	<OpenBracket><FourLetterCode>awxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>nouveau</Lemma>
+	<A_FPL_L/>
+</Transform>
+
+<!-- ######################################## O ############################################## -->
+
+<Transform>
+	<Lemma>oeil</Lemma>
+	<C_PLU_X/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>on</Lemma>
+	<GenderM/>
+	<CM_np/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>opéra</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Key>orange[ADJ]</Key>
+	<Lemma>orange</Lemma>
+	<A_FPL_H/>
+	<T_AFT_A/>
+</Transform>
+
+<Transform>
+	<Key>orange[N]</Key>
+	<Lemma>orange</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>où</Lemma>
+</Transform>
+
+<Transform>
+	<Key>ou[SEN]</Key>
+	<CM_jj/>
+	<Lemma>ou</Lemma>
+</Transform>
+
+<Transform>
+	<Key>ou[WORD]</Key>
+	<CM_jj/>
+	<Lemma>ou</Lemma>
+	<J_ORR_A/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<Lemma>oublié</Lemma>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>3</VerbClass><Lemma>oublier</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>ouest</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>Oui.</Lemma>
+</Transform>
+
+<!-- ######################################## P ############################################## -->
+
+<Transform>
+	<Lemma>pain</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>pain grillé</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>palais</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<CM_pp/>
+	<Lemma>par</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>parc</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>parce que</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>Pardon</Lemma>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>3</VerbClass><Lemma>parler</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>2</VerbClass><Lemma>être</Lemma></ClosedBracket>
+	<CM_vc/>
+	<Lemma>parti</Lemma>
+	<A_FPL_A/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>0</VerbClass><Lemma>partir</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>passeport</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>pauvre</Lemma>
+	<A_FPL_H/>
+</Transform>
+
+<Transform>
+	<Lemma>pays</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<CM_pp/>
+	<Lemma>pendant</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>pére</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>petit</Lemma>
+	<A_FPL_A/>
+</Transform>
+
+<Transform>
+	<Lemma>petit déjeuner</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>pharmacie</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>photo</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>pire</Lemma>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>34</VerbClass><Lemma>pleuvoir</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>plus</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>plus de</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>plusieurs</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>poli</Lemma>
+	<A_FPL_A/>
+	<T_AFT_A/>
+</Transform>
+
+<Transform>
+	<Lemma>pont</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>port</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>poulet</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<CM_pp/>
+	<Lemma>pour</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>pourquoi</Lemma>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>28</VerbClass><Lemma>pouvoir</Lemma></ClosedBracket>
+	<OpenBracket><FourLetterCode>nfnv</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>premier</Lemma>
+	<A_FPL_R/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>43</VerbClass><Lemma>prendre</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<CM_pp/>
+	<Lemma>près de</Lemma>
+	<D_DLE_S/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<Lemma>pris</Lemma>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>privé</Lemma>
+	<A_FPL_A/>
+	<T_AFT_A/>
+</Transform>
+
+<Transform>
+	<Lemma>prix</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>prochain</Lemma>
+	<A_FPL_A/>
+	<T_AFT_A/>
+</Transform>
+
+<Transform>
+	<Lemma>professeur</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>puis</Lemma>
+</Transform>
+
+<!-- ######################################## Q ############################################## -->
+
+<Transform>
+	<Lemma>qu'</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>Qu'est-ce que c'est?</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>quand</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>quatre</Lemma>
+</Transform>
+
+<Transform>
+	<CM_jj/>
+	<Lemma>que</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>quel</Lemma>
+	<A_FPL_D/>
+</Transform>
+
+<Transform>
+	<Lemma>Quel temps fait-il?</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>quelques</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>qui</Lemma>
+	<GenderM/>
+	<CM_np/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<Lemma>quitté</Lemma>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>0</VerbClass><Lemma>quitter</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<!-- ######################################## R ############################################## -->
+
+<Transform>
+	<Lemma>rapide</Lemma>
+	<A_FPL_H/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>26</VerbClass><Lemma>recevoir</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<Lemma>regardé</Lemma>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>3</VerbClass><Lemma>regarder</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>40</VerbClass><Lemma>rendre</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>réponse</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>3</VerbClass><Lemma>réserver</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>restaurant</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>rouge</Lemma>
+	<A_FPL_H/>
+	<T_AFT_A/>
+</Transform>
+
+<Transform>
+	<Lemma>route</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>ruines</Lemma>
+	<C_PLU_A/>
+	<GenderFP/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<!-- ######################################## S ############################################## -->
+
+<Transform>
+	<Lemma>S'il vous plaît.</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>salade</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>sale</Lemma>
+	<C_PLU_A/>
+</Transform>
+
+<Transform>
+	<Lemma>salle à manger</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>salle de bains</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>samedi</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<CM_pp/>
+	<Lemma>sans</Lemma>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>30</VerbClass><Lemma>savoir</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>savon</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>sec</Lemma>
+	<A_FPL_G/>
+</Transform>
+
+<Transform>
+	<Lemma>seconde</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<CM_pp/>
+	<Lemma>selon</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>semaine</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>12</VerbClass><Lemma>sentir</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>sept</Lemma>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>14</VerbClass><Lemma>servir</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>seul</Lemma>
+	<A_FPL_A/>
+</Transform>
+
+<Transform>
+	<Lemma>seulement</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>siècle</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>six</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>soeur</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>soif</Lemma>
+	<V_AVO_R/>
+</Transform>
+
+<Transform>
+	<Lemma>son</Lemma>
+	<B_POS_A/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>2</VerbClass><Lemma>être</Lemma></ClosedBracket>
+	<CM_vc/>
+	<Lemma>sorti</Lemma>
+	<A_FPL_A/>
+</Transform>
+
+<Transform>
+	<Lemma>sortie</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>0</VerbClass><Lemma>sortir</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<CM_pp/>
+	<Lemma>sous</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>souvenir</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>soyons</Lemma>
+	<CM_vc/>
+</Transform>
+
+<Transform>
+	<Lemma>station de métro</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>statue</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>sud</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>42</VerbClass><Lemma>suivre</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>supermarché</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>supplémentaire</Lemma>
+	<A_FPL_H/>
+	<T_AFT_A/>
+</Transform>
+
+<Transform>
+	<CM_pp/>
+	<Lemma>sur</Lemma>
+</Transform>
+
+<!-- ######################################## T ############################################## -->
+
+<Transform>
+	<Lemma>tableau noir</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>tasse</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>téléphone</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>temps</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>thé</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>théâtre</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>timbre</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>toilette</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>tombe</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>ton</Lemma>
+	<B_POS_A/>
+</Transform>
+
+<Transform>
+	<Lemma>tour</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>tourist</Lemma>
+	<C_FEM_A/>
+	<C_FPL_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>tout</Lemma>
+	<A_FPL_S/>
+</Transform>
+
+<Transform>
+	<Lemma>train</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>tranquille</Lemma>
+	<A_FPL_H/>
+</Transform>
+
+<Transform>
+	<Lemma>travail</Lemma>
+	<C_PLU_L/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>3</VerbClass><Lemma>travailler</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>très</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>Très bien.</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>trois</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>trop</Lemma>
+</Transform>
+
+<!-- ######################################## U ############################################## -->
+
+<Transform>
+	<Lemma>un</Lemma>
+	<B_UNE_A/>
+</Transform>
+
+<Transform>
+	<Lemma>un autre</Lemma>
+	<B_UNE_A/>
+</Transform>
+
+<Transform>
+	<Lemma>un bon nombre de</Lemma>
+	<D_DLE_S/>
+</Transform>
+
+<Transform>
+	<Key>un tel</Key>
+	<Lemma>un</Lemma>
+	<B_UNE_A/>
+	<Lemma>tel</Lemma>
+	<A_FPL_D/>
+</Transform>
+
+<Transform>
+	<Lemma>université</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<!-- ######################################## V ############################################## -->
+
+<Transform>
+	<Lemma>valise</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>vendredi</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>15</VerbClass><Lemma>venir</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>2</VerbClass><Lemma>être</Lemma></ClosedBracket>
+	<CM_vc/>
+	<Lemma>venu</Lemma>
+	<A_FPL_A/>
+</Transform>
+
+<Transform>
+	<Lemma>verre</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<CM_pp/>
+	<Lemma>vers</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>vert</Lemma>
+	<A_FPL_A/>
+	<T_AFT_A/>
+</Transform>
+
+<Transform>
+	<Lemma>vieux</Lemma>
+	<A_FPL_W/>
+</Transform>
+
+<Transform>
+	<Lemma>ville</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>vin</Lemma>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>violet</Lemma>
+	<A_FPL_T/>
+	<T_AFT_A/>
+</Transform>
+
+<Transform>
+	<Lemma>voici</Lemma>
+</Transform>
+
+<Transform>
+	<Lemma>voilà</Lemma>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>31</VerbClass><Lemma>voir</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<Lemma>voiture</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>votre</Lemma>
+	<B_POS_A/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>29</VerbClass><Lemma>vouloir</Lemma></ClosedBracket>
+	<CM_vv/>
+	<OpenBracket><FourLetterCode>nfnv</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Key>vouloir[IMP]</Key>
+	<ClosedBracket><VerbClass>29</VerbClass><Lemma>vouloir</Lemma></ClosedBracket>
+	<CM_vv/>
+	<V_IMP_A/>
+	<OpenBracket><FourLetterCode>nfnv</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>vous</Lemma>
+	<C_FEM_A/>
+	<GenderM/>
+	<CM_np/>
+	<OpenBracket><FourLetterCode>bwxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>7</VerbClass><Lemma>voyager</Lemma></ClosedBracket>
+	<CM_vv/>
+</Transform>
+
+<Transform>
+	<ClosedBracket><VerbClass>1</VerbClass><Lemma>avoir</Lemma></ClosedBracket>
+	<Lemma>vu</Lemma>
+	<CM_vv/>
+</Transform>
+
+<!-- ######################################## W ############################################## -->
+
+<Transform>
+	<Lemma>wagon</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<!-- ######################################## X ############################################## -->
+
+<Transform>
+	<Lemma>xénon</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<!-- ######################################## Y ############################################## -->
+
+<Transform>
+	<Lemma>yacht</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<!-- ######################################## Z ############################################## -->
+
+<Transform>
+	<Lemma>zone</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<!-- French special characters: àâ éèê î ô ùû ç ÀÂ ÉÈÊ Î Ô ÙÛ Ç -->
+</Transforms>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- AntForaging configuration file
+	 Ken Webb
+	 June 14, 2006 -->
+<params>
+  <param name="ModelName" value="Ant Foraging"/>
+	<param name="ShowParams" value="false"/>
+	<param name="AppM" value="true"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="1000"/> <!-- 1000 -->
+	<param name="TimeStepInterval" value="10"/>
+	<param name="InheritanceHierarchyFile" value="config/ealontro/AntForaging/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="config/ealontro/AntForaging/CompositeStructureHierarchy_3.xml"/>
+	<param name="ClassDetailsFile" value="config/ealontro/AntForaging/ClassDetails.xml"/>
+	<param name="InformationFile" value="config/ealontro/AntForaging/Information_NoGP.xml"/>
+	<param name="JavaClassName" value="org.primordion.ealontro.app.AntForaging.AppAntForaging"/>
+	<param name="JavaXhClassName" value="org.primordion.ealontro.app.AntForaging.XhAntForaging"/>
+	<!--<param name="JavaActivityClassName" value="org.primordion.xholon.base.Activity"/>-->
+	<param name="MaxPorts" value="8"/>
+	<param name="UseDataPlotter" value="google2"/> <!-- JFreeChart gnuplot google2 none -->
+	<param name="DataPlotterParams"
+		value="Ant Foraging,Time Step,Food at nest,./statistics/,afStats,1,WRITE_AS_DOUBLE"/>
+	<param name="SaveSnapshots" value="false"/>
+	<!-- Use 2D graphics to view the grid. -->
+	<param name="UseGridViewer" value="true"/>
+	<param name="GridPanelClassName" value="org.primordion.ealontro.app.AntForaging.GridPanelAntForaging"/>
+	<param name="GridViewerParams" value="descendant::Row/..,10,Ant Foraging"/>
+	<param name="UseGraphicalTreeViewer" value="false"/>
+	<param name="GraphicalTreeViewerParams"
+		value="descendant::Behavior,20,30,200,200,10,Xholon - Ant Foraging,false"/>
+	<!-- Ant Foraging parameters -->
+	<param name="PheromoneEvaporationRate" value="0.07"/>
+	<param name="PheromoneDiffusionRate" value="0.01"/>
+	<param name="UsePheromone" value="true"/>
+	<param name="UsePheromoneDiffusion" value="false"/>
+</params>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- Transforms
+French special characters: àâ éèê î ô ùû ç ÀÂ ÉÈÊ Î Ô ÙÛ Ç
+
+Supplementary transforms
+source: French Bilingual Dictionary
+-->
+
+<Transforms>
+
+<!-- ######################################## A ############################################## -->
+
+<Transform>
+	<Lemma>abeille</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>abricot</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>fleur</Lemma>
+	<C_PLU_A/>
+	<GenderF/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+<Transform>
+	<Lemma>Paris</Lemma>
+	<C_PLU_A/>
+	<GenderM/>
+	<CM_nn/>
+	<OpenBracket><FourLetterCode>cvxr</FourLetterCode></OpenBracket>
+</Transform>
+
+</Transforms>

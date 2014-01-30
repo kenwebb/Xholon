@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TheSystem SYSTEM "../../../../dtd/XBar.dtd" [
+	<!ELEMENT XBarSystem (xi:include|S_|S|IP|NP|VP|AP|PP)*>
+	<!ATTLIST XBarSystem xmlns:xi CDATA #IMPLIED>
+	<!ATTLIST xi:include href CDATA #REQUIRED
+						 roleName CDATA #REQUIRED>
+]>
+
+<!-- The Tale of Peter Rabbit, by Beatrix Potter
+source of the sentences: http://www.gutenberg.net/1/4/3/0/14304/
+The file 14304.txt includes the following text"
+The Project Gutenberg EBook of The Tale Of Peter Rabbit, by Beatrix Potter
+
+This eBook is for the use of anyone anywhere at no cost and with
+almost no restrictions whatsoever.  You may copy it, give it away or
+re-use it under the terms of the Project Gutenberg License included
+with this eBook or online at www.gutenberg.net
+
+The steps are from Carnie, A. (2002) Syntax: A Generative Introduction.
+-->
+<XBarSystem xmlns:xi="http://www.w3.org/2001/XInclude">
+	
+	<!--<xi:include href="./config/user/XBar/EnglishLexicon_Frq01.xml" roleName="EnglishLexicon"/>-->
+	
+	<!-- sentence 1
+	Once upon a time there were four little rabbits, and their names were Flopsy, Mopsy, Cotton-tail and Peter. -->
+	
+	<S_>
+		<S_>
+			<AdvP>
+				<Adv_>
+					<Adv>once</Adv>
+					<PP>
+						<P_>
+							<P>upon</P>
+							<NP>
+								<D>a</D>
+								<N_><N>time</N></N_>
+							</NP>
+						</P_>
+					</PP>
+				</Adv_>
+			</AdvP>
+			<S>
+				<NP><N_><Pron>there</Pron></N_></NP>
+				<VP>
+					<V_>
+						<V_>
+							<V>were</V>
+							<NP>
+								<N_>
+									<AP><A_><A>four</A></A_></AP>
+									<N_>
+										<AP><A_><A>little</A></A_></AP>
+										<N_><N>rabbits</N></N_>
+									</N_>
+								</N_>
+							</NP>
+						</V_>
+					</V_>
+				</VP>
+			</S>
+		</S_>
+		<Conj>and</Conj>
+		<S_>
+			<S>
+				<NP>
+					<D>their</D>
+					<N_><N>names</N></N_>
+				</NP>
+				<VP>
+					<V_>
+						<V>were</V>
+						<NP><N_><N>Flopsy, Mopsy, Cotton-tail, and Peter</N></N_></NP>
+					</V_>
+				</VP>
+			</S>
+		</S_>
+	</S_>
+	
+	<!-- sentence 2
+	They lived with their mother in a sand-bank, underneath the root of a very big fir tree. -->
+	
+	<!-- Step 1a "Write out the sentence" -->
+	<S>
+	<!-- incompletely analyzed -->
+	They lived with their mother in a sand-bank, underneath the root of a very big fir-tree
+	</S>
+	
+	<!-- Step 1b "Identify the parts of speech" -->
+	<S>
+		<!-- incompletely analyzed -->
+		<Pron>they</Pron>
+		<V>lived</V>
+		<P>with</P>
+		<D>their</D>
+		<N>mother</N>
+		<P>in</P>
+		<D>a</D>
+		<N>sand-bank</N>
+		<P>underneath</P>
+		<D>the</D>
+		<N>root</N>
+		<P>of</P>
+		<D>a</D>
+		<Adv>very</Adv>
+		<A>big</A>
+		<N>fir-tree</N>
+	</S>
+	
+	<!-- Step 2 "Identify what modifies what" -->
+	<!--
+	[with their mother in a sand-bank underneath the root of a very big fir-tree] modifies [lived] as an adjunct
+	[their mother] modifies [with] as a complement
+	[their] modifies [mother] as a specifier
+	[in a sand-bank underneath the root of a very big fir-tree] modifies [with their mother] as an adjunct
+	[a sand-bank] modifies [in] as a complement
+	[a] modifies [sand-bank] as a specifier
+	[underneath the root of a very big fir-tree] modifies [in a sand-bank] as an adjunct
+	[the root] modifies [underneath] as a complement
+	[the] modifies [root] as a specifier
+	[of a very big fir-tree] modifies [underneath the root] as an adjunct
+	[a very big fir-tree] modfies [of] as a complement
+	[a] modifies [very big fir-tree] as a specifier
+	[very big] modifies [fir-tree] as an adjunct
+	[very] modifies [big] as an adjunct
+	-->
+	
+	<!-- Step 3 "Start linking material together" -->
+	<!-- Step 4 "Make sure you've attached everything according to the rules" -->
+	<!-- Step 5 "Keep applying the rules until everything is linked up" -->
+	<!-- Step 6 "Apply the S and S' rules last" -->
+	<!-- Step 7 "Go back and check your tree against the rules" -->
+	<S>
+		<NP><N_><Pron>they</Pron></N_></NP>
+		<VP>
+			<V_>
+				<V_><V>lived</V></V_>
+				<PP>
+					<P_>
+						<P_>
+							<P>with</P>
+							<NP>
+								<D>their</D>
+								<N_><N>mother</N></N_>
+							</NP>
+						</P_>
+						<PP>
+							<P_>
+								<P_>
+									<P>in</P>
+									<NP>
+										<D>a</D>
+										<N_><N>sand-bank</N></N_>
+									</NP>
+								</P_>
+								<PP>
+									<P_>
+										<P_>
+											<P>underneath</P>
+											<NP>
+												<D>the</D>
+												<N_><N>root</N></N_>
+											</NP>
+										</P_>
+										<PP>
+											<P_>
+												<P>of</P>
+												<NP>
+													<D>a</D>
+													<N_>
+														<AP>
+															<A_>
+																<AdvP><Adv_><Adv>very</Adv></Adv_></AdvP>
+																<A_><A>big</A></A_>
+															</A_>
+														</AP>
+														<N_><N>fir-tree</N></N_>
+													</N_>
+												</NP>
+											</P_>
+										</PP>
+									</P_>
+								</PP>
+							</P_>
+						</PP>
+					</P_>
+				</PP>
+			</V_>
+		</VP>
+	</S>
+	
+	<!-- sentence 3
+	"Now, my dears," said old Mrs. Rabbit one morning, "You may go into the fields or down the lane, but don't go into Mr. McGregor's garden." -->
+	<S>
+		<S>
+			<NP><N_><Pron>you</Pron></N_></NP>
+			<M>may</M>
+			<VP>
+				<V_>
+					<V_><V>go</V></V_>
+					<PP>
+						<P_>
+							<P_>
+								<P>into</P>
+								<NP>
+									<D>the</D>
+									<N_><N>fields</N></N_>
+								</NP>
+							</P_>
+							<Conj>or</Conj>
+							<P_>
+								<P>down</P>
+								<NP>
+									<D>the</D>
+									<N_><N>lane</N></N_>
+								</NP>
+							</P_>
+						</P_>
+					</PP>
+				</V_>
+			</VP>
+		</S>
+		<Conj>but</Conj>
+		<S>
+			<NP><N_><N></N></N_></NP>
+			<VP>
+				<V_>
+					<V_><V>do not go</V></V_>
+					<PP>
+						<P_>
+							<P>into</P>
+							<NP>
+								<D>Mr. McGregor's</D>
+								<N_><N>garden</N></N_>
+							</NP>
+						</P_>
+					</PP>
+				</V_>
+			</VP>
+		</S>
+	</S>
+	
+	<!-- sentence 4
+	"Your father had an accident there; he was put in a pie by Mrs. McGregor." -->
+	<S>
+		<NP>
+			<D>your</D>
+			<N_><N>father</N></N_>
+		</NP>
+		<VP>
+			<V_>
+				<V_>
+					<V>had</V>
+					<NP>
+						<D>an</D>
+						<N_><N>accident</N></N_>
+					</NP>
+				</V_>
+				<AdvP><Adv_><Adv>there</Adv></Adv_></AdvP>
+			</V_>
+		</VP>
+	</S>
+	
+	<S>
+		<!-- this is a passive sentence -->
+		<NP><N_><Pron>he</Pron></N_></NP>
+		<M>was</M>
+		<VP>
+			<V_>
+				<V_><V>put</V></V_>
+				<PP>
+					<P_>
+						<P_>
+							<P>in</P>
+							<NP>
+								<D>a</D>
+								<N_><N>pie</N></N_>
+							</NP>
+						</P_>
+						<PP>
+							<P_>
+								<P>by</P>
+								<NP><N_><N>Mrs. McGregor</N></N_></NP>
+							</P_>
+						</PP>
+					</P_>
+				</PP>
+			</V_>
+		</VP>
+	</S>
+</XBarSystem>

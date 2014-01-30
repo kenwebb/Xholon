@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TheSystem SYSTEM "../../../dtd/XBar.dtd" [
+	<!ELEMENT XBarSystem (xi:include|S|IP|NP|VP|AP|PP)*>
+	<!ATTLIST XBarSystem xmlns:xi CDATA #IMPLIED>
+	<!ATTLIST xi:include href CDATA #REQUIRED
+						 roleName CDATA #REQUIRED>
+]>
+<!--
+	XBar application - Composite Structure Hierarchy
+	Xholon 0.7 http://www.primordion.com/Xholon
+-->
+<XBarSystem xmlns:xi="http://www.w3.org/2001/XInclude">
+	
+	<xi:include href="./config/user/XBar/EnglishLexicon_1.xml" roleName="EnglishLexicon"/>
+	<xi:include href="./config/user/XBar/EnglishLexicon_Frq01.xml" roleName="EnglishLexicon"/>
+	<xi:include href="./config/user/XBar/TibetanLexicon_1.xml" roleName="TibetanLexicon"/>
+
+	<xi:include href="./config/user/XBar/PeterRabbit/PeterRabbit_en.xml" roleName="PeterRabbit"/>
+	
+	<!-- He studies linguistics at the university. -->
+	<IP>
+		<NP>
+			<N_>
+				<N>He</N>
+			</N_>
+		</NP>
+		<I_>
+			<I>[-Pst]</I>
+			<VP>
+				<V_>
+					<V_>
+						<V>studies</V>
+						<NP>
+							<N_>
+								<N>linguistics</N>
+							</N_>
+						</NP>
+					</V_>
+					<PP>
+						<P_>
+							<P>at</P>
+							<NP>
+								<D>the</D>
+								<N_>
+									<N>university</N>
+								</N_>
+							</NP>
+						</P_>
+					</PP>
+				</V_>
+			</VP>
+		</I_>
+	</IP>
+	
+	<!-- the big banana -->
+	<NP>
+		<D>the</D>
+		<N_>
+			<AP>
+				<A_>
+					<A>big</A>
+				</A_>
+			</AP>
+			<N_>
+				<N>banana</N>
+			</N_>
+		</N_>
+	</NP>
+	
+	<!-- The man from Brazil found books of poems in the puddle -->
+	<S>
+		<NP>
+			<D>the</D>
+			<N_>
+				<N_>
+					<N>man</N>
+				</N_>
+				<PP>
+					<P_>
+						<P>from</P>
+						<NP>
+							<N_>
+								<N>Brazil</N>
+							</N_>
+						</NP>
+					</P_>
+				</PP>
+			</N_>
+		</NP>
+		<VP>
+			<V_>
+				<V_>
+					<V>found</V>
+					<NP>
+						<N_>
+							<N>books</N>
+							<PP>
+								<P_>
+									<P>of</P>
+									<NP>
+										<N_>
+											<N>poems</N>
+										</N_>
+									</NP>
+								</P_>
+							</PP>
+						</N_>
+					</NP>
+				</V_>
+				<PP>
+					<P_>
+						<P>in</P>
+						<NP>
+							<D>the</D>
+							<N_>
+								<N>puddle</N>
+							</N_>
+						</NP>
+					</P_>
+				</PP>
+			</V_>
+		</VP>
+	</S>
+	
+	<!-- This boy must seem incredibly stupid to that girl
+	source: Radford (1988) p. 126
+	TODO: the structure is incomplete/incorrect
+	 -->
+	 <S>
+	 	<NP>
+	 		<D>This</D>
+	 		<N_><N>boy</N></N_>
+	 	</NP>
+	 	<M>must</M>
+	 	<VP>
+	 		<V_>
+	 			<V_>
+	 				<V_><V>seem</V></V_>
+	 				<AP>
+	 					<A_>
+	 						<AdvP><Adv_><Adv>incredibly</Adv></Adv_></AdvP>
+	 						<A_><A>stupid</A></A_>
+	 					</A_>
+	 				</AP>
+	 			</V_>
+	 			<PP>
+	 				<P_>
+	 					<P>to</P>
+	 					<NP>
+	 						<D>that</D>
+	 						<N_><N>girl</N></N_>
+	 					</NP>
+	 				</P_>
+	 			</PP>
+	 		</V_>
+	 	</VP>
+	 </S>
+	 
+	 <!-- English: agreement of subject and verb -->
+	 <!-- The boy sees the girl. -->
+	 <S>+Singular +Xxx -Yyy
+	 	<NP roleName="Subject">
+	 		<D>the +Rrr</D>
+	 		<N_>
+	 			<N>boy</N>
+	 		</N_>
+	 	</NP>
+	 	<VP>
+	 		<V_>
+	 			<!--the verb needs to agree with the subject -->
+	 			<V>see</V>
+	 			<NP>
+	 				<D>the</D>
+	 				<N_>
+	 					<N>girl</N>
+	 				</N_>
+	 			</NP>
+	 		</V_>
+	 	</VP>
+	 </S>
+	 <!-- The boys see the girl. -->
+	 <S>-Singular
+	 	<NP>
+	 		<D>the</D>
+	 		<N_>
+	 			<N>boys</N>
+	 		</N_>
+	 	</NP>
+	 	<VP>
+	 		<V_>
+	 			<!--the verb needs to agree with the subject -->
+	 			<V>see</V>
+	 			<NP>
+	 				<D>the</D>
+	 				<N_>
+	 					<N>girl</N>
+	 				</N_>
+	 			</NP>
+	 		</V_>
+	 	</VP>
+	 </S>
+	 
+	 <!-- Tibetan: nga Padma yin
+	      English: I am Pema
+	 Tibetan uses SOV order, so the English X-bar/PSG rules are incorrect.
+	 -->
+	 <S>
+	 	<NP><N_><Pron>nga</Pron></N_></NP>
+	 	<VP>
+	 		<V_>
+			 	<NP><N_><N>pad ma</N></N_></NP>
+			 	<V>yin</V>
+		 	</V_>
+	 	</VP>
+	 </S>
+	 <!-- English translation -->
+	 <S>
+	 	<NP><N_><Pron>I</Pron></N_></NP>
+	 	<VP>
+	 		<V_>
+			 	<V>am</V>
+			 	<NP><N_><N>Pema</N></N_></NP>
+		 	</V_>
+	 	</VP>
+	 </S>
+	 <!-- generalized X-bar version of the Tibetan sentence -->
+	 <S>
+	 	<XP><X_><X>nga</X></X_></XP>
+	 	<XP>
+	 		<X_>
+			 	<XP><X_><X>pad ma</X></X_></XP>
+			 	<X>yin</X>
+		 	</X_>
+	 	</XP>
+	 </S>
+	 <!-- generalized X-bar version of the English translation -->
+	 <S>
+	 	<XP><X_><X>I</X></X_></XP>
+	 	<XP>
+	 		<X_>
+			 	<X>am</X>
+			 	<XP><X_><X>Pema</X></X_></XP>
+		 	</X_>
+	 	</XP>
+	 </S>
+	
+</XBarSystem>

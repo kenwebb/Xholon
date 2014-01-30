@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Ealontro ealontro/EcjTutorial4 ClassDetails.xml -->
+<xholonClassDetails>
+	<Ant xhType="XhtypePureActiveObject">
+		<!--
+		<port name="port" index="P_BEHAVIOR" connector="#xpointer(ancestor::EcjAntSystem/GeneticProgram)"/>
+		-->
+	</Ant>
+	<!-- Food variables -->
+	<Food xhType="XhtypePurePassiveObject"/>
+	<!-- Primitive Functions -->
+	<PfIfFoodAhead xhType="XhtypeActivity"><config instructions="f5"/></PfIfFoodAhead>
+	<PfProgn2 xhType="XhtypeActivity"><config instructions="f5"/></PfProgn2>
+	<PfProgn3 xhType="XhtypeActivity"><config instructions="f6"/></PfProgn3>
+	<!-- end Primitive Functions -->
+	<GeneticProgram xhType="XhtypePureContainer"/>
+	<Primitive xhType="XhtypeActivity"/>
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

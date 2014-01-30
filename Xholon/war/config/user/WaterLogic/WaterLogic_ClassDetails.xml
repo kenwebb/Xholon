@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	WaterLogic application - Class Details
+	Xholon 0.7 http://www.primordion.com/Xholon
+-->
+<xholonClassDetails>
+	<NerveState xhType="XhtypePureActiveObject"/>
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

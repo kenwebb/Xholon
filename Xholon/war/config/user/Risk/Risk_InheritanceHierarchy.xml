@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Risk application - Inheritance Hierarchy
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+
+	<!-- Game of Risk -->
+	<GameOfRisk/>
+	
+	<!-- Game engine, and its associated MVC components. -->
+	<GameEngine/>
+	
+	<!-- The Model provides access to all the domain-specific nodes that the Controller and View need to know about. -->
+	<GameModel/>
+	
+	<!-- The View contains the Swing? Gui. This is not yet implemented. -->
+	<GameView/>
+	
+	<!-- The Controller handles all events that originate with a Player. -->
+	<GameController/>
+	
+	<!-- There are 2 to 6 players in a game. -->
+	<Player>
+		<!-- At least one player will typically be a human. -->
+		<HumanPlayer/>
+		<!-- Some players may be simulated using the computer. -->
+		<ComputerPlayer/>
+		<!-- Some players, human or computer, may be located remotely across a network. -->
+		<RemotePlayer/>
+	</Player>
+	<Players/>
+	
+	<!-- Dice are rolled by players to attack and defend territories. -->
+	<Die>
+		<AttackerDie/> <!-- max 3 at a time -->
+		<DefenderDie/> <!-- max 2 at a time -->
+	</Die>
+	<Dice/>
+	
+	<!-- There are 44 or 72 cards of various types. -->
+	<Card>
+		<TerritoryCard/>     <!-- 42 -->
+		<WildCard/>          <!--  2 -->
+		<SecretMissionCard/> <!-- 28 These are only available in the Secret Mission version of the game. -->
+	</Card>
+	<Cards/>
+	<!-- Each player owns a dynamically changing set of cards. -->
+	<OwnedCards/>
+	
+	<!-- Each territory card has one of three figures. A wild card has all three figures. -->
+	<Figure>
+		<FootSoldier/>
+		<Horseman/>
+		<Cannon/>
+	</Figure>
+	<Figures/>
+	
+	<!-- A computer player may employ one of several available strategies. -->
+	<Strategy/>
+	
+	<!--
+	Quantity of dice or armies.
+	These nodes can be combined to represent any integer between 0 and 199.
+	-->
+	<Quantity>
+		<Zero/>
+		<One/>
+		<Two/>
+		<Three/>
+		<Five/>
+		<Ten/>
+		<Twenty/>
+		<Thirty/>
+		<Fifty/>
+		<Hundred/>
+		<All/>
+	</Quantity>
+	<Quantities/>
+	
+	<!-- the world, or game board -->
+	<World/>
+	
+	<!-- the continents in the original version of Risk -->
+	<Continent>
+		<NorthAmerica/>
+		<SouthAmerica/>
+		<Europe/>
+		<Africa/>
+		<Asia/>
+		<Australia/>
+	</Continent>
+	
+	<!-- the territories in the original version of Risk -->
+	<Territory>
+		
+		<!-- NorthAmerica -->
+		<Alaska/>
+		<Alberta/>
+		<CentralAmerica/>
+		<EasternUnitedStates/>
+		<Greenland/>
+		<NorthwestTerritory/>
+		<Ontario/>
+		<Quebec/>
+		<WesternUnitedStates/>
+		
+		<!-- SouthAmerica -->
+		<Argentina/>
+		<Brazil/>
+		<Peru/>
+		<Venezuela/>
+		
+		<!-- Europe -->
+		<GreatBritain/>
+		<Iceland/>
+		<NorthernEurope/>
+		<Scandinavia/>
+		<SouthernEurope/>
+		<Ukraine/>
+		<WesternEurope/>
+		
+		<!-- Africa -->
+		<Congo/>
+		<EastAfrica/>
+		<Egypt/>
+		<Madagascar/>
+		<NorthAfrica/>
+		<SouthAfrica/>
+		
+		<!-- Asia -->
+		<Afghanistan/>
+		<China/>
+		<India/>
+		<Irkutsk/>
+		<Japan/>
+		<Kamchatka/>
+		<MiddleEast/>
+		<Mongolia/>
+		<Siam/>
+		<Siberia/>
+		<Ural/>
+		<Yakutsk/>
+		
+		<!-- Australia-->
+		<EasternAustralia/>
+		<Indonesia/>
+		<NewGuinea/>
+		<WesternAustralia/>
+		
+	</Territory>
+	
+	<!-- SwingStates classes, using part of the existing UML mechanism -->
+	<!--<xi:include href="_mechanism/StateMachineEntity.xml"/>-->
+	
+	<!-- Xholon Viewers -->
+	<!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

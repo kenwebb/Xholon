@@ -1,0 +1,687 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- English WORD_LIST
+The list must be in alphabetical order by Lemma.
+TODO make sure it is in alpha order
+French special characters: àâ éèê î ô ùû ç ÀÂ ÉÈÊ Î Ô ÙÛ Ç
+-->
+<Lexicon>
+	
+	<!-- ######################################## Special ############################################## -->
+	<Lexeme><Lemma>!</Lemma><Pos/><TransformRef>!</TransformRef></Lexeme>
+	<Lexeme><Lemma>(</Lemma><Pos/><TransformRef>(</TransformRef></Lexeme>
+	<Lexeme><Lemma>)</Lemma><Pos/><TransformRef>)</TransformRef></Lexeme>
+	<Lexeme><Lemma>,</Lemma><Pos/><TransformRef>,</TransformRef></Lexeme>
+	<Lexeme><Lemma>.</Lemma><Pos/><TransformRef>.</TransformRef></Lexeme>
+	<Lexeme><Lemma>;</Lemma><Pos/><TransformRef>;</TransformRef></Lexeme>
+	<Lexeme><Lemma>?</Lemma><Pos/><TransformRef>?</TransformRef></Lexeme>
+	<Lexeme><Lemma>_er</Lemma><Pos/><TransformRef>plus</TransformRef></Lexeme>
+	<Lexeme><Lemma>_est</Lemma><Pos/><TransformRef>plus</TransformRef></Lexeme>
+	<Lexeme><Lemma>_NEGQUESTION</Lemma><Pos/><WordRule>NEGQUESTION</WordRule></Lexeme>
+	<Lexeme><Lemma>_QUESTION</Lemma><Pos/><TransformRef>est-ce que</TransformRef></Lexeme>
+	<Lexeme><Lemma>_QUESTION am</Lemma><Pos/><WordRule>QUESTION</WordRule></Lexeme>
+	<Lexeme><Lemma>_QUESTION are</Lemma><Pos/><WordRule>QUESTION</WordRule></Lexeme>
+	<Lexeme><Lemma>_QUESTION can</Lemma><Pos/><WordRule>QUESTION</WordRule></Lexeme>
+	<Lexeme><Lemma>_QUESTION did</Lemma><Pos/><WordRule>QUESTION</WordRule></Lexeme>
+	<Lexeme><Lemma>_QUESTION do</Lemma><Pos/><WordRule>QUESTION</WordRule></Lexeme>
+	<Lexeme><Lemma>_QUESTION does</Lemma><Pos/><WordRule>QUESTION</WordRule></Lexeme>
+	<Lexeme><Lemma>_QUESTION has</Lemma><Pos/><WordRule>QUESTION</WordRule></Lexeme>
+	<Lexeme><Lemma>_QUESTION have</Lemma><Pos/><WordRule>QUESTION</WordRule></Lexeme>
+	<Lexeme><Lemma>_QUESTION is</Lemma><Pos/><WordRule>QUESTION</WordRule></Lexeme>
+	<Lexeme><Lemma>_QUESTION may</Lemma><Pos/><WordRule>QUESTION</WordRule></Lexeme>
+	<Lexeme><Lemma>_QUESTION must</Lemma><Pos/><WordRule>QUESTION</WordRule></Lexeme>
+	<Lexeme><Lemma>_QUESTION was</Lemma><Pos/><WordRule>QUESTION</WordRule></Lexeme>
+	<Lexeme><Lemma>_QUESTION were</Lemma><Pos/><WordRule>QUESTION</WordRule></Lexeme>
+	<Lexeme><Lemma>_QUESTION will</Lemma><Pos/><WordRule>QUESTION</WordRule></Lexeme>
+	<Lexeme><Lemma>_s</Lemma><Pos/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>_WH_QUESTION</Lemma><Pos/><WordRule>WH_QUESTION</WordRule></Lexeme>
+	
+	<!-- ######################################## A ############################################## -->
+	<Lexeme><Lemma>a</Lemma><PosD/><TransformRef>un</TransformRef></Lexeme>
+	<Lexeme><Lemma>above</Lemma><PosP/><TransformRef>au-dessus de</TransformRef></Lexeme>
+	<Lexeme><Lemma>according to</Lemma><PosP/><TransformRef>selon</TransformRef></Lexeme>
+	<Lexeme><Lemma>address</Lemma><PosN/><MorphPlural_Sibilant/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>after</Lemma><PosP/><TransformRef>après</TransformRef></Lexeme>
+	<Lexeme><Lemma>against</Lemma><PosP/><TransformRef>contre</TransformRef></Lexeme>
+	<Lexeme><Lemma>airplane</Lemma><PosN/><TransformRef>avion</TransformRef></Lexeme>
+	<Lexeme><Lemma>airport</Lemma><PosN/><TransformRef>aéroport</TransformRef></Lexeme>
+	<Lexeme><Lemma>all</Lemma><PosD/><TransformRef>tout</TransformRef></Lexeme>
+	<Lexeme><Lemma>also</Lemma><PosAdv/><TransformRef>aussi</TransformRef></Lexeme>
+	<Lexeme><Lemma>am</Lemma><PosV/><WordRule>BE_PRESENT</WordRule></Lexeme>
+	<Lexeme><Lemma>am called</Lemma><PosV/><TransformRef>appeler</TransformRef></Lexeme>
+	<Lexeme><Lemma>American</Lemma><PosN/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>an</Lemma><PosD/><TransformRef>un</TransformRef></Lexeme>
+	<Lexeme><Lemma>and</Lemma><PosConj/><TransformRef>et</TransformRef></Lexeme>
+	<Lexeme><Lemma>another</Lemma><PosD/><TransformRef>un autre</TransformRef></Lexeme>
+	<Lexeme><Lemma>answer</Lemma><PosN/><TransformRef>réponse</TransformRef></Lexeme>
+	<Lexeme><Lemma>any</Lemma><PosD/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>arch</Lemma><PosN/><MorphPlural_Sibilant/><TransformRef>arc</TransformRef></Lexeme>
+	<Lexeme><Lemma>are</Lemma><PosV/><WordRule>BE_PRESENT</WordRule></Lexeme>
+	<Lexeme><Lemma>are called</Lemma><PosV/><TransformRef>appeler</TransformRef></Lexeme>
+	<Lexeme><Lemma>arm</Lemma><PosN/><TransformRef>bras</TransformRef></Lexeme>
+	<Lexeme><Lemma>around</Lemma><PosP/><TransformRef>autour de</TransformRef></Lexeme> <!-- Adv -->
+	<Lexeme><Lemma>arrive</Lemma><PosV/><TransformRef>arriver</TransformRef></Lexeme>
+	<Lexeme><Lemma>arrived</Lemma><PosV/><TransformRef>être,arrivé</TransformRef></Lexeme>
+	<Lexeme><Lemma>arrives</Lemma><PosV/><TransformRef>arriver</TransformRef></Lexeme>
+	<Lexeme><Lemma>art</Lemma><PosN/><TransformRef>art</TransformRef></Lexeme>
+	<Lexeme><Lemma>art gallery</Lemma><PosN/><MorphPlural_Y/><TransformRef>galerie d'art</TransformRef></Lexeme>
+	<Lexeme><Lemma>as</Lemma><PosConj/><TransformRef>aussi</TransformRef></Lexeme>
+	<Lexeme><Lemma>at</Lemma><PosP/><TransformRef>à</TransformRef></Lexeme>
+	<Lexeme><Lemma>at the</Lemma><PosAdv/><TransformRef>à la</TransformRef></Lexeme> <!-- for testing -->
+	<Lexeme><Lemma>at the house</Lemma><PosAdv/><TransformRef>à la maison</TransformRef></Lexeme> <!-- for testing -->
+	<Lexeme><Lemma>at the house of</Lemma><PosP/><TransformRef>chez</TransformRef></Lexeme>
+	<Lexeme><Lemma>ate</Lemma><PosV/><TransformRef>avoir,mangé</TransformRef></Lexeme>
+	<Lexeme><Lemma>automobile</Lemma><PosN/><TransformRef>automobile</TransformRef></Lexeme>
+	<Lexeme><Lemma>avenue</Lemma><PosN/><TransformRef>avenue</TransformRef></Lexeme>
+	
+	<!-- ######################################## B ############################################## -->
+	<Lexeme><Lemma>baggage</Lemma><PosN/><MorphPlural_NoChange/><TransformRef>bagages</TransformRef></Lexeme>
+	<Lexeme><Lemma>bank</Lemma><PosN/><TransformRef>banque</TransformRef></Lexeme>
+	<Lexeme><Lemma>bathroom</Lemma><PosN/><TransformRef>salle de bains</TransformRef></Lexeme>
+	<Lexeme><Lemma>be</Lemma><PosV/><TransformRef>être</TransformRef></Lexeme>
+	<Lexeme><Lemma>BE_PAST</Lemma><PosV/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>BE_PRESENT</Lemma><PosV/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>beautiful</Lemma><PosA/><TransformRef>beau</TransformRef></Lexeme>
+	<Lexeme><Lemma>because</Lemma><PosConj/><TransformRef>parce que</TransformRef></Lexeme>
+	<Lexeme><Lemma>because of</Lemma><PosP/><TransformRef>à cause de</TransformRef></Lexeme>
+	<Lexeme><Lemma>bed</Lemma><PosN/><TransformRef>lit</TransformRef></Lexeme>
+	<Lexeme><Lemma>been</Lemma><PosV/><TransformRef>avoir,été</TransformRef></Lexeme>
+	<Lexeme><Lemma>before</Lemma><PosP/><TransformRef>avant</TransformRef></Lexeme>
+	<Lexeme><Lemma>begin</Lemma><PosV/><TransformRef>commencer</TransformRef></Lexeme>
+	<Lexeme><Lemma>begins</Lemma><PosV/><TransformRef>commencer</TransformRef></Lexeme>
+	<Lexeme><Lemma>behind</Lemma><PosP/><TransformRef>derrière</TransformRef></Lexeme>
+	<Lexeme><Lemma>believe</Lemma><PosV/><TransformRef>croire</TransformRef></Lexeme>
+	<Lexeme><Lemma>below</Lemma><PosP/><TransformRef>au-dessous de</TransformRef></Lexeme>
+	<Lexeme><Lemma>best</Lemma><PosA/><TransformRef>meilleur</TransformRef></Lexeme>
+	<Lexeme><Lemma>better</Lemma><PosA/><TransformRef>meilleur</TransformRef></Lexeme>
+	<Lexeme><Lemma>between</Lemma><PosP/><TransformRef>entre</TransformRef></Lexeme>
+	<Lexeme><Lemma>big</Lemma><PosA/><TransformRef>grand</TransformRef></Lexeme>
+	<Lexeme><Lemma>bit</Lemma><PosA/><TransformRef>peu</TransformRef></Lexeme>
+	<Lexeme><Lemma>black</Lemma><PosA/><TransformRef>noir</TransformRef></Lexeme>
+	<Lexeme><Lemma>blackboard</Lemma><PosN/><TransformRef>tableau noir</TransformRef></Lexeme>
+	<Lexeme><Lemma>blanket</Lemma><PosN/><TransformRef>couverture</TransformRef></Lexeme>
+	<Lexeme><Lemma>blond</Lemma><PosA/><TransformRef>blond</TransformRef></Lexeme>
+	<Lexeme><Lemma>blue</Lemma><PosA/><TransformRef>bleu</TransformRef></Lexeme>
+	<Lexeme><Lemma>book</Lemma><PosN/><TransformRef>livre</TransformRef></Lexeme>
+	<Lexeme><Lemma>bought</Lemma><PosV/><TransformRef>avoir,acheté</TransformRef></Lexeme>
+	<Lexeme><Lemma>boulevard</Lemma><PosN/><TransformRef>boulevard</TransformRef></Lexeme>
+	<Lexeme><Lemma>boy</Lemma><PosN/><TransformRef>garçon</TransformRef></Lexeme>
+	<Lexeme><Lemma>bread</Lemma><PosN/><TransformRef>pain</TransformRef></Lexeme>
+	<Lexeme><Lemma>breakfast</Lemma><PosN/><TransformRef>petit déjeuner</TransformRef></Lexeme>
+	<Lexeme><Lemma>bridge</Lemma><PosN/><TransformRef>pont</TransformRef></Lexeme>
+	<Lexeme><Lemma>brother</Lemma><PosN/><TransformRef>frère</TransformRef></Lexeme>
+	<Lexeme><Lemma>bus</Lemma><PosN/><MorphPlural_Sibilant/><TransformRef>bus</TransformRef></Lexeme>
+	<Lexeme><Lemma>but</Lemma><PosConj/><TransformRef>mais</TransformRef></Lexeme>
+	<Lexeme><Lemma>buy</Lemma><PosV/><TransformRef>acheter</TransformRef></Lexeme>
+	<Lexeme><Lemma>buys</Lemma><PosV/><TransformRef>acheter</TransformRef></Lexeme>
+	<Lexeme><Lemma>by</Lemma><PosP/><TransformRef>par</TransformRef></Lexeme>
+	
+	<!-- ######################################## C ############################################## -->
+	<Lexeme><Lemma>café</Lemma><PosN/><TransformRef>café</TransformRef></Lexeme>
+	<Lexeme><Lemma>came</Lemma><PosV/><TransformRef>être,venu</TransformRef></Lexeme>
+	<Lexeme><Lemma>camera</Lemma><PosN/><TransformRef>camera</TransformRef></Lexeme>
+	<Lexeme><Lemma>can</Lemma><PosV/><TransformRef>pouvoir</TransformRef></Lexeme>
+	<Lexeme><Lemma>Canada</Lemma><PosN/><TransformRef>Canada</TransformRef></Lexeme>
+	<Lexeme><Lemma>canal</Lemma><PosN/><TransformRef>canal</TransformRef></Lexeme>
+	<Lexeme><Lemma>car</Lemma><PosN/><TransformRef>voiture</TransformRef></Lexeme>
+	<Lexeme><Lemma>cathedral</Lemma><PosN/><TransformRef>cathédrale</TransformRef></Lexeme>
+	<Lexeme><Lemma>cemetary</Lemma><PosN/><MorphPlural_Y/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>center</Lemma><PosN/><TransformRef>centre</TransformRef></Lexeme>
+	<Lexeme><Lemma>century</Lemma><PosN/><MorphPlural_Y/><TransformRef>siècle</TransformRef></Lexeme>
+	<Lexeme><Lemma>chair</Lemma><PosN/><TransformRef>chaise</TransformRef></Lexeme>
+	<Lexeme><Lemma>cheap</Lemma><PosA/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>chicken</Lemma><PosN/><TransformRef>poulet</TransformRef></Lexeme>
+	<Lexeme><Lemma>child</Lemma><PosN/><MorphPlural_Irregular/><TransformRef>enfant</TransformRef></Lexeme>
+	<Lexeme><Lemma>children</Lemma><PosN/><MorphPlural_AlreadyPlural/><TransformRef>enfants</TransformRef></Lexeme>
+	<Lexeme><Lemma>choose</Lemma><PosV/><TransformRef>choisir</TransformRef></Lexeme>
+	<Lexeme><Lemma>church</Lemma><PosN/><MorphPlural_Sibilant/><TransformRef>église</TransformRef></Lexeme>
+	<Lexeme><Lemma>city</Lemma><PosN/><MorphPlural_Y/><TransformRef>ville</TransformRef></Lexeme>
+	<Lexeme><Lemma>city center</Lemma><PosN/><TransformRef>centre de la ville</TransformRef></Lexeme>
+	<Lexeme><Lemma>city hall</Lemma><PosN/><TransformRef>hôtel de ville</TransformRef></Lexeme>
+	<Lexeme><Lemma>coat</Lemma><PosN/><TransformRef>manteau</TransformRef></Lexeme>
+	<Lexeme><Lemma>coffee</Lemma><PosN/><TransformRef>café</TransformRef></Lexeme>
+	<Lexeme><Lemma>cold</Lemma><PosA/><TransformRef>froid</TransformRef></Lexeme>
+	<Lexeme><Lemma>color</Lemma><PosN/><TransformRef>couleur</TransformRef></Lexeme>
+	<Lexeme><Lemma>come</Lemma><PosV/><TransformRef>venir</TransformRef></Lexeme>
+	<Lexeme><Lemma>cost</Lemma><PosV/><TransformRef>coûter</TransformRef></Lexeme>
+	<Lexeme><Lemma>country</Lemma><PosN/><MorphPlural_Y/><TransformRef>pays</TransformRef></Lexeme>
+	<Lexeme><Lemma>cup</Lemma><PosN/><TransformRef>tasse</TransformRef></Lexeme>
+	
+	<!-- ######################################## D ############################################## -->
+	<Lexeme><Lemma>daughter</Lemma><PosN/><TransformRef>fille</TransformRef></Lexeme>
+	<Lexeme><Lemma>day</Lemma><PosN/><TransformRef>jour</TransformRef></Lexeme>
+	<Lexeme><Lemma>decide</Lemma><PosV/><TransformRef>décider</TransformRef></Lexeme>
+	<Lexeme><Lemma>decide to</Lemma><PosV/><TransformRef>décider de</TransformRef></Lexeme>
+	<Lexeme><Lemma>decided to</Lemma><PosV/><TransformRef>avoir,décidé de</TransformRef></Lexeme>
+	<Lexeme><Lemma>decides to</Lemma><PosV/><TransformRef>décider de</TransformRef></Lexeme>
+	<Lexeme><Lemma>delicious</Lemma><PosA/><TransformRef>délicieux</TransformRef></Lexeme>
+	<Lexeme><Lemma>did</Lemma><PosV/><TransformRef>avoir,fait</TransformRef></Lexeme>
+	<Lexeme><Lemma>did not</Lemma><PosV/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>didn't</Lemma><PosV/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>die</Lemma><PosV/><TransformRef>mourir</TransformRef></Lexeme>
+	<Lexeme><Lemma>difficult</Lemma><PosA/><TransformRef>difficile</TransformRef></Lexeme>
+	<Lexeme><Lemma>dining room</Lemma><PosN/><TransformRef>salle à manger</TransformRef></Lexeme>
+	<Lexeme><Lemma>dirty</Lemma><PosA/><TransformRef>sale</TransformRef></Lexeme>
+	<Lexeme><Lemma>do</Lemma><PosV/><TransformRef>faire</TransformRef></Lexeme>
+	<Lexeme><Lemma>do not</Lemma><PosV/><TransformRef>ne[PAS]</TransformRef></Lexeme>
+	<Lexeme><Lemma>doctor</Lemma><PosN/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>does</Lemma><PosV/><TransformRef>faire</TransformRef></Lexeme>
+	<Lexeme><Lemma>does not</Lemma><PosV/><TransformRef>ne[PAS]</TransformRef></Lexeme>
+	<Lexeme><Lemma>doesn't</Lemma><PosV/><TransformRef>ne[PAS]</TransformRef></Lexeme>
+	<Lexeme><Lemma>dog</Lemma><PosN/><TransformRef>chien</TransformRef></Lexeme>
+	<Lexeme><Lemma>don't</Lemma><PosV/><TransformRef>ne[PAS]</TransformRef></Lexeme>
+	<Lexeme><Lemma>dozen</Lemma><PosN/><TransformRef>douzaine</TransformRef></Lexeme>
+	<Lexeme><Lemma>drank</Lemma><PosV/><TransformRef>avoir,bu</TransformRef></Lexeme>
+	<Lexeme><Lemma>drink</Lemma><PosV/><TransformRef>boire</TransformRef></Lexeme>
+	<Lexeme><Lemma>drinks</Lemma><PosV/><TransformRef>boire</TransformRef></Lexeme>
+	<Lexeme><Lemma>drunk</Lemma><PosV/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>dry</Lemma><PosA/><TransformRef>sec</TransformRef></Lexeme>
+	<Lexeme><Lemma>during</Lemma><PosP/><TransformRef>pendant</TransformRef></Lexeme>
+	
+	<!-- ######################################## E ############################################## -->
+	<Lexeme><Lemma>each</Lemma><PosD/><TransformRef>chaque</TransformRef></Lexeme>
+	<Lexeme><Lemma>east</Lemma><PosN/><TransformRef>est</TransformRef></Lexeme>
+	<Lexeme><Lemma>eat</Lemma><PosV/><TransformRef>manger</TransformRef></Lexeme>
+	<Lexeme><Lemma>eaten</Lemma><PosV/><TransformRef>avoir,mangé</TransformRef></Lexeme>
+	<Lexeme><Lemma>eight</Lemma><PosQ/><TransformRef>huit</TransformRef></Lexeme>
+	<Lexeme><Lemma>ELLIPSE</Lemma><Pos/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>English</Lemma><PosA/><TransformRef>anglais</TransformRef></Lexeme>
+	<Lexeme><Lemma>entrance</Lemma><PosN/><TransformRef>entrée</TransformRef></Lexeme>
+	<Lexeme><Lemma>Excuse me.</Lemma><PosS/><TransformRef>Pardon.</TransformRef></Lexeme>
+	<Lexeme><Lemma>exhibition</Lemma><PosN/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>exit</Lemma><PosN/><TransformRef>sortie</TransformRef></Lexeme>
+	<Lexeme><Lemma>expensive</Lemma><PosA/><TransformRef>cher</TransformRef></Lexeme>
+	<Lexeme><Lemma>extra</Lemma><PosA/><TransformRef>supplémentaire</TransformRef></Lexeme>
+	<Lexeme><Lemma>eye</Lemma><PosN/><TransformRef>oeil</TransformRef></Lexeme>
+	
+	<!-- ######################################## F ############################################## -->
+	<!-- Note: unable to have "false" as a value, so it must be specified as "false_" -->
+	<Lexeme><Lemma>false_</Lemma><PosA/><TransformRef>faux</TransformRef></Lexeme>
+	<Lexeme><Lemma>far from</Lemma><PosP/><TransformRef>loin de</TransformRef></Lexeme>
+	<Lexeme><Lemma>fast</Lemma><PosA/><TransformRef>rapide</TransformRef></Lexeme>
+	<Lexeme><Lemma>father</Lemma><PosN/><TransformRef>père</TransformRef></Lexeme>
+	<Lexeme><Lemma>few</Lemma><PosN/><MorphPlural_NoChange/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>film</Lemma><PosN/><TransformRef>film</TransformRef></Lexeme>
+	<Lexeme><Lemma>finish</Lemma><PosV/><TransformRef>finir</TransformRef></Lexeme>
+	<Lexeme><Lemma>finished</Lemma><PosV/><TransformRef>avoir,fini</TransformRef></Lexeme>
+	<Lexeme><Lemma>finishes</Lemma><PosV/><TransformRef>finir</TransformRef></Lexeme>
+	<Lexeme><Lemma>first</Lemma><PosA/><TransformRef>premier</TransformRef></Lexeme>
+	<Lexeme><Lemma>five</Lemma><PosQ/><TransformRef>cinq</TransformRef></Lexeme>
+	<Lexeme><Lemma>flag</Lemma><PosN/><TransformRef>drapeau</TransformRef></Lexeme>
+	<Lexeme><Lemma>fluently</Lemma><PosAdv/><TransformRef>courament</TransformRef></Lexeme>
+	<Lexeme><Lemma>follow</Lemma><PosV/><TransformRef>suivre</TransformRef></Lexeme>
+	<Lexeme><Lemma>FOOD AND DRINK WORDS</Lemma><Pos/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>for</Lemma><PosP/><TransformRef>pour</TransformRef></Lexeme>
+	<Lexeme><Lemma>forest</Lemma><PosN/><TransformRef>forêt</TransformRef></Lexeme>
+	<Lexeme><Lemma>forget</Lemma><PosV/><TransformRef>oublier</TransformRef></Lexeme>
+	<Lexeme><Lemma>forgets</Lemma><PosV/><TransformRef>oublier</TransformRef></Lexeme>
+	<Lexeme><Lemma>forgot</Lemma><PosV/><TransformRef>avoir,oublié</TransformRef></Lexeme>
+	<Lexeme><Lemma>fork</Lemma><PosN/><TransformRef>forchette</TransformRef></Lexeme>
+	<Lexeme><Lemma>fortress</Lemma><PosN/><MorphPlural_Sibilant/><TransformRef>forteresse</TransformRef></Lexeme>
+	<Lexeme><Lemma>fountain</Lemma><PosN/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>four</Lemma><PosQ/><TransformRef>quatre</TransformRef></Lexeme>
+	<Lexeme><Lemma>France</Lemma><PosN/><TransformRef>France</TransformRef></Lexeme>
+	<Lexeme><Lemma>French</Lemma><PosN/><MorphPlural_NoChange/><TransformRef>français</TransformRef></Lexeme>
+	<Lexeme><Lemma>FRENCH SPEAKING CITIES</Lemma><Pos/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>fresh</Lemma><PosA/><TransformRef>frais</TransformRef></Lexeme>
+	<Lexeme><Lemma>Friday</Lemma><PosN/><TransformRef>vendredi</TransformRef></Lexeme>
+	<Lexeme><Lemma>friend</Lemma><PosN/><TransformRef>ami</TransformRef></Lexeme>
+	<Lexeme><Lemma>from</Lemma><PosP/><TransformRef>de</TransformRef></Lexeme>
+	<Lexeme><Lemma>fruit</Lemma><PosN/><TransformRef>fruit</TransformRef></Lexeme>
+	
+	<!-- ######################################## G ############################################## -->
+	<Lexeme><Lemma>garden</Lemma><PosN/><TransformRef>jardin</TransformRef></Lexeme>
+	<Lexeme><Lemma>gave</Lemma><PosV/><TransformRef>avoir,donné</TransformRef></Lexeme>
+	<Lexeme><Lemma>get up</Lemma><PosV/><TransformRef>lever</TransformRef></Lexeme>
+	<Lexeme><Lemma>gets up</Lemma><PosV/><TransformRef>lever</TransformRef></Lexeme>
+	<Lexeme><Lemma>gift</Lemma><PosN/><TransformRef>cadeau</TransformRef></Lexeme>
+	<Lexeme><Lemma>girl</Lemma><PosN/><TransformRef>fille</TransformRef></Lexeme>
+	<Lexeme><Lemma>give</Lemma><PosV/><TransformRef>donner</TransformRef></Lexeme>
+	<Lexeme><Lemma>give back</Lemma><PosV/><TransformRef>rendre</TransformRef></Lexeme>
+	<Lexeme><Lemma>given</Lemma><PosV/><TransformRef>avoir,donné</TransformRef></Lexeme>
+	<Lexeme><Lemma>gives</Lemma><PosV/><TransformRef>donner</TransformRef></Lexeme>
+	<Lexeme><Lemma>gives back</Lemma><PosV/><TransformRef>rendre</TransformRef></Lexeme>
+	<Lexeme><Lemma>glass</Lemma><PosN/><MorphPlural_Sibilant/><TransformRef>verre</TransformRef></Lexeme>
+	<Lexeme><Lemma>go</Lemma><PosV/><TransformRef>aller</TransformRef></Lexeme>
+	<Lexeme><Lemma>goes</Lemma><PosV/><TransformRef>aller</TransformRef></Lexeme>
+	<Lexeme><Lemma>going</Lemma><PosV/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>gone</Lemma><PosV/><TransformRef>être,allé</TransformRef></Lexeme>
+	<Lexeme><Lemma>good</Lemma><PosA/><TransformRef>bon</TransformRef></Lexeme>
+	<Lexeme><Lemma>Good afternoon</Lemma><PosS/><TransformRef>Bonjour</TransformRef></Lexeme>
+	<Lexeme><Lemma>Good day</Lemma><PosS/><TransformRef>Bonjour</TransformRef></Lexeme>
+	<Lexeme><Lemma>Good evening</Lemma><PosS/><TransformRef>Bonsoir</TransformRef></Lexeme>
+	<Lexeme><Lemma>Good morning</Lemma><PosS/><TransformRef>Bonjour</TransformRef></Lexeme>
+	<Lexeme><Lemma>Good night</Lemma><PosS/><TransformRef>Bonne nuit</TransformRef></Lexeme>
+	<Lexeme><Lemma>Good-bye</Lemma><PosS/><TransformRef>Au revoir</TransformRef></Lexeme>
+	<Lexeme><Lemma>got up</Lemma><PosV/><TransformRef>être,levé</TransformRef></Lexeme>
+	<Lexeme><Lemma>granddaughter</Lemma><PosN/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>grandfather</Lemma><PosN/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>grandmother</Lemma><PosN/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>grandson</Lemma><PosN/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>green</Lemma><PosA/><TransformRef>vert</TransformRef></Lexeme>
+	<Lexeme><Lemma>green beans</Lemma><PosN/><MorphPlural_AlreadyPlural/><TransformRef>haricots verts</TransformRef></Lexeme>
+	
+	<!-- ######################################## H ############################################## -->
+	<Lexeme><Lemma>had</Lemma><PosV/><WordRule>HAVE_PAST</WordRule></Lexeme>
+	<Lexeme><Lemma>had to</Lemma><PosV/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>hair</Lemma><PosN/><TransformRef>cheveux</TransformRef></Lexeme>
+	<Lexeme><Lemma>happy</Lemma><PosA/><TransformRef>heureux</TransformRef></Lexeme>
+	<Lexeme><Lemma>has</Lemma><PosV/><WordRule>HAVE_PRESENT</WordRule></Lexeme>
+	<Lexeme><Lemma>has to</Lemma><PosV/><TransformRef>devoir</TransformRef></Lexeme>
+	<Lexeme><Lemma>have</Lemma><PosV/><WordRule>HAVE_PRESENT</WordRule></Lexeme>
+	<Lexeme><Lemma>have to</Lemma><PosV/><TransformRef>devoir</TransformRef></Lexeme>
+	<Lexeme><Lemma>he</Lemma><PosPron/><TransformRef>il</TransformRef></Lexeme>
+	<Lexeme><Lemma>headache</Lemma><PosN/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>Hello.</Lemma><PosS/><TransformRef>Bonjour.</TransformRef></Lexeme>
+	<Lexeme><Lemma>help</Lemma><PosV/><TransformRef>aider</TransformRef></Lexeme>
+	<Lexeme><Lemma>helped</Lemma><PosV/><TransformRef>avoir,aidé</TransformRef></Lexeme>
+	<Lexeme><Lemma>helps</Lemma><PosV/><TransformRef>aider</TransformRef></Lexeme>
+	<Lexeme><Lemma>her</Lemma><PosPron/><TransformRef>son</TransformRef></Lexeme>
+	<Lexeme><Lemma>here</Lemma><PosAdv/><TransformRef>ici</TransformRef></Lexeme>
+	<Lexeme><Lemma>here are</Lemma><Pos/><TransformRef>voici</TransformRef></Lexeme>
+	<Lexeme><Lemma>here is</Lemma><Pos/><TransformRef>voici</TransformRef></Lexeme>
+	<Lexeme><Lemma>hers</Lemma><PosPron/><TransformRef>le sien</TransformRef></Lexeme>
+	<Lexeme><Lemma>him</Lemma><PosPron/><TransformRef>le</TransformRef></Lexeme>
+	<Lexeme><Lemma>his</Lemma><PosPron/><TransformRef>son</TransformRef></Lexeme>
+	<Lexeme><Lemma>horse</Lemma><PosN/><TransformRef>cheval</TransformRef></Lexeme>
+	<Lexeme><Lemma>hospital</Lemma><PosN/><TransformRef>hôpital</TransformRef></Lexeme>
+	<Lexeme><Lemma>hot</Lemma><PosA/><TransformRef>chaud</TransformRef></Lexeme>
+	<Lexeme><Lemma>hotel</Lemma><PosN/><TransformRef>hôtel</TransformRef></Lexeme>
+	<Lexeme><Lemma>hour</Lemma><PosN/><TransformRef>heure</TransformRef></Lexeme>
+	<Lexeme><Lemma>house</Lemma><PosN/><TransformRef>maison</TransformRef></Lexeme>
+	<Lexeme><Lemma>how</Lemma><PosAdv/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>How are you?</Lemma><PosS/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>how many</Lemma><Pos/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>how much</Lemma><Pos/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>hundred</Lemma><PosQ/><TransformRef>cent</TransformRef></Lexeme>
+	<Lexeme><Lemma>hungry</Lemma><PosA/><TransformRef>faim</TransformRef></Lexeme>
+	<Lexeme><Lemma>hurried</Lemma><PosV/><TransformRef>être,dépêché</TransformRef></Lexeme>
+	<Lexeme><Lemma>hurries</Lemma><PosV/><TransformRef>dépêcher</TransformRef></Lexeme>
+	<Lexeme><Lemma>hurry</Lemma><PosV/><TransformRef>dépêcher</TransformRef></Lexeme>
+	<Lexeme><Lemma>husband</Lemma><PosN/><TransformRef>mari</TransformRef></Lexeme>
+	
+	<!-- ######################################## I ############################################## -->
+	<Lexeme><Lemma>I</Lemma><PosPron/><TransformRef>je</TransformRef></Lexeme>
+	<Lexeme><Lemma>I'm fine.</Lemma><PosS/><TransformRef>Je vais bien.</TransformRef></Lexeme>
+	<Lexeme><Lemma>important</Lemma><PosA/><TransformRef>important</TransformRef></Lexeme>
+	<Lexeme><Lemma>in</Lemma><PosP/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>in front of</Lemma><PosP/><TransformRef>devant</TransformRef></Lexeme>
+	<Lexeme><Lemma>in order to</Lemma><PosP/><TransformRef>pour</TransformRef></Lexeme>
+	<Lexeme><Lemma>inexpensive</Lemma><PosA/><TransformRef>bon marché</TransformRef></Lexeme>
+	<Lexeme><Lemma>instead of</Lemma><PosP/><TransformRef>au lieu de</TransformRef></Lexeme>
+	<Lexeme><Lemma>interesting</Lemma><PosA/><TransformRef>intéressant</TransformRef></Lexeme>
+	<Lexeme><Lemma>is</Lemma><PosV/><WordRule>BE_PRESENT</WordRule></Lexeme>
+	<Lexeme><Lemma>is called</Lemma><PosV/><TransformRef>appeler</TransformRef></Lexeme>
+	<Lexeme><Lemma>it</Lemma><PosPron/><TransformRef>il</TransformRef></Lexeme>
+	<Lexeme><Lemma>It is 3:45.</Lemma><PosS/><TransformRef>Il est quatre heures moins quart.</TransformRef></Lexeme>
+	<Lexeme><Lemma>It is 7:30.</Lemma><PosS/><TransformRef>Il est sept heures et demie.</TransformRef></Lexeme>
+	<Lexeme><Lemma>It is cold.</Lemma><PosS/><TransformRef>Il fait froid.</TransformRef></Lexeme>
+	<Lexeme><Lemma>It is hot.</Lemma><PosS/><TransformRef>Il fait chaud.</TransformRef></Lexeme>
+	<Lexeme><Lemma>It is windy.</Lemma><PosS/><TransformRef>Il fait du vent.</TransformRef></Lexeme>
+	<Lexeme><Lemma>It's me.</Lemma><PosS/><TransformRef>C'est moi.</TransformRef></Lexeme>
+	<Lexeme><Lemma>its</Lemma><PosPron/><TransformRef>son</TransformRef></Lexeme>
+	
+	<!-- ######################################## J ############################################## -->
+	<Lexeme><Lemma>jacket</Lemma><PosN/><TransformRef>veste</TransformRef></Lexeme>
+	
+	<!-- ######################################## K ############################################## -->
+	<Lexeme><Lemma>key</Lemma><PosN/><TransformRef>clef</TransformRef></Lexeme>
+	<Lexeme><Lemma>knew</Lemma><PosV/><TransformRef>avoir,su</TransformRef></Lexeme>
+	<Lexeme><Lemma>know</Lemma><PosV/><TransformRef>savoir</TransformRef></Lexeme>
+	<Lexeme><Lemma>known</Lemma><PosV/><TransformRef>avoir,su</TransformRef></Lexeme>
+	<Lexeme><Lemma>knows</Lemma><PosV/><TransformRef>savoir</TransformRef></Lexeme>
+	
+	<!-- ######################################## L ############################################## -->
+	<Lexeme><Lemma>lake</Lemma><PosN/><TransformRef>lac</TransformRef></Lexeme>
+	<Lexeme><Lemma>language</Lemma><PosN/><TransformRef>langue</TransformRef></Lexeme>
+	<Lexeme><Lemma>large</Lemma><PosA/><TransformRef>grand</TransformRef></Lexeme>
+	<Lexeme><Lemma>last</Lemma><PosA/><TransformRef>dernier</TransformRef></Lexeme>
+	<Lexeme><Lemma>late</Lemma><PosA/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>learn</Lemma><PosV/><TransformRef>apprendre</TransformRef></Lexeme>
+	<Lexeme><Lemma>learn to</Lemma><PosV/><TransformRef>apprendre à</TransformRef></Lexeme>
+	<Lexeme><Lemma>learned</Lemma><PosS/><TransformRef>avoir,appris</TransformRef></Lexeme>
+	<Lexeme><Lemma>learned to</Lemma><PosV/><TransformRef>avoir,appris à</TransformRef></Lexeme>
+	<Lexeme><Lemma>learns</Lemma><PosV/><TransformRef>apprendre</TransformRef></Lexeme>
+	<Lexeme><Lemma>learns to</Lemma><PosV/><TransformRef>apprendre à</TransformRef></Lexeme>
+	<Lexeme><Lemma>least</Lemma><PosAdv/><TransformRef>moins</TransformRef></Lexeme>
+	<Lexeme><Lemma>leave</Lemma><PosV/><TransformRef>partir</TransformRef></Lexeme>
+	<Lexeme><Lemma>leaves</Lemma><PosV/><TransformRef>partir</TransformRef></Lexeme>
+	<Lexeme><Lemma>left</Lemma><Pos/><WordRule>LEFT</WordRule></Lexeme>
+	<Lexeme><Lemma>less</Lemma><PosAdv/><TransformRef>moins</TransformRef></Lexeme>
+	<Lexeme><Lemma>let's</Lemma><Pos/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>let's be</Lemma><Pos/><TransformRef>soyons</TransformRef></Lexeme>
+	<Lexeme><Lemma>letter</Lemma><PosN/><TransformRef>lettre</TransformRef></Lexeme>
+	<Lexeme><Lemma>lift</Lemma><PosV/><TransformRef>lever</TransformRef></Lexeme>
+	<Lexeme><Lemma>light</Lemma><PosN/><TransformRef>lumière</TransformRef></Lexeme>
+	<Lexeme><Lemma>like</Lemma><PosV/><TransformRef>aimer</TransformRef></Lexeme>
+	<Lexeme><Lemma>likes</Lemma><PosV/><TransformRef>aimer</TransformRef></Lexeme>
+	<Lexeme><Lemma>listen to</Lemma><PosV/><TransformRef>écouter</TransformRef></Lexeme>
+	<Lexeme><Lemma>listened to</Lemma><PosV/><TransformRef>avoir,écouté</TransformRef></Lexeme>
+	<Lexeme><Lemma>listens to</Lemma><PosV/><TransformRef>écouter</TransformRef></Lexeme>
+	<Lexeme><Lemma>live</Lemma><PosV/><TransformRef>habiter</TransformRef></Lexeme>
+	<Lexeme><Lemma>look at</Lemma><PosV/><TransformRef>regarder</TransformRef></Lexeme>
+	<Lexeme><Lemma>look for</Lemma><PosV/><TransformRef>chercher</TransformRef></Lexeme>
+	<Lexeme><Lemma>Look out!</Lemma><PosS/><TransformRef>Attention!</TransformRef></Lexeme>
+	<Lexeme><Lemma>looked</Lemma><PosV/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>looked at</Lemma><PosV/><TransformRef>avoir,regardé</TransformRef></Lexeme>
+	<Lexeme><Lemma>looked for</Lemma><PosV/><TransformRef>avoir,cherché</TransformRef></Lexeme>
+	<Lexeme><Lemma>looks at</Lemma><PosV/><TransformRef>regarder</TransformRef></Lexeme>
+	<Lexeme><Lemma>looks for</Lemma><PosV/><TransformRef>chercher</TransformRef></Lexeme>
+	
+	<!-- ######################################## M ############################################## -->
+	<Lexeme><Lemma>made</Lemma><PosV/><TransformRef>avoir,fait</TransformRef></Lexeme>
+	<Lexeme><Lemma>maid</Lemma><PosN/><TransformRef>femme de chambre</TransformRef></Lexeme>
+	<Lexeme><Lemma>make</Lemma><PosV/><TransformRef>faire</TransformRef></Lexeme>
+	<Lexeme><Lemma>makes</Lemma><PosV/><TransformRef>faire</TransformRef></Lexeme>
+	<Lexeme><Lemma>man</Lemma><PosN/><MorphPlural_Irregular/><TransformRef>homme</TransformRef></Lexeme>
+	<Lexeme><Lemma>many</Lemma><PosA/><TransformRef>beaucoup d</TransformRef></Lexeme>
+	<Lexeme><Lemma>many of</Lemma><Pos/><TransformRef>un bon nombre de</TransformRef></Lexeme>
+	<Lexeme><Lemma>map</Lemma><PosN/><TransformRef>carte</TransformRef></Lexeme>
+	<Lexeme><Lemma>market</Lemma><PosN/><TransformRef>marché</TransformRef></Lexeme>
+	<Lexeme><Lemma>may</Lemma><PosV/><TransformRef>pouvoir</TransformRef></Lexeme>
+	<Lexeme><Lemma>me</Lemma><PosPron/><TransformRef>moi</TransformRef></Lexeme>
+	<Lexeme><Lemma>men</Lemma><PosN/><MorphPlural_AlreadyPlural/><TransformRef>hommes</TransformRef></Lexeme>
+	<Lexeme><Lemma>menu</Lemma><PosN/><TransformRef>carte</TransformRef></Lexeme>
+	<Lexeme><Lemma>metro station</Lemma><PosN/><TransformRef>station de métro</TransformRef></Lexeme>
+	<Lexeme><Lemma>midnight</Lemma><PosN/><TransformRef>minuit</TransformRef></Lexeme>
+	<Lexeme><Lemma>milk</Lemma><PosN/><TransformRef>lait</TransformRef></Lexeme>
+	<Lexeme><Lemma>mine</Lemma><PosPron/><TransformRef>le mien</TransformRef></Lexeme>
+	<Lexeme><Lemma>Monday</Lemma><PosN/><TransformRef>lundi</TransformRef></Lexeme>
+	<Lexeme><Lemma>money</Lemma><PosN/><TransformRef>argent</TransformRef></Lexeme>
+	<Lexeme><Lemma>month</Lemma><PosN/><TransformRef>mois</TransformRef></Lexeme>
+	<Lexeme><Lemma>MONTHS</Lemma><Pos/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>monument</Lemma><PosN/><TransformRef>monument</TransformRef></Lexeme>
+	<Lexeme><Lemma>more</Lemma><PosAdv/><TransformRef>plus</TransformRef></Lexeme>
+	<Lexeme><Lemma>most</Lemma><PosAdv/><TransformRef>plus</TransformRef></Lexeme>
+	<Lexeme><Lemma>most of</Lemma><Pos/><TransformRef>la plupart de</TransformRef></Lexeme>
+	<Lexeme><Lemma>mother</Lemma><PosN/><TransformRef>mère</TransformRef></Lexeme>
+	<Lexeme><Lemma>movie theater</Lemma><PosN/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>much</Lemma><PosAdv/><TransformRef>beaucoup de</TransformRef></Lexeme>
+	<Lexeme><Lemma>much of</Lemma><Pos/><TransformRef>une bonne partie de</TransformRef></Lexeme>
+	<Lexeme><Lemma>museum</Lemma><PosN/><TransformRef>musée</TransformRef></Lexeme>
+	<Lexeme><Lemma>must</Lemma><PosV/><TransformRef>devoir</TransformRef></Lexeme>
+	<Lexeme><Lemma>my</Lemma><PosPron/><TransformRef>mon</TransformRef></Lexeme>
+	<Lexeme><Lemma>My name is</Lemma><Pos/><TransformRef></TransformRef></Lexeme>
+	
+	<!-- ######################################## N ############################################## -->
+	<Lexeme><Lemma>n't</Lemma><PosAdv/><TransformRef>ne</TransformRef></Lexeme>
+	<Lexeme><Lemma>name</Lemma><PosN/><TransformRef>nom</TransformRef></Lexeme>
+	<Lexeme><Lemma>near</Lemma><PosAdv/><TransformRef>près de</TransformRef></Lexeme>
+	<Lexeme><Lemma>need</Lemma><PosV/><TransformRef>avoir besoin de</TransformRef></Lexeme>
+	<Lexeme><Lemma>needed</Lemma><PosV/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>needs</Lemma><PosV/><TransformRef>avoir besoin de</TransformRef></Lexeme>
+	<Lexeme><Lemma>never</Lemma><PosAdv/><TransformRef>rien</TransformRef></Lexeme>
+	<Lexeme><Lemma>new</Lemma><PosA/><TransformRef>nouveau</TransformRef></Lexeme>
+	<Lexeme><Lemma>newspaper</Lemma><PosN/><TransformRef>journal</TransformRef></Lexeme>
+	<Lexeme><Lemma>newsstand</Lemma><PosN/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>next</Lemma><PosA/><TransformRef>prochain</TransformRef></Lexeme>
+	<Lexeme><Lemma>next to</Lemma><Pos/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>nine</Lemma><PosQ/><TransformRef>neuf[NUM]</TransformRef></Lexeme>
+	<Lexeme><Lemma>No.</Lemma><PosS/><TransformRef>Non.</TransformRef></Lexeme>
+	<Lexeme><Lemma>noon</Lemma><PosN/><TransformRef>midi</TransformRef></Lexeme>
+	<Lexeme><Lemma>north</Lemma><PosN/><TransformRef>nord</TransformRef></Lexeme>
+	<Lexeme><Lemma>not</Lemma><PosAdv/><TransformRef>ne[PAS]</TransformRef></Lexeme>
+	<Lexeme><Lemma>nothing</Lemma><PosPron/><TransformRef>ne[RIN]</TransformRef></Lexeme>
+	
+	<!-- ######################################## O ############################################## -->
+	<Lexeme><Lemma>o'clock</Lemma><PosN/><TransformRef>heure</TransformRef></Lexeme>
+	<Lexeme><Lemma>of</Lemma><PosP/><TransformRef>de</TransformRef></Lexeme>
+	<Lexeme><Lemma>office</Lemma><PosN/><TransformRef>bureau</TransformRef></Lexeme>
+	<Lexeme><Lemma>old</Lemma><PosA/><TransformRef>vieux</TransformRef></Lexeme>
+	<Lexeme><Lemma>on</Lemma><PosP/><TransformRef>sur</TransformRef></Lexeme>
+	<Lexeme><Lemma>on time</Lemma><PosAdv/><TransformRef>à l'heure</TransformRef></Lexeme>
+	<Lexeme><Lemma>on top of</Lemma><PosP/><TransformRef>sur</TransformRef></Lexeme>
+	<Lexeme><Lemma>one</Lemma><PosQ/><TransformRef>un</TransformRef></Lexeme>
+	<Lexeme><Lemma>only</Lemma><PosA/><TransformRef>seul</TransformRef></Lexeme>
+	<Lexeme><Lemma>opera</Lemma><PosN/><TransformRef>opéra</TransformRef></Lexeme>
+	<Lexeme><Lemma>or</Lemma><PosConj/><TransformRef>ou</TransformRef></Lexeme>
+	<Lexeme><Lemma>orange</Lemma><PosN/><TransformRef>orange</TransformRef></Lexeme>
+	<Lexeme><Lemma>orange</Lemma><PosA/><TransformRef>orange</TransformRef></Lexeme>
+	<Lexeme><Lemma>other</Lemma><PosA/><TransformRef>autre</TransformRef></Lexeme>
+	<Lexeme><Lemma>our</Lemma><PosPron/><TransformRef>notre</TransformRef></Lexeme>
+	<Lexeme><Lemma>ours</Lemma><PosPron/><TransformRef>le nôtre</TransformRef></Lexeme>
+	
+	<!-- ######################################## P ############################################## -->
+	<Lexeme><Lemma>palace</Lemma><PosN/><TransformRef>palais</TransformRef></Lexeme>
+	<Lexeme><Lemma>park</Lemma><PosN/><TransformRef>parc</TransformRef></Lexeme>
+	<Lexeme><Lemma>passport</Lemma><PosN/><TransformRef>passeport</TransformRef></Lexeme>
+	<Lexeme><Lemma>pencil</Lemma><PosN/><TransformRef>crayon</TransformRef></Lexeme>
+	<Lexeme><Lemma>pharmacy</Lemma><PosN/><MorphPlural_Y/><TransformRef>pharmacie</TransformRef></Lexeme>
+	<Lexeme><Lemma>photograph</Lemma><PosN/><TransformRef>photo</TransformRef></Lexeme>
+	<Lexeme><Lemma>piece</Lemma><PosN/><TransformRef>morceau</TransformRef></Lexeme>
+	<Lexeme><Lemma>plane</Lemma><PosN/><TransformRef>avion</TransformRef></Lexeme>
+	<Lexeme><Lemma>pleasant</Lemma><PosA/><TransformRef>agréable</TransformRef></Lexeme>
+	<Lexeme><Lemma>Please.</Lemma><PosS/><TransformRef>S'il vous plaît.</TransformRef></Lexeme>
+	<Lexeme><Lemma>polite</Lemma><PosA/><TransformRef>poli</TransformRef></Lexeme>
+	<Lexeme><Lemma>poor</Lemma><PosA/><TransformRef>pauvre</TransformRef></Lexeme>
+	<Lexeme><Lemma>port</Lemma><PosN/><TransformRef>port</TransformRef></Lexeme>
+	<Lexeme><Lemma>post office</Lemma><PosN/><TransformRef>bureau de poste</TransformRef></Lexeme>
+	<Lexeme><Lemma>postcard</Lemma><PosN/><TransformRef>carte postale</TransformRef></Lexeme>
+	<Lexeme><Lemma>pretty</Lemma><PosA/><TransformRef>joli</TransformRef></Lexeme>
+	<Lexeme><Lemma>price</Lemma><PosN/><TransformRef>prix</TransformRef></Lexeme>
+	<Lexeme><Lemma>private</Lemma><PosA/><TransformRef>privé</TransformRef></Lexeme>
+	<Lexeme><Lemma>PROPER NOUNS</Lemma><Pos/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>purple</Lemma><PosA/><TransformRef>violet</TransformRef></Lexeme>
+	<Lexeme><Lemma>put</Lemma><PosV/><TransformRef>mettre</TransformRef></Lexeme>
+	<Lexeme><Lemma>puts</Lemma><PosV/><TransformRef>mettre</TransformRef></Lexeme>
+	
+	<!-- ######################################## Q ############################################## -->
+	<Lexeme><Lemma>question</Lemma><PosN/><TransformRef>question</TransformRef></Lexeme>
+	<Lexeme><Lemma>quiet</Lemma><PosAdv/><TransformRef>tranquille</TransformRef></Lexeme>
+	
+	<!-- ######################################## R ############################################## -->
+	<Lexeme><Lemma>rain</Lemma><PosV/><TransformRef>pleuvoir</TransformRef></Lexeme>
+	<Lexeme><Lemma>ran</Lemma><PosV/><TransformRef>avoir,couru</TransformRef></Lexeme>
+	<Lexeme><Lemma>read</Lemma><PosV/><TransformRef>lire</TransformRef></Lexeme>
+	<!-- Lexeme><Lemma>reading</Lemma><PosV/><TransformRef>lire</TransformRef></Lexeme>-->
+	<Lexeme><Lemma>receive</Lemma><PosV/><TransformRef>recevoir</TransformRef></Lexeme>
+	<Lexeme><Lemma>red</Lemma><PosA/><TransformRef>rouge</TransformRef></Lexeme>
+	<Lexeme><Lemma>reserve</Lemma><PosV/><TransformRef>réserver</TransformRef></Lexeme>
+	<Lexeme><Lemma>reserves</Lemma><PosV/><TransformRef>réserver</TransformRef></Lexeme>
+	<Lexeme><Lemma>restaurant</Lemma><PosN/><TransformRef>restaurant</TransformRef></Lexeme>
+	<Lexeme><Lemma>returned</Lemma><PosV/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>road</Lemma><PosN/><TransformRef>route</TransformRef></Lexeme>
+	<Lexeme><Lemma>room</Lemma><PosN/><TransformRef>chambre</TransformRef></Lexeme>
+	<Lexeme><Lemma>ruins</Lemma><PosN/><MorphPlural_AlreadyPlural/><TransformRef>ruines</TransformRef></Lexeme>
+	<Lexeme><Lemma>run</Lemma><PosV/><TransformRef>courir</TransformRef></Lexeme>
+	<Lexeme><Lemma>running</Lemma><PosA/><TransformRef>courant</TransformRef></Lexeme>
+	
+	<!-- ######################################## S ############################################## -->
+	<Lexeme><Lemma>salad</Lemma><PosN/><TransformRef>salade</TransformRef></Lexeme>
+	<Lexeme><Lemma>same</Lemma><PosA/><TransformRef>même</TransformRef></Lexeme>
+	<Lexeme><Lemma>sat down</Lemma><PosV/><TransformRef>être,assis</TransformRef></Lexeme>
+	<Lexeme><Lemma>Saturday</Lemma><PosN/><TransformRef>samedi</TransformRef></Lexeme>
+	<Lexeme><Lemma>saw</Lemma><PosV/><TransformRef>avoir,vu</TransformRef></Lexeme>
+	<Lexeme><Lemma>say</Lemma><PosV/><TransformRef>dire</TransformRef></Lexeme>
+	<Lexeme><Lemma>school</Lemma><PosN/><TransformRef>école</TransformRef></Lexeme>
+	<Lexeme><Lemma>second</Lemma><PosN/><TransformRef>seconde</TransformRef></Lexeme>
+	<Lexeme><Lemma>see</Lemma><PosV/><TransformRef>voir</TransformRef></Lexeme>
+	<Lexeme><Lemma>seen</Lemma><PosV/><TransformRef>avoir,vu</TransformRef></Lexeme>
+	<Lexeme><Lemma>sees</Lemma><PosV/><TransformRef>voir</TransformRef></Lexeme>
+	<Lexeme><Lemma>serve</Lemma><PosV/><TransformRef>servir</TransformRef></Lexeme>
+	<Lexeme><Lemma>seven</Lemma><PosQ/><TransformRef>sept</TransformRef></Lexeme>
+	<Lexeme><Lemma>several</Lemma><PosD/><TransformRef>plusieurs</TransformRef></Lexeme>
+	<Lexeme><Lemma>she</Lemma><PosPron/><TransformRef>elle</TransformRef></Lexeme>
+	<Lexeme><Lemma>shirt</Lemma><PosN/><TransformRef>chemise</TransformRef></Lexeme>
+	<Lexeme><Lemma>shopping center</Lemma><PosN/><TransformRef>centre commercial</TransformRef></Lexeme>
+	<Lexeme><Lemma>short</Lemma><PosA/><TransformRef>court</TransformRef></Lexeme>
+	<Lexeme><Lemma>shower</Lemma><PosN/><TransformRef>douche</TransformRef></Lexeme>
+	<Lexeme><Lemma>single</Lemma><PosA/><TransformRef>seul</TransformRef></Lexeme>
+	<Lexeme><Lemma>sister</Lemma><PosN/><TransformRef>soeur</TransformRef></Lexeme>
+	<Lexeme><Lemma>sit down</Lemma><PosV/><TransformRef>asseoir</TransformRef></Lexeme>
+	<Lexeme><Lemma>sits down</Lemma><PosV/><TransformRef>asseoir</TransformRef></Lexeme>
+	<Lexeme><Lemma>six</Lemma><PosQ/><TransformRef>six</TransformRef></Lexeme>
+	<Lexeme><Lemma>skirt</Lemma><PosN/><TransformRef>jupe</TransformRef></Lexeme>
+	<Lexeme><Lemma>sleep</Lemma><PosV/><TransformRef>dormir</TransformRef></Lexeme>
+	<Lexeme><Lemma>sleeps</Lemma><PosV/><TransformRef>dormir</TransformRef></Lexeme>
+	<Lexeme><Lemma>slept</Lemma><PosV/><TransformRef>avoir,dormi</TransformRef></Lexeme>
+	<Lexeme><Lemma>slow</Lemma><PosA/><TransformRef>lent</TransformRef></Lexeme>
+	<Lexeme><Lemma>small</Lemma><PosA/><TransformRef>petit</TransformRef></Lexeme>
+	<Lexeme><Lemma>smell</Lemma><PosV/><TransformRef>sentir</TransformRef></Lexeme>
+	<Lexeme><Lemma>snow</Lemma><PosV/><TransformRef>neiger</TransformRef></Lexeme>
+	<Lexeme><Lemma>snows</Lemma><PosV/><TransformRef>neiger</TransformRef></Lexeme>
+	<Lexeme><Lemma>soap</Lemma><PosN/><TransformRef>savon</TransformRef></Lexeme>
+	<Lexeme><Lemma>some</Lemma><PosD/><TransformRef>du</TransformRef></Lexeme>
+	<Lexeme><Lemma>son</Lemma><PosN/><TransformRef>fils</TransformRef></Lexeme>
+	<Lexeme><Lemma>south</Lemma><PosN/><TransformRef>sud</TransformRef></Lexeme>
+	<Lexeme><Lemma>souvenir</Lemma><PosN/><TransformRef>souvenir</TransformRef></Lexeme>
+	<Lexeme><Lemma>speak</Lemma><PosV/><TransformRef>parler</TransformRef></Lexeme>
+	<Lexeme><Lemma>speaks</Lemma><PosV/><TransformRef>parler</TransformRef></Lexeme>
+	<Lexeme><Lemma>stamp</Lemma><PosN/><TransformRef>timbre</TransformRef></Lexeme>
+	<Lexeme><Lemma>station</Lemma><PosN/><TransformRef>gare</TransformRef></Lexeme>
+	<Lexeme><Lemma>statue</Lemma><PosN/><TransformRef>statue</TransformRef></Lexeme>
+	<Lexeme><Lemma>store</Lemma><PosN/><TransformRef>magasin</TransformRef></Lexeme>
+	<Lexeme><Lemma>subway</Lemma><PosN/><TransformRef>métro</TransformRef></Lexeme>
+	<Lexeme><Lemma>such a</Lemma><Pos/><TransformRef>un tel</TransformRef></Lexeme>
+	<Lexeme><Lemma>suitcase</Lemma><PosN/><TransformRef>valise</TransformRef></Lexeme>
+	<Lexeme><Lemma>Sunday</Lemma><PosN/><TransformRef>dimanche</TransformRef></Lexeme>
+	<Lexeme><Lemma>supermarket</Lemma><PosN/><TransformRef>supermarché</TransformRef></Lexeme>
+	<Lexeme><Lemma>sweater</Lemma><PosN/><TransformRef>chandail</TransformRef></Lexeme>
+	<Lexeme><Lemma>sweet</Lemma><PosA/><TransformRef>doux</TransformRef></Lexeme>
+	
+	<!-- ######################################## T ############################################## -->
+	<Lexeme><Lemma>take</Lemma><PosV/><TransformRef>prendre</TransformRef></Lexeme>
+	<Lexeme><Lemma>taken</Lemma><PosV/><TransformRef>avoir,pris</TransformRef></Lexeme>
+	<Lexeme><Lemma>takes</Lemma><PosV/><TransformRef>prendre</TransformRef></Lexeme>
+	<Lexeme><Lemma>tea</Lemma><PosN/><TransformRef>thé</TransformRef></Lexeme>
+	<Lexeme><Lemma>teacher</Lemma><PosN/><TransformRef>professeur</TransformRef></Lexeme>
+	<Lexeme><Lemma>telephone</Lemma><PosN/><TransformRef>téléphone</TransformRef></Lexeme>
+	<Lexeme><Lemma>ten</Lemma><PosQ/><TransformRef>dix</TransformRef></Lexeme>
+	<Lexeme><Lemma>than</Lemma><PosConj/><TransformRef>que</TransformRef></Lexeme>
+	<Lexeme><Lemma>Thank you.</Lemma><Pos/><TransformRef>merci</TransformRef></Lexeme>
+	<Lexeme><Lemma>that</Lemma><PosA/><WordRule>THIS_THAT</WordRule></Lexeme>
+	<Lexeme><Lemma>that one</Lemma><PosN/><MorphPlural_NoChange/><TransformRef>celui</TransformRef></Lexeme>
+	<Lexeme><Lemma>the</Lemma><PosD/><TransformRef>le</TransformRef></Lexeme>
+	<Lexeme><Lemma>the one</Lemma><PosN/><TransformRef>celui</TransformRef></Lexeme>
+	<Lexeme><Lemma>theater</Lemma><PosN/><TransformRef>théâtre</TransformRef></Lexeme>
+	<Lexeme><Lemma>their</Lemma><PosD/><TransformRef>leur</TransformRef></Lexeme>
+	<Lexeme><Lemma>theirs</Lemma><PosPron/><TransformRef>à eux</TransformRef></Lexeme>
+	<Lexeme><Lemma>them</Lemma><PosPron/><TransformRef>eux</TransformRef></Lexeme>
+	<Lexeme><Lemma>then</Lemma><PosAdv/><TransformRef>puis</TransformRef></Lexeme>
+	<Lexeme><Lemma>there</Lemma><PosPron/><TransformRef>là</TransformRef></Lexeme>
+	<Lexeme><Lemma>there are</Lemma><Pos/><TransformRef>il y a</TransformRef></Lexeme>
+	<Lexeme><Lemma>there is</Lemma><Pos/><TransformRef>il y a</TransformRef></Lexeme>
+	<Lexeme><Lemma>these</Lemma><PosD/><TransformRef>ces</TransformRef></Lexeme>
+	<Lexeme><Lemma>these ones</Lemma><PosN/><MorphPlural_AlreadyPlural/><TransformRef>ceux</TransformRef></Lexeme>
+	<Lexeme><Lemma>they</Lemma><PosPron/><TransformRef>ils</TransformRef></Lexeme>
+	<Lexeme><Lemma>thick</Lemma><PosA/><TransformRef>épais</TransformRef></Lexeme>
+	<Lexeme><Lemma>thing</Lemma><PosN/><TransformRef>chose</TransformRef></Lexeme>
+	<Lexeme><Lemma>thirsty</Lemma><PosA/><TransformRef>soif</TransformRef></Lexeme>
+	<Lexeme><Lemma>this</Lemma><PosD/><WordRule>THIS_THAT</WordRule></Lexeme>
+	<Lexeme><Lemma>this one</Lemma><PosN/><MorphPlural_NoChange/><TransformRef>celui</TransformRef></Lexeme>
+	<Lexeme><Lemma>those</Lemma><PosD/><TransformRef>ces</TransformRef></Lexeme>
+	<Lexeme><Lemma>those ones</Lemma><PosN/><MorphPlural_AlreadyPlural/><TransformRef>ceux</TransformRef></Lexeme>
+	<Lexeme><Lemma>thousand</Lemma><PosQ/><TransformRef>mille</TransformRef></Lexeme>
+	<Lexeme><Lemma>three</Lemma><PosQ/><TransformRef>trois</TransformRef></Lexeme>
+	<Lexeme><Lemma>Thursday</Lemma><PosN/><TransformRef>jeudi</TransformRef></Lexeme>
+	<Lexeme><Lemma>time</Lemma><PosN/><TransformRef>heure</TransformRef></Lexeme>
+	<Lexeme><Lemma>TIME EXPRESSIONS</Lemma><Pos/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>tired</Lemma><PosA/><TransformRef>fatiqué</TransformRef></Lexeme>
+	<!-- TODO have to distinguish between to(PosP=à) and to(to make an infinitive) -->
+	<Lexeme><Lemma>to</Lemma><PosP/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>to her</Lemma><Pos/><TransformRef>lui</TransformRef></Lexeme>
+	<Lexeme><Lemma>to him</Lemma><Pos/><TransformRef>lui</TransformRef></Lexeme>
+	<Lexeme><Lemma>to it</Lemma><Pos/><TransformRef>lui</TransformRef></Lexeme>
+	<Lexeme><Lemma>to me</Lemma><Pos/><TransformRef>me</TransformRef></Lexeme>
+	<Lexeme><Lemma>to them</Lemma><Pos/><TransformRef>leur</TransformRef></Lexeme>
+	<Lexeme><Lemma>to us</Lemma><Pos/><TransformRef>nous[US]</TransformRef></Lexeme>
+	<Lexeme><Lemma>to you</Lemma><Pos/><TransformRef>vous</TransformRef></Lexeme>
+	<Lexeme><Lemma>toast</Lemma><PosN/><TransformRef>pain grillé</TransformRef></Lexeme>
+	<Lexeme><Lemma>today</Lemma><PosN/><TransformRef>aujourd'hui</TransformRef></Lexeme>
+	<Lexeme><Lemma>Today is June the seventh.</Lemma><PosS/><TransformRef>C'est aujourd'hui le sept juin</TransformRef></Lexeme>
+	<Lexeme><Lemma>toilet</Lemma><PosN/><TransformRef>toilettes</TransformRef></Lexeme>
+	<Lexeme><Lemma>tomb</Lemma><PosN/><TransformRef>tombe</TransformRef></Lexeme>
+	<Lexeme><Lemma>tomorrow</Lemma><PosN/><TransformRef>demain</TransformRef></Lexeme>
+	<Lexeme><Lemma>tonight</Lemma><PosN/><TransformRef>ce soir</TransformRef></Lexeme>
+	<Lexeme><Lemma>too</Lemma><PosAdv/><TransformRef>trop</TransformRef></Lexeme>
+	<Lexeme><Lemma>took</Lemma><PosV/><TransformRef>avoir,pris</TransformRef></Lexeme>
+	<Lexeme><Lemma>tourist</Lemma><PosN/><TransformRef>tourist</TransformRef></Lexeme>
+	<Lexeme><Lemma>towards</Lemma><PosP/><TransformRef>vers</TransformRef></Lexeme>
+	<Lexeme><Lemma>tower</Lemma><PosN/><TransformRef>tour</TransformRef></Lexeme>
+	<Lexeme><Lemma>town</Lemma><PosN/><TransformRef>ville</TransformRef></Lexeme>
+	<Lexeme><Lemma>traffic</Lemma><PosN/><MorphPlural_NoChange/><TransformRef>circulation</TransformRef></Lexeme>
+	<Lexeme><Lemma>train</Lemma><PosN/><TransformRef>train</TransformRef></Lexeme>
+	<Lexeme><Lemma>travel</Lemma><PosV/><TransformRef>voyager</TransformRef></Lexeme>
+	<Lexeme><Lemma>traveller's check</Lemma><PosN/><TransformRef>chèque de voyage</TransformRef></Lexeme>
+	<!-- Note: unable to have "true" as a value, so it must be specified as "true_" -->
+	<Lexeme><Lemma>true_</Lemma><PosV/><TransformRef>vrai</TransformRef></Lexeme>
+	<Lexeme><Lemma>Tuesday</Lemma><PosN/><TransformRef>mardi</TransformRef></Lexeme>
+	<Lexeme><Lemma>two</Lemma><PosQ/><TransformRef>deux</TransformRef></Lexeme>
+	
+	<!-- ######################################## U ############################################## -->
+	<Lexeme><Lemma>under</Lemma><PosP/><TransformRef>sous</TransformRef></Lexeme>
+	<Lexeme><Lemma>understand</Lemma><PosV/><TransformRef>comprendre</TransformRef></Lexeme>
+	<Lexeme><Lemma>understands</Lemma><PosV/><TransformRef>comprendre</TransformRef></Lexeme>
+	<Lexeme><Lemma>United States</Lemma><PosN/><MorphPlural_NoChange/><TransformRef>États-Unis</TransformRef></Lexeme>
+	<Lexeme><Lemma>university</Lemma><PosN/><MorphPlural_Y/><TransformRef>université</TransformRef></Lexeme>
+	<Lexeme><Lemma>until</Lemma><PosAdv/><TransformRef>jusqu'à</TransformRef></Lexeme>
+	<Lexeme><Lemma>us</Lemma><PosPron/><TransformRef>nous[US]</TransformRef></Lexeme>
+	<Lexeme><Lemma>use</Lemma><PosV/><TransformRef>employer</TransformRef></Lexeme>
+	<Lexeme><Lemma>useful</Lemma><PosA/><TransformRef></TransformRef></Lexeme>
+	
+	<!-- ######################################## V ############################################## -->
+	<Lexeme><Lemma>very</Lemma><PosAdv/><TransformRef>très</TransformRef></Lexeme>
+	<Lexeme><Lemma>Very well.</Lemma><PosS/><TransformRef>très bien</TransformRef></Lexeme>
+	
+	<!-- ######################################## W ############################################## -->
+	<Lexeme><Lemma>waiter</Lemma><PosN/><TransformRef>garçon</TransformRef></Lexeme>
+	<Lexeme><Lemma>want</Lemma><PosV/><TransformRef>vouloir</TransformRef></Lexeme>
+	<Lexeme><Lemma>wanted</Lemma><PosV/><TransformRef>vouloir[IMP]</TransformRef></Lexeme>
+	<Lexeme><Lemma>wants</Lemma><PosV/><TransformRef>vouloir</TransformRef></Lexeme>
+	<Lexeme><Lemma>was</Lemma><PosV/><WordRule>BE_PAST</WordRule></Lexeme>
+	<Lexeme><Lemma>washroom</Lemma><PosN/><TransformRef>toilette</TransformRef></Lexeme>
+	<Lexeme><Lemma>water</Lemma><PosN/><TransformRef>eau</TransformRef></Lexeme>
+	<Lexeme><Lemma>we</Lemma><PosPron/><TransformRef>nous[WE]</TransformRef></Lexeme>
+	<Lexeme><Lemma>weather</Lemma><PosN/><MorphPlural_NoChange/><TransformRef>temps</TransformRef></Lexeme>
+	<Lexeme><Lemma>Wednesday</Lemma><PosN/><TransformRef>mercredi</TransformRef></Lexeme>
+	<Lexeme><Lemma>week</Lemma><PosN/><TransformRef>semaine</TransformRef></Lexeme>
+	<Lexeme><Lemma>well</Lemma><PosAdv/><TransformRef>bien</TransformRef></Lexeme>
+	<Lexeme><Lemma>went</Lemma><PosV/><TransformRef>être,allé</TransformRef></Lexeme>
+	<Lexeme><Lemma>were</Lemma><PosV/><TransformRef><WordRule>BE_PAST</WordRule></TransformRef></Lexeme>
+	<Lexeme><Lemma>west</Lemma><PosN/><TransformRef>ouest</TransformRef></Lexeme>
+	<Lexeme><Lemma>what</Lemma><PosD/><TransformRef>quel</TransformRef></Lexeme>
+	<Lexeme><Lemma>What is that</Lemma><PosS/><TransformRef>Qu'est-ce que c'est</TransformRef></Lexeme>
+	<Lexeme><Lemma>What is the weather like</Lemma><PosS/><TransformRef>Quel temps fait-il</TransformRef></Lexeme>
+	<Lexeme><Lemma>What is your name</Lemma><PosS/><TransformRef>Comment vous appelez vous</TransformRef></Lexeme>
+	<Lexeme><Lemma>when</Lemma><PosConj/><TransformRef>quand</TransformRef></Lexeme>
+	<Lexeme><Lemma>where</Lemma><PosAdv/><TransformRef>où</TransformRef></Lexeme>
+	<Lexeme><Lemma>which</Lemma><PosD/><TransformRef>quel</TransformRef></Lexeme>
+	<Lexeme><Lemma>white</Lemma><PosA/><TransformRef>blanc</TransformRef></Lexeme>
+	<Lexeme><Lemma>who</Lemma><PosPron/><TransformRef>qui</TransformRef></Lexeme>
+	<Lexeme><Lemma>whom</Lemma><PosPron/><TransformRef>qui</TransformRef></Lexeme>
+	<Lexeme><Lemma>why</Lemma><PosAdv/><TransformRef>pourquoi</TransformRef></Lexeme>
+	<Lexeme><Lemma>wife</Lemma><PosN/><MorphPlural_Ffe/><TransformRef>femme</TransformRef></Lexeme>
+	<Lexeme><Lemma>will</Lemma><PosV/><TransformRef>aller</TransformRef></Lexeme>
+	<Lexeme><Lemma>will not</Lemma><PosV/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>wine</Lemma><PosN/><TransformRef>vin</TransformRef></Lexeme>
+	<Lexeme><Lemma>with</Lemma><PosP/><TransformRef>avec</TransformRef></Lexeme>
+	<Lexeme><Lemma>without</Lemma><PosP/><TransformRef>sans</TransformRef></Lexeme>
+	<Lexeme><Lemma>woman</Lemma><PosN/><MorphPlural_Irregular/><TransformRef>femme</TransformRef></Lexeme>
+	<Lexeme><Lemma>women</Lemma><PosN/><MorphPlural_AlreadyPlural/><TransformRef>femmes</TransformRef></Lexeme>
+	<Lexeme><Lemma>won't</Lemma><PosV/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>work</Lemma><PosV/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>works</Lemma><PosV/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>worse</Lemma><PosAdv/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>write</Lemma><PosV/><TransformRef>écrire</TransformRef></Lexeme>
+	<Lexeme><Lemma>writes</Lemma><PosV/><TransformRef>écrire</TransformRef></Lexeme>
+	<Lexeme><Lemma>written</Lemma><PosV/><TransformRef></TransformRef></Lexeme>
+	<Lexeme><Lemma>wrote</Lemma><PosV/><TransformRef>avoir,écrit</TransformRef></Lexeme>
+	
+	<!-- ######################################## X ############################################## -->
+	<Lexeme><Lemma>xenon</Lemma><PosN/><TransformRef>xénon</TransformRef></Lexeme>
+	
+	<!-- ######################################## Y ############################################## -->
+	<Lexeme><Lemma>year</Lemma><PosN/><TransformRef>an</TransformRef></Lexeme>
+	<Lexeme><Lemma>yelllow</Lemma><PosA/><TransformRef>jaune</TransformRef></Lexeme>
+	<Lexeme><Lemma>Yes.</Lemma><PosS/><TransformRef>oui</TransformRef></Lexeme>
+	<Lexeme><Lemma>yesterday</Lemma><PosN/><TransformRef>hier</TransformRef></Lexeme>
+	<Lexeme><Lemma>you</Lemma><PosPron/><TransformRef>vous</TransformRef></Lexeme>
+	<Lexeme><Lemma>You're welcome.</Lemma><PosS/><TransformRef>de rien</TransformRef></Lexeme>
+	<Lexeme><Lemma>young</Lemma><PosA/><TransformRef>jeune</TransformRef></Lexeme>
+	<Lexeme><Lemma>your</Lemma><PosD/><TransformRef>votre</TransformRef></Lexeme>
+	<Lexeme><Lemma>yours</Lemma><PosPron/><TransformRef>le vôtre</TransformRef></Lexeme>
+	
+	<!-- ######################################## Z ############################################## -->
+	<Lexeme><Lemma>zone</Lemma><PosN/><TransformRef>zone</TransformRef></Lexeme>
+	
+	<!-- French special characters: àâ éèê î ô ùû ç ÀÂ ÉÈÊ Î Ô ÙÛ Ç -->
+</Lexicon>

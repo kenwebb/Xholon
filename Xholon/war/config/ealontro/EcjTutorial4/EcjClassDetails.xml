@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Ealontro ealontro/EcjTutorial4 ClassDetails.xml -->
+<xholonClassDetails>
+	<MultiValuedRegression xhType="XhtypePureActiveObject"/>
+	<!-- Primitive Functions -->
+	<PfAdd xhType="XhtypeActivity"></PfAdd>
+	<PfSub xhType="XhtypeActivity"></PfSub>
+	<PfMul xhType="XhtypeActivity"></PfMul>
+	<!-- end Primitive Functions -->
+	<GeneticProgram xhType="XhtypePureContainer"/>
+	<Primitive xhType="XhtypeActivity"/>
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+	<EcjAntTrailSystem/>
+	<Grid/>
+	<Row/>
+	<GridCell/>
+	<Problem> <!-- ECJ GPProblem -->
+		<Ant/> <!-- ECJ Ant -->
+	</Problem>
+	<Trail/>
+	<Food/> <!-- ECJ Ant food -->
+	<Population/>
+	<Primitive>
+	<!-- ECJ equivalents
+	gp.fs.0.func.0 = ec.app.ant.func.Left
+	gp.fs.0.func.0.nc = nc0
+	gp.fs.0.func.1 = ec.app.ant.func.Right
+	gp.fs.0.func.1.nc = nc0
+	gp.fs.0.func.2 = ec.app.ant.func.Move
+	gp.fs.0.func.2.nc = nc0
+	gp.fs.0.func.3 = ec.app.ant.func.IfFoodAhead
+	gp.fs.0.func.3.nc = nc2
+	gp.fs.0.func.4 = ec.app.ant.func.Progn2
+	gp.fs.0.func.4.nc = nc2
+	gp.fs.0.func.5 = ec.app.ant.func.Progn3
+	gp.fs.0.func.5.nc = nc3
+	-->
+		<NonTerminal> <!-- ECJ GPNode, nc2, nc3 -->
+			<PfIfFoodAhead/> <!-- ECJ Add class, nc2 -->
+			<PfProgn2/> <!-- ECJ Progn2 class, nc2 -->
+			<PfProgn3/> <!-- ECJ Progn3 class, nc3 -->
+			<PfProgn4/>
+			<PfProgn5/>
+			<PfProgn6/>
+			<PfProgn7/>
+		</NonTerminal>
+		<Terminal> <!-- ECJ GPNode, nc0 -->
+			<PfLeft/> <!-- ECJ Left class -->
+			<PfRight/> <!-- ECJ Right class -->
+			<PfMove/> <!-- ECJ Move class -->
+		</Terminal>
+		<PfWrapper/> <!-- ECJ GPTree -->
+	</Primitive>
+	<Structure/> <!-- ECJ problem -->
+	<Behavior>
+		<GeneticProgram/> <!-- ECJ GPIndividual -->
+	</Behavior>
+	
+	<!-- Xholon Viewers -->
+	<!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

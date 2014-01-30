@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	RavaszHnm: Ravasz, Barabasi Hierarchical Network Model application - Inheritance Hierarchy
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+	<HierarchicalNetworkModel/>
+	<Node>
+		<CentralNode/>
+		<PeripheralNode/>
+	</Node>
+	
+	<!-- Xholon Viewers -->
+	<!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

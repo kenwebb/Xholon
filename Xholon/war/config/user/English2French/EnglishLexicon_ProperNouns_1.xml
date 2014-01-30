@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- English WORD_LIST - Proper Nouns
+The list must be in alphabetical order by Lemma.
+French special characters: àâ éèê î ô ùû ç ÀÂ ÉÈÊ Î Ô ÙÛ Ç
+
+Supplementary lexicon
+-->
+<Lexicon>
+	<!-- ################################ Proper Nouns ###################################### -->
+	<Lexeme><Lemma>George</Lemma><PosN/><TransformRef>Georges</TransformRef></Lexeme>
+	<Lexeme><Lemma>John</Lemma><PosN/><TransformRef>Jean</TransformRef></Lexeme>
+	<Lexeme><Lemma>Paris</Lemma><PosN/><TransformRef>Paris</TransformRef></Lexeme>
+</Lexicon>

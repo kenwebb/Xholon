@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Population>
+	<CartCenteringSystem multiplicity="1024">
+		<Structure>
+			<CartCentering>
+				<Cart>
+					<attribute name="val" value="2.0"/> <!-- constant mass -->
+					<XPosition>
+						<attribute name="val" value="0.0"/> <!-- initial x position -->
+					</XPosition>
+					<Velocity>
+						<attribute name="val" value="100.0"/> <!-- initial velocity -->
+					</Velocity>
+					<Acceleration/>
+				</Cart>
+				<Force/>
+			</CartCentering>
+		</Structure>
+		<GeneticProgram> <!-- Control Strategy -->
+		</GeneticProgram>
+	</CartCenteringSystem>
+</Population>

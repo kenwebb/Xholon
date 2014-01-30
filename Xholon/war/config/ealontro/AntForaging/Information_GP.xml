@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../../../Xholon/information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../../Xholon/information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>Ant Foraging - Xholon App (GP)</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This model uses genetic programming (GP) to evolve a solution to the ant foraging problem.
+The discussion that follows assumes you are generally familiar with GP.
+If not, see the references later in this document.</p>
+<p>There are two parts to this apllication. Xholon performs all the ant behavior,
+while ECJ evolves new behaviors based on relative fitness.</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+<title/>
+<p>Run it:</p>
+<ol>
+<li>Run the Java application through the XhnEalontro GUI (org.primordion.xholon.app.Xhn.java),
+and select File --> Open --> ealontro --> AntForaging --> EcjAntForaging_xhn.xml.</li>
+<li>Expand the Controller node in the tree.</li>
+<li>Press the Start node.</li>
+<li>You should see the following text, or something similar, displayed in the console window.</li>
+<li>If you have JFreeChart installed, and if you have selected "JFreeChart" as the value of the UseDataPlotter
+parameter in EcjAntForaging_xhn.xml, you should see a chart showing the increase in fitness
+from one generation to the next (0.0 is the ideal fitness).
+If you don't have JFreeChart installed, then change the value of UseDataPlotter to "gnuplot",
+and look at the results that are saved to a .csv file in the statistics folder.
+If you have gnuplot installed, it can read the .plt script in the statistics folder
+to produce a displayable .png file from the .csv file, that should look similar to the one below.</li>
+</ol>
+</section>
+<section><title/>
+<source>
+Opening model: C:\Primordion\workspace\Ealontro\config\ealontro\AntForaging\EcjAntForaging_xhn.xml
+AppM : false
+InfoM : false
+ErrorM : true
+MaxProcessLoops : 1000
+TimeStepInterval : 10
+InheritanceHierarchyFile : ./config/ealontro/AntForaging/InheritanceHierarchy.xml
+CompositeStructureHierarchyFile : ./config/ealontro/AntForaging/EcjCompositeStructureHierarchy.xml
+ClassDetailsFile : ./config/ealontro/AntForaging/EcjClassDetails.xml
+JavaClassName : org.primordion.ealontro.ec.app.antforaging.AppEcjAntForaging
+UseDataPlotter : true
+SaveSnapshots : false
+UseGridViewer : true
+UseGraphicalTreeViewer : false
+EcjArgs : -file bin/org/primordion/ealontro/ec/app/antforaging/antForaging.params
+computed worstStandardizedFitness : 144
+C:\Primordion\workspace\Ealontro\config\ealontro\AntForaging\EcjAntForaging_xhn.xml
+
+| ECJ
+| An evolutionary computation system (version 15)
+| By Sean Luke
+| Contributors: L. Panait, G. Balan, S. Paus, Z. Skolicki,
+|               J. Bassett, R. Hubley, and A. Chircop
+| URL: http://cs.gmu.edu/~eclab/projects/ecj/
+| Mail: ecj-help@cs.gmu.edu
+|       (better: join ECJ-INTEREST at URL above)
+| Date: April 4, 2006
+| Current Java: 1.4.2_10 / Java HotSpot(TM) Client VM-1.4.2_10-b03
+| Required Minimum Java: 1.3
+
+
+Threads:  breed/1 eval/1
+Seed: 1057144734 
+Job: 0
+Setting up
+Processing GP Types
+Processing GP Node Constraints
+Processing GP Function Sets
+Processing GP Tree Constraints
+Initializing Generation 0
+Population: 1024
+Generation 1
+Generation 2
+Generation 3
+Generation 4
+Generation 5
+Generation 6
+Generation 7
+Generation 8
+Generation 9
+Generation 10
+Generation 11
+Generation 12
+Generation 13
+Generation 14
+Generation 15
+Generation 16
+Generation 17
+Generation 18
+Generation 19
+Found Ideal Individual
+</source>
+</section>
+<section><title/>
+<figure src="AntForaging_GP_JFreeChart_1.png" alt="ECJ Ant Foraging with GP"></figure>
+</section>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p></p>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p></p>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p></p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon and Ealontro features</title>
+<p>This is the most advanced example of how best to use both Xholon and ECJ in the same application.</p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>This application was described in: Koza, J. (1992). Genetic Programming. p.329-344</p>
+<p>To learn more about genetic programming (GP), start with the wikipedia page.</p>
+<p><a href="http://en.wikipedia.org/wiki/Genetic_programming">GP</a></p>
+<p>Visit the ECJ website to find out more about this tool.</p>
+<p><a href="http://cs.gmu.edu/~eclab/projects/ecj/">ECJ</a></p>
+</section>
+
+</body>
+</document>

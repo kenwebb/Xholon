@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	RavaszHnm application - _xhn configuration
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<params>
+<param name="ShowParams" value="false"/>
+<param name="ModelName" value="RavaszHnm"/>
+<param name="AppM" value="true"/>
+<param name="InfoM" value="false"/>
+<param name="ErrorM" value="true"/>
+<param name="MaxProcessLoops" value="-1"/>
+<param name="TimeStepInterval" value="100"/>
+<param name="SizeMessageQueue" value="10"/>
+<param name="InheritanceHierarchyFile" value="config/user/RavaszHnm/RavaszHnm_InheritanceHierarchy.xml"/>
+<param name="CompositeStructureHierarchyFile"
+	value="config/user/RavaszHnm/RavaszHnm_CompositeStructureHierarchy_3sides.xml"/>
+<param name="ClassDetailsFile" value="config/user/RavaszHnm/RavaszHnm_ClassDetails.xml"/>
+<param name="InformationFile" value="config/user/RavaszHnm/RavaszHnm_Information.xml"/>
+<param name="JavaClassName" value="org.primordion.user.app.RavaszHnm.AppRavaszHnm"/>
+<param name="JavaXhClassName" value="org.primordion.user.app.RavaszHnm.XhRavaszHnm"/>
+<param name="MaxPorts" value="1"/>
+<!-- Viewers -->
+<!-- UseDataPlotter: none JFreeChart gnuplot -->
+<param name="UseDataPlotter" value="none"/>
+<!-- DataPlotterParams: Title,XAxisLabel,YAxisLabel,Path,TypeOfData,NameConcatLevels,WriteType -->
+<param name="DataPlotterParams" value="Title,Time (timesteps),Y,./statistics/,stats,1,WRITE_AS_LONG"/>
+<param name="UseGraphicalTreeViewer" value="false"/>
+<!-- GraphicalTreeViewerParams: XPathExpression,DistX,DistY,SizeX,SizeY,FontSize,Title,ShowNodeLabels -->
+<param name="GraphicalTreeViewerParams" value="/,20,20,800,500,9,Application Composite Structure,false"/>
+<param name="UseGraphicalNetworkViewer" value="false"/>
+<!-- GraphicalNetworkViewerParams: XPathExpression,SizeX,SizeY,FontSize,LayoutType,ShowContainers,Title,ShowNodeLabels -->
+<param name="GraphicalNetworkViewerParams" value="/,800,500,9,LAYOUT_FR,false,Application Port Connections,false"/>
+<param name="UseGridViewer" value="false"/>
+<param name="GridPanelClassName" value="org.primordion.xholon.samples.GridPanelMyApp"/>
+<!-- GridViewerParams: XPathExpression,CellSize,Title -->
+<param name="GridViewerParams" value="descendant::Row/..,5,Grid Viewer App"/>
+<param name="UseInteractions" value="false"/>
+<param name="InteractionParams" value="4,true,localhost,60001"/>
+<param name="UseVrml" value="false"/>
+<param name="VrmlWriterClassName" value="org.primordion.xholon.tutorials.VrmlWriterMyApp"/>
+<!-- VrmlParams: DoClassicStyle,VrmlWriteDir,UseLOD,CreateProtoFiles -->
+<param name="VrmlParams" value="true,./3d/,false,false"/>
+<param name="UseTextTree" value="false"/>
+<param name="SaveSnapshots" value="false"/>
+<!-- SnapshotParams: SnapshotSource(0 1),SnapshotTostring,Path -->
+<param name="SnapshotParams" value="0,true,./snapshot/"/>
+<!-- The following parameters, if any, are specific to this application -->
+<param name="AppSpecificParam1" value="This is a test parameter."/>
+</params>

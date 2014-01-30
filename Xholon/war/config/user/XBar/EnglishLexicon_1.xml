@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Lexicon>
+	<Lexeme>
+		<Lemma>boy</Lemma>
+		<Pos>N</Pos>
+	</Lexeme>
+	<Lexeme>
+		<Lemma>girl</Lemma>
+		<Pos>N</Pos>
+	</Lexeme>
+	<Lexeme>
+		<Lemma>incredibly</Lemma>
+		<Pos>Adv</Pos>
+	</Lexeme>
+	<Lexeme>
+		<Lemma>must</Lemma>
+		<Pos>M</Pos>
+	</Lexeme>
+	<Lexeme>
+		<Lemma>seem</Lemma>
+		<Pos>V</Pos>
+	</Lexeme>
+	<Lexeme>
+		<Lemma>stupid</Lemma>
+		<Pos>A</Pos>
+	</Lexeme>
+	<Lexeme>
+		<Lemma>that</Lemma>
+		<Pos>D</Pos>
+	</Lexeme>
+	<Lexeme>
+		<Lemma>this</Lemma>
+		<Pos>D</Pos>
+	</Lexeme>
+	<Lexeme>
+		<Lemma>to</Lemma>
+		<Pos>P</Pos>
+	</Lexeme>
+</Lexicon>

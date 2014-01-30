@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	English2French application - Composite Structure Hierarchy
+	Xholon 0.7 http://www.primordion.com/Xholon
+-->
+<Fr2EngSystem xmlns:xi="http://www.w3.org/2001/XInclude">
+	<Drill roleName="Vocabulary Drill  ">
+		<Drill_Eng2Fr roleName="Drill - English to French  "/>
+		<Drill_Eng2Fr roleName="Drill - English to French  "/>
+		<Drill_Fr2Eng roleName="Drill - French to English  "/>
+		<Drill_Fr2Eng roleName="Drill - French to English  "/>
+	</Drill>
+	<xi:include href="config/user/English2French/EnglishLexicon_1.xml" roleName="English WORD_LIST  "/>
+	<xi:include href="config/user/English2French/EnglishLexicon_2.xml"
+		roleName="English Supplementary WORD_LIST  "/>
+	<xi:include href="config/user/English2French/EnglishLexicon_ProperNouns_1.xml"
+		roleName="English Proper Nouns WORD_LIST  "/>
+	<xi:include href="config/user/English2French/Transform_1.xml" roleName="French TRANSFORMS  "/>
+	<xi:include href="config/user/English2French/Transform_2.xml"
+		roleName="French Supplementary TRANSFORMS  "/>
+	<xi:include href="config/user/English2French/WorkedExamples_1.xml" roleName="WORKED EXAMPLES  "/>
+	<xi:include href="config/user/English2French/PhraseBook_1.xml" roleName="PHRASE BOOK 1  "/>
+	<xi:include href="config/user/English2French/PhraseBook_2.xml" roleName="PHRASE BOOK 2  "/>
+</Fr2EngSystem>

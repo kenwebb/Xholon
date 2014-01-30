@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+	<AntForagingGP/> <!-- GP version -->
+	<Grid/> <!-- GP version -->
+	<GridReference/> <!-- GP version -->
+	<AntForagingSystem/>
+	<Row/>
+	<GridCell/>
+	<Ant/>
+	<Population/>
+	<Primitive>
+		<NonTerminal>
+			<PfDropPheromone/>
+			<PfIfCarryingFood/>
+			<PfIfFoodHere/>
+			<PfMoveToAdjacentFoodElse/>
+			<PfMoveToAdjacentPheromoneElse/>
+			<PfPickUp/>
+		</NonTerminal>
+		<Terminal>
+			<PfMoveRandom/>
+			<PfMoveToNest/>
+		</Terminal>
+		<PfWrapper/>
+	</Primitive>
+	<Structure/>
+	<Nest/>
+	<Food/>
+	<Behavior>
+		<GeneticProgram/>
+	</Behavior>
+	
+	<!-- Xholon Viewers -->
+	<!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

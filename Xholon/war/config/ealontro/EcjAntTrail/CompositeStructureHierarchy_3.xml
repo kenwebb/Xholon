@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Best of run for EcjAntSystem
+raw fitness: 10.0 adjusted fitness: 0.09090909 hits: 79
+size of best tree: 179 starting at PfWrapper
+Tue Jun 06 17:18:21 EDT 2006 (1149628701127)
+	
+Final Statistics
+================
+Total Individuals Evaluated: 52224
+
+Best Individual of Run:
+Evaluated: true
+Fitness: Raw=10.0 Adjusted=0.09090909 Hits=79
+Tree 0:
+ (if-food-ahead (progn3 move (if-food-ahead
+     (if-food-ahead move right) (progn2 (if-food-ahead
+     (if-food-ahead (progn2 move right) left)
+     (progn3 (progn3 move move left) (if-food-ahead
+         left right) (if-food-ahead move (progn2 (if-food-ahead
+         left right) (progn3 (progn3 move move left)
+         right (progn2 right move)))))) (if-food-ahead
+     move left))) left) (if-food-ahead (if-food-ahead
+     (if-food-ahead (if-food-ahead move (progn2
+         (if-food-ahead left right) (progn3 (if-food-ahead
+         left left) right (if-food-ahead move right))))
+         (if-food-ahead (progn2 (if-food-ahead move
+             left) (if-food-ahead left right)) left))
+     (if-food-ahead (progn2 (if-food-ahead move
+         move) right) (progn3 (progn3 (progn3 (progn2
+         right move) (progn3 move right right) (if-food-ahead
+         left left)) move left) (if-food-ahead left
+         right) (if-food-ahead right move)))) (progn3
+     right (progn2 (if-food-ahead (if-food-ahead
+     (if-food-ahead (progn2 (if-food-ahead move
+         move) right) (progn3 (progn3 move move left)
+         (if-food-ahead left right) (if-food-ahead
+         (progn2 (if-food-ahead (if-food-ahead (if-food-ahead
+             move left) (if-food-ahead (progn2 (if-food-ahead
+             left right) (progn3 (progn3 move move left)
+             right (if-food-ahead move right))) right))
+             move) (if-food-ahead (if-food-ahead left
+             right) right)) (if-food-ahead (progn2 (if-food-ahead
+         (progn2 (progn2 move right) right) (if-food-ahead
+         right right)) (if-food-ahead left right))
+         left)))) left) (progn3 (progn3 move move
+     left) (if-food-ahead left right) (if-food-ahead
+     move (progn2 (if-food-ahead left right) (progn2
+     move right))))) (if-food-ahead move left))
+     left)))
+
+
+Best Individual's Map
+=====================
+acde............................
+...f....................ij......
+...g....................hklmno..
+...h....................g....p..
+...i....................f....q..
+...jklmnopqrs.......abcde....r..
+............t.......z......uts..
+............u.......y........+..
+............v.......x........+..
+............w.......w........#..
+............x.......v........+..
+............y.......u........+..
+............z.......t........#..
+............a....nops........+..
+............b....m.qr..+++###+..
+............c...+l+++..#........
+............d...jk.....+........
+............e...i......+........
+............f...h......+#+++....
+............g...g..........#....
+............h...f..........+....
+............i...e..........+....
+............j...d......+++#+....
+............k...c......#........
+.yxwvutsrqpol...b...............
+.z.........nm...a...............
+.a.....op.......z...............
+.b.....nqrstuvwxy...............
+.c.....m........................
+.d.....l........................
+.efghijk........................
+................................
+-->
+<Population>
+	<EcjAntTrailSystem>
+		<Structure>
+			<Trail/>
+			<Ant>
+				<Food/>
+			</Ant>
+			<Grid>
+				<Row multiplicity="32">
+					<GridCell multiplicity="32"/>
+				</Row>
+			</Grid>
+		</Structure>
+		<GeneticProgram>
+			<PfWrapper>
+				<PfIfFoodAhead>
+					<PfProgn3>
+						<PfMove/>
+						<PfIfFoodAhead>
+							<PfIfFoodAhead>
+								<PfMove/>
+								<PfRight/>
+							</PfIfFoodAhead>
+							<PfProgn2>
+								<PfIfFoodAhead>
+									<PfIfFoodAhead>
+										<PfProgn2>
+											<PfMove/>
+											<PfRight/>
+										</PfProgn2>
+										<PfLeft/>
+									</PfIfFoodAhead>
+									<PfProgn3>
+										<PfProgn3>
+											<PfMove/>
+											<PfMove/>
+											<PfLeft/>
+										</PfProgn3>
+										<PfIfFoodAhead>
+											<PfLeft/>
+											<PfRight/>
+										</PfIfFoodAhead>
+										<PfIfFoodAhead>
+											<PfMove/>
+											<PfProgn2>
+												<PfIfFoodAhead>
+													<PfLeft/>
+													<PfRight/>
+												</PfIfFoodAhead>
+												<PfProgn3>
+													<PfProgn3>
+														<PfMove/>
+														<PfMove/>
+														<PfLeft/>
+													</PfProgn3>
+													<PfRight/>
+													<PfProgn2>
+														<PfRight/>
+														<PfMove/>
+													</PfProgn2>
+												</PfProgn3>
+											</PfProgn2>
+										</PfIfFoodAhead>
+									</PfProgn3>
+								</PfIfFoodAhead>
+								<PfIfFoodAhead>
+									<PfMove/>
+									<PfLeft/>
+								</PfIfFoodAhead>
+							</PfProgn2>
+						</PfIfFoodAhead>
+						<PfLeft/>
+					</PfProgn3>
+					<PfIfFoodAhead>
+						<PfIfFoodAhead>
+							<PfIfFoodAhead>
+								<PfIfFoodAhead>
+									<PfMove/>
+									<PfProgn2>
+										<PfIfFoodAhead>
+											<PfLeft/>
+											<PfRight/>
+										</PfIfFoodAhead>
+										<PfProgn3>
+											<PfIfFoodAhead>
+												<PfLeft/>
+												<PfLeft/>
+											</PfIfFoodAhead>
+											<PfRight/>
+											<PfIfFoodAhead>
+												<PfMove/>
+												<PfRight/>
+											</PfIfFoodAhead>
+										</PfProgn3>
+									</PfProgn2>
+								</PfIfFoodAhead>
+								<PfIfFoodAhead>
+									<PfProgn2>
+										<PfIfFoodAhead>
+											<PfMove/>
+											<PfLeft/>
+										</PfIfFoodAhead>
+										<PfIfFoodAhead>
+											<PfLeft/>
+											<PfRight/>
+										</PfIfFoodAhead>
+									</PfProgn2>
+									<PfLeft/>
+								</PfIfFoodAhead>
+							</PfIfFoodAhead>
+							<PfIfFoodAhead>
+								<PfProgn2>
+									<PfIfFoodAhead>
+										<PfMove/>
+										<PfMove/>
+									</PfIfFoodAhead>
+									<PfRight/>
+								</PfProgn2>
+								<PfProgn3>
+									<PfProgn3>
+										<PfProgn3>
+											<PfProgn2>
+												<PfRight/>
+												<PfMove/>
+											</PfProgn2>
+											<PfProgn3>
+												<PfMove/>
+												<PfRight/>
+												<PfRight/>
+											</PfProgn3>
+											<PfIfFoodAhead>
+												<PfLeft/>
+												<PfLeft/>
+											</PfIfFoodAhead>
+										</PfProgn3>
+										<PfMove/>
+										<PfLeft/>
+									</PfProgn3>
+									<PfIfFoodAhead>
+										<PfLeft/>
+										<PfRight/>
+									</PfIfFoodAhead>
+									<PfIfFoodAhead>
+										<PfRight/>
+										<PfMove/>
+									</PfIfFoodAhead>
+								</PfProgn3>
+							</PfIfFoodAhead>
+						</PfIfFoodAhead>
+						<PfProgn3>
+							<PfRight/>
+							<PfProgn2>
+								<PfIfFoodAhead>
+									<PfIfFoodAhead>
+										<PfIfFoodAhead>
+											<PfProgn2>
+												<PfIfFoodAhead>
+													<PfMove/>
+													<PfMove/>
+												</PfIfFoodAhead>
+												<PfRight/>
+											</PfProgn2>
+											<PfProgn3>
+												<PfProgn3>
+													<PfMove/>
+													<PfMove/>
+													<PfLeft/>
+												</PfProgn3>
+												<PfIfFoodAhead>
+													<PfLeft/>
+													<PfRight/>
+												</PfIfFoodAhead>
+												<PfIfFoodAhead>
+													<PfProgn2>
+														<PfIfFoodAhead>
+															<PfIfFoodAhead>
+																<PfIfFoodAhead>
+																	<PfMove/>
+																	<PfLeft/>
+																</PfIfFoodAhead>
+																<PfIfFoodAhead>
+																	<PfProgn2>
+																		<PfIfFoodAhead>
+																			<PfLeft/>
+																			<PfRight/>
+																		</PfIfFoodAhead>
+																		<PfProgn3>
+																			<PfProgn3>
+																				<PfMove/>
+																				<PfMove/>
+																				<PfLeft/>
+																			</PfProgn3>
+																			<PfRight/>
+																			<PfIfFoodAhead>
+																				<PfMove/>
+																				<PfRight/>
+																			</PfIfFoodAhead>
+																		</PfProgn3>
+																	</PfProgn2>
+																	<PfRight/>
+																</PfIfFoodAhead>
+															</PfIfFoodAhead>
+															<PfMove/>
+														</PfIfFoodAhead>
+														<PfIfFoodAhead>
+															<PfIfFoodAhead>
+																<PfLeft/>
+																<PfRight/>
+															</PfIfFoodAhead>
+															<PfRight/>
+														</PfIfFoodAhead>
+													</PfProgn2>
+													<PfIfFoodAhead>
+														<PfProgn2>
+															<PfIfFoodAhead>
+																<PfProgn2>
+																	<PfProgn2>
+																		<PfMove/>
+																		<PfRight/>
+																	</PfProgn2>
+																	<PfRight/>
+																</PfProgn2>
+																<PfIfFoodAhead>
+																	<PfRight/>
+																	<PfRight/>
+																</PfIfFoodAhead>
+															</PfIfFoodAhead>
+															<PfIfFoodAhead>
+																<PfLeft/>
+																<PfRight/>
+															</PfIfFoodAhead>
+														</PfProgn2>
+														<PfLeft/>
+													</PfIfFoodAhead>
+												</PfIfFoodAhead>
+											</PfProgn3>
+										</PfIfFoodAhead>
+										<PfLeft/>
+									</PfIfFoodAhead>
+									<PfProgn3>
+										<PfProgn3>
+											<PfMove/>
+											<PfMove/>
+											<PfLeft/>
+										</PfProgn3>
+										<PfIfFoodAhead>
+											<PfLeft/>
+											<PfRight/>
+										</PfIfFoodAhead>
+										<PfIfFoodAhead>
+											<PfMove/>
+											<PfProgn2>
+												<PfIfFoodAhead>
+													<PfLeft/>
+													<PfRight/>
+												</PfIfFoodAhead>
+												<PfProgn2>
+													<PfMove/>
+													<PfRight/>
+												</PfProgn2>
+											</PfProgn2>
+										</PfIfFoodAhead>
+									</PfProgn3>
+								</PfIfFoodAhead>
+								<PfIfFoodAhead>
+									<PfMove/>
+									<PfLeft/>
+								</PfIfFoodAhead>
+							</PfProgn2>
+							<PfLeft/>
+						</PfProgn3>
+					</PfIfFoodAhead>
+				</PfIfFoodAhead>
+			</PfWrapper>
+		</GeneticProgram>
+	</EcjAntTrailSystem>
+</Population>

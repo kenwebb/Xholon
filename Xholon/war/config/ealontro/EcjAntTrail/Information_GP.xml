@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../../../Xholon/information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../../Xholon/information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>ECJ Ant Trail - Xholon App (GP)</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This model is a Xholon version of the Ant Trail application included with ECJ,
+an open-source evolutionary computation system written in Java.
+You will need to download ECJ separately from Xholon.
+This version of the model generates an optimal solution using genetic programming (GP).
+The discussion that follows assumes you are generally familiar with GP.
+If not, see the references later in this document.</p>
+<p>This application demonstrates how to combine Xholon with ECJ.</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+<title/>
+<p>Run it:</p>
+<ol>
+<li>Run the Java application through the XhnEalontro GUI (org.primordion.xholon.app.Xhn.java),
+and select File --> Open --> ealontro --> EcjAntTrail --> EcjAntTrail_1_xhn.xml.</li>
+<li>Expand the Controller node in the tree.</li>
+<li>Press the Start node.</li>
+<li>You should see the following text, or something similar, displayed in the console window.</li>
+<li>If you have JFreeChart installed, and if you have selected "JFreeChart" as the value of the UseDataPlotter
+parameter in Tutorial4_1_xhn.xml, you should also see a chart showing the increase in fitness
+from one generation to the next (0.0 is the ideal fitness).
+If you don't have JFreeChart installed, then change the value of UseDataPlotter to "gnuplot",
+and look at the results that are saved to a .csv file in the statistics folder.
+If you have gnuplot installed, it can read the .plt script in the statistics folder
+to produce a displayable .png file from the .csv file, that should look similar to the one below.</li>
+</ol>
+</section>
+<section><title/>
+<source>
+Opening model: C:\Primordion\workspace\Ealontro\config\ealontro\EcjAntTrail\EcjAntTrail_1_xhn.xml
+AppM : false
+InfoM : false
+ErrorM : true
+MaxProcessLoops : 400
+TimeStepInterval : 10
+InheritanceHierarchyFile : ./config/ealontro/EcjAntTrail/InheritanceHierarchy.xml
+CompositeStructureHierarchyFile : ./config/ealontro/EcjAntTrail/EcjCompositeStructureHierarchy.xml
+ClassDetailsFile : ./config/ealontro/EcjAntTrail/EcjClassDetails.xml
+JavaClassName : org.primordion.ealontro.app.AppEcjAntTrail
+UseDataPlotter : true
+SaveSnapshots : false
+EcjArgs : -file bin/ec/app/ant/ant.params
+C:\Primordion\workspace\Ealontro\config\ealontro\EcjAntTrail\EcjAntTrail_1_xhn.xml
+
+| ECJ
+| An evolutionary computation system (version 15)
+| By Sean Luke
+| Contributors: L. Panait, G. Balan, S. Paus, Z. Skolicki,
+|               J. Bassett, R. Hubley, and A. Chircop
+| URL: http://cs.gmu.edu/~eclab/projects/ecj/
+| Mail: ecj-help@cs.gmu.edu
+|       (better: join ECJ-INTEREST at URL above)
+| Date: April 4, 2006
+| Current Java: 1.4.2_10 / Java HotSpot(TM) Client VM-1.4.2_10-b03
+| Required Minimum Java: 1.3
+
+
+Threads:  breed/1 eval/1
+Seed: 1056442937 
+Job: 0
+Setting up
+Processing GP Types
+Processing GP Node Constraints
+Processing GP Function Sets
+Processing GP Tree Constraints
+Initializing Generation 0
+Population: 1024
+Generation 1
+Generation 2
+Generation 3
+...
+Generation 48
+Generation 49
+Generation 50
+</source>
+</section>
+<section><title/>
+<figure src="AntTrail_GP_JFreeChart_1.png" alt="ECJ Ant Trail with GP"></figure>
+</section>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p>The ECJ file out.stat contains the best solution found each generation, and the best individual found
+in the entire run. The Xholon file EcjCompositeStructureHierarchy_Best.xml contains the best solution,
+in Xholon format. It can be copied into another CompositeStructureHierarchy.xml file to be run
+as a hard-coded optimal solution, as is done in the config files for AntTrail_1_xhn.xml.
+See CompositeStructureHierarchy_1.xml, CompositeStructureHierarchy_2.xml, etc.
+The ECJ file organizes nodes in textual lists, while Xholon formats the same information using XML trees.</p>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon and Ealontro features</title>
+<p>Generating an optimal solution to a problem using genetic programming (GP).</p>
+<p>Displaying results in a chart.</p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>This application was described in: Koza, J. (1992). Genetic Programming. p.147-162</p>
+<p>To learn more about genetic programming (GP), start with the wikipedia page.</p>
+<p><a href="http://en.wikipedia.org/wiki/Genetic_programming">GP</a></p>
+<p>Visit the ECJ website to find out more about this tool.</p>
+<p><a href="http://cs.gmu.edu/~eclab/projects/ecj/">ECJ</a></p>
+</section>
+
+</body>
+</document>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- EcjTutorial4 configuration file
+	 Ken Webb
+	 May 27, 2006 -->
+<params>
+	<!-- Standard xholon parameters -->
+	<param name="ShowParams" value="false"/>
+	<param name="AppM" value="false"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="500"/> <!-- my default: 500 -->
+	<param name="TimeStepInterval" value="10"/>
+	<param name="InheritanceHierarchyFile" value="./config/ealontro/EcjTutorial4/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="./config/ealontro/EcjTutorial4/EcjCompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="./config/ealontro/EcjTutorial4/EcjClassDetails.xml"/>
+	<param name="InformationFile" value="./config/ealontro/EcjTutorial4/Information_GP.xml"/>
+	<param name="JavaClassName" value="org.primordion.ealontro.app.AppEcjTutorial4"/>
+	<param name="JavaXhClassName" value="org.primordion.ealontro.app.XhEcjTutorial4"/>
+	<!--<param name="JavaActivityClassName" value="org.primordion.xholon.base.Activity"/>-->
+	<param name="MaxPorts" value="0"/>
+	<param name="UseDataPlotter" value="JFreeChart"/> <!-- JFreeChart gnuplot none -->
+	<param name="DataPlotterParams"
+		value="ECJ Tutorial 4,Generation,Standardized Fitness (Raw Fitness),./statistics/,t4Stats,1,WRITE_AS_DOUBLE"/>
+	<param name="SaveSnapshots" value="false"/>
+	<!-- ECJ GP parameters -->
+	<param name="EcjArgs" value="-file ./config/ealontro/EcjTutorial4/tutorial4.params"/>
+</params>

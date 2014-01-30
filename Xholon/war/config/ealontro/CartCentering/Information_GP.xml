@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../../../Xholon/information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../../Xholon/information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>Cart Centering - Xholon App (GP)</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This model uses genetic programming (GP) to evolve a solution to the cart centering problem.
+The discussion that follows assumes you are generally familiar with GP.
+If not, see the references later in this document.</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+<title/>
+<p>Run it:</p>
+<ol>
+<li>Run the Java application through the XhnEalontro GUI (org.primordion.xholon.app.Xhn.java),
+and select File --> Open --> ealontro --> CartCentering --> EcjCartCentering_xhn.xml.</li>
+<li>Expand the Controller node in the tree.</li>
+<li>Press the Start node.</li>
+<li>You should see ...</li>
+</ol>
+</section>
+<section><title/>
+<source>
+
+</source>
+</section>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p></p>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p></p>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p></p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon and Ealontro features</title>
+<p></p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>This application was described in: Koza, J. (1992). Genetic Programming. p.122-147</p>
+<p>To learn more about genetic programming (GP), start with the wikipedia page.</p>
+<p><a href="http://en.wikipedia.org/wiki/Genetic_programming">GP</a></p>
+<p>Visit the ECJ website to find out more about this tool.</p>
+<p><a href="http://cs.gmu.edu/~eclab/projects/ecj/">ECJ</a></p>
+</section>
+
+</body>
+</document>

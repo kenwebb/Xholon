@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Risk application - Class Details
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<xholonClassDetails>
+	
+	<GameModel implName="org.primordion.user.app.Risk.GameModel">
+		<port name="players" connector="#xpointer(ancestor::GameOfRisk/Players)"/>
+		<port name="dice" connector="#xpointer(ancestor::GameOfRisk/Dice)"/>
+		<port name="cards" connector="#xpointer(ancestor::GameOfRisk/Cards)"/>
+		<port name="quantities" connector="#xpointer(ancestor::GameOfRisk/Quantities)"/>
+		<port name="quantityAll" connector="#xpointer(ancestor::GameOfRisk/Quantities/All)"/>
+		<port name="world" connector="#xpointer(ancestor::GameOfRisk/World)"/>
+	</GameModel>
+	<GameView implName="org.primordion.user.app.Risk.GameView">
+		<port name="model" connector="#xpointer(ancestor::GameEngine/GameModel)"/>
+	</GameView>
+	<GameController implName="org.primordion.user.app.Risk.GameController">
+		<port name="model" connector="#xpointer(ancestor::GameEngine/GameModel)"/>
+		<port name="view" connector="#xpointer(ancestor::GameEngine/GameView)"/>
+	</GameController>
+	
+	<HumanPlayer implName="org.primordion.user.app.Risk.HumanPlayer">
+		<port name="controller" connector="#xpointer(ancestor::GameOfRisk/GameEngine/GameController)"/>
+	</HumanPlayer>
+	
+	<ComputerPlayer implName="org.primordion.user.app.Risk.ComputerPlayer">
+		<port name="controller" connector="#xpointer(ancestor::GameOfRisk/GameEngine/GameController)"/>
+	</ComputerPlayer>
+	
+	<Players implName="org.primordion.user.app.Risk.Players">
+		<port name="world" connector="#xpointer(ancestor::GameOfRisk/World)"/>
+	</Players>
+	
+	<Die implName="org.primordion.user.app.Risk.Die"/>
+	<Dice implName="org.primordion.user.app.Risk.Dice"/>
+	
+	<Card implName="org.primordion.user.app.Risk.Card"/>
+	<Cards implName="org.primordion.user.app.Risk.Cards"/>
+	<OwnedCards implName="org.primordion.user.app.Risk.Cards"/>
+	
+	<Quantity implName="org.primordion.user.app.Risk.Quantity"/>
+	
+	<!-- NorthAmerica -->
+	<Alaska>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/NorthwestTerritory)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/Alberta)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::World/Asia/Kamchatka)"/>
+	</Alaska>
+	<Alberta>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/Alaska)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/NorthwestTerritory)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/Ontario)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::Continent/WesternUnitedStates)"/>
+	</Alberta>
+	<CentralAmerica>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/WesternUnitedStates)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/EasternUnitedStates)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::World/SouthAmerica/Venezuela)"/>
+	</CentralAmerica>
+	<EasternUnitedStates>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/Quebec)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/Ontario)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/WesternUnitedStates)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::Continent/CentralAmerica)"/>
+	</EasternUnitedStates>
+	<Greenland>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/NorthwestTerritory)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/Ontario)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/Quebec)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::World/Europe/Iceland)"/>
+	</Greenland>
+	<NorthwestTerritory>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/Alaska)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/Alberta)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/Ontario)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::Continent/Greenland)"/>
+	</NorthwestTerritory>
+	<Ontario>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/NorthwestTerritory)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/Alberta)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/WesternUnitedStates)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::Continent/EasternUnitedStates)"/>
+		<port name="port" index="4" connector="#xpointer(ancestor::Continent/Quebec)"/>
+		<port name="port" index="5" connector="#xpointer(ancestor::Continent/Greenland)"/>
+	</Ontario>
+	<Quebec>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/Greenland)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/Ontario)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/EasternUnitedStates)"/>
+	</Quebec>
+	<WesternUnitedStates>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/CentralAmerica)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/EasternUnitedStates)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/Ontario)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::Continent/Alberta)"/>
+	</WesternUnitedStates>
+	
+	<!-- SouthAmerica -->
+	<Argentina>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/Brazil)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/Peru)"/>
+	</Argentina>
+	<Brazil>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/Venezuela)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/Peru)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/Argentina)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::World/Africa/NorthAfrica)"/>
+	</Brazil>
+	<Peru>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/Argentina)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/Brazil)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/Venezuela)"/>
+	</Peru>
+	<Venezuela>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/Peru)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/Brazil)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::World/NorthAmerica/CentralAmerica)"/>
+	</Venezuela>
+	
+	<!-- Europe -->
+	<GreatBritain>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/WesternEurope)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/NorthernEurope)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/Scandinavia)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::Continent/Iceland)"/>
+	</GreatBritain>
+	<Iceland>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/GreatBritain)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/Scandinavia)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::World/NorthAmerica/Greenland)"/>
+	</Iceland>
+	<NorthernEurope>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/Scandinavia)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/GreatBritain)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/WesternEurope)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::Continent/SouthernEurope)"/>
+		<port name="port" index="4" connector="#xpointer(ancestor::Continent/Ukraine)"/>
+	</NorthernEurope>
+	<Scandinavia>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/Iceland)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/GreatBritain)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/NorthernEurope)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::Continent/Ukraine)"/>
+	</Scandinavia>
+	<SouthernEurope>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/Ukraine)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/NorthernEurope)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/WesternEurope)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::World/Africa/NorthAfrica)"/>
+		<port name="port" index="4" connector="#xpointer(ancestor::World/Africa/Egypt)"/>
+		<port name="port" index="5" connector="#xpointer(ancestor::World/Asia/MiddleEast)"/>
+	</SouthernEurope>
+	<Ukraine>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/Scandinavia)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/NorthernEurope)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/SouthernEurope)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::World/Asia/MiddleEast)"/>
+		<port name="port" index="4" connector="#xpointer(ancestor::World/Asia/Afghanistan)"/>
+		<port name="port" index="5" connector="#xpointer(ancestor::World/Asia/Ural)"/>
+	</Ukraine>
+	<WesternEurope>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/SouthernEurope)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/NorthernEurope)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/GreatBritain)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::World/Africa/NorthAfrica)"/>
+	</WesternEurope>
+	
+	<!-- Africa -->
+	<Congo>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/SouthAfrica)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/EastAfrica)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/NorthAfrica)"/>
+	</Congo>
+	<EastAfrica>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/Egypt)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/NorthAfrica)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/Congo)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::Continent/SouthAfrica)"/>
+		<port name="port" index="4" connector="#xpointer(ancestor::Continent/Madagascar)"/>
+		<port name="port" index="5" connector="#xpointer(ancestor::World/Asia/MiddleEast)"/>
+	</EastAfrica>
+	<Egypt>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/NorthAfrica)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/EastAfrica)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::World/Asia/MiddleEast)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::Europe/SouthernEurope)"/>
+	</Egypt>
+	<Madagascar>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/EastAfrica)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/SouthAfrica)"/>
+	</Madagascar>
+	<NorthAfrica>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/Congo)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/EastAfrica)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/Egypt)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::World/Europe/SouthernEurope)"/>
+		<port name="port" index="4" connector="#xpointer(ancestor::World/Europe/WesternEurope)"/>
+		<port name="port" index="5" connector="#xpointer(ancestor::World/SouthAmerica/Brazil)"/>
+	</NorthAfrica>
+	<SouthAfrica>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/Madagascar)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/EastAfrica)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/Congo)"/>
+	</SouthAfrica>
+	
+	<!-- Asia -->
+	<Afghanistan>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/MiddleEast)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/India)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/China)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::Continent/Ural)"/>
+		<port name="port" index="4" connector="#xpointer(ancestor::World/Europe/Ukraine)"/>
+	</Afghanistan>
+	<China>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/Mongolia)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/Siberia)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/Ural)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::Continent/Afghanistan)"/>
+		<port name="port" index="4" connector="#xpointer(ancestor::Continent/India)"/>
+		<port name="port" index="5" connector="#xpointer(ancestor::Continent/Siam)"/>
+	</China>
+	<India>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/Siam)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/China)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/Afghanistan)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::Continent/MiddleEast)"/>
+	</India>
+	<Irkutsk>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/Kamchatka)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/Yakutsk)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/Siberia)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::Continent/Mongolia)"/>
+	</Irkutsk>
+	<Japan>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/Kamchatka)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/Mongolia)"/>
+	</Japan>
+	<Kamchatka>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/Yakutsk)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/Irkutsk)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/Mongolia)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::Continent/Japan)"/>
+		<port name="port" index="4" connector="#xpointer(ancestor::World/NorthAmerica/Alaska)"/>
+	</Kamchatka>
+	<MiddleEast>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/India)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/Afghanistan)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::World/Europe/Ukraine)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::World/Europe/SouthernEurope)"/>
+		<port name="port" index="4" connector="#xpointer(ancestor::World/Africa/Egypt)"/>
+		<port name="port" index="5" connector="#xpointer(ancestor::World/Africa/EastAfrica)"/>
+	</MiddleEast>
+	<Mongolia>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/Japan)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/Kamchatka)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/Irkutsk)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::Continent/Siberia)"/>
+		<port name="port" index="4" connector="#xpointer(ancestor::Continent/China)"/>
+	</Mongolia>
+	<Siam>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/China)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/India)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::World/Australia/Indonesia)"/>
+	</Siam>
+	<Siberia>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/Mongolia)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/Irkutsk)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/Yakutsk)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::Continent/Ural)"/>
+		<port name="port" index="4" connector="#xpointer(ancestor::Continent/China)"/>
+	</Siberia>
+	<Ural>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/Afghanistan)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/China)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/Siberia)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::World/Europe/Ukraine)"/>
+	</Ural>
+	<Yakutsk>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/Siberia)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/Irkutsk)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/Kamchatka)"/>
+	</Yakutsk>
+	
+	<!-- Australia-->
+	<EasternAustralia>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/NewGuinea)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/WesternAustralia)"/>
+	</EasternAustralia>
+	<Indonesia>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/WesternAustralia)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/NewGuinea)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::World/Asia/Siam)"/>
+	</Indonesia>
+	<NewGuinea>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/Indonesia)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/WesternAustralia)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/EasternAustralia)"/>
+	</NewGuinea>
+	<WesternAustralia>
+		<port name="port" index="0" connector="#xpointer(ancestor::Continent/EasternAustralia)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Continent/NewGuinea)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Continent/Indonesia)"/>
+	</WesternAustralia>
+	
+	<Continent implName="org.primordion.user.app.Risk.Continent"/>
+	<Territory xhType="XhtypePureActiveObject" implName="org.primordion.user.app.Risk.Territory"/>
+	
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

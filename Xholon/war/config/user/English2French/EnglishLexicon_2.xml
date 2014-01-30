@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- English WORD_LIST
+The list must be in alphabetical order by Lemma.
+French special characters: àâ éèê î ô ùû ç ÀÂ ÉÈÊ Î Ô ÙÛ Ç
+
+Supplementary lexicon
+source: French Bilingual Dictionary
+-->
+<Lexicon>
+	<!-- ################################ French Bilingual Dictionary ###################################### -->
+	<Lexeme><Lemma>absent</Lemma><PosA/><TransformRef>absent</TransformRef></Lexeme>
+	<Lexeme><Lemma>actor</Lemma><PosN/><TransformRef>acteur</TransformRef></Lexeme>
+	<Lexeme><Lemma>address</Lemma><PosN/><MorphPlural_Sibilant/><TransformRef>adresse</TransformRef></Lexeme>
+	<Lexeme><Lemma>apricot</Lemma><PosN/><TransformRef>abricot</TransformRef></Lexeme>
+	<Lexeme><Lemma>ask</Lemma><PosV/><TransformRef>demander</TransformRef></Lexeme>
+	<Lexeme><Lemma>ask for</Lemma><PosV/><TransformRef>demander</TransformRef></Lexeme>
+	<Lexeme><Lemma>asks</Lemma><PosV/><TransformRef>demander</TransformRef></Lexeme>
+	<Lexeme><Lemma>asks for</Lemma><PosV/><TransformRef>demander</TransformRef></Lexeme>
+	<Lexeme><Lemma>ball</Lemma><PosN/><TransformRef>balle</TransformRef></Lexeme>
+	<Lexeme><Lemma>bee</Lemma><PosN/><TransformRef>abeille</TransformRef></Lexeme>
+	<Lexeme><Lemma>check</Lemma><PosN/><TransformRef>addition</TransformRef></Lexeme>
+	<Lexeme><Lemma>dad</Lemma><PosN/><TransformRef>papa</TransformRef></Lexeme>
+	<Lexeme><Lemma>dinner</Lemma><PosN/><TransformRef>dîner</TransformRef></Lexeme>
+	<Lexeme><Lemma>directs</Lemma><PosV/><TransformRef>diriger</TransformRef></Lexeme>
+	<Lexeme><Lemma>flower</Lemma><PosN/><TransformRef>fleur</TransformRef></Lexeme>
+	<Lexeme><Lemma>handsome</Lemma><PosA/><TransformRef>beau</TransformRef></Lexeme>
+	<Lexeme><Lemma>play</Lemma><PosV/><TransformRef>jouer</TransformRef></Lexeme>
+	<Lexeme><Lemma>policeman</Lemma><PosN/><MorphPlural_Irregular/><TransformRef>agent de police</TransformRef></Lexeme>
+	<Lexeme><Lemma>season</Lemma><PosN/><TransformRef>saison</TransformRef></Lexeme>
+	<Lexeme><Lemma>spring</Lemma><PosN/><MorphPlural_NoChange/><TransformRef>printemps</TransformRef></Lexeme>
+</Lexicon>

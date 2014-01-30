@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Population>
+	<EcjAntTrailSystem multiplicity="1024"> <!-- 1024 -->
+		<Structure>
+			<Trail/>
+			<Ant>
+				<Food/>
+			</Ant>
+			<Grid>
+				<Row multiplicity="1">
+					<GridCell multiplicity="1"/>
+				</Row>
+			</Grid>
+		</Structure>
+		<GeneticProgram> <!-- Control Strategy, ECJ GPIndividual -->
+		</GeneticProgram>
+	</EcjAntTrailSystem>
+</Population>

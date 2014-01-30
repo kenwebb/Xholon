@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Best of run for AntForagingSystem
+raw fitness: 0.0 adjusted fitness: 1.0 hits: 144
+size of best tree: 98 starting at PfWrapper
+Tue Jun 20 16:02:57 EDT 2006 (1150833777171)
+	
+Final Statistics
+================
+Total Individuals Evaluated: 26624
+
+Best Individual of Run:
+Evaluated: true
+Fitness: Raw=0.0 Adjusted=1.0 Hits=144
+Tree 0:
+ (PfPickUp (PfIfCarryingFood (PfDropPheromone
+     PfMoveToNest) PfMoveToNest) (PfPickUp (PfPickUp
+     (PfMoveToAdjacentPheromoneElse (PfMoveToAdjacentFoodElse
+         (PfIfCarryingFood PfMoveToNest PfMoveToNest)
+         (PfPickUp PfMoveRandom (PfIfFoodHere PfMoveToNest
+             (PfIfCarryingFood PfMoveToNest PfMoveToNest))))
+         (PfIfFoodHere PfMoveToNest PfMoveToNest))
+     (PfPickUp (PfPickUp (PfIfCarryingFood (PfDropPheromone
+         PfMoveToNest) PfMoveToNest) (PfPickUp (PfPickUp
+         (PfPickUp (PfMoveToAdjacentPheromoneElse
+             (PfMoveToAdjacentFoodElse (PfIfCarryingFood
+                 PfMoveToNest PfMoveToNest) (PfMoveToAdjacentFoodElse
+                 PfMoveToNest PfMoveRandom)) (PfDropPheromone
+             PfMoveToNest)) (PfPickUp (PfPickUp (PfPickUp
+             (PfMoveToAdjacentFoodElse (PfPickUp PfMoveToNest
+                 PfMoveRandom) (PfIfCarryingFood PfMoveToNest
+                 PfMoveRandom)) PfMoveRandom) (PfMoveToAdjacentFoodElse
+             (PfPickUp PfMoveToNest PfMoveRandom) (PfIfCarryingFood
+             PfMoveToNest PfMoveRandom))) PfMoveRandom))
+         PfMoveRandom) PfMoveRandom)) (PfPickUp (PfPickUp
+         (PfMoveToAdjacentPheromoneElse (PfMoveToAdjacentFoodElse
+             (PfIfCarryingFood PfMoveToNest PfMoveToNest)
+             (PfMoveToAdjacentFoodElse PfMoveToNest PfMoveRandom))
+             (PfIfFoodHere PfMoveToNest PfMoveToNest))
+         (PfPickUp PfMoveRandom (PfIfCarryingFood
+             PfMoveToNest (PfPickUp (PfMoveToAdjacentPheromoneElse
+             (PfMoveToAdjacentPheromoneElse (PfMoveToAdjacentFoodElse
+                 (PfIfFoodHere PfMoveToNest PfMoveToNest)
+                 (PfMoveToAdjacentFoodElse PfMoveToNest PfMoveRandom))
+                 (PfIfCarryingFood PfMoveToNest PfMoveToNest))
+             (PfDropPheromone PfMoveRandom)) PfMoveRandom))))
+         PfMoveRandom))) PfMoveRandom))
+-->
+<Population>
+	<AntForagingSystem>
+		<Structure>
+			<Row multiplicity="2">
+				<GridCell multiplicity="32"/>
+			</Row>
+			<Row>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell><attribute name="food" value="8"/></GridCell>
+				<GridCell><attribute name="food" value="8"/></GridCell>
+				<GridCell><attribute name="food" value="8"/></GridCell>
+				<GridCell multiplicity="21"/>
+			</Row>
+			<Row>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell><attribute name="food" value="8"/></GridCell>
+				<GridCell><attribute name="food" value="8"/></GridCell>
+				<GridCell><attribute name="food" value="8"/></GridCell>
+				<GridCell multiplicity="21"/>
+			</Row>
+			<Row>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell><attribute name="food" value="8"/></GridCell>
+				<GridCell><attribute name="food" value="8"/></GridCell>
+				<GridCell><attribute name="food" value="8"/></GridCell>
+				<GridCell multiplicity="21"/>
+			</Row>
+			<Row multiplicity="6">
+				<GridCell multiplicity="32"/>
+			</Row>
+			<Row>
+				<GridCell/>
+				<GridCell><attribute name="food" value="8"/></GridCell>
+				<GridCell><attribute name="food" value="8"/></GridCell>
+				<GridCell><attribute name="food" value="8"/></GridCell>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell multiplicity="21"/>
+			</Row>
+			<Row>
+				<GridCell/>
+				<GridCell><attribute name="food" value="8"/></GridCell>
+				<GridCell><attribute name="food" value="8"/></GridCell>
+				<GridCell><attribute name="food" value="8"/></GridCell>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell multiplicity="21"/>
+			</Row>
+			<Row>
+				<GridCell/>
+				<GridCell><attribute name="food" value="8"/></GridCell>
+				<GridCell><attribute name="food" value="8"/></GridCell>
+				<GridCell><attribute name="food" value="8"/></GridCell>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell multiplicity="21"/>
+			</Row>
+			<Row>
+				<GridCell multiplicity="32"/>
+			</Row>
+			<Row>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell><attribute name="hasNest" value="true."/></GridCell>
+				<GridCell><attribute name="hasNest" value="true."/></GridCell>
+				<GridCell><attribute name="hasNest" value="true."/></GridCell>
+				<GridCell multiplicity="14"/>
+			</Row>
+			<Row>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell><attribute name="hasNest" value="true."/></GridCell>
+				<GridCell><attribute name="hasNest" value="true."/>
+					<Nest>
+						<Food/>
+					</Nest>
+					<Ant multiplicity="20"/>
+				</GridCell>
+				<GridCell><attribute name="hasNest" value="true."/></GridCell>
+				<GridCell multiplicity="14"/>
+			</Row>
+			<Row>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell/>
+				<GridCell><attribute name="hasNest" value="true."/></GridCell>
+				<GridCell><attribute name="hasNest" value="true."/></GridCell>
+				<GridCell><attribute name="hasNest" value="true."/></GridCell>
+				<GridCell multiplicity="14"/>
+			</Row>
+			<Row multiplicity="14">
+				<GridCell multiplicity="32"/>
+			</Row>
+		</Structure>
+		<GeneticProgram>
+			<PfWrapper>
+				<PfPickUp>
+					<PfIfCarryingFood>
+						<PfDropPheromone>
+							<PfMoveToNest/>
+						</PfDropPheromone>
+						<PfMoveToNest/>
+					</PfIfCarryingFood>
+					<PfPickUp>
+						<PfPickUp>
+							<PfMoveToAdjacentPheromoneElse>
+								<PfMoveToAdjacentFoodElse>
+									<PfIfCarryingFood>
+										<PfMoveToNest/>
+										<PfMoveToNest/>
+									</PfIfCarryingFood>
+									<PfPickUp>
+										<PfMoveRandom/>
+										<PfIfFoodHere>
+											<PfMoveToNest/>
+											<PfIfCarryingFood>
+												<PfMoveToNest/>
+												<PfMoveToNest/>
+											</PfIfCarryingFood>
+										</PfIfFoodHere>
+									</PfPickUp>
+								</PfMoveToAdjacentFoodElse>
+								<PfIfFoodHere>
+									<PfMoveToNest/>
+									<PfMoveToNest/>
+								</PfIfFoodHere>
+							</PfMoveToAdjacentPheromoneElse>
+							<PfPickUp>
+								<PfPickUp>
+									<PfIfCarryingFood>
+										<PfDropPheromone>
+											<PfMoveToNest/>
+										</PfDropPheromone>
+										<PfMoveToNest/>
+									</PfIfCarryingFood>
+									<PfPickUp>
+										<PfPickUp>
+											<PfPickUp>
+												<PfMoveToAdjacentPheromoneElse>
+													<PfMoveToAdjacentFoodElse>
+														<PfIfCarryingFood>
+															<PfMoveToNest/>
+															<PfMoveToNest/>
+														</PfIfCarryingFood>
+														<PfMoveToAdjacentFoodElse>
+															<PfMoveToNest/>
+															<PfMoveRandom/>
+														</PfMoveToAdjacentFoodElse>
+													</PfMoveToAdjacentFoodElse>
+													<PfDropPheromone>
+														<PfMoveToNest/>
+													</PfDropPheromone>
+												</PfMoveToAdjacentPheromoneElse>
+												<PfPickUp>
+													<PfPickUp>
+														<PfPickUp>
+															<PfMoveToAdjacentFoodElse>
+																<PfPickUp>
+																	<PfMoveToNest/>
+																	<PfMoveRandom/>
+																</PfPickUp>
+																<PfIfCarryingFood>
+																	<PfMoveToNest/>
+																	<PfMoveRandom/>
+																</PfIfCarryingFood>
+															</PfMoveToAdjacentFoodElse>
+															<PfMoveRandom/>
+														</PfPickUp>
+														<PfMoveToAdjacentFoodElse>
+															<PfPickUp>
+																<PfMoveToNest/>
+																<PfMoveRandom/>
+															</PfPickUp>
+															<PfIfCarryingFood>
+																<PfMoveToNest/>
+																<PfMoveRandom/>
+															</PfIfCarryingFood>
+														</PfMoveToAdjacentFoodElse>
+													</PfPickUp>
+													<PfMoveRandom/>
+												</PfPickUp>
+											</PfPickUp>
+											<PfMoveRandom/>
+										</PfPickUp>
+										<PfMoveRandom/>
+									</PfPickUp>
+								</PfPickUp>
+								<PfPickUp>
+									<PfPickUp>
+										<PfMoveToAdjacentPheromoneElse>
+											<PfMoveToAdjacentFoodElse>
+												<PfIfCarryingFood>
+													<PfMoveToNest/>
+													<PfMoveToNest/>
+												</PfIfCarryingFood>
+												<PfMoveToAdjacentFoodElse>
+													<PfMoveToNest/>
+													<PfMoveRandom/>
+												</PfMoveToAdjacentFoodElse>
+											</PfMoveToAdjacentFoodElse>
+											<PfIfFoodHere>
+												<PfMoveToNest/>
+												<PfMoveToNest/>
+											</PfIfFoodHere>
+										</PfMoveToAdjacentPheromoneElse>
+										<PfPickUp>
+											<PfMoveRandom/>
+											<PfIfCarryingFood>
+												<PfMoveToNest/>
+												<PfPickUp>
+													<PfMoveToAdjacentPheromoneElse>
+														<PfMoveToAdjacentPheromoneElse>
+															<PfMoveToAdjacentFoodElse>
+																<PfIfFoodHere>
+																	<PfMoveToNest/>
+																	<PfMoveToNest/>
+																</PfIfFoodHere>
+																<PfMoveToAdjacentFoodElse>
+																	<PfMoveToNest/>
+																	<PfMoveRandom/>
+																</PfMoveToAdjacentFoodElse>
+															</PfMoveToAdjacentFoodElse>
+															<PfIfCarryingFood>
+																<PfMoveToNest/>
+																<PfMoveToNest/>
+															</PfIfCarryingFood>
+														</PfMoveToAdjacentPheromoneElse>
+														<PfDropPheromone>
+															<PfMoveRandom/>
+														</PfDropPheromone>
+													</PfMoveToAdjacentPheromoneElse>
+													<PfMoveRandom/>
+												</PfPickUp>
+											</PfIfCarryingFood>
+										</PfPickUp>
+									</PfPickUp>
+									<PfMoveRandom/>
+								</PfPickUp>
+							</PfPickUp>
+						</PfPickUp>
+						<PfMoveRandom/>
+					</PfPickUp>
+				</PfPickUp>
+			</PfWrapper>
+		</GeneticProgram>
+	</AntForagingSystem>
+</Population>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- EcjAntTrail configuration file
+	 Ken Webb
+	 May 31, 2006 -->
+<params>
+	<!-- Standard xholon parameters -->
+	<param name="ShowParams" value="false"/>
+	<param name="AppM" value="false"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="400"/> <!-- Koza, ECJ default: 400 -->
+	<param name="TimeStepInterval" value="10"/>
+	<param name="InheritanceHierarchyFile" value="./config/ealontro/EcjAntTrail/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="./config/ealontro/EcjAntTrail/EcjCompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="./config/ealontro/EcjAntTrail/EcjClassDetails.xml"/>
+	<param name="InformationFile" value="./config/ealontro/EcjAntTrail/Information_GP.xml"/>
+	<param name="JavaClassName" value="org.primordion.ealontro.app.AppEcjAntTrail"/>
+	<param name="JavaXhClassName" value="org.primordion.ealontro.app.XhEcjAntTrail"/>
+	<!--<param name="JavaActivityClassName" value="org.primordion.xholon.base.Activity"/>-->
+	<param name="MaxPorts" value="4"/>
+	<param name="UseDataPlotter" value="JFreeChart"/> <!-- JFreeChart gnuplot none -->
+	<param name="DataPlotterParams"
+		value="Ant - Santa Fe Trail,Generation,Standardized Fitness (Raw Fitness),./statistics/,atStats,1,WRITE_AS_DOUBLE"/>
+	<param name="SaveSnapshots" value="false"/>
+	<!-- ECJ GP parameters -->
+	<param name="EcjArgs" value="-file ./config/ealontro/EcjAntTrail/ant.params"/>	
+</params>

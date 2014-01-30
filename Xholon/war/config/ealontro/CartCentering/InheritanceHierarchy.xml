@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+	<CartCenteringSystem/>
+	<Problem>
+		<CartCentering/>
+	</Problem>
+	<Cart/>
+	<Force/>
+	<XPosition/>
+	<Velocity/>
+	<Acceleration/>
+	<Population/>
+	<Primitive>
+		<NonTerminal>
+			<PfAdd/>
+			<PfSubtract/>
+			<PfMultiply/>
+			<PfDivide/>
+			<PfABS/> <!-- absolute value -->
+			<PfGT/> <!-- greater than -->
+		</NonTerminal>
+		<Terminal>
+			<PfXPosition/> <!-- positive X position of the cart -->
+			<PfVelocity/> <!-- velocity of the cart -->
+			<PfNegOne/> <!-- -1 -->
+		</Terminal>
+		<PfWrapper/>
+	</Primitive>
+	<Structure/>
+	<Behavior>
+		<GeneticProgram/>
+	</Behavior>
+	
+	<!-- Xholon Viewers -->
+	<!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

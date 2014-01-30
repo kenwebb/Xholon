@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+I only ran this for 3 generations, to test an intentionally poor solution.
+
+Best of run for CartCenteringSystem
+raw fitness: 500927.0 adjusted fitness: 1.996295E-6 hits: 4073
+size of best tree: 13 starting at PfWrapper
+Wed Jun 21 18:06:35 EDT 2006 (1150927595109)
+
+Final Statistics
+================
+Total Individuals Evaluated: 3072
+
+Best Individual of Run:
+Evaluated: true
+Fitness: Raw=500927.0 Adjusted=1.996295E-6 Hits=4073
+Tree 0:
+ (+ (ABS (> v x)) (/ (> v v) (/ v x)))	
+-->
+<Population>
+	<CartCenteringSystem multiplicity="1">
+		<Structure>
+			<CartCentering>
+				<Cart>
+					<attribute name="val" value="2.0"/> <!-- constant mass -->
+					<XPosition>
+						<attribute name="val" value="0.0"/> <!-- initial x position -->
+					</XPosition>
+					<Velocity>
+						<attribute name="val" value="100.0"/> <!-- initial velocity -->
+					</Velocity>
+					<Acceleration/>
+				</Cart>
+				<Force/>
+			</CartCentering>
+		</Structure>
+		<GeneticProgram>
+			<PfWrapper>
+				<PfAdd>
+					<PfABS>
+						<PfGT>
+							<PfVelocity/>
+							<PfXPosition/>
+						</PfGT>
+					</PfABS>
+					<PfDivide>
+						<PfGT>
+							<PfVelocity/>
+							<PfVelocity/>
+						</PfGT>
+						<PfDivide>
+							<PfVelocity/>
+							<PfXPosition/>
+						</PfDivide>
+					</PfDivide>
+				</PfAdd>
+			</PfWrapper>
+		</GeneticProgram>
+	</CartCenteringSystem>
+</Population>

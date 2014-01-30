@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	TweenTrees application - Class Details
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<xholonClassDetails>
+	
+	<Bbb>
+		<port name="port" index="0" connector="#xpointer(../Ccc)"/>
+	</Bbb>
+	
+	<!--<Sss>
+		<port name="port" index="0" connector="#xpointer(../Ttt)"/>
+		<port name="port" index="1" connector="#xpointer(../Uuu)"/>
+	</Sss>-->
+	<!--<Ttt>
+		<port name="port" index="0" connector="#xpointer(../Vvv)"/>
+	</Ttt>-->
+	<!--<Uuu>
+		<port name="port" index="0" connector="#xpointer(../Vvv)"/>
+	</Uuu>-->
+	<!--<Vvv>-->
+		<!-- a port to Ccc will be created at runtime -->
+	<!--</Vvv>-->
+	
+	<XholonClass xhType="XhtypePureActiveObject"/>
+</xholonClassDetails>

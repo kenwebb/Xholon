@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../../../Xholon/information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../../Xholon/information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>ECJ Ant Trail - Xholon App (no GP)</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This model is a Xholon version of the Ant Trail application included with ECJ,
+an evolutionary computation system written in Java. This version does NOT include genetic programming,
+but simply uses an already-known optimal behavior. This optimal behavior, shown below, is hard-coded into a
+Xholon tree structure, inside the CompositeStructureHierarchy.xml configuration file.</p>
+<p>A 32 by 32 grid contains a trail that is partially covered with food. An ant starts at
+one end of the trail. It must eat as many of the 89 bits of food as it can locate in 400 moves.
+There are usually multiple moves during one time step.</p>
+<source>
+&lt;PfIfFoodAhead&gt;
+  &lt;PfMove/&gt;
+  &lt;PfProgn3&gt;
+    &lt;PfLeft/&gt;
+    &lt;PfProgn2&gt;
+      &lt;PfIfFoodAhead&gt;
+        &lt;PfMove/&gt;
+        &lt;PfRight/&gt;
+      &lt;/PfIfFoodAhead&gt;
+      &lt;PfProgn2&gt;
+        &lt;PfRight/&gt;
+        &lt;PfProgn2&gt;
+          &lt;PfLeft/&gt;
+          &lt;PfRight/&gt;
+        &lt;/PfProgn2&gt;
+      &lt;/PfProgn2&gt;
+    &lt;/PfProgn2&gt;
+    &lt;PfProgn2&gt;
+      &lt;PfIfFoodAhead&gt;
+        &lt;PfMove/&gt;
+        &lt;PfLeft/&gt;
+      &lt;/PfIfFoodAhead&gt;
+      &lt;PfMove/&gt;
+    &lt;/PfProgn2&gt;
+  &lt;/PfProgn3&gt;
+&lt;/PfIfFoodAhead&gt;
+</source>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+<title/>
+<p>Run it:</p>
+<ol>
+<li>Run the Java application through the XhnEalontro GUI (org.primordion.xholon.app.Xhn.java),
+and select File --> Open --> ealontro --> EcjAntTrail --> AntTrail_1_xhn.xml.</li>
+<li>Expand the Controller node in the tree.</li>
+<li>Press the Start node.</li>
+<li>If you have JFreeChart installed, and if you have selected "JFreeChart" as the value of the UseDataPlotter
+parameter in Tutorial4_1_xhn.xml, you should see a chart that looks like the one below.
+If you don't have JFreeChart installed, then change the value of UseDataPlotter to "gnuplot",
+and look at the results that are saved to a .csv file in the statistics folder.
+If you have gnuplot installed, it can read the .plt script in the statistics folder
+to produce a displayable .png file from the .csv file.</li>
+</ol>
+</section>
+<section>
+<title/>
+<figure src="AntTrail_NoGP_JFreeChart_1.png" alt="ECJ Ant Trail with no GP" width="500"></figure>
+</section>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p>Take a look at the XML configuration files in the config/ealontro/EcjTutorial4 folder.
+AntTrail_1_xhn.xml includes a TrailFile parameter. XhAntTrail reads this file to determine
+where the trail and food are within the grid. There are also MaxFood and MaxMoves parameters.</p>
+<p>InheritanceHierarchy.xml is shared by both the GP and the NoGP versions of this application.
+The primitive functions (Pf) out of which the behavior is created, are divided into two types.
+A non-terminal primitive function has other functions as children (ex: PfIfFoodAhead),
+while a terminal function just performs some action (ex: PfLeft).
+Note that GeneticProgram is identified as a type of Behavior.</p>
+<p>Look at XhAntTrail.java to learn how the result is obtained by traversing the tree.</p>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p>Use a different trail file by changing three parameters in Ant_Trail_1_xhn.xml.
+Change TrailFile to "./config/ealontro/EcjAntTrail/losaltos.trl".
+Change MaxFood to 156.
+Change MaxMoves to 2000.
+Change CompositeStructureHierarchyFile to "./config/ealontro/EcjAntTrail/CompositeStructureHierarchy_LosAltos_Koza.xml"</p>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p>This is a simple application that can be used as a starting point for any Xholon model
+whose behavior is specified in a tree structure.</p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon and Ealontro features</title>
+<p>Specifying behavior as a tree of functions.</p>
+<p>Displaying results in a chart.</p>
+<p>Setting application-specific parameters through the _xhn.xml file.</p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>This application was described in: Koza, J. (1992). Genetic Programming. p.147-162</p>
+<p>Visit the ECJ website.</p>
+<p><a href="http://cs.gmu.edu/~eclab/projects/ecj/">ECJ</a></p>
+</section>
+
+</body>
+</document>

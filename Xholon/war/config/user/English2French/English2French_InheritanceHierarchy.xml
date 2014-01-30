@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	English2French application - Inheritance Hierarchy
+	Xholon 0.7 http://www.primordion.com/Xholon
+-->
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+	<Fr2EngSystem/>
+	
+	<!-- A translation from an English sentence to a French sentence involves multiple passes. -->
+	<Pass>
+		<TokenPass/>
+		<WordPass/> <!-- WORD_PASS -->
+		<FlagPass/> <!-- FLAG_PASS -->
+	</Pass>
+	
+	<!-- Token Pass -->
+	<Token/>
+	
+	<!-- Circle Markers (syntax markers; word categories)
+	The final version may subdivide nn and vv, to mark sub-categories of nouns and verbs.
+	-->
+	<CircleMarker>
+		<CM_xx/> <!-- S:    goes at beginning and end of sentence -->
+		<CM_nn/> <!-- N:    goes after a noun -->
+		<CM_np/> <!-- Pron: goes after a pronoun -->
+		<CM_vv/> <!-- V:    goes after a verb -->
+		<CM_vc/> <!-- V:    goes after the verb "être" -->
+		<CM_pp/> <!-- P:    goes before a preposition -->
+		<CM_jj/> <!-- Conj: goes before a conjunction -->
+	</CircleMarker>
+	
+	<!-- English WORD_LIST - lexicon -->
+	<Lexicon/> <!-- WORD_LIST -->
+	<Lexeme/> <!-- word -->
+	<Lemma/> <!-- base form of the word -->
+	<Pos> <!-- part of speech -->
+		<PosN/>    <!-- noun -->
+		<PosV/>    <!-- verb -->
+		<PosA/>    <!-- adjective -->
+		<PosP/>    <!-- preposition -->
+		<PosPron/> <!-- pronoun -->
+		<PosAdv/>  <!-- adverb -->
+		<PosConj/> <!-- conjunction -->
+		<PosD/>    <!-- determiner -->
+		<PosQ/>    <!-- quantifier -->
+		<PosS/>    <!-- sentence or phrase -->
+	</Pos>
+	<Morph> <!-- morphology type -->
+		<MorphPlural> <!-- noun plural type -->
+			<MorphPlural_Regular/> <!-- add -s -->
+			<MorphPlural_NoChange/> <!-- singluar and plural are identical -->
+			<MorphPlural_Sibilant/> <!-- singular ends in s(bus) x(box) z ch(church) dg(judge) sh(ash) -->
+			<MorphPlural_Ffe/> <!-- singular ends in -f(leaf) or -fe(knife) -->
+			<MorphPlural_Y/> <!-- singular ends in y -->
+			<MorphPlural_Oes/> <!-- singular ends in o and adds -es; others that end in o are regular -->
+			<MorphPlural_Irregular/> <!-- irregular -->
+			<MorphPlural_AlreadyPlural/> <!-- the noun is already in its plural form -->
+			<!-- TODO various other types -->
+		</MorphPlural>
+	</Morph>
+	<Frq/> <!-- frequency of this word (base form) in the language (as a percentage) -->
+	<TransformRef/> <!-- reference to a Transform (French) -->
+	
+	<!-- transform -->
+	<Transforms/>
+	<Transform/>
+	<Key/> <!-- optional default key, for indexing and matching with English lexicon -->
+	<Gender> <!-- French gender -->
+		<GenderM> <!-- masculine -->
+			<GenderMS/> <!-- masculine singular -->
+			<GenderMP/> <!-- masculine plural -->
+		</GenderM>
+		<GenderF> <!-- feminine -->
+			<GenderFS/> <!-- feminine singular -->
+			<GenderFP/> <!-- feminine plural -->
+		</GenderF>
+	</Gender>
+	<Bracket>
+		<OpenBracket/>
+		<ClosedBracket/>
+	</Bracket>
+	<FourLetterCode/>
+	<VerbClass/>
+	<Ellipse>
+		<OpenEllipse/>
+		<ClosedEllipse/>
+	</Ellipse>
+	
+	<!-- Word rule, used in English lexicon -->
+	<WordRule/>
+	
+	<!-- FLAG_LIST Flag rules -->
+	<Flag>
+		<A_FPL>
+			<A_FPL_A/>
+			<A_FPL_B/>
+			<A_FPL_C/>
+			<A_FPL_D/>
+			<A_FPL_E/>
+			<A_FPL_F/>
+			<A_FPL_G/>
+			<A_FPL_H/>
+			<A_FPL_I/>
+			<A_FPL_L/>
+			<A_FPL_N/>
+			<A_FPL_R/>
+			<A_FPL_S/>
+			<A_FPL_T/>
+			<A_FPL_W/>
+			<A_FPL_X/>
+			<A_FPL_Y/>
+			<A_FPL_Z/>
+		</A_FPL>
+		<B_CET_A/>
+		<B_LEL_A/>
+		<B_POS_A/>
+		<B_UNE_A/>
+		<C_CEL_A/>
+		<C_FEM_A/>
+		<C_FEM_E/>
+		<C_FPL_A/>
+		<C_JEV_H/>
+		<C_PLU>
+			<C_PLU_A/>
+			<C_PLU_L/>
+			<C_PLU_U/>
+			<C_PLU_X/>
+		</C_PLU>
+		<C_POS_B/>
+		<C_POS_E/>
+		<C_REF_X/>
+		<D_ALE_A/>
+		<D_DED_E/>
+		<D_DLE_S/>
+		<G_CEL_B/>
+		<G_CIL>
+			<G_CIL_A/>
+			<G_CIL_B/>
+		</G_CIL>
+		<G_PLU_S/>
+		<G_QUE_A/>
+		<G_SUP_A/>
+		<H_series/>
+		<I_series/>
+		<J_AND_A/>
+		<J_ORR_A/>
+		<N_JAM_A/>
+		<N_PAS_A/>
+		<N_RIN_A/>
+		<Q_QUI_Q/>
+		<Q_QUI_R/>
+		<T_AFT_A/>
+		<T_PRO_N/>
+		<V_AVO_R/>
+		<V_IMP_A/>
+		<V_QUE>
+			<V_QUE_A/>
+			<V_QUE_B/>
+			<V_QUE_C/>
+			<V_QUE_D/>
+			<V_QUE_E/>
+			<V_QUE_F/>
+		</V_QUE>
+		<X_QQQ_Q/>
+		<X_XXX_X/>
+	</Flag>
+	<Flags/>
+	
+	<!-- WORKED EXAMPLES - sample English sentences -->
+	<SEng/>
+	<SEngs/>
+	<SFr/> <!-- correct/expected French translation -->
+	
+	<!-- lexicon index -->
+	<LexiconIndex/>
+	<LexiconIndexItem/>
+	
+	<!-- drill -->
+	<Drill>
+		<Drill_Eng2Fr/>
+		<Drill_Fr2Eng/>
+	</Drill>
+	
+	<!-- XholonList -->
+	<!--<xi:include href="_mechanism/XholonList.xml"/>-->
+	<!-- Port -->
+	<!--<xi:include href="_mechanism/Port.xml"/>-->
+</XholonClass>

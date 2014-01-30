@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	TweenTrees application - Inheritance Hierarchy
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+	<TheSystem/>
+	
+	<!-- nodes in the main Xholon app tree -->
+	<Aaa/>
+	<Bbb/>
+	<Ccc/>
+	
+	<!-- nodes in the tween tree -->
+	<!--
+	<Rrr/>
+	<Sss/>
+	<Ttt/>
+	<Uuu/>
+	<Vvv/>
+	-->
+	<!-- Xholon Viewers -->
+	<!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

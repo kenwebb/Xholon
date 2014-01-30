@@ -1,0 +1,121 @@
+
+
+
+Generation 0
+================
+
+Subpopulation 0
+----------------
+Mean fitness raw: 11.485395 adjusted: 0.11712344 hits: 0.11328125
+
+Best Individual of Generation:
+Evaluated: true
+Fitness: Raw=1.177865 Adjusted=0.45916528 Hits=1
+Tree 0:
+ (+ (- y y) (+ y x))
+
+
+
+Generation 1
+================
+
+Subpopulation 0
+----------------
+Mean fitness raw: 6.4020023 adjusted: 0.17572123 hits: 0.2275390625
+
+Best Individual of Generation:
+Evaluated: true
+Fitness: Raw=0.34627685 Adjusted=0.74278927 Hits=3
+Tree 0:
+ (+ y (- x (- x (* x y))))
+
+
+
+Generation 2
+================
+
+Subpopulation 0
+----------------
+Mean fitness raw: 5.416274 adjusted: 0.2098297 hits: 0.31640625
+
+Best Individual of Generation:
+Evaluated: true
+Fitness: Raw=0.46754172 Adjusted=0.6814116 Hits=0
+Tree 0:
+ (+ (- (- y x) (* x y)) (+ (* y x) (+ x (*
+     (+ y x) (* x y)))))
+
+
+
+Generation 3
+================
+
+Subpopulation 0
+----------------
+Mean fitness raw: 4.805341 adjusted: 0.23221943 hits: 0.3857421875
+
+Best Individual of Generation:
+Evaluated: true
+Fitness: Raw=0.49497142 Adjusted=0.66890913 Hits=2
+Tree 0:
+ (+ (* y x) (* x (+ y y)))
+
+
+
+Generation 4
+================
+
+Subpopulation 0
+----------------
+Mean fitness raw: 4.5089865 adjusted: 0.24896817 hits: 0.447265625
+
+Best Individual of Generation:
+Evaluated: true
+Fitness: Raw=0.4200253 Adjusted=0.7042128 Hits=3
+Tree 0:
+ (- y (- (- y (* (+ y y) x)) y))
+
+
+
+Generation 5
+================
+
+Subpopulation 0
+----------------
+Mean fitness raw: 4.3793287 adjusted: 0.25805336 hits: 0.5400390625
+
+Best Individual of Generation:
+Evaluated: true
+Fitness: Raw=4.440892E-16 Adjusted=1.0 Hits=10
+Tree 0:
+ (+ y (* (+ (* x y) (+ y (* (- y y) (- y y))))
+     x))
+
+
+
+Generation 6
+================
+
+Subpopulation 0
+----------------
+Mean fitness raw: 3.863742 adjusted: 0.28719193 hits: 0.666015625
+
+Best Individual of Generation:
+Evaluated: true
+Fitness: Raw=0.0 Adjusted=1.0 Hits=10
+Tree 0:
+ (+ y (* (+ (* x y) (+ y (* (- y y) (- y y))))
+     x))
+
+
+
+Final Statistics
+================
+Total Individuals Evaluated: 7168
+
+Best Individual of Run:
+Evaluated: true
+Fitness: Raw=0.0 Adjusted=1.0 Hits=10
+Tree 0:
+ (+ y (* (+ (* x y) (+ y (* (- y y) (- y y))))
+     x))

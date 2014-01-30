@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../../../Xholon/information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../../Xholon/information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>ECJ Tutorial 4 - Xholon App (no GP)</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This model is a Xholon version of the Tutorial 4 application included with ECJ,
+an evolutionary computation system written in Java. This version does NOT include genetic programming,
+but simply uses an already-known optimal behavior. This optimal behavior is hard-coded into a
+Xholon tree structure, inside the CompositeStructureHierarchy.xml configuration file.</p>
+<p>This application runs for 40 processing loops. Each time step it calculates a new result value
+for the function (currentX * currentX * currentY + currentX * currentY + currentY).
+The values of currentX, currentY, expected result and actual result are captured each time step,
+and optionally displayed in a chart. In this non-GP version of Tutorial 4, the expected and actual
+results are always the same. The Xholon tree structure that corresponds to the above function is:</p>
+<source>
+&lt;PfAdd&gt;
+  &lt;PfY/&gt;
+  &lt;PfMul&gt;
+    &lt;PfAdd&gt;
+      &lt;PfY/&gt;
+      &lt;PfMul&gt;
+        &lt;PfX/&gt;
+        &lt;PfY/&gt;
+      &lt;/PfMul&gt;
+    &lt;/PfAdd&gt;
+    &lt;PfX/&gt;
+  &lt;/PfMul&gt;
+&lt;/PfAdd&gt;
+</source>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+<title/>
+<p>Run it:</p>
+<ol>
+<li>Run the Java application through the XhnEalontro GUI (org.primordion.xholon.app.Xhn.java),
+and select File --> Open --> ealontro --> EcjTutorial4 --> Tutorial4_1_xhn.xml.</li>
+<li>Expand the Controller node in the tree.</li>
+<li>Press the Start node.</li>
+<li>If you have JFreeChart installed, and if you have selected "JFreeChart" as the value of the UseDataPlotter
+parameter in Tutorial4_1_xhn.xml, you should see a chart that looks like the one below.
+If you don't have JFreeChart installed, then change the value of UseDataPlotter to "gnuplot",
+and look at the results that are saved to a .csv file in the statistics folder.
+If you have gnuplot installed, it can read the .plt script in the statistics folder
+to produce a displayable .png file from the .csv file.</li>
+</ol>
+</section>
+<section>
+<title/>
+<figure src="Tut4_NoGP_JFreeChart_1.png" alt="ECJ Tutorial 4 with no GP"></figure>
+</section>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p>Take a look at the XML configuration files in the config/ealontro/EcjTutorial4 folder.
+CompositeStructureHierarchy.xml specifies initial values for the X and Y variables.
+Under the GeneticProgram node, it specifies the function tree that needs to be traversed
+to produce a correct result.</p>
+<p>InheritanceHierarchy.xml is shared by both the GP and the NoGP versions of this application.
+The primitive functions (Pf) out of which the behavior is created, are divived into two types.
+A non-terminal primitive function has other functions as children (ex: PfAdd),
+while a terminal function just returns its own value (ex: PfX).
+Note that GeneticProgram is identified as a type of Behavior.</p>
+<p>Look at XhTutorial4.java to learn how the result is obtained by traversing the tree.</p>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p>Run the application, but don't press Start yet. Expand the Model node,
+and keep expanding the nodes until you find multiValuedRegression_3.
+This node has four children. Click on each child to see what its value of "val" is.
+xVariable and yVariable have initial values of -2.0 and -3.0, while result and expectedResult
+don't have any values yet. Press the Step node to run the application one step at a time.
+After the first step, the values should have changed to: -1.9 -2.9 -9.0 -9.0 .
+Compare the changing values with the charted results.</p>
+<p>Try a different pair of initial values, by editing CompositeStructureHierarchy.xml.
+Give XVariable and/or YVariable different initial values, something other than -2.0 and -3.0.</p>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p>This is a simple application that can be used as a starting point for any Xholon model
+whose behavior is specified in a tree structure.</p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon and Ealontro features</title>
+<p>Specifying behavior as a tree of functions.</p>
+<p>Displaying results in a chart.</p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>Visit the ECJ website.</p>
+<p><a href="http://cs.gmu.edu/~eclab/projects/ecj/">ECJ</a></p>
+</section>
+
+</body>
+</document>

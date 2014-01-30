@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Best of run for EcjTutorial4System
+raw fitness: 0.0 adjusted fitness: 1.0 hits: 10
+size of best tree: 10 starting at PfWrapper
+Wed Sep 12 17:28:52 EDT 2007 (1189632532328)
+-->
+<Population>
+	<EcjTutorial4System> <!-- xholon instance 1589 -->
+		<Structure>
+			<MultiValuedRegression/>
+		</Structure>
+		<GeneticProgram>
+			<PfWrapper>
+				<PfAdd>
+					<PfMul>
+						<PfAdd>
+							<PfMul>
+								<PfX/>
+								<PfY/>
+							</PfMul>
+							<PfY/>
+						</PfAdd>
+						<PfX/>
+					</PfMul>
+					<PfY/>
+				</PfAdd>
+			</PfWrapper>
+		</GeneticProgram>
+	</EcjTutorial4System>
+</Population>

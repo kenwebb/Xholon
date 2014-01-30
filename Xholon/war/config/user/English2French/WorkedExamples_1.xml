@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+WORKED EXAMPLES - sample English sentences
+French special characters: àâ éèê î ô ùû ç ÀÂ ÉÈÊ Î Ô ÙÛ Ç
+-->
+
+<SEngs roleName="WORKED EXAMPLES">
+
+	<SEng roleName="Original sentence  ">The boy sees the girl.
+	<SFr>Le garçon voit la fille .</SFr></SEng> <!-- OK -->
+	
+	<SEng>The boys see the girls.
+	<SFr>Les garçons voient les filles .</SFr></SEng> <!-- OK -->
+	
+	<SEng>I have a pencil.
+	<SFr>J' ai un crayon .</SFr></SEng> <!-- OK -->
+	
+	<SEng>We are reading the newspaper.
+	<SFr>Nous lisons le journal .</SFr></SEng> <!-- OK -->
+	
+	<SEng>He was reading the menu.
+	<SFr>Il lisait la carte .</SFr></SEng> <!-- OK -->
+	
+	<SEng>You wrote a book.
+	<SFr>Vous avez écrit un livre .</SFr></SEng> <!-- OK -->
+	
+	<SEng>I will write a letter.
+	<SFr>Je vais écrire une lettre .</SFr></SEng> <!-- OK -->
+	
+	<SEng>She has left.
+	<SFr>Elle est partie .</SFr></SEng> <!-- OK -->
+	
+	<SEng>She must know the answer.
+	<SFr>Elle doit savoir la réponse .</SFr></SEng> <!-- OK -->
+	
+	<SEng>You can go.
+	<SFr>Vous pouvez aller .</SFr></SEng> <!-- OK -->
+	
+	<SEng>I do not like this room.
+	<SFr>Je n' aime pas cette chambre .</SFr></SEng> <!-- OK -->
+	
+	<SEng>My car is near the church.
+	<SFr>Ma voiture est près de l' église .</SFr></SEng> <!-- OK -->
+	
+	<SEng>He was an important man.
+	<SFr>Il était un homme important .</SFr></SEng> <!-- OK -->
+	
+	<SEng>Yesterday we wanted to see the opera.
+	<SFr>Hier nous voulions voir l' opéra .</SFr></SEng> <!-- OK -->
+	
+	<SEng>Tonight we are going to eat at the restaurant.
+	<SFr>Ce soir nous allons manger au restaurant .</SFr></SEng> <!-- OK -->
+	
+	<SEng>I will give the menu to her.
+	<SFr>Je vais lui donner la carte .</SFr></SEng> <!-- OK -->
+	
+	<SEng>The boy and the girl looked for their friends.
+	<SFr>Le garçon et la fille ont cherché leurs amis .</SFr></SEng> <!-- OK -->
+	
+	<SEng>The town that we saw yesterday is beautiful.
+	<SFr>La ville que nous avons vu hier est belle .</SFr></SEng> <!-- OK -->
+	
+	<SEng>Will the train arrive on time?
+	<SFr>Est-ce que le train va arriver à l'heure ?</SFr></SEng> <!-- OK -->
+	
+	<SEng>Is the train going to arrive on time?
+	<SFr>Est-ce que le train va arriver à l'heure ?</SFr></SEng>
+	
+	<SEng>What do you want?
+	<SFr>Qu'est-ce que vous voulez ?</SFr></SEng>
+	
+	<SEng>What time is it?
+	<SFr>Quelle heure est il ?</SFr></SEng> <!-- OK -->
+	
+	<SEng>Who is that man?
+	<SFr>Qui est cet homme ?</SFr></SEng> <!-- OK -->
+	
+	<SEng>Which tourist forgot his souvenir?
+	<SFr>Quel tourist a oublié son souvenir ?</SFr></SEng> <!-- OK -->
+	
+	<!-- new sentences -->
+	<SEng roleName="New sentence  ">The boy sees the art gallery.
+	<SFr>Le garçon voit le galerie d'art .</SFr></SEng> <!-- OK -->
+	
+	<SEng>The boy is at the house of the girl.
+	<SFr>Le garçon est chez la fille .</SFr></SEng> <!-- OK -->
+	
+	<SEng>Good evening.
+	<SFr>Bonsoir .</SFr></SEng> <!-- OK -->
+	
+	<SEng>What is your name?
+	<SFr>Quel est votre nom ?</SFr></SEng>
+	
+	<SEng>She has seen.
+	<SFr>Elle a vu .</SFr></SEng>
+	
+	<SEng>She saw.
+	<SFr>Elle a vu .</SFr></SEng>
+	
+	<!-- test B_POS_A rule -->
+	<SEng roleName="B_POS_A  ">my passport
+	<SFr>Mon passeport .</SFr></SEng> <!-- OK -->
+	
+	<SEng>his suitcase
+	<SFr>Sa valise .</SFr></SEng> <!-- OK -->
+	
+	<SEng>her orange
+	<SFr>Son orange .</SFr></SEng> <!-- OK -->
+	
+	<SEng>her skirt
+	<SFr>Sa jupe .</SFr></SEng> <!-- OK -->
+	
+	<SEng>my photographs
+	<SFr>Mes photos .</SFr></SEng>
+	
+	<!-- test B_UNE_A rule -->
+	<SEng>a good map
+	<SFr>une bonne carte .</SFr></SEng>
+	
+	<!-- test A_FPL rules -->
+	<SEng roleName="A_FPL  ">the big girl
+	<SFr>La grande fille .</SFr></SEng> <!-- OK -->
+	
+	<SEng>a last boy
+	<SFr>Un garçon dernier .</SFr></SEng> <!-- OK -->
+	
+	<SEng>a last girl
+	<SFr>Une fille dernière .</SFr></SEng> <!-- OK -->
+	
+	<SEng>the last boys
+	<SFr>Les garçons derniers .</SFr></SEng> <!-- OK -->
+	
+	<SEng>the last girls
+	<SFr>Les filles dernières .</SFr></SEng> <!-- OK -->
+	
+	<SEng>the delicious coffee
+	<SFr>Le café délicieux .</SFr></SEng> <!-- OK -->
+	
+	<SEng>the small house
+	<SFr>La petite maison .</SFr></SEng> <!-- OK -->
+	
+	<SEng>the old woman
+	<SFr>La vieille femme .</SFr></SEng> <!-- OK -->
+	
+	<SEng>the big eyes
+	<SFr>Les grands yeux .</SFr></SEng> <!-- OK -->
+	
+	<SEng>the white statues
+	<SFr>Les statues blanches .</SFr></SEng> <!-- OK -->
+	
+	<SEng>She is happy.
+	<SFr>Elle est heureuse .</SFr></SEng> <!-- OK -->
+	
+	<!-- test B_CET_A rule -->
+	<SEng roleName="B_CET_A  ">this man</SEng>
+	<SEng>that pencil</SEng>
+	<SEng>this car</SEng>
+	<!-- test B_LEL_A rule -->
+	<SEng>the lights</SEng>
+	<SEng>the school</SEng>
+	<SEng>the other road</SEng>
+	<SEng>the station</SEng>
+	<!-- test G_CIL_A rule -->
+	<SEng>this man</SEng>
+	<SEng>that man</SEng>
+	<!-- test D_DLE_S rule -->
+	<SEng>of the boys</SEng>
+	<SEng>of the girls</SEng>
+	<SEng>of the school</SEng>
+	<SEng>of the schools</SEng>
+	<SEng>of the boy</SEng>
+	<SEng>of the girl</SEng>
+	<!-- test NORMALIZE -->
+	<SEng roleName="NORMALIZE  ">Is the house blue?</SEng> <!-- yes/no question -->
+	<SEng>Do you see the palace?</SEng> <!-- yes/no question -->
+	<SEng>You are going to have some coffee, aren't you?</SEng> <!-- tag question -->
+	<SEng>The show starts at 7:00?</SEng> <!-- normal statement with ? -->
+	<SEng>What camera did you take the photograph with?</SEng> <!-- ends with preposition -->
+	<SEng>She is happy, isn't she?</SEng> <!-- tag question -->
+	<SEng>You went to the museum today, didn't you?</SEng> <!-- tag question -->
+	<SEng>He doesn't like meat, does he?</SEng> <!-- tag question -->
+	<SEng>That man is a teacher, isn't he?</SEng> <!-- tag question -->
+	<SEng>You won't leave tomorrow, will you?</SEng> <!-- tag question -->
+	<!-- complete phrases/sentences that are in the English lexicon -->
+	<SEng>What is that</SEng>
+</SEngs>

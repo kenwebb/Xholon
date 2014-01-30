@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Best of run for CartCenteringSystem
+raw fitness: 466.0 adjusted fitness: 0.0021413276 hits: 34
+size of best tree: 36 starting at PfWrapper
+Tue Jun 13 16:22:18 EDT 2006 (1150230138375)
+
+Final Statistics
+================
+Total Individuals Evaluated: 52224
+
+Best Individual of Run:
+Evaluated: true
+Fitness: Raw=466.0 Adjusted=0.0021413276 Hits=34
+Tree 0:
+ (- x (- (+ (- (* x v) (- (> x x) (ABS (*
+     (/ x v) (* (+ (/ (+ x v) x) x) (/ v v))))))
+     (ABS v)) (* (/ x v) v)))	
+-->
+<Population>
+	<CartCenteringSystem multiplicity="1">
+		<Structure>
+			<CartCentering>
+				<Cart>
+					<attribute name="val" value="2.0"/> <!-- constant mass -->
+					<XPosition>
+						<attribute name="val" value="0.0"/> <!-- initial x position -->
+					</XPosition>
+					<Velocity>
+						<attribute name="val" value="100.0"/> <!-- initial velocity -->
+					</Velocity>
+					<Acceleration/>
+				</Cart>
+				<Force/>
+			</CartCentering>
+		</Structure>
+		<GeneticProgram> <!-- Control Strategy -->
+			<PfWrapper>
+				<PfSubtract>
+					<PfXPosition/>
+					<PfSubtract>
+						<PfAdd>
+							<PfSubtract>
+								<PfMultiply>
+									<PfXPosition/>
+									<PfVelocity/>
+								</PfMultiply>
+								<PfSubtract>
+									<PfGT>
+										<PfXPosition/>
+										<PfXPosition/>
+									</PfGT>
+									<PfABS>
+										<PfMultiply>
+											<PfDivide>
+												<PfXPosition/>
+												<PfVelocity/>
+											</PfDivide>
+											<PfMultiply>
+												<PfAdd>
+													<PfDivide>
+														<PfAdd>
+															<PfXPosition/>
+															<PfVelocity/>
+														</PfAdd>
+														<PfXPosition/>
+													</PfDivide>
+													<PfXPosition/>
+												</PfAdd>
+												<PfDivide>
+													<PfVelocity/>
+													<PfVelocity/>
+												</PfDivide>
+											</PfMultiply>
+										</PfMultiply>
+									</PfABS>
+								</PfSubtract>
+							</PfSubtract>
+							<PfABS>
+								<PfVelocity/>
+							</PfABS>
+						</PfAdd>
+						<PfMultiply>
+							<PfDivide>
+								<PfXPosition/>
+								<PfVelocity/>
+							</PfDivide>
+							<PfVelocity/>
+						</PfMultiply>
+					</PfSubtract>
+				</PfSubtract>
+			</PfWrapper>
+		</GeneticProgram>
+	</CartCenteringSystem>
+</Population>

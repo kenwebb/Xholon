@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	WaterLogic application - Inheritance Hierarchy
+	Xholon 0.7 http://www.primordion.com/Xholon
+	see: de Bono, Edward. (1993). Water Logic. London: Penguin.
+-->
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+	<WaterLogicSystem/>
+	<NerveState/> <!-- de Bono, p. 32, 42 -->
+	
+	<!-- Port -->
+	<!--<xi:include href="_mechanism/Port.xml"/>-->
+	<!-- Xholon Viewers -->
+	<!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

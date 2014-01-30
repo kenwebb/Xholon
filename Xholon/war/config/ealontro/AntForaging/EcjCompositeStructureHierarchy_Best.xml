@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Best of run for AntForagingSystem
+raw fitness: 95.0 adjusted fitness: 0.010416667 hits: 49
+size of best tree: 45 starting at PfWrapper
+Thu Jul 27 19:52:32 EDT 2006 (1154044352609)
+-->
+<Population>
+	<AntForagingSystem> <!-- xholon instance 4573 -->
+		<Structure>
+			<GridReference/>
+		</Structure>
+		<GeneticProgram>
+			<PfWrapper>
+				<PfPickUp>
+					<PfIfCarryingFood>
+						<PfMoveToAdjacentPheromoneElse>
+							<PfPickUp>
+								<PfIfCarryingFood>
+									<PfIfCarryingFood>
+										<PfMoveToAdjacentPheromoneElse>
+											<PfPickUp>
+												<PfDropPheromone>
+													<PfMoveRandom/>
+												</PfDropPheromone>
+												<PfPickUp>
+													<PfMoveRandom/>
+													<PfMoveRandom/>
+												</PfPickUp>
+											</PfPickUp>
+											<PfIfFoodHere>
+												<PfPickUp>
+													<PfMoveToAdjacentPheromoneElse>
+														<PfMoveToNest/>
+														<PfMoveToAdjacentPheromoneElse>
+															<PfMoveToNest/>
+															<PfMoveToNest/>
+														</PfMoveToAdjacentPheromoneElse>
+													</PfMoveToAdjacentPheromoneElse>
+													<PfMoveRandom/>
+												</PfPickUp>
+												<PfPickUp>
+													<PfMoveToNest/>
+													<PfMoveRandom/>
+												</PfPickUp>
+											</PfIfFoodHere>
+										</PfMoveToAdjacentPheromoneElse>
+										<PfMoveToNest/>
+									</PfIfCarryingFood>
+									<PfMoveToNest/>
+								</PfIfCarryingFood>
+								<PfMoveRandom/>
+							</PfPickUp>
+							<PfMoveToAdjacentFoodElse>
+								<PfIfFoodHere>
+									<PfMoveToNest/>
+									<PfMoveRandom/>
+								</PfIfFoodHere>
+								<PfMoveToAdjacentFoodElse>
+									<PfIfFoodHere>
+										<PfMoveToNest/>
+										<PfMoveRandom/>
+									</PfIfFoodHere>
+									<PfPickUp>
+										<PfMoveToAdjacentPheromoneElse>
+											<PfMoveToNest/>
+											<PfMoveToAdjacentPheromoneElse>
+												<PfMoveToNest/>
+												<PfMoveToNest/>
+											</PfMoveToAdjacentPheromoneElse>
+										</PfMoveToAdjacentPheromoneElse>
+										<PfMoveRandom/>
+									</PfPickUp>
+								</PfMoveToAdjacentFoodElse>
+							</PfMoveToAdjacentFoodElse>
+						</PfMoveToAdjacentPheromoneElse>
+						<PfMoveToNest/>
+					</PfIfCarryingFood>
+					<PfMoveRandom/>
+				</PfPickUp>
+			</PfWrapper>
+		</GeneticProgram>
+	</AntForagingSystem>
+</Population>

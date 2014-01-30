@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Ealontro ealontro/AntForaging ClassDetails.xml -->
+<xholonClassDetails>
+	<!-- this is probably not needed
+	<GridReference xhType="XhtypePureActiveObject">
+		<port name="port" index="P_GRID" connector="#xpointer(ancestor::AntForagingGP/Grid)"/>
+	</GridReference>
+	-->
+	<GridCell xhType="XhtypeBehFgsxxx">
+		<config instruction="Gmt"/>
+	</GridCell>
+	<Ant xhType="XhtypePureActiveObject">
+		<port name="port" index="P_BEHAVIOR" connector="#xpointer(ancestor::AntForagingGP/Population/AntForagingSystem/GeneticProgram)"/>
+	</Ant>
+	<Food xhType="XhtypeBehFgsxxx">
+		<port name="port" index="P_BEHAVIOR" connector="#xpointer(ancestor::AntForagingGP/Population/AntForagingSystem/GeneticProgram)"/>
+	</Food>
+	<GeneticProgram xhType="XhtypeBehxxxCon">
+		<!-- reference the next instance of GeneticProgram -->
+		<port name="port" index="P_BEHAVIOR" connector="#xpointer(ancestor::AntForagingSystem/following-sibling::AntForagingSystem/GeneticProgram)"/>
+	</GeneticProgram>
+	<Primitive xhType="XhtypeActivity"/>
+	<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

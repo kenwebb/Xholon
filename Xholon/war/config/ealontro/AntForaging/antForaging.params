@@ -1,0 +1,46 @@
+# Copyright 2006 by Sean Luke and George Mason University
+# Licensed under the Academic Free License version 3.0
+# See the file "LICENSE" for more information
+# Adapted for use in Xholon by Ken Webb
+
+parent.0 = ../koza.params
+
+# the next four items are already defined in koza.params, but we
+# put them here to be clear.
+
+# We have one function set, of class GPFunctionSet
+gp.fs.size = 1
+gp.fs.0 = ec.gp.GPFunctionSet
+# We'll call the function set "f0".  It uses the default GPFuncInfo class
+gp.fs.0.name = f0
+gp.fs.0.info = ec.gp.GPFuncInfo
+
+# We have five functions in the function set.  They are:
+gp.fs.0.size = 8
+gp.fs.0.func.0 = org.primordion.ealontro.ec.app.antforaging.DropPheromone
+gp.fs.0.func.0.nc = nc1
+gp.fs.0.func.1 = org.primordion.ealontro.ec.app.antforaging.IfCarryingFood
+gp.fs.0.func.1.nc = nc2
+gp.fs.0.func.2 = org.primordion.ealontro.ec.app.antforaging.IfFoodHere
+gp.fs.0.func.2.nc = nc2
+gp.fs.0.func.3 = org.primordion.ealontro.ec.app.antforaging.MoveToAdjacentFoodElse
+gp.fs.0.func.3.nc = nc2
+gp.fs.0.func.4 = org.primordion.ealontro.ec.app.antforaging.MoveToAdjacentPheromoneElse
+gp.fs.0.func.4.nc = nc2
+gp.fs.0.func.5 = org.primordion.ealontro.ec.app.antforaging.PickUp
+gp.fs.0.func.5.nc = nc2
+gp.fs.0.func.6 = org.primordion.ealontro.ec.app.antforaging.MoveRandom
+gp.fs.0.func.6.nc = nc0
+gp.fs.0.func.7 = org.primordion.ealontro.ec.app.antforaging.MoveToNest
+gp.fs.0.func.7.nc = nc0
+
+eval.problem = org.primordion.ealontro.ec.app.antforaging.AntForaging
+eval.problem.data = org.primordion.ealontro.ec.app.antforaging.BooleanData
+# The following should almost *always* be the same as eval.problem.data
+# For those who are interested, it defines the data object used internally
+# inside ADF stack contexts
+eval.problem.stack.context.data = org.primordion.ealontro.ec.app.antforaging.BooleanData
+
+# initial values for variables in AntForaging.java
+eval.problem.moves = 500
+

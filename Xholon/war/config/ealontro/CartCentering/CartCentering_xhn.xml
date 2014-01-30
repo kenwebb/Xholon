@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- CartCentering configuration file
+	 Ken Webb
+	 June 12, 2006 -->
+<params>
+	<!-- Standard xholon parameters -->
+	<param name="ModelName" value="Cart Centering"/>
+	<param name="ShowParams" value="false"/>
+	<param name="AppM" value="false"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="500"/> <!-- my default: 500 -->
+	<param name="TimeStepInterval" value="10"/>
+	<param name="InheritanceHierarchyFile" value="config/ealontro/CartCentering/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="config/ealontro/CartCentering/CompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="config/ealontro/CartCentering/ClassDetails.xml"/>
+	<param name="InformationFile" value="config/ealontro/CartCentering/Information_NoGP.xml"/>
+	<param name="JavaClassName" value="org.primordion.ealontro.app.CartCentering.AppCartCentering"/>
+	<param name="JavaXhClassName" value="org.primordion.ealontro.app.CartCentering.XhCartCentering"/>
+	<!--<param name="JavaActivityClassName" value="org.primordion.xholon.base.Activity"/>-->
+	<param name="RandomNumberSeed" value="200"/>
+	<param name="MaxPorts" value="5"/>
+	<param name="UseDataPlotter" value="none"/> <!-- JFreeChart gnuplot none -->
+	<param name="DataPlotterParams"
+		value="Cart Centering,Time (sec),xPosition (mm) velocity (mm/sec),./statistics/,ccStats,1,WRITE_AS_DOUBLE"/>
+	<param name="SaveSnapshots" value="false"/>
+</params>

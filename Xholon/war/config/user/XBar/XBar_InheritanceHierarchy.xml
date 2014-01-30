@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	XBar application - Inheritance Hierarchy
+	Xholon 0.7 http://www.primordion.com/Xholon
+-->
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+	
+	<XBarSystem/>
+	
+	<!-- lexicon -->
+	<!-- need shortest possible text for the XML tags
+	Lexicon: Vocabulary
+	Lexeme: Word LexicalEntry
+	Lemma: LexicalItem CitationForm CanonicalForm Headword
+	Pos: PartOfSpeech SyntacticCategory
+	Frq: WordFrequency
+	-->
+	<Lexicon/>
+	<Lexeme/>
+	<Lemma/>
+	<Pos/>
+	<Frq/>
+	
+	<!-- XBarEntity English -->
+	<xi:include href="_mechanism/xbar/XBarEntity_en.xml"/>
+	<!-- Port -->
+	<xi:include href="_mechanism/Port.xml"/>
+	<!-- Xholon Viewers -->
+	<xi:include href="_viewer/XholonViewer.xml"/>
+</XholonClass>
