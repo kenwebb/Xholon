@@ -267,6 +267,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			else if (implName.endsWith("ObservableXholonWithPorts")) {
 				newNode = new org.primordion.xholon.base.ObservableXholonWithPorts();
 			}
+			else if (implName.endsWith("Activity")) {
+				newNode = new org.primordion.xholon.base.Activity();
+			}
 			
 			// Turtle Geometry
 			else if (implName.endsWith("Patch")) {
