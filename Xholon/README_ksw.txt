@@ -27,6 +27,10 @@ To generate javadoc
 cd ~/gwtspace/Xholon/Xholon
 javadoc -d ~/gwtspace/javadoc -public -sourcepath src -subpackages org -header '<b>Xholon GWT 0.9.0</b>' 2>> javadocErrOut.txt
 
+To run JUnit tests
+cd ~/gwtspace/Xholon/Xholon
+ant test.prod
+
 To generate yuidoc
  copy XholonJsApi.js to ~/gwtspace/yuidoc
 ~/gwtspace/yuidoc
