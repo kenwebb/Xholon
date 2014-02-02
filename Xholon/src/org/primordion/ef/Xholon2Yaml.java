@@ -329,7 +329,9 @@ public class Xholon2Yaml extends AbstractXholon2ExternalFormat implements IXholo
 		xmlWriter.writeComment("using Xholon2Yaml.java and " + xmlWriter.getWriterName() + ".\n");
 		xmlWriter.writeComment(new Date() + " " + timeStamp + "\n");
 		xmlWriter.writeComment("model: " + modelName + "\n");
-		xmlWriter.writeComment("www.primordion.com/Xholon\n\n");
+		xmlWriter.writeComment("www.primordion.com/Xholon\n");
+		xmlWriter.writeComment("See also: http://instantyaml.appspot.com/\n");
+		xmlWriter.writeComment("See also: http://yamllint.com/\n\n");
 		
 		if (isWriteStartDocument()) {
 			xmlWriter.writeStartDocument();
