@@ -18,11 +18,11 @@
 
 package org.primordion.xholon.service;
 
-import java.io.IOException;
-import java.io.Writer;
+//import java.io.IOException;
+//import java.io.Writer;
 
 import org.primordion.xholon.base.IXholon;
-import org.primordion.xholon.base.Xholon;
+//import org.primordion.xholon.base.Xholon;
 
 /**
  * A service that locates other services.

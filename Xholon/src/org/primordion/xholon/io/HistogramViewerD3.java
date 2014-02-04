@@ -21,7 +21,7 @@ package org.primordion.xholon.io;
 import java.util.Date;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
-import org.primordion.xholon.base.Xholon;
+//import org.primordion.xholon.base.Xholon;
 import org.primordion.xholon.base.XholonWithPorts;
 
 /**

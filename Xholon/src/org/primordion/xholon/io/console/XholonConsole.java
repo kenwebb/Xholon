@@ -20,28 +20,28 @@ package org.primordion.xholon.io.console;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
+//import com.google.gwt.event.dom.client.ClickEvent;
+//import com.google.gwt.event.dom.client.ClickHandler;
+//import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
+//import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
+//import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
-import com.google.gwt.user.client.ui.RootPanel;
+//import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.TextAreaElement;
 //import com.google.gwt.user.client.Element;
 
-import org.primordion.xholon.app.Application;
+//import org.primordion.xholon.app.Application;
 import org.primordion.xholon.app.IApplication;
-import org.primordion.xholon.base.Control;
-import org.primordion.xholon.base.IControl;
+//import org.primordion.xholon.base.Control;
+//import org.primordion.xholon.base.IControl;
 import org.primordion.xholon.base.IMessage;
 import org.primordion.xholon.base.IReflection;
 import org.primordion.xholon.base.ISignal;
@@ -52,9 +52,9 @@ import org.primordion.xholon.base.XholonWithPorts;
 import org.primordion.xholon.io.Specials;
 import org.primordion.xholon.io.ISwingEntity;
 import org.primordion.xholon.io.XholonGwtTabPanelHelper;
-import org.primordion.xholon.io.xml.IXml2Xholon;
-import org.primordion.xholon.io.xml.Xml2Xholon;
-import org.primordion.xholon.io.xml.Xml2XholonClass;
+//import org.primordion.xholon.io.xml.IXml2Xholon;
+//import org.primordion.xholon.io.xml.Xml2Xholon;
+//import org.primordion.xholon.io.xml.Xml2XholonClass;
 import org.primordion.xholon.service.IXholonService;
 import org.primordion.xholon.service.NodeSelectionService;
 import org.primordion.xholon.service.XholonHelperService;
@@ -841,8 +841,8 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
     String wndXh = "$wnd.xh.";
     String xhcName = context.getXhcName();
     String protoName = xhcName + "behavior";
-    String cnodeParentName = "" + Character.toLowerCase(xhcName.charAt(0))
-      + (xhcName.length() == 0 ? "" : xhcName.substring(1));
+    //String cnodeParentName = "" + Character.toLowerCase(xhcName.charAt(0))
+    //  + (xhcName.length() == 0 ? "" : xhcName.substring(1));
     StringBuilder sbEx = new StringBuilder()
     .append("var beh = new ").append(wndXh).append(protoName).append("();\n")
     ;

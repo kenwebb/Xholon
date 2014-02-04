@@ -24,7 +24,7 @@ import org.primordion.xholon.service.mathscieng.Unit;
 //import org.jscience.physics.amount.Amount;
 import org.primordion.xholon.service.mathscieng.Amount;
 
-import org.primordion.xholon.base.IDecoration;
+//import org.primordion.xholon.base.IDecoration;
 import org.primordion.xholon.base.Xholon;
 import org.primordion.xholon.base.IQuantity;
 
@@ -84,7 +84,6 @@ public class QuantityScalar extends Xholon implements IQuantity {
 	/**
 	 * The amount encapsulated by this instance of Quantity.
 	 */
-	@SuppressWarnings("unchecked")
 	protected Amount amount = null;
 
 	/**
@@ -119,7 +118,6 @@ public class QuantityScalar extends Xholon implements IQuantity {
 	 * @param val It must be an instance of org.jscience.physics.amount.Amount,
 	 * and not for example an instance of java.lang.Double.
 	 */
-	@SuppressWarnings("unchecked")
 	public void setVal(Object val) {
 		setAmount((Amount)val);
 	}
@@ -141,7 +139,6 @@ public class QuantityScalar extends Xholon implements IQuantity {
 	/*
 	 * @see org.primordion.xholon.base.Xholon#getVal()
 	 */
-	@SuppressWarnings("unchecked")
 	public double getVal() {
 		//return amount.doubleValue(amount.getUnit());
 		return amount.doubleValue();
@@ -150,7 +147,6 @@ public class QuantityScalar extends Xholon implements IQuantity {
 	/*
 	 * @see org.primordion.xholon.base.Xholon#setVal(double)
 	 */
-	@SuppressWarnings("unchecked")
 	public void setVal(double val) {
 		if (amount == null) {
 			// assume this is a Dimensionless quantity
@@ -179,7 +175,6 @@ public class QuantityScalar extends Xholon implements IQuantity {
 	/*
 	 * @see org.primordion.xholon.base.Xholon#getVal_long()
 	 */
-	@SuppressWarnings("unchecked")
 	public long getVal_long() {
 		try {
 			return amount.longValue(amount.getUnit());
@@ -191,7 +186,6 @@ public class QuantityScalar extends Xholon implements IQuantity {
 	/*
 	 * @see org.primordion.xholon.base.Xholon#setVal(long)
 	 */
-	@SuppressWarnings("unchecked")
 	public void setVal(long val) {
 		if (amount == null) {
 			// assume this is a Dimensionless quantity
@@ -205,7 +199,6 @@ public class QuantityScalar extends Xholon implements IQuantity {
 	/*
 	 * @see org.primordion.xholon.base.Xholon#getVal_int()
 	 */
-	@SuppressWarnings("unchecked")
 	public int getVal_int() {
 		try {
 			return (int)amount.longValue(amount.getUnit());
@@ -217,7 +210,6 @@ public class QuantityScalar extends Xholon implements IQuantity {
 	/*
 	 * @see org.primordion.xholon.base.Xholon#setVal(int)
 	 */
-	@SuppressWarnings("unchecked")
 	public void setVal(int val) {
 		if (amount == null) {
 			// assume this is a Dimensionless quantity
@@ -285,7 +277,6 @@ public class QuantityScalar extends Xholon implements IQuantity {
 	</ul>
 	 * @see org.primordion.xholon.base.Attribute#toString()
 	 */
-	@SuppressWarnings("unchecked")
 	public String toString() {
 		//String format = ((IDecoration)this.getXhc()).getFormat(); // GWT
 		if (amount == null) {
@@ -310,7 +301,6 @@ public class QuantityScalar extends Xholon implements IQuantity {
 	 * Get Amount.
 	 * @return The amount encapsulated by this instance of Quantity.
 	 */
-	@SuppressWarnings("unchecked")
 	public Amount getAmount() {
 		return amount;
 	}
@@ -319,7 +309,6 @@ public class QuantityScalar extends Xholon implements IQuantity {
 	 * Set Amount.
 	 * @param amount The amount encapsulated by this instance of Quantity.
 	 */
-	@SuppressWarnings("unchecked")
 	public void setAmount(Amount amount) {
 		this.amount = amount;
 	}

@@ -1,7 +1,7 @@
 package org.primordion.xholon.service.gist;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArray;
+//import com.google.gwt.core.client.JsArray;
 
 /**
  * JavaScript overlay of a JSONP gist Data object.

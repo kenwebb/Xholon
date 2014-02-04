@@ -22,8 +22,8 @@ import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.ScriptInjector;
-import com.google.gwt.dom.client.Node;
-import com.google.gwt.user.client.Window;
+//import com.google.gwt.dom.client.Node;
+//import com.google.gwt.user.client.Window;
 
 /**
  * Provide help for creating HTML script tags.

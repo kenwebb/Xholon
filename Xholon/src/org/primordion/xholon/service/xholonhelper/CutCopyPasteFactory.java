@@ -18,7 +18,7 @@
 
 package org.primordion.xholon.service.xholonhelper;
 
-import org.primordion.xholon.base.Xholon;
+//import org.primordion.xholon.base.Xholon;
 
 /**
  * Factory that returns an object (ICutCopyPaste).
@@ -28,7 +28,7 @@ import org.primordion.xholon.base.Xholon;
  */
 public class CutCopyPasteFactory {
 	
-	private static final String implName = "org.primordion.xholon.service.xholonhelper.CutCopyPaste";
+	//private static final String implName = "org.primordion.xholon.service.xholonhelper.CutCopyPaste";
 	
 	/**
 	 * The singleton instance.

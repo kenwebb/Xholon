@@ -32,12 +32,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
+//import java.util.Properties;
 
 import org.primordion.xholon.util.XholonSortedNode;
-import org.primordion.xholon.app.Application;
+//import org.primordion.xholon.app.Application;
 import org.primordion.xholon.base.IMessage;
-import org.primordion.xholon.base.IPort;
+//import org.primordion.xholon.base.IPort;
 import org.primordion.xholon.base.ISignal;
 import org.primordion.xholon.base.IXPath;
 import org.primordion.xholon.base.IXholon;
@@ -276,7 +276,6 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
    * ex: rtwo_12.port[1],19.0,34.0,cO2_5  .conjport[0]
    * ex: hello_1.port[0],17.0,34.0,world_2  .conjport[0]
    */
-  @SuppressWarnings("unchecked")
   protected List svgStartPort;
   
   /**
@@ -284,7 +283,6 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
    * This is used to generate SVG connectors.
    * ex: cO2_5.conjport[0]=23.0,44.0
    */
-  @SuppressWarnings("unchecked")
   protected Map svgEndPort;
   
   /** Whether or not reffedRoot has been initialized. */
@@ -398,7 +396,6 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
    * Populate the tree with one node.
    * @param node
    */
-  @SuppressWarnings("unchecked")
   protected void populateReffedTree(IXholon node)
   {
     if (!showStates && isStateMachineEntity(node)) {return;}
@@ -444,7 +441,6 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
   /*
    * @see org.primordion.xholon.io.IXholon2Gui#writeAll()
    */
-  @SuppressWarnings("unchecked")
   public void writeAll()
   {
     //boolean shouldClose = true;
@@ -1087,7 +1083,6 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
    * @param node The current node in the Xholon hierarchy.
    * @param level Current level in the hierarchy.
    */
-  @SuppressWarnings("unchecked")
   protected void writePorts(float x, float y, IXholon node, int level)
   {
     List portList = node.getAllPorts();
@@ -1309,7 +1304,6 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
   /**
    * Write connector lines between ports.
    */
-  @SuppressWarnings("unchecked")
   protected void writeConnectors() {
     if (!shouldShowConnectors) {return;}
     Iterator itStart = svgStartPort.iterator();

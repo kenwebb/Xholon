@@ -5,12 +5,12 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import org.primordion.xholon.app.IApplication;
 import org.primordion.xholon.base.IMessage;
-import org.primordion.xholon.base.ISignal;
-import org.primordion.xholon.base.IXholon;
+//import org.primordion.xholon.base.ISignal;
+//import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.Message;
 import org.primordion.xholon.base.Xholon;
 //import org.primordion.xholon.io.IXholonGui;
-import org.primordion.xholon.service.IXholonService;
+//import org.primordion.xholon.service.IXholonService;
 
 /*
 // wb callback from github gist request

@@ -31,14 +31,14 @@ import org.client.GwtEnvironment;
 
 import org.primordion.xholon.app.Application;
 import org.primordion.xholon.app.IApplication;
-import org.primordion.xholon.base.IControl;
+//import org.primordion.xholon.base.IControl;
 import org.primordion.xholon.base.IMessage;
 import org.primordion.xholon.base.ISignal;
-import org.primordion.xholon.base.IXPath;
+//import org.primordion.xholon.base.IXPath;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
 import org.primordion.xholon.base.Xholon;
-import org.primordion.xholon.service.AbstractXholonService;
+//import org.primordion.xholon.service.AbstractXholonService;
 import org.primordion.xholon.service.IXholonService;
 import org.primordion.xholon.service.NodeSelectionService;
 import org.primordion.xholon.service.svg.SvgClient;
@@ -68,12 +68,12 @@ public class XholonWorkbook extends Xholon {
 	 */
 	private static final int SVG_MIN_LEN = 200;
 	
-	private int bufferCapacity = 1000;
-	private char[] buffer = null;
+	//private int bufferCapacity = 1000;
+	//private char[] buffer = null;
 	private IApplication app = null;
 	private IXholon xholonHelperService = null;
 	/** To prevent the insertion of unreasonably large workbooks. 100 * bufferCapacity chars */
-	private int maxReads = 100;
+	//private int maxReads = 100;
 	private IXholon contextNode = null;
 	
 	// params

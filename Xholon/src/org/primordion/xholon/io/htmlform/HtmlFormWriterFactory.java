@@ -34,10 +34,10 @@ public class HtmlFormWriterFactory extends Xholon {
 	/** The singleton instance of this class. */
 	private static HtmlFormWriterFactory htmlFormWriterFactory = null;
 	
-	private static final String STR_WRITER_XHOLON = "org.primordion.xholon.io.htmlform.HtmlFormStrWriter";
+	//private static final String STR_WRITER_XHOLON = "org.primordion.xholon.io.htmlform.HtmlFormStrWriter";
 	
 	/** Name of Xholon Stax writer class. */
-	private String xholonStaxWriter = STR_WRITER_XHOLON;
+	//private String xholonStaxWriter = STR_WRITER_XHOLON;
 	
 	/**
 	 * Get a concrete instance of XMLWriter.

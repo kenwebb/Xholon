@@ -21,7 +21,7 @@ package org.primordion.xholon.service.xholonhelper;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.TextAreaElement;
-import com.google.gwt.user.client.ui.TextArea;
+//import com.google.gwt.user.client.ui.TextArea;
 
 //import java.awt.Toolkit;
 //import java.awt.datatransfer.Clipboard;

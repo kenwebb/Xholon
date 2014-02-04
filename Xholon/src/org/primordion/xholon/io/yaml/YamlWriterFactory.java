@@ -34,15 +34,15 @@ public class YamlWriterFactory extends Xholon {
 	/** The singleton instance of this class. */
 	private static YamlWriterFactory yamlWriterFactory = null;
 	
-	private static final String STR_WRITER_XHOLON = "org.primordion.xholon.io.yaml.YamlStrWriter";	
-	private static final String STAX_WRITER_XHOLON = "org.primordion.xholon.io.yaml.YamlStaxWriter";
-	private static final String STAX_WRITER_JACKSON = "org.primordion.xholon.io.yaml.YamlStaxWriter_jackson";
+	//private static final String STR_WRITER_XHOLON = "org.primordion.xholon.io.yaml.YamlStrWriter";	
+	//private static final String STAX_WRITER_XHOLON = "org.primordion.xholon.io.yaml.YamlStaxWriter";
+	//private static final String STAX_WRITER_JACKSON = "org.primordion.xholon.io.yaml.YamlStaxWriter_jackson";
 	
 	/** Name of third-party Stax writer class (ex: Xholon or jackson). */
-	private String thirdPartyStaxWriter = "com.fasterxml.jackson.dataformat.yaml.YAMLFactory";
+	//private String thirdPartyStaxWriter = "com.fasterxml.jackson.dataformat.yaml.YAMLFactory";
 	
 	/** Name of Xholon Stax writer class. */
-	private String xholonStaxWriter = STR_WRITER_XHOLON; //STAX_WRITER_JACKSON;
+	//private String xholonStaxWriter = STR_WRITER_XHOLON; //STAX_WRITER_JACKSON;
 	
 	/**
 	 * Get a concrete instance of XMLWriter.
@@ -72,7 +72,6 @@ public class YamlWriterFactory extends Xholon {
 	 * Create a new instance of a Stax writer.
 	 * @return A new instance, or null.
 	 */
-	@SuppressWarnings("unchecked")
 	protected IXmlWriter newStaxInstance() {
 	  /* Java SE version
 		if ((xholonStaxWriter.equals(STAX_WRITER_JACKSON)) && !exists(thirdPartyStaxWriter)) {

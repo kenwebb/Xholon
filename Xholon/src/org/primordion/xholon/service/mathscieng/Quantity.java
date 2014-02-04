@@ -18,7 +18,7 @@
 
 package org.primordion.xholon.service.mathscieng;
 
-import org.primordion.xholon.base.IDecoration;
+//import org.primordion.xholon.base.IDecoration;
 import org.primordion.xholon.base.IQuantity;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.Xholon;
@@ -120,7 +120,6 @@ public class Quantity extends Xholon implements IQuantity {
 		/*
 		 * @see org.primordion.xholon.service.mathscieng.QuantityScalar#toString()
 		 */
-		@SuppressWarnings("unchecked")
 		public String toString() {
 			IXholon tqo = (IXholon)Quantity.this;
 			//String format = ((IDecoration)tqo.getXhc()).getFormat(); // GWT

@@ -18,31 +18,31 @@
 
 package org.primordion.xholon.io;
 
-import com.google.gwt.dom.client.Document;
+//import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 //import com.google.gwt.dom.client.TextAreaElement;
 
 import com.google.gwt.user.client.Command;
-import com.google.gwt.core.client.GWT;
+//import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockPanel;
-import com.google.gwt.user.client.ui.Grid;
+//import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
+//import com.google.gwt.user.client.ui.HTML;
+//import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.Image;
 //import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
-import com.google.gwt.user.client.ui.PopupPanel;
+//import com.google.gwt.user.client.ui.MenuItem;
+//import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 //import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Tree;
+//import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -69,23 +69,23 @@ import com.google.gwt.resources.client.ImageResource;
 
 import org.client.GwtEnvironment;
 import org.client.RCImages;
-import org.primordion.xholon.app.Application;
-import org.primordion.xholon.app.IApplication;
+//import org.primordion.xholon.app.Application;
+//import org.primordion.xholon.app.IApplication;
 import org.primordion.xholon.base.IDecoration;
-import org.primordion.xholon.base.IMessage;
-import org.primordion.xholon.base.IReflection;
-import org.primordion.xholon.base.ISignal;
+//import org.primordion.xholon.base.IMessage;
+//import org.primordion.xholon.base.IReflection;
+//import org.primordion.xholon.base.ISignal;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
-import org.primordion.xholon.base.ReflectionFactory;
-import org.primordion.xholon.base.XholonClass;
+//import org.primordion.xholon.base.ReflectionFactory;
+//import org.primordion.xholon.base.XholonClass;
 import org.primordion.xholon.common.mechanism.CeControl;
-import org.primordion.xholon.common.mechanism.CeStateMachineEntity;
-import org.primordion.xholon.exception.XholonConfigurationException;
-import org.primordion.xholon.io.IViewer;
-import org.primordion.xholon.service.IXholonService;
-import org.primordion.xholon.service.NodeSelectionService;
-import org.primordion.xholon.util.ClassHelper;
+//import org.primordion.xholon.common.mechanism.CeStateMachineEntity;
+//import org.primordion.xholon.exception.XholonConfigurationException;
+//import org.primordion.xholon.io.IViewer;
+//import org.primordion.xholon.service.IXholonService;
+//import org.primordion.xholon.service.NodeSelectionService;
+//import org.primordion.xholon.util.ClassHelper;
 
 /**
  * Optional GUI for a Xholon GWT-based application.

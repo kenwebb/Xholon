@@ -18,7 +18,7 @@
 
 package org.primordion.xholon.service.xholonhelper;
 
-import org.primordion.xholon.base.Xholon;
+//import org.primordion.xholon.base.Xholon;
 
 /**
  * Factory that returns an object (IClipboard) that can interact with the Java clipboard.
@@ -28,7 +28,7 @@ import org.primordion.xholon.base.Xholon;
  */
 public class ClipboardFactory {
 	
-	private static final String implName = "org.primordion.xholon.service.xholonhelper.XholonClipboard";
+	//private static final String implName = "org.primordion.xholon.service.xholonhelper.XholonClipboard";
 	
 	/**
 	 * The singleton instance.

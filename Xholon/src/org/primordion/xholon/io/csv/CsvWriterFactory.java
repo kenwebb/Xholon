@@ -34,10 +34,10 @@ public class CsvWriterFactory extends Xholon {
 	/** The singleton instance of this class. */
 	private static CsvWriterFactory csvWriterFactory = null;
 	
-	private static final String STR_WRITER_XHOLON = "org.primordion.xholon.io.csv.CsvStrWriter";
+	//private static final String STR_WRITER_XHOLON = "org.primordion.xholon.io.csv.CsvStrWriter";
 	
 	/** Name of Xholon Stax writer class. */
-	private String xholonStaxWriter = STR_WRITER_XHOLON;
+	//private String xholonStaxWriter = STR_WRITER_XHOLON;
 	
 	/**
 	 * Get a concrete instance of XMLWriter.
@@ -67,7 +67,6 @@ public class CsvWriterFactory extends Xholon {
 	 * Create a new instance of a Stax writer.
 	 * @return A new instance, or null.
 	 */
-	@SuppressWarnings("unchecked")
 	protected IXmlWriter newStaxInstance() {
 	  /* Java SE version
 		Class clazz = null;

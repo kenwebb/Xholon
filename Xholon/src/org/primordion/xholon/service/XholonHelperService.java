@@ -23,7 +23,7 @@ import org.primordion.xholon.base.ISignal;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
 import org.primordion.xholon.base.Message;
-import org.primordion.xholon.base.Xholon;
+//import org.primordion.xholon.base.Xholon;
 import org.primordion.xholon.exception.XholonConfigurationException;
 import org.primordion.xholon.io.console.IXholonConsole;
 import org.primordion.xholon.io.console.XholonConsole;

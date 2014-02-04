@@ -398,7 +398,7 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 					if (javaXhClassName != null) {
 						javaXhClassName = javaXhClassName.replace('.', '/');
 					}
-					String[] portName = new String[pnList.size()];
+					//String[] portName = new String[pnList.size()];
 					//newXholon = new AsmXholonBeanBuilder() // GWT
 					//	.generateNewInstance(javaXhClassName + "_" + tagName,
 					//			javaXhClassName, pnList.toArray(portName));

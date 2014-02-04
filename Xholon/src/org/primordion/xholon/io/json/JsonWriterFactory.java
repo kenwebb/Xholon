@@ -36,12 +36,12 @@ public class JsonWriterFactory extends Xholon {
 	
 	/** Name of third-party Stax writer class (ex: jettison or jackson). */
 	//private String thirdPartyStaxWriter = "org.codehaus.jettison.mapped.MappedXMLStreamWriter";
-	private String thirdPartyStaxWriter = "com.fasterxml.jackson.core.JsonGenerator";
+	//private String thirdPartyStaxWriter = "com.fasterxml.jackson.core.JsonGenerator";
 	
 	/** Name of Xholon Stax writer class. */
 	//private String xholonStaxWriter = "org.primordion.xholon.io.json.JsonStaxWriter";
 	//private String xholonStaxWriter = "org.primordion.xholon.io.json.JsonStaxWriter_jackson";
-	private String xholonStaxWriter = "org.primordion.xholon.io.json.JsonStrWriter";
+	//private String xholonStaxWriter = "org.primordion.xholon.io.json.JsonStrWriter";
 	
 	/**
 	 * Get a concrete instance of XMLWriter.
@@ -71,7 +71,6 @@ public class JsonWriterFactory extends Xholon {
 	 * Create a new instance of a Stax writer.
 	 * @return A new instance, or null.
 	 */
-	@SuppressWarnings("unchecked")
 	protected IXmlWriter newStaxInstance() {
 		/* Java SE code
 		if (!exists(thirdPartyStaxWriter)) {return null;}

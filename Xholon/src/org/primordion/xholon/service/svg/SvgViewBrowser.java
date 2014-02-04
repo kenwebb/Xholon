@@ -18,39 +18,39 @@
 
 package org.primordion.xholon.service.svg;
 
-import com.google.gwt.canvas.dom.client.CssColor;
+//import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.dom.client.Text;
-import com.google.gwt.event.dom.client.ContextMenuEvent;
-import com.google.gwt.event.dom.client.DragOverHandler;
-import com.google.gwt.event.dom.client.DragOverEvent;
-import com.google.gwt.event.dom.client.DropHandler;
-import com.google.gwt.event.dom.client.DropEvent;
-import com.google.gwt.user.client.Command;
+//import com.google.gwt.event.dom.client.ContextMenuEvent;
+//import com.google.gwt.event.dom.client.DragOverHandler;
+//import com.google.gwt.event.dom.client.DragOverEvent;
+//import com.google.gwt.event.dom.client.DropHandler;
+//import com.google.gwt.event.dom.client.DropEvent;
+//import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.EventListener;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
-import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.RootPanel;
+//import com.google.gwt.user.client.ui.MenuBar;
+//import com.google.gwt.user.client.ui.MenuItem;
+//import com.google.gwt.user.client.ui.PopupPanel;
+//import com.google.gwt.user.client.ui.RootPanel;
 
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.RequestBuilder.Method;
+//import com.google.gwt.http.client.RequestBuilder.Method;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.Response;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+//import java.util.Iterator;
+//import java.util.List;
 
 import org.primordion.xholon.app.Application;
 import org.primordion.xholon.app.IApplication;
@@ -204,7 +204,6 @@ public class SvgViewBrowser extends Xholon implements ISvgView, EventListener {
   protected boolean hasChanged = false;
   
   /** Mapping between SVGSalamander classes and SVG tag names. */
-  @SuppressWarnings("unchecked")
   final static HashMap class2TagMapping = new HashMap();
   
   /** An instance of SvgClient, or other IXholon node. */
@@ -512,7 +511,6 @@ public class SvgViewBrowser extends Xholon implements ISvgView, EventListener {
    * whose id references a node in the Xholon model.
    * @param svgElement An instance of an SvgElement subclass.
    */
-  @SuppressWarnings("unchecked")
   protected void createSvgViewables(Object svgElement) {
     if (("text".equals(((Element)svgElement).getNodeName()))
         || ("tspan".equals(((Element)svgElement).getNodeName()))) {
@@ -736,7 +734,6 @@ public class SvgViewBrowser extends Xholon implements ISvgView, EventListener {
    * TODO An image will scale if I manually add a scale() attribute to the top level g.
    *   <pre>&lt;g id="layer1" transform="translate(-120.16872,-87.928404) scale(2.0)"></pre>
    */
-  @SuppressWarnings("unchecked")
   protected void scale(double scaleX, double scaleY)
   {
     /* SVG Salamander code
@@ -768,7 +765,6 @@ public class SvgViewBrowser extends Xholon implements ISvgView, EventListener {
    * Blank out the values of Tspan elements in a subtree.
    * @param svgElement The root element in the subtree.
    */
-  @SuppressWarnings("unchecked")
   protected void initNumericText(Object svgElement) {
     Element ele = (Element)svgElement;
     if ("tspan".equals(ele.getNodeName())) {
@@ -928,7 +924,7 @@ public class SvgViewBrowser extends Xholon implements ISvgView, EventListener {
       if (node != null) {
         //rememberNodeSelection(node, event.getCtrlKey());
         //println(node.handleNodeSelection());
-        int x = ele.getAbsoluteLeft();
+        //int x = ele.getAbsoluteLeft();
         int y = ele.getAbsoluteTop();
         //showPopupMenu(node, x, y);
         
@@ -1391,7 +1387,6 @@ public class SvgViewBrowser extends Xholon implements ISvgView, EventListener {
    * @param svgElement An element that may be a Tspan or Text.
    * @param out The StringBuilder to write the XML to.
    */
-  @SuppressWarnings("unchecked")
   protected void writeSvgViewablesRecurse(Element ele, StringBuilder sb) {
     if ("tspan".equals(ele.getNodeName())) {
       sb.append("  <SvgViewable xhcName=\"" + ele.getFirstChild().getNodeValue().trim()
