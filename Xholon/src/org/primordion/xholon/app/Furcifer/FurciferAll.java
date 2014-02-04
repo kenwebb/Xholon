@@ -19,15 +19,15 @@
 package org.primordion.xholon.app.Furcifer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+//import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+//import java.util.Map;
 
 import org.primordion.xholon.base.IMessage;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.PortInformation;
-import org.primordion.xholon.base.XholonWithPorts;
+//import org.primordion.xholon.base.XholonWithPorts;
 
 /**
 	Furcifer application - Xholon Java

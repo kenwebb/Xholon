@@ -30,7 +30,7 @@ import java.util.List;
 import org.primordion.xholon.util.XholonSortedNode;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
-import org.primordion.xholon.base.Xholon;
+//import org.primordion.xholon.base.Xholon;
 import org.primordion.ef.AbstractXholon2ExternalFormat;
 import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
 //import org.primordion.xholon.util.MiscIo;

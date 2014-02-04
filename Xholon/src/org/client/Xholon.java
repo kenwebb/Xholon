@@ -26,13 +26,13 @@ import com.google.gwt.user.client.Window.Navigator;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 
-import com.google.gwt.resources.client.ResourceCallback;
-import com.google.gwt.resources.client.ResourceException;
-import com.google.gwt.resources.client.ExternalTextResource;
-import com.google.gwt.resources.client.TextResource;
+//import com.google.gwt.resources.client.ResourceCallback;
+//import com.google.gwt.resources.client.ResourceException;
+//import com.google.gwt.resources.client.ExternalTextResource;
+//import com.google.gwt.resources.client.TextResource;
 
-import org.client.RCConfig;
-import org.primordion.user.app.helloworldjnlp.Resources;
+//import org.client.RCConfig;
+//import org.primordion.user.app.helloworldjnlp.Resources;
 
 import org.primordion.xholon.app.IApplication;
 import org.primordion.xholon.base.IXholon;
@@ -288,7 +288,7 @@ public class Xholon implements EntryPoint {
       "config/helloworldjnlp/HelloWorld_xhn.xml");
   }
   
-  private void testResources() {
+  /*private void testResources() {
     Resources res = Resources.INSTANCE;
     // Using a TextResource
     //System.out.println(Resources.INSTANCE.csh().getText());
@@ -351,7 +351,7 @@ public class Xholon implements EntryPoint {
     
     //System.out.println(RCConfig.INSTANCE.XhMechanisms().getText());
     //System.out.println(((TextResource)RCConfig.INSTANCE.getResource("Control_CompositeHierarchy")).getText());
-  }
+  }*/
   
   /**
    * AppPingPong

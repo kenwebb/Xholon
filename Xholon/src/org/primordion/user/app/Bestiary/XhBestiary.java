@@ -70,7 +70,6 @@ public class XhBestiary extends XholonWithPorts implements CeBestiary {
 	/*
 	 * @see org.primordion.xholon.base.Xholon#getAllPorts()
 	 */
-	@SuppressWarnings("unchecked")
 	public List getAllPorts() {
 		List portList = this.getXhc().getPortInformation();
 		// eval the XPath expressions to determine the reffed nodes

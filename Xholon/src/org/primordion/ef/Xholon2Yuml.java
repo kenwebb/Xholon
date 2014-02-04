@@ -18,7 +18,7 @@
 
 package org.primordion.ef;
 
-import com.google.gwt.dom.client.Element;
+//import com.google.gwt.dom.client.Element;
 
 //import java.io.File;
 //import java.io.IOException;
@@ -35,7 +35,7 @@ import org.primordion.xholon.base.IXPath;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
 import org.primordion.xholon.base.PortInformation;
-import org.primordion.xholon.base.Xholon;
+//import org.primordion.xholon.base.Xholon;
 import org.primordion.xholon.service.IXholonService;
 import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
 //import org.primordion.xholon.util.MiscIo;

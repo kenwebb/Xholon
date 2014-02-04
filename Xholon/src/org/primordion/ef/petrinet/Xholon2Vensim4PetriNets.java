@@ -27,7 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.primordion.xholon.base.IXholon;
-import org.primordion.xholon.base.Xholon;
+//import org.primordion.xholon.base.Xholon;
 import org.primordion.ef.AbstractXholon2ExternalFormat;
 import org.primordion.xholon.mech.petrinet.Arc;
 import org.primordion.xholon.mech.petrinet.PetriNet;

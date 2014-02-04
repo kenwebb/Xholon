@@ -20,7 +20,7 @@ package org.primordion.user.app.SpringIdol;
 
 import org.primordion.xholon.base.XholonWithPorts;
 
-import java.util.Iterator;
+//import java.util.Iterator;
 //import java.util.Properties; // GWT
 
 /**

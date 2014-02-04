@@ -27,7 +27,7 @@ import java.util.Date;
 
 import org.primordion.xholon.base.Annotation;
 import org.primordion.xholon.base.IXholon;
-import org.primordion.xholon.base.Xholon;
+//import org.primordion.xholon.base.Xholon;
 import org.primordion.xholon.io.htmlform.HtmlFormWriterFactory;
 import org.primordion.xholon.io.xml.IXholon2Xml;
 import org.primordion.xholon.io.xml.IXmlWriter;
@@ -150,7 +150,7 @@ public class Xholon2HtmlForm extends AbstractXholon2ExternalFormat implements IX
 		sb = new StringBuilder();
 		if (shouldPrettyPrint) {
 			xholon2Writer(root, sb);
-			String htmlStr = prettyPrint(sb.toString());
+			//String htmlStr = prettyPrint(sb.toString());
 			// do the actual pretty print; use regular expression(s) to replace {},
 			//try {
 			//	out.write(htmlStr);

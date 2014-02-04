@@ -30,7 +30,7 @@ import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
 import org.primordion.xholon.base.PortInformation;
 import org.primordion.xholon.base.XhRelTypes;
-import org.primordion.xholon.base.Xholon;
+//import org.primordion.xholon.base.Xholon;
 import org.primordion.xholon.common.mechanism.CeStateMachineEntity;
 import org.primordion.ef.AbstractXholon2ExternalFormat;
 import org.primordion.xholon.io.xml.IXholon2Xml;

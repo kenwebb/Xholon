@@ -19,7 +19,6 @@
 package org.primordion.cellontro.app;
 
 import org.primordion.xholon.app.Application;
-import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.exception.XholonConfigurationException;
 import org.primordion.xholon.io.IAbout;
 import org.primordion.xholon.service.AbstractXholonService;

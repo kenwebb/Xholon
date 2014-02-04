@@ -18,11 +18,11 @@
 
 package org.primordion.xholon.base;
 
-import com.google.gwt.dom.client.Document;
+//import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.TextAreaElement;
 
-import java.io.IOException;
+//import java.io.IOException;
 //import java.io.PrintWriter;
 import java.io.Serializable;
 //import java.io.Writer;
@@ -2935,7 +2935,7 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 	}
 	
 	public IAttribute getAttributeNodeXh(String name) {
-		Object obj = getAttributeXh(name);
+		//Object obj = getAttributeXh(name);
 		// TODO complete this; obj may be an Object, an IXholon, or an IAttribute
 		// if possible use getXhc().hasAncestor()
 		return null;

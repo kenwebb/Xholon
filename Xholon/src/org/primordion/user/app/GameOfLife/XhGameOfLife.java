@@ -19,8 +19,8 @@
 package org.primordion.user.app.GameOfLife;
 
 import org.primordion.xholon.base.AbstractGrid;
-import org.primordion.xholon.base.IXholon;
-import org.primordion.xholon.service.IXholonService;
+//import org.primordion.xholon.base.IXholon;
+//import org.primordion.xholon.service.IXholonService;
 //import org.primordion.xholon.service.gameengine.IGameEngine;
 
 /**

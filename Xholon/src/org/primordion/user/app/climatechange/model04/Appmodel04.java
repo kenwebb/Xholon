@@ -20,9 +20,9 @@ package org.primordion.user.app.climatechange.model04;
 
 import org.primordion.xholon.app.Application;
 import org.primordion.xholon.base.IPortInterface;
-import org.primordion.xholon.base.IXholon;
+//import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.PortInterface;
-import org.primordion.xholon.base.XholonTime;
+//import org.primordion.xholon.base.XholonTime;
 import org.primordion.xholon.exception.XholonConfigurationException;
 import org.primordion.xholon.io.GridViewerDetails;
 

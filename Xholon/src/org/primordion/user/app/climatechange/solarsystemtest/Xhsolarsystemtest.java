@@ -18,7 +18,7 @@
 
 package org.primordion.user.app.climatechange.solarsystemtest;
 
-import org.primordion.xholon.base.IXholonClass;
+//import org.primordion.xholon.base.IXholonClass;
 import org.primordion.xholon.base.XholonWithPorts;
 
 /**

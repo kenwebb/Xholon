@@ -25,7 +25,7 @@ import com.google.gwt.dom.client.Element;
 
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IMessage;
-import org.primordion.xholon.io.ISwingEntity;
+//import org.primordion.xholon.io.ISwingEntity;
 import org.primordion.xholon.io.xml.IXml2Xholon;
 
 /**

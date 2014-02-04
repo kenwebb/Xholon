@@ -20,14 +20,14 @@ package org.primordion.xholon.base;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-import java.util.Iterator;
+//import java.util.Iterator;
 import java.util.List;
 
 import org.primordion.xholon.base.IMessage;
 import org.primordion.xholon.base.ISignal;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.Xholon;
-import org.primordion.xholon.exception.XholonConfigurationException;
+//import org.primordion.xholon.exception.XholonConfigurationException;
 import org.primordion.xholon.io.xml.IXholon2Xml;
 import org.primordion.xholon.io.xml.IXmlWriter;
 import org.primordion.xholon.util.IJavaTypes;

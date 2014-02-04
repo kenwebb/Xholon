@@ -42,7 +42,7 @@ import javax.swing.tree.DefaultTreeModel;*/
 
 import org.primordion.xholon.base.IMechanism;
 import org.primordion.xholon.base.IXholon;
-import org.primordion.xholon.base.Xholon;
+//import org.primordion.xholon.base.Xholon;
 import org.primordion.xholon.common.mechanism.CeStateMachineEntity;
 import org.primordion.ef.AbstractXholon2ExternalFormat;
 import org.primordion.xholon.io.gwt.HtmlScriptHelper;

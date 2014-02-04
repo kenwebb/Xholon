@@ -33,7 +33,7 @@ import org.primordion.xholon.base.IXPath;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
 import org.primordion.xholon.base.PortInformation;
-import org.primordion.xholon.base.Xholon;
+//import org.primordion.xholon.base.Xholon;
 import org.primordion.xholon.common.mechanism.CeStateMachineEntity;
 import org.primordion.xholon.service.IXholonService;
 import org.primordion.xholon.service.ef.IXholon2ExternalFormat;

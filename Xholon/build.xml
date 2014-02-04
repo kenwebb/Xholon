@@ -30,7 +30,7 @@
       <classpath>
         <path refid="project.class.path"/>
       </classpath>
-      <!--<compilerarg value="-Xlint"/>--> <!-- added by KSW -->
+      <compilerarg value="-Xlint"/> <!-- added by KSW -->
     </javac>
     <copy todir="war/WEB-INF/classes">
       <fileset dir="src" excludes="**/*.java"/>

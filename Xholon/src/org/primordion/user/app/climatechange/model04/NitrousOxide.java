@@ -33,7 +33,7 @@ import org.primordion.xholon.base.IXholon;
 public class NitrousOxide extends Xhmodel04 {
 	
 	/** Level of this GHG (in ppmv) in the atmosphere in 1750, the base year. */
-	private static final double GHG_LEVEL_PPMV_1750 = 0.270; // NitrousOxide; see TAR ch.6; 270 ppbv
+	//private static final double GHG_LEVEL_PPMV_1750 = 0.270; // NitrousOxide; see TAR ch.6; 270 ppbv
 	
 	/** The atmosphere that this GHG is part of. */
 	private IXholon atmosphere = null;

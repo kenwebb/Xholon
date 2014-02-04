@@ -4,10 +4,10 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 
-import org.primordion.xholon.base.IDecoration;
+//import org.primordion.xholon.base.IDecoration;
 import org.primordion.xholon.base.IXholon;
-import org.primordion.xholon.base.IXholonClass;
-import org.primordion.xholon.common.mechanism.CeStateMachineEntity;
+//import org.primordion.xholon.base.IXholonClass;
+//import org.primordion.xholon.common.mechanism.CeStateMachineEntity;
 import org.primordion.xholon.io.Xholon2D3HierarchyJSON;
 
 import org.primordion.ef.AbstractXholon2ExternalFormat;
@@ -26,13 +26,13 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
 	protected String outPath = "./ef/d3/";
 	protected String modelName;
 	protected IXholon root;
-	private StringBuilder sb;
+	//private StringBuilder sb;
 	
-	private String indent = "                              ";
+	//private String indent = "                              ";
 	private boolean shouldShowStateMachineEntities = false;
 	private boolean shouldIncludeDecorations = true;
 	
-	private int numNodes = 0;
+	//private int numNodes = 0;
 	
 	public Xholon2HierarchyJSON() {}
 	

@@ -7,8 +7,8 @@ package org.fr.lri.swingstates.sm;
 
 //import java.awt.event.ActionEvent;
 //import java.awt.event.ActionListener;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
+//import java.lang.reflect.Field;
+//import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -23,7 +23,7 @@ import org.fr.lri.swingstates.events.VirtualEvent;
 //import org.fr.lri.swingstates.events.VirtualTimerEvent;
 
 import org.primordion.xholon.base.XholonAnonymous;
-import org.primordion.xholon.util.ClassHelper;
+//import org.primordion.xholon.util.ClassHelper;
 
 /**
  *  
@@ -289,7 +289,7 @@ public abstract class StateMachine extends XholonAnonymous { // implements Actio
 		 * the fields as enumerated by the reflection API is the same 
 		 * as the order in which the fields are constructed.
 		 */
-		Class smClass = this.getClass();
+		//Class smClass = this.getClass();
 //		System.out.println("build state machine "+smClass);
 
 /*

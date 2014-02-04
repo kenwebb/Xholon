@@ -24,7 +24,7 @@ package org.primordion.user.app.GameOfLife;
 import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 
-import org.primordion.xholon.base.ISignal;
+//import org.primordion.xholon.base.ISignal;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.io.GridPanel;
 import org.primordion.xholon.io.IGridPanel;

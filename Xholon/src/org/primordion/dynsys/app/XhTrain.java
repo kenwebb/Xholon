@@ -18,7 +18,7 @@
 
 package org.primordion.dynsys.app;
 
-import org.primordion.xholon.app.IApplication;
+//import org.primordion.xholon.app.IApplication;
 import org.primordion.xholon.base.IIntegration;
 import org.primordion.xholon.base.XholonWithPorts;
 

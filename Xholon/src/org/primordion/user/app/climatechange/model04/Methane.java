@@ -33,7 +33,7 @@ import org.primordion.xholon.base.IXholon;
 public class Methane extends Xhmodel04 {
 	
 	/** Level of this GHG (in ppmv) in the atmosphere in 1750, the base year. */
-	private static final double GHG_LEVEL_PPMV_1750 = 0.700; // Methane; see TAR ch.6; 700 ppbv
+	//private static final double GHG_LEVEL_PPMV_1750 = 0.700; // Methane; see TAR ch.6; 700 ppbv
 	
 	/** The atmosphere that this GHG is part of. */
 	private IXholon atmosphere = null;

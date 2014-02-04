@@ -19,7 +19,7 @@
 package org.primordion.user.app.GameOfLife;
 
 import org.primordion.xholon.app.Application;
-import org.primordion.xholon.base.IXholon;
+//import org.primordion.xholon.base.IXholon;
 //import org.primordion.xholon.base.XholonTime;
 //import org.primordion.xholon.io.GridPanel;
 import org.primordion.xholon.io.GridViewerDetails;

@@ -19,8 +19,8 @@
 package org.primordion.user.app.HelloWorld_TestTime;
 
 import org.primordion.xholon.app.Application;
-import org.primordion.xholon.base.XholonTime;
-import org.primordion.xholon.base.IXholon;
+//import org.primordion.xholon.base.XholonTime;
+//import org.primordion.xholon.base.IXholon;
 
 /**
  * Test XholonTime using Hello World. This is a sample Xholon application.

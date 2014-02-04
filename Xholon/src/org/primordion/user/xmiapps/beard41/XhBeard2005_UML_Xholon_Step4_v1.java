@@ -2,7 +2,7 @@ package org.primordion.user.xmiapps.beard41;
 
 import org.primordion.xholon.base.IMessage;
 import org.primordion.xholon.base.Message;
-import org.primordion.xholon.base.ISignal;
+//import org.primordion.xholon.base.ISignal;
 import org.primordion.xholon.base.StateMachineEntity;
 import org.primordion.xholon.base.XholonWithPorts;
 import org.primordion.xholon.base.IXholon;
@@ -43,7 +43,7 @@ public static final int P13 = 13;
 public String roleName = null;
 public double val = 0.0; // XholonClass
 // Mitochondrion size in liters. Based on my estimate of size as 0.000001 * 0.000001 * 0.000002 cubic meters. A liter is 0.001 cubic meters.
-private static double sizeMito = 2e-15; // XholonClass
+//private static double sizeMito = 2e-15; // XholonClass
 // time step multiplier; M_8
 public static final int timeStepMultiplier = IIntegration.M_128; // XholonClass
 // r, Dehydrogenase model parameter, Unitless/dimensionless

@@ -23,7 +23,7 @@ package org.primordion.xholon.base;
 //import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-import org.primordion.xholon.base.transferobject.MessageSenderReceiver;
+//import org.primordion.xholon.base.transferobject.MessageSenderReceiver;
 
 /**
  * <p>ROOM/UML2 message.</p>

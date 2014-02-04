@@ -27,7 +27,8 @@ public class LandUseChange extends Xhcarboncycle03 {
 		//in = (BufferedReader)MiscIo.openInputFile("/org/primordion/user/app/climatechange/carboncycle03/data/landuse/1850-2005.txt");
 		// open the remote data file
 		in = new MiscIoGwt();
-		boolean rc = in.openInputSync(GWT.getHostPageBaseURL()
+		//boolean rc = 
+		in.openInputSync(GWT.getHostPageBaseURL()
 		  + "config/climatechange/carboncycle03/data/landuse/1850-2005.txt");
 		// discard the first 15 lines
 		if (in != null) {

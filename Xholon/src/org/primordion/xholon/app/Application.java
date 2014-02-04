@@ -23,7 +23,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Display;
-import com.google.gwt.dom.client.Style.Unit;
+//import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.TextAreaElement;
 //import com.google.gwt.http.client.RequestBuilder;
 //import com.google.gwt.http.client.RequestCallback;
@@ -99,7 +99,7 @@ import org.primordion.xholon.io.IXholon2Gui;
 //import org.primordion.xholon.io.SnapshotXML; // GWT
 import org.primordion.xholon.io.XholonGwtTabPanelHelper;
 //import org.primordion.xholon.io.ef.other.Xholon2ChapNetwork;
-import org.primordion.xholon.io.vrml.AbstractVrmlWriter;
+//import org.primordion.xholon.io.vrml.AbstractVrmlWriter;
 import org.primordion.xholon.io.vrml.IVrmlWriter;
 import org.primordion.xholon.io.xml.IXholon2Xml;
 import org.primordion.xholon.io.xml.IXml2Xholon;
@@ -111,7 +111,7 @@ import org.primordion.xholon.service.AbstractXholonService;
 import org.primordion.xholon.service.IXholonService;
 import org.primordion.xholon.service.XholonCreationService;
 import org.primordion.xholon.service.creation.ITreeNodeFactory;
-import org.primordion.xholon.service.ef.IXholon2GraphFormat;
+//import org.primordion.xholon.service.ef.IXholon2GraphFormat;
 import org.primordion.xholon.util.ClassHelper;
 import org.primordion.xholon.util.Misc;
 import org.primordion.xholon.util.MiscRandom;
@@ -1627,7 +1627,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 		System.out.println("App.initialize() this.configFileName: " + this.configFileName);
 		System.out.println("App.initialize() xincludePath: " + xincludePath);
 		
-		StringTokenizer st;
+		//StringTokenizer st;
 		
 		try {
 			// Read values from the default configuration file.
@@ -1987,7 +1987,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 		gvd.gridOwner = getXPath().evaluate(st.nextToken(), root);
 		gvd.gridPanel.setCellSize(Integer.parseInt(st.nextToken()));
 		gvd.gridPanel.initGridPanel(gvd.gridOwner);
-		String title = st.nextToken();
+		//String title = st.nextToken();
 		if (st.hasMoreTokens()) { // useShapes is optional
 			gvd.gridPanel.setUseShapes(Boolean.valueOf(st.nextToken()).booleanValue());
 		}

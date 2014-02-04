@@ -19,7 +19,7 @@
 package org.primordion.user.app.PingPong;
 
 import org.primordion.xholon.app.Application;
-import org.primordion.xholon.base.IXholon;
+//import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.Msg;
 
 /**

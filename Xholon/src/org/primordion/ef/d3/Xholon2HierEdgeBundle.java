@@ -12,7 +12,7 @@ import org.primordion.xholon.common.mechanism.CeStateMachineEntity;
 
 import org.primordion.ef.AbstractXholon2ExternalFormat;
 
-import org.primordion.xholon.service.IXholonService;
+//import org.primordion.xholon.service.IXholonService;
 import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
 
 /**
