@@ -23,6 +23,7 @@ import org.primordion.xholon.mech.petrinet.QueueTransitions;
 import org.primordion.xholon.mech.petrinet.Transition;
 import org.primordion.xholon.service.mathscieng.Quantity;
 import org.primordion.xholon.service.svg.SvgClient;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,8 @@ public class SystemMechSpecific extends Application {
   
   public static final SystemMechSpecific instance = new SystemMechSpecific();
   
-  public IXholon getAppSpecificObjectVal(IXholon node, Class<IXholon> clazz, String attrName) {
+  @SuppressWarnings("unchecked")
+public IXholon getAppSpecificObjectVal(IXholon node, Class<IXholon> clazz, String attrName) {
     if (node == null) {return null;}
     else if ("org.primordion.xholon.base.OrNode".equals(clazz.getName())) {
       if ("onlyChild".equalsIgnoreCase(attrName)) {
@@ -84,14 +86,15 @@ public class SystemMechSpecific extends Application {
         return ((org.primordion.xholon.mech.petrinet.grid.PneBehavior)node).getPne();
       }
     }
-    Class superclass = clazz.getSuperclass();
+    Class<?> superclass = (Class<?>)clazz.getSuperclass();
     if (superclass.getName().startsWith("org.primordion.xholon")) {
-      return getAppSpecificObjectVal(node, superclass, attrName);
+      return getAppSpecificObjectVal(node, (Class<IXholon>)superclass, attrName);
     }
     return null;
   }
   
-  public String getAppSpecificObjectValNames(IXholon node, Class<IXholon> clazz) {
+  @SuppressWarnings("unchecked")
+public String getAppSpecificObjectValNames(IXholon node, Class<IXholon> clazz) {
     String names = "";
     if (node == null) {return null;}
     else if ("org.primordion.xholon.base.OrNode".equals(clazz.getName())) {
@@ -121,14 +124,15 @@ public class SystemMechSpecific extends Application {
     else if ("org.primordion.xholon.mech.petrinet.grid.PneBehavior".equals(clazz.getName())) {
       names = "pne,";
     }
-    Class superclass = clazz.getSuperclass();
+    Class<?> superclass = (Class<?>)clazz.getSuperclass();
     if (superclass.getName().startsWith("org.primordion.xholon")) {
-      names = names + getAppSpecificObjectValNames(node, superclass);
+      names = names + getAppSpecificObjectValNames(node, (Class<IXholon>)superclass);
     }
     return names;
   }
   
-  public boolean setAppSpecificObjectVal(IXholon node, Class<IXholon> clazz, String attrName, IXholon val) {
+  @SuppressWarnings("unchecked")
+public boolean setAppSpecificObjectVal(IXholon node, Class<IXholon> clazz, String attrName, IXholon val) {
     if (node == null) {return false;}
     else if ("org.primordion.xholon.base.OrNode".equals(clazz.getName())) {
       if ("onlyChild".equalsIgnoreCase(attrName)) {
@@ -136,14 +140,15 @@ public class SystemMechSpecific extends Application {
         return true;
       }
     }
-    Class superclass = clazz.getSuperclass();
+    Class<?> superclass = (Class<?>)clazz.getSuperclass();
     if (superclass.getName().startsWith("org.primordion.xholon")) {
-      return setAppSpecificObjectVal(node, superclass, attrName, val);
+      return setAppSpecificObjectVal(node, (Class<IXholon>)superclass, attrName, val);
     }
     return false;
   }
   
-  public Object getAppSpecificAttribute(IXholon node, Class<IXholon> clazz, String attrName) {
+  @SuppressWarnings("unchecked")
+public Object getAppSpecificAttribute(IXholon node, Class<IXholon> clazz, String attrName) {
     if (node == null) {return null;}
     else if ("org.primordion.xholon.base.Turtle".equals(clazz.getName())) {
       if ("Breed".equalsIgnoreCase(attrName)) {return ((Turtle)node).getBreed();}
@@ -307,14 +312,15 @@ public class SystemMechSpecific extends Application {
       if ("Setup".equalsIgnoreCase(attrName)) {return ((SvgClient)node).getSetup();}
       if ("ViewBehavior".equalsIgnoreCase(attrName)) {return ((SvgClient)node).getViewBehavior();}
     }
-    Class superclass = clazz.getSuperclass();
+    Class<?> superclass = (Class<?>)clazz.getSuperclass();
     if ((superclass != null) && superclass.getName().startsWith("org.primordion.xholon")) {
-      return getAppSpecificAttribute(node, superclass, attrName);
+      return getAppSpecificAttribute(node, (Class<IXholon>)superclass, attrName);
     }
     return null;
   }
   
-  public void setAppSpecificAttribute(IXholon node, Class<IXholon> clazz, String attrName, Object attrVal) {
+  @SuppressWarnings("unchecked")
+public void setAppSpecificAttribute(IXholon node, Class<IXholon> clazz, String attrName, Object attrVal) {
     try {
       if (node == null) {return;}
       else if ("org.primordion.xholon.base.Turtle".equals(clazz.getName())) {
@@ -363,16 +369,16 @@ public class SystemMechSpecific extends Application {
         if ("ChartInterval".equalsIgnoreCase(attrName)) {((PetriNet)node).setChartInterval(Integer.parseInt((String)attrVal));return;}
       }
     } catch(java.lang.NumberFormatException e) {return;}
-    Class superclass = clazz.getSuperclass();
+    Class<?> superclass = (Class<?>)clazz.getSuperclass();
     if (superclass.getName().startsWith("org.primordion.xholon")) {
-      setAppSpecificAttribute(node, superclass, attrName, attrVal);
+      setAppSpecificAttribute(node, (Class<IXholon>)superclass, attrName, attrVal);
     }
   }
   
   public Object[][] getAppSpecificAttributes(IXholon node, Class<IXholon> clazz, boolean returnAll) {
-    List names = new ArrayList();
-    List values = new ArrayList();
-    List types = new ArrayList();
+    List<String> names = new ArrayList<String>();
+    List<Object> values = new ArrayList<Object>();
+    List<Class<?>> types = new ArrayList<Class<?>>();
     if (node == null) {return new Object[0][0];}
     else if ("org.primordion.xholon.base.Turtle".equals(clazz.getName())) {
       names.add("Breed");values.add(((Turtle)node).getBreed());types.add(int.class);
@@ -535,12 +541,13 @@ public class SystemMechSpecific extends Application {
       names.add("ViewBehavior");values.add(((SvgClient)node).getViewBehavior());types.add(java.util.List.class);
     }
     if (returnAll) {
-      Class superclass = clazz.getSuperclass();
+      Class<?> superclass = (Class<?>)clazz.getSuperclass();
       if (superclass.getName().startsWith("org.primordion.xholon")) {
-        Object[][] scAttrs = getAppSpecificAttributes(node, superclass, returnAll);
+        @SuppressWarnings("unchecked")
+		Object[][] scAttrs = getAppSpecificAttributes(node, (Class<IXholon>)superclass, returnAll);
         if (scAttrs != null) {
           for (int i = 0; i < scAttrs.length; i++) {
-            names.add(scAttrs[i][0]);values.add(scAttrs[i][1]);types.add(scAttrs[i][2]);
+            names.add((String)scAttrs[i][0]);values.add(scAttrs[i][1]);types.add((Class<?>)scAttrs[i][2]);
           }
         }
       }
