@@ -325,7 +325,7 @@ var beh = {
           }
       }
       if (destination) {
-        dog.remove().appendto(destination);
+        dog.remove().appendTo(destination);
         foundNewLocation = true;
       }
     }
@@ -359,7 +359,7 @@ var beh = {
 
     move: function() {
       var destination = zombie.parent().port(direction);
-      zombie.remove().appendto(destination);
+      zombie.remove().appendTo(destination);
     },
 
     toString: function() {
@@ -439,7 +439,7 @@ var beh = {
           }
       }
       if (destination) {
-        termite.remove().appendto(destination);
+        termite.remove().appendTo(destination);
         foundNewLocation = true;
       }
     }
