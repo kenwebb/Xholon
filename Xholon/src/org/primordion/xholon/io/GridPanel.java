@@ -254,8 +254,8 @@ public abstract class GridPanel extends Xholon implements IGridPanel {
     //consoleLog("adding DragOverHandler ...");
     canvas.addDragOverHandler( new DragOverHandler() {
       public void onDragOver(DragOverEvent doe) {
-        consoleLog("DragOverEvent");
-        consoleLog(doe.getNativeEvent());
+        //consoleLog("DragOverEvent");
+        //consoleLog(doe.getNativeEvent());
         doe.preventDefault();
       }
     });
@@ -277,7 +277,7 @@ public abstract class GridPanel extends Xholon implements IGridPanel {
         // TODO
         IXholon selectedGridCell = getSelectedGridCell(de);
         if (selectedGridCell == null) {return;}
-        consoleLog(selectedGridCell);
+        //consoleLog(selectedGridCell);
         sendXholonHelperService(ISignal.ACTION_PASTE_LASTCHILD_FROMDROP, data, selectedGridCell);
       }
     });
@@ -286,8 +286,8 @@ public abstract class GridPanel extends Xholon implements IGridPanel {
     canvas.addKeyUpHandler(new KeyUpHandler() {
       @Override
       public void onKeyUp(KeyUpEvent kue) {
-        consoleLog("KeyUpEvent");
-        consoleLog(kue.getNativeKeyCode());
+        //consoleLog("KeyUpEvent");
+        //consoleLog(kue.getNativeKeyCode());
         if (kue.isArrow(kue.getNativeKeyCode())) { // int keyCode
           IXholon node = xholonConsole.getContext();
           if ((node == null) || !(node instanceof AbstractGrid)) {return;}
@@ -438,7 +438,7 @@ public abstract class GridPanel extends Xholon implements IGridPanel {
    * Handle a Ctrl-click
    */
   protected void handleCtrlClick(IXholon selectedGridCell) {
-    consoleLog("Ctrl-click "); // + sgcName);
+    //consoleLog("Ctrl-click "); // + sgcName);
     // open or reuse xhtab on this grid cell
     if (contextTabIndex == -1) {
       IMessage respMsg = sendXholonHelperService(ISignal.ACTION_START_XHOLON_CONSOLE, selectedGridCell, null);
@@ -625,7 +625,9 @@ public abstract class GridPanel extends Xholon implements IGridPanel {
   /*
    * @see org.primordion.xholon.io.IGridPanel#setUseShapes(boolean)
    */
-  public void setUseShapes(boolean useShapes) {this.useShapes = useShapes;}
+  public void setUseShapes(boolean useShapes) {
+    this.useShapes = useShapes;
+  }
   
   /*
    * @see org.primordion.xholon.io.IGridPanel#getNeighType()
