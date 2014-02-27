@@ -646,7 +646,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	 */
 	public void setGridViewerParams(String gridViewerParams)
 	{
-	  System.out.println("Application setGridViewerParams " + gridViewerParams);
+	  consoleLog("Application setGridViewerParams " + gridViewerParams);
 		GridViewerDetails gvd = new GridViewerDetails();
 		gvd.useGridViewer = useGridViewer;
 		gvd.gridPanelClassName = gridPanelClassName;
@@ -1956,12 +1956,12 @@ public abstract class Application extends AbstractApplication implements IApplic
 	 */
 	public int createGridViewer(int vIx)
 	{
-	  System.out.println("Application.createGridViewer( " + vIx);
+	  consoleLog("Application.createGridViewer( " + vIx);
 		if (vIx == -1) {
 			vIx = gridViewers.size() - 1;
 		}
 		GridViewerDetails gvd = (GridViewerDetails)gridViewers.get(vIx);
-		System.out.println("Application.createGridViewer( " + gvd.gridViewerParams);
+		consoleLog("Application.createGridViewer( " + gvd.gridViewerParams);
 		StringTokenizer st = new StringTokenizer(gvd.gridViewerParams, ",");
 		/* GWT
 		try {
@@ -1988,8 +1988,11 @@ public abstract class Application extends AbstractApplication implements IApplic
 		gvd.gridPanel.setCellSize(Integer.parseInt(st.nextToken()));
 		gvd.gridPanel.initGridPanel(gvd.gridOwner);
 		//String title = st.nextToken();
+		st.nextToken(); // discard the title
 		if (st.hasMoreTokens()) { // useShapes is optional
-			gvd.gridPanel.setUseShapes(Boolean.valueOf(st.nextToken()).booleanValue());
+		  String useShapes = st.nextToken();
+		  //consoleLog("Application.createGridViewer() st.hasMoreTokens() " + useShapes);
+			gvd.gridPanel.setUseShapes(Boolean.valueOf(useShapes).booleanValue());
 		}
 		//gvd.gridFrame = new org.primordion.xholon.io.GridFrame(title, gvd.gridPanel);
 		return vIx;
