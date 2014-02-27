@@ -7,9 +7,6 @@
   "http://google-web-toolkit.googlecode.com/svn/tags/2.5.1/distro-source/core/src/gwt-module.dtd">
 <module rename-to='xholon'>
 
-  <!-- KSW added the following Jan 12, 2014; compiler chokes on it -->
-  <!--<set-configuration-property name="compiler.useSourceMaps" value="true"></set-configuration-property>-->
-  
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name='com.google.gwt.user.User'/>
 
@@ -48,5 +45,10 @@
   <generate-with class="org.server.ExternalFormatServiceGenerator">
     <when-type-assignable class="org.primordion.xholon.service.ExternalFormatService" />
   </generate-with>
+  
+  <!-- KSW added the following 3 lines Feb 4, 2014 -->
+  <!-- allow Super Dev Mode -->
+  <add-linker name="xsiframe"/>
+  <set-configuration-property name="devModeRedirectEnabled" value="true"/>
 
 </module>
