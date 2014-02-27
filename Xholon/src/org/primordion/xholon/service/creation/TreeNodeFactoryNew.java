@@ -270,6 +270,12 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			else if (implName.endsWith("Activity")) {
 				newNode = new org.primordion.xholon.base.Activity();
 			}
+			else if (implName.endsWith("Queue")) {
+				newNode = new org.primordion.xholon.base.Queue(100);
+			}
+			else if (implName.endsWith("QueueSynchronized")) {
+				newNode = new org.primordion.xholon.base.QueueSynchronized(100);
+			}
 			
 			// Turtle Geometry
 			else if (implName.endsWith("Patch")) {
