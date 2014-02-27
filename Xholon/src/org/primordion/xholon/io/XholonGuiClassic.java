@@ -216,7 +216,7 @@ public class XholonGuiClassic extends AbstractXholonGui { //DockPanel {
     helpMenu.addItem("JavaScript API", new Command() {
       @Override
       public void execute() {
-        Window.open(GwtEnvironment.gwtHostPageBaseURL + "jsapidoc/", "_blank", "");
+        Window.open(GwtEnvironment.gwtHostPageBaseURL + "jsapidoc/modules/XholonJsApi.html", "_blank", "");
       }
     });
     mainMenu.addItem("Help", helpMenu);
