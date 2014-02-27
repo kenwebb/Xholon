@@ -259,4 +259,22 @@ public class Queue extends Xholon implements IQueue {
     }
     return itemVector;
   }
+  
+  /*
+   * This is intended for use in XholonJsApi.java .
+   */
+  @Override
+  public Object getVal_Object() {
+    return this.dequeue();
+  }
+  
+  /*
+   * This is intended for use in XholonJsApi.java .
+   * Note that enqueue(obj) returns an int, which is not dealt with here.
+   */
+  @Override
+  public void setVal_Object(Object obj) {
+    this.enqueue(obj);
+  }
+  
 }
