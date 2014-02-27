@@ -88,11 +88,11 @@ public class GridPanelStupidModel16 extends GridPanel implements IGridPanel, CeS
 	 */
 	public int getShape(IXholon xhNode)
 	{
-		switch(xhNode.getXhcId()) {
+	  switch(xhNode.getXhcId()) {
 		case BugCE:
 			return GPSHAPE_CIRCLE;
 		case PredatorCE:
-			return GPSHAPE_TRIANGLE;
+		  return GPSHAPE_TRIANGLE;
 		default:
 			return GPSHAPE_NOSHAPE;
 		}
