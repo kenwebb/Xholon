@@ -670,7 +670,7 @@ public abstract class AbstractXholonGui implements IXholonGui {
     });
     helpSubMenu.addItem("JavaScript API", new Command() {
       public void execute() {
-        Window.open(GwtEnvironment.gwtHostPageBaseURL + "jsapidoc/", "_blank", "");
+        Window.open(GwtEnvironment.gwtHostPageBaseURL + "jsapidoc/modules/XholonJsApi.html", "_blank", "");
       }
     });
     menu.addItem("Help", helpSubMenu);
