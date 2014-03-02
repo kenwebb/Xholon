@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Mechanism: Membrane Computing
+	MembraneComputing.dtd
+	Xholon Project www.primordion.com/Xholon
+	March 28, 2006
+-->
+<!-- Specific Objects may have a multiplicity attribute. -->
+<!ENTITY % mult_attr "multiplicity CDATA #REQUIRED">
+
+<!ELEMENT CompletionDetector EMPTY>
+<!ELEMENT Environment (Objects)>
+<!ELEMENT Membrane (Region,Membrane*)>
+<!ATTLIST Membrane roleName NMTOKEN #REQUIRED>
+<!ELEMENT Objects ANY>
+<!ELEMENT Region (Objects,RuleSet)>
+<!ELEMENT RuleSet ANY>
+<!ATTLIST RuleSet roleName CDATA #REQUIRED>
+<!ELEMENT SuperCell (CompletionDetector,Environment,Membrane)>
+<!ELEMENT attribute EMPTY>
+<!ATTLIST attribute name NMTOKEN #REQUIRED value NMTOKEN #REQUIRED>
+
+<!-- specific Objects -->
+	<!ELEMENT a EMPTY>
+	<!ELEMENT b EMPTY>
+	<!ELEMENT c EMPTY>
+	<!ELEMENT d EMPTY>
+	<!ELEMENT e EMPTY>
+	<!ELEMENT f EMPTY>
+	<!ELEMENT g EMPTY>
+	<!ELEMENT h EMPTY>
+	<!ELEMENT i EMPTY>
+	<!ELEMENT j EMPTY>
+	<!ELEMENT k EMPTY>
+	<!ELEMENT l EMPTY>
+	<!ELEMENT m EMPTY>
+	<!ELEMENT n EMPTY>
+	<!ELEMENT o EMPTY>
+	<!ELEMENT p EMPTY>
+	<!ELEMENT q EMPTY>
+	<!ELEMENT r EMPTY>
+	<!ELEMENT s EMPTY>
+	<!ELEMENT t EMPTY>
+	<!ELEMENT u EMPTY>
+	<!ELEMENT v EMPTY>
+	<!ELEMENT w EMPTY>
+	<!ELEMENT x EMPTY>
+	<!ELEMENT y EMPTY>
+	<!ELEMENT z EMPTY>
+	<!ELEMENT _ EMPTY>
+
+<!-- specific Rules -->
+	<!ELEMENT R1r1 (attribute?)> <!-- RuleSet R1 -->
+	<!ELEMENT R1r2 (attribute?)>
+	<!ELEMENT R1r3 (attribute?)>
+	<!ELEMENT R1r4 (attribute?)>
+	<!ELEMENT R1r5 (attribute?)>
+	<!ELEMENT R1r6 (attribute?)>
+	<!ELEMENT R1r7 (attribute?)>
+	<!ELEMENT R1r8 (attribute?)>
+	<!ELEMENT R1r9 (attribute?)>
+	<!ELEMENT R1r10 (attribute?)>
+	<!ELEMENT R2r1 (attribute?)> <!-- RuleSet R2 -->
+	<!ELEMENT R2r2 (attribute?)>
+	<!ELEMENT R2r3 (attribute?)>
+	<!ELEMENT R2r4 (attribute?)>
+	<!ELEMENT R2r5 (attribute?)>
+	<!ELEMENT R2r6 (attribute?)>
+	<!ELEMENT R2r7 (attribute?)>
+	<!ELEMENT R2r8 (attribute?)>
+	<!ELEMENT R2r9 (attribute?)>
+	<!ELEMENT R2r10 (attribute?)>
+	<!ELEMENT R3r1 (attribute?)> <!-- RuleSet R3 -->
+	<!ELEMENT R3r2 (attribute?)>
+	<!ELEMENT R3r3 (attribute?)>
+	<!ELEMENT R3r4 (attribute?)>
+	<!ELEMENT R3r5 (attribute?)>
+	<!ELEMENT R3r6 (attribute?)>
+	<!ELEMENT R3r7 (attribute?)>
+	<!ELEMENT R3r8 (attribute?)>
+	<!ELEMENT R3r9 (attribute?)>
+	<!ELEMENT R3r10 (attribute?)>
+	<!ELEMENT R4r1 (attribute?)> <!-- RuleSet R4 -->
+	<!ELEMENT R4r2 (attribute?)>
+	<!ELEMENT R4r3 (attribute?)>
+	<!ELEMENT R4r4 (attribute?)>
+	<!ELEMENT R4r5 (attribute?)>
+	<!ELEMENT R4r6 (attribute?)>
+	<!ELEMENT R4r7 (attribute?)>
+	<!ELEMENT R4r8 (attribute?)>
+	<!ELEMENT R4r9 (attribute?)>
+	<!ELEMENT R4r10 (attribute?)>
+	<!ELEMENT R5r1 (attribute?)> <!-- RuleSet R5 -->
+	<!ELEMENT R5r2 (attribute?)>
+	<!ELEMENT R5r3 (attribute?)>
+	<!ELEMENT R5r4 (attribute?)>
+	<!ELEMENT R5r5 (attribute?)>
+	<!ELEMENT R5r6 (attribute?)>
+	<!ELEMENT R5r7 (attribute?)>
+	<!ELEMENT R5r8 (attribute?)>
+	<!ELEMENT R5r9 (attribute?)>
+	<!ELEMENT R5r10 (attribute?)>

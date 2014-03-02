@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Swing Models -->
+<!ELEMENT DefaultBoundedRangeModel EMPTY>
+<!ELEMENT DefaultButtonModel EMPTY>
+<!ELEMENT DefaultStyledDocument EMPTY>
+<!ELEMENT HTMLDocument EMPTY>
+<!ELEMENT PlainDocument EMPTY>
+<!ELEMENT BasicDirectoryModel EMPTY>
+<!ELEMENT DefaultComboBoxModel EMPTY>
+<!ELEMENT DefaultListModel EMPTY>
+<!ELEMENT DefaultListSelectionModel EMPTY>
+<!ELEMENT DefaultSingleSelectionModel EMPTY>
+<!ELEMENT DefaultTableModel EMPTY>
+<!ELEMENT DefaultTableColumnModel EMPTY>
+<!ELEMENT DefaultTreeModel EMPTY>
+<!ELEMENT DefaultTreeSelectionModel EMPTY>
+<!ELEMENT SpinnerDateModel EMPTY>
+<!ELEMENT SpinnerListModel EMPTY>
+<!ELEMENT SpinnerNumberModel (attribute*)>
+<!ELEMENT TableModel EMPTY>
+<!ELEMENT TreeModel ANY>
+
+<!-- Swing Components -->
+<!ELEMENT JButton (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean)*>
+<!ELEMENT JCheckBox (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean)*>
+<!ELEMENT JComboBox (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean)*>
+<!ELEMENT JDesktopPane (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean|JInternalFrame|xi:include)*>
+<!ELEMENT JFormattedTextField (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean)*>
+<!ELEMENT JFrame (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean|JPanel|Canvas|JMenuBar|JSeparator|JProgressBar|JDesktopPane|JSplitPane|xi:include)*>
+<!ELEMENT JInternalFrame (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean|JPanel|xi:include)*>
+<!ELEMENT JLabel (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean)*>
+<!ELEMENT JList (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean)*>
+<!ELEMENT JMenu (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean|JMenuItem)*>
+<!ELEMENT JMenuBar (JMenu)>
+<!ELEMENT JMenuItem (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean)*>
+<!ELEMENT JPanel
+	(Attribute_String
+	|Attribute_int
+	|Attribute_double
+	|Attribute_boolean
+	|BorderLayout
+	|Canvas
+	|CompoundBorder
+	|FormLayout
+	|HBox
+	|HBoxLayout
+	|JButton
+	|JCheckBox
+	|JComboBox
+	|JFormattedTextField
+	|JInternalFrame
+	|JLabel
+	|JList
+	|JPanel
+	|JPasswordField
+	|JRadioButton
+	|JScrollPane
+	|JSlider
+	|JSpinner
+	|JTable
+	|JTextArea
+	|JTextField
+	|JTextPane
+	|JToggleButton
+	|JTree
+	|Strut
+	|TitledBorder
+	|VBox
+	|VBoxLayout
+	|xi:include)*>
+<!ELEMENT JPasswordField (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean)*>
+<!ELEMENT JProgressBar (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean)*>
+<!ELEMENT JRadioButton (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean)*>
+<!ELEMENT JScrollPane (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean|JPanel|JList|JTextArea|JTextPane|JTree|JTable)*>
+<!ELEMENT JSeparator (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean)*>
+<!ELEMENT JSlider (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean)*>
+<!ELEMENT JSpinner (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean)*>
+<!ELEMENT JSplitPane (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean|JScrollPane)*>
+<!ELEMENT JTable (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean)*>
+<!ELEMENT JTableHeader (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean)*>
+<!ELEMENT JTextArea (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean)*>
+<!ELEMENT JTextField (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean)*>
+<!ELEMENT JTextPane (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean)*>
+<!ELEMENT JToggleButton (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean)*>
+<!ELEMENT JTree (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean)*>
+<!ELEMENT Box EMPTY>
+<!ELEMENT HBox (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean|ButtonGroup|HBox|JButton|JCheckBox|JComboBox|JFormattedTextField|JInternalFrame|JLabel|JList|JPanel|JPasswordField|JRadioButton|JScrollPane|JSlider|JSpinner|JTable|JTextField|JTextPane|JToggleButton|JTree|TitledBorder|VBox)*>
+<!ELEMENT VBox (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean|ButtonGroup|HBox|JButton|JCheckBox|JComboBox|JFormattedTextField|JInternalFrame|JLabel|JList|JPanel|JPasswordField|JRadioButton|JScrollPane|JSlider|JSpinner|JTable|JTextField|JTextPane|JToggleButton|JTree|TitledBorder|VBox)*>
+<!ELEMENT Canvas (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean|Rectangle)*>
+<!ELEMENT Rectangle (Attribute_String|Attribute_int|Attribute_double|Attribute_boolean)*>
+
+<!-- Swing Layouts -->
+<!ELEMENT BorderLayout (Attribute_String)*>
+<!ELEMENT HBoxLayout (Attribute_String)*>
+<!ELEMENT VBoxLayout (Attribute_String)*>
+<!ELEMENT CardLayout (Attribute_String)*>
+<!ELEMENT FlowLayout (Attribute_String)*>
+<!ELEMENT FormLayout (Attribute_String)*>
+<!ELEMENT GridBagLayout (Attribute_String)*>
+<!ELEMENT GridLayout (Attribute_String)*>
+<!ELEMENT GroupLayout (Attribute_String)*>
+<!ELEMENT SpringLayout (Attribute_String)*>
+
+<!-- Swing Borders -->
+<!ELEMENT BevelBorder (Attribute_String?)>
+<!ELEMENT CompoundBorder (LineBorder? | EmptyBorder?)*>
+<!ELEMENT EmptyBorder (Attribute_String?)>
+<!ELEMENT EtchedBorder (Attribute_String?)>
+<!ELEMENT LineBorder (Attribute_String?)>
+<!ELEMENT TitledBorder (Attribute_String?)>
+
+<!ELEMENT Strut (Attribute_int)>
+<!ELEMENT ButtonGroup (Attribute_String?)>
+
+<!-- Xholon Attributes -->
+<!ELEMENT Attribute_String (#PCDATA | attribute)*>
+<!ELEMENT Attribute_int (#PCDATA | attribute)*>
+<!ELEMENT Attribute_double (#PCDATA | attribute)*>
+<!ELEMENT Attribute_boolean (#PCDATA | attribute)*>
+<!ELEMENT attribute EMPTY>
+
+<!ELEMENT xi:include EMPTY>
+
+<!-- Swing Attributes -->
+<!ATTLIST JButton multiplicity CDATA #IMPLIED
+                  roleName CDATA #IMPLIED>
+<!ATTLIST JInternalFrame multiplicity CDATA #IMPLIED>
+<!ATTLIST JLabel multiplicity CDATA #IMPLIED>
+<!ATTLIST JScrollPane roleName CDATA #IMPLIED>
+<!ATTLIST LineBorder roleName CDATA #IMPLIED>
+<!ATTLIST EmptyBorder roleName CDATA #IMPLIED>
+<!ATTLIST Rectangle roleName CDATA #IMPLIED>
+<!ATTLIST Attribute_String roleName CDATA #REQUIRED>
+<!ATTLIST Attribute_int roleName CDATA #REQUIRED>
+<!ATTLIST Attribute_boolean roleName CDATA #REQUIRED>
+<!ATTLIST attribute name CDATA #REQUIRED
+                    value CDATA #REQUIRED>
+<!ATTLIST xi:include href CDATA #REQUIRED>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+	This is a canonical example of a xhtml 1.0 strict Xholon composite structure hierarchy.
+	This is both a valid XHTML page, and a valid Xholon composite structure.
+	January 2, 2009
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>xhtml 1.0 example</title>
+		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+		<meta http-equiv="Content-Style-Type" content="text/css" />
+	</head>
+	<body>
+		<h1>Canonical example of a xhtml 1.0 strict Xholon composite structure hierarchy</h1>
+		<h2>h2</h2>
+		<h3>h3</h3>
+		<h4>h4</h4>
+		<h5>h5</h5>
+		<h6>
+			<a href="http://www.w3.org/QA/2002/04/valid-dtd-list.html">w3c - Recommended list of DTDs</a>
+		</h6>
+		<hr/>
+		<p>This is a paragraph.</p>
+		
+		<!-- table -->
+		<table>
+			<thead>
+				<tr>
+					<th>One</th>
+					<th>Two</th>
+					<th>Three</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<td>foot</td>
+				</tr>
+			</tfoot>
+			<tbody>
+				<tr>
+					<td>data 1</td>
+					<td>data 2</td>
+					<td>data 3</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<!-- lists -->
+		<ul>
+			<li>unordered list item 1</li>
+			<li>unordered list item 2</li>
+		</ul>
+		<ol>
+			<li>ordered list item 1</li>
+			<li>ordered list item 2</li>
+		</ol>
+		<dl>
+			<dt></dt>
+			<dd></dd>
+		</dl>
+		
+		<!-- div -->
+		<div>
+			<div></div>
+			<div>
+				<div>
+					<div></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

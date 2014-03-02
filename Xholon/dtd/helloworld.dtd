@@ -1,0 +1,4 @@
+<!ELEMENT HelloWorldSystem (Annotation?, Hello, World)>
+<!ELEMENT Annotation (#PCDATA)>
+<!ELEMENT Hello EMPTY>
+<!ELEMENT World EMPTY>

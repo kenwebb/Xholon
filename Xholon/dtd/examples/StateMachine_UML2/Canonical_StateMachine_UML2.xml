@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE StateMachine SYSTEM "../../StateMachine_UML2.dtd">
+<!--
+	This is a canonical example of a UML 2.0 State Machine.
+	It includes examples of all of the syntax in the StateMachine_UML2.dtd file.
+	File creation was assisted by XMLBuddy, based on its understanding of the dtd file.
+	Canonical_StateMachine_UML2.xml
+	March 29, 2006
+-->
+<StateMachine>
+	<Region>
+		<PseudostateInitial roleName="" uid="10"/>
+		<State roleName="StateA" uid="20">
+			<PseudostateEntryPoint roleName="" uid="2010"/>
+			<PseudostateEntryPoint roleName="" uid="2020"/>
+			<EntryActivity uid="2030"/>
+			<DoActivity/>
+			<ExitActivity uid="2040"/>
+			<PseudostateExitPoint roleName="" uid="2050"/>
+			<PseudostateExitPoint roleName="" uid="2060"/>
+			<Region>
+				<PseudostateInitial roleName="" uid="2110"/>
+				<State roleName="" uid="2120"/>
+			</Region>
+		</State>
+		<State roleName="" uid="30"/>
+		<FinalState roleName="FinalStateX" uid="40"/>
+		<FinalState roleName="" uid="42"/>
+		<PseudostateChoice roleName="Choice1" uid="50"/>
+		<PseudostateChoice roleName="" uid="51"/>
+		<PseudostateDeepHistory roleName="" uid="60"/>
+		<PseudostateEntryPoint roleName="" uid="70"/>
+		<PseudostateExitPoint roleName="" uid="80"/>
+		<PseudostateFork roleName="" uid="52"/>
+		<PseudostateJoin roleName="" uid="54"/>
+		<PseudostateJunction roleName="" uid="56"/>
+		<PseudostateShallowHistory roleName="" uid="90"/>
+		<PseudostateTerminate roleName="" uid="100"/>
+		<Transition roleName="" uid="1010">
+			<Trigger roleName="TriggerA"/>
+			<Trigger roleName="TrigB"/>
+			<Guard uid="3010"/>
+			<Activity uid="3020"/>
+		</Transition>
+		<Transition roleName="" uid="1020">
+			
+		</Transition>
+	</Region>
+	<Region>
+		
+	</Region>
+</StateMachine>

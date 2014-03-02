@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Xholon Runtime Framework - executes event-driven & dynamic applications
+ Copyright (C) 2007 Ken Webb
+
+ This library is free software; you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License
+ as published by the Free Software Foundation; either version 2.1
+ of the License, or (at your option) any later version.
+
+ This library is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+-->
+<!--
+	Mechanism: Xholon State Machine
+	StateMachine_Xholon.xsd
+	Xholon Project www.primordion.com/Xholon
+	see: OMG. Unified Modeling Language: Superstructure, version 2.0, formal/05-07-04
+	August 27, 2007
+	
+	This is designed to be used by people who want to manually create a Xholon
+	application that contains one or more state machines.
+-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		xmlns:fsmXh="http://www.primordion.com/fsmXholon"
+		targetNamespace="http://www.primordion.com/fsmXholon">
+	
+	<xsd:element name="Activity">
+		<xsd:complexType>
+			<!-- ex: 12 or ACTIVITY_1 -->
+			<xsd:attribute name="roleName" type="xsd:NMTOKEN" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="ConnectionPointReference">
+		<xsd:complexType/>
+	</xsd:element>
+	
+	<xsd:element name="DeferrableTrigger">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="fsmXh:Trigger" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="DoActivity">
+		<xsd:complexType>
+			<!-- ex: 13 or DOACTIVITY_1 -->
+			<xsd:attribute name="roleName" type="xsd:NMTOKEN" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="EntryActivity">
+		<xsd:complexType>
+			<!-- ex: 14 or ENTRYACTIVITY_1 -->
+			<xsd:attribute name="roleName" type="xsd:NMTOKEN" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="ExitActivity">
+		<xsd:complexType>
+			<!-- ex: 15 or EXITACTIVITY_1 -->
+			<xsd:attribute name="roleName" type="xsd:NMTOKEN" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="FinalState">
+		<xsd:complexType>
+			<xsd:attribute name="roleName" type="xsd:ID" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="Guard">
+		<xsd:complexType>
+			<!-- ex: 1001 or GUARD_1 -->
+			<xsd:attribute name="roleName" type="xsd:NMTOKEN" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="PseudostateChoice">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="fsmXh:TransitionExternal" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:attribute name="roleName" type="xsd:ID" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="PseudostateDeepHistory">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="fsmXh:TransitionExternal"/>
+			</xsd:sequence>
+			<xsd:attribute name="roleName" type="xsd:ID" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="PseudostateEntryPoint">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="fsmXh:TransitionExternal"/>
+			</xsd:sequence>
+			<xsd:attribute name="roleName" type="xsd:ID" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="PseudostateExitPoint">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="fsmXh:TransitionExternal"/>
+			</xsd:sequence>
+			<xsd:attribute name="roleName" type="xsd:ID" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="PseudostateFork">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="fsmXh:TransitionExternal" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:attribute name="roleName" type="xsd:ID" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="PseudostateInitial">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="fsmXh:TransitionExternal"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="PseudostateJoin">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="fsmXh:TransitionExternal"/>
+			</xsd:sequence>
+			<xsd:attribute name="roleName" type="xsd:ID" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="PseudostateJunction">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="fsmXh:TransitionExternal" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:attribute name="roleName" type="xsd:ID" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="PseudostateShallowHistory">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="fsmXh:TransitionExternal"/>
+			</xsd:sequence>
+			<xsd:attribute name="roleName" type="xsd:ID" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="PseudostateTerminate">
+		<xsd:complexType>
+			<xsd:attribute name="roleName" type="xsd:ID" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="Region">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="fsmXh:State"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="State">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="fsmXh:PseudostateInitial" minOccurs="0"/>
+				<xsd:element ref="fsmXh:PseudostateShallowHistory" minOccurs="0"/>
+				<xsd:element ref="fsmXh:PseudostateDeepHistory" minOccurs="0"/>
+				<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+					<xsd:element ref="fsmXh:EntryActivity" minOccurs="0"/>
+					<xsd:element ref="fsmXh:ExitActivity" minOccurs="0"/>
+					<xsd:element ref="fsmXh:DoActivity" minOccurs="0"/>
+					<xsd:element ref="fsmXh:DeferrableTrigger" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element ref="fsmXh:Region" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:sequence>
+				<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+					<xsd:element ref="fsmXh:State" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element ref="fsmXh:FinalState" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element ref="fsmXh:PseudostateChoice" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element ref="fsmXh:PseudostateEntryPoint" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element ref="fsmXh:PseudostateExitPoint" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element ref="fsmXh:PseudostateFork" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element ref="fsmXh:PseudostateJoin" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element ref="fsmXh:PseudostateJunction" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element ref="fsmXh:PseudostateTerminate" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:sequence>
+				<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+					<xsd:element ref="fsmXh:TransitionExternal" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element ref="fsmXh:TransitionInternal" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:sequence>
+			<xsd:attribute name="roleName" type="xsd:ID" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="StateMachine">
+		<xsd:complexType>
+			<xsd:choice>
+				<xsd:element ref="fsmXh:State" minOccurs="0"/>
+				<xsd:element ref="fsmXh:Region" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:choice>
+		</xsd:complexType>
+		<!-- guarantee uniqueness of roleName in all Activity types and Guard
+			But, it is possible that two transitions might execute the same activity code -->
+		<xsd:unique name="dummy">
+			<xsd:selector xpath=".//fsmXh:Activity|.//fsmXh:DoActivity|.//fsmXh:EntryActivity|.//fsmXh:ExitActivity|.//fsmXh:Guard"/>
+			<xsd:field    xpath="@roleName"/>
+		</xsd:unique>
+	</xsd:element>
+	
+	<xsd:element name="Target">
+		<xsd:complexType>
+			<xsd:attribute name="roleName" type="xsd:IDREF" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="TransitionExternal">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="fsmXh:Trigger" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="fsmXh:Guard" minOccurs="0"/>
+				<xsd:element ref="fsmXh:Activity" minOccurs="0"/>
+				<xsd:element ref="fsmXh:Target"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="TransitionInternal">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="fsmXh:Trigger" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="fsmXh:Guard" minOccurs="0"/>
+				<xsd:element ref="fsmXh:Activity" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="Trigger">
+		<xsd:complexType>
+			<!-- ex: 1 or SIGNAL_ONE -->
+			<xsd:attribute name="roleName" type="xsd:NMTOKEN" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+</xsd:schema>

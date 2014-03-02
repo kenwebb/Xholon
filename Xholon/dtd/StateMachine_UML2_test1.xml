@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE StateMachine SYSTEM "StateMachine_UML2.dtd" >
+<StateMachine>
+  <Region>
+    <PseudostateInitial roleName="" uid="nmtoken"/>
+    <PseudostateShallowHistory roleName="" uid="nmtoken"/>
+    <PseudostateDeepHistory roleName="" uid="nmtoken"/>
+    <State roleName="" uid="nmtoken">
+      <EntryActivity uid="nmtoken"/>
+      <ExitActivity uid="nmtoken"/>
+      <DoActivity uid="nmtoken"/>
+      <DeferrableTrigger roleName="" uid="nmtoken">
+        <Trigger roleName="nmtoken"/>
+      </DeferrableTrigger>
+      <PseudostateEntryPoint roleName="" uid="nmtoken"/>
+      <PseudostateExitPoint roleName="" uid="nmtoken"/>
+      <Region>
+        <PseudostateInitial roleName="" uid="nmtoken"/>
+        <PseudostateShallowHistory roleName="" uid="nmtoken"/>
+        <PseudostateDeepHistory roleName="" uid="nmtoken"/>
+        <FinalState roleName="" uid="nmtoken"/>
+        <PseudostateChoice roleName="" uid="nmtoken"/>
+        <PseudostateEntryPoint roleName="" uid="nmtoken"/>
+        <PseudostateExitPoint roleName="" uid="nmtoken"/>
+        <PseudostateFork roleName="" uid="nmtoken"/>
+        <PseudostateJoin roleName="" uid="nmtoken"/>
+        <PseudostateJunction roleName="" uid="nmtoken"/>
+        <PseudostateTerminate roleName="" uid="nmtoken"/>
+        <Transition roleName="" uid="nmtoken">
+          <Trigger roleName="nmtoken"/>
+          <Guard uid="nmtoken"/>
+          <Activity uid="nmtoken"/>
+        </Transition>
+        <TransitionExternal roleName="" uid="nmtoken">
+          <Trigger roleName="nmtoken"/>
+          <Guard uid="nmtoken"/>
+          <Activity uid="nmtoken"/>
+        </TransitionExternal>
+        <TransitionInternal roleName="" uid="nmtoken">
+          <Trigger roleName="nmtoken"/>
+          <Guard uid="nmtoken"/>
+          <Activity uid="nmtoken"/>
+        </TransitionInternal>
+      </Region>
+    </State>
+    <FinalState roleName="" uid="nmtoken"/>
+    <PseudostateChoice roleName="" uid="nmtoken"/>
+    <PseudostateEntryPoint roleName="" uid="nmtoken"/>
+    <PseudostateExitPoint roleName="" uid="nmtoken"/>
+    <PseudostateFork roleName="" uid="nmtoken"/>
+    <PseudostateJoin roleName="" uid="nmtoken"/>
+    <PseudostateJunction roleName="" uid="nmtoken"/>
+    <PseudostateTerminate roleName="" uid="nmtoken"/>
+    <Transition roleName="" uid="nmtoken">
+      <Trigger roleName="nmtoken"/>
+      <Guard uid="nmtoken"/>
+      <Activity uid="nmtoken"/>
+    </Transition>
+    <TransitionExternal roleName="" uid="nmtoken">
+      <Trigger roleName="nmtoken"/>
+      <Guard uid="nmtoken"/>
+      <Activity uid="nmtoken"/>
+    </TransitionExternal>
+    <TransitionInternal roleName="" uid="nmtoken">
+      <Trigger roleName="nmtoken"/>
+      <Guard uid="nmtoken"/>
+      <Activity uid="nmtoken"/>
+    </TransitionInternal>
+  </Region>
+</StateMachine>

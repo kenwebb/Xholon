@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE TestFsmSystem SYSTEM "../../StateMachine_UML2.dtd" [
+	<!ELEMENT TestFsmSystem (TestHarness | FsmXholon)*>
+	<!ATTLIST TestFsmSystem xmlns:uml CDATA #REQUIRED xmlns:xmi CDATA #REQUIRED>
+	<!ELEMENT TestHarness EMPTY>
+	<!ELEMENT FsmXholon (StateMachine?)>
+]>
+<!--
+TestFsmOrthogonal application - Composite Structure Hierarchy
+Author: Ken Webb
+Date:   today's date
+File:   fileName.xml
+UML: MagicDraw UML 10.0
+XMI: 2.1, Sat Nov 19 12:09:37 EST 2005
+XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<TestFsmSystem xmlns:xmi="http://schema.omg.org/spec/XMI/2.1"
+	xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+	<FsmXholon>
+		<StateMachine>
+			<Region>
+				<State uid="343941939" roleName="CourseAttempt">
+					<Region>
+						<PseudostateInitial uid="893511236" roleName=""/>
+						<State uid="12181953" roleName="Studying">
+							<Region>
+								<PseudostateInitial uid="411431242" roleName=""/>
+								<State uid="482571979" roleName="Lab1"/>
+								<State uid="99151984" roleName="Lab2"/>
+								<FinalState uid="994981261" roleName=""/>
+								<Transition uid="969261291" roleName=""/>
+								<Transition uid="735561326" roleName="">
+									<Trigger roleName="LAB_DONE"/>
+									<Activity uid="493271624"/>
+								</Transition>
+								<Transition uid="2991338" roleName="">
+									<Trigger roleName="LAB_DONE"/>
+									<Activity uid="983961627"/>
+								</Transition>
+							</Region>
+							<Region>
+								<PseudostateInitial uid="15111248" roleName=""/>
+								<State uid="548491997" roleName="TermProject"/>
+								<FinalState uid="766731266" roleName=""/>
+								<Transition uid="59971312" roleName=""/>
+								<Transition uid="285351351" roleName="">
+									<Trigger roleName="PROJECT_DONE"/>
+									<Activity uid="796671631"/>
+								</Transition>
+							</Region>
+							<Region>
+								<PseudostateInitial uid="575381254" roleName=""/>
+								<State uid="374611291" roleName="FinalTest"/>
+								<State uid="867941223" roleName=""/>
+								<FinalState uid="299281272" roleName=""/>
+								<Transition uid="933191394" roleName=""/>
+								<Transition uid="969941362" roleName="">
+									<Trigger roleName="PASS"/>
+									<Activity uid="765781633"/>
+								</Transition>
+								<Transition uid="997241386" roleName="">
+									<Trigger roleName="FAIL"/>
+									<Activity uid="22381636"/>
+								</Transition>
+							</Region>
+						</State>
+						<FinalState uid="199141374" roleName="Failed"/>
+						<FinalState uid="328441381" roleName="Passed"/>
+						<Transition uid="9491278" roleName=""/>
+						<Transition uid="22961398" roleName="">
+							<Activity uid="52811259"/>
+						</Transition>
+					</Region>
+				</State>
+			</Region>
+		</StateMachine>
+	</FsmXholon>
+	<TestHarness/>
+</TestFsmSystem>

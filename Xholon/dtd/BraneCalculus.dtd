@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated from CompositeStructureHierarchy.xml by XMLBuddy -->
+<!ELEMENT BraneCalcSystems (System+)>
+<!ELEMENT Bud EMPTY>
+<!ELEMENT Drip EMPTY>
+<!ELEMENT Exo EMPTY>
+<!ELEMENT Mate EMPTY>
+<!ELEMENT Membrane (Exo|Membrane|Patch|Subsystem)*>
+<!ELEMENT Patch (Pino?,Phago?,Mate?,Bud?,Drip?)>
+<!ATTLIST Patch roleName CDATA #REQUIRED>
+<!ELEMENT Phago EMPTY>
+<!ELEMENT Pino EMPTY>
+<!ELEMENT Subsystem EMPTY>
+<!ATTLIST Subsystem roleName NMTOKEN #REQUIRED>
+<!ELEMENT System (Membrane+)>
+<!ATTLIST System roleName NMTOKEN #REQUIRED>

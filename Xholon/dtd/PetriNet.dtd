@@ -1,0 +1,47 @@
+<!ENTITY % trans_content "InputArcs*,OutputArcs*">
+<!ENTITY % trans_content_attr "
+k  CDATA #IMPLIED
+count  CDATA #IMPLIED
+symbol  CDATA #IMPLIED">
+
+<!ELEMENT ReactionNetworkSystem (Annotation?,PetriNet,ConstantlyStirredPot?)>
+<!ELEMENT Annotation (#PCDATA)>
+<!ELEMENT PetriNet (QueueTransitions,AnalysisPetriNet?,AnalysisCRN?,AnalysisCat?,(Places|Speciez),(Transitions|Reactions))>
+<!ELEMENT QueueTransitions EMPTY>
+<!ELEMENT AnalysisPetriNet EMPTY>
+<!ELEMENT AnalysisCRN EMPTY>
+<!ELEMENT AnalysisCat EMPTY>
+<!--<!ELEMENT Places ((Place|Species)*,Plot)>-->
+<!--<!ELEMENT Transitions (Transition|Reaction)>-->
+<!ELEMENT InputArcs (InputArc*)>
+<!ELEMENT InputArc EMPTY>
+<!ELEMENT OutputArcs (OutputArc*)>
+<!ELEMENT OutputArc EMPTY>
+<!ELEMENT Plot EMPTY>
+<!ELEMENT ConstantlyStirredPot EMPTY>
+
+<!ATTLIST PetriNet
+roleName CDATA #IMPLIED
+kineticsType CDATA #IMPLIED
+p CDATA #IMPLIED
+k CDATA #IMPLIED
+timeStepMultiplier CDATA #IMPLIED>
+<!ATTLIST QueueTransitions shouldAct CDATA #IMPLIED>
+<!ATTLIST AnalysisCRN
+useTex CDATA #IMPLIED
+useMathML CDATA #IMPLIED>
+<!ATTLIST Plot
+mode CDATA #IMPLIED
+dataPlotter CDATA #IMPLIED
+dataPlotterParams CDATA #IMPLIED>
+<!ATTLIST ConstantlyStirredPot
+rows CDATA #REQUIRED
+cols CDATA #REQUIRED
+gridCellColor CDATA #IMPLIED
+shouldPlacesMove CDATA #IMPLIED>
+<!ATTLIST InputArc
+weight CDATA #IMPLIED
+connector CDATA #REQUIRED>
+<!ATTLIST OutputArc
+weight CDATA #IMPLIED
+connector CDATA #REQUIRED>

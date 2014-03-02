@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE JFrame SYSTEM "../../Swing.dtd">
+<!--
+	This is a canonical example of a Swing JFrame.
+	It includes examples of all of the syntax in the Swing.dtd file.
+	File creation was assisted by XMLBuddy, based on its understanding of the dtd file.
+	Canonical_Swing.xml
+	February 18, 2008
+-->
+<JFrame>
+	<JPanel> <!-- ContentPane ??? -->
+		<JLabel/>
+		<JTextField/>
+		<JButton/>
+		<JToggleButton/>
+		<JCheckBox/>
+		<JRadioButton/>
+		<JComboBox/>
+		<JScrollPane>
+			<JList/>
+		</JScrollPane>
+		<JScrollPane>
+			<JTextArea/>
+		</JScrollPane>
+		<JSlider/>
+		<JFormattedTextField/>
+		<JPasswordField/>
+		<JSpinner/>
+		<JComboBox/>
+		<JScrollPane>
+			<JTree/>
+		</JScrollPane>
+		<JScrollPane>
+			<JTable/>
+		</JScrollPane>
+		<JInternalFrame>
+			<JPanel/>
+		</JInternalFrame>
+	</JPanel>
+	<JMenuBar>
+		<JMenu>
+			<JMenuItem/>
+		</JMenu>
+	</JMenuBar>
+	<JSeparator/>
+	<JProgressBar/>
+</JFrame>

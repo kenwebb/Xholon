@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	XBar DTD - Linguistics Syntax
+-->
+
+<!-- generalized X-bar (Carnie) -->
+<!-- Specifier rule -->
+<!ELEMENT XP ((XP?, X_) | (X_, XP?))>
+<!-- Adjunct rule | Complement rule -->
+<!ELEMENT X_ ((XP?, X_) | (X_, XP?)
+            | (XP?, X)  | (X, XP?))>
+<!ELEMENT X (#PCDATA | attribute)*>
+
+<!-- sentence -->
+<!ELEMENT S_ ((AdvP?, S) | (S_, Conj, S_))>
+<!ELEMENT S ((NP, M?, VP) | (XP, XP) | (S, Conj, S))>
+
+<!-- noun -->
+<!ELEMENT NP ((D?, N_) | (NP, Conj, NP))>
+<!ELEMENT N_ ((AP?, N_) | (N_, PP?) | (N, PP?) | Pron | (N_, Conj, N_))>
+
+<!-- verb -->
+<!ELEMENT VP ((V_) | (VP, Conj, VP))>
+<!ELEMENT V_ ((V_, PP?) | (V, NP?) | (V_, AP) | (V_, AdvP) | (V_, Conj, V_))>
+
+<!-- adjective -->
+<!ELEMENT AP ((A_) | (AP, Conj, AP))>
+<!ELEMENT A_ ((AP?, A_) | (A, PP?) | (AdvP, A_) | (A_, Conj, A_))>
+
+<!-- preposition -->
+<!ELEMENT PP ((P_) | (PP, Conj, PP))>
+<!ELEMENT P_ ((P_, PP?) | (P, NP?) | (P_, Conj, P_))>
+
+<!-- adverb -->
+<!ELEMENT AdvP (D?, Adv_)>
+<!ELEMENT Adv_ (Adv, PP?)>
+
+<!-- inflection  TODO verify this -->
+<!ELEMENT IP (NP, I_)>
+<!ELEMENT I_ (I, (VP))>
+
+<!-- determiner -->
+<!ELEMENT DP (D_)>
+<!ELEMENT D_ (D)>
+
+<!-- complementizer -->
+<!ELEMENT CP (C_)>
+<!ELEMENT C_ (C)>
+
+<!-- lexical categories - leaf nodes -->
+<!ELEMENT N (#PCDATA | attribute)*> <!-- noun (Jackendoff (1977) p. 33) -->
+<!ELEMENT V (#PCDATA | attribute)*> <!-- verb (Jackendoff (1977) p. 33) -->
+<!ELEMENT A (#PCDATA | attribute)*> <!-- adjective (Jackendoff (1977) p. 33) -->
+<!ELEMENT P (#PCDATA | attribute)*> <!-- preposition (Jackendoff (1977) p. 33) -->
+<!ELEMENT I (#PCDATA | attribute)*> <!-- inflection -->
+<!ELEMENT D (#PCDATA | attribute)*> <!-- determiner -->
+<!ELEMENT C (#PCDATA | attribute)*> <!-- complementizer -->
+<!ELEMENT Adv (#PCDATA | attribute)*> <!-- adverb (Jackendoff (1977) p. 33) -->
+<!ELEMENT M (#PCDATA | attribute)*> <!-- modal (Jackendoff (1977) p. 33) -->
+<!ELEMENT Conj (#PCDATA | attribute)*> <!-- conjunction -->
+<!ELEMENT Pron (#PCDATA | attribute)*> <!-- pronoun -->
+<!ELEMENT Interj (#PCDATA | attribute)*> <!-- interjection -->
+<!ELEMENT Prt (#PCDATA | attribute)*> <!-- particle (Jackendoff (1977) p. 33) -->
+<!ELEMENT Art (#PCDATA | attribute)*> <!-- article (Jackendoff (1977) p. 33) -->
+<!ELEMENT Q (#PCDATA | attribute)*> <!-- quantifier (Jackendoff (1977) p. 33) -->
+<!ELEMENT Deg (#PCDATA | attribute)*> <!-- degree (Jackendoff (1977) p. 33) -->
+
+<!-- lexical elements -->
+<!ELEMENT attribute EMPTY>
+<!ATTLIST attribute name CDATA #REQUIRED
+                    value CDATA #REQUIRED>

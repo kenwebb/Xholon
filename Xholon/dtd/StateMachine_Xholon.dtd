@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Xholon Runtime Framework - executes event-driven & dynamic applications
+ Copyright (C) 2007 Ken Webb
+
+ This library is free software; you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License
+ as published by the Free Software Foundation; either version 2.1
+ of the License, or (at your option) any later version.
+
+ This library is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+-->
+<!--
+	Mechanism: Xholon State Machine
+	StateMachine_Xholon.dtd
+	Xholon Project www.primordion.com/Xholon
+	see: OMG. Unified Modeling Language: Superstructure, version 2.0, formal/05-07-04
+	August 27, 2007
+	
+	This is designed to be used by people who want to manually create a Xholon
+	application that contains one or more state machines.
+-->
+
+<!-- Common attributes found in all Vertex types (State, FinalState, PseudoStateXxx) -->
+<!ENTITY % vertex_attr "roleName ID #REQUIRED">
+
+<!-- Elements and Attributes, in alphabetical order -->
+
+<!-- Activity -->
+<!ELEMENT Activity EMPTY>
+<!ATTLIST Activity roleName NMTOKEN #REQUIRED> <!-- activityId -->
+
+<!-- ConnectionPointReference -->
+<!ELEMENT ConnectionPointReference EMPTY>
+
+<!-- DeferrableTrigger -->
+<!ELEMENT DeferrableTrigger (
+	Trigger*)>
+
+<!-- DoActivity -->
+<!ELEMENT DoActivity EMPTY>
+<!ATTLIST DoActivity roleName NMTOKEN #REQUIRED> <!-- activityId -->
+
+<!-- EntryActivity -->
+<!ELEMENT EntryActivity EMPTY>
+<!ATTLIST EntryActivity roleName NMTOKEN #REQUIRED> <!-- activityId -->
+
+<!-- ExitActivity -->
+<!ELEMENT ExitActivity EMPTY>
+<!ATTLIST ExitActivity roleName NMTOKEN #REQUIRED> <!-- activityId -->
+
+<!-- FinalState -->
+<!ELEMENT FinalState EMPTY>
+<!ATTLIST FinalState %vertex_attr;>
+
+<!-- Guard -->
+<!ELEMENT Guard EMPTY>
+<!ATTLIST Guard roleName NMTOKEN #REQUIRED> <!-- activityId -->
+
+<!-- PseudostateChoice -->
+<!ELEMENT PseudostateChoice (
+	TransitionExternal+)>
+<!ATTLIST PseudostateChoice %vertex_attr;>
+
+<!-- PseudostateDeepHistory -->
+<!ELEMENT PseudostateDeepHistory (
+	TransitionExternal)>
+<!ATTLIST PseudostateDeepHistory %vertex_attr;>
+
+<!-- PseudostateEntryPoint -->
+<!ELEMENT PseudostateEntryPoint (
+	TransitionExternal)>
+<!ATTLIST PseudostateEntryPoint %vertex_attr;>
+
+<!-- PseudostateExitPoint -->
+<!ELEMENT PseudostateExitPoint (
+	TransitionExternal)>
+<!ATTLIST PseudostateExitPoint %vertex_attr;>
+
+<!-- PseudostateFork -->
+<!ELEMENT PseudostateFork (
+	TransitionExternal+)>
+<!ATTLIST PseudostateFork %vertex_attr;>
+
+<!-- PseudostateInitial -->
+<!ELEMENT PseudostateInitial (
+	TransitionExternal)>
+
+<!-- PseudostateJoin -->
+<!ELEMENT PseudostateJoin (
+	TransitionExternal)>
+<!ATTLIST PseudostateJoin %vertex_attr;>
+
+<!-- PseudostateJunction -->
+<!ELEMENT PseudostateJunction (
+	TransitionExternal+)>
+<!ATTLIST PseudostateJunction %vertex_attr;>
+
+<!-- PseudostateShallowHistory -->
+<!ELEMENT PseudostateShallowHistory (
+	TransitionExternal)>
+<!ATTLIST PseudostateShallowHistory %vertex_attr;>
+
+<!-- PseudostateTerminate -->
+<!ELEMENT PseudostateTerminate EMPTY>
+<!ATTLIST PseudostateTerminate %vertex_attr;>
+
+<!-- Region -->
+<!ELEMENT Region (
+	State)>
+
+<!-- State -->
+<!ELEMENT State (
+	PseudostateInitial?,
+	PseudostateShallowHistory?,
+	PseudostateDeepHistory?,
+	(EntryActivity?,
+	ExitActivity?,
+	DoActivity?,
+	DeferrableTrigger*,
+	Region*)*,
+	(State*,
+	FinalState*,
+	PseudostateChoice*,
+	PseudostateEntryPoint*,
+	PseudostateExitPoint*,
+	PseudostateFork*,
+	PseudostateJoin*,
+	PseudostateJunction*,
+	PseudostateTerminate*)*,
+	(TransitionExternal*,
+	TransitionInternal*)*
+	)>
+<!ATTLIST State %vertex_attr;>
+
+<!-- StateMachine -->
+<!ELEMENT StateMachine (State?|Region*)>
+
+<!-- Target -->
+<!ELEMENT Target EMPTY>
+<!ATTLIST Target roleName IDREF #REQUIRED>
+
+<!-- TransitionExternal -->
+<!ELEMENT TransitionExternal (
+	Trigger*,
+	Guard?,
+	Activity?,
+	Target
+	)>
+
+<!-- TransitionInternal -->
+<!ELEMENT TransitionInternal (
+	Trigger*,
+	Guard?,
+	Activity?
+	)>
+
+<!-- Trigger -->
+<!ELEMENT Trigger EMPTY>
+<!ATTLIST Trigger roleName NMTOKEN #REQUIRED>

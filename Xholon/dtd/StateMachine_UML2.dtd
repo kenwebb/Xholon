@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Xholon Runtime Framework - executes event-driven & dynamic applications
+ Copyright (C) 2007 Ken Webb
+
+ This library is free software; you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License
+ as published by the Free Software Foundation; either version 2.1
+ of the License, or (at your option) any later version.
+
+ This library is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+-->
+<!--
+	Mechanism: UML 2.0 State Machine
+	StateMachine_UML2.dtd
+	Xholon Project www.primordion.com/Xholon
+	see: OMG. Unified Modeling Language: Superstructure, version 2.0, formal/05-07-04
+	March 28, 2006
+	updated: August 27, 2007
+-->
+
+<!-- Common attributes found in all Vertex types (State, FinalState, PseudoStateXxx) -->
+<!ENTITY % vertex_attr "roleName CDATA #REQUIRED uid NMTOKEN #REQUIRED">
+
+<!-- Elements and Attributes, in alphabetical order -->
+
+<!-- Activity -->
+<!ELEMENT Activity EMPTY>
+<!ATTLIST Activity uid NMTOKEN #REQUIRED>
+
+<!-- ConnectionPointReference -->
+<!ELEMENT ConnectionPointReference EMPTY>
+
+<!-- DeferrableTrigger -->
+<!ELEMENT DeferrableTrigger (
+	Trigger*)>
+<!ATTLIST DeferrableTrigger %vertex_attr;>
+
+<!-- DoActivity -->
+<!ELEMENT DoActivity EMPTY>
+<!ATTLIST DoActivity uid NMTOKEN #REQUIRED>
+
+<!-- EntryActivity -->
+<!ELEMENT EntryActivity EMPTY>
+<!ATTLIST EntryActivity uid NMTOKEN #REQUIRED>
+
+<!-- ExitActivity -->
+<!ELEMENT ExitActivity EMPTY>
+<!ATTLIST ExitActivity uid NMTOKEN #REQUIRED>
+
+<!-- FinalState -->
+<!ELEMENT FinalState EMPTY>
+<!ATTLIST FinalState %vertex_attr;>
+
+<!-- Guard -->
+<!ELEMENT Guard EMPTY>
+<!ATTLIST Guard uid NMTOKEN #REQUIRED>
+
+<!-- PseudostateChoice -->
+<!ELEMENT PseudostateChoice EMPTY>
+<!ATTLIST PseudostateChoice %vertex_attr;>
+
+<!-- PseudostateDeepHistory -->
+<!ELEMENT PseudostateDeepHistory EMPTY>
+<!ATTLIST PseudostateDeepHistory %vertex_attr;>
+
+<!-- PseudostateEntryPoint -->
+<!ELEMENT PseudostateEntryPoint EMPTY>
+<!ATTLIST PseudostateEntryPoint %vertex_attr;>
+
+<!-- PseudostateExitPoint -->
+<!ELEMENT PseudostateExitPoint EMPTY>
+<!ATTLIST PseudostateExitPoint %vertex_attr;>
+
+<!-- PseudostateFork -->
+<!ELEMENT PseudostateFork EMPTY>
+<!ATTLIST PseudostateFork %vertex_attr;>
+
+<!-- PseudostateInitial -->
+<!ELEMENT PseudostateInitial EMPTY>
+<!ATTLIST PseudostateInitial %vertex_attr;>
+
+<!-- PseudostateJoin -->
+<!ELEMENT PseudostateJoin EMPTY>
+<!ATTLIST PseudostateJoin %vertex_attr;>
+
+<!-- PseudostateJunction -->
+<!ELEMENT PseudostateJunction EMPTY>
+<!ATTLIST PseudostateJunction %vertex_attr;>
+
+<!-- PseudostateShallowHistory -->
+<!ELEMENT PseudostateShallowHistory EMPTY>
+<!ATTLIST PseudostateShallowHistory %vertex_attr;>
+
+<!-- PseudostateTerminate -->
+<!ELEMENT PseudostateTerminate EMPTY>
+<!ATTLIST PseudostateTerminate %vertex_attr;>
+
+<!-- Region -->
+<!ELEMENT Region (
+	PseudostateInitial?,
+	PseudostateShallowHistory?,
+	PseudostateDeepHistory?,
+	(State*,
+	FinalState*,
+	PseudostateChoice*,
+	PseudostateEntryPoint*,
+	PseudostateExitPoint*,
+	PseudostateFork*,
+	PseudostateJoin*,
+	PseudostateJunction*,
+	PseudostateTerminate*)*,
+	(Transition*,
+	TransitionExternal*,
+	TransitionInternal*)*)>
+
+<!-- State -->
+<!ELEMENT State (
+	(EntryActivity?,
+	ExitActivity?,
+	DoActivity?,
+	DeferrableTrigger*,
+	PseudostateEntryPoint*,
+	PseudostateExitPoint*,
+	Region*)*)>
+<!ATTLIST State %vertex_attr;>
+
+<!-- StateMachine -->
+<!ELEMENT StateMachine (Region*)>
+
+<!-- Transition @deprecated, use TransitionExternal instead -->
+<!ELEMENT Transition (
+	Trigger*,
+	Guard?,
+	Activity?
+	)>
+<!ATTLIST Transition
+	roleName CDATA #REQUIRED
+	uid NMTOKEN #REQUIRED>
+
+<!-- TransitionExternal -->
+<!ELEMENT TransitionExternal (
+	Trigger*,
+	Guard?,
+	Activity?
+	)>
+<!ATTLIST TransitionExternal
+	roleName CDATA #REQUIRED
+	uid NMTOKEN #REQUIRED>
+
+<!-- TransitionInternal -->
+<!ELEMENT TransitionInternal (
+	Trigger*,
+	Guard?,
+	Activity?
+	)>
+<!ATTLIST TransitionInternal
+	roleName CDATA #REQUIRED
+	uid NMTOKEN #REQUIRED>
+
+<!-- Trigger -->
+<!ELEMENT Trigger EMPTY>
+<!ATTLIST Trigger roleName NMTOKEN #REQUIRED>

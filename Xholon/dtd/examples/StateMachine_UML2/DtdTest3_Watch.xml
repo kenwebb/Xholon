@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE WatchUserSystem SYSTEM "../../StateMachine_UML2.dtd" [
+	<!ELEMENT WatchUserSystem (AcmeWatch | User)*>
+	<!ELEMENT AcmeWatch (Gui | TimeDate | AlarmChime | StopWatch | TickGenerator | PowerControl | PowerSupply)*>
+	<!ELEMENT Gui (GuiControl | Light | Beeper | Display)*>
+	<!ELEMENT GuiControl (ChronographControl | LightControl | BeepTestControl)*>
+	<!ELEMENT ChronographControl (StateMachine?)>
+	<!ELEMENT LightControl EMPTY>
+	<!ELEMENT BeepTestControl (StateMachine?)>
+	<!ELEMENT User (InjectButton+)>
+	<!ELEMENT InjectButton EMPTY>
+	<!ATTLIST InjectButton roleName CDATA #REQUIRED>
+	<!ELEMENT TimeDate EMPTY>
+	<!ELEMENT TickGenerator EMPTY>
+	<!ELEMENT Light EMPTY>
+	<!ELEMENT Beeper EMPTY>
+	<!ELEMENT Display (AlarmChimeStatusDisplay | DayOfWeekModeDisplay | TimeDateDisplay)*>
+	<!ELEMENT AlarmChimeStatusDisplay EMPTY>
+	<!ELEMENT DayOfWeekModeDisplay EMPTY>
+	<!ELEMENT TimeDateDisplay EMPTY>
+	<!ELEMENT AlarmChime EMPTY>
+	<!ELEMENT StopWatch EMPTY>
+	<!ELEMENT PowerControl EMPTY>
+	<!ELEMENT PowerSupply EMPTY>
+]>
+<!--
+	Watch application - Containment Hierarchy
+	Author: Ken Webb
+	Date:   September 26, 2005
+	File:   CompositeStructureHierarchy.xml
+	
+	This file was manually created
+-->
+<WatchUserSystem>
+	<AcmeWatch>
+		<Gui>
+			<GuiControl>
+				<ChronographControl>
+					<StateMachine>
+						<Region>
+							<State uid="29" roleName="Top">
+								<Region>
+									<PseudostateInitial uid="647" roleName="initial"/>
+									<State uid="45" roleName="Displays">
+										<Region>
+											<PseudostateInitial uid="626" roleName="initial"/>
+											<State uid="566" roleName="AlarmUpdate">
+												<Region>
+													<State uid="583" roleName="Hour1"/>
+												</Region>
+											</State>
+											<State uid="61" roleName="Regular">
+												<Region>
+													<PseudostateInitial uid="497" roleName="initial"/>
+													<State uid="471" roleName="Time"/>
+													<State uid="484" roleName="Date"/>
+													<State uid="77" roleName="Update">
+														<Region>
+															<State uid="160" roleName="Second"/>
+															<State uid="147" roleName="Minute"/>
+															<State uid="134" roleName="Hour"/>
+															<State uid="95" roleName="Month"/>
+															<State uid="108" roleName="Day"/>
+															<State uid="121" roleName="Date"/>
+															<Transition uid="233" roleName="s1">
+																<Trigger roleName="S1"/>
+																<Activity uid="1001"/>
+															</Transition>
+															<Transition uid="209" roleName="s1">
+																<Trigger roleName="S1"/>
+																<Activity uid="1002"/>
+															</Transition>
+															<Transition uid="185" roleName="s1">
+																<Trigger roleName="S1"/>
+																<Activity uid="1003"/>
+															</Transition>
+															<Transition uid="173" roleName="s1">
+																<Trigger roleName="S1"/>
+																<Activity uid="1004"/>
+															</Transition>
+															<Transition uid="221" roleName="s1">
+																<Trigger roleName="S1"/>
+																<Activity uid="1005"/>
+															</Transition>
+															<Transition uid="197" roleName="s1">
+																<Trigger roleName="S1"/>
+																<Activity uid="1006"/>
+															</Transition>
+														</Region>
+													</State> <!-- end Update -->
+													<Transition uid="539" roleName="notS1">
+														<Trigger roleName="NOTS1"/>
+														<Activity uid="1007"/>
+													</Transition>
+													<Transition uid="515" roleName="s3">
+														<Trigger roleName="S3"/>
+														<Activity uid="1008"/>
+													</Transition>
+													<Transition uid="527" roleName="s1">
+														<Trigger roleName="S1"/>
+														<Activity uid="1009"/>  <!-- 527 -->
+													</Transition>
+													<Transition uid="503" roleName="init"/>
+													<Transition uid="596" roleName="s3For2Seconds">
+														<Trigger roleName="S3FOR2SECONDS"/>
+														<Activity uid="1010"/>
+													</Transition>
+												</Region>
+											</State> <!-- end Regular -->
+											<Transition uid="632" roleName="init"/>
+											<Transition uid="608" roleName="s3">
+												<Trigger roleName="S3"/>
+												<Activity uid="1011"/>
+											</Transition>
+										</Region>
+									</State> <!-- end Displays -->
+									<Transition uid="653" roleName=""/>
+								</Region>
+							</State> <!-- end Top -->
+							<!-- the following are self transitions that take place within Update state -->
+							<Transition uid="363" roleName="s2">
+								<Trigger roleName="S2"/>
+								<Activity uid="1012"/>
+							</Transition>
+							<Transition uid="387" roleName="s2">
+								<Trigger roleName="S2"/>
+								<Activity uid="1013"/>
+							</Transition>
+							<Transition uid="399" roleName="s2">
+								<Trigger roleName="S2"/>
+								<Activity uid="1014"/>
+							</Transition>
+							<Transition uid="411" roleName="s2">
+								<Trigger roleName="S2"/>
+								<Activity uid="1015"/>
+							</Transition>
+							<Transition uid="375" roleName="s2">
+								<Trigger roleName="S2"/>
+								<Activity uid="1016"/>
+							</Transition>
+							<Transition uid="423" roleName="s2">
+								<Trigger roleName="S2"/>
+								<Activity uid="1017"/>
+							</Transition>
+						</Region> <!-- end outermost region -->
+					</StateMachine>
+				</ChronographControl>
+				<LightControl/>
+				<BeepTestControl/>
+			</GuiControl>
+			<Light/>
+			<Beeper/>
+			<Display>
+				<AlarmChimeStatusDisplay/>
+				<DayOfWeekModeDisplay/>
+				<TimeDateDisplay/>
+			</Display>
+		</Gui>
+		<TimeDate/>
+		<AlarmChime/>
+		<StopWatch/>
+		<TickGenerator/>
+		<PowerControl/>
+		<PowerSupply/>
+	</AcmeWatch>
+	<User>
+		<InjectButton roleName="Press_S1"/>
+		<InjectButton roleName="Release_S1"/>
+		<InjectButton roleName="Press_S2"/>
+		<InjectButton roleName="Release_S2"/>
+		<InjectButton roleName="Press_S3"/>
+		<InjectButton roleName="Release_S3"/>
+		<InjectButton roleName="Hold_S3"/>
+		<InjectButton roleName="Press_S4"/>
+		<InjectButton roleName="Release_S4"/>
+	</User>
+</WatchUserSystem>
