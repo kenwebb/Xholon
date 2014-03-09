@@ -389,6 +389,7 @@ public interface IApplication extends IXholon {
 	public abstract IInteraction getInteraction();
 	public abstract String getIQueueImplName();
 	public abstract boolean getUseInteractions();
+	public abstract String getInteractionParams();
 	
 	/** @return Returns the maxStateMachineEntities. */
 	public abstract int getMaxStateMachineEntities();
@@ -524,12 +525,22 @@ public interface IApplication extends IXholon {
 	/** @param useHistogramPlotter The useHistogramPlotter to set. */
 	public abstract void setUseHistogramPlotter(String useHistogramPlotter);
 	
+	public abstract void setUseInteractions(boolean useInteractions);
+	
+	public abstract void setInteractionParams(String interactionParams);
+	
 	/**
 	 * Create a JFreeChart. GnuPlot, or other chart.
 	 * @param chartRoot The root of the subtree that will provide values for the chart.
 	 * If this value is null, then the model root will be used.
 	 */
 	public abstract void createChart(IXholon chartRoot);
+	
+	/**
+	 * Enable the creation of interactions while the app is running.
+	 * The cached interactions can later be used to create a sequence diagram.
+	 */
+	public abstract void createInteractions();
 	
 	/** @return Returns the maxProcessLoops. */
 	public abstract int getMaxProcessLoops();

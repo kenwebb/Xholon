@@ -2154,6 +2154,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 			|| ((interaction.getOutputFormat() & IInteraction.FORMAT_SDEDIT) == IInteraction.FORMAT_SDEDIT)
 			|| ((interaction.getOutputFormat() & IInteraction.FORMAT_WEBSD) == IInteraction.FORMAT_WEBSD)
 			|| ((interaction.getOutputFormat() & IInteraction.FORMAT_UML_GRAPH) == IInteraction.FORMAT_UML_GRAPH)) {
+			consoleLog("do sequence diagram on wrapup");
 			invokeInteraction();
 		}
 		
@@ -2337,16 +2338,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 		
 		// Interactions
 		if (getUseInteractions()) {
-  		view.appendChild("Interactions", null);
-  		StringTokenizer st = new StringTokenizer(getInteractionParams(), ",");
-			try {
-				interaction.setOutputFormat(Integer.parseInt(st.nextToken()));
-				interaction.setShowStates(Misc.booleanValue(st.nextToken()));
-				interaction.setSocketHost(st.nextToken());
-				interaction.setSocketPort(Integer.parseInt(st.nextToken()));
-			} catch (NumberFormatException e) {
-				logger.error("Application initViewers() Interactions", e);
-			}
+  		createInteractions();
 		}
 		
 		// TextTree
@@ -2377,6 +2369,23 @@ public abstract class Application extends AbstractApplication implements IApplic
 			xhymSpace.postConfigure();
 		}
 		consoleLog("Application ending initViewers()");
+	}
+	
+	/*
+	 * @see org.primordion.xholon.app.IApplication#createInteractions()
+	 */
+	public void createInteractions()
+	{
+	  view.appendChild("Interactions", null);
+		StringTokenizer st = new StringTokenizer(getInteractionParams(), ",");
+		try {
+			interaction.setOutputFormat(Integer.parseInt(st.nextToken()));
+			interaction.setShowStates(Misc.booleanValue(st.nextToken()));
+			interaction.setSocketHost(st.nextToken());
+			interaction.setSocketPort(Integer.parseInt(st.nextToken()));
+		} catch (NumberFormatException e) {
+			logger.error("Application initViewers() Interactions", e);
+		}
 	}
 
 	/*
