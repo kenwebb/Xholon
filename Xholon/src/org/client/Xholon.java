@@ -202,6 +202,8 @@ public class Xholon implements EntryPoint {
     else if ("Red".equals(appName)) {Red(withGui);}
     else if ("TweenTrees".equals(appName)) {TweenTrees(withGui);}
     else if ("WaterLogic".equals(appName)) {WaterLogic(withGui);}
+    else if ("TestFsmKW".equals(appName)) {TestFsmKW(withGui);}
+    else if ("Turnstile".equals(appName)) {Turnstile(withGui);}
     
     // Ealontro (non-Genetic Programming versions)
     else if ("AntForaging".equals(appName)) {AntForaging(withGui);}
@@ -840,6 +842,24 @@ public class Xholon implements EntryPoint {
     xhn(withGui,
       (IApplication)GWT.create(org.primordion.user.app.XBar.AppXBar_ex1.class),
       "config/user/XBar/XBar_xhn.xml");
+  }
+  
+  /**
+   * TestFsmKW
+   */
+  private void TestFsmKW(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.user.app.TestFsm.AppTestFsmKW.class),
+      "config/TestFsm/TestFsm_KW_xhn.xml");
+  }
+  
+  /**
+   * Turnstile
+   */
+  private void Turnstile(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.user.app.Turnstile.AppTurnstile.class),
+      null);
   }
   
   // Ealontro
