@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+<!DOCTYPE TestFsmSystem SYSTEM "../../dtd/StateMachine_Xholon.dtd" [
+<!ELEMENT TestFsmSystem (TestHarness,FsmXholon)>
+<!ATTLIST TestFsmSystem
+	xmlns:uml CDATA #REQUIRED
+	xmlns:xmi CDATA #REQUIRED
+>
+<!ELEMENT FsmXholon (StateMachine)>
+<!ELEMENT TestHarness EMPTY>
+]>	
+-->
+<TestFsmSystem xmlns:xmi="http://schema.omg.org/spec/XMI/2.1"
+	xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+	<TestHarness/>
+	<FsmXholon>
+		<StateMachine>
+			<State roleName="Top">
+				<PseudostateInitial>
+					<TransitionExternal>
+						<Activity roleName="1"/>
+						<Target roleName="StateA1"/>
+					</TransitionExternal>
+				</PseudostateInitial>
+				<State roleName="StateA">
+					<EntryActivity roleName="2"/>
+					<State roleName="StateA1">
+						<EntryActivity roleName="3"/>
+						<ExitActivity roleName="4"/>
+						<DeferrableTrigger>
+							<Trigger roleName="SIG3"/>
+						</DeferrableTrigger>
+						<TransitionExternal>
+							<Trigger roleName="SIG2"/>
+							<Activity roleName="ACTIVITY_5"/> <!-- 5 -->
+							<Target roleName="ChoiceA"/>
+						</TransitionExternal>
+						<TransitionExternal>
+							<Trigger roleName="SIG1"/>
+							<Guard roleName="101"/>
+							<Activity roleName="6"/>
+							<Target roleName="StateA2"/>
+						</TransitionExternal>
+						<TransitionExternal>
+							<Trigger roleName="SIG1"/>
+							<Guard roleName="102"/>
+							<Activity roleName="7"/>
+							<Target roleName="StateA3"/>
+						</TransitionExternal>
+					</State>
+					<State roleName="StateA2">
+						<EntryActivity roleName="8"/>
+					</State>
+					<State roleName="StateA3">
+						<EntryActivity roleName="9"/>
+						<TransitionExternal>
+							<Trigger roleName="SIG1"/>
+							<Activity roleName="10"/>
+							<Target roleName="TerminateA"/>
+						</TransitionExternal>
+						<TransitionExternal>
+							<Trigger roleName="SIG3"/>
+							<Activity roleName="11"/>
+							<Target roleName="StateB"/>
+						</TransitionExternal>
+					</State>
+					<PseudostateChoice roleName="ChoiceA">
+						<TransitionExternal>
+							<Guard roleName="104"/>
+							<Activity roleName="13"/>
+							<Target roleName="StateB"/>
+						</TransitionExternal>
+						<TransitionExternal>
+							<Guard roleName="103"/> <!-- else -->
+							<Activity roleName="12"/>
+							<Target roleName="StateA1"/>
+						</TransitionExternal>
+					</PseudostateChoice>
+					<PseudostateTerminate roleName="TerminateA"/>
+				</State>
+				<State roleName="StateB">
+					<TransitionExternal>
+						<Trigger roleName="SIG3"/>
+						<Activity roleName="14"/>
+						<Target roleName="StateA1"/>
+					</TransitionExternal>
+					<TransitionExternal>
+						<Trigger roleName="SIG2"/>
+						<Activity roleName="15"/>
+						<Target roleName="FinalStateA"/>
+					</TransitionExternal>
+					<TransitionExternal>
+						<Trigger roleName="SIG1"/>
+						<Activity roleName="16"/>
+						<Target roleName="StateA1"/>
+					</TransitionExternal>
+				</State>
+				<FinalState roleName="FinalStateA"/>
+			</State>
+		</StateMachine>
+	</FsmXholon>
+</TestFsmSystem>

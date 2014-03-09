@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xholonClassDetails xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+<FsmXholon xhType="XhtypePureActiveObject">
+	<port name="port" index="P_PARTNER" connector="#xpointer(ancestor::TestFsmSystem/TestHarness)"/>
+</FsmXholon>
+<TestHarness xhType="XhtypePureActiveObject">
+	<port name="port" index="P_PARTNER" connector="#xpointer(ancestor::TestFsmSystem/FsmXholon)"/>
+</TestHarness>
+<!-- State Machine -->
+<State xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.ObservableStateMachineEntity"/>
+<PseudostateInitial xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<PseudostateChoice xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<Transition xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<StateMachineEntity xhType="XhtypeStateMachineEntity" implName="org.primordion.xholon.base.StateMachineEntity"/>
+<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

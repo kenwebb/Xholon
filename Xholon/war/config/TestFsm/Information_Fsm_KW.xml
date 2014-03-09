@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+-->
+<?xml-stylesheet type="text/xsl" href="../../information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../information/info.css"?>
+
+<!--
+	TestFsm Displayable information about this application.
+	Author: Ken_Webb
+-->
+<document xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+<header>
+<title>TestFsm</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This is an entirely manually created version of TestFsm.
+It's designed to demonstrate a simpler syntax for state machines,
+that can be more readily directly entered by a person.
+</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<p/>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p/>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p/>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p/>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p/>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p/>
+</section>
+
+</body>
+</document>

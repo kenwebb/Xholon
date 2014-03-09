@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+	This is the system without the state machine.
+-->
+<TestFsmSystem xmlns:xi="http://www.w3.org/2001/XInclude">
+	<TestHarness/>
+	<FsmXholon multiplicity="2">
+		<xi:include href="./config/TestFsm/CompositeStructureHierarchy_Fsm_KW_StateMachine.xml"/>
+	</FsmXholon>
+</TestFsmSystem>

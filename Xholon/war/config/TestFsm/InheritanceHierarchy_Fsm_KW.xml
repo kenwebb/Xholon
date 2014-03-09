@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+TestFsm application - Inheritance Hierarchy
+Author: Ken Webb
+-->
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude"
+	xmlns:xmi="http://schema.omg.org/spec/XMI/2.1"
+	xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+	<FsmXholon/>
+	<TestHarness/>
+	<TestFsmSystem/>
+
+	<!-- StateMachineEntity -->
+	<!--<xi:include href="_mechanism/StateMachineEntity.xml"/>-->
+	
+	<!-- Xholon Viewers -->
+	<!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>
