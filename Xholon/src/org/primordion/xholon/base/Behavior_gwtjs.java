@@ -316,14 +316,9 @@ public class Behavior_gwtjs extends Xholon {
 	 * @see org.primordion.xholon.base.Xholon#performActivity(int, IMessage)
 	 */
 	public void performActivity(int activityId, IMessage msg) {
-	  consoleLog("Behavior_gwtjs performActivity( 1");
-	  consoleLog(activityId);
-	  consoleLog(msg);
 	  if (hasFunction(beh, "performActivity")) {
-	    consoleLog("Behavior_gwtjs performActivity( 2");
 	    performActivity(beh, activityId, msg);
 	  }
-	  consoleLog("Behavior_gwtjs performActivity( 3");
 	}
 	
 	protected native void performActivity(JavaScriptObject bobj, int activityId, IMessage msg) /*-{
@@ -334,14 +329,9 @@ public class Behavior_gwtjs extends Xholon {
 	 * @see org.primordion.xholon.base.Xholon#performGuard(int, IMessage)
 	 */
 	public boolean performGuard(int activityId, IMessage msg) {
-	  consoleLog("Behavior_gwtjs performGuard( 1");
-	  consoleLog(activityId);
-	  consoleLog(msg);
 	  if (hasFunction(beh, "performGuard")) {
-	    consoleLog("Behavior_gwtjs performGuard( 2");
 	    return performGuard(beh, activityId, msg);
 	  }
-	  consoleLog("Behavior_gwtjs performGuard( 3");
 	  return false;
 	}
 	
