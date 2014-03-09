@@ -180,6 +180,37 @@ public class XhChameleon extends XholonWithPorts implements CeChameleon {
     }
 	}
 	
+	/*
+	 * @see org.primordion.xholon.base.IXholon#performActivity(int, org.primordion.xholon.base.Message)
+	 */
+	public void performActivity(int activityId, IMessage msg)
+	{
+		int signal = msg.getSignal();
+	  IXholon forwardee = forwardees.get(signal);
+	  if (forwardee == null) {
+	    forwardee = forwardees.get(null);
+	  }
+    if (forwardee != null) {
+      forwardee.performActivity(activityId, msg);
+    }
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.IXholon#performGuard(int, org.primordion.xholon.base.Message)
+	 */
+	public boolean performGuard(int activityId, IMessage msg)
+	{
+		int signal = msg.getSignal();
+	  IXholon forwardee = forwardees.get(signal);
+	  if (forwardee == null) {
+	    forwardee = forwardees.get(null);
+	  }
+    if (forwardee != null) {
+      return forwardee.performGuard(activityId, msg);
+    }
+		return false;
+	}
+	
 	public String toString() {
 		String outStr = getName();
 		if ((port != null) && (port.length > 0)) {

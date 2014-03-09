@@ -37,6 +37,7 @@ import org.primordion.xholon.base.ISignal;
 //import org.primordion.xholon.base.IXPath;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
+import org.primordion.xholon.base.StateMachineEntity;
 import org.primordion.xholon.base.Xholon;
 //import org.primordion.xholon.service.AbstractXholonService;
 import org.primordion.xholon.service.IXholonService;
@@ -160,6 +161,9 @@ public class XholonWorkbook extends Xholon {
 			processSubTree(tagName, subTree);
 			pos = workbookContents.indexOf("<", endTagEndIndex+1);
 		}
+		
+		// the workbook may include one or more UML state machines; if so, then initialize them
+		StateMachineEntity.initializeStateMachines(); // initialize any state machines in the app
 		
 		return null;
 	}

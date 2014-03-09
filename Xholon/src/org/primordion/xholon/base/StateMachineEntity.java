@@ -1,5 +1,5 @@
 /* Xholon Runtime Framework - executes event-driven & dynamic applications
- * Copyright (C) 2005, 2006, 2007, 2008 Ken Webb
+ * Copyright (C) 2005, 2006, 2007, 2008 - 2014 Ken Webb
  *
  * This library is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License
@@ -546,14 +546,14 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 	 */
 	public void setPorts()
 	{
-		// move up the inheritance hierarchy looking for first parent with a xhType
+	  // move up the inheritance hierarchy looking for first parent with a xhType
 		IXholonClass iXhc = xhc;
 		while ((!iXhc.isRootNode()) && (iXhc.getXhType() == IXholonClass.XhtypeNone)) {
 			iXhc = (IXholonClass)iXhc.getParentNode();
 		}
 		// TODO Use different sizes for each type of StateMachineEntity.
 		if (iXhc.isActiveObject()) {
-			cnpt = new StateMachineEntity[SIZE_CNPT];
+		  cnpt = new StateMachineEntity[SIZE_CNPT];
 		}
 	}
 	
@@ -631,7 +631,7 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 	 */
 	public void configure()
 	{
-		if (xhc == null) {
+	  if (xhc == null) {
 			logger.error("StateMachineEntity::configure: xhClass is null.");
 			return;
 		}
@@ -652,7 +652,7 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 				break;
 			default:
 				if (Msg.errorM)
-					println( "StateMachineEntity configure: error [" + instructions.charAt(instructIx) + "]\n" );
+					consoleLogSme("StateMachineEntity configure: error [" + instructions.charAt(instructIx) + "]\n");
 				instructIx++;
 				break;
 			} // end switch
@@ -671,7 +671,6 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 		}
 
 		super.configure();
-		
 		// only initialize StateMachine after entire subtree has been configured
 		if (getXhcId() == StateMachineCE) {
 			activeSubState = new IStateMachineEntity[1];
@@ -741,7 +740,7 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 	 */
 	public static void initializeStateMachines()
 	{
-		StateMachineEntity sme = null;
+	  StateMachineEntity sme = null;
 		IXPath xPath = null;
 		for (int i = 0; i < stateMachineV.size(); i++) {
 			sme = (StateMachineEntity)stateMachineV.elementAt(i);
@@ -763,11 +762,17 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 						);
 			}
 			else {
-				System.out.println("No PseudostateInitial for FSM: " + sme.getName());
+				consoleLogSme("No PseudostateInitial for FSM: " + sme.getName());
 			}
 		}
 		stateMachineV.removeAllElements(); // don't need the Vector elements anymore
 	}
+	
+	public native static void consoleLogSme(Object obj) /*-{
+	  if (console) {
+	    console.log(obj);
+	  }
+	}-*/;
 	
 	/**
 	 * Set up all the initial active states in the StateMachine hierarchy.
@@ -776,7 +781,7 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 	 */
 	protected void initializeStateMachine()
 	{
-		// execute recursively; initialize from bottom up so active states are correctly set
+	  // execute recursively; initialize from bottom up so active states are correctly set
 		if (firstChild != null) {
 			((StateMachineEntity)firstChild).initializeStateMachine();
 		}
@@ -789,7 +794,7 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 		String uidRn;
 		switch (getXhcId()) {
 		case PseudostateInitialCE:
-			aChild = (StateMachineEntity)getFirstChild();
+		  aChild = (StateMachineEntity)getFirstChild();
 			if (aChild != null) {
 				switch (aChild.getXhcId()) {
 				case TransitionExternalCE:
@@ -802,7 +807,7 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 			break;
 		case StateCE:
 		case FinalStateCE:
-			aChild = (StateMachineEntity)getFirstChild();
+		  aChild = (StateMachineEntity)getFirstChild();
 			while (aChild != null) {
 				uidRn = aChild.getUidOrRoleName();
 				switch (aChild.getXhcId()) {
@@ -911,7 +916,7 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 					break;
 				default:
 					if (Msg.errorM) {
-						System.err.println("StateMachineEntity initializeStateMachine() child1 invalid xholon class id: " + aChild.getXhcId());
+						consoleLogSme("StateMachineEntity initializeStateMachine() child1 invalid xholon class id: " + aChild.getXhcId());
 					}
 					break;
 				} // end switch
@@ -922,15 +927,15 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 		case TransitionExternalCE:
 		case TransitionInternalCE:
 		case TransitionLocalCE:
-			// get triggers
+		  // get triggers
 			trigger = new int[MAX_TRIGGERS];
 			String trigStr = null;
 			aChild = (StateMachineEntity)getFirstChild();
 			while (aChild != null) {
-				uidRn = aChild.getUidOrRoleName();
+			  uidRn = aChild.getUidOrRoleName();
 				switch (aChild.getXhcId()) {
 				case TriggerCE:
-					trigStr = aChild.getRoleName();
+				  trigStr = aChild.getRoleName();
 					if (trigStr.startsWith("ISignal.")) {
 						// ex: "ISignal.SIGNAL_TIMEOUT"
 						trigger[0] = ReflectionFactory.instance().getAttributeIntVal(
@@ -942,7 +947,7 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 					}
 					break;
 				case GuardCE:
-					if (uidRn.charAt(0) == '0') {
+				  if (uidRn.charAt(0) == '0') {
 						if ((uidRn.charAt(1) == 'x') | (uidRn.charAt(1) == 'X')) {
 							guardActivityId = Integer.parseInt(uidRn.substring(2), 16);
 						}
@@ -956,7 +961,7 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 					}
 					break;
 				case ActivityCE:
-					if (uidRn.charAt(0) == '0') {
+				  if (uidRn.charAt(0) == '0') {
 						if ((uidRn.charAt(1) == 'x') | (uidRn.charAt(1) == 'X')) {
 							activityId = Integer.parseInt(uidRn.substring(2), 16);
 						}
@@ -971,7 +976,7 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 					// activityId = Misc.atoi(uid, 1); // ex: "_527"
 					break;
 				case TargetCE:
-					String rn = aChild.getRoleName();
+				  String rn = aChild.getRoleName();
 					String xpathExpression;
 					if ((rn.charAt(0) == '.') || (rn.charAt(0) == '/')) {
 						// the roleName is the xpath expression (examples: ./Hello /World)
@@ -981,11 +986,17 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 						// the roleName is just part of the xpath expression (example: hello)
 						xpathExpression = "ancestor::StateMachine/descendant::Vertex[@roleName='" + rn + "']";
 					}
+					
+					if (cnpt == null) {
+					  // March 4, 2014 this can happen in a XholonWorkbook with a state machine
+					  consoleLogSme("doing: cnpt = new StateMachineEntity[1]; for " + this.getName());
+					  cnpt = new StateMachineEntity[1];
+					}
 					cnpt[CNPT_OUTGOING1] = (IStateMachineEntity)getXPath().evaluate(xpathExpression, this);
 					break;
 				default:
 					if (Msg.errorM) {
-						System.err.println("StateMachineEntity initializeStateMachine() child2 invalid xholon class id: " + aChild.getXhcId());
+						consoleLogSme("StateMachineEntity initializeStateMachine() child2 invalid xholon class id: " + aChild.getXhcId());
 					}
 					break;
 				} // end switch
@@ -1007,7 +1018,7 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 		case PseudostateChoiceCE:
 		case PseudostateJunctionCE:
 		case PseudostateForkCE:
-			// locate an available cnpt to store this transition from the pseudostate
+		  // locate an available cnpt to store this transition from the pseudostate
 			aChild = (StateMachineEntity)getFirstChild();
 			while (aChild != null) {
 				switch (aChild.getXhcId()) {
@@ -1047,11 +1058,11 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 		case DoActivityCE:
 		case DeferrableTriggerCE:
 		case TargetCE:
-			// none of these need to be initialized ?
+		  // none of these need to be initialized ?
 			break;
 		default:
 			if (Msg.errorM) {
-				System.err.println("StateMachineEntity initializeStateMachine() invalid xholon class id: " + getXhcId());
+				consoleLogSme("StateMachineEntity initializeStateMachine() invalid xholon class id: " + getXhcId());
 			}
 			break;
 		} // end switch
@@ -1076,12 +1087,32 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 	 */
 	public void act() {}
 	
+	/**
+	 * If a XholonWorkbook includes a state machine,
+	 * it needs to be able to call the "doStateMachine(IMessage msg)" method in this class.
+	 * This means that native JavaScript code will have to call that Java method.
+	 * The only way I've been able to get this to work is by having the JavaScript code
+	 * call "processReceivedSyncMessage(IMessage msg)".
+	 * It's crucial that the msg actually be passed into the state machine as a "IMessage";
+	 * otherwise GWT isn't able to handle it correctly.
+	 * Example of invoking this method from JavaScript (Turnstile XholonWorkbook; gist 9336811):
+	 *   turnstile.first().call(msg.signal, msg.data, msg.sender);
+	 */
+	@Override
+	public IMessage processReceivedSyncMessage(IMessage msg) {
+	  if (msg.getReceiver() == this) {
+	    msg.setReceiver(this.getParentNode());
+	  }
+	  doStateMachine(msg);
+	  return null;
+	}
+	
 	/*
 	 * @see org.primordion.xholon.base.IStateMachineEntity#doStateMachine(org.primordion.xholon.base.Message)
 	 */
 	public void doStateMachine(IMessage msg)
 	{
-		//println("StateMachineEntity: Processing this message through a hierarchical FSM "
+	  //println("StateMachineEntity: Processing this message through a hierarchical FSM "
 		//		+ getName());
 		// don't need to handle orthogonal states; this function only called for "StateMachine" xholon
 		if (activeSubState[0] != null) {
@@ -1096,7 +1127,7 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 	 */
 	protected StateMachineEntity findChainStart(IMessage msg)
 	{
-		int i;
+	  int i;
 		// store history if may be exiting a composite state that contains a shallow history node
 		if (hasHistoryPseudostates && isComposite()) {
 			StateMachineEntity shallowHistoryNode = getShallowHistoryNode();
@@ -1116,19 +1147,19 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 			}
 		}
 		if (startOfChain == null) {
-			// do activity
+		  // do activity
 			if ((msg.getSignal() == ISignal.SIGNAL_DOACTIVITY) && (doActivityId != ACTIVITYID_NONE)) {
-				msg.getReceiver().performActivity(doActivityId, msg);
+			  msg.getReceiver().performActivity(doActivityId, msg);
 			}
 			else {
-				// compare msg.signal with events that can trigger a transition from this state
+			  // compare msg.signal with events that can trigger a transition from this state
 				for (i = 0; i < SIZE_CNPT; i++) {
-					// TODO break when find cnpt[i] == null; but in theory there may be null holes ???
+				  // TODO break when find cnpt[i] == null; but in theory there may be null holes ???
 					if ((cnpt != null) && (cnpt[i] != null)) {
-						// does the received msg signal match the trigger ?
+					  // does the received msg signal match the trigger ?
 						// only 1 possible trigger for now
 						if (((StateMachineEntity)cnpt[i]).trigger[0] == msg.getSignal()) {
-							// does the optional guard condition allow this transition ?
+						  // does the optional guard condition allow this transition ?
 							if ((((StateMachineEntity)cnpt[i]).guardActivityId == ACTIVITYID_NONE)
 									|| (msg.getReceiver().performGuard(((StateMachineEntity)cnpt[i]).guardActivityId, msg))) {
 								startOfChain = (StateMachineEntity)cnpt[i];
@@ -1136,7 +1167,7 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 							}
 						}
 						else if (((StateMachineEntity)cnpt[i]).trigger[0] == ISignal.SIGNAL_ANY){
-							// does the optional guard condition allow this transition ?
+						  // does the optional guard condition allow this transition ?
 							if ((((StateMachineEntity)cnpt[i]).guardActivityId == ACTIVITYID_NONE)
 									|| (msg.getReceiver().performGuard(((StateMachineEntity)cnpt[i]).guardActivityId, msg))) {
 								startOfChain = (StateMachineEntity)cnpt[i];
@@ -1146,16 +1177,16 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 					}
 				} // end for
 				if (startOfChain != null) {
-					// about to exit this State, so do any exit activity if startOfChain is an external Transition
+				  // about to exit this State, so do any exit activity if startOfChain is an external Transition
 					if ((exitActivityId != ACTIVITYID_NONE)
 							&& ((startOfChain.getXhcId() == TransitionCE)
 								|| (startOfChain.getXhcId() == TransitionExternalCE))) {
 						if (startOfChain.isFollowingJunctionPathway()) {
-							// don't execute exitActivity unless the junction pathway succeeds
+						  // don't execute exitActivity unless the junction pathway succeeds
 							addActivityToJunctionPathway(activityId);
 						}
 						else {
-							msg.getReceiver().performActivity(exitActivityId, msg);
+						  msg.getReceiver().performActivity(exitActivityId, msg);
 						}
 					}
 					startOfChain.doChainSegment(msg);			
@@ -1177,27 +1208,27 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 		switch (getXhcId()) {
 		case TransitionCE:
 		case TransitionExternalCE:
-			if (isFollowingJunctionPathway()) {
+		  if (isFollowingJunctionPathway()) {
 				if (activityId != ACTIVITYID_NONE) {
 					addActivityToJunctionPathway(activityId);
 				}
 			}
 			else {
 				if (activityId != ACTIVITYID_NONE) {
-					msg.getReceiver().performActivity(activityId, msg);
+				  msg.getReceiver().performActivity(activityId, msg);
 				}
 			}
 			((StateMachineEntity)cnpt[CNPT_TARGET]).doChainSegment(msg);
 			break;
 		case TransitionLocalCE: // TODO handle this correctly
 			if (activityId != ACTIVITYID_NONE) {
-				msg.getReceiver().performActivity(activityId, msg);
+			  msg.getReceiver().performActivity(activityId, msg);
 			}
 			//((StateMachineEntity)cnpt[CNPT_TARGET]).doChainSegment(msg); // ?
 			break;
 		case TransitionInternalCE:
 			if (activityId != ACTIVITYID_NONE) {
-				msg.getReceiver().performActivity(activityId, msg);
+			  msg.getReceiver().performActivity(activityId, msg);
 			}
 			// there's no need to continue on to the next chain segment
 			// "an internal transition has a source state but no target state" (Rumbaugh (2005) p.420)
@@ -1216,7 +1247,7 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 			}
 			else {
 				if (entryActivityId != ACTIVITYID_NONE) {
-					msg.getReceiver().performActivity(entryActivityId, msg);
+				  msg.getReceiver().performActivity(entryActivityId, msg);
 				}
 			}
 			// has a transition terminated at a composite or orthogonal composite state?
@@ -1361,7 +1392,7 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 					}
 				}
 			}
-			println("StateMachineEntity doChainSegment(): can't find transition from Choice");
+			consoleLogSme("StateMachineEntity doChainSegment(): can't find transition from Choice");
 			break;
 		case PseudostateJunctionCE:
 			// check the guards to find a transition from this junction
@@ -1377,7 +1408,7 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 			}
 			// the junction pathway fails to find an end state; it should back off
 			setJunctionPathway(false);
-			println("StateMachineEntity doChainSegment(): can't find transition from PseudostateJunction");
+			consoleLogSme("StateMachineEntity doChainSegment(): can't find transition from PseudostateJunction");
 			return; // TODO is this correct?
 		case PseudostateForkCE:
 			// if the chain up to here was a junction pathway, then execute the saved activities
@@ -1404,7 +1435,7 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 						return; // found it
 					}
 				}
-				println("StateMachineEntity doChainSegment(): can't find transition from Join");
+				consoleLogSme("StateMachineEntity doChainSegment(): can't find transition from Join");
 			}
 			break;
 		case PseudostateShallowHistoryCE:
@@ -1438,7 +1469,7 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 					return; // found it
 				}
 			}
-			println("StateMachineEntity doChainSegment(): can't find transition from EntryPoint");
+			consoleLogSme("StateMachineEntity doChainSegment(): can't find transition from EntryPoint");
 			break;
 		case PseudostateExitPointCE:
 			for (int i = 0; i < SIZE_CNPT; i++) {
@@ -1447,7 +1478,7 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 					return; // found it
 				}
 			}
-			println("StateMachineEntity doChainSegment(): can't find transition from ExitPoint");
+			consoleLogSme("StateMachineEntity doChainSegment(): can't find transition from ExitPoint");
 			break;
 		case PseudostateTerminateCE:
 			// if the chain up to here was a junction pathway, then execute the saved activities
@@ -1458,7 +1489,7 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 			break;
 		default:
 			if (Msg.errorM) {
-				System.err.println("StateMachineEntity doChainSegment() invalid xholon class id: " + getXhcId());
+				consoleLogSme("StateMachineEntity doChainSegment() invalid xholon class id: " + getXhcId());
 			}
 			break;
 		} // end switch
