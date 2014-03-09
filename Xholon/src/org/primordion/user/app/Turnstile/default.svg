@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/)
+adapted from http://en.wikipedia.org/wiki/File:Turnstile_state_machine_colored.svg
+-->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.1"
+   width="790.19269"
+   height="342.78104"
+   id="svg2">
+  <style>
+    svg text {
+      pointer-events: none;
+    }
+  </style>
+  <defs
+     id="defs4">
+    <marker
+       refX="0"
+       refY="0"
+       orient="auto"
+       id="Arrow1Mend"
+       style="overflow:visible">
+      <path
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         id="path3777"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none" />
+    </marker>
+    <marker
+       refX="0"
+       refY="0"
+       orient="auto"
+       id="Arrow1Mstart"
+       style="overflow:visible">
+      <path
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         transform="matrix(0.4,0,0,0.4,4,0)"
+         id="path3774"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none" />
+    </marker>
+  </defs>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(18.219247,-406.9476)"
+     id="layer1"
+     style="display:inline">
+    <path
+       d="m 178.79701,523.5473 a 56.063465,56.063465 0 1 1 -112.126932,0 56.063465,56.063465 0 1 1 112.126932,0 z"
+       transform="translate(74.285714,86.285714)"
+       id="path2985"
+       style="fill:#f5dEb3;stroke:#000000;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <path
+       d="m 178.79701,523.5473 a 56.063465,56.063465 0 1 1 -112.126932,0 56.063465,56.063465 0 1 1 112.126932,0 z"
+       transform="translate(434.91017,87.29589)"
+       id="path3755"
+       style="fill:#f4e3d7;stroke:#000000;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <path
+       d="m 232.87966,560.84064 c 74.01307,-92.20088 218.96809,-95.49941 288.90363,-10e-6"
+       id="path3759"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)" />
+    <path
+       d="m 234.89997,659.83558 c 74.01307,92.20088 218.96809,95.49942 288.90362,10e-6"
+       id="path3763"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#Arrow1Mstart);marker-end:none" />
+    <path
+       d="M 587.90878,236.664 A 36.870567,36.870567 0 1 1 556.96756,200.27332"
+       transform="matrix(-1.4505952,-1.2600085,1.2600085,-1.4505952,1150.7633,1647.5954)"
+       id="path5329"
+       style="fill:none;stroke:#000000;stroke-width:1.56134677;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#Arrow1Mstart)" />
+    <path
+       d="M 587.90878,236.664 A 36.870567,36.870567 0 1 1 556.96756,200.27332"
+       transform="matrix(1.4694921,1.2379179,-1.2379179,1.4694921,-412.64958,-417.02864)"
+       id="path5519"
+       style="fill:none;stroke:#000000;stroke-width:1.56134677;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#Arrow1Mstart)" />
+    <text
+       x="522.85712"
+       y="608.07648"
+       id="text5531"
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><tspan
+         x="522.85712"
+         y="608.07648"
+         id="tspan5533" /></text>
+    <text
+       x="118.57143"
+       y="493.79074"
+       id="text5553"
+       xml:space="preserve"
+       style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"><tspan
+         x="118.57143"
+         y="493.79074"
+         id="tspan5557" /></text>
+    <path
+       d="m 196.42361,732.80006 0,-60"
+       id="path3016"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)" />
+    <path
+       d="m 222.85715,284.20959 a 12.5,12.5 0 1 1 -1.9e-4,-0.0677"
+       transform="translate(-13.219247,438.9476)"
+       id="path3020"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+  </g>
+  <g
+     id="layer2"
+     style="display:inline">
+    <rect
+       width="169.70563"
+       height="35.355339"
+       ry="2.5"
+       x="613.1626"
+       y="10.420544"
+       id="TurnstileSystem/Person/DepositCoinEvent"
+       style="fill:#0000af;fill-opacity:1;stroke:#0000ff;stroke-width:1px;" />
+    <text
+       x="168.21924"
+       y="211.70035"
+       id="text5521"
+       xml:space="preserve"
+       style="font-size:30px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"><tspan
+         x="168.21924"
+         y="211.70035"
+         id="tspan5523">Locked</tspan></text>
+    <text
+       x="555.36206"
+       y="193.12888"
+       id="text5525"
+       xml:space="preserve"
+       style="font-size:30px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"><tspan
+         x="555.36206"
+         y="193.12888"
+         id="tspan5527">Un-</tspan><tspan
+         x="555.36206"
+         y="230.62888"
+         id="tspan5547" /><tspan
+         x="555.36206"
+         y="268.12888"
+         id="tspan5529" /></text>
+    <text
+       x="532.50494"
+       y="221.70035"
+       id="text5539"
+       xml:space="preserve"
+       style="font-size:30px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"><tspan
+         x="532.50494"
+         y="221.70035"
+         id="tspan5549">locked</tspan></text>
+    <text
+       x="222.50499"
+       y="120.27176"
+       id="text5559"
+       xml:space="preserve"
+       style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"><tspan
+         x="222.50499"
+         y="120.27176"
+         id="tspan5561">Coin</tspan></text>
+    <text
+       x="635.36212"
+       y="300.2717"
+       id="text5563"
+       xml:space="preserve"
+       style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"><tspan
+         x="635.36212"
+         y="300.2717"
+         id="tspan5565">Coin</tspan></text>
+    <text
+       x="95.362106"
+       y="123.12885"
+       id="text5567"
+       xml:space="preserve"
+       style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"><tspan
+         x="95.362106"
+         y="123.12885"
+         id="tspan5569"
+         style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Arial;-inkscape-font-specification:Arial">Push</tspan></text>
+    <text
+       x="523.93359"
+       y="299.55746"
+       id="text5571"
+       xml:space="preserve"
+       style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"><tspan
+         x="523.93359"
+         y="299.55746"
+         id="tspan5573">Push</tspan></text>
+    <text
+       x="-11.179793"
+       y="75.34581"
+       transform="matrix(0.92413635,-0.38206284,0.38206284,0.92413635,0,0)"
+       id="text3019"
+       xml:space="preserve"
+       style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#0000af;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"><tspan
+         x="-11.179793"
+         y="75.34581"
+         id="tspan3021"
+         style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#0000af;fill-opacity:1;font-family:Arial;-inkscape-font-specification:Arial">Turnstile</tspan></text>
+    <text
+       x="618.06348"
+       y="36.388489"
+       id="text3023"
+       xml:space="preserve"
+       style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"><tspan
+         x="618.06348"
+         y="36.388489"
+         id="tspan3025">Deposit Coin</tspan></text>
+    <rect
+       width="182.83762"
+       height="35.355339"
+       ry="2.5"
+       x="600.03064"
+       y="56.420544"
+       id="TurnstileSystem/Person/PushThroughEvent"
+       style="fill:#0000af;fill-opacity:1;stroke:#0000ff;stroke-width:1px;" />
+    <text
+       x="604.06348"
+       y="82.388489"
+       id="text3836"
+       xml:space="preserve"
+       style="font-size:28px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"><tspan
+         x="604.06348"
+         y="82.388489"
+         id="tspan3838">Push Through</tspan></text>
+  </g>
+</svg>

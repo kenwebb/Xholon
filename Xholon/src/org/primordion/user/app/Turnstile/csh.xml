@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TurnstileSystem xmlns:xi="http://www.w3.org/2001/XInclude">
+  
+  <Person>
+    <DepositCoinEvent/>
+    <PushThroughEvent/>
+  </Person>
+  <Turnstile>
+    <StateMachine>
+      <State roleName="Top">
+        
+        <PseudostateInitial>
+          <TransitionExternal>
+            <Activity roleName="1"/>
+            <Target roleName="Locked"/>
+          </TransitionExternal>
+        </PseudostateInitial>
+        
+        <State roleName="Locked">
+          <TransitionExternal>
+            <Trigger roleName="coin1"/> <!-- roleName MUST end with a digit -->
+            <Activity roleName="2"/>
+            <Target roleName="Unlocked"/>
+          </TransitionExternal>
+          <TransitionExternal>
+            <Trigger roleName="push2"/> <!-- roleName MUST end with a digit -->
+            <Activity roleName="4"/>
+            <Target roleName="Locked"/> <!-- self transition -->
+          </TransitionExternal>
+        </State>
+        
+        <State roleName="Unlocked">
+          <TransitionExternal>
+            <Trigger roleName="push2"/> <!-- roleName MUST end with a digit -->
+            <Activity roleName="3"/>
+            <Target roleName="Locked"/>
+          </TransitionExternal>
+          <TransitionExternal>
+            <Trigger roleName="coin1"/> <!-- roleName MUST end with a digit -->
+            <Activity roleName="5"/>
+            <Target roleName="Unlocked"/> <!-- self transition -->
+          </TransitionExternal>
+
+        </State>
+        
+      </State>
+    </StateMachine>
+  </Turnstile>
+  <InteractionsViewer/>
+  
+</TurnstileSystem>
