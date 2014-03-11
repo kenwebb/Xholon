@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Test of org.primordion.xholon.script.port.java
+	testNodePorts application - Composite Structure Hierarchy
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<TheSystem xmlns:xi="http://www.w3.org/2001/XInclude">
+  <One/>
+  <Two>
+    <port name="port" index="0" connector="#xpointer(ancestor::TheSystem/One)"/>
+    <port name="three" connector="#xpointer(ancestor::TheSystem/Three)"/>
+    <port name="ff" index="0" connector="#xpointer(ancestor::TheSystem/Four)"/>
+    <port name="ff" index="1" connector="#xpointer(ancestor::TheSystem/Five)"/>
+  </Two>
+  <Two>
+    <port name="three" connector="#xpointer(ancestor::TheSystem/Three)"/>
+  </Two>
+  <Two/>
+  <Three/>
+  <Four/>
+  <Five/>
+</TheSystem>

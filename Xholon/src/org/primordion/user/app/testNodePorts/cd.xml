@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Test of org.primordion.xholon.script.port.java
+	testNodePorts - Class Details
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<xholonClassDetails>
+  <Two xhType="XhtypePureActiveObject"/>
+  <XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Test of org.primordion.xholon.script.port.java
+	testNodePorts application - Inheritance Hierarchy
+	Xholon 0.8.1 http://www.primordion.com/Xholon
+-->
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+	<TheSystem/>
+	<One/>
+	<Two/>
+	<Three/>
+	<Four/>
+	<Five/>
+</XholonClass>
