@@ -783,6 +783,21 @@ public interface IApplication extends IXholon {
 	 */
 	public abstract boolean isAppSpecificAttribute(IXholon node, Class<IXholon> clazz, String attrName);
 	
+  /**
+	 * Set the value of an Object attribute (port array), using a setter method.
+	 * This is especially intended for apps running in a Google Web Toolkit (GWT) environment.
+	 * This is currently used to configure a port with name other than "port",
+	 * and is called by IReflection.
+	 * @param node An IXholon instance that has a port array.
+	 * @param clazz  The node's Java class.
+	 * @param attrName The name of an IXholon port array.
+	 * @param index An array index, which must be less than the size of the port array.
+	 * @param val The IXholon that this port references.
+	 * @return Whether or not the attribute could be set.
+	 */
+	public abstract boolean setAppSpecificObjectArrayVal(IXholon node, Class<IXholon> clazz,
+	    String attrName, int index, IXholon val);
+	
 	/**
 	 * Return an instance of com.google.gwt.resources.client.ClientBundleWithLookup .
 	 * Typically, in a GWT environment, it contains the app-apecific config content (_xhn ih cd csh).

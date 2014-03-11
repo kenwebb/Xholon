@@ -3441,6 +3441,13 @@ ${MODELNAME_DEFAULT},${SVGURI_DEFAULT},,,./,${VIEWABLES_CREATE}
 	}
 	
 	/*
+	 * @see org.primordion.xholon.app.IApplication#setAppSpecificObjectVal(IXholon, Class, java.lang.String, int, IXholon)
+	 */
+	public boolean setAppSpecificObjectArrayVal(IXholon node, Class<IXholon> clazz, String attrName, int index, IXholon val) {
+	  return SystemMechSpecific.instance.setAppSpecificObjectArrayVal(node, clazz, attrName, index, val);
+	}
+	
+	/*
 	 * @see org.primordion.xholon.app.IApplication#findGwtClientBundle()
 	 */
 	public Object findGwtClientBundle() {

@@ -734,8 +734,11 @@ public class ReflectionJavaMicro implements IReflection {
    */
   public boolean setAttributeObjectArrayVal(IXholon tNode, String attrName, Object val, int arraySubscript)
   {
-    boolean rc = true; // assume success unless there's an exception
-    return rc;
+    tNode.consoleLog("ReflectionJavaMicro setAttributeObjectArrayVal( "
+    + tNode.getName() + " " + attrName + " " + arraySubscript);
+    //boolean rc = true; // assume success unless there's an exception
+    //return rc;
+    return tNode.getApp().setAppSpecificObjectArrayVal(tNode, (Class<IXholon>)tNode.getClass(), attrName, arraySubscript, (IXholon)val);
   }
   
   /*

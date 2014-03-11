@@ -561,4 +561,13 @@ public void setAppSpecificAttribute(IXholon node, Class<IXholon> clazz, String a
     return attributes;
   }
   
+  public boolean setAppSpecificObjectArrayVal(IXholon node, Class<IXholon> clazz, String attrName, int index, IXholon val) {
+    if (node == null) {return false;}
+    Class<?> superclass = (Class<?>)clazz.getSuperclass();
+    if (superclass.getName().startsWith("org.primordion.xholon")) {
+      return setAppSpecificObjectArrayVal(node, (Class<IXholon>)superclass, attrName, index, val);
+    }
+    return false;
+  }
+  
 }

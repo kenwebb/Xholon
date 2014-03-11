@@ -102,6 +102,8 @@ public class AppGenerator extends Generator {
     // ports
     src.println(writeGetAppSpecificObjectVal(packageName, classType.getSimpleSourceName(), types, iXholonType, oracle));
     src.println(writeSetAppSpecificObjectVal(packageName, classType.getSimpleSourceName(), types, iXholonType));
+    // port arrays
+    src.println(writeSetAppSpecificObjectArrayVal(packageName, classType.getSimpleSourceName(), types, iXholonType));
     
     // attributes
     src.println(writeGetAppSpecificAttribute(packageName, types, iXholonType, oracle));
@@ -305,32 +307,37 @@ public int findAppSpecificConstantValue(Class clazz, String constName) {
     return sb.toString();
   }
   
-  /* Write getAppSpecificObjectVal() and getAppSpecificObjectValNames methods.
+  /* Write getAppSpecificObjectVal() and getAppSpecificObjectValNames() methods.
    * Example:
 <code>
 public IXholon getAppSpecificObjectVal(IXholon node, Class<IXholon> clazz, String attrName) {
-  if (org.primordion.user.app.climatechange.model04.Sun.class == clazz) {
-    if ("space".equals(attrName)) {
-      return ((org.primordion.user.app.climatechange.model04.Sun)node).getSpace();
+  if (node == null) {return null;}
+  else if ("org.primordion.user.app.testNodePorts.XhtestNodePorts".equals(clazz.getName())) {
+    if ("three".equalsIgnoreCase(attrName)) {
+      return ((org.primordion.user.app.testNodePorts.XhtestNodePorts)node).getThree();
     }
-    //return null;
   }
   Class superclass = clazz.getSuperclass();
-  if (superclass.getName().startsWith("org.primordion.user.app.climatechange.model04")) {
+  if (superclass.getName().startsWith("org.primordion.user.app.testNodePorts")) {
     return getAppSpecificObjectVal(node, superclass, attrName);
   }
   return super.getAppSpecificObjectVal(node, clazz, attrName);
 }
 
 public String getAppSpecificObjectValNames(IXholon node, Class<IXholon> clazz) {
-  if (org.primordion.dynsys.app.leakybucket.Bucket.class == clazz) {
-    return "radius,area,";
+  String names = "";
+  if (node == null) {return null;}
+  else if ("org.primordion.user.app.testNodePorts.XhtestNodePorts".equals(clazz.getName())) {
+    names = "three,";
   }
   Class superclass = clazz.getSuperclass();
-  if (superclass.getName().startsWith("org.primordion.dynsys.app.leakybucket")) {
-    return getAppSpecificObjectValNames(node, superclass);
+  if (superclass.getName().startsWith("org.primordion.user.app.testNodePorts")) {
+    names = names + getAppSpecificObjectValNames(node, superclass);
   }
-  return super.getAppSpecificObjectValNames(node, clazz);
+  else {
+    names = names + super.getAppSpecificObjectValNames(node, clazz);
+  }
+  return names;
 }
 </code>
   */
@@ -450,19 +457,18 @@ public String getAppSpecificObjectValNames(IXholon node, Class<IXholon> clazz) {
    * Example:
 <code>
 public boolean setAppSpecificObjectVal(IXholon node, Class<IXholon> clazz, String attrName, IXholon val) {
-  if (node == null) {return null;}
-  else if (org.primordion.user.app.climatechange.model04.Sun.class == node.getClass()) {
-    if ("space".equals(attrName)) {
-      ((org.primordion.user.app.climatechange.model04.Sun)node).setSpace((Space)val);
+  if (node == null) {return false;}
+  else if ("org.primordion.user.app.testNodePorts.XhtestNodePorts".equals(clazz.getName())) {
+    if ("three".equalsIgnoreCase(attrName)) {
+      ((org.primordion.user.app.testNodePorts.XhtestNodePorts)node).setThree((IXholon)val);
       return true;
     }
-    //return false;
   }
   Class superclass = clazz.getSuperclass();
-  if (superclass.getName().startsWith("org.primordion.user.app.climatechange.model04")) {
-    return setAppSpecificAttribute(node, superclass, attrName, val);
+  if (superclass.getName().startsWith("org.primordion.user.app.testNodePorts")) {
+    return setAppSpecificObjectVal(node, superclass, attrName, val);
   }
-  return super.setAppSpecificObjectVal(node, superclass, attrName, val);
+  return super.setAppSpecificObjectVal(node, clazz, attrName, val);
 }
 </code>
   */
@@ -1011,5 +1017,92 @@ public Object[][] getAppSpecificAttributes(IXholon node, Class<IXholon> clazz, b
     }
     return sb.toString();
   }
+  
+  /* Write a setAppSpecificObjectArrayVal() method.
+   * Don't write this method if there are no port arrays.
+   * Example:
+<code>
+public boolean setAppSpecificObjectArrayVal(IXholon node, Class<IXholon> clazz, String attrName, int index, IXholon val) {
+  if (node == null) {return false;}
+  else if ("org.primordion.user.app.testNodePorts.XhtestNodePorts".equals(clazz.getName())) {
+    if ("ff".equalsIgnoreCase(attrName)) {
+      //if (index >= 2) {return false;}
+      ((org.primordion.user.app.testNodePorts.XhtestNodePorts)node).setFf(index, (IXholon)val);
+      return true;
+    }
+  }
+  return false;
+}
+</code>
+  */
+  protected String writeSetAppSpecificObjectArrayVal(String appPackageName, String appSimpleName,
+      JClassType[] types, JClassType iXholonType) {
+    String xhSimpleName = null;
+    
+    StringBuilder sbt = new StringBuilder(128);
+    for(int i = 0; i < types.length; i++) {
+      JClassType type = types[i];
+      xhSimpleName = type.getName();
+      
+      if (!xhSimpleName.startsWith("App")) {
+        // get all public setters with a single IXholon arg
+        JMethod[] methods = type.getMethods();
+        StringBuilder sbm = new StringBuilder(128);
+        for (int j = 0; j < methods.length; j++) {
+          JMethod method = methods[j];
+          if (method.isPublic() && (method.getName().startsWith("set")) && (method.getName().length() > 3)) {
+            JType[] paramTypes = method.getParameterTypes();
+            // the paramType can be any class or interface assignable to IXholon
+            // ex: public void setFf(int index, IXholon reffedNode) {ff[index] = reffedNode;}
+            // TODO also check if first param is an int ?
+            if (paramTypes.length == 2) {
+              JClassType paramType = paramTypes[1].isClassOrInterface();
+              if ((paramType != null) && (paramType.isAssignableTo(iXholonType))) {
+                
+                String fieldName = method.getName().substring(3);
+                if (fieldName.length() == 1) {
+                  // ex: "setK" becomes "k"
+                  fieldName = "" + Character.toLowerCase(fieldName.charAt(0));
+                }
+                else {
+                  // ex: "setSpace" becomes "space"
+                  fieldName = Character.toLowerCase(fieldName.charAt(0)) + fieldName.substring(1);
+                }
+                
+                sbm.append("    if (\"")
+                .append(fieldName)
+                .append("\".equalsIgnoreCase(attrName)) {\n")
+                .append("      ((")
+                .append(appPackageName + "." + xhSimpleName)
+                .append(")node).")
+                .append(method.getName())
+                .append("(index, (")
+                .append(paramType.getName())
+                .append(")val);\n")
+                .append("      return true;\n")
+                .append("    }\n");
+              }
+            }
+          }
+        }
+        if (sbm.length() != 0) {
+          sbt.append("  else if (\"")
+          .append(appPackageName + "." + xhSimpleName)
+          .append("\".equals(clazz.getName())) {\n")
+          .append(sbm.toString())
+          .append("  }\n");
+        }
+      }
+    }
+    if (sbt.length() == 0) {return "";}
+    
+    StringBuilder sb = new StringBuilder(128)
+    .append("public boolean setAppSpecificObjectArrayVal(IXholon node, Class<IXholon> clazz, String attrName, int index, IXholon val) {\n")
+    .append("  if (node == null) {return false;}\n")
+    .append(sbt.toString())
+    .append("  return false;\n")
+    .append("}\n");
+    return sb.toString();
+  } // end writeSetAppSpecificObjectArrayVal()
   
 }
