@@ -2016,7 +2016,8 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 	 */
 	protected void printNode( int level )
 	{
-		while (level > 0) {
+	  // Xholon classic approach
+		/*while (level > 0) {
 			print( "." );
 			level--;
 		}
@@ -2024,7 +2025,14 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 			println( "UnknownClassName" );
 		}
 		else {
-			println( toString() ); //getName() ); // GWT
+			println( getName() );
+		}*/
+		
+		if (xhc == null) {
+			print( "UnknownClassName " );
+		}
+		else {
+			print( getName() + " " );
 		}
 	}
 	
