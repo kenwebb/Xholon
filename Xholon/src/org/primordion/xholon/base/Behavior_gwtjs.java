@@ -372,9 +372,9 @@ public class Behavior_gwtjs extends Xholon {
 	protected Object invokeMethod(String methodNameAndArgs) {
 		String[] argsStr = methodNameAndArgs.split("[(,)]");
 		String methodName = argsStr[0];
-		println(methodName);
+		//println(methodName);
 		Object[] args = findArgs(argsStr, 1);
-		println(args);
+		//println(args);
 		Object returnObj = invokeMethod(beh, methodName, args);
 		/*try {
 			returnObj = invocable.invokeMethod(beh, methodName, args);
