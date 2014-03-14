@@ -68,13 +68,13 @@ public class TreeIntegrityChecker extends XholonScript {
         	// check that visitee and visitee's nextSibling both have the same parentNode
     		if (visitee.getParentNode() != visitee.getNextSibling().getParentNode()) {
     			problemCount++;
-    			System.out.println("(" + problemCount + ") Two siblings have different parents: "
+    			println("(" + problemCount + ") Two siblings have different parents: "
     					+ visitee + " " + visitee.getNextSibling());
     		}
     		// 
     		if ((!visitee.isRootNode()) && (visitee != visitee.getNextSibling().getPreviousSibling())) {
     			problemCount++;
-    			System.out.println("(" + problemCount
+    			println("(" + problemCount
     					+ ") Node not equal to getNextSibling().getPreviousSibling(): "
     					+ visitee + " " + visitee.getNextSibling());
     		}
@@ -89,13 +89,13 @@ public class TreeIntegrityChecker extends XholonScript {
     	}
     	
     	// if visitee is a XholonScript, it should be the lastChild of its parent
-    	//System.out.println("checking " + visitee);
+    	//println("checking " + visitee);
     	if (ClassHelper.isAssignableFrom(XholonScript.class, visitee.getClass())) {
     		IXholon nextSibling = visitee.getNextSibling();
     		if ((nextSibling != null)
     				&& (!ClassHelper.isAssignableFrom(XholonScript.class, nextSibling.getClass()))) {
     			problemCount++;
-    			System.out.println("(" + problemCount
+    			println("(" + problemCount
     					+ ") Script node is not last child of its parent: "
     					+ visitee);
     		}
@@ -105,7 +105,7 @@ public class TreeIntegrityChecker extends XholonScript {
     	if (IS_TESTING) {
 	    	if (visitee.getXhcName().charAt(0) == 'I') {
 	    		problemCount++;
-				System.out.println("(" + problemCount
+				println("(" + problemCount
 						+ ") It's strange that the name of a node should start with 'I': "
 						+ visitee + " .");
 	    	}
