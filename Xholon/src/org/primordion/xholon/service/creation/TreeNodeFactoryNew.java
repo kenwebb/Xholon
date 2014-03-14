@@ -363,6 +363,15 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			else if (implName.endsWith("Tabulator")) {
 				newNode = new org.primordion.xholon.script.Tabulator();
 			}
+			else if (implName.endsWith("Renumber")) {
+				newNode = new org.primordion.xholon.script.Renumber();
+			}
+			else if (implName.endsWith("TreeIntegrityChecker")) {
+				newNode = new org.primordion.xholon.script.TreeIntegrityChecker();
+			}
+			else if (implName.endsWith("TreeTraversal")) {
+				newNode = new org.primordion.xholon.script.TreeTraversal();
+			}
 			else if (implName.endsWith("XholonModule")) {
 				newNode = new org.primordion.xholon.script.XholonModule();
 			}
@@ -594,6 +603,15 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 				return true;
 			}
 			if (implName.endsWith("Tabulator")) {
+				return true;
+			}
+			if (implName.endsWith("Renumber")) {
+				return true;
+			}
+			if (implName.endsWith("TreeIntegrityChecker")) {
+				return true;
+			}
+			if (implName.endsWith("TreeTraversal")) {
 				return true;
 			}
 			if (implName.endsWith("XholonModule")) {
