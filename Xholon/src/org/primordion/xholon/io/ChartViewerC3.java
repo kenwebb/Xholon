@@ -166,6 +166,12 @@ public class ChartViewerC3 extends AbstractChartViewer implements IChartViewer {
         .append("'");
         node = (XholonWithPorts)node.getNextSibling();
       }
+      
+      // load the C3 .js and .css files
+      if (!isDefinedC3()) {
+        //chartRoot.consoleLog("about to call loadC3()");
+        loadC3();
+      }
     }
   }
   
@@ -323,6 +329,52 @@ public class ChartViewerC3 extends AbstractChartViewer implements IChartViewer {
   protected void pasteScript(String scriptId, String scriptContent) {
     HtmlScriptHelper.fromString(scriptContent, true);
   }
+  
+  /**
+   * Load C3 library asynchronously.
+   */
+  protected void loadC3() {
+    loadCss("xholon/lib/c3.css");
+    require(this);
+  }
+  
+  /**
+   * use requirejs
+   */
+  protected native void require(final ChartViewerC3 cv) /*-{
+    //console.log("starting require ..");
+    //console.log($wnd.requirejs.config);
+    $wnd.requirejs.config({
+      enforceDefine: false,
+      paths: {
+        c3: [
+          "xholon/lib/c3.min"
+        ]
+      }
+    });
+    //console.log("require 1");
+    $wnd.require(["c3"], function(c3) {
+      
+    });
+    //console.log("require ended");
+  }-*/;
+  
+  /**
+   * Is $wnd.c3 defined.
+   * @return it is defined (true), it's not defined (false)
+   */
+  protected native boolean isDefinedC3() /*-{
+    //console.log("isDefinedC3()");
+    return (typeof $wnd.c3 != "undefined"); // && (typeof $wnd.c3.??? != "undefined");
+  }-*/;
+  
+  protected native void loadCss(String url) /*-{
+    var link = $doc.createElement("link");
+    link.type = "text/css";
+    link.rel = "stylesheet";
+    link.href = url;
+    $doc.getElementsByTagName("head")[0].appendChild(link);
+  }-*/;
   
   /*
    * @see org.primordion.xholon.io.IChartViewer#remove()

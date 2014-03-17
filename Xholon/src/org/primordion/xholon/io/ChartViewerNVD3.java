@@ -184,6 +184,12 @@ public class ChartViewerNVD3 extends AbstractChartViewer implements IChartViewer
         sbXYSeries[i] = new StringBuilder();
         node = (XholonWithPorts)node.getNextSibling();
       }
+      
+      // load the NVD3 .js and .css files
+      if (!isDefinedNVD3()) {
+        //chartRoot.consoleLog("about to call loadNVD3()");
+        loadNVD3();
+      }
     }
   }
   
@@ -369,6 +375,52 @@ public class ChartViewerNVD3 extends AbstractChartViewer implements IChartViewer
   protected void pasteScript(String scriptId, String scriptContent) {
     HtmlScriptHelper.fromString(scriptContent, true);
   }
+  
+  /**
+   * Load NVD3 library asynchronously.
+   */
+  protected void loadNVD3() {
+    loadCss("xholon/lib/nv.d3.css");
+    require(this);
+  }
+  
+  /**
+   * use requirejs
+   */
+  protected native void require(final ChartViewerNVD3 cv) /*-{
+    //console.log("starting require ..");
+    //console.log($wnd.requirejs.config);
+    $wnd.requirejs.config({
+      enforceDefine: false,
+      paths: {
+        nvd3: [
+          "xholon/lib/nv.d3.min"
+        ]
+      }
+    });
+    //console.log("require 1");
+    $wnd.require(["nvd3"], function(nvd3) {
+      
+    });
+    //console.log("require ended");
+  }-*/;
+  
+  /**
+   * Is $wnd.nv defined.
+   * @return it is defined (true), it's not defined (false)
+   */
+  protected native boolean isDefinedNVD3() /*-{
+    //console.log("isDefinedNVD3()");
+    return (typeof $wnd.nv != "undefined"); // && (typeof $wnd.nv.??? != "undefined");
+  }-*/;
+  
+  protected native void loadCss(String url) /*-{
+    var link = $doc.createElement("link");
+    link.type = "text/css";
+    link.rel = "stylesheet";
+    link.href = url;
+    $doc.getElementsByTagName("head")[0].appendChild(link);
+  }-*/;
   
   /*
    * @see org.primordion.xholon.io.IChartViewer#remove()
