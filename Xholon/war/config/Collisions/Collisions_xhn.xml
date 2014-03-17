@@ -18,7 +18,7 @@
 	<param name="JavaXhClassName" value="org.primordion.user.app.Collisions.XhCollisions"/>
 	<param name="MaxPorts" value="2"/>
 	<!-- UseDataPlotter determines whether the data each timestep is plotted on a graph. -->
-	<param name="UseDataPlotter" value="google2"/> <!-- google2 JFreeChart gnuplot none -->
+	<param name="UseDataPlotter" value="google2"/> <!-- google2 JFreeChart gnuplot c3 nvd3 none -->
 	<param name="DataPlotterParams"
 		value="Population changing over time,Year,Population,./statistics/,colStats,2,WRITE_AS_LONG"/>
 	<param name="UseTextTree" value="true"/>
