@@ -509,6 +509,8 @@ public interface IApplication extends IXholon {
 	public boolean getUseJpa();
 	public boolean getUseGoogle();
 	public boolean getUseGoogle2();
+	public boolean getUseC3();
+	public boolean getUseNVD3();
 	public String getDataPlotterParams();
 	
 	public boolean getUseHistogramPlotter();

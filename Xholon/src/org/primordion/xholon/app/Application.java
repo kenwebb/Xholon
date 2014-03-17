@@ -224,7 +224,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	//protected String gridViewerParams
 	//	= "descendant::Row/..,5,Grid Viewer App";
 	
-	/** Which if any data plotter to use (google2, gnuplot, none). */
+	/** Whether to use a data plotter (google2, gnuplot, c3, nvd3, none). */
 	protected boolean useDataPlotter = false;
 	
 	/**  */
@@ -237,8 +237,10 @@ public abstract class Application extends AbstractApplication implements IApplic
 	protected boolean useJpa = false;
 	protected boolean useGoogle = false;
 	protected boolean useGoogle2 = false;
+	protected boolean useC3 = false;
+	protected boolean useNVD3 = false;
 	
-	/** Which if any data plotter to use (google2, gnuplot, none). */
+	/** Whether to use a histogram plotter (google2, gnuplot, none). */
 	protected boolean useHistogramPlotter = false;
 	
 	/**  */
@@ -667,6 +669,8 @@ public abstract class Application extends AbstractApplication implements IApplic
 		this.useJpa = false;
 		this.useGoogle = false;
 		this.useGoogle2 = false;
+		this.useC3 = false;
+		this.useNVD3 = false;
 		// other possible values
 		if (useDataPlotter.equals("JFreeChart")) {
 			//this.useJFreeChart = true; // can't use JFreeChart with GWT
@@ -691,6 +695,14 @@ public abstract class Application extends AbstractApplication implements IApplic
 		}
 		else if (useDataPlotter.equals("google2")) {
 			this.useGoogle2 = true;
+			this.useDataPlotter = true;
+		}
+		else if (useDataPlotter.equals("c3")) {
+			this.useC3 = true;
+			this.useDataPlotter = true;
+		}
+		else if (useDataPlotter.equals("nvd3")) {
+			this.useNVD3 = true;
 			this.useDataPlotter = true;
 		}
 	}
@@ -974,6 +986,8 @@ public abstract class Application extends AbstractApplication implements IApplic
 	public boolean getUseJpa() {return useJpa;}
 	public boolean getUseGoogle() {return useGoogle;}
 	public boolean getUseGoogle2() {return useGoogle2;}
+	public boolean getUseC3() {return useC3;}
+	public boolean getUseNVD3() {return useNVD3;}
 	public String getDataPlotterParams() {return dataPlotterParams;}
 
 	/** @return Returns the useHistogramPlotter. */
@@ -2438,7 +2452,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	}
 
 	/**
-	 * Create a google2 or JFreeChart or GnuPlot chart.
+	 * Create a google2 or JFreeChart or GnuPlot or C3 or NVD3 chart.
 	 * @param chartRoot The root of the subtree that will provide values for the chart.
 	 * If this value is null, then the model root will be used.
 	 * @param xyChart Chart title.
@@ -2541,6 +2555,26 @@ public abstract class Application extends AbstractApplication implements IApplic
 		else if (getUseGoogle2()) {
 			chartViewer = (IChartViewer)getService(AbstractXholonService.XHSRV_CHART_VIEWER + "-google2");
 			System.out.println("Application createChart( using google2 " + chartViewer);
+			if (chartViewer == null) {
+				setUseDataPlotter("none");
+			}
+			else {
+				chartViewer.initialize(xyChartNode, nameConcatLevels, typeOfData, writeType, "");
+			}
+		}
+		else if (getUseC3()) {
+			chartViewer = (IChartViewer)getService(AbstractXholonService.XHSRV_CHART_VIEWER + "-c3");
+			System.out.println("Application createChart( using c3 " + chartViewer);
+			if (chartViewer == null) {
+				setUseDataPlotter("none");
+			}
+			else {
+				chartViewer.initialize(xyChartNode, nameConcatLevels, typeOfData, writeType, "");
+			}
+		}
+		else if (getUseNVD3()) {
+			chartViewer = (IChartViewer)getService(AbstractXholonService.XHSRV_CHART_VIEWER + "-nvd3");
+			System.out.println("Application createChart( using nvd3 " + chartViewer);
 			if (chartViewer == null) {
 				setUseDataPlotter("none");
 			}

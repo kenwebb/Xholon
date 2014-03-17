@@ -7,14 +7,25 @@
   <!--<DummyService/>-->
   <AboutService/>
   
-  <ChartViewerService> <!-- there are 6 alternatives for this service -->
+  <ChartViewerService>
+  <!--
+  There are multiple alternatives for this service.
+  When a new alternative is added here, also edit the following:
+    Plot.java
+    ReflectionJavaMicro.java
+    IApplication.java
+    Application.java
+    AbstractXholonService.java
+  -->
     <XholonMap>
       <attr:Attribute_String roleName="ChartViewerService-JFreeChart">org.primordion.xholon.io.ChartViewerJFreeChart</attr:Attribute_String>
       <attr:Attribute_String roleName="ChartViewerService-gnuplot">org.primordion.xholon.io.ChartViewerGnuplot</attr:Attribute_String>
-      <attr:Attribute_String roleName="ChartViewerService-jdbc">org.primordion.xholon.io.ChartViewerJdbc</attr:Attribute_String>
-      <attr:Attribute_String roleName="ChartViewerService-jpa">org.primordion.xholon.io.ChartViewerJpa</attr:Attribute_String>
-      <attr:Attribute_String roleName="ChartViewerService-google">org.primordion.xholon.io.ChartViewerGoogle</attr:Attribute_String>
+      <!--<attr:Attribute_String roleName="ChartViewerService-jdbc">org.primordion.xholon.io.ChartViewerJdbc</attr:Attribute_String>-->
+      <!--<attr:Attribute_String roleName="ChartViewerService-jpa">org.primordion.xholon.io.ChartViewerJpa</attr:Attribute_String>-->
+      <!--<attr:Attribute_String roleName="ChartViewerService-google">org.primordion.xholon.io.ChartViewerGoogle</attr:Attribute_String>-->
       <attr:Attribute_String roleName="ChartViewerService-google2">org.primordion.xholon.io.ChartViewerGoogle2</attr:Attribute_String>
+      <attr:Attribute_String roleName="ChartViewerService-c3">org.primordion.xholon.io.ChartViewerC3</attr:Attribute_String>
+      <attr:Attribute_String roleName="ChartViewerService-nvd3">org.primordion.xholon.io.ChartViewerNVD3</attr:Attribute_String>
     </XholonMap>
   </ChartViewerService>
   

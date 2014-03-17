@@ -103,6 +103,12 @@ public abstract class AbstractXholonService extends Xholon implements IXholonSer
 		else if ("org.primordion.xholon.io.ChartViewerGoogle2".equals(implName)) {
 		  instance = new org.primordion.xholon.io.ChartViewerGoogle2();
 		}
+		else if ("org.primordion.xholon.io.ChartViewerC3".equals(implName)) {
+		  instance = new org.primordion.xholon.io.ChartViewerC3();
+		}
+		else if ("org.primordion.xholon.io.ChartViewerNVD3".equals(implName)) {
+		  instance = new org.primordion.xholon.io.ChartViewerNVD3();
+		}
 		
 		else if ("org.primordion.xholon.io.HistogramViewerJFreeChart".equals(implName)) {
 		  // TODO this is temporary

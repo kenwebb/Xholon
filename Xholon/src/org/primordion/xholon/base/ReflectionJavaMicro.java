@@ -313,6 +313,8 @@ public class ReflectionJavaMicro implements IReflection {
       names.add("UseDataPlotter"); values.add(app.getUseDataPlotter());
       names.add("UseGnuplot"); values.add(app.getUseGnuplot());
       names.add("UseGoogle2"); values.add(app.getUseGoogle2());
+      names.add("UseC3"); values.add(app.getUseC3());
+      names.add("UseNVD3"); values.add(app.getUseNVD3());
       names.add("MaxProcessLoops"); values.add(app.getMaxProcessLoops());
       names.add("TimeStepInterval"); values.add(app.getTimeStepInterval());
       names.add("ModelName"); values.add(app.getModelName());

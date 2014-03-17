@@ -23,7 +23,7 @@ import org.primordion.xholon.io.xml.IXholon2Xml;
 import org.primordion.xholon.io.xml.IXmlWriter;
 
 /**
- * Plot a chart. The default is to use JFreeChart.
+ * Plot a chart. The default is to use google2.
  * This is a sample Xholon script, written in normal compiled Java.
  * It's located in the common default package for Java scripts.
  * It can therefore be pasted into a running Xholon app simply as:
@@ -45,7 +45,7 @@ public class Plot extends XholonScript {
 	private static final String DEFAULT_PARTIAL_DATAPLOTTERPARAMS
 		= ",Time (timesteps),Y,./statistics/,stats,1,WRITE_AS_LONG";
 	
-	/** JFreeChart, gnuplot, jdbc, jpa, google, google2, none */
+	/** JFreeChart, gnuplot, jdbc, jpa, google, google2, c3, nvd3, none */
 	private String dataPlotter = DEFAULT_DATA_PLOTTER;
 	
 	/** "Title,Time (timesteps),Y,./statistics/,stats,1,WRITE_AS_LONG" */
@@ -130,6 +130,8 @@ public class Plot extends XholonScript {
 			if (app.getUseGnuplot()) {dp="gnuplot";}
 			//else if (app.getUseGoogle()) {dp="google";}
 			else if (app.getUseGoogle2()) {dp="google2";}
+			else if (app.getUseC3()) {dp="c3";}
+			else if (app.getUseNVD3()) {dp="nvd3";}
 		}
 		xmlWriter.writeAttribute("dataPlotter", dp);
 		xmlWriter.writeAttribute("dataPlotterParams", app.getDataPlotterParams());
