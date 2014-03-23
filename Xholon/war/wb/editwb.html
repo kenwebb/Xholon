@@ -4,12 +4,13 @@
   <title>Start new workbook</title>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <meta name="author" content="Ken Webb" />
-  <meta name="copyright" content="MIT License, Copyright (C) 2013 Ken Webb" />
+  <meta name="copyright" content="MIT License, Copyright (C) 2013, 2014 Ken Webb" />
   
   <!-- jQuery -->
   <!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>-->
   <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>-->
+  <script src="jquery-2.1.0.min.js"></script>
 
   <!-- Xholon Workbook -->
   <script src="xholonWorkbook.js"></script>
@@ -27,6 +28,7 @@
   <script src="codemirror/show-hint.js"></script>
   <script src="codemirror/javascript-hint.js"></script>
   <script src="notes-hint.js"></script>
+  <script src="params-hint.js"></script>
   <script src="quantityih-hint.js"></script>
   <script src="quantitycd-hint.js"></script>
   <script src="quantitycsh-hint.js"></script>
@@ -108,13 +110,22 @@
   The code includes a simple working example about the height of a block.
   Click the Run button above, to run the app in a separate tab or window with <a href="..">Xholon GWT</a>.</p>
   
-  <!-- rst  (see https://github.com/marijnh/CodeMirror/issues/2015) -->
+  <!-- notes rst/markdown  (see https://github.com/marijnh/CodeMirror/issues/2015) -->
   <div id="xhednotes">
     <br/>
     <p class="legend"
      title="Ctrl-Space select from lists of special characters">
     Notes</p>
     <textarea class="markdown"> </textarea>
+  </div>
+  
+  <!-- _xhn params (not displayed by default) -->
+  <div id="xhedparams" style="display:none;">
+    <br/>
+    <p class="legend"
+     title="Ctrl-Space select from list of parameters, Ctrl-/ reindent">
+    Application Parameters</p>
+    <textarea class="xml"> </textarea>
   </div>
   
   <!-- ih -->
