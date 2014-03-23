@@ -73,9 +73,17 @@ public interface IApplication extends IXholon {
 	/**
 	 * Initialize the application.
 	 * @param configFileName Name of the configuration file.
-	 * @throws XholonConfigurationException 
+	 * @throws XholonConfigurationException
 	 */
 	public abstract void initialize(String configFileName) throws XholonConfigurationException;
+
+  /**
+   * Read parameter values from the default configuration file, and
+   * read parameter values from main configuration file/String for this specific application.
+   * @param configFileName Name of the configuration file.
+	 * @throws XholonConfigurationException
+   */
+  public abstract void readParameters(String configFileName) throws XholonConfigurationException;
 
 	/**
 	 * Process time steps during the lifetime of the application.
@@ -811,6 +819,8 @@ public interface IApplication extends IXholon {
 	public abstract void setWorkbookId(String workbookId);
 	public abstract String getWorkbookFileName();
 	public abstract void setWorkbookFileName(String workbookFileName);
+	public abstract IXholon getWorkbookBundle();
+	public abstract void setWorkbookBundle(IXholon workbookBundle);
 	public abstract boolean loadWorkbook();
 	public abstract void wbCallback(String data);
 	
