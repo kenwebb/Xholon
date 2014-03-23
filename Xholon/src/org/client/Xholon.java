@@ -26,23 +26,23 @@ import com.google.gwt.user.client.Window.Navigator;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 
-//import com.google.gwt.resources.client.ResourceCallback;
-//import com.google.gwt.resources.client.ResourceException;
-//import com.google.gwt.resources.client.ExternalTextResource;
-//import com.google.gwt.resources.client.TextResource;
-
-//import org.client.RCConfig;
-//import org.primordion.user.app.helloworldjnlp.Resources;
-
 import org.primordion.xholon.app.IApplication;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.io.IXholonGui;
 import org.primordion.xholon.io.XholonGuiClassic;
 import org.primordion.xholon.io.XholonGuiD3CirclePack;
-//import org.primordion.xholon.util.StringHelper;
+import org.primordion.xholon.io.XholonWorkbookBundle;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
+ * The appName (URL "app") for a Java-based Xholon app,
+ * must be exactly the same as the Java Application class excluding the initial "App".
+ * For example: class AppHelloWorld converts to "HelloWorld" as the appName.
+ * But note: class App09SpatialGames converts to "_09SpatialGames" as the appName.
+ * The method names used in this class are also exactly the same as the appName.
+ * This is consistent with the class name returned by calling Application.getJavaClassName(),
+ * that's specified in the _xhn.xml file.
+ * This guarantees a consistency that allows apps to store themselves as named items in localSorage.
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.9.0 (Created on July 15, 2013)
@@ -53,6 +53,12 @@ public class Xholon implements EntryPoint {
   private static final String GUI_CLASSIC      = "clsc";
   private static final String GUI_D3CIRCLEPACK = "d3cp";
   private static final String GUI_NONE         = "none";
+  private static final String GUI_SAVE         = "save"; // save to localStorage
+  private static final String GUI_EDIT         = "edit"; // edit with XholonWorkbook editor
+  
+  // URL parameters
+  private String appName = null; // "app"
+  private String src = null; // "src"
   
   /**
    * This is the entry point method.
@@ -69,39 +75,7 @@ public class Xholon implements EntryPoint {
     resultField.setText("loading ...");
     RootPanel.get("xhconsole").add(resultField);
     
-    // test StringHelper
-    /*
-    double d = 12345.6789;
-    StringHelper.format("%.0f", d);
-    StringHelper.format("%.1f", d);
-    StringHelper.format("%.2f", d);
-    StringHelper.format("%.3f", d);
-    StringHelper.format("%.9f", d);
-    StringHelper.format("junk", d);
-    
-    float f = 12345.6789f;
-    StringHelper.format("%.0f", f);
-    StringHelper.format("%.1f", f);
-    StringHelper.format("%.2f", f);
-    StringHelper.format("%.3f", f);
-    StringHelper.format("%.9f", f);
-    StringHelper.format("junk", f);
-    
-    StringHelper.format("%s", "This is a String.");
-    StringHelper.format("%d", 123);
-    StringHelper.format("%c", 'x');
-    StringHelper.format("%b", false);
-    //StringHelper.format("%s", new StringTokenizer("junk"));
-    
-    StringHelper.format("%s|%s|%s", "One", "Two", "Three");
-    StringHelper.format("%s %s %s", "One", "Two", "Three");
-    */
-    
-    //genSystemMechanismClassInfo();
-    
     testXholon(resultField);
-    
-    //testResources();
   }
   
   /**
@@ -138,12 +112,12 @@ public class Xholon implements EntryPoint {
   private void testXholon(TextArea resultField) {
     
     // get HTTP parameters
-    String appName = Location.getParameter("app");
+    appName = Location.getParameter("app");
     if (appName != null) {
       // convert "+" back to " ", etc.
       appName = URL.decodeQueryString(appName);
     }
-    String src = Location.getParameter("src");
+    src = Location.getParameter("src");
     String withGuiParam = Location.getParameter("gui");
     System.out.println(appName);
     if (appName == null) {
@@ -162,42 +136,42 @@ public class Xholon implements EntryPoint {
     }
     
     // run Xholon app
-    if ("Chameleon".equals(appName)) {chameleon(withGui);}
-    else if ("Furcifer".equals(appName)) {furcifer(withGui);}
-    else if ("Bestiary".equals(appName)) {bestiary(withGui);}
-    else if ("HelloWorld".equals(appName)) {testAppHelloWorld(withGui);}
-    else if ("PingPong".equals(appName)) {testAppPingPong(withGui);}
-    else if ("Cell".equals(appName)) {testCell(withGui);}
-    else if ("Life".equals(appName)) {life(withGui);}
-    else if ("Life3d".equals(appName)) {life3d(withGui);}
-    else if ("Autop".equals(appName)) {autop(withGui);}
-    else if ("GameOfLife".equals(appName)) {testAppGameOfLife(withGui);}
-    else if ("GameOfLife_Big".equals(appName)) {testAppGameOfLife_Big(withGui);}
-    else if ("GameOfLife_Huge".equals(appName)) {testAppGameOfLife_Huge(withGui);}
-    else if ("HelloWorld_TestTime".equals(appName)) {testHelloWorld_TestTime(withGui);}
-    else if ("ca_1dSimple".equals(appName)) {testca_1dSimple(withGui);}
-    else if ("Generic".equals(appName)) {testGeneric(withGui);}
-    else if ("climatechange_model04".equals(appName)) {testclimatechange_model04(withGui);}
-    else if ("climatechange_carboncycle03".equals(appName)) {testclimatechange_carboncycle03(withGui);}
-    else if ("SpringIdol".equals(appName)) {testSpringIdol(withGui);}
-    else if ("TurtleExample1".equals(appName)) {turtleExample1(withGui);}
-    else if ("WolfSheepGrass".equals(appName)) {wolfSheepGrass(withGui);}
+    if ("Chameleon".equals(appName)) {Chameleon(withGui);}
+    else if ("Furcifer".equals(appName)) {Furcifer(withGui);}
+    else if ("Bestiary".equals(appName)) {Bestiary(withGui);}
+    else if ("HelloWorld".equals(appName)) {HelloWorld(withGui);}
+    else if ("PingPong".equals(appName)) {PingPong(withGui);}
+    else if ("Cell".equals(appName)) {Cell(withGui);}
+    else if ("Life".equals(appName)) {Life(withGui);}
+    else if ("Life_3d".equals(appName)) {Life_3d(withGui);}
+    else if ("CellAutop".equals(appName)) {CellAutop(withGui);}
+    else if ("GameOfLife".equals(appName)) {GameOfLife(withGui);}
+    else if ("GameOfLife_Big".equals(appName)) {GameOfLife_Big(withGui);}
+    else if ("GameOfLife_Huge".equals(appName)) {GameOfLife_Huge(withGui);}
+    else if ("HelloWorld_TestTime".equals(appName)) {HelloWorld_TestTime(withGui);}
+    else if ("_1dSimple".equals(appName)) {_1dSimple(withGui);}
+    else if ("Generic".equals(appName)) {Generic(withGui);}
+    else if ("model04".equals(appName)) {model04(withGui);}
+    else if ("carboncycle03".equals(appName)) {carboncycle03(withGui);}
+    else if ("SpringIdol".equals(appName)) {SpringIdol(withGui);}
+    else if ("TurtleExample1".equals(appName)) {TurtleExample1(withGui);}
+    else if ("WolfSheepGrass".equals(appName)) {WolfSheepGrass(withGui);}
     else if ("mdcs_m2_1mp".equals(appName)) {mdcs_m2_1mp(withGui);}
     else if ("mdcs_m2_2mp".equals(appName)) {mdcs_m2_2mp(withGui);}
     else if ("igm".equals(appName)) {igm(withGui);}
-    else if ("ctrnn_AdapSysLab".equals(appName)) {ctrnn_AdapSysLab(withGui);}
+    else if ("AdapSysLab".equals(appName)) {AdapSysLab(withGui);}
     else if ("MeTTTa".equals(appName)) {MeTTTa(withGui);}
     else if ("solarsystemtest".equals(appName)) {solarsystemtest(withGui);}
     else if ("Collisions".equals(appName)) {Collisions(withGui);}
     else if ("Hex".equals(appName)) {Hex(withGui);}
-    else if ("SpatialGames".equals(appName)) {SpatialGames(withGui);}
+    else if ("_09SpatialGames".equals(appName)) {_09SpatialGames(withGui);}
     else if ("Rcs1".equals(appName)) {Rcs1(withGui);}
     else if ("Rcs2".equals(appName)) {Rcs2(withGui);}
-    else if ("bigraphRG".equals(appName)) {bigraphRG(withGui);}
-    else if ("beard41".equals(appName)) {beard41(withGui);}
-    //else if ("risk".equals(appName)) {risk(withGui);}
+    else if ("roomsghosts".equals(appName)) {roomsghosts(withGui);}
+    else if ("Beard2005_UML_Xholon_Step4_v1".equals(appName)) {Beard2005_UML_Xholon_Step4_v1(withGui);}
+    //else if ("Risk".equals(appName)) {Risk(withGui);}
     else if ("English2French".equals(appName)) {English2French(withGui);}
-    else if ("XBar".equals(appName)) {XBar(withGui);}
+    else if ("XBar_ex1".equals(appName)) {XBar_ex1(withGui);}
     else if ("RavaszHnm".equals(appName)) {RavaszHnm(withGui);}
     else if ("Red".equals(appName)) {Red(withGui);}
     else if ("TweenTrees".equals(appName)) {TweenTrees(withGui);}
@@ -209,49 +183,49 @@ public class Xholon implements EntryPoint {
     // Ealontro (non-Genetic Programming versions)
     else if ("AntForaging".equals(appName)) {AntForaging(withGui);}
     else if ("CartCentering".equals(appName)) {CartCentering(withGui);}
-    else if ("EcjAntTrail".equals(appName)) {EcjAntTrail(withGui);}
-    else if ("EcjTutorial4".equals(appName)) {EcjTutorial4(withGui);}
+    else if ("AntTrail".equals(appName)) {AntTrail(withGui);}
+    else if ("Tutorial4".equals(appName)) {Tutorial4(withGui);}
     
     // Agent Base Modeling (ABM) - Stupid Models
-    else if ("StupidModel1".equals(appName)) {stupidModel1(withGui);}
-    else if ("StupidModel2".equals(appName)) {stupidModel2(withGui);}
-    else if ("StupidModel3".equals(appName)) {stupidModel3(withGui);}
-    else if ("StupidModel4".equals(appName)) {stupidModel4(withGui);}
-    else if ("StupidModel5".equals(appName)) {stupidModel5(withGui);}
-    else if ("StupidModel5tg".equals(appName)) {stupidModel5tg(withGui);}
-    else if ("StupidModel6".equals(appName)) {stupidModel6(withGui);}
-    else if ("StupidModel7".equals(appName)) {stupidModel7(withGui);}
-    else if ("StupidModel8".equals(appName)) {stupidModel8(withGui);}
-    else if ("StupidModel9".equals(appName)) {stupidModel9(withGui);}
-    else if ("StupidModel10".equals(appName)) {stupidModel10(withGui);}
-    else if ("StupidModel11".equals(appName)) {stupidModel11(withGui);}
-    else if ("StupidModel12".equals(appName)) {stupidModel12(withGui);}
-    else if ("StupidModel13".equals(appName)) {stupidModel13(withGui);}
-    else if ("StupidModel14".equals(appName)) {stupidModel14(withGui);}
-    else if ("StupidModel15".equals(appName)) {stupidModel15(withGui);}
-    else if ("StupidModel16".equals(appName)) {stupidModel16(withGui);}
-    else if ("StupidModel16nl".equals(appName)) {stupidModel16nl(withGui);}
+    else if ("StupidModel1".equals(appName)) {StupidModel1(withGui);}
+    else if ("StupidModel2".equals(appName)) {StupidModel2(withGui);}
+    else if ("StupidModel3".equals(appName)) {StupidModel3(withGui);}
+    else if ("StupidModel4".equals(appName)) {StupidModel4(withGui);}
+    else if ("StupidModel5".equals(appName)) {StupidModel5(withGui);}
+    else if ("StupidModel5tg".equals(appName)) {StupidModel5tg(withGui);}
+    else if ("StupidModel6".equals(appName)) {StupidModel6(withGui);}
+    else if ("StupidModel7".equals(appName)) {StupidModel7(withGui);}
+    else if ("StupidModel8".equals(appName)) {StupidModel8(withGui);}
+    else if ("StupidModel9".equals(appName)) {StupidModel9(withGui);}
+    else if ("StupidModel10".equals(appName)) {StupidModel10(withGui);}
+    else if ("StupidModel11".equals(appName)) {StupidModel11(withGui);}
+    else if ("StupidModel12".equals(appName)) {StupidModel12(withGui);}
+    else if ("StupidModel13".equals(appName)) {StupidModel13(withGui);}
+    else if ("StupidModel14".equals(appName)) {StupidModel14(withGui);}
+    else if ("StupidModel15".equals(appName)) {StupidModel15(withGui);}
+    else if ("StupidModel16".equals(appName)) {StupidModel16(withGui);}
+    else if ("StupidModel16nl".equals(appName)) {StupidModel16nl(withGui);}
     
     // FSM UML MagicDraw
-    else if ("TestFsm".equals(appName)) {testTestFsm(withGui);}
-    else if ("TestFsmForkJoin".equals(appName)) {testTestFsmForkJoin(withGui);}
-    else if ("TestFsmHistory".equals(appName)) {testTestFsmHistory(withGui);}
-    else if ("TestFsmJunction".equals(appName)) {testTestFsmJunction(withGui);}
-    else if ("TestFsmOrthogonal".equals(appName)) {testTestFsmOrthogonal(withGui);}
-    else if ("Elevator".equals(appName)) {testElevator(withGui);}
-    else if ("Elevator_ShowStates".equals(appName)) {testElevator_ShowStates(withGui);}
+    else if ("TestFsm".equals(appName)) {TestFsm(withGui);}
+    else if ("TestFsmForkJoin".equals(appName)) {TestFsmForkJoin(withGui);}
+    else if ("TestFsmHistory".equals(appName)) {TestFsmHistory(withGui);}
+    else if ("TestFsmJunction".equals(appName)) {TestFsmJunction(withGui);}
+    else if ("TestFsmOrthogonal".equals(appName)) {TestFsmOrthogonal(withGui);}
+    else if ("Elevator".equals(appName)) {Elevator(withGui);}
+    else if ("Elevator_ShowStates".equals(appName)) {Elevator_ShowStates(withGui);}
     
     // Petri Net
-    else if ("Feinberg1".equals(appName)) {testFeinberg1(withGui);}
-    else if ("azimuth_pn01".equals(appName)) {azimuth_pn01(withGui);}
+    else if ("feinberg1".equals(appName)) {feinberg1(withGui);}
+    else if ("pn".equals(appName)) {pn(withGui);}
     
     // dynsys
-    else if ("Fibonacci".equals(appName)) {fibonacci(withGui);}
-    else if ("Gravity1".equals(appName)) {gravity1(withGui);}
-    else if ("Interest".equals(appName)) {interest(withGui);}
-    else if ("ScheffranNActor".equals(appName)) {scheffranNActor(withGui);}
-    else if ("ScheffranTwoActor".equals(appName)) {scheffranTwoActor(withGui);}
-    else if ("Train".equals(appName)) {train(withGui);}
+    else if ("Fibonacci".equals(appName)) {Fibonacci(withGui);}
+    else if ("Gravity1".equals(appName)) {Gravity1(withGui);}
+    else if ("Interest".equals(appName)) {Interest(withGui);}
+    else if ("ScheffranNActor".equals(appName)) {ScheffranNActor(withGui);}
+    else if ("ScheffranTwoActor".equals(appName)) {ScheffranTwoActor(withGui);}
+    else if ("Train".equals(appName)) {Train(withGui);}
     else if ("leakybucket".equals(appName)) {leakybucket(withGui);}
     else if ("stability".equals(appName)) {stability(withGui);}
     
@@ -270,7 +244,7 @@ public class Xholon implements EntryPoint {
   /**
    * Chameleon
    */
-  private void chameleon(String withGui) {
+  private void Chameleon(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.xholon.app.Chameleon.AppChameleon.class),
       null);
   }
@@ -278,88 +252,23 @@ public class Xholon implements EntryPoint {
   /**
    * Furcifer (for QUnit JavaScript unit testing)
    */
-  private void furcifer(String withGui) {
+  private void Furcifer(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.xholon.app.Furcifer.AppFurcifer.class),
       null);
   }
   
   /**
-   * AppHelloWorld
+   * HelloWorld
    */
-  private void testAppHelloWorld(String withGui) {
+  private void HelloWorld(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.helloworldjnlp.AppHelloWorld.class),
       "config/helloworldjnlp/HelloWorld_xhn.xml");
   }
   
-  /*private void testResources() {
-    Resources res = Resources.INSTANCE;
-    // Using a TextResource
-    //System.out.println(Resources.INSTANCE.csh().getText());
-    // Using an ExternalTextResource
-    try {
-      res.csh().getText(new ResourceCallback<TextResource>() {
-        public void onError(ResourceException e) {
-          System.out.println(e);
-        }
-        public void onSuccess(TextResource r) {
-          System.out.println(r.getText());
-        }
-      });
-    } catch (ResourceException e) {
-      System.out.println(e);
-    }
-    
-    try {
-      ((ExternalTextResource)res.getResource("csh")).getText(new ResourceCallback<TextResource>() {
-        public void onError(ResourceException e) {
-          System.out.println(e);
-        }
-        public void onSuccess(TextResource r) {
-          System.out.println(r.getText());
-        }
-      });
-    } catch (ResourceException e) {
-      System.out.println(e);
-    }
-    
-    // Using an ExternalTextResource
-    // causes exception
-    try {
-      res.default_xhn().getText(new ResourceCallback<TextResource>() {
-        public void onError(ResourceException e) {
-          System.out.println(e);
-        }
-        public void onSuccess(TextResource r) {
-          System.out.println(r.getText());
-        }
-      });
-    } catch (ResourceException e) {
-      System.out.println(e);
-    }
-    
-    // Using an ExternalTextResource
-    try {
-      res.ih().getText(new ResourceCallback<TextResource>() {
-        public void onError(ResourceException e) {
-          System.out.println(e);
-        }
-        public void onSuccess(TextResource r) {
-          System.out.println(r.getText());
-        }
-      });
-    } catch (ResourceException e) {
-      System.out.println(e);
-    }
-    //System.out.println(Resources.INSTANCE.ih().getText());
-    
-    //System.out.println(RCConfig.INSTANCE.XhMechanisms().getText());
-    //System.out.println(((TextResource)RCConfig.INSTANCE.getResource("Control_CompositeHierarchy")).getText());
-  }*/
-  
   /**
-   * AppPingPong
+   * PingPong
    */
-  private void testAppPingPong(String withGui) {
+  private void PingPong(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.PingPong.AppPingPong.class),
       "config/PingPong/PingPong_xhn.xml");
   }
@@ -367,7 +276,7 @@ public class Xholon implements EntryPoint {
   /**
    * Cell
    */
-  private void testCell(String withGui) {
+  private void Cell(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.cellontro.app.AppCell.class),
       "config/cellontro/Cell/Cell_BioSystems_Jul03_xhn.xml");
   }
@@ -375,23 +284,23 @@ public class Xholon implements EntryPoint {
   /**
    * Life
    */
-  private void life(String withGui) {
+  private void Life(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.cellontro.app.AppLife.class),
       "config/cellontro/Life/Life_xhn.xml");
   }
   
   /**
-   * Life3d
+   * Life_3d
    */
-  private void life3d(String withGui) {
+  private void Life_3d(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.cellontro.app.AppLife.class),
       "config/cellontro/Life3d/Life3d_SingleCells_xhn.xml");
   }
   
   /**
-   * Autop
+   * CellAutop
    */
-  private void autop(String withGui) {
+  private void CellAutop(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.cellontro.app.AppCellAutop.class),
       "config/cellontro/CellAutop/Autop_xhn.xml");
   }
@@ -399,7 +308,7 @@ public class Xholon implements EntryPoint {
   /**
    * GameOfLife
    */
-  private void testAppGameOfLife(String withGui) {
+  private void GameOfLife(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.GameOfLife.AppGameOfLife.class),
       "config/GameOfLife/GameOfLife_xhn.xml");
   }
@@ -407,7 +316,7 @@ public class Xholon implements EntryPoint {
   /**
    * GameOfLife_Big
    */
-  private void testAppGameOfLife_Big(String withGui) {
+  private void GameOfLife_Big(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.GameOfLife.AppGameOfLife.class),
       "config/GameOfLife/GameOfLife_Big_xhn.xml");
   }
@@ -415,7 +324,7 @@ public class Xholon implements EntryPoint {
   /**
    * GameOfLife_Huge
    */
-  private void testAppGameOfLife_Huge(String withGui) {
+  private void GameOfLife_Huge(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.GameOfLife.AppGameOfLife.class),
       "config/GameOfLife/GameOfLife_Huge_xhn.xml");
   }
@@ -423,75 +332,75 @@ public class Xholon implements EntryPoint {
   /**
    * StupidModels
    */
-  private void stupidModel1(String withGui) {
+  private void StupidModel1(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.StupidModel.sm1.AppStupidModel1.class),
       "config/StupidModel/StupidModel1/StupidModel1_xhn.xml");
   }
-  private void stupidModel2(String withGui) {
+  private void StupidModel2(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.StupidModel.sm2.AppStupidModel2.class),
       "config/StupidModel/StupidModel2/StupidModel2_xhn.xml");
   }
-  private void stupidModel3(String withGui) {
+  private void StupidModel3(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.StupidModel.sm3.AppStupidModel3.class),
       "config/StupidModel/StupidModel3/StupidModel3_xhn.xml");
   }
-  private void stupidModel4(String withGui) {
+  private void StupidModel4(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.StupidModel.sm4.AppStupidModel4.class),
       "config/StupidModel/StupidModel4/StupidModel4_xhn.xml");
   }
-  private void stupidModel5(String withGui) {
+  private void StupidModel5(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.StupidModel.sm5.AppStupidModel5.class),
       "config/StupidModel/StupidModel5/StupidModel5_xhn.xml");
   }
-  private void stupidModel5tg(String withGui) {
+  private void StupidModel5tg(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.StupidModel.sm5tg.AppStupidModel5tg.class),
       "config/StupidModel/StupidModel5tg/StupidModel5tg_xhn.xml");
   }
-  private void stupidModel6(String withGui) {
+  private void StupidModel6(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.StupidModel.sm6.AppStupidModel6.class),
       "config/StupidModel/StupidModel6/StupidModel6_xhn.xml");
   }
-  private void stupidModel7(String withGui) {
+  private void StupidModel7(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.StupidModel.sm7.AppStupidModel7.class),
       "config/StupidModel/StupidModel7/StupidModel7_xhn.xml");
   }
-  private void stupidModel8(String withGui) {
+  private void StupidModel8(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.StupidModel.sm8.AppStupidModel8.class),
       "config/StupidModel/StupidModel8/StupidModel8_xhn.xml");
   }
-  private void stupidModel9(String withGui) {
+  private void StupidModel9(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.StupidModel.sm9.AppStupidModel9.class),
       "config/StupidModel/StupidModel9/StupidModel9_xhn.xml");
   }
-  private void stupidModel10(String withGui) {
+  private void StupidModel10(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.StupidModel.sm10.AppStupidModel10.class),
       "config/StupidModel/StupidModel10/StupidModel10_xhn.xml");
   }
-  private void stupidModel11(String withGui) {
+  private void StupidModel11(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.StupidModel.sm11.AppStupidModel11.class),
       "config/StupidModel/StupidModel11/StupidModel11_xhn.xml");
   }
-  private void stupidModel12(String withGui) {
+  private void StupidModel12(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.StupidModel.sm12.AppStupidModel12.class),
       "config/StupidModel/StupidModel12/StupidModel12_xhn.xml");
   }
-  private void stupidModel13(String withGui) {
+  private void StupidModel13(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.StupidModel.sm13.AppStupidModel13.class),
       "config/StupidModel/StupidModel13/StupidModel13_xhn.xml");
   }
-  private void stupidModel14(String withGui) {
+  private void StupidModel14(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.StupidModel.sm14.AppStupidModel14.class),
       "config/StupidModel/StupidModel14/StupidModel14_xhn.xml");
   }
-  private void stupidModel15(String withGui) {
+  private void StupidModel15(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.StupidModel.sm15.AppStupidModel15.class),
       "config/StupidModel/StupidModel15/StupidModel15_xhn.xml");
   }
-  private void stupidModel16(String withGui) {
+  private void StupidModel16(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.StupidModel.sm16.AppStupidModel16.class),
       "config/StupidModel/StupidModel16/StupidModel16_xhn.xml");
   }
-  private void stupidModel16nl(String withGui) {
+  private void StupidModel16nl(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.StupidModel.sm16nl.AppStupidModel16nl.class),
       "config/StupidModel/StupidModel16nl/StupidModel16nl_xhn.xml");
   }
@@ -499,15 +408,15 @@ public class Xholon implements EntryPoint {
   /**
    * HelloWorld_TestTime
    */
-  private void testHelloWorld_TestTime(String withGui) {
+  private void HelloWorld_TestTime(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.HelloWorld_TestTime.AppHelloWorld_TestTime.class),
       "config/HelloWorld/HelloWorld_TestTime_xhn.xml");
   }
   
   /**
-   * ca 1dSimple
+   * _1dSimple
    */
-  private void testca_1dSimple(String withGui) {
+  private void _1dSimple(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.Simple1d.App1dSimple.class),
       "config/ca/1dSimple/1dSimple_xhn.xml");
   }
@@ -515,23 +424,23 @@ public class Xholon implements EntryPoint {
   /**
    * Generic
    */
-  private void testGeneric(String withGui) {
+  private void Generic(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.Generic.AppGeneric.class),
       "config/Generic/Generic_xhn.xml");
   }
   
   /**
-   * testclimatechange_model04
+   * model04
    */
-  private void testclimatechange_model04(String withGui) {
+  private void model04(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.climatechange.model04.Appmodel04.class),
       "config/climatechange/model04/_xhn.xml");
   }
   
   /**
-   * testclimatechange_carboncycle03
+   * carboncycle03
    */
-  private void testclimatechange_carboncycle03(String withGui) {
+  private void carboncycle03(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.climatechange.carboncycle03.Appcarboncycle03.class),
       "config/climatechange/carboncycle03/_xhn.xml");
   }
@@ -539,7 +448,7 @@ public class Xholon implements EntryPoint {
   /**
    * SpringIdol
    */
-  private void testSpringIdol(String withGui) {
+  private void SpringIdol(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.SpringIdol.AppSpringIdol.class),
       "config/SpringIdol/SpringIdol_xhn.xml");
   }
@@ -547,7 +456,7 @@ public class Xholon implements EntryPoint {
   /**
    * TestFsm
    */
-  private void testTestFsm(String withGui) {
+  private void TestFsm(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.xmiapps.TestFsm.AppTestFsm.class),
       "config/xmiapps/TestFsm/TestFsm_xhn.xml");
   }
@@ -555,7 +464,7 @@ public class Xholon implements EntryPoint {
   /**
    * TestFsmForkJoin
    */
-  private void testTestFsmForkJoin(String withGui) {
+  private void TestFsmForkJoin(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.xmiapps.TestFsmForkJoin.AppTestFsmForkJoin.class),
       "config/xmiapps/TestFsmForkJoin/TestFsmForkJoin_xhn.xml");
   }
@@ -563,7 +472,7 @@ public class Xholon implements EntryPoint {
   /**
    * TestFsmHistory
    */
-  private void testTestFsmHistory(String withGui) {
+  private void TestFsmHistory(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.xmiapps.TestFsmHistory.AppTestFsmHistory.class),
       "config/xmiapps/TestFsmHistory/TestFsmHistory_xhn.xml");
   }
@@ -571,7 +480,7 @@ public class Xholon implements EntryPoint {
   /**
    * TestFsmJunction
    */
-  private void testTestFsmJunction(String withGui) {
+  private void TestFsmJunction(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.xmiapps.TestFsmJunction.AppTestFsmJunction.class),
       "config/xmiapps/TestFsmJunction/TestFsmJunction_xhn.xml");
   }
@@ -579,7 +488,7 @@ public class Xholon implements EntryPoint {
   /**
    * TestFsmOrthogonal
    */
-  private void testTestFsmOrthogonal(String withGui) {
+  private void TestFsmOrthogonal(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.xmiapps.TestFsmOrthogonal.AppTestFsmOrthogonal.class),
       "config/xmiapps/TestFsmOrthogonal/TestFsmOrthogonal_xhn.xml");
   }
@@ -587,7 +496,7 @@ public class Xholon implements EntryPoint {
   /**
    * Elevator
    */
-  private void testElevator(String withGui) {
+  private void Elevator(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.xmiapps.Elevator.AppElevator.class),
       "config/xmiapps/Elevator/Elevator_xhn.xml");
   }
@@ -595,15 +504,15 @@ public class Xholon implements EntryPoint {
   /**
    * Elevator_ShowStates
    */
-  private void testElevator_ShowStates(String withGui) {
+  private void Elevator_ShowStates(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.xmiapps.Elevator.AppElevator_ShowStates.class),
       "config/xmiapps/Elevator/Elevator_ShowStates_xhn.xml");
   }
   
   /**
-   * Feinberg1
+   * feinberg1
    */
-  private void testFeinberg1(String withGui) {
+  private void feinberg1(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.petrinet.feinberg1.Appfeinberg1.class),
       null);
   }
@@ -611,7 +520,7 @@ public class Xholon implements EntryPoint {
   /**
    * Bestiary
    */
-  private void bestiary(String withGui) {
+  private void Bestiary(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.Bestiary.AppBestiary.class),
       null);
   }
@@ -619,7 +528,7 @@ public class Xholon implements EntryPoint {
   /**
    * TurtleExample1
    */
-  private void turtleExample1(String withGui) {
+  private void TurtleExample1(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.TurtleExample1.AppTurtleExample1.class),
       "config/user/TurtleExample1/TurtleExample1_xhn.xml");
   }
@@ -627,7 +536,7 @@ public class Xholon implements EntryPoint {
   /**
    * WolfSheepGrass
    */
-  private void wolfSheepGrass(String withGui) {
+  private void WolfSheepGrass(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.WolfSheepGrass.AppWolfSheepGrass.class),
       "config/user/WolfSheepGrass/WolfSheepGrass_xhn.xml");
   }
@@ -637,7 +546,7 @@ public class Xholon implements EntryPoint {
   /**
    * Fibonacci
    */
-  private void fibonacci(String withGui) {
+  private void Fibonacci(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.dynsys.app.AppFibonacci.class),
       "config/dynsys/Fibonacci/Fibonacci_xhn.xml");
   }
@@ -645,7 +554,7 @@ public class Xholon implements EntryPoint {
   /**
    * Gravity1
    */
-  private void gravity1(String withGui) {
+  private void Gravity1(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.dynsys.app.AppGravity1.class),
       "config/dynsys/Gravity1/Gravity1_xhn.xml");
   }
@@ -653,7 +562,7 @@ public class Xholon implements EntryPoint {
   /**
    * Interest
    */
-  private void interest(String withGui) {
+  private void Interest(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.dynsys.app.AppInterest.class),
       "config/dynsys/Interest/Interest_xhn.xml");
   }
@@ -661,7 +570,7 @@ public class Xholon implements EntryPoint {
   /**
    * ScheffranNActor
    */
-  private void scheffranNActor(String withGui) {
+  private void ScheffranNActor(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.dynsys.app.AppScheffranNActor.class),
       "config/dynsys/ScheffranTwoActor/ScheffranNActor_xhn.xml");
   }
@@ -669,7 +578,7 @@ public class Xholon implements EntryPoint {
   /**
    * ScheffranTwoActor
    */
-  private void scheffranTwoActor(String withGui) {
+  private void ScheffranTwoActor(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.dynsys.app.AppScheffranTwoActor.class),
       "config/dynsys/ScheffranTwoActor/ScheffranTwoActor_xhn.xml");
   }
@@ -677,7 +586,7 @@ public class Xholon implements EntryPoint {
   /**
    * Train
    */
-  private void train(String withGui) {
+  private void Train(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.dynsys.app.AppTrain.class),
       "config/dynsys/Train/Train_xhn.xml");
   }
@@ -723,17 +632,17 @@ public class Xholon implements EntryPoint {
   }
   
   /**
-   * azimuth_pn01
+   * pn
    */
-  private void azimuth_pn01(String withGui) {
+  private void pn(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.app.azimuth.pn01.Apppn.class),
       null);
   }
   
   /**
-   * ctrnn_AdapSysLab
+   * AdapSysLab
    */
-  private void ctrnn_AdapSysLab(String withGui) {
+  private void AdapSysLab(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.ctrnn.AdapSysLab.AppAdapSysLab.class),
       null);
   }
@@ -774,16 +683,16 @@ public class Xholon implements EntryPoint {
   }
   
   /**
-   * SpatialGames
+   * _09SpatialGames
    */
-  private void SpatialGames(String withGui) {
+  private void _09SpatialGames(String withGui) {
     xhn(withGui,
       (IApplication)GWT.create(org.primordion.user.app.SpatialGames.App09SpatialGames.class),
       "config/SpatialGames/SpatialGames1_xhn.xml");
   }
   
   /**
-   * Rcs 1
+   * Rcs1
    */
   private void Rcs1(String withGui) {
     xhn(withGui,
@@ -792,7 +701,7 @@ public class Xholon implements EntryPoint {
   }
   
   /**
-   * Rcs 2
+   * Rcs2
    */
   private void Rcs2(String withGui) {
     xhn(withGui,
@@ -801,27 +710,27 @@ public class Xholon implements EntryPoint {
   }
   
   /**
-   * bigraphRG
+   * roomsghosts
    */
-  private void bigraphRG(String withGui) {
+  private void roomsghosts(String withGui) {
     xhn(withGui,
       (IApplication)GWT.create(org.primordion.user.app.bigraph.roomsghosts.Approomsghosts.class),
       null);
   }
   
   /**
-   * beard41
+   * Beard2005_UML_Xholon_Step4_v1
    */
-  private void beard41(String withGui) {
+  private void Beard2005_UML_Xholon_Step4_v1(String withGui) {
     xhn(withGui,
       (IApplication)GWT.create(org.primordion.user.xmiapps.beard41.AppBeard2005_UML_Xholon_Step4_v1.class),
       "config/xmiapps/Beard2005_UML_Xholon_Step4_v1/Beard2005_UML_Xholon_Step4_v1_xhn.xml");
   }
   
   /**
-   * risk
+   * Risk
    */
-  /*private void risk(String withGui) {
+  /*private void Risk(String withGui) {
     xhn(withGui,
       (IApplication)GWT.create(org.primordion.user.app.Risk.AppRisk.class),
       "config/user/Risk/Risk_xhn.xml");
@@ -837,9 +746,9 @@ public class Xholon implements EntryPoint {
   }
   
   /**
-   * XBar
+   * XBar_ex1
    */
-  private void XBar(String withGui) {
+  private void XBar_ex1(String withGui) {
     xhn(withGui,
       (IApplication)GWT.create(org.primordion.user.app.XBar.AppXBar_ex1.class),
       "config/user/XBar/XBar_xhn.xml");
@@ -893,18 +802,18 @@ public class Xholon implements EntryPoint {
   }
   
   /**
-   * EcjAntTrail
+   * AntTrail
    */
-  private void EcjAntTrail(String withGui) {
+  private void AntTrail(String withGui) {
     xhn(withGui,
       (IApplication)GWT.create(org.primordion.ealontro.app.EcjAntTrail.AppAntTrail.class),
       "config/ealontro/EcjAntTrail/AntTrail_1_xhn.xml");
   }
   
   /**
-   * EcjTutorial4
+   * Tutorial4
    */
-  private void EcjTutorial4(String withGui) {
+  private void Tutorial4(String withGui) {
     xhn(withGui,
       (IApplication)GWT.create(org.primordion.ealontro.app.EcjTutorial4.AppTutorial4.class),
       "config/ealontro/EcjTutorial4/Tutorial4_1_xhn.xml");
@@ -978,11 +887,33 @@ public class Xholon implements EntryPoint {
     String hostPageBaseURL = GWT.getHostPageBaseURL();
     app.setHostPageBaseURL(hostPageBaseURL);
     app.setXincludePath(hostPageBaseURL + "config/_common/");
+    
     String configFileName = defaultConfigFileName == null ? null : hostPageBaseURL + defaultConfigFileName;
     app.setConfigFileName(configFileName);
     
+    if (GUI_SAVE.equals(withGui)) {
+      JavaApp2Workbook app2Wb = new JavaApp2Workbook();
+      app2Wb.save(configFileName, app);
+      return;
+    }
+    else if (GUI_EDIT.equals(withGui)) {
+      JavaApp2Workbook app2Wb = new JavaApp2Workbook();
+      app2Wb.edit(configFileName, app);
+      return;
+    }
+    
     XholonJsApi.exportTopLevelApi(app);
     XholonJsApi.exportIXholonApi((IXholon)app);
+    
+    // use localStorage version of Java-based app, if such a version is available
+    if (src == null) {
+      // this is a Java-based Xholon app
+      XholonWorkbookBundle workbookBundle = new XholonWorkbookBundle(appName);
+      if (workbookBundle.exists()) {
+        // save XholonWorkbookBundle to Application
+        app.setWorkbookBundle(workbookBundle);
+      }
+    }
     
     if (GUI_NONE.equals(withGui)) {
       app.runApp();
