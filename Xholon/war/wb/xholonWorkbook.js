@@ -4,7 +4,7 @@
  * For use with Xholon GWT Edition.
  *
  * Licensed under the MIT license  http://opensource.org/licenses/MIT .
- * Copyright (C) 2013 Ken Webb
+ * Copyright (C) 2013, 2014 Ken Webb
  * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon/gwt/">Xholon Project website</a>
@@ -15,9 +15,10 @@
 
   // Editor indexes
   var ED_NOTES = 0;
-  var ED_IH = 1;
-  var ED_CD = 2;
-  var ED_CSH = 3;
+  var ED_PARAMS = 1; //4; // optional params editor
+  var ED_IH = 2; //1;
+  var ED_CD = 3; //2;
+  var ED_CSH = 4; //3;
   // plus 2 or more script language editors
   var ED_SVG = 6; // 6 or higher
   
@@ -324,6 +325,18 @@
   }
   
   /**
+   * Does an editor contain params ?
+   * @return true or false
+   */
+  function isParams(anEditor) {
+    var firstLine = anEditor.getLine(0);
+    if (firstLine && firstLine.indexOf("<params>") != -1) {
+      return true;
+    }
+    return false;
+  }
+  
+  /**
    * Save content as a post to a GitHub gist.
    */
   function saveAsGist(content) {
@@ -385,9 +398,12 @@
     content += '<!--Xholon Workbook http://www.primordion.com/Xholon/gwt/ MIT License, Copyright (C) Ken Webb, ' + new Date().toString() + '-->\n';
     content += '<XholonWorkbook>';
     $.each(editor, function(index, anEditor) {
-      content += '\n\n';
+      var editorValue = anEditor.getValue();
+      if (editorValue.length > 1) {
+        content += '\n\n';
+      }
       if (index == ED_NOTES) {content += '<Notes><![CDATA[\n';} // start notes
-      content += anEditor.getValue();
+      content += editorValue;
       if (index == ED_NOTES) {content += '\n]]></Notes>';} // end notes
     });
     content += '\n\n</XholonWorkbook>';
@@ -541,24 +557,36 @@
    */
   function populateTextAreas(xholonWorkbookDoc) {
     var root = xholonWorkbookDoc.documentElement;
-    
     var xmlNode = root.firstElementChild;
+    
+    // notes
     $("div#xhednotes textarea")[0].firstChild.textContent = xmlNode.firstChild.nodeValue.trim() + "\n";
     xmlNode = xmlNode.nextElementSibling;
     
-    while (xmlNode.nodeName != "_-.XholonClass") {
+    // params
+    if (xmlNode && (xmlNode.tagName.indexOf("params") != -1)) {
+      $("div#xhedparams textarea")[0].firstChild.textContent = xmlSerialize(xmlNode);
+      $("div#xhedparams").show();
       xmlNode = xmlNode.nextElementSibling;
     }
     
+    // ih
+    while (xmlNode.nodeName != "_-.XholonClass") {
+      xmlNode = xmlNode.nextElementSibling;
+    }
     $("div#xhedih textarea")[0].firstChild.textContent = xmlSerialize(xmlNode);
     xmlNode = xmlNode.nextElementSibling;
+    
+    // cd
     $("div#xhedcd textarea")[0].firstChild.textContent = xmlSerialize(xmlNode);
     xmlNode = xmlNode.nextElementSibling;
+    
+    // csh
     $("div#xhedcsh textarea")[0].firstChild.textContent = xmlSerialize(xmlNode);
+    xmlNode = xmlNode.nextElementSibling;
     
     // behaviors
     var behNum = 0;
-    xmlNode = xmlNode.nextElementSibling;
     while (xmlNode && (xmlNode.tagName.indexOf("behavior") != -1)) {
       behNum++;
       $("div#xhedbehs")
@@ -572,6 +600,7 @@
       xmlNode = xmlNode.nextElementSibling;
     }
     
+    // svg
     if (xmlNode) {
       $("div#xhedsvg textarea")[0].firstChild.textContent = xmlSerialize(xmlNode);
     }
@@ -679,6 +708,21 @@
       else if (index == ED_CSH) {
         editor[index].setOption("extraKeys", {
           "Ctrl-Space": function(cm) {CodeMirror.showHint(cm, CodeMirror.quantitycshHint);},
+          "Ctrl-Z": function(cm) {editor[index].undo();},
+          "Ctrl-Shift-Z": function(cm) {editor[index].redo();},
+          "Ctrl-/": function(cm) {autoIndentSelection(editor[index]);},
+          Tab: function(cm) {
+            var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+            cm.replaceSelection(spaces, "end", "+input");
+          }
+        });
+        editor[index].setOption("autoCloseTags", true);
+        dmphasizeFirstLastLines(editor[index]);
+      }
+      // autocomplete for params
+      else if ((index == ED_PARAMS) && (isParams(editor[index]))) {
+        editor[index].setOption("extraKeys", {
+          "Ctrl-Space": function(cm) {CodeMirror.showHint(cm, CodeMirror.paramsHint);},
           "Ctrl-Z": function(cm) {editor[index].undo();},
           "Ctrl-Shift-Z": function(cm) {editor[index].redo();},
           "Ctrl-/": function(cm) {autoIndentSelection(editor[index]);},
