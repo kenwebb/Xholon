@@ -98,6 +98,7 @@ import org.primordion.xholon.io.IXholon2Gui;
 //import org.primordion.xholon.io.Snapshot; // GWT
 //import org.primordion.xholon.io.SnapshotXML; // GWT
 import org.primordion.xholon.io.XholonGwtTabPanelHelper;
+import org.primordion.xholon.io.XholonWorkbookBundle;
 //import org.primordion.xholon.io.ef.other.Xholon2ChapNetwork;
 //import org.primordion.xholon.io.vrml.AbstractVrmlWriter;
 import org.primordion.xholon.io.vrml.IVrmlWriter;
@@ -500,6 +501,13 @@ public abstract class Application extends AbstractApplication implements IApplic
 	 * ex: "crn_1987_6_7_csh.xml"
 	 */
 	private String workbookFileName = "xholonWorkbook.xml";
+	
+	/**
+	 * An optional XholonWorkbook bundle,
+	 * containing alternate user-defined content for the current Java-based app.
+	 * This can be used while initializing the app.
+	 */
+	private XholonWorkbookBundle workbookBundle = null;
 	
 	/**
 	 * Constructor.
@@ -1643,6 +1651,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 		
 		//StringTokenizer st;
 		
+		/*
 		try {
 			// Read values from the default configuration file.
 			//readConfigFromFileXml(xincludePath + "_default_xhn.xml");
@@ -1659,6 +1668,9 @@ public abstract class Application extends AbstractApplication implements IApplic
 			logger.error(e.getMessage(), e.getCause());
 			throw new XholonConfigurationException();
 		}
+		*/
+		readParameters(configFileName);
+		
 		clearConsole(); println("read config files");
 		
     setHtmlTitles();
@@ -1718,6 +1730,9 @@ public abstract class Application extends AbstractApplication implements IApplic
 		root.postConfigure(); // recursive postConfigure
 		StateMachineEntity.initializeStateMachines(); // initialize any state machines in the app
 		
+		// optionally create a Notes tab
+		createNotesTab();
+		
 		// optionally display SVG image
 		image();
 
@@ -1754,6 +1769,33 @@ public abstract class Application extends AbstractApplication implements IApplic
 		//  xhcRoot.preOrderPrint(0);
 		//}
 		
+	}
+	
+	@Override
+	public void readParameters(String configFileName)  throws XholonConfigurationException {
+	  try {
+			// Read values from the default configuration file.
+			//readConfigFromFileXml(xincludePath + "_default_xhn.xml");
+			Parameters.xmlString2Params(rcConfig("_default_xhn"), this);
+		
+			// Read values from main configuration file/String for this specific application.
+			String _xhn = null;
+			if (workbookBundle != null) {
+		    _xhn = workbookBundle.getResource(XholonWorkbookBundle.RESOURCE__XHN);
+		  }
+		  if (_xhn != null) {
+		    Parameters.xmlString2Params(_xhn, this);
+		  }
+			else if (configFileName == null) {
+			  Parameters.xmlString2Params(rcConfig("_xhn", findGwtClientBundle()), this);
+			}
+			else {
+			  readConfigFromFileXml(configFileName);
+			}
+		} catch (XholonConfigurationException e) {
+			logger.error(e.getMessage(), e.getCause());
+			throw new XholonConfigurationException();
+		}
 	}
 	
 	/**
@@ -1888,14 +1930,35 @@ public abstract class Application extends AbstractApplication implements IApplic
 		// common viewers
 		xml2XholonClass.xmlString2Xholon(rcConfig(MECHVIEWER_XML_FILENAME), xhcRoot);
 		xml2XholonClass.xmlString2Xholon(rcConfig(MECHVIEWER_CD_XML_FILENAME), xhcRoot);
-		// application classes
-		if (inheritanceHierarchyFile == null) {
+		// application classes IH
+		String ih = null;
+		if (workbookBundle != null) {
+		  ih = workbookBundle.getResource(XholonWorkbookBundle.RESOURCE_IH);
+		  consoleLog(ih);
+		}
+		if (ih != null) {
+		  xml2XholonClass.xmlString2Xholon(ih, xhcRoot);
+		}
+		else if (inheritanceHierarchyFile == null) {
 		  xml2XholonClass.xmlString2Xholon(rcConfig("ih", findGwtClientBundle()), xhcRoot);
-		  xml2XholonClass.xmlString2Xholon(rcConfig("cd", findGwtClientBundle()), xhcRoot);
 		}
 		else {
 		  xml2XholonClass.xmlUri2Xholon(inheritanceHierarchyFile, xhcRoot);
-  		xml2XholonClass.xmlUri2Xholon(classDetailsFile, xhcRoot);
+		}
+		// CD
+		String cd = null;
+		if (workbookBundle != null) {
+		  cd = workbookBundle.getResource(XholonWorkbookBundle.RESOURCE_CD);
+		  consoleLog(cd);
+		}
+		if (cd != null) {
+		  xml2XholonClass.xmlString2Xholon(cd, xhcRoot);
+		}
+		else if (classDetailsFile == null) {
+		  xml2XholonClass.xmlString2Xholon(rcConfig("cd", findGwtClientBundle()), xhcRoot);
+		}
+		else {
+		  xml2XholonClass.xmlUri2Xholon(classDetailsFile, xhcRoot);
 		}
 	}
 	
@@ -1935,7 +1998,16 @@ public abstract class Application extends AbstractApplication implements IApplic
 		xml2Xholon.setInheritanceHierarchy(inherHier);
 		IXholon csControlRoot = controlRoot
 			.getNextSibling().getNextSibling().getFirstChild();
-	  if (compositeStructureHierarchyFile == null) {
+		String csh = null;
+	  consoleLog(workbookBundle);
+		if (workbookBundle != null) {
+		  csh = workbookBundle.getResource(XholonWorkbookBundle.RESOURCE_CSH);
+		  consoleLog(csh);
+		}
+		if (csh != null) {
+		  root = xml2Xholon.xmlString2Xholon(csh, csControlRoot);
+		}
+	  else if (compositeStructureHierarchyFile == null) {
 	    root = xml2Xholon.xmlString2Xholon(rcConfig("csh", findGwtClientBundle()), csControlRoot);
 	  }
 	  else {
@@ -1948,6 +2020,23 @@ public abstract class Application extends AbstractApplication implements IApplic
 			srvRoot.setNextSibling(null);
 		}
 
+	}
+	
+	/**
+	 * Create a Notes tab in the GUI, if there are notes in a XholonWorkbookBundle.
+	 */
+	protected void createNotesTab() {
+	  if (workbookBundle != null) {
+		  String notes = workbookBundle.getResource(XholonWorkbookBundle.RESOURCE_NOTES);
+		  if ((notes != null) && (notes.length() > 0)) {
+		    int notesStart = "<Notes><![CDATA[".length();
+			  int notesEnd = notes.indexOf("]]></Notes>", notesStart);
+			  if (notesEnd != -1) {
+			    notes = notes.substring(notesStart, notesEnd);
+			  }
+		    XholonGwtTabPanelHelper.addTab(notes, "notes", "Workbook Notes", false);
+		  }
+		}
 	}
 	
 	protected void showTimeStep() {
@@ -2801,13 +2890,29 @@ public abstract class Application extends AbstractApplication implements IApplic
 	public void image() {
 	  if (imageFile == null) {return;}
 	  if ("default.svg".equals(imageFile)) {
-	    if (configFileName == null) {
+	    String svgStr1 = null;
+	    if (workbookBundle != null) {
+		    svgStr1 = workbookBundle.getResource(XholonWorkbookBundle.RESOURCE_SVG);
+		    consoleLog(svgStr1);
+		  }
+		  if (svgStr1 != null) {
+		    imageFile = null; // no SVG file is specified
+		    if ((svgStr1 != null) && (svgStr1.length() != 0)) {
+	        //makeSvgClient(svgStr1);
+	        // svgStr1 is already wrapped in SvgClient
+	        IXholon xholonHelperService = getService(IXholonService.XHSRV_XHOLON_HELPER);
+		      if (xholonHelperService != null) {
+			      xholonHelperService.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, svgStr1, root);
+		      }
+	      }
+		  }
+	    else if (configFileName == null) {
 	      imageFile = null; // no SVG file is specified
 	      // look for SVG content in the app's optional GWT ClientBundle
-	      String svgStr = rcConfig("svg", findGwtClientBundle());
+	      String svgStr2 = rcConfig("svg", findGwtClientBundle());
 	      // display this svgStr
-	      if ((svgStr != null) && (svgStr.length() != 0)) {
-	        makeSvgClient(svgStr);
+	      if ((svgStr2 != null) && (svgStr2.length() != 0)) {
+	        makeSvgClient(svgStr2);
 	      }
 	    }
 	    else {
@@ -3502,6 +3607,14 @@ ${MODELNAME_DEFAULT},${SVGURI_DEFAULT},,,./,${VIEWABLES_CREATE}
 	
 	public void setWorkbookFileName(String workbookFileName) {
 	  this.workbookFileName = workbookFileName;
+	}
+	
+	public IXholon getWorkbookBundle() {
+	  return (XholonWorkbookBundle)workbookBundle;
+	}
+	
+	public void setWorkbookBundle(IXholon workbookBundle) {
+	  this.workbookBundle = (XholonWorkbookBundle)workbookBundle;
 	}
 	
 	/**
