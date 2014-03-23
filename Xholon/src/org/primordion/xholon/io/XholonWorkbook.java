@@ -37,8 +37,10 @@ import org.primordion.xholon.base.ISignal;
 //import org.primordion.xholon.base.IXPath;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
+import org.primordion.xholon.base.Parameters;
 import org.primordion.xholon.base.StateMachineEntity;
 import org.primordion.xholon.base.Xholon;
+import org.primordion.xholon.exception.XholonConfigurationException;
 //import org.primordion.xholon.service.AbstractXholonService;
 import org.primordion.xholon.service.IXholonService;
 import org.primordion.xholon.service.NodeSelectionService;
@@ -219,6 +221,15 @@ public class XholonWorkbook extends Xholon {
 			XholonGwtTabPanelHelper.addTab(subTree, "notes", "Workbook Notes", false);
 		}
 		
+		// params (_xhn)
+		else if ("params".equals(tagName)) {
+		  try {
+		    Parameters.xmlString2Params(subTree, app);
+		  } catch (XholonConfigurationException e) {
+			  //logger.error(e.getMessage(), e.getCause());
+		  }
+		}
+		
 		// inheritance hierarchy (ih)
 		else if ("_-.XholonClass".equals(tagName)) {
 			IXholonClass xhcRoot = app.getXhcRoot();
@@ -231,7 +242,7 @@ public class XholonWorkbook extends Xholon {
 			sendXholonHelperService(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, subTree, xhcRoot);
 		}
 		
-		// composite structure hierarchy
+		// composite structure hierarchy (csh)
 		else if (tagName.endsWith("System")) {
 			sendXholonHelperService(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, subTree, contextNode);
 		}
