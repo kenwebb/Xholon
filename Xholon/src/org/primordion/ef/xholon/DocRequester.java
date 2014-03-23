@@ -30,7 +30,9 @@ import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.resources.client.ClientBundleWithLookup;
 
+import org.primordion.xholon.app.IApplication;
 import org.primordion.xholon.base.IXholon;
+import org.primordion.xholon.io.XholonWorkbookBundle;
 import org.primordion.ef.AbstractXholon2ExternalFormat;
 import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
 //import org.primordion.xholon.util.MiscIo;
@@ -85,37 +87,47 @@ public class DocRequester extends AbstractXholon2ExternalFormat implements IXhol
 		
 		// GWT version
 		//String fileName = root.getApp().getCompositeStructureHierarchyFile();
-		if (fileName == null) {
+		IApplication app = root.getApp();
+		String content = null;
+	  if (app.getWorkbookBundle() != null) {
+		  content = ((XholonWorkbookBundle)app.getWorkbookBundle()).getResource(contentType);
+		}
+		if (content != null) {
+		  writeToTarget(content, contentType, contentType, root);
+		}
+		else if (fileName == null) {
 		  // app is probably using a ClientBundle
-		  String efText = root.getApp().rcConfig(contentType,
-		    (ClientBundleWithLookup)root.getApp().findGwtClientBundle());
+		  String efText = app.rcConfig(contentType,
+		    (ClientBundleWithLookup)app.findGwtClientBundle());
 		  writeToTarget(efText, contentType, contentType, root);
 		  return;
 		}
-		try {
-		  final String _contentType = contentType;
-		  final IXholon _root = root;
-		  new RequestBuilder(RequestBuilder.GET, fileName).sendRequest("", new RequestCallback() {
-        @Override
-        public void onResponseReceived(Request req, Response resp) {
-          if (resp.getStatusCode() == resp.SC_OK) {
-            //root.println(resp.getText());
-            writeToTarget(resp.getText(), _contentType, _contentType, _root);
+		else {
+		  try {
+		    final String _contentType = contentType;
+		    final IXholon _root = root;
+		    new RequestBuilder(RequestBuilder.GET, fileName).sendRequest("", new RequestCallback() {
+          @Override
+          public void onResponseReceived(Request req, Response resp) {
+            if (resp.getStatusCode() == resp.SC_OK) {
+              //root.println(resp.getText());
+              writeToTarget(resp.getText(), _contentType, _contentType, _root);
+            }
+            else {
+              root.println("status code:" + resp.getStatusCode());
+              root.println("status text:" + resp.getStatusText());
+              root.println("text:\n" + resp.getText());
+            }
           }
-          else {
-            root.println("status code:" + resp.getStatusCode());
-            root.println("status text:" + resp.getStatusText());
-            root.println("text:\n" + resp.getText());
-          }
-        }
 
-        @Override
-        public void onError(Request req, Throwable e) {
-          root.println("onError:" + e.getMessage());
-        }
-      });
-    } catch(RequestException e) {
-      root.println("RequestException:" + e.getMessage());
+          @Override
+          public void onError(Request req, Throwable e) {
+            root.println("onError:" + e.getMessage());
+          }
+        });
+      } catch(RequestException e) {
+        root.println("RequestException:" + e.getMessage());
+      }
     }
 	}
 
