@@ -2,13 +2,26 @@
 <!-- Default configuration file
      These are all the system parameters currently in use.
      Ken Webb
-     October 27, 2007 test1 -->
+     October 27, 2007
+     updated March 20, 2014
+-->
 <params>
+  
+  <!-- Whether to print params while the _xhn.xml content is loading (false|true) -->
 	<param name="ShowParams" value="false"/>
+	
+	<!-- Name of the model or app -->
 	<param name="ModelName" value="_default"/>
+	
+	<!-- Whether to print app-specific print() and println() strings (true|false) -->
 	<param name="AppM" value="true"/>
+	
+	<!-- Whether to print general-purpose information strings (false|true) -->
 	<param name="InfoM" value="false"/>
+	
+	<!-- Whether to print error strings (true|false) -->
 	<param name="ErrorM" value="true"/>
+	
 	<!--
 	<param name="MaxXholons" value="10"/>
 	<param name="MaxXholonClasses" value="10"/>
@@ -16,52 +29,91 @@
 	<param name="maxActivities" value="0"/>
 	<param name="TreeNodeFactoryDynamic" value="false"/>
 	-->
+	
+	<!-- Number of times to loop within app.process() = maximum number of time steps.
+	 -1 = loop forever = infinite number of time steps
+	-->
 	<param name="MaxProcessLoops" value="10"/>
+	
+	<!-- Time step interval. Number of milliseconds per time step.
+	 0 = max speed.
+	 10 = 10 milliseconds per time step = 100 time steps per second.
+	 1000 = 1000 milliseconds per time step = 1 second per time step = 1 time step per second.
+	 0 = logical time. Any other positive value = physical time (clock time).
+	-->
 	<param name="TimeStepInterval" value="10"/>
+	
 	<param name="IQueueImplName" value="org.primordion.xholon.base.Queue"/> <!-- Queue QueueSynchronized -->
 	<param name="SizeMessageQueue" value="1"/>
-	<param name="InheritanceHierarchyFile" value="./config/_default/InheritanceHierarchy.xml"/>
-	<!--<param name="CompositeStructureHierarchyFile" value="./config/_default/CompositeStructureHierarchy.xml"/>-->
-	<param name="ClassDetailsFile" value="./config/_default/ClassDetails.xml"/>
-	<!--<param name="InformationFile" value="./config/_default/Information_default.xml"/>-->
+	
+	<!-- Name of the inheritance hierachy file -->
+	<param name="InheritanceHierarchyFile" value="config/_default/InheritanceHierarchy.xml"/>
+	
+	<!-- Name of the composite structure hierarchy file -->
+	<!--<param name="CompositeStructureHierarchyFile" value="config/_default/CompositeStructureHierarchy.xml"/>-->
+	
+	<!-- Name of the class details file -->
+	<param name="ClassDetailsFile" value="config/_default/ClassDetails.xml"/>
+	
+	<!-- Name of the information file -->
+	<!--<param name="InformationFile" value="config/_default/Information_default.xml"/>-->
+	
+	<!-- Name of an optional image file, typically SVG such as "default.svg" -->
 	<param name="ImageFile" value="default.svg"/>
+	
+	<!-- Name of the concrete application class -->
 	<!--<param name="JavaClassName" value="org.primordion.xholon.user.App_default"/>-->
+	
+	<!-- Name of the concrete Xh class, the default class for all CSH nodes in the app -->
 	<!--<param name="JavaXhClassName" value="org.primordion.xholon.user.Xh_default"/>-->
+	
+	<!-- Maximum number of ports that a xholon instance can have -->
 	<param name="MaxPorts" value="1"/>
 	
-	<!-- Show the composite structure hierarchy in a text format on the console window, as a tree. -->
+	<!-- Whether to use simple 2D text tree drawer to show the CSH (false|true) -->
 	<param name="UseTextTree" value="false"/>
 	
-	<!-- Show the composite structure hierarchy in a graphical format, as a tree. -->
+	<!-- Whether to show the CSH in a graphical format, as a tree (false|true) -->
 	<param name="UseGraphicalTreeViewer" value="false"/>
 	<param name="GraphicalTreeViewerParams"
 		value="/,20,20,800,500,9,Application Composite Structure,false"/>
 	
-	<!-- Show connections between nodes in a graphical format. -->
+	<!-- Whether to show connections between nodes in a graphical format. -->
 	<param name="UseGraphicalNetworkViewer" value="false"/>
 	<param name="GraphicalNetworkViewerClassName" value="org.primordion.xholon.io.NetworkViewerJung"/>
 	<param name="GraphicalNetworkViewerParams" value="/,800,500,9,LAYOUT_KK,false,Application Port Connections,false"/>
 	
-	<!-- Use 2D graphics to view the grid. -->
+	<!-- Whether to use 2D graphics to view the grid. -->
 	<param name="UseGridViewer" value="false"/>
 	<!--<param name="GridPanelClassName" value="org.primordion.xholon.samples.GridPanel_default"/>-->
 	<!--<param name="GridViewerParams" value="descendant::Row/..,5,Grid Viewer App"/>-->
 	
-	<!-- Plot data each timestep on a line chart. -->
-	<param name="UseDataPlotter" value="none"/> <!-- JFreeChart gnuplot jdbc none -->
+	<!-- Whether to plot data each timestep on a line chart (none|google2|gnuplot|c3|nvd3) -->
+	<param name="UseDataPlotter" value="none"/>
+	
+	<!--  -->
 	<param name="DataPlotterParams" value="Title,Time (timesteps),Y,./statistics/,stats,1,WRITE_AS_LONG"/>
 	
 	<!-- Show data on a histogram. -->
 	<param name="UseHistogramPlotter" value="none"/> <!-- JFreeChart gnuplot none -->
+	
+	<!--  -->
 	<param name="HistogramPlotterParams" value="Title,Time (timesteps),Y"/>
 	
-	<!-- Capture interactions between Xholons, and output as a graphical UML Sequence Diagram. -->
+	<!-- Whether to capture interactions between Xholons,
+	and output as a graphical UML Sequence Diagram (false|true) -->
 	<param name="UseInteractions" value="false"/>
-	<param name="InteractionParams" value="2,false,localhost,60001"/>
 	
-	<!-- Create a VRML file that mirrors the composite structure hierarchy. -->
+	<!--  -->
+	<param name="InteractionParams" value="32,false,localhost,60001"/>
+	
+	<!-- Whether to create a VRML file that mirrors the composite structure hierarchy (false|true) -->
 	<param name = "UseVrml" value="false"/>
+	
+	<!-- Name of the VrmlWriter Java class -->
 	<param name = "VrmlWriterClassName" value="org.primordion.xholon.user.VrmlWriter_default"/>
+	
+	<!-- VRML 3D parameters -->
 	<param name = "VrmlParams" value="true,./3d/,false,false"/>
 	
 	<!-- Create a web-based or other special purpose GUI. -->
