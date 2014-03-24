@@ -16,7 +16,7 @@ A. Create a new mechanism, or viewer mechanism.
        config/_common/_mechanism/XholonMechanismCd.xml .
 
 B. Create the service itself.
-   1. Add an entry to config/_common/_mechanism/XholonService.xml .
+   1. Add an entry to <XholonService> subtree in config/_common/_mechanism/XholonMechanism.xml .
    2. Add an entry to config/_common/_service/Service_CompositeStructureHierarchy.xml .
    3. Add a new Java class to org.primordion.xholon.service.
    4. (optional) create a new Java package in org.primordion.xholon.service, with one or more support classes.
