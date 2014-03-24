@@ -312,6 +312,7 @@ A typical service has:
 		<NetLogoService/>
 		<SvgViewService/>
 		<GistService/>
+		<ExternalFormatService/>
 		<SearchEngineService/>
 		<RecordPlaybackService/>
 		<SemanticWebService/>

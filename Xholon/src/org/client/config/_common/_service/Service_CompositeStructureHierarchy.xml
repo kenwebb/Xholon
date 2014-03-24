@@ -79,6 +79,7 @@
   
   <SvgViewService/>
   <GistService/>
+  <ExternalFormatService/>
   <SearchEngineService> <!-- there are multiple alternatives for this service -->
     <XholonMap>
       <attr:Attribute_String roleName="Google">https://www.google.com/search?q=</attr:Attribute_String>

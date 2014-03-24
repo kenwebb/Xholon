@@ -208,6 +208,8 @@
 		implName="org.primordion.xholon.service.GistService"/>
 	<TimelineService xhType="XhtypePurePassiveObject"
 		implName="org.primordion.xholon.service.TimelineService"/>
+	<ExternalFormatService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.ExternalFormatService"/>
 	<SearchEngineService xhType="XhtypePurePassiveObject"
 		implName="org.primordion.xholon.service.SearchEngineService"/>
 	<RecordPlaybackService xhType="XhtypePurePassiveObject"

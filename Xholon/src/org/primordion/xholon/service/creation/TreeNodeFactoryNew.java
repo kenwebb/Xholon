@@ -18,6 +18,8 @@
 
 package org.primordion.xholon.service.creation;
 
+import com.google.gwt.core.client.GWT;
+
 //import org.primordion.cellontro.base.BioXholonClass;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
@@ -466,6 +468,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			}
 			else if (implName.endsWith("TimelineService")) {
 				newNode = new org.primordion.xholon.service.TimelineService();
+			}
+			else if (implName.endsWith("ExternalFormatService")) {
+				newNode = GWT.create(org.primordion.xholon.service.ExternalFormatService.class);
 			}
 			else if (implName.endsWith("SearchEngineService")) {
 				newNode = new org.primordion.xholon.service.SearchEngineService();

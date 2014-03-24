@@ -27,7 +27,9 @@ package org.primordion.xholon.service;
 //import java.util.List;
 
 import org.primordion.xholon.app.IApplication;
+import org.primordion.xholon.base.IMessage;
 import org.primordion.xholon.base.IXholon;
+import org.primordion.xholon.base.Message;
 import org.primordion.xholon.base.Xholon;
 import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
 /**
@@ -44,7 +46,7 @@ import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
  * @since 0.8.1 (Created on April 24, 2010)
  */
 @SuppressWarnings("serial")
-public class ExternalFormatService extends Xholon {
+public class ExternalFormatService extends AbstractXholonService {
 
 	/**
 	 * Default action names to use, in case the format class file names are unavailable,
@@ -84,6 +86,38 @@ public class ExternalFormatService extends Xholon {
 	 * Possible subdirectories.
 	 */
 	protected String[] subdirNames = {"other","xholon","serialize","petrinet"};
+	
+	/*
+	 * @see org.primordion.xholon.service.AbstractXholonService#getService(java.lang.String)
+	 */
+	public IXholon getService(String serviceName)
+	{
+		if (serviceName.equals("ExternalFormatService")) {
+			return this;
+		}
+		else {
+			return null;
+		}
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.Xholon#processReceivedSyncMessage(org.primordion.xholon.base.IMessage)
+	 */
+	public IMessage processReceivedSyncMessage(IMessage msg) {
+		switch (msg.getSignal()) {
+		case IXholonService.SIG_PROCESS_REQUEST:
+			IXholon node = msg.getSender();
+			String formatName = (String)msg.getData();
+			IXholon2ExternalFormat xholon2ef = this.initExternalFormatWriter(node, formatName);
+			if (xholon2ef != null) {
+			  this.writeAll(xholon2ef);
+			}
+			return new Message(IXholonService.SIG_RESPONSE, null, this, msg.getSender());
+		default:
+			return super.processReceivedSyncMessage(msg);
+		}
+		
+	}
 	
 	/*
 	 * @see org.primordion.xholon.base.Xholon#getActionList()

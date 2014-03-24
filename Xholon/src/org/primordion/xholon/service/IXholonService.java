@@ -39,6 +39,7 @@ public interface IXholonService {
 	public static final String XHSRV_CSS = "CssService";
 	public static final String XHSRV_DATABASE = "DatabaseService";
 	public static final String XHSRV_DUMMY = "DummyService";
+	public static final String XHSRV_EXTERNAL_FORMAT = "ExternalFormatService";
 	public static final String XHSRV_GAME_ENGINE = "GameEngineService";
 	public static final String XHSRV_GIST = "GistService";
 	public static final String XHSRV_GRAPHICAL_NETWORK_VIEWER = "GraphicalNetworkViewerService";
