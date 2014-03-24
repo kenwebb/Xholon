@@ -47,6 +47,12 @@
   /** Information supplied by CodeMirror about the mode update. */
   var updateInfo = null;
   
+  /**
+   * "runsrc=none" tells editwb to NOT specify "src=lstr" when running the edited app,
+   * which is what is expected for a Java-based app
+   */
+  var runsrc = "";
+  
   /** Xholon webEdition: CSH rootName (ex: 'PhysicalSystem') */
   //var $cshRootName = 'PhysicalSystem';
   
@@ -418,7 +424,12 @@
   function runInWindow(gui) {
     // store content to localStorage
     storeChanges();
-    var uri = "../Xholon.html?app=" + modelName + "&src=lstr&gui=" + gui;
+    var uri = "../Xholon.html?app=" + modelName;
+    if (!runsrc) {
+      // this is NOT a Java-based app
+      uri += "&src=lstr";
+    }
+    uri +="&gui=" + gui;
     window.open(uri, modelName, 'width=' + 1000
         + ',height=' + 800 + ',status=yes,resizable=yes,menubar,scrollbars');
   }
@@ -478,6 +489,7 @@
   function getDefaultXholonWorkbook(wbName) {
     var app = getParameterByName("app");
     var src = getParameterByName("src");
+    runsrc = getParameterByName("runsrc");
     //console.log("app: " + app);
     //console.log("src: " + src);
     if (app == "") {
@@ -537,7 +549,7 @@
   
   /**
    * Get the value of a URL search parameter.
-   * @param name "app" or "src"
+   * @param name "app" or "src" or "runsrc"
    * examples of location.search:
    *  "?app=Test1&src=lstr"  look in localStorage
    *  ""  use defaultXholonWorkbook.xml from primordion site

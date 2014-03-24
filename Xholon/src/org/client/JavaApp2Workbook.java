@@ -148,7 +148,10 @@ public class JavaApp2Workbook extends Xholon {
     .append(GwtEnvironment.gwtHostPageBaseURL)
     .append("wb/editwb.html?app=")
     .append(getAppName())
-    .append("&src=lstr");
+    .append("&src=lstr")
+    // "runsrc=none" tells editwb to NOT specify "src=lstr" when running the edited app,
+    // which is what is expected for a Java-based app
+    .append("&runsrc=none");
     //this.println(wbUrl.toString());
     // replace the current window with the XholonWorkbook editor
     Window.open(wbUrl.toString(), "_self", ""); // starts with "http" or "https"
@@ -169,6 +172,7 @@ public class JavaApp2Workbook extends Xholon {
       return;
     }
     final String _contentType = contentType;
+    final String _fileName = fileName;
     final IXholon _this = this;
     try {
       new RequestBuilder(RequestBuilder.GET, fileName).sendRequest("", new RequestCallback() {
@@ -178,6 +182,7 @@ public class JavaApp2Workbook extends Xholon {
             resolveDone(resp.getText(), _contentType);
           }
           else {
+            _this.println("\nrequest: GET " + _fileName);
             _this.println("status code:" + resp.getStatusCode());
             _this.println("status text:" + resp.getStatusText());
             _this.println("text:\n" + resp.getText());
