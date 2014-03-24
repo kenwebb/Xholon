@@ -172,9 +172,23 @@ public class XholonJsApi {
       return @org.client.HtmlElementCache::getTopLevelElementNames()();
     });
     
-    // TODO export
+    // xport  "export" is a JS keyword, so use "xport" instead
+    $wnd.xh.xport = $entry(function(formatName, node) {
+      var efs = $wnd.xh.service('ExternalFormatService');
+      if (efs) {
+        // IXholonService.SIG_PROCESS_REQUEST = -3998
+        efs.call(-3998, formatName, node);
+      }
+    });
     
-    // TODO exports
+    // xports
+    $wnd.xh.xports = $entry(function() {
+      var efs = $wnd.xh.service('ExternalFormatService');
+      if (efs) {
+        return efs.actions();
+      }
+      return "";
+    });
     
   }-*/;
   

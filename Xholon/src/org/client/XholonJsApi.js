@@ -181,10 +181,53 @@ $wnd.xh.html.xhElements = $entry(function() {
   return @org.client.HtmlElementCache::getTopLevelElementNames()();
 });
 
+/**
+ * Export a node and its subtree to an external format.
+ * @method xport
+ * @param {String} formatName The name of an external format (ex: "MindMap").
+ * @param {IXholon} node An IXholon node.
+ * @example
+ *     var root = $wnd.xh.root();
+ *     $wnd.xh.xport("MindMap", root);
+ *     $wnd.xh.xport("Yaml", root);
+ *     $wnd.xh.xport("_other,Newick", root);
+ *     $wnd.xh.xport("_xholon,Xhn", root);
+ *     $wnd.xh.xport("_d3,CirclePack", root);
+ */
+$wnd.xh.xport = $entry(function(formatName, node) {
+  var efs = $wnd.xh.service('ExternalFormatService');
+  if (efs) {
+    // IXholonService.SIG_PROCESS_REQUEST = -3998
+    efs.call(-3998, formatName, node);
+  }
+});
 
-// TODO export
-
-// TODO exports
+/**
+ * Get an array of external format names.
+ * @method xports
+ * @return {Array} An array of strings. Example:
+ *   Csv
+ *   GraphML
+ *   Graphviz
+ *   MindMap
+ *   Yaml
+ *   _other,ChapNetwork,ChapTree,Newick
+ *   _xholon,Cd,Csh,Ih,Xhn
+ *   _d3,CirclePack
+ * @example
+ *     var root = $wnd.xh.root();
+ *     var formatNamesArr = $wnd.xh.xports();
+ *     for (var i = 0; i < formatNamesArr.length; i++) {
+ *       root.println(formatNamesArr[i]);
+ *     }
+ */
+$wnd.xh.xports = $entry(function() {
+  var efs = $wnd.xh.service('ExternalFormatService');
+  if (efs) {
+    return efs.actions();
+  }
+  return "";
+});
 
 
 /**
