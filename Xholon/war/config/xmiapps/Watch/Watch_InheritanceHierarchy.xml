@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Watch application - Inheritance Hierarchy
+	Author: Compaq_Administrator
+	Date:   23/03/2007
+	File:   Watch.zuml
+	Target: Xholon 0.4 http://www.primordion.com/Xholon
+	UML: Poseidon 3.2 or 4.2
+	XMI: 1.2, Thu Oct 12 18:38:39 EDT 2006, Netbeans XMI Writer
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:UML2="org.omg.xmi.namespace.UML2" xmlns:UML="org.omg.xmi.namespace.UML">
+<AlarmChime/>
+<Beeper/>
+<BeepTestControl/>
+<ChronographControl/>
+<Display/>
+<Gui/>
+<Light/>
+<LightControl/>
+<PhysicalDisplay>
+<AlarmChimeStatusDisplay/>
+<DayOfWeekModeDisplay/>
+<TimeDateDisplay/>
+</PhysicalDisplay>
+<PowerControl/>
+<PowerSupply/>
+<StopWatch/>
+<TickGenerator/>
+<TimeDate/>
+<Watch>
+<AcmeWatch/>
+</Watch>
+<StructuredClassifier>
+<WatchUserSystem/>
+</StructuredClassifier>
+<User/>
+<GuiControl/>
+<InjectButton/>
+<!-- StateMachineEntity -->
+<!--<xi:include href="_mechanism/StateMachineEntity.xml"/>-->
+<!-- Port -->
+<!--<xi:include href="_mechanism/Port.xml"/>-->
+<!-- Xholon Viewers -->
+<!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Watch application - Inheritance Hierarchy
+	Author: Compaq_Administrator
+	Date:   23/03/2007
+	File:   Watch.zuml
+	Target: Xholon 0.4 http://www.primordion.com/Xholon
+	UML: Poseidon 3.2 or 4.2
+	XMI: 1.2, Thu Oct 12 18:38:39 EDT 2006, Netbeans XMI Writer
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<params xmlns:UML2="org.omg.xmi.namespace.UML2" xmlns:UML="org.omg.xmi.namespace.UML">
+<param name="ShowParams" value="false"/>
+<param name="ModelName" value="Watch"/>
+<param name="AppM" value="true"/>
+<param name="InfoM" value="false"/>
+<param name="ErrorM" value="true"/>
+<param name="MaxProcessLoops" value="10"/>
+<param name="TimeStepInterval" value="10"/>
+<param name="SizeMessageQueue" value="10"/>
+<param name="InheritanceHierarchyFile" value="config/xmiapps/Watch/Watch_InheritanceHierarchy.xml"/>
+<param name="CompositeStructureHierarchyFile" value="config/xmiapps/Watch/Watch_CompositeStructureHierarchy.xml"/>
+<param name="ClassDetailsFile" value="config/xmiapps/Watch/Watch_ClassDetails.xml"/>
+<param name="InformationFile" value="config/xmiapps/Watch/Watch_Information.xml"/>
+<param name="JavaClassName" value="org.primordion.user.xmiapps.Watch.AppWatch"/>
+<param name="JavaXhClassName" value="org.primordion.user.xmiapps.Watch.XhWatch"/>
+<param name="RandomNumberSeed" value="1234"/>
+<param name="MaxPorts" value="5"/>
+<!-- enable/disable all viewers -->
+<param name="UseDataPlotter" value="false"/>
+<param name="UseGraphicalTreeViewer" value="false"/>
+<param name="UseGraphicalNetworkViewer" value="false"/>
+<param name="UseGridViewer" value="false"/>
+<param name="UseInteractions" value="true"/>
+<param name="InteractionParams" value="32,true,localhost,60001"/>
+<param name="UseVrml" value="false"/>
+<param name="UseTextTree" value="false"/>
+<param name="SaveSnapshots" value="false"/>
+</params>

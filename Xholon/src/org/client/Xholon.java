@@ -176,7 +176,6 @@ public class Xholon implements EntryPoint {
     else if ("Rcs_GP_MM_NoSymbols".equals(appName)) {Rcs_GP_MM_NoSymbols(withGui);}
     
     else if ("roomsghosts".equals(appName)) {roomsghosts(withGui);}
-    else if ("Beard2005_UML_Xholon_Step4_v1".equals(appName)) {Beard2005_UML_Xholon_Step4_v1(withGui);}
     //else if ("Risk".equals(appName)) {Risk(withGui);}
     else if ("English2French".equals(appName)) {English2French(withGui);}
     else if ("XBar_ex1".equals(appName)) {XBar_ex1(withGui);}
@@ -222,6 +221,16 @@ public class Xholon implements EntryPoint {
     else if ("TestFsmOrthogonal".equals(appName)) {TestFsmOrthogonal(withGui);}
     else if ("Elevator".equals(appName)) {Elevator(withGui);}
     else if ("Elevator_ShowStates".equals(appName)) {Elevator_ShowStates(withGui);}
+    else if ("Beard2005_UML_Xholon_Step4_v1".equals(appName)) {Beard2005_UML_Xholon_Step4_v1(withGui);}
+    else if ("Fsm06ex1_Fsm".equals(appName)) {Fsm06ex1_Fsm(withGui);}
+    else if ("HelloWorldTutorial".equals(appName)) {HelloWorldTutorial(withGui);}
+    else if ("HelloWorldTutorial_multiWorld".equals(appName)) {HelloWorldTutorial_multiWorld(withGui);}
+    else if ("HelloWorldTutorial_plus".equals(appName)) {HelloWorldTutorial_plus(withGui);}
+    else if ("HelloWorldTutorial_universe".equals(appName)) {HelloWorldTutorial_universe(withGui);}
+    else if ("ProvidedRequiredTest".equals(appName)) {ProvidedRequiredTest(withGui);}
+    else if ("StopWatch".equals(appName)) {StopWatch(withGui);}
+    else if ("StopWatch_Xhym".equals(appName)) {StopWatch_Xhym(withGui);}
+    else if ("Watch".equals(appName)) {Watch(withGui);}
     
     // Petri Net
     else if ("feinberg1".equals(appName)) {feinberg1(withGui);}
@@ -515,6 +524,78 @@ public class Xholon implements EntryPoint {
   private void Elevator_ShowStates(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.xmiapps.Elevator.AppElevator_ShowStates.class),
       "config/xmiapps/Elevator/Elevator_ShowStates_xhn.xml");
+  }
+  
+  /**
+   * Fsm06ex1_Fsm
+   */
+  private void Fsm06ex1_Fsm(String withGui) {
+    xhn(withGui, (IApplication)GWT.create(org.primordion.user.xmiapps.Fsm06ex1_Fsm.AppFsm06ex1_Fsm.class),
+      "config/xmiapps/Fsm06ex1_Fsm/Fsm06ex1_Fsm_xhn.xml");
+  }
+  
+  /**
+   * HelloWorldTutorial
+   */
+  private void HelloWorldTutorial(String withGui) {
+    xhn(withGui, (IApplication)GWT.create(org.primordion.user.xmiapps.HelloWorldTutorial.AppHelloWorldTutorial.class),
+      "config/xmiapps/HelloWorldTutorial/HelloWorldTutorial_xhn.xml");
+  }
+  
+  /**
+   * HelloWorldTutorial_multiWorld
+   */
+  private void HelloWorldTutorial_multiWorld(String withGui) {
+    xhn(withGui, (IApplication)GWT.create(org.primordion.user.xmiapps.HelloWorldTutorial_multiWorld.AppHelloWorldTutorial_multiWorld.class),
+      "config/xmiapps/HelloWorldTutorial_multiWorld/HelloWorldTutorial_multiWorld_xhn.xml");
+  }
+  
+  /**
+   * HelloWorldTutorial_plus
+   */
+  private void HelloWorldTutorial_plus(String withGui) {
+    xhn(withGui, (IApplication)GWT.create(org.primordion.user.xmiapps.HelloWorldTutorial_plus.AppHelloWorldTutorial_plus.class),
+      "config/xmiapps/HelloWorldTutorial_plus/HelloWorldTutorial_plus_xhn.xml");
+  }
+  
+  /**
+   * HelloWorldTutorial_universe
+   */
+  private void HelloWorldTutorial_universe(String withGui) {
+    xhn(withGui, (IApplication)GWT.create(org.primordion.user.xmiapps.HelloWorldTutorial_universe.AppHelloWorldTutorial_universe.class),
+      "config/xmiapps/HelloWorldTutorial_universe/HelloWorldTutorial_universe_xhn.xml");
+  }
+  
+  /**
+   * ProvidedRequiredTest
+   */
+  private void ProvidedRequiredTest(String withGui) {
+    xhn(withGui, (IApplication)GWT.create(org.primordion.user.xmiapps.ProvidedRequiredTest.AppProvidedRequiredTest.class),
+      "config/xmiapps/ProvidedRequiredTest/ProvidedRequiredTest_xhn.xml");
+  }
+  
+  /**
+   * StopWatch
+   */
+  private void StopWatch(String withGui) {
+    xhn(withGui, (IApplication)GWT.create(org.primordion.user.xmiapps.StopWatch.AppStopWatch.class),
+      "config/xmiapps/StopWatch/StopWatch_xhn.xml");
+  }
+  
+  /**
+   * StopWatch_Xhym
+   */
+  private void StopWatch_Xhym(String withGui) {
+    xhn(withGui, (IApplication)GWT.create(org.primordion.user.xmiapps.StopWatch_Xhym.AppStopWatch_Xhym.class),
+      "config/xmiapps/StopWatch/StopWatch_Xhym_xhn.xml");
+  }
+  
+  /**
+   * Watch
+   */
+  private void Watch(String withGui) {
+    xhn(withGui, (IApplication)GWT.create(org.primordion.user.xmiapps.Watch.AppWatch.class),
+      "config/xmiapps/Watch/Watch_xhn.xml");
   }
   
   /**

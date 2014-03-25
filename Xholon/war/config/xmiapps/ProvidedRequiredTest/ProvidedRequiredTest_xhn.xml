@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-	HelloWorldTutorial application - _xhn configuration
+	ProvidedRequiredTest application - _xhn configuration
 	Author: KenWebb
 	Date:   23/05/2007
-	File:   HelloWorldTutorial.mdzip
+	File:   ProvidedRequiredTest.mdzip
 	Target: Xholon 0.5 http://www.primordion.com/Xholon
 	UML: MagicDraw UML 11.5
-	XMI: 2.1, Thu Feb 22 12:47:48 EST 2007
+	XMI: 2.1, Thu Feb 22 12:51:54 EST 2007
 	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
 -->
 <params xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
 <param name="ShowParams" value="false"/>
-<param name="ModelName" value="HelloWorldTutorial"/>
+<param name="ModelName" value="ProvidedRequiredTest"/>
 <param name="AppM" value="true"/>
 <param name="InfoM" value="false"/>
 <param name="ErrorM" value="true"/>
 <param name="MaxProcessLoops" value="10"/>
 <param name="TimeStepInterval" value="10"/>
 <param name="SizeMessageQueue" value="10"/>
-<param name="InheritanceHierarchyFile" value="config/xmiapps/HelloWorldTutorial/HelloWorldTutorial_InheritanceHierarchy.xml"/>
-<param name="CompositeStructureHierarchyFile" value="config/xmiapps/HelloWorldTutorial/HelloWorldTutorial_CompositeStructureHierarchy.xml"/>
-<param name="ClassDetailsFile" value="config/xmiapps/HelloWorldTutorial/HelloWorldTutorial_ClassDetails.xml"/>
-<param name="InformationFile" value="config/xmiapps/HelloWorldTutorial/HelloWorldTutorial_Information.xml"/>
-<param name="JavaClassName" value="org.primordion.user.xmiapps.HelloWorldTutorial.AppHelloWorldTutorial"/>
-<param name="JavaXhClassName" value="org.primordion.user.xmiapps.HelloWorldTutorial.XhHelloWorldTutorial"/>
+<param name="InheritanceHierarchyFile" value="config/xmiapps/ProvidedRequiredTest/ProvidedRequiredTest_InheritanceHierarchy.xml"/>
+<param name="CompositeStructureHierarchyFile" value="config/xmiapps/ProvidedRequiredTest/ProvidedRequiredTest_CompositeStructureHierarchy.xml"/>
+<param name="ClassDetailsFile" value="config/xmiapps/ProvidedRequiredTest/ProvidedRequiredTest_ClassDetails.xml"/>
+<param name="InformationFile" value="config/xmiapps/ProvidedRequiredTest/ProvidedRequiredTest_Information.xml"/>
+<param name="JavaClassName" value="org.primordion.user.xmiapps.ProvidedRequiredTest.AppProvidedRequiredTest"/>
+<param name="JavaXhClassName" value="org.primordion.user.xmiapps.ProvidedRequiredTest.XhProvidedRequiredTest"/>
 <param name="MaxPorts" value="1"/>
 <!-- Viewers -->
 <!-- UseDataPlotter: none JFreeChart gnuplot -->

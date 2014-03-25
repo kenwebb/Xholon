@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Watch application - Composite Structure Hierarchy
+	Author: Compaq_Administrator
+	Date:   23/03/2007
+	File:   Watch.zuml
+	Target: Xholon 0.4 http://www.primordion.com/Xholon
+	UML: Poseidon 3.2 or 4.2
+	XMI: 1.2, Thu Oct 12 18:38:39 EDT 2006, Netbeans XMI Writer
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<WatchUserSystem xmlns:UML2="org.omg.xmi.namespace.UML2" xmlns:UML="org.omg.xmi.namespace.UML">
+<AcmeWatch>
+<Gui>
+<GuiControl>
+<ChronographControl>
+<StateMachine>
+<Region>
+<State uid="0x7f33" roleName="Top">
+<Region>
+<Transition uid="0x7d21" roleName="init"/>
+<PseudostateInitial uid="0x7d26" roleName=""/>
+<State uid="0x7f21" roleName="Displays">
+<Region>
+<State uid="0x7f0f" roleName="Regular">
+<Region>
+<Transition uid="0x7ec0" roleName="s1">
+<Trigger roleName="S1"/>
+<Activity uid="0x294"/>
+</Transition>
+<Transition uid="0x7d7c" roleName="s3For2Seconds">
+<Trigger roleName="S3FOR2SECONDS"/>
+</Transition>
+<Transition uid="0x6b43" roleName="s2">
+<Trigger roleName="S2"/>
+</Transition>
+<Transition uid="0x6b19" roleName="s3">
+<Trigger roleName="S3"/>
+</Transition>
+<State uid="0x7eed" roleName="Time"/>
+<Transition uid="0x7e81" roleName="notS1">
+<Trigger roleName="NOTS1"/>
+<Activity uid="0x28d"/>
+</Transition>
+<State uid="0x7ee2" roleName="Date"/>
+<Transition uid="0x7d4d" roleName="init"/>
+<PseudostateInitial uid="0x7d52" roleName=""/>
+<Transition uid="0x7ed5" roleName="s3">
+<Trigger roleName="S3"/>
+</Transition>
+<State uid="0x7efd" roleName="Update">
+<Region>
+<Transition uid="0x7e4b" roleName="s1">
+<Trigger roleName="S1"/>
+<Activity uid="0x7c22"/>
+</Transition>
+<Transition uid="0x7e21" roleName="s2">
+<Trigger roleName="S2"/>
+<Activity uid="0x7cc6"/>
+</Transition>
+<State uid="0x7e6c" roleName="Month"/>
+<Transition uid="0x7e36" roleName="s1">
+<Trigger roleName="S1"/>
+<Activity uid="0x7c42"/>
+</Transition>
+<Transition uid="0x7caf" roleName="s2">
+<Trigger roleName="S2"/>
+<Activity uid="0x307"/>
+</Transition>
+<State uid="0x7e61" roleName="Day"/>
+<Transition uid="0x7deb" roleName="s1">
+<Trigger roleName="S1"/>
+<Activity uid="0x7c14"/>
+</Transition>
+<Transition uid="0x7c9a" roleName="s2">
+<Trigger roleName="S2"/>
+<Activity uid="0x2f3"/>
+</Transition>
+<State uid="0x7e56" roleName="Date"/>
+<Transition uid="0x7dac" roleName="s1">
+<Trigger roleName="S1"/>
+<Activity uid="0x7c29"/>
+</Transition>
+<Transition uid="0x7c5b" roleName="s2">
+<Trigger roleName="S2"/>
+<Activity uid="0x2b7"/>
+</Transition>
+<State uid="0x7e0c" roleName="Hour"/>
+<Transition uid="0x7dc1" roleName="s1">
+<Trigger roleName="S1"/>
+<Activity uid="0x7bff"/>
+</Transition>
+<Transition uid="0x7c70" roleName="s2">
+<Trigger roleName="S2"/>
+<Activity uid="0x2cf"/>
+</Transition>
+<State uid="0x7e01" roleName="Minute"/>
+<Transition uid="0x7dd6" roleName="s1">
+<Trigger roleName="S1"/>
+<Activity uid="0x7c0d"/>
+</Transition>
+<Transition uid="0x7c85" roleName="s2">
+<Trigger roleName="S2"/>
+<Activity uid="0x2df"/>
+</Transition>
+<State uid="0x7df6" roleName="Second"/>
+</Region>
+</State>
+</Region>
+</State>
+<Transition uid="0x7d67" roleName="s3">
+<Trigger roleName="S3"/>
+</Transition>
+<State uid="0x7d97" roleName="AlarmUpdate">
+<Region>
+<Transition uid="0x6aef" roleName="s1">
+<Trigger roleName="S1"/>
+</Transition>
+<Transition uid="0x6a86" roleName="s2">
+<Trigger roleName="S2"/>
+</Transition>
+<State uid="0x7d87" roleName="Hour1"/>
+<State uid="0x6c64" roleName="HourMinUpdate">
+<Region>
+<Transition uid="0x6ac5" roleName="s2">
+<Trigger roleName="S2"/>
+</Transition>
+<Transition uid="0x6ab0" roleName="s1">
+<Trigger roleName="S1"/>
+</Transition>
+<State uid="0x6c54" roleName="Minute"/>
+<Transition uid="0x6ada" roleName="s2">
+<Trigger roleName="S2"/>
+</Transition>
+<Transition uid="0x6a9b" roleName="s1">
+<Trigger roleName="S1"/>
+</Transition>
+<State uid="0x6c49" roleName="Hour"/>
+</Region>
+</State>
+</Region>
+</State>
+<Transition uid="0x7cf3" roleName="init"/>
+<PseudostateInitial uid="0x7cf8" roleName=""/>
+<Transition uid="0x6b2e" roleName="notS2">
+<Trigger roleName="NOTS2"/>
+</Transition>
+<State uid="0x6c3d" roleName="AlarmStatus">
+<Region>
+<Transition uid="0x6b9c" roleName="s1">
+<Trigger roleName="S1"/>
+</Transition>
+<State uid="0x6c1b" roleName="BothOff"/>
+<Transition uid="0x6bb1" roleName="s1">
+<Trigger roleName="S1"/>
+</Transition>
+<State uid="0x6c10" roleName="AlarmOn"/>
+<Transition uid="0x6b87" roleName="s1">
+<Trigger roleName="S1"/>
+</Transition>
+<State uid="0x6c05" roleName="ChimeOn"/>
+<Transition uid="0x6b72" roleName="s1">
+<Trigger roleName="S1"/>
+</Transition>
+<State uid="0x6bfa" roleName="BothOn"/>
+<Transition uid="0x6b58" roleName="init"/>
+<PseudostateInitial uid="0x6b5d" roleName=""/>
+</Region>
+</State>
+<Transition uid="0x6b04" roleName="s3">
+<Trigger roleName="S3"/>
+</Transition>
+<State uid="0x6c2d" roleName="StopWatch">
+<Region>
+<State uid="0x6bef" roleName="Normal">
+<Region>
+<Transition uid="0x6a28" roleName="s1">
+<Trigger roleName="S1"/>
+</Transition>
+<Transition uid="0x6991" roleName="s2">
+<Trigger roleName="S2"/>
+</Transition>
+<State uid="0x6bdd" roleName="Paused"/>
+<Transition uid="0x68d5" roleName="s1">
+<Trigger roleName="S1"/>
+</Transition>
+<Transition uid="0x68a5" roleName="s2">
+<Trigger roleName="S2"/>
+</Transition>
+<State uid="0x6bd2" roleName="Running"/>
+<Transition uid="0x6a3d" roleName="init"/>
+<PseudostateInitial uid="0x6a57" roleName=""/>
+</Region>
+</State>
+<Transition uid="0x69fa" roleName="s1">
+<Trigger roleName="S1"/>
+</Transition>
+<Transition uid="0x69d0" roleName="s2">
+<Trigger roleName="S2"/>
+</Transition>
+<State uid="0x6bc7" roleName="PausedElap"/>
+<Transition uid="0x69e5" roleName="s1">
+<Trigger roleName="S1"/>
+</Transition>
+<Transition uid="0x69bb" roleName="s2">
+<Trigger roleName="S2"/>
+</Transition>
+<State uid="0x6bbc" roleName="RunningElap"/>
+<Transition uid="0x6a6c" roleName="init"/>
+<PseudostateInitial uid="0x6a71" roleName=""/>
+</Region>
+</State>
+</Region>
+</State>
+</Region>
+</State>
+</Region>
+</StateMachine>
+</ChronographControl>
+<LightControl/>
+<BeepTestControl>
+<StateMachine>
+<Region>
+<Transition uid="0x68b9" roleName="s1">
+<Trigger roleName="S1"/>
+</Transition>
+<Transition uid="0x688f" roleName="s2">
+<Trigger roleName="S2"/>
+</Transition>
+<State uid="0x68ff" roleName="NeitherPressed"/>
+<Transition uid="0x68a4" roleName="s2">
+<Trigger roleName="S2"/>
+<Activity uid="0x67a2"/>
+</Transition>
+<Transition uid="0x6865" roleName="notS1">
+<Trigger roleName="NOTS1"/>
+</Transition>
+<State uid="0x68f4" roleName="S1Pressed"/>
+<Transition uid="0x687a" roleName="s1">
+<Trigger roleName="S1"/>
+<Activity uid="0x67a9"/>
+</Transition>
+<Transition uid="0x6850" roleName="notS2">
+<Trigger roleName="NOTS2"/>
+</Transition>
+<State uid="0x68e9" roleName="S2Pressed"/>
+<Transition uid="0x683b" roleName="notS2">
+<Trigger roleName="NOTS2"/>
+<Activity uid="0x679b"/>
+</Transition>
+<Transition uid="0x6826" roleName="notS1">
+<Trigger roleName="NOTS1"/>
+<Activity uid="0x6794"/>
+</Transition>
+<State uid="0x68de" roleName="BothPressed"/>
+<Transition uid="0x68ce" roleName="init"/>
+<PseudostateInitial uid="0x68d3" roleName=""/>
+</Region>
+</StateMachine>
+</BeepTestControl>
+</GuiControl>
+<Light/>
+<Beeper/>
+<Display/>
+</Gui>
+<TimeDate/>
+<TickGenerator/>
+</AcmeWatch>
+<User>
+<InjectButton roleName="Press_S1"/>
+<InjectButton roleName="Release_S1"/>
+<InjectButton roleName="Press_S2"/>
+<InjectButton roleName="Release_S2"/>
+<InjectButton roleName="Press_S3"/>
+<InjectButton roleName="Release_S3"/>
+<InjectButton roleName="Hold_S3"/>
+<InjectButton roleName="Press_S4"/>
+<InjectButton roleName="Release_S4"/>
+</User>
+</WatchUserSystem>

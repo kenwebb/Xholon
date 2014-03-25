@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-	HelloWorldTutorial application - _xhn configuration
+	HelloWorldTutorial_universe application - _xhn configuration
 	Author: KenWebb
 	Date:   23/05/2007
-	File:   HelloWorldTutorial.mdzip
+	File:   HelloWorldTutorial_universe.mdzip
 	Target: Xholon 0.5 http://www.primordion.com/Xholon
 	UML: MagicDraw UML 11.5
-	XMI: 2.1, Thu Feb 22 12:47:48 EST 2007
+	XMI: 2.1, Thu Feb 22 12:50:56 EST 2007
 	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
 -->
 <params xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
 <param name="ShowParams" value="false"/>
-<param name="ModelName" value="HelloWorldTutorial"/>
+<param name="ModelName" value="HelloWorldTutorial_universe"/>
 <param name="AppM" value="true"/>
 <param name="InfoM" value="false"/>
 <param name="ErrorM" value="true"/>
 <param name="MaxProcessLoops" value="10"/>
 <param name="TimeStepInterval" value="10"/>
 <param name="SizeMessageQueue" value="10"/>
-<param name="InheritanceHierarchyFile" value="config/xmiapps/HelloWorldTutorial/HelloWorldTutorial_InheritanceHierarchy.xml"/>
-<param name="CompositeStructureHierarchyFile" value="config/xmiapps/HelloWorldTutorial/HelloWorldTutorial_CompositeStructureHierarchy.xml"/>
-<param name="ClassDetailsFile" value="config/xmiapps/HelloWorldTutorial/HelloWorldTutorial_ClassDetails.xml"/>
-<param name="InformationFile" value="config/xmiapps/HelloWorldTutorial/HelloWorldTutorial_Information.xml"/>
-<param name="JavaClassName" value="org.primordion.user.xmiapps.HelloWorldTutorial.AppHelloWorldTutorial"/>
-<param name="JavaXhClassName" value="org.primordion.user.xmiapps.HelloWorldTutorial.XhHelloWorldTutorial"/>
-<param name="MaxPorts" value="1"/>
+<param name="InheritanceHierarchyFile" value="config/xmiapps/HelloWorldTutorial_universe/HelloWorldTutorial_universe_InheritanceHierarchy.xml"/>
+<param name="CompositeStructureHierarchyFile" value="config/xmiapps/HelloWorldTutorial_universe/HelloWorldTutorial_universe_CompositeStructureHierarchy.xml"/>
+<param name="ClassDetailsFile" value="config/xmiapps/HelloWorldTutorial_universe/HelloWorldTutorial_universe_ClassDetails.xml"/>
+<param name="InformationFile" value="config/xmiapps/HelloWorldTutorial_universe/HelloWorldTutorial_universe_Information.xml"/>
+<param name="JavaClassName" value="org.primordion.user.xmiapps.HelloWorldTutorial_universe.AppHelloWorldTutorial_universe"/>
+<param name="JavaXhClassName" value="org.primordion.user.xmiapps.HelloWorldTutorial_universe.XhHelloWorldTutorial_universe"/>
+<param name="MaxPorts" value="2"/>
 <!-- Viewers -->
 <!-- UseDataPlotter: none JFreeChart gnuplot -->
 <param name="UseDataPlotter" value="none"/>

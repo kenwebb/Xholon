@@ -18,12 +18,12 @@
 <param name="MaxProcessLoops" value="10"/>
 <param name="TimeStepInterval" value="10"/>
 <param name="SizeMessageQueue" value="20"/>
-<param name="InheritanceHierarchyFile" value="./config/xmiapps/StopWatch/StopWatch_InheritanceHierarchy.xml"/>
-<param name="CompositeStructureHierarchyFile" value="./config/xmiapps/StopWatch/StopWatch_CompositeStructureHierarchy.xml"/>
-<param name="ClassDetailsFile" value="./config/xmiapps/StopWatch/StopWatch_ClassDetails.xml"/>
-<param name="InformationFile" value="./config/xmiapps/StopWatch/StopWatch_Information.xml"/>
-<param name="JavaClassName" value="org.primordion.xholon.xmiapps.AppStopWatch"/>
-<param name="JavaXhClassName" value="org.primordion.xholon.xmiapps.XhStopWatch"/>
+<param name="InheritanceHierarchyFile" value="config/xmiapps/StopWatch/StopWatch_InheritanceHierarchy.xml"/>
+<param name="CompositeStructureHierarchyFile" value="config/xmiapps/StopWatch/StopWatch_CompositeStructureHierarchy.xml"/>
+<param name="ClassDetailsFile" value="config/xmiapps/StopWatch/StopWatch_ClassDetails.xml"/>
+<param name="InformationFile" value="config/xmiapps/StopWatch/StopWatch_Information.xml"/>
+<param name="JavaClassName" value="org.primordion.user.xmiapps.StopWatch.AppStopWatch"/>
+<param name="JavaXhClassName" value="org.primordion.user.xmiapps.StopWatch.XhStopWatch"/>
 <param name="MaxPorts" value="1"/>
 <!-- Viewers -->
 <!-- UseDataPlotter: none JFreeChart gnuplot -->
@@ -42,7 +42,7 @@
 <param name="GridViewerParams" value="descendant::Row/..,5,Grid Viewer App"/>
 <param name="UseInteractions" value="true"/>
 <!-- InteractionParams: OutputFormat,ShowStates,SocketHost,SocketPort -->
-<param name="InteractionParams" value="4,true,localhost,60001"/>
+<param name="InteractionParams" value="32,true,localhost,60001"/>
 <param name="UseVrml" value="false"/>
 <param name="VrmlWriterClassName" value="org.primordion.xholon.tutorials.VrmlWriterMyApp"/>
 <!-- VrmlParams: DoClassicStyle,VrmlWriteDir,UseLOD,CreateProtoFiles -->

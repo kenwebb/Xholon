@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Watch application - Class Details
+	Author: Compaq_Administrator
+	Date:   23/03/2007
+	File:   Watch.zuml
+	Target: Xholon 0.4 http://www.primordion.com/Xholon
+	UML: Poseidon 3.2 or 4.2
+	XMI: 1.2, Thu Oct 12 18:38:39 EDT 2006, Netbeans XMI Writer
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<xholonClassDetails xmlns:UML2="org.omg.xmi.namespace.UML2" xmlns:UML="org.omg.xmi.namespace.UML">
+<ChronographControl xhType="XhtypePureActiveObject">
+<port name="port" index="P_TIMEDATE_CNTRL" connector="#xpointer(ancestor::WatchUserSystem/descendant::TimeDate)"/>
+</ChronographControl>
+<BeepTestControl xhType="XhtypePureActiveObject">
+<port name="port" index="P_BEEP_CMD" connector="#xpointer(ancestor::WatchUserSystem/descendant::Beeper)"/>
+</BeepTestControl>
+<LightControl xhType="XhtypePureActiveObject">
+<port name="port" index="P_LIGHT_CMD" connector="#xpointer(ancestor::WatchUserSystem/descendant::Light)"/>
+</LightControl>
+<TimeDate xhType="XhtypePureActiveObject">
+<port name="port" index="P_DISPLAY_CMD" connector="#xpointer(ancestor::WatchUserSystem/descendant::Display)"/>
+</TimeDate>
+<TickGenerator xhType="XhtypePureActiveObject">
+<port name="port" index="P_TIMER_TICK" connector="#xpointer(ancestor::WatchUserSystem/descendant::TimeDate)"/>
+</TickGenerator>
+<User xhType="XhtypePureActiveObject">
+<port name="port" index="P_BUTTON_S1" connector="#xpointer(ancestor::WatchUserSystem/AcmeWatch/Gui/GuiControl)"/>
+<port name="port" index="P_BUTTON_S2" connector="#xpointer(ancestor::WatchUserSystem/AcmeWatch/Gui/GuiControl)"/>
+<port name="port" index="P_BUTTON_S3" connector="#xpointer(ancestor::WatchUserSystem/AcmeWatch/Gui/GuiControl)"/>
+<port name="port" index="P_BUTTON_S4" connector="#xpointer(ancestor::WatchUserSystem/AcmeWatch/Gui/GuiControl)"/>
+</User>
+<GuiControl xhType="XhtypePureActiveObject">
+<port name="port" index="P_GUIEVENT123" connector="#xpointer(ancestor::WatchUserSystem/descendant::ChronographControl)"/>
+<port name="port" index="P_GUIEVENT4" connector="#xpointer(ancestor::WatchUserSystem/descendant::LightControl)"/>
+<port name="port" index="P_GUIEVENT12" connector="#xpointer(ancestor::WatchUserSystem/descendant::BeepTestControl)"/>
+</GuiControl>
+<State xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.ObservableStateMachineEntity">
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x7eed']/ancestor::StateMachine/descendant::Transition[@uid='0x7ec0'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='0x7eed']/ancestor::StateMachine/descendant::Transition[@uid='0x7d7c'])"/>
+<port name="cnpt" index="CNPT_OUTGOING3" connector="#xpointer(.[@uid='0x7eed']/ancestor::StateMachine/descendant::Transition[@uid='0x6b43'])"/>
+<port name="cnpt" index="CNPT_OUTGOING4" connector="#xpointer(.[@uid='0x7eed']/ancestor::StateMachine/descendant::Transition[@uid='0x6b19'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x7ee2']/ancestor::StateMachine/descendant::Transition[@uid='0x7e81'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x7efd']/ancestor::StateMachine/descendant::Transition[@uid='0x7ed5'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x7e6c']/ancestor::StateMachine/descendant::Transition[@uid='0x7e4b'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='0x7e6c']/ancestor::StateMachine/descendant::Transition[@uid='0x7e21'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x7e61']/ancestor::StateMachine/descendant::Transition[@uid='0x7e36'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='0x7e61']/ancestor::StateMachine/descendant::Transition[@uid='0x7caf'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x7e56']/ancestor::StateMachine/descendant::Transition[@uid='0x7deb'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='0x7e56']/ancestor::StateMachine/descendant::Transition[@uid='0x7c9a'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x7e0c']/ancestor::StateMachine/descendant::Transition[@uid='0x7dac'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='0x7e0c']/ancestor::StateMachine/descendant::Transition[@uid='0x7c5b'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x7e01']/ancestor::StateMachine/descendant::Transition[@uid='0x7dc1'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='0x7e01']/ancestor::StateMachine/descendant::Transition[@uid='0x7c70'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x7df6']/ancestor::StateMachine/descendant::Transition[@uid='0x7dd6'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='0x7df6']/ancestor::StateMachine/descendant::Transition[@uid='0x7c85'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x7d97']/ancestor::StateMachine/descendant::Transition[@uid='0x7d67'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x7d87']/ancestor::StateMachine/descendant::Transition[@uid='0x6aef'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='0x7d87']/ancestor::StateMachine/descendant::Transition[@uid='0x6a86'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x6c54']/ancestor::StateMachine/descendant::Transition[@uid='0x6ac5'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='0x6c54']/ancestor::StateMachine/descendant::Transition[@uid='0x6ab0'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x6c49']/ancestor::StateMachine/descendant::Transition[@uid='0x6ada'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='0x6c49']/ancestor::StateMachine/descendant::Transition[@uid='0x6a9b'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x6c3d']/ancestor::StateMachine/descendant::Transition[@uid='0x6b2e'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x6c1b']/ancestor::StateMachine/descendant::Transition[@uid='0x6b9c'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x6c10']/ancestor::StateMachine/descendant::Transition[@uid='0x6bb1'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x6c05']/ancestor::StateMachine/descendant::Transition[@uid='0x6b87'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x6bfa']/ancestor::StateMachine/descendant::Transition[@uid='0x6b72'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x6c2d']/ancestor::StateMachine/descendant::Transition[@uid='0x6b04'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x6bdd']/ancestor::StateMachine/descendant::Transition[@uid='0x6a28'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='0x6bdd']/ancestor::StateMachine/descendant::Transition[@uid='0x6991'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x6bd2']/ancestor::StateMachine/descendant::Transition[@uid='0x68d5'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='0x6bd2']/ancestor::StateMachine/descendant::Transition[@uid='0x68a5'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x6bc7']/ancestor::StateMachine/descendant::Transition[@uid='0x69fa'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='0x6bc7']/ancestor::StateMachine/descendant::Transition[@uid='0x69d0'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x6bbc']/ancestor::StateMachine/descendant::Transition[@uid='0x69e5'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='0x6bbc']/ancestor::StateMachine/descendant::Transition[@uid='0x69bb'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x68ff']/ancestor::StateMachine/descendant::Transition[@uid='0x68b9'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='0x68ff']/ancestor::StateMachine/descendant::Transition[@uid='0x688f'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x68f4']/ancestor::StateMachine/descendant::Transition[@uid='0x68a4'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='0x68f4']/ancestor::StateMachine/descendant::Transition[@uid='0x6865'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x68e9']/ancestor::StateMachine/descendant::Transition[@uid='0x687a'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='0x68e9']/ancestor::StateMachine/descendant::Transition[@uid='0x6850'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x68de']/ancestor::StateMachine/descendant::Transition[@uid='0x683b'])"/>
+<port name="cnpt" index="CNPT_OUTGOING2" connector="#xpointer(.[@uid='0x68de']/ancestor::StateMachine/descendant::Transition[@uid='0x6826'])"/>
+</State>
+<PseudostateInitial xhType="XhtypeStateMachineEntityActive">
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x7d26']/ancestor::StateMachine/descendant::Transition[@uid='0x7d21'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x7d52']/ancestor::StateMachine/descendant::Transition[@uid='0x7d4d'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x7cf8']/ancestor::StateMachine/descendant::Transition[@uid='0x7cf3'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x6b5d']/ancestor::StateMachine/descendant::Transition[@uid='0x6b58'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x6a57']/ancestor::StateMachine/descendant::Transition[@uid='0x6a3d'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x6a71']/ancestor::StateMachine/descendant::Transition[@uid='0x6a6c'])"/>
+<port name="cnpt" index="CNPT_OUTGOING1" connector="#xpointer(.[@uid='0x68d3']/ancestor::StateMachine/descendant::Transition[@uid='0x68ce'])"/>
+</PseudostateInitial>
+<Transition xhType="XhtypeStateMachineEntityActive">
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x7ed5']/ancestor::StateMachine/descendant::State[@uid='0x7eed'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x7ec0']/ancestor::StateMachine/descendant::State[@uid='0x7ee2'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x7e81']/ancestor::StateMachine/descendant::State[@uid='0x7eed'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x7e4b']/ancestor::StateMachine/descendant::State[@uid='0x7e61'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x7e36']/ancestor::StateMachine/descendant::State[@uid='0x7e56'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x7e21']/ancestor::StateMachine/descendant::State[@uid='0x7e6c'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x7deb']/ancestor::StateMachine/descendant::State[@uid='0x7df6'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x7dd6']/ancestor::StateMachine/descendant::State[@uid='0x7e01'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x7dc1']/ancestor::StateMachine/descendant::State[@uid='0x7e0c'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x7dac']/ancestor::StateMachine/descendant::State[@uid='0x7e6c'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x7d7c']/ancestor::StateMachine/descendant::State[@uid='0x7d87'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x7d67']/ancestor::StateMachine/descendant::State[@uid='0x7df6'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x7d4d']/ancestor::StateMachine/descendant::State[@uid='0x7eed'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x7d21']/ancestor::StateMachine/descendant::State[@uid='0x7f21'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x7cf3']/ancestor::StateMachine/descendant::State[@uid='0x7f0f'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x7caf']/ancestor::StateMachine/descendant::State[@uid='0x7e61'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x7c9a']/ancestor::StateMachine/descendant::State[@uid='0x7e56'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x7c85']/ancestor::StateMachine/descendant::State[@uid='0x7df6'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x7c70']/ancestor::StateMachine/descendant::State[@uid='0x7e01'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x7c5b']/ancestor::StateMachine/descendant::State[@uid='0x7e0c'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x6bb1']/ancestor::StateMachine/descendant::State[@uid='0x6c1b'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x6b9c']/ancestor::StateMachine/descendant::State[@uid='0x6c05'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x6b87']/ancestor::StateMachine/descendant::State[@uid='0x6bfa'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x6b72']/ancestor::StateMachine/descendant::State[@uid='0x6c10'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x6b58']/ancestor::StateMachine/descendant::State[@uid='0x6c1b'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x6b43']/ancestor::StateMachine/descendant::State[@uid='0x6c3d'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x6b2e']/ancestor::StateMachine/descendant::State[@uid='0x7eed'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x6b19']/ancestor::StateMachine/descendant::State[@uid='0x6c2d'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x6b04']/ancestor::StateMachine/descendant::State[@uid='0x7eed'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x6aef']/ancestor::StateMachine/descendant::State[@uid='0x6c54'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x6ada']/ancestor::StateMachine/descendant::State[@uid='0x6c49'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x6ac5']/ancestor::StateMachine/descendant::State[@uid='0x6c54'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x6ab0']/ancestor::StateMachine/descendant::State[@uid='0x6c49'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x6a9b']/ancestor::StateMachine/descendant::State[@uid='0x6c54'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x6a86']/ancestor::StateMachine/descendant::State[@uid='0x6c49'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x6a6c']/ancestor::StateMachine/descendant::State[@uid='0x6bef'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x6a3d']/ancestor::StateMachine/descendant::State[@uid='0x6bdd'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x6a28']/ancestor::StateMachine/descendant::State[@uid='0x6bd2'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x69fa']/ancestor::StateMachine/descendant::State[@uid='0x6bbc'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x69e5']/ancestor::StateMachine/descendant::State[@uid='0x6bc7'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x69d0']/ancestor::StateMachine/descendant::State[@uid='0x6bdd'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x69bb']/ancestor::StateMachine/descendant::State[@uid='0x6bd2'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x6991']/ancestor::StateMachine/descendant::State[@uid='0x6bdd'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x68d5']/ancestor::StateMachine/descendant::State[@uid='0x6bdd'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x68a5']/ancestor::StateMachine/descendant::State[@uid='0x6bbc'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x68ce']/ancestor::StateMachine/descendant::State[@uid='0x68ff'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x68b9']/ancestor::StateMachine/descendant::State[@uid='0x68f4'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x68a4']/ancestor::StateMachine/descendant::State[@uid='0x68de'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x688f']/ancestor::StateMachine/descendant::State[@uid='0x68e9'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x687a']/ancestor::StateMachine/descendant::State[@uid='0x68de'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x6865']/ancestor::StateMachine/descendant::State[@uid='0x68ff'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x6850']/ancestor::StateMachine/descendant::State[@uid='0x68ff'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x683b']/ancestor::StateMachine/descendant::State[@uid='0x68f4'])"/>
+<port name="cnpt" index="CNPT_TARGET" connector="#xpointer(.[@uid='0x6826']/ancestor::StateMachine/descendant::State[@uid='0x68e9'])"/>
+</Transition>
+<StateMachineEntity xhType="XhtypeStateMachineEntity"/>
+<XholonClass xhType="XhtypePureContainer"/>
+</xholonClassDetails>

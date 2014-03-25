@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	ProvidedRequiredTest application - Composite Structure Hierarchy
+	Author: KenWebb
+	Date:   23/05/2007
+	File:   ProvidedRequiredTest.mdzip
+	Target: Xholon 0.5 http://www.primordion.com/Xholon
+	UML: MagicDraw UML 11.5
+	XMI: 2.1, Thu Feb 22 12:51:54 EST 2007
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<ClassA xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+<ClassB roleName="">
+<StateMachine>
+<Region>
+<PseudostateInitial uid="97331233" roleName=""/>
+<State uid="94931239" roleName="StateA"/>
+<TransitionExternal uid="99691253" roleName="">
+<Activity uid="76331264"/>
+</TransitionExternal>
+<TransitionExternal uid="19151322" roleName="">
+<Trigger roleName="SIG2"/>
+<Activity uid="49661329"/>
+</TransitionExternal>
+</Region>
+</StateMachine>
+</ClassB>
+<ClassC roleName="">
+<StateMachine>
+<Region>
+<PseudostateInitial uid="37271278" roleName=""/>
+<State uid="77821284" roleName="Ready"/>
+<TransitionExternal uid="84771298" roleName=""/>
+<TransitionExternal uid="24991392" roleName="">
+<Trigger roleName="SIG1"/>
+<Activity uid="941399"/>
+</TransitionExternal>
+</Region>
+</StateMachine>
+</ClassC>
+</ClassA>

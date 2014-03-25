@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-	HelloWorldTutorial application - _xhn configuration
+	${appName} application - _xhn configuration
 	Author: KenWebb
 	Date:   23/05/2007
-	File:   HelloWorldTutorial.mdzip
+	File:   ${appName}.mdzip
 	Target: Xholon 0.5 http://www.primordion.com/Xholon
 	UML: MagicDraw UML 11.5
-	XMI: 2.1, Thu Feb 22 12:47:48 EST 2007
+	XMI: 2.1, Thu Feb 22 13:00:05 EST 2007
 	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
 -->
 <params xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
 <param name="ShowParams" value="false"/>
-<param name="ModelName" value="HelloWorldTutorial"/>
+<param name="ModelName" value="${appName}"/>
 <param name="AppM" value="true"/>
 <param name="InfoM" value="false"/>
 <param name="ErrorM" value="true"/>
-<param name="MaxProcessLoops" value="10"/>
+<param name="MaxProcessLoops" value="100"/>
 <param name="TimeStepInterval" value="10"/>
 <param name="SizeMessageQueue" value="10"/>
-<param name="InheritanceHierarchyFile" value="config/xmiapps/HelloWorldTutorial/HelloWorldTutorial_InheritanceHierarchy.xml"/>
-<param name="CompositeStructureHierarchyFile" value="config/xmiapps/HelloWorldTutorial/HelloWorldTutorial_CompositeStructureHierarchy.xml"/>
-<param name="ClassDetailsFile" value="config/xmiapps/HelloWorldTutorial/HelloWorldTutorial_ClassDetails.xml"/>
-<param name="InformationFile" value="config/xmiapps/HelloWorldTutorial/HelloWorldTutorial_Information.xml"/>
-<param name="JavaClassName" value="org.primordion.user.xmiapps.HelloWorldTutorial.AppHelloWorldTutorial"/>
-<param name="JavaXhClassName" value="org.primordion.user.xmiapps.HelloWorldTutorial.XhHelloWorldTutorial"/>
+<param name="InheritanceHierarchyFile" value="config/xmiapps/${appName}/${appName}_InheritanceHierarchy.xml"/>
+<param name="CompositeStructureHierarchyFile" value="config/xmiapps/${appName}/${appName}_CompositeStructureHierarchy.xml"/>
+<param name="ClassDetailsFile" value="config/xmiapps/${appName}/${appName}_ClassDetails.xml"/>
+<param name="InformationFile" value="config/xmiapps/${appName}/${appName}_Information.xml"/>
+<param name="JavaClassName" value="org.primordion.user.xmiapps.${appName}.App${appName}"/>
+<param name="JavaXhClassName" value="org.primordion.user.xmiapps.${appName}.Xh${appName}"/>
 <param name="MaxPorts" value="1"/>
 <!-- Viewers -->
-<!-- UseDataPlotter: none JFreeChart gnuplot -->
+<!-- UseDataPlotter: none JFreeChart gnuplot google2 nvd3 c3 -->
 <param name="UseDataPlotter" value="none"/>
 <!-- DataPlotterParams: Title,XAxisLabel,YAxisLabel,Path,TypeOfData,NameConcatLevels,WriteType -->
 <param name="DataPlotterParams" value="Title,Time (timesteps),Y,./statistics/,stats,1,WRITE_AS_LONG"/>
@@ -40,8 +40,8 @@
 <param name="GridPanelClassName" value="org.primordion.xholon.samples.GridPanelMyApp"/>
 <!-- GridViewerParams: XPathExpression,CellSize,Title -->
 <param name="GridViewerParams" value="descendant::Row/..,5,Grid Viewer App"/>
-<param name="UseInteractions" value="true"/>
-<param name="InteractionParams" value="32,true,localhost,60001"/>
+<param name="UseInteractions" value="false"/>
+<param name="InteractionParams" value="32,false,localhost,60001"/>
 <param name="UseVrml" value="false"/>
 <param name="VrmlWriterClassName" value="org.primordion.xholon.tutorials.VrmlWriterMyApp"/>
 <!-- VrmlParams: DoClassicStyle,VrmlWriteDir,UseLOD,CreateProtoFiles -->
@@ -51,4 +51,5 @@
 <!-- SnapshotParams: SnapshotSource(0 1),SnapshotTostring,Path -->
 <param name="SnapshotParams" value="0,true,./snapshot/"/>
 <!-- The following parameters, if any, are specific to this application -->
+<param name="AppSpecificParam1" value="This is a test parameter."/>
 </params>
