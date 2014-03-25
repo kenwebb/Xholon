@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:XholonStereotypes="http:///schemas/XholonStereotypes/_NhBU8Cm9EdyXztXVHo8fCQ/1" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/2.1.0/UML" xsi:schemaLocation="http:///schemas/XholonStereotypes/_NhBU8Cm9EdyXztXVHo8fCQ/1 XholonStereotypes.uml#_NhBU8Sm9EdyXztXVHo8fCQ">
+  <uml:Model xmi:id="eee_1045467100313_135436_1" name="HelloWorldTutorial_multiWorld">
+    <ownedComment xmi:id="_11_5_52bb0822_1158253788890_916497_1" annotatedElement="eee_1045467100313_135436_1">
+      <body>Author:KenWebb.&#xD;
+Created:14/09/06 1:09 PM.&#xD;
+Title: HelloWorld Tutorial multiWorld.&#xD;
+Comment: Xholon with Topcased HelloWorld Tutorial, with multiple instances of World.</body>
+    </ownedComment>
+    <packagedElement xmi:type="uml:Class" xmi:id="_11_5_52bb0822_1158254387187_926932_118" name="XholonClass" isAbstract="true"/>
+    <packagedElement xmi:type="uml:Package" xmi:id="_11_5_52bb0822_1158255180328_969815_134" name="HelloWorldTutorial">
+      <packagedElement xmi:type="uml:Class" xmi:id="_11_5_52bb0822_1158255741796_346789_164" name="Hello">
+        <generalization xmi:id="_11_5_52bb0822_1158255896640_812267_218" isSubstitutable="false" general="_11_5_52bb0822_1158254387187_926932_118"/>
+        <ownedAttribute xmi:type="uml:Port" xmi:id="_11_5_52bb0822_1158258232921_414073_456" name="p" visibility="public" type="_11_5_52bb0822_1158257492359_104647_354" aggregation="composite" isBehavior="true">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_11_5_52bb0822_1158352607219_35213_144" name="" value="5"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_11_5_52bb0822_1158352607219_954772_143" name="" value="5"/>
+        </ownedAttribute>
+        <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_11_5_52bb0822_1158258678906_714649_487" name="StateMachine_Hello">
+          <region xmi:id="_11_5_52bb0822_1158258678906_339452_488" name="" visibility="public">
+            <subvertex xmi:type="uml:State" xmi:id="_11_5_52bb0822_1158258749796_315289_500" name="" visibility="public">
+              <region xmi:id="_11_5_52bb0822_1158258749796_926807_501" name="" visibility="public">
+                <subvertex xmi:type="uml:Pseudostate" xmi:id="_11_5_52bb0822_1158258765546_326532_516" name="" visibility="public"/>
+                <subvertex xmi:type="uml:State" xmi:id="_11_5_52bb0822_1158258770687_196974_522" name="SayingHello" visibility="public"/>
+                <transition xmi:id="_11_5_52bb0822_1158258907781_292458_536" name="" visibility="public" target="_11_5_52bb0822_1158258770687_196974_522" source="_11_5_52bb0822_1158258765546_326532_516">
+                  <effect xmi:type="uml:OpaqueBehavior" xmi:id="_11_5_52bb0822_1158258955093_301494_553" name="">
+                    <body>print(&quot;{Hello &quot;);&#xA;port[Partner].sendMessage(SIGNAL_ONE, null, this);</body>
+                  </effect>
+                </transition>
+              </region>
+            </subvertex>
+            <transition xmi:id="_11_5_52bb0822_1158258921437_351488_548" name="CNPT_OUTGOING1" visibility="public" target="_11_5_52bb0822_1158258770687_196974_522" source="_11_5_52bb0822_1158258770687_196974_522">
+              <effect xmi:type="uml:OpaqueBehavior" xmi:id="_11_5_52bb0822_1158259508546_218380_557" name="">
+                <body>print(&quot;{Hello &quot;);&#xA;port[Partner].sendMessage(SIGNAL_ONE, null, this, msg.getIndex());</body>
+              </effect>
+              <trigger xmi:id="_11_5_52bb0822_1158259187140_576892_556" name="" visibility="public" event="_11_5_52bb0822_1158259187140_285200_555"/>
+            </transition>
+          </region>
+        </ownedBehavior>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_11_5_52bb0822_1158255621265_637802_145" name="HelloWorldSystem">
+        <generalization xmi:id="_11_5_52bb0822_1158256053281_151473_267" isSubstitutable="false" general="_11_5_52bb0822_1158254387187_926932_118"/>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158258010750_375575_428" name="" visibility="private" type="_11_5_52bb0822_1158255741796_346789_164" aggregation="composite"/>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158258067281_636384_442" name="" visibility="private" type="_11_5_52bb0822_1158255747406_150932_183" aggregation="composite">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_11_5_52bb0822_1158352055486_217751_138" name="" value="5"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_11_5_52bb0822_1158352055486_123256_137" name="" value="5"/>
+        </ownedAttribute>
+        <ownedConnector xmi:id="_11_5_52bb0822_1158258440437_641244_470" name="" visibility="public" kind="assembly">
+          <end xmi:id="_11_5_52bb0822_1158258440437_661537_471" partWithPort="_11_5_52bb0822_1158258010750_375575_428" role="_11_5_52bb0822_1158258232921_414073_456"/>
+          <end xmi:id="_11_5_52bb0822_1158258440437_48929_472" partWithPort="_11_5_52bb0822_1158258067281_636384_442" role="_11_5_52bb0822_1158258250906_683553_462"/>
+        </ownedConnector>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_11_5_52bb0822_1158255747406_150932_183" name="World">
+        <generalization xmi:id="_11_5_52bb0822_1158255989218_178127_227" isSubstitutable="false" general="_11_5_52bb0822_1158254387187_926932_118"/>
+        <ownedAttribute xmi:type="uml:Port" xmi:id="_11_5_52bb0822_1158258250906_683553_462" name="p" visibility="public" type="_11_5_52bb0822_1158257492359_104647_354" aggregation="composite" isBehavior="true" isService="false">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_11_5_52bb0822_1158337374635_971954_126" name="" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_11_5_52bb0822_1158337374635_111849_125" name="" value="1"/>
+        </ownedAttribute>
+        <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_11_5_52bb0822_1158259662078_198034_561" name="StateMachine_World">
+          <region xmi:id="_11_5_52bb0822_1158259662078_551248_562" name="" visibility="public">
+            <subvertex xmi:type="uml:State" xmi:id="_11_5_52bb0822_1158259922859_721665_572" name="" visibility="public">
+              <region xmi:id="_11_5_52bb0822_1158259922859_422569_573" name="" visibility="public">
+                <subvertex xmi:type="uml:Pseudostate" xmi:id="_11_5_52bb0822_1158259928843_627938_588" name="" visibility="public"/>
+                <subvertex xmi:type="uml:State" xmi:id="_11_5_52bb0822_1158259934062_610480_594" name="SayingWorld" visibility="public"/>
+                <transition xmi:id="_11_5_52bb0822_1158260027703_275792_609" name="" visibility="public" target="_11_5_52bb0822_1158259934062_610480_594" source="_11_5_52bb0822_1158259928843_627938_588"/>
+                <transition xmi:id="_11_5_52bb0822_1158260034953_254572_621" name="CNPT_OUTGOING1" visibility="public" target="_11_5_52bb0822_1158259934062_610480_594" source="_11_5_52bb0822_1158259934062_610480_594">
+                  <effect xmi:type="uml:OpaqueBehavior" xmi:id="_11_5_52bb0822_1158260104781_987471_634" name="">
+                    <body>println(&quot;World}&quot;);&#xA;port[Partner].sendMessage(SIGNAL_ONE, null, this);</body>
+                  </effect>
+                  <trigger xmi:id="_11_5_52bb0822_1158260093562_980919_633" name="" visibility="public" event="_11_5_52bb0822_1158260093562_793124_632"/>
+                </transition>
+              </region>
+            </subvertex>
+          </region>
+        </ownedBehavior>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Signal" xmi:id="_11_5_52bb0822_1158256720765_99224_289" name="SIGNAL_ONE">
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158256823781_797542_307" name="" visibility="public" isReadOnly="true">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1158256844093_574832_309" name="" value="100"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_11_5_52bb0822_1158257181125_767549_311" name="IHwIn">
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158257299843_726257_329" name="" visibility="public" isStatic="true" type="_11_5_52bb0822_1158256720765_99224_289" isReadOnly="true"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_11_5_52bb0822_1158257358453_263730_332" name="IHwOut">
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158257382109_27571_350" name="" visibility="public" isStatic="true" type="_11_5_52bb0822_1158256720765_99224_289" isReadOnly="true"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_11_5_52bb0822_1158257492359_104647_354" name="Partner" clientDependency="_11_5_52bb0822_1158257754140_185911_390 _11_5_52bb0822_1158257699234_890107_378">
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158257563140_432910_373" name="" visibility="public" isStatic="true" isReadOnly="true">
+          <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_11_5_52bb0822_1158257600312_973477_376" name=""/>
+        </ownedAttribute>
+        <interfaceRealization xmi:id="_11_5_52bb0822_1158257699234_890107_378" name="" supplier="_11_5_52bb0822_1158257181125_767549_311" client="_11_5_52bb0822_1158257492359_104647_354" contract="_11_5_52bb0822_1158257181125_767549_311"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Usage" xmi:id="_11_5_52bb0822_1158257754140_185911_390" name="" supplier="_11_5_52bb0822_1158257358453_263730_332" client="_11_5_52bb0822_1158257492359_104647_354"/>
+      <packagedElement xmi:type="uml:SignalEvent" xmi:id="_11_5_52bb0822_1158260093562_793124_632" name="" signal="_11_5_52bb0822_1158256720765_99224_289"/>
+      <packagedElement xmi:type="uml:SignalEvent" xmi:id="_11_5_52bb0822_1158259187140_285200_555" name="" signal="_11_5_52bb0822_1158256720765_99224_289"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_11_5_52bb0822_1172166494500_775457_1" name="Configuration">
+      <packagedElement xmi:type="uml:Artifact" xmi:id="_11_5_52bb0822_1172166518390_311838_2" name="XholonModel">
+        <ownedAttribute xmi:id="_11_5_52bb0822_1172166518390_74460_3" name="portImplementation" visibility="protected">
+          <ownedComment xmi:id="_11_5_52bb0822_1172166518406_851623_8" annotatedElement="_11_5_52bb0822_1172166518390_74460_3">
+            <body>Port Implementation
+Possible values include:
+  ixholon
+  iport
+  none
+
+Other values may be defined later.</body>
+          </ownedComment>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EString"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1172166518406_228332_7" name="" value="iport"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1172166518390_739515_4" name="stateMachineImplementation" visibility="protected">
+          <ownedComment xmi:id="_11_5_52bb0822_1172166518406_478747_10" annotatedElement="_11_5_52bb0822_1172166518390_739515_4">
+            <body>State Machine Implementation
+Possible values include:
+  istatemachineentity
+  none
+
+Other values may be defined later.</body>
+          </ownedComment>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EString"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1172166518406_475848_9" name="" value="istatemachineentity"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1172166518390_393991_5" name="xholonImplementation" visibility="protected">
+          <ownedComment xmi:id="_11_5_52bb0822_1172166518406_687692_12" annotatedElement="_11_5_52bb0822_1172166518390_393991_5">
+            <body>Xholon Implementation
+Possible values include:
+  xholonwithports
+  abstractgrid
+  none
+
+Other values may be defined later.</body>
+          </ownedComment>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EString"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1172166518406_386327_11" name="" value="xholonwithports"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1172166518406_953438_6" name="gridPanelImplementation" visibility="protected">
+          <ownedComment xmi:id="_11_5_52bb0822_1172166518406_777412_14" annotatedElement="_11_5_52bb0822_1172166518406_953438_6">
+            <body>Grid Panel Implementation
+Possible values include:
+  igridpanel
+  none
+
+Other values may be defined later.</body>
+          </ownedComment>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EString"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1172166518406_958967_13" name="" value="none"/>
+        </ownedAttribute>
+      </packagedElement>
+    </packagedElement>
+    <profileApplication xmi:id="_l8fUAC5MEdyulMNDmjND_w">
+      <eAnnotations xmi:id="_l8pFAC5MEdyulMNDmjND_w" source="http://www.eclipse.org/uml2/2.1.0/UML">
+        <references xmi:type="ecore:EPackage" href="XholonStereotypes.uml#_NhBU8Sm9EdyXztXVHo8fCQ"/>
+      </eAnnotations>
+      <eAnnotations xmi:id="_PQ0awDSWEdy_dvrQq-2eVw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="XholonStereotypes.uml#_NhBU8Sm9EdyXztXVHo8fCQ"/>
+      </eAnnotations>
+      <appliedProfile href="XholonStereotypes.uml#_U6c8ICZFEdyPzLcl1Gj0vA"/>
+    </profileApplication>
+  </uml:Model>
+  <XholonStereotypes:PureContainer xmi:id="_cXv0wDSWEdy_dvrQq-2eVw" base_Class="_11_5_52bb0822_1158254387187_926932_118"/>
+  <XholonStereotypes:PureActiveObject xmi:id="_eBs1IDSWEdy_dvrQq-2eVw" base_Class="_11_5_52bb0822_1158255741796_346789_164"/>
+  <XholonStereotypes:PureActiveObject xmi:id="_epVc4DSWEdy_dvrQq-2eVw" base_Class="_11_5_52bb0822_1158255747406_150932_183"/>
+</xmi:XMI>

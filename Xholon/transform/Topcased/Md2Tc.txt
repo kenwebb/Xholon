@@ -1,0 +1,98 @@
+How to convert a MagicDraw 11.5 model into a Topcased 1.0.0 model
+Ken Webb
+July 17, 2007
+
+1. Start MagicDraw 12.5. Open the MagicDraw model. Export as EMF UML2 (v2.x) XMI, using the file extension .uml .
+
+2. Open the .uml file in an XML editor such as XML Buddy.
+Remove everything that's bracketed by <xmi:Extension> tags.
+Remove any <generalization> tags that refer to MagicDraw standard profile classes such as EcapsulatedClassifier (ex: XholonClass) or Port (ex: Partner).
+
+3. Change the <xmi:XMI ...> line to the way it is in TestFsm.uml
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:XholonStereotypes="http:///schemas/XholonStereotypes/_NhBU8Cm9EdyXztXVHo8fCQ/1" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/2.1.0/UML" xsi:schemaLocation="http:///schemas/XholonStereotypes/_NhBU8Cm9EdyXztXVHo8fCQ/1 XholonStereotypes.uml#_NhBU8Sm9EdyXztXVHo8fCQ">
+- note that it should be uml2/2.1.0 rather than uml2/2.0.0
+
+4. <profileApplication>
+only need this one:
+    <profileApplication xmi:id="_l8fUAC5MEdyulMNDmjND_w">
+      <eAnnotations xmi:id="_l8pFAC5MEdyulMNDmjND_w" source="http://www.eclipse.org/uml2/2.1.0/UML">
+        <references xmi:type="ecore:EPackage" href="XholonStereotypes.uml#_NhBU8Sm9EdyXztXVHo8fCQ"/>
+      </eAnnotations>
+      <appliedProfile href="XholonStereotypes.uml#_U6c8ICZFEdyPzLcl1Gj0vA"/>
+    </profileApplication>
+delete the others
+
+5. Remove:
+    <packagedElement xmi:type="uml:Package" xmi:id="magicdraw_uml_standard_profile_v_0001" name="UML Standard Profile">
+      <ownedComment xmi:id="_be00301_1078843546940_242228_131" body="UML Standard Profile contains several popular stereotypes, tag definitions and constraints described in UML 1.4 and UML 2.0 Specifications." annotatedElement="magicdraw_uml_standard_profile_v_0001"/>
+    </packagedElement>
+
+6. Remove:
+  <MagicDrawProfile:auxiliaryResource xmi:id="_XBjCkDSKEdyTvo-JTPxZQA" base_Package="magicdraw_uml_standard_profile_v_0001"/>
+
+6b. Remove <packageImport> tags, for example:
+    <packageImport xmi:id="_0primitiveTypesHelloWorldTutorial_multiWorld">
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+    </packageImport>
+    <packageImport xmi:id="_0javaPrimitiveTypesHelloWorldTutorial_multiWorld">
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#_0"/>
+    </packageImport>
+
+7. If there's a <packagedElement> with name=XholonStereotypes, remove the entire <packagedElement>
+
+8. Change all <ownedAttribute> <type href=""> :
+from
+        <ownedAttribute xmi:id="_11_5_52bb0822_1157487555514_603833_1" name="x" visibility="protected" isStatic="true">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_11_5_52bb0822_1157487624264_649984_5" name="" value="10"/>
+        </ownedAttribute>
+to
+        <ownedAttribute xmi:id="_11_5_52bb0822_1157487555514_603833_1" name="x" visibility="protected" isStatic="true">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EInt"/>
+          <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_11_5_52bb0822_1157487624264_649984_5" name="" value="10"/>
+        </ownedAttribute>
+
+8b. Remove .umldi additional resource:
+pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml
+- it may be difficult to delete; seems to cause creation of &quot; in <body> elements
+
+9. Change primitive types to:
+EBoolean
+EByte
+EChar
+EDouble
+EFloat
+EInt
+ELong
+EObject
+EShort
+EString
+
+10. Change :Activity to :OpaqueBehavior in transitions.
+Change the <ownedComment> lines in the :OpaqueBehavior to <body>.
+Do the same for:
+  <entry>
+  <exit>
+  <doActivity>
+Remove any extra &quot; at start and end of <body>.
+
+11. Exit XML Buddy.
+
+12. Create a .umldi file and create class diagrams, composite structure diagrams, and state diagrams.
+Right-click the model --> New --> Other --> UML Diagram.
+Switch to the Topcased perspective.
+There will be 6 or 7 Additional Resources in the Outline browser. This is OK.
+
+13. Fix the stereotypes.
+Right-click <model>. Select "Apply Profile". Add XholonStereotypes.
+Reapply the stereotypes using the Topcased tool.
+
+14. Fix operations.
+For operations that return void,  delete the return type.
+Operation code should be retained as a comment.
+
+15. Transform the Topcased model into Xholon.
+Edit <xsl:template name="outputUniqueId"> in xmi2cd xmi2csh xmi2jx, to use the MagicDraw xmi:id format.
+Run xmi2xh.bat or xmi2xh .
+Compare the resulting XML and Java files with the MagicDraw versions.
+Execute using the Xholon runtime framework, and compare with the MagicDraw console output.

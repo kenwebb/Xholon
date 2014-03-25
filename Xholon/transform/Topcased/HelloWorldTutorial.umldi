@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_JCamECZkEdyPzLcl1Gj0vA" activeDiagram="_JCamESZkEdyPzLcl1Gj0vA">
+  <model href="HelloWorldTutorial.uml#_w8IxIM37EdqwVrslYOdUDA"/>
+  <diagrams xmi:id="_JCamESZkEdyPzLcl1Gj0vA" position="0,0" size="100,100" name="InheritanceHierarchy" viewport="0,268">
+    <property xmi:id="_JCthACZkEdyPzLcl1Gj0vA" key="pageFormatName" value="A4"/>
+    <property xmi:id="_JCthASZkEdyPzLcl1Gj0vA" key="diagramWidth" value="840"/>
+    <property xmi:id="_JCthAiZkEdyPzLcl1Gj0vA" key="diagramHeight" value="1188"/>
+    <property xmi:id="_JCthAyZkEdyPzLcl1Gj0vA" key="pageMarginName" value="Small Margin"/>
+    <property xmi:id="_JCthBCZkEdyPzLcl1Gj0vA" key="diagramTopMargin" value="20"/>
+    <property xmi:id="_JCthBSZkEdyPzLcl1Gj0vA" key="diagramBottomMargin" value="20"/>
+    <property xmi:id="_JCthBiZkEdyPzLcl1Gj0vA" key="diagramLeftMargin" value="20"/>
+    <property xmi:id="_JCthByZkEdyPzLcl1Gj0vA" key="diagramRightMargin" value="20"/>
+    <property xmi:id="_JCthCCZkEdyPzLcl1Gj0vA" key="orientation" value="portrait"/>
+    <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_JCamEiZkEdyPzLcl1Gj0vA" presentation="org.topcased.modeler.uml.classdiagram">
+      <element href="HelloWorldTutorial.uml#_w8IxIM37EdqwVrslYOdUDA"/>
+    </semanticModel>
+    <contained xsi:type="di:GraphNode" xmi:id="_fCubkCZkEdyPzLcl1Gj0vA" position="66,127" size="131,-1">
+      <anchorage xmi:id="_yZT1wCZkEdyPzLcl1Gj0vA" graphEdge="_yZdmwCZkEdyPzLcl1Gj0vA"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_fCubkSZkEdyPzLcl1Gj0vA" presentation="default">
+        <element href="HelloWorldTutorial.uml#_fCubmCZkEdyPzLcl1Gj0vA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_fCubkiZkEdyPzLcl1Gj0vA">
+        <property xmi:id="_fCubkyZkEdyPzLcl1Gj0vA" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_fCublCZkEdyPzLcl1Gj0vA" presentation="default">
+          <element href="HelloWorldTutorial.uml#_fCubmCZkEdyPzLcl1Gj0vA"/>
+        </semanticModel>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_fCublSZkEdyPzLcl1Gj0vA">
+        <property xmi:id="_fCubliZkEdyPzLcl1Gj0vA" key="eStructuralFeatureID" value="47"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_fCublyZkEdyPzLcl1Gj0vA" presentation="default">
+          <element href="HelloWorldTutorial.uml#_fCubmCZkEdyPzLcl1Gj0vA"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_lfCXsCZkEdyPzLcl1Gj0vA" position="205,127" size="124,-1">
+      <anchorage xmi:id="_zHM2gCZkEdyPzLcl1Gj0vA" graphEdge="_zHM2gSZkEdyPzLcl1Gj0vA"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_lfCXsSZkEdyPzLcl1Gj0vA" presentation="default">
+        <element href="HelloWorldTutorial.uml#_lfCXuCZkEdyPzLcl1Gj0vA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_lfCXsiZkEdyPzLcl1Gj0vA">
+        <property xmi:id="_lfCXsyZkEdyPzLcl1Gj0vA" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_lfCXtCZkEdyPzLcl1Gj0vA" presentation="default">
+          <element href="HelloWorldTutorial.uml#_lfCXuCZkEdyPzLcl1Gj0vA"/>
+        </semanticModel>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_lfCXtSZkEdyPzLcl1Gj0vA">
+        <property xmi:id="_lfCXtiZkEdyPzLcl1Gj0vA" key="eStructuralFeatureID" value="47"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_lfCXtyZkEdyPzLcl1Gj0vA" presentation="default">
+          <element href="HelloWorldTutorial.uml#_lfCXuCZkEdyPzLcl1Gj0vA"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_m6PKYCZkEdyPzLcl1Gj0vA" position="337,127" size="126,-1">
+      <anchorage xmi:id="_zolFQCZkEdyPzLcl1Gj0vA" graphEdge="_zou2QCZkEdyPzLcl1Gj0vA"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_m6PKYSZkEdyPzLcl1Gj0vA" presentation="default">
+        <element href="HelloWorldTutorial.uml#_m6PKaCZkEdyPzLcl1Gj0vA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_m6PKYiZkEdyPzLcl1Gj0vA">
+        <property xmi:id="_m6PKYyZkEdyPzLcl1Gj0vA" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_m6PKZCZkEdyPzLcl1Gj0vA" presentation="default">
+          <element href="HelloWorldTutorial.uml#_m6PKaCZkEdyPzLcl1Gj0vA"/>
+        </semanticModel>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_m6PKZSZkEdyPzLcl1Gj0vA">
+        <property xmi:id="_m6PKZiZkEdyPzLcl1Gj0vA" key="eStructuralFeatureID" value="47"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_m6PKZyZkEdyPzLcl1Gj0vA" presentation="default">
+          <element href="HelloWorldTutorial.uml#_m6PKaCZkEdyPzLcl1Gj0vA"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphEdge" xmi:id="_yZdmwCZkEdyPzLcl1Gj0vA" anchor="_yZT1wCZkEdyPzLcl1Gj0vA _DKrfYCagEdy3860_4A0aKQ">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_yZdmwSZkEdyPzLcl1Gj0vA" presentation="default">
+        <element href="HelloWorldTutorial.uml#_yZdmwyZkEdyPzLcl1Gj0vA"/>
+      </semanticModel>
+      <contained xsi:type="di:EdgeObjectOffset" xmi:id="_yZdmwiZkEdyPzLcl1Gj0vA" id="stereotypeEdgeObject"/>
+    </contained>
+    <contained xsi:type="di:GraphEdge" xmi:id="_zHM2gSZkEdyPzLcl1Gj0vA" anchor="_zHM2gCZkEdyPzLcl1Gj0vA _DKrfYCagEdy3860_4A0aKQ">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_zHM2giZkEdyPzLcl1Gj0vA" presentation="default">
+        <element href="HelloWorldTutorial.uml#_zHM2hCZkEdyPzLcl1Gj0vA"/>
+      </semanticModel>
+      <contained xsi:type="di:EdgeObjectOffset" xmi:id="_zHM2gyZkEdyPzLcl1Gj0vA" id="stereotypeEdgeObject"/>
+    </contained>
+    <contained xsi:type="di:GraphEdge" xmi:id="_zou2QCZkEdyPzLcl1Gj0vA" anchor="_zolFQCZkEdyPzLcl1Gj0vA _DKrfYCagEdy3860_4A0aKQ">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_zou2QSZkEdyPzLcl1Gj0vA" presentation="default">
+        <element href="HelloWorldTutorial.uml#_zou2QyZkEdyPzLcl1Gj0vA"/>
+      </semanticModel>
+      <contained xsi:type="di:EdgeObjectOffset" xmi:id="_zou2QiZkEdyPzLcl1Gj0vA" id="stereotypeEdgeObject"/>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_EuOI0CZrEdyPzLcl1Gj0vA" position="34,331" size="159,-1">
+      <anchorage xmi:id="_jAaU8SZrEdyPzLcl1Gj0vA" graphEdge="_jAkF8CZrEdyPzLcl1Gj0vA"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_EuOI0SZrEdyPzLcl1Gj0vA" presentation="default">
+        <element href="HelloWorldTutorial.uml#_EuOI2CZrEdyPzLcl1Gj0vA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_EuOI0iZrEdyPzLcl1Gj0vA">
+        <property xmi:id="_EuOI0yZrEdyPzLcl1Gj0vA" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_EuOI1CZrEdyPzLcl1Gj0vA" presentation="default">
+          <element href="HelloWorldTutorial.uml#_EuOI2CZrEdyPzLcl1Gj0vA"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_QyR7ICZsEdyPzLcl1Gj0vA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_QyR7ISZsEdyPzLcl1Gj0vA" presentation="default">
+            <element href="HelloWorldTutorial.uml#_QyR7IiZsEdyPzLcl1Gj0vA"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_EuOI1SZrEdyPzLcl1Gj0vA">
+        <property xmi:id="_EuOI1iZrEdyPzLcl1Gj0vA" key="eStructuralFeatureID" value="38"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_EuOI1yZrEdyPzLcl1Gj0vA" presentation="default">
+          <element href="HelloWorldTutorial.uml#_EuOI2CZrEdyPzLcl1Gj0vA"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_HoL_kCZrEdyPzLcl1Gj0vA" position="234,330" size="157,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_HoL_kSZrEdyPzLcl1Gj0vA" presentation="default">
+        <element href="HelloWorldTutorial.uml#_HoL_mCZrEdyPzLcl1Gj0vA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_HoL_kiZrEdyPzLcl1Gj0vA">
+        <property xmi:id="_HoL_kyZrEdyPzLcl1Gj0vA" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_HoL_lCZrEdyPzLcl1Gj0vA" presentation="default">
+          <element href="HelloWorldTutorial.uml#_HoL_mCZrEdyPzLcl1Gj0vA"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_2awYUCZsEdyPzLcl1Gj0vA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2awYUSZsEdyPzLcl1Gj0vA" presentation="default">
+            <element href="HelloWorldTutorial.uml#_2awYUiZsEdyPzLcl1Gj0vA"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_HoL_lSZrEdyPzLcl1Gj0vA">
+        <property xmi:id="_HoL_liZrEdyPzLcl1Gj0vA" key="eStructuralFeatureID" value="38"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_HoL_lyZrEdyPzLcl1Gj0vA" presentation="default">
+          <element href="HelloWorldTutorial.uml#_HoL_mCZrEdyPzLcl1Gj0vA"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_MQau8CZrEdyPzLcl1Gj0vA" position="155,228" size="100,-1">
+      <anchorage xmi:id="_jAaU8CZrEdyPzLcl1Gj0vA" graphEdge="_jAkF8CZrEdyPzLcl1Gj0vA"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_MQau8SZrEdyPzLcl1Gj0vA" presentation="default">
+        <element href="HelloWorldTutorial.uml#_MQau-CZrEdyPzLcl1Gj0vA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_MQau8iZrEdyPzLcl1Gj0vA">
+        <property xmi:id="_MQau8yZrEdyPzLcl1Gj0vA" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_MQau9CZrEdyPzLcl1Gj0vA" presentation="default">
+          <element href="HelloWorldTutorial.uml#_MQau-CZrEdyPzLcl1Gj0vA"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="__zYxECZrEdyPzLcl1Gj0vA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="__zYxESZrEdyPzLcl1Gj0vA" presentation="default">
+            <element href="HelloWorldTutorial.uml#__zYxEiZrEdyPzLcl1Gj0vA"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_MQau9SZrEdyPzLcl1Gj0vA">
+        <property xmi:id="_MQau9iZrEdyPzLcl1Gj0vA" key="eStructuralFeatureID" value="47"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_MQau9yZrEdyPzLcl1Gj0vA" presentation="default">
+          <element href="HelloWorldTutorial.uml#_MQau-CZrEdyPzLcl1Gj0vA"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphEdge" xmi:id="_jAkF8CZrEdyPzLcl1Gj0vA" anchor="_jAaU8CZrEdyPzLcl1Gj0vA _jAaU8SZrEdyPzLcl1Gj0vA">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_jAkF8SZrEdyPzLcl1Gj0vA" presentation="default">
+        <element href="HelloWorldTutorial.uml#_jAkF8yZrEdyPzLcl1Gj0vA"/>
+      </semanticModel>
+      <contained xsi:type="di:EdgeObjectOffset" xmi:id="_jAkF8iZrEdyPzLcl1Gj0vA" id="stereotypeEdgeObject"/>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="__s80QCafEdy3860_4A0aKQ" position="205,6" size="134,-1">
+      <anchorage xmi:id="_DKrfYCagEdy3860_4A0aKQ" graphEdge="_zou2QCZkEdyPzLcl1Gj0vA _zHM2gSZkEdyPzLcl1Gj0vA _yZdmwCZkEdyPzLcl1Gj0vA"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="__s80QSafEdy3860_4A0aKQ" presentation="default">
+        <element href="HelloWorldTutorial.uml#_TcFt0CafEdy3860_4A0aKQ"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="__s80QiafEdy3860_4A0aKQ">
+        <property xmi:id="__s80QyafEdy3860_4A0aKQ" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="__s80RCafEdy3860_4A0aKQ" presentation="default">
+          <element href="HelloWorldTutorial.uml#_TcFt0CafEdy3860_4A0aKQ"/>
+        </semanticModel>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="__s80RSafEdy3860_4A0aKQ">
+        <property xmi:id="__s80RiafEdy3860_4A0aKQ" key="eStructuralFeatureID" value="47"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="__s80RyafEdy3860_4A0aKQ" presentation="default">
+          <element href="HelloWorldTutorial.uml#_TcFt0CafEdy3860_4A0aKQ"/>
+        </semanticModel>
+      </contained>
+    </contained>
+  </diagrams>
+  <subdiagrams xmi:id="_Dg3-MCZmEdyPzLcl1Gj0vA">
+    <model href="HelloWorldTutorial.uml#_fCubmCZkEdyPzLcl1Gj0vA"/>
+    <diagrams xmi:id="_DhBvMCZmEdyPzLcl1Gj0vA" position="0,0" size="100,100" name="unnamed" viewport="0,0">
+      <property xmi:id="_Dh6gACZmEdyPzLcl1Gj0vA" key="pageFormatName" value="A4"/>
+      <property xmi:id="_Dh6gASZmEdyPzLcl1Gj0vA" key="diagramWidth" value="840"/>
+      <property xmi:id="_Dh6gAiZmEdyPzLcl1Gj0vA" key="diagramHeight" value="1188"/>
+      <property xmi:id="_Dh6gAyZmEdyPzLcl1Gj0vA" key="pageMarginName" value="Small Margin"/>
+      <property xmi:id="_Dh6gBCZmEdyPzLcl1Gj0vA" key="diagramTopMargin" value="20"/>
+      <property xmi:id="_Dh6gBSZmEdyPzLcl1Gj0vA" key="diagramBottomMargin" value="20"/>
+      <property xmi:id="_Dh6gBiZmEdyPzLcl1Gj0vA" key="diagramLeftMargin" value="20"/>
+      <property xmi:id="_Dh6gByZmEdyPzLcl1Gj0vA" key="diagramRightMargin" value="20"/>
+      <property xmi:id="_Dh6gCCZmEdyPzLcl1Gj0vA" key="orientation" value="portrait"/>
+      <property xmi:id="_CM9wMCZvEdyPzLcl1Gj0vA" key="font" value="Comic Sans MS-regular-10"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_DhBvMSZmEdyPzLcl1Gj0vA" presentation="org.topcased.modeler.uml.compositestructuresdiagram.internal">
+        <element href="HelloWorldTutorial.uml#_fCubmCZkEdyPzLcl1Gj0vA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_O07FUCZmEdyPzLcl1Gj0vA" position="40,22" size="100,50">
+        <property xmi:id="_Gv-oYCZvEdyPzLcl1Gj0vA" key="font" value="Comic Sans MS-regular-12"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_O07FUSZmEdyPzLcl1Gj0vA" presentation="default">
+          <element href="HelloWorldTutorial.uml#_O1XxQCZmEdyPzLcl1Gj0vA"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_c2CygCZtEdyPzLcl1Gj0vA" position="83,20" size="-1,-1">
+          <property xmi:id="_c2CygSZtEdyPzLcl1Gj0vA" key="portPosition" value="4"/>
+          <anchorage xmi:id="_GxI7cCZuEdyPzLcl1Gj0vA" graphEdge="_GxSscCZuEdyPzLcl1Gj0vA"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_c2CygiZtEdyPzLcl1Gj0vA" presentation="default">
+            <element href="HelloWorldTutorial.uml#_c2VtcCZtEdyPzLcl1Gj0vA"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_SOebECZmEdyPzLcl1Gj0vA" position="231,23" size="100,50">
+        <property xmi:id="_NTTLcCZvEdyPzLcl1Gj0vA" key="font" value="Comic Sans MS-regular-12"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_SOebESZmEdyPzLcl1Gj0vA" presentation="default">
+          <element href="HelloWorldTutorial.uml#_SOebEiZmEdyPzLcl1Gj0vA"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_tHVPsCZtEdyPzLcl1Gj0vA" position="1,19" size="-1,-1">
+          <property xmi:id="_tHVPsSZtEdyPzLcl1Gj0vA" key="portPosition" value="1"/>
+          <anchorage xmi:id="_GxI7cSZuEdyPzLcl1Gj0vA" graphEdge="_GxSscCZuEdyPzLcl1Gj0vA"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_tHVPsiZtEdyPzLcl1Gj0vA" presentation="default">
+            <element href="HelloWorldTutorial.uml#_tHVPsyZtEdyPzLcl1Gj0vA"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphEdge" xmi:id="_GxSscCZuEdyPzLcl1Gj0vA" anchor="_GxI7cCZuEdyPzLcl1Gj0vA _GxI7cSZuEdyPzLcl1Gj0vA">
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_GxSscSZuEdyPzLcl1Gj0vA" presentation="default">
+          <element href="HelloWorldTutorial.uml#_GxSsdCZuEdyPzLcl1Gj0vA"/>
+        </semanticModel>
+        <contained xsi:type="di:EdgeObjectUV" xmi:id="_GxSsciZuEdyPzLcl1Gj0vA" visible="false" id="srcCountEdgeObject" uDistance="5" vDistance="5"/>
+        <contained xsi:type="di:EdgeObjectUV" xmi:id="_GxSscyZuEdyPzLcl1Gj0vA" visible="false" id="targetCountEdgeObject" uDistance="5" vDistance="5"/>
+      </contained>
+    </diagrams>
+  </subdiagrams>
+  <subdiagrams xmi:id="_DRZMMCZwEdyPzLcl1Gj0vA">
+    <model href="HelloWorldTutorial.uml#_CP1BgCZwEdyPzLcl1Gj0vA"/>
+    <diagrams xmi:id="_DRiWICZwEdyPzLcl1Gj0vA" position="0,0" size="100,100" name="Hello" viewport="0,0">
+      <property xmi:id="_DR14ICZwEdyPzLcl1Gj0vA" key="pageFormatName" value="A4"/>
+      <property xmi:id="_DR14ISZwEdyPzLcl1Gj0vA" key="diagramWidth" value="840"/>
+      <property xmi:id="_DR14IiZwEdyPzLcl1Gj0vA" key="diagramHeight" value="1188"/>
+      <property xmi:id="_DR14IyZwEdyPzLcl1Gj0vA" key="pageMarginName" value="Small Margin"/>
+      <property xmi:id="_DR14JCZwEdyPzLcl1Gj0vA" key="diagramTopMargin" value="20"/>
+      <property xmi:id="_DR14JSZwEdyPzLcl1Gj0vA" key="diagramBottomMargin" value="20"/>
+      <property xmi:id="_DR14JiZwEdyPzLcl1Gj0vA" key="diagramLeftMargin" value="20"/>
+      <property xmi:id="_DR14JyZwEdyPzLcl1Gj0vA" key="diagramRightMargin" value="20"/>
+      <property xmi:id="_DR14KCZwEdyPzLcl1Gj0vA" key="orientation" value="portrait"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_DRiWISZwEdyPzLcl1Gj0vA" presentation="org.topcased.modeler.uml.statemachinediagram">
+        <element href="HelloWorldTutorial.uml#_CP1BgCZwEdyPzLcl1Gj0vA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_6IwsYCZyEdyPzLcl1Gj0vA" position="0,0" size="-1,-1">
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_6IwsYSZyEdyPzLcl1Gj0vA" presentation="default">
+          <element href="HelloWorldTutorial.uml#_6IwsYiZyEdyPzLcl1Gj0vA"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_bHqWYCZzEdyPzLcl1Gj0vA" position="17,15" size="308,180">
+          <property xmi:id="__QivQCjHEdyar8WTKhvogQ" key="backgroundColor" value="236,255,215"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_bHqWYSZzEdyPzLcl1Gj0vA" presentation="default">
+            <element href="HelloWorldTutorial.uml#_bH0HYCZzEdyPzLcl1Gj0vA"/>
+          </semanticModel>
+          <contained xsi:type="di:GraphNode" xmi:id="_bHqWYiZzEdyPzLcl1Gj0vA">
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_bHqWYyZzEdyPzLcl1Gj0vA" presentation="default">
+              <element href="HelloWorldTutorial.uml#_bH0HYSZzEdyPzLcl1Gj0vA"/>
+            </semanticModel>
+            <contained xsi:type="di:GraphNode" xmi:id="_gU_98CZzEdyPzLcl1Gj0vA" position="19,16" size="20,20">
+              <anchorage xmi:id="_jUB64CZzEdyPzLcl1Gj0vA" graphEdge="_jUB64iZzEdyPzLcl1Gj0vA"/>
+              <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_gU_98SZzEdyPzLcl1Gj0vA" presentation="default">
+                <element href="HelloWorldTutorial.uml#_gVJu8CZzEdyPzLcl1Gj0vA"/>
+              </semanticModel>
+            </contained>
+            <contained xsi:type="di:GraphNode" xmi:id="_gue08CZzEdyPzLcl1Gj0vA" position="102,43" size="146,50">
+              <anchorage xmi:id="_jUB64SZzEdyPzLcl1Gj0vA" graphEdge="_jUB64iZzEdyPzLcl1Gj0vA _05XZ4SZzEdyPzLcl1Gj0vA"/>
+              <anchorage xmi:id="_05XZ4CZzEdyPzLcl1Gj0vA" graphEdge="_05XZ4SZzEdyPzLcl1Gj0vA"/>
+              <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_gue08SZzEdyPzLcl1Gj0vA" presentation="default">
+                <element href="HelloWorldTutorial.uml#_gue08iZzEdyPzLcl1Gj0vA"/>
+              </semanticModel>
+            </contained>
+            <contained xsi:type="di:GraphEdge" xmi:id="_jUB64iZzEdyPzLcl1Gj0vA" anchor="_jUB64CZzEdyPzLcl1Gj0vA _jUB64SZzEdyPzLcl1Gj0vA">
+              <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_jUB64yZzEdyPzLcl1Gj0vA" presentation="default">
+                <element href="HelloWorldTutorial.uml#_jUB65SZzEdyPzLcl1Gj0vA"/>
+              </semanticModel>
+              <contained xsi:type="di:EdgeObjectOffset" xmi:id="_jUB65CZzEdyPzLcl1Gj0vA" id="nameEdgeObject"/>
+            </contained>
+            <contained xsi:type="di:GraphEdge" xmi:id="_05XZ4SZzEdyPzLcl1Gj0vA" anchor="_jUB64SZzEdyPzLcl1Gj0vA _05XZ4CZzEdyPzLcl1Gj0vA">
+              <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_05XZ4iZzEdyPzLcl1Gj0vA" presentation="default">
+                <element href="HelloWorldTutorial.uml#_05XZ5CZzEdyPzLcl1Gj0vA"/>
+              </semanticModel>
+              <contained xsi:type="di:EdgeObjectOffset" xmi:id="_05XZ4yZzEdyPzLcl1Gj0vA" id="nameEdgeObject" offset="-24,15"/>
+              <waypoints>[57, 26, 57, 26]</waypoints>
+              <waypoints>[57, 54, 57, 54]</waypoints>
+              <waypoints>[0, 54, 0, 54]</waypoints>
+            </contained>
+          </contained>
+        </contained>
+      </contained>
+    </diagrams>
+  </subdiagrams>
+  <subdiagrams xmi:id="_KEgsgCZ1EdyPzLcl1Gj0vA">
+    <model href="HelloWorldTutorial.uml#_JZARYCZ1EdyPzLcl1Gj0vA"/>
+    <diagrams xmi:id="_KEgsgSZ1EdyPzLcl1Gj0vA" position="0,0" size="100,100" name="World" viewport="0,0">
+      <property xmi:id="_KEzncCZ1EdyPzLcl1Gj0vA" key="pageFormatName" value="A4"/>
+      <property xmi:id="_KEzncSZ1EdyPzLcl1Gj0vA" key="diagramWidth" value="840"/>
+      <property xmi:id="_KEznciZ1EdyPzLcl1Gj0vA" key="diagramHeight" value="1188"/>
+      <property xmi:id="_KEzncyZ1EdyPzLcl1Gj0vA" key="pageMarginName" value="Small Margin"/>
+      <property xmi:id="_KEzndCZ1EdyPzLcl1Gj0vA" key="diagramTopMargin" value="20"/>
+      <property xmi:id="_KEzndSZ1EdyPzLcl1Gj0vA" key="diagramBottomMargin" value="20"/>
+      <property xmi:id="_KEzndiZ1EdyPzLcl1Gj0vA" key="diagramLeftMargin" value="20"/>
+      <property xmi:id="_KEzndyZ1EdyPzLcl1Gj0vA" key="diagramRightMargin" value="20"/>
+      <property xmi:id="_KEzneCZ1EdyPzLcl1Gj0vA" key="orientation" value="portrait"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_KEgsgiZ1EdyPzLcl1Gj0vA" presentation="org.topcased.modeler.uml.statemachinediagram">
+        <element href="HelloWorldTutorial.uml#_JZARYCZ1EdyPzLcl1Gj0vA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_NnAi4CZ1EdyPzLcl1Gj0vA" position="0,0" size="-1,-1">
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_NnAi4SZ1EdyPzLcl1Gj0vA" presentation="default">
+          <element href="HelloWorldTutorial.uml#_NnAi4iZ1EdyPzLcl1Gj0vA"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_QpUdUCZ1EdyPzLcl1Gj0vA" position="21,17" size="282,194">
+          <property xmi:id="_aH1JsCZ2EdyPzLcl1Gj0vA" key="backgroundColor" value="236,255,215"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_QpUdUSZ1EdyPzLcl1Gj0vA" presentation="default">
+            <element href="HelloWorldTutorial.uml#_QpUdVCZ1EdyPzLcl1Gj0vA"/>
+          </semanticModel>
+          <contained xsi:type="di:GraphNode" xmi:id="_QpUdUiZ1EdyPzLcl1Gj0vA">
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_QpUdUyZ1EdyPzLcl1Gj0vA" presentation="default">
+              <element href="HelloWorldTutorial.uml#_QpUdVSZ1EdyPzLcl1Gj0vA"/>
+            </semanticModel>
+            <contained xsi:type="di:GraphNode" xmi:id="_V7uLECZ1EdyPzLcl1Gj0vA" position="107,37" size="137,55">
+              <anchorage xmi:id="_YiUZ4SZ1EdyPzLcl1Gj0vA" graphEdge="_YiUZ4iZ1EdyPzLcl1Gj0vA _aYfRUSZ1EdyPzLcl1Gj0vA"/>
+              <anchorage xmi:id="_aYfRUCZ1EdyPzLcl1Gj0vA" graphEdge="_aYfRUSZ1EdyPzLcl1Gj0vA"/>
+              <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_V7uLESZ1EdyPzLcl1Gj0vA" presentation="default">
+                <element href="HelloWorldTutorial.uml#_V7uLEiZ1EdyPzLcl1Gj0vA"/>
+              </semanticModel>
+            </contained>
+            <contained xsi:type="di:GraphNode" xmi:id="_XozX8CZ1EdyPzLcl1Gj0vA" position="18,18" size="20,20">
+              <anchorage xmi:id="_YiUZ4CZ1EdyPzLcl1Gj0vA" graphEdge="_YiUZ4iZ1EdyPzLcl1Gj0vA"/>
+              <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_XozX8SZ1EdyPzLcl1Gj0vA" presentation="default">
+                <element href="HelloWorldTutorial.uml#_XozX8iZ1EdyPzLcl1Gj0vA"/>
+              </semanticModel>
+            </contained>
+            <contained xsi:type="di:GraphEdge" xmi:id="_YiUZ4iZ1EdyPzLcl1Gj0vA" anchor="_YiUZ4CZ1EdyPzLcl1Gj0vA _YiUZ4SZ1EdyPzLcl1Gj0vA">
+              <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_YiUZ4yZ1EdyPzLcl1Gj0vA" presentation="default">
+                <element href="HelloWorldTutorial.uml#_YiUZ5SZ1EdyPzLcl1Gj0vA"/>
+              </semanticModel>
+              <contained xsi:type="di:EdgeObjectOffset" xmi:id="_YiUZ5CZ1EdyPzLcl1Gj0vA" id="nameEdgeObject"/>
+            </contained>
+            <contained xsi:type="di:GraphEdge" xmi:id="_aYfRUSZ1EdyPzLcl1Gj0vA" anchor="_YiUZ4SZ1EdyPzLcl1Gj0vA _aYfRUCZ1EdyPzLcl1Gj0vA">
+              <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_aYfRUiZ1EdyPzLcl1Gj0vA" presentation="default">
+                <element href="HelloWorldTutorial.uml#_aYfRVCZ1EdyPzLcl1Gj0vA"/>
+              </semanticModel>
+              <contained xsi:type="di:EdgeObjectOffset" xmi:id="_aYfRUyZ1EdyPzLcl1Gj0vA" id="nameEdgeObject" offset="-9,16"/>
+              <waypoints>[51, 66, 51, 66]</waypoints>
+              <waypoints>[28, 66, 28, 66]</waypoints>
+              <waypoints>[0, 66, 0, 66]</waypoints>
+              <waypoints>[-49, 66, -49, 66]</waypoints>
+            </contained>
+          </contained>
+        </contained>
+      </contained>
+    </diagrams>
+  </subdiagrams>
+</diagrams:Diagrams>

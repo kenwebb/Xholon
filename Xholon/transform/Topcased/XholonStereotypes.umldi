@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_U6TLICZFEdyPzLcl1Gj0vA" activeDiagram="_U6TLISZFEdyPzLcl1Gj0vA">
+  <model href="XholonStereotypes.uml#_U6c8ICZFEdyPzLcl1Gj0vA"/>
+  <diagrams xmi:id="_U6TLISZFEdyPzLcl1Gj0vA" position="0,0" size="100,100" name="XholonStereotypes" viewport="0,0">
+    <property xmi:id="_U6mtICZFEdyPzLcl1Gj0vA" key="pageFormatName" value="A4"/>
+    <property xmi:id="_U6mtISZFEdyPzLcl1Gj0vA" key="diagramWidth" value="840"/>
+    <property xmi:id="_U6mtIiZFEdyPzLcl1Gj0vA" key="diagramHeight" value="1188"/>
+    <property xmi:id="_U6mtIyZFEdyPzLcl1Gj0vA" key="pageMarginName" value="Small Margin"/>
+    <property xmi:id="_U6mtJCZFEdyPzLcl1Gj0vA" key="diagramTopMargin" value="20"/>
+    <property xmi:id="_U6mtJSZFEdyPzLcl1Gj0vA" key="diagramBottomMargin" value="20"/>
+    <property xmi:id="_U6mtJiZFEdyPzLcl1Gj0vA" key="diagramLeftMargin" value="20"/>
+    <property xmi:id="_U6mtJyZFEdyPzLcl1Gj0vA" key="diagramRightMargin" value="20"/>
+    <property xmi:id="_U6mtKCZFEdyPzLcl1Gj0vA" key="orientation" value="portrait"/>
+    <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_U6TLIiZFEdyPzLcl1Gj0vA" presentation="org.topcased.modeler.uml.profilediagram">
+      <element href="XholonStereotypes.uml#_U6c8ICZFEdyPzLcl1Gj0vA"/>
+    </semanticModel>
+    <contained xsi:type="di:GraphNode" xmi:id="_fNg2oCZhEdyPzLcl1Gj0vA" position="23,20" size="140,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_fNg2oSZhEdyPzLcl1Gj0vA" presentation="default">
+        <element href="XholonStereotypes.uml#_fNqAkCZhEdyPzLcl1Gj0vA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_fNg2oiZhEdyPzLcl1Gj0vA">
+        <property xmi:id="_fNg2oyZhEdyPzLcl1Gj0vA" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_fNg2pCZhEdyPzLcl1Gj0vA" presentation="default">
+          <element href="XholonStereotypes.uml#_fNqAkCZhEdyPzLcl1Gj0vA"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_hSlFsCZhEdyPzLcl1Gj0vA" position="23,74" size="140,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_hSlFsSZhEdyPzLcl1Gj0vA" presentation="default">
+        <element href="XholonStereotypes.uml#_hSlFtSZhEdyPzLcl1Gj0vA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_hSlFsiZhEdyPzLcl1Gj0vA">
+        <property xmi:id="_hSlFsyZhEdyPzLcl1Gj0vA" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_hSlFtCZhEdyPzLcl1Gj0vA" presentation="default">
+          <element href="XholonStereotypes.uml#_hSlFtSZhEdyPzLcl1Gj0vA"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_izb0cCZhEdyPzLcl1Gj0vA" position="23,128" size="141,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_izb0cSZhEdyPzLcl1Gj0vA" presentation="default">
+        <element href="XholonStereotypes.uml#_izb0dSZhEdyPzLcl1Gj0vA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_izb0ciZhEdyPzLcl1Gj0vA">
+        <property xmi:id="_izb0cyZhEdyPzLcl1Gj0vA" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_izb0dCZhEdyPzLcl1Gj0vA" presentation="default">
+          <element href="XholonStereotypes.uml#_izb0dSZhEdyPzLcl1Gj0vA"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_kwGVkCm7EdyXztXVHo8fCQ" position="23,182" size="132,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_kwGVkSm7EdyXztXVHo8fCQ" presentation="default">
+        <element href="XholonStereotypes.uml#_kwGVlSm7EdyXztXVHo8fCQ"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_kwGVkim7EdyXztXVHo8fCQ">
+        <property xmi:id="_kwGVkym7EdyXztXVHo8fCQ" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_kwGVlCm7EdyXztXVHo8fCQ" presentation="default">
+          <element href="XholonStereotypes.uml#_kwGVlSm7EdyXztXVHo8fCQ"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_ppK9UCm7EdyXztXVHo8fCQ" position="24,236" size="132,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ppK9USm7EdyXztXVHo8fCQ" presentation="default">
+        <element href="XholonStereotypes.uml#_ppK9VSm7EdyXztXVHo8fCQ"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_ppK9Uim7EdyXztXVHo8fCQ">
+        <property xmi:id="_ppK9Uym7EdyXztXVHo8fCQ" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ppK9VCm7EdyXztXVHo8fCQ" presentation="default">
+          <element href="XholonStereotypes.uml#_ppK9VSm7EdyXztXVHo8fCQ"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_skVG4Cm7EdyXztXVHo8fCQ" position="24,291" size="133,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_skVG4Sm7EdyXztXVHo8fCQ" presentation="default">
+        <element href="XholonStereotypes.uml#_skVG5Sm7EdyXztXVHo8fCQ"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_skVG4im7EdyXztXVHo8fCQ">
+        <property xmi:id="_skVG4ym7EdyXztXVHo8fCQ" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_skVG5Cm7EdyXztXVHo8fCQ" presentation="default">
+          <element href="XholonStereotypes.uml#_skVG5Sm7EdyXztXVHo8fCQ"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_wC8i0Cm7EdyXztXVHo8fCQ" position="24,346" size="133,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_wC8i0Sm7EdyXztXVHo8fCQ" presentation="default">
+        <element href="XholonStereotypes.uml#_wC8i1Sm7EdyXztXVHo8fCQ"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_wC8i0im7EdyXztXVHo8fCQ">
+        <property xmi:id="_wC8i0ym7EdyXztXVHo8fCQ" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_wC8i1Cm7EdyXztXVHo8fCQ" presentation="default">
+          <element href="XholonStereotypes.uml#_wC8i1Sm7EdyXztXVHo8fCQ"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_M5f3YCm8EdyXztXVHo8fCQ" position="24,401" size="120,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_M5poYCm8EdyXztXVHo8fCQ" presentation="default">
+        <element href="XholonStereotypes.uml#_M5poZCm8EdyXztXVHo8fCQ"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_M5poYSm8EdyXztXVHo8fCQ">
+        <property xmi:id="_M5poYim8EdyXztXVHo8fCQ" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_M5poYym8EdyXztXVHo8fCQ" presentation="default">
+          <element href="XholonStereotypes.uml#_M5poZCm8EdyXztXVHo8fCQ"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_RWtpkCm8EdyXztXVHo8fCQ" position="216,20" size="203,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_RWtpkSm8EdyXztXVHo8fCQ" presentation="default">
+        <element href="XholonStereotypes.uml#_RWtplSm8EdyXztXVHo8fCQ"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_RWtpkim8EdyXztXVHo8fCQ">
+        <property xmi:id="_RWtpkym8EdyXztXVHo8fCQ" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_RWtplCm8EdyXztXVHo8fCQ" presentation="default">
+          <element href="XholonStereotypes.uml#_RWtplSm8EdyXztXVHo8fCQ"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_UD3MUCm8EdyXztXVHo8fCQ" position="217,75" size="202,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_UD3MUSm8EdyXztXVHo8fCQ" presentation="default">
+        <element href="XholonStereotypes.uml#_UD3MVSm8EdyXztXVHo8fCQ"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_UD3MUim8EdyXztXVHo8fCQ">
+        <property xmi:id="_UD3MUym8EdyXztXVHo8fCQ" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_UD3MVCm8EdyXztXVHo8fCQ" presentation="default">
+          <element href="XholonStereotypes.uml#_UD3MVSm8EdyXztXVHo8fCQ"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_WsiewCm8EdyXztXVHo8fCQ" position="217,129" size="203,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_WsiewSm8EdyXztXVHo8fCQ" presentation="default">
+        <element href="XholonStereotypes.uml#_WsiexSm8EdyXztXVHo8fCQ"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_Wsiewim8EdyXztXVHo8fCQ">
+        <property xmi:id="_Wsiewym8EdyXztXVHo8fCQ" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_WsiexCm8EdyXztXVHo8fCQ" presentation="default">
+          <element href="XholonStereotypes.uml#_WsiexSm8EdyXztXVHo8fCQ"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_azP1cCm8EdyXztXVHo8fCQ" position="458,20" size="120,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_azP1cSm8EdyXztXVHo8fCQ" presentation="default">
+        <element href="XholonStereotypes.uml#_azP1dSm8EdyXztXVHo8fCQ"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_azP1cim8EdyXztXVHo8fCQ">
+        <property xmi:id="_azP1cym8EdyXztXVHo8fCQ" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_azP1dCm8EdyXztXVHo8fCQ" presentation="default">
+          <element href="XholonStereotypes.uml#_azP1dSm8EdyXztXVHo8fCQ"/>
+        </semanticModel>
+      </contained>
+    </contained>
+  </diagrams>
+</diagrams:Diagrams>

@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:XholonStereotypes="http:///schemas/XholonStereotypes/_NhBU8Cm9EdyXztXVHo8fCQ/1" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/2.1.0/UML" xsi:schemaLocation="http:///schemas/XholonStereotypes/_NhBU8Cm9EdyXztXVHo8fCQ/1 XholonStereotypes.uml#_NhBU8Sm9EdyXztXVHo8fCQ">
+  <uml:Model xmi:id="eee_1045467100313_135436_1" name="TestFsm">
+    <ownedComment xmi:id="_10_0_21c011f_1132165966483_639468_1" annotatedElement="eee_1045467100313_135436_1">
+      <body>
+Author:Ken.
+Created:11/16/05 1:32 PM.
+Title:TestFsm.
+Comment:Test FSM functionality in Xholon.
+      </body>
+    </ownedComment>
+    <packagedElement xmi:type="uml:Package" xmi:id="_10_0_21c011f_1132166175193_507253_2" name="TestFsm">
+      <packagedElement xmi:type="uml:Class" xmi:id="_10_0_21c011f_1132166482124_435554_140" name="FsmXholon">
+        <generalization xmi:id="_10_0_21c011f_1132166549251_858594_194" isSubstitutable="false" general="_10_0_21c011f_1132166190575_39083_3"/>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1157487555514_603833_1" name="x" visibility="protected" isStatic="true">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EInt"/>
+          <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_11_5_52bb0822_1157487624264_649984_5" name="" value="10"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1157487559983_674301_3" name="y" visibility="protected" isStatic="true">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EInt"/>
+          <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_11_5_52bb0822_1157487663873_102848_6" name="" value="5"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1157491231889_884978_123" name="aDouble" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EDouble"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1157491261389_311601_125" name="" value="123456789000.0123456789"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1157491290717_927506_126" name="aString" visibility="public">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EString"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1157491329702_556656_128" name="" value="This is a string"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:type="uml:Port" xmi:id="_10_0_21c011f_1132167989882_409027_497" name="pFx" visibility="public" type="_10_0_21c011f_1132166666950_519089_286" aggregation="composite" isBehavior="true"/>
+        <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_10_0_21c011f_1132168123354_54960_522" name="StateMachine_FsmXholon">
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_10_0_21c011f_1132168374786_399853_628" name="init"/>
+          <region xmi:id="_10_0_21c011f_1132168123484_521725_523" name="" visibility="public">
+            <subvertex xmi:type="uml:State" xmi:id="_10_0_21c011f_1132168189299_626837_529" name="Top" visibility="public">
+              <region xmi:id="_10_0_21c011f_1132168189299_477587_530" name="" visibility="public">
+                <subvertex xmi:type="uml:State" xmi:id="_10_0_21c011f_1132168247713_235559_545" name="StateA" visibility="public">
+                  <connectionPoint xmi:id="_10_0_21c011f_1132343623553_651970_178" name="anEntryPoint" visibility="public" kind="entryPoint"/>
+                  <connectionPoint xmi:id="_10_0_21c011f_1132370165308_300162_119" name="anExitPoint" visibility="public" kind="exitPoint"/>
+                  <entry xmi:type="uml:OpaqueBehavior" xmi:id="_10_0_21c011f_1132343945716_556064_210" name="stateA_entry"/>
+                  <region xmi:id="_10_0_21c011f_1132168247713_28326_546" name="" visibility="public">
+                    <subvertex xmi:type="uml:State" xmi:id="_10_0_21c011f_1132168292948_755863_578" name="StateA1" visibility="public">
+                      <entry xmi:type="uml:OpaqueBehavior" xmi:id="_10_0_21c011f_1132169019783_619361_731" name="stateA1_entry">
+                        <body>System.out.println(&quot;StateA1 entry&quot;);</body>
+                      </entry>
+                      <exit xmi:type="uml:OpaqueBehavior" xmi:id="_10_0_21c011f_1132169032932_493004_733" name="stateA1_exit">
+                        <body>System.out.println(&quot;StateA1 exit&quot;);</body>
+                      </exit>
+                      <deferrableTrigger xmi:id="_11_5_52bb0822_1182882227078_178762_1" name="" visibility="public" event="_10_0_21c011f_1132170164038_707169_748"/>
+                    </subvertex>
+                    <subvertex xmi:type="uml:State" xmi:id="_10_0_21c011f_1132168305826_948940_591" name="StateA2" visibility="public">
+                      <entry xmi:type="uml:OpaqueBehavior" xmi:id="_10_0_21c011f_1132169077316_541629_735" name="stateA2_entry">
+                        <body>System.out.println(&quot;StateA2 entry&quot;);</body>
+                      </entry>
+                    </subvertex>
+                    <subvertex xmi:type="uml:State" xmi:id="_10_0_21c011f_1132168314729_70825_604" name="StateA3" visibility="public">
+                      <entry xmi:type="uml:OpaqueBehavior" xmi:id="_10_0_21c011f_1132169088021_817519_737" name="stateA3_entry">
+                        <body>System.out.println(&quot;StateA3 entry&quot;);</body>
+                      </entry>
+                    </subvertex>
+                    <subvertex xmi:type="uml:Pseudostate" xmi:id="_10_0_21c011f_1132168551099_510927_632" name="" visibility="public" kind="choice"/>
+                    <subvertex xmi:type="uml:Pseudostate" xmi:id="_10_0_21c011f_1132342663713_295940_27" name="" visibility="public" kind="terminate"/>
+                    <transition xmi:id="_10_0_21c011f_1132168558880_377797_638" name="CNPT_OUTGOING1" visibility="public" target="_10_0_21c011f_1132168551099_510927_632" source="_10_0_21c011f_1132168292948_755863_578">
+                      <effect xmi:type="uml:OpaqueBehavior" xmi:id="_10_0_21c011f_1132169971902_778662_741" name="sig2">
+                        <body>System.out.println(&quot;StateA1 trans SIG2&quot;);</body>
+                      </effect>
+                      <trigger xmi:id="_10_0_21c011f_1132169952795_625874_740" name="" visibility="public" event="_10_0_21c011f_1132169952795_329328_739"/>
+                    </transition>
+                    <transition xmi:id="_10_0_21c011f_1132168567623_211023_650" name="2" visibility="public" guard="_10_0_21c011f_1132170031628_769465_742" target="_10_0_21c011f_1132168292948_755863_578" source="_10_0_21c011f_1132168551099_510927_632">
+                      <ownedRule xmi:id="_10_0_21c011f_1132170031628_769465_742" name="unnamed3">
+                        <specification xmi:type="uml:OpaqueExpression" xmi:id="_10_0_21c011f_1132170031628_441377_743" name="">
+                          <language>English</language>
+                          <body>else</body>
+                        </specification>
+                      </ownedRule>
+                      <effect xmi:type="uml:OpaqueBehavior" xmi:id="_10_0_21c011f_1132170033541_624057_744" name="else">
+                        <body>System.out.println(&quot;Choice else&quot;);</body>
+                      </effect>
+                    </transition>
+                    <transition xmi:id="_10_0_21c011f_1132168601672_534147_674" name="CNPT_OUTGOING2" visibility="public" guard="_10_0_21c011f_1132168826555_113166_724" target="_10_0_21c011f_1132168305826_948940_591" source="_10_0_21c011f_1132168292948_755863_578">
+                      <ownedRule xmi:id="_10_0_21c011f_1132168826555_113166_724" name="unnamed1">
+                        <specification xmi:type="uml:OpaqueExpression" xmi:id="_10_0_21c011f_1132168826565_119543_725" name="">
+                          <language>English</language>
+                          <body>x &lt; 10</body>
+                        </specification>
+                      </ownedRule>
+                      <effect xmi:type="uml:OpaqueBehavior" xmi:id="_10_0_21c011f_1132168735314_259976_723" name="sig1lt10">
+                        <body>System.out.println(&quot;StateA1 trans SIG1 x &lt; 10&quot;);</body>
+                      </effect>
+                      <trigger xmi:id="_10_0_21c011f_1132168714053_842222_722" name="" visibility="public" event="_10_0_21c011f_1132168714053_460435_721"/>
+                    </transition>
+                    <transition xmi:id="_10_0_21c011f_1132168633858_353196_698" name="CNPT_OUTGOING3" visibility="public" guard="_10_0_21c011f_1132168865031_200462_726" target="_10_0_21c011f_1132168314729_70825_604" source="_10_0_21c011f_1132168292948_755863_578">
+                      <ownedRule xmi:id="_10_0_21c011f_1132168865031_200462_726" name="unnamed2">
+                        <specification xmi:type="uml:OpaqueExpression" xmi:id="_10_0_21c011f_1132168865031_377211_727" name="">
+                          <language>English</language>
+                          <body>x >= 10</body>
+                        </specification>
+                      </ownedRule>
+                      <effect xmi:type="uml:OpaqueBehavior" xmi:id="_10_0_21c011f_1132168914542_871508_730" name="sig1ge10">
+                        <body>System.out.println(&quot;StateA1 trans SIG1 x >= 10&quot;);</body>
+                      </effect>
+                      <trigger xmi:id="_10_0_21c011f_1132168869367_463481_729" name="" visibility="public" event="_10_0_21c011f_1132168869367_901350_728"/>
+                    </transition>
+                    <transition xmi:id="_10_0_21c011f_1132342673697_246796_33" name="CNPT_OUTGOING_1" visibility="public" target="_10_0_21c011f_1132342663713_295940_27" source="_10_0_21c011f_1132168314729_70825_604">
+                      <effect xmi:type="uml:OpaqueBehavior" xmi:id="_10_0_21c011f_1132342822941_609431_46" name="sig1">
+                        <body>System.out.println(&quot;StateA3  trans SIG1&quot;);</body>
+                      </effect>
+                      <trigger xmi:id="_10_0_21c011f_1132342815561_156333_45" name="" visibility="public" event="_10_0_21c011f_1132342815561_264498_44"/>
+                    </transition>
+                    <transition xmi:id="_10_0_21c011f_1132370179498_992422_125" name="CNPT_OUT3" visibility="public" target="_10_0_21c011f_1132370165308_300162_119" source="_10_0_21c011f_1132168314729_70825_604">
+                      <effect xmi:type="uml:OpaqueBehavior" xmi:id="_10_0_21c011f_1132370686858_241834_155" name="sig3">
+                        <body>System.out.println(&quot;StateA3  trans SIG3&quot;);</body>
+                      </effect>
+                      <trigger xmi:id="_10_0_21c011f_1132370675622_287266_154" name="" visibility="public" event="_10_0_21c011f_1132370675622_70133_153"/>
+                    </transition>
+                    <transition xmi:id="_10_0_21c011f_1132370206908_878237_136" name="1" visibility="public" guard="_10_0_21c011f_1132370206918_241000_137" target="_10_0_21c011f_1132370165308_300162_119" source="_10_0_21c011f_1132168551099_510927_632">
+                      <ownedRule xmi:id="_10_0_21c011f_1132370206918_241000_137" name="unnamed4">
+                        <specification xmi:type="uml:OpaqueExpression" xmi:id="_10_0_21c011f_1132370206918_893302_139" name="">
+                          <language>English</language>
+                          <body>getY() == 5</body>
+                        </specification>
+                      </ownedRule>
+                      <effect xmi:type="uml:OpaqueBehavior" xmi:id="_10_0_21c011f_1132370206918_934721_138" name="choice y == 5">
+                        <body>System.out.println(&quot;Choice y == 5&quot;);</body>
+                      </effect>
+                    </transition>
+                  </region>
+                </subvertex>
+                <subvertex xmi:type="uml:Pseudostate" xmi:id="_10_0_21c011f_1132168252560_773635_559" name="" visibility="public"/>
+                <subvertex xmi:type="uml:State" xmi:id="_10_0_21c011f_1132168282924_868007_565" name="StateB" visibility="public"/>
+                <subvertex xmi:type="uml:FinalState" xmi:id="_10_0_21c011f_1132342400134_352409_6" name="" visibility="public"/>
+                <transition xmi:id="_10_0_21c011f_1132168362147_457073_617" name="" visibility="public" target="_10_0_21c011f_1132168292948_755863_578" source="_10_0_21c011f_1132168252560_773635_559">
+                  <effect xmi:type="uml:OpaqueBehavior" xmi:id="_10_0_21c011f_1132171731582_168106_761" name="init">
+                    <body>System.out.println(&quot;init transition&quot;);</body>
+                  </effect>
+                </transition>
+                <transition xmi:id="_10_0_21c011f_1132168663511_57224_710" name="CNPT_OUTGOING1" visibility="public" target="_10_0_21c011f_1132168292948_755863_578" source="_10_0_21c011f_1132168282924_868007_565">
+                  <effect xmi:type="uml:OpaqueBehavior" xmi:id="_10_0_21c011f_1132170176276_783568_750" name="sig3">
+                    <body>System.out.println(&quot;StateB  trans SIG3&quot;);</body>
+                  </effect>
+                  <trigger xmi:id="_10_0_21c011f_1132170164038_186627_749" name="" visibility="public" event="_10_0_21c011f_1132170164038_707169_748"/>
+                </transition>
+                <transition xmi:id="_10_0_21c011f_1132342430137_152977_12" name="CNPT_OUTGOING2" visibility="public" target="_10_0_21c011f_1132342400134_352409_6" source="_10_0_21c011f_1132168282924_868007_565">
+                  <effect xmi:type="uml:OpaqueBehavior" xmi:id="_10_0_21c011f_1132342602605_133810_25" name="sig2">
+                    <body>System.out.println(&quot;StateB  trans SIG2&quot;);</body>
+                  </effect>
+                  <trigger xmi:id="_10_0_21c011f_1132342589606_104_24" name="" visibility="public" event="_10_0_21c011f_1132342589606_338563_23"/>
+                </transition>
+                <transition xmi:id="_10_0_21c011f_1132343636732_94012_184" name="CNPT_OUTGOING3" visibility="public" target="_10_0_21c011f_1132343623553_651970_178" source="_10_0_21c011f_1132168282924_868007_565">
+                  <effect xmi:type="uml:OpaqueBehavior" xmi:id="_10_0_21c011f_1132343800287_223142_209" name="sig1">
+                    <body>System.out.println(&quot;StateB  trans SIG1&quot;);</body>
+                  </effect>
+                  <trigger xmi:id="_10_0_21c011f_1132343778345_862790_208" name="" visibility="public" event="_10_0_21c011f_1132343778345_343479_207"/>
+                </transition>
+                <transition xmi:id="_10_0_21c011f_1132343645745_156400_196" name="" visibility="public" target="_10_0_21c011f_1132168292948_755863_578" source="_10_0_21c011f_1132343623553_651970_178">
+                  <effect xmi:type="uml:OpaqueBehavior" xmi:id="_10_0_21c011f_1132350898033_226717_3" name="from entry point">
+                    <body>System.out.println(&quot;StateA  from entry point to StateA1&quot;);</body>
+                  </effect>
+                </transition>
+                <transition xmi:id="_10_0_21c011f_1132370477417_361862_142" name="" visibility="public" target="_10_0_21c011f_1132168282924_868007_565" source="_10_0_21c011f_1132370165308_300162_119">
+                  <effect xmi:type="uml:OpaqueBehavior" xmi:id="_10_0_21c011f_1132370804427_287363_156" name="from exit point">
+                    <body>System.out.println(&quot;StateA  from exit point to StateB&quot;);</body>
+                  </effect>
+                </transition>
+              </region>
+            </subvertex>
+          </region>
+        </ownedBehavior>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_10_0_21c011f_1132166491578_245703_158" name="TestHarness">
+        <generalization xmi:id="_10_0_21c011f_1132166560427_609047_206" isSubstitutable="false" general="_10_0_21c011f_1132166190575_39083_3"/>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1157552215171_517396_1" name="aLong" visibility="package">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#ELong"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_11_5_52bb0822_1157552271703_191638_5" name="" value="24"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_11_5_52bb0822_1157552271703_594359_4" name="" value="24"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1157552259562_416663_3" name="" value=""/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1157555402718_584098_125" name="aBooleanTrue" visibility="private">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBoolean"/>
+          <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_11_5_52bb0822_1157555439000_744717_127" name="" value="true"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1157555475312_741434_128" name="aChar" visibility="public">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EChar"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1157555516203_60282_130" name="" value="'Q'"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1157555531265_898745_131" name="aByte" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EByte"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1157555582859_171607_133" name="" value="127"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1157555606625_413739_134" name="aShort" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EShort"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1157555643265_2296_136" name="" value="32767"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1157555648468_643362_137" name="aFloat" visibility="private">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EFloat"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1157555721796_84923_139" name="" value="1234.567890f"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1157557929589_239834_141" name="anInteger" visibility="public">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EInt"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1157558776725_646656_146" name="myInteger" visibility="public">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EInt"/>
+          <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_11_5_52bb0822_1157558828523_971400_148" name="" value="17"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1157567049576_9086_154" name="aStaticInt" visibility="public" isStatic="true" isReadOnly="true">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EInt"/>
+          <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_11_5_52bb0822_1157567087029_977451_156" name="" value="42"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1157574905654_34733_124" name="state" visibility="public">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EInt"/>
+          <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_11_5_52bb0822_1157574945169_181180_126" name=""/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1157574983248_925771_127" name="TEST_SCENARIO_1" visibility="public" isStatic="true" isReadOnly="true">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EInt"/>
+          <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_11_5_52bb0822_1157575037841_708067_129" name="" value="1"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1157575061732_725547_130" name="TEST_SCENARIO_2" visibility="public" isStatic="true" isReadOnly="true">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EInt"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1157575070560_156582_132" name="" value="2"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1157575087919_952993_133" name="TEST_SCENARIO_3" visibility="public" isStatic="true" isReadOnly="true">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EInt"/>
+          <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_11_5_52bb0822_1157575104466_753154_135" name="" value="3"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1157575109716_828900_136" name="TEST_SCENARIO_4" visibility="public" isStatic="true" isReadOnly="true">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EInt"/>
+          <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_11_5_52bb0822_1157575128357_21244_138" name="" value="4"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1157575163388_634345_139" name="TEST_SCENARIO_5" visibility="public" isStatic="true" isReadOnly="true">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EInt"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1157575178044_580348_141" name="" value="5"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1182893850453_193944_117" name="TEST_SCENARIO_6" visibility="public" isStatic="true" isReadOnly="true">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EInt"/>
+          <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_11_5_52bb0822_1182893892703_389761_119" name="" value="6"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158600595935_20391_152" name="aBooleanFalse" visibility="private">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBoolean"/>
+          <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_11_5_52bb0822_1158601652291_417324_155" name=""/>
+        </ownedAttribute>
+        <ownedAttribute xmi:type="uml:Port" xmi:id="_10_0_21c011f_1132167974640_784721_491" name="pTh" visibility="public" type="_10_0_21c011f_1132166666950_519089_286" aggregation="composite" isBehavior="true" isService="false"/>
+        <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_G6THoDlrEdy5E9cZCfOcEw" specification="_11_5_52bb0822_1157574789654_542449_120">
+          <name xsi:nil="true"/>
+          <language>Java</language>
+          <body>&#x9;&#x9;&#x9;// do actions required as part of an initial transition in a state machine&#xA;&#x9;&#x9;&#x9;// Xholon StateMachine classes do this automatically&#xA;&#x9;&#x9;&#x9;if (state == 0) {&#xA;&#x9;&#x9;&#x9;&#x9;System.out.println(&quot;Harness &quot;);&#xA;&#x9;&#x9;&#x9;&#x9;switch(testScenario) {&#xA;&#x9;&#x9;&#x9;&#x9;case TEST_SCENARIO_1: // states: A1 B A1 A3&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;setX(10); setY(5);&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;port[Partner].sendMessage(SIG2, null, this);&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;port[Partner].sendMessage(SIG3, null, this);&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;port[Partner].sendMessage(SIG1, null, this);&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;break;&#xA;&#x9;&#x9;&#x9;&#x9;case TEST_SCENARIO_2: // states: A1 A1 A2&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;x = 9; y = 6;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;port[Partner].sendMessage(SIG2, null, this);&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;port[Partner].sendMessage(SIG3, null, this); // should be deferred&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;port[Partner].sendMessage(SIG1, null, this);&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;break;&#xA;&#x9;&#x9;&#x9;&#x9;case TEST_SCENARIO_3: // states: A1 B A1 A3 terminate&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;x = 10; y = 5;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;port[Partner].sendMessage(SIG2, null, this);&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;port[Partner].sendMessage(SIG1, null, this);&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;port[Partner].sendMessage(SIG1, null, this);&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;port[Partner].sendMessage(SIG1, null, this);&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;break;&#xA;&#x9;&#x9;&#x9;&#x9;case TEST_SCENARIO_4: // states: A1 B finalState&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;x = 10; y = 5;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;port[Partner].sendMessage(SIG2, null, this);&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;port[Partner].sendMessage(SIG2, null, this);&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;break;&#xA;&#x9;&#x9;&#x9;&#x9;case TEST_SCENARIO_5: // states: A1&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;break;&#xA;&#x9;&#x9;&#x9;&#x9;case TEST_SCENARIO_6: // states: A1 A1 A3 B&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;x = 11; y = 6;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;port[Partner].sendMessage(SIG2, null, this);&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;port[Partner].sendMessage(SIG3, null, this); // should be deferred&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;port[Partner].sendMessage(SIG1, null, this);&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;break;&#xA;&#x9;&#x9;&#x9;&#x9;default:&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;System.out.println(testScenario + &quot; is an invalid TestScenario.&quot;);&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;break;&#xA;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;&#x9;state = 1;&#xA;&#x9;&#x9;&#x9;}</body>
+        </ownedBehavior>
+        <ownedOperation xmi:id="_11_5_52bb0822_1157574789654_542449_120" name="act" visibility="public" method="_G6THoDlrEdy5E9cZCfOcEw"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_10_0_21c011f_1132166666950_519089_286" name="Partner" clientDependency="_11_5_52bb0822_1158269081062_594297_159">
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158268909750_191489_155" name="" visibility="public" isStatic="true" isReadOnly="true">
+          <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_11_5_52bb0822_1158268927328_528491_157" name=""/>
+        </ownedAttribute>
+        <interfaceRealization xmi:id="_11_5_52bb0822_1158269081062_594297_159" name="" supplier="_11_5_52bb0822_1158268650640_695597_131" client="_10_0_21c011f_1132166666950_519089_286" contract="_11_5_52bb0822_1158268650640_695597_131"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_10_0_21c011f_1132166521531_390555_176" name="TestFsmSystem">
+        <generalization xmi:id="_10_0_21c011f_1132166568709_144833_218" isSubstitutable="false" general="_10_0_21c011f_1132166190575_39083_3"/>
+        <ownedAttribute xmi:id="_10_0_21c011f_1132167933010_513977_463" name="" visibility="private" type="_10_0_21c011f_1132166491578_245703_158" aggregation="composite"/>
+        <ownedAttribute xmi:id="_10_0_21c011f_1132167942574_191837_477" name="" visibility="private" type="_10_0_21c011f_1132166482124_435554_140" aggregation="composite"/>
+        <ownedConnector xmi:id="_11_5_52bb0822_1158950449153_782334_4" name="" visibility="public" kind="assembly">
+          <end xmi:id="_11_5_52bb0822_1158950449153_456414_5" partWithPort="_10_0_21c011f_1132167933010_513977_463" role="_10_0_21c011f_1132167974640_784721_491"/>
+          <end xmi:id="_11_5_52bb0822_1158950449153_67748_6" partWithPort="_10_0_21c011f_1132167942574_191837_477" role="_10_0_21c011f_1132167989882_409027_497"/>
+        </ownedConnector>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Signal" xmi:id="_10_0_21c011f_1132166630908_946300_231" name="SIG1">
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158267808062_60139_118" name="" visibility="public" isReadOnly="true">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1158267856203_832095_120" name="" value="100"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Signal" xmi:id="_10_0_21c011f_1132166647852_688433_267" name="SIG3">
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158267945203_241987_124" name="" visibility="public" isReadOnly="true">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1158267958437_205504_126" name="" value="300"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Signal" xmi:id="_10_0_21c011f_1132166640292_929067_249" name="SIG2">
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158267901578_658978_121" name="" visibility="public" isReadOnly="true">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1158267917781_611083_123" name="" value="200"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_11_5_52bb0822_1158268650640_695597_131" name="IFsmIn">
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158268714250_279880_149" name="" visibility="public" isStatic="true" type="_10_0_21c011f_1132166630908_946300_231" isReadOnly="true"/>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158268749578_388913_151" name="" visibility="public" isStatic="true" type="_10_0_21c011f_1132166640292_929067_249" isReadOnly="true"/>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158268784640_907603_153" name="" visibility="public" isStatic="true" type="_10_0_21c011f_1132166647852_688433_267" isReadOnly="true"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:SignalEvent" xmi:id="_10_0_21c011f_1132168714053_460435_721" name="" signal="_10_0_21c011f_1132166630908_946300_231"/>
+      <packagedElement xmi:type="uml:SignalEvent" xmi:id="_10_0_21c011f_1132168869367_901350_728" name="" signal="_10_0_21c011f_1132166630908_946300_231"/>
+      <packagedElement xmi:type="uml:SignalEvent" xmi:id="_10_0_21c011f_1132169952795_329328_739" name="" signal="_10_0_21c011f_1132166640292_929067_249"/>
+      <packagedElement xmi:type="uml:SignalEvent" xmi:id="_10_0_21c011f_1132170164038_707169_748" name="" signal="_10_0_21c011f_1132166647852_688433_267"/>
+      <packagedElement xmi:type="uml:SignalEvent" xmi:id="_10_0_21c011f_1132342589606_338563_23" name="" signal="_10_0_21c011f_1132166640292_929067_249"/>
+      <packagedElement xmi:type="uml:SignalEvent" xmi:id="_10_0_21c011f_1132342815561_264498_44" name="" signal="_10_0_21c011f_1132166630908_946300_231"/>
+      <packagedElement xmi:type="uml:SignalEvent" xmi:id="_10_0_21c011f_1132343778345_343479_207" name="" signal="_10_0_21c011f_1132166630908_946300_231"/>
+      <packagedElement xmi:type="uml:SignalEvent" xmi:id="_10_0_21c011f_1132370675622_70133_153" name="" signal="_10_0_21c011f_1132166647852_688433_267"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_10_0_21c011f_1132166190575_39083_3" name="XholonClass" isAbstract="true"/>
+    <packagedElement xmi:type="uml:Package" xmi:id="_11_5_52bb0822_1158689429390_544635_1" name="Configuration">
+      <ownedComment xmi:id="_11_5_52bb0822_1158689429421_907955_46" annotatedElement="_11_5_52bb0822_1158689429390_544635_1">
+        <body>Configuration parameters.</body>
+      </ownedComment>
+      <packagedElement xmi:type="uml:Class" xmi:id="_11_5_52bb0822_1158689429405_609549_2" name="XhnParams">
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429421_460928_47" name="ShowParams" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBoolean"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1158689429452_172820_85" name="" value="true"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429421_283896_48" name="ModelName" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EString"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1158689429452_298154_86" name="" value=""/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429421_607247_49" name="AppM" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBoolean"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1158689429452_933783_87" name="" value="true"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429421_768494_50" name="InfoM" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBoolean"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1158689429452_6512_88" name="" value="false"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429421_361035_51" name="ErrorM" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBoolean"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1158689429452_73935_89" name="" value="true"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429421_943344_52" name="MaxProcessLoops" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EInt"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1158689429452_74914_90" name="" value="11"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429421_481946_53" name="TimeStepInterval" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EInt"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1158689429452_283889_91" name="" value="12"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429421_530132_54" name="SizeMessageQueue" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EInt"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1158689429452_495336_92" name="" value="13"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429421_596432_55" name="InheritanceHierarchyFile" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EString"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429421_859322_56" name="CompositeStructureHierarchyFile" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EString"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429421_139596_57" name="ClassDetailsFile" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EString"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429421_502234_58" name="InformationFile" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EString"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429421_998103_59" name="JavaClassName" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EString"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429421_197127_60" name="JavaXhClassName" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EString"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429421_380852_61" name="RandomNumberSeed" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#ELong"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429421_215309_62" name="MaxPorts" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EInt"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429421_566250_63" name="UseDataPlotter" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBoolean"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1158689429452_828621_93" name="" value="false"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429421_844153_64" name="DataPlotterParams" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EString"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429437_949737_65" name="UseGraphicalTreeViewer" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBoolean"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1158689429452_937329_94" name="" value="false"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429437_504195_66" name="GraphicalTreeViewerParams" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EString"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429437_106908_67" name="UseGraphicalNetworkViewer" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBoolean"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1158689429452_182899_95" name="" value="false"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429437_414162_68" name="GraphicalNetworkViewerParams" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EString"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429437_838593_69" name="UseGridViewer" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBoolean"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1158689429452_657086_96" name="" value="false"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429437_621189_70" name="GridPanelClassName" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EString"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429437_645018_71" name="GridViewerParams" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EString"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429437_526798_72" name="UseInteractions" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBoolean"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1158689429452_980312_97" name="" value="false"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429437_135431_73" name="UseVrml" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBoolean"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1158689429452_632325_98" name="" value="false"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429437_868996_74" name="VrmlWriterClassName" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EString"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429437_193949_75" name="VrmlParams" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EString"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429437_26569_76" name="UseTextTree" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBoolean"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1158689429452_4747_99" name="" value="false"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429437_546902_77" name="SaveSnapshots" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBoolean"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1158689429452_784449_100" name="" value="false"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429437_756122_78" name="SnapshotParams" visibility="protected">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EString"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1158689429437_794470_79" name="TestScenario" visibility="protected" isStatic="true">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EInt"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1158689429452_466843_101" name="" value="4"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Artifact" xmi:id="_11_5_52bb0822_1172166805812_995455_1" name="XholonModel">
+        <ownedAttribute xmi:id="_11_5_52bb0822_1172166805828_645710_2" name="portImplementation" visibility="protected">
+          <ownedComment xmi:id="_11_5_52bb0822_1172166805828_58318_7" annotatedElement="_11_5_52bb0822_1172166805828_645710_2">
+            <body>Port Implementation
+Possible values include:
+  ixholon
+  iport
+  none
+
+Other values may be defined later.</body>
+          </ownedComment>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EString"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1172166805828_969995_6" name="" value="iport"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1172166805828_255685_3" name="stateMachineImplementation" visibility="protected">
+          <ownedComment xmi:id="_11_5_52bb0822_1172166805828_35776_9" annotatedElement="_11_5_52bb0822_1172166805828_255685_3">
+            <body>State Machine Implementation
+Possible values include:
+  istatemachineentity
+  none
+
+Other values may be defined later.</body>
+          </ownedComment>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EString"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1172166805828_603521_8" name="" value="istatemachineentity"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1172166805828_81117_4" name="xholonImplementation" visibility="protected">
+          <ownedComment xmi:id="_11_5_52bb0822_1172166805828_966574_11" annotatedElement="_11_5_52bb0822_1172166805828_81117_4">
+            <body>Xholon Implementation
+Possible values include:
+  xholonwithports
+  abstractgrid
+  none
+
+Other values may be defined later.</body>
+          </ownedComment>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EString"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1172166805828_531013_10" name="" value="xholonwithports"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_11_5_52bb0822_1172166805828_969388_5" name="gridPanelImplementation" visibility="protected">
+          <ownedComment xmi:id="_11_5_52bb0822_1172166805828_981664_13" annotatedElement="_11_5_52bb0822_1172166805828_969388_5">
+            <body>Grid Panel Implementation
+Possible values include:
+  igridpanel
+  none
+
+Other values may be defined later.</body>
+          </ownedComment>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EString"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_11_5_52bb0822_1172166805828_36044_12" name="" value="none"/>
+        </ownedAttribute>
+      </packagedElement>
+    </packagedElement>
+    <profileApplication xmi:id="_l8fUAC5MEdyulMNDmjND_w">
+      <eAnnotations xmi:id="_l8pFAC5MEdyulMNDmjND_w" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="XholonStereotypes.uml#_NhBU8Sm9EdyXztXVHo8fCQ"/>
+      </eAnnotations>
+      <appliedProfile href="XholonStereotypes.uml#_U6c8ICZFEdyPzLcl1Gj0vA"/>
+    </profileApplication>
+  </uml:Model>
+  <XholonStereotypes:PureContainer xmi:id="_nlPagC5MEdyulMNDmjND_w" base_Class="_10_0_21c011f_1132166190575_39083_3"/>
+  <XholonStereotypes:PureActiveObject xmi:id="_rTEXIC5MEdyulMNDmjND_w" base_Class="_10_0_21c011f_1132166482124_435554_140"/>
+  <XholonStereotypes:PureActiveObject xmi:id="_sB2vwC5MEdyulMNDmjND_w" base_Class="_10_0_21c011f_1132166491578_245703_158"/>
+  <XholonStereotypes:GetterSetter xmi:id="_3bxjcC5OEdyulMNDmjND_w" base_Property="_11_5_52bb0822_1157487555514_603833_1"/>
+  <XholonStereotypes:GetterSetter xmi:id="_4FWr8C5OEdyulMNDmjND_w" base_Property="_11_5_52bb0822_1157487559983_674301_3"/>
+  <XholonStereotypes:GetterSetter xmi:id="_4l1i0C5OEdyulMNDmjND_w" base_Property="_11_5_52bb0822_1157491231889_884978_123"/>
+  <XholonStereotypes:GetterSetter xmi:id="_5KfvEC5OEdyulMNDmjND_w" base_Property="_11_5_52bb0822_1157491290717_927506_126"/>
+  <XholonStereotypes:GetterSetter xmi:id="_78tYAC5OEdyulMNDmjND_w" base_Property="_11_5_52bb0822_1157552215171_517396_1"/>
+  <XholonStereotypes:GetterSetter xmi:id="_-JO58C5OEdyulMNDmjND_w" base_Property="_11_5_52bb0822_1157555402718_584098_125"/>
+  <XholonStereotypes:GetterSetter xmi:id="_ANssEC5PEdyulMNDmjND_w" base_Property="_11_5_52bb0822_1157555475312_741434_128"/>
+  <XholonStereotypes:GetterSetter xmi:id="_A6jLAC5PEdyulMNDmjND_w" base_Property="_11_5_52bb0822_1157555531265_898745_131"/>
+  <XholonStereotypes:GetterSetter xmi:id="_BnQgAC5PEdyulMNDmjND_w" base_Property="_11_5_52bb0822_1157555606625_413739_134"/>
+  <XholonStereotypes:GetterSetter xmi:id="_CYuZMC5PEdyulMNDmjND_w" base_Property="_11_5_52bb0822_1157555648468_643362_137"/>
+  <XholonStereotypes:GetterSetter xmi:id="_DMSkIC5PEdyulMNDmjND_w" base_Property="_11_5_52bb0822_1157557929589_239834_141"/>
+  <XholonStereotypes:GetterSetter xmi:id="_D6Lk4C5PEdyulMNDmjND_w" base_Property="_11_5_52bb0822_1157558776725_646656_146"/>
+  <XholonStereotypes:GetterSetter xmi:id="_EkMyQC5PEdyulMNDmjND_w" base_Property="_11_5_52bb0822_1157567049576_9086_154"/>
+  <XholonStereotypes:GetterSetter xmi:id="_FXBWUC5PEdyulMNDmjND_w" base_Property="_11_5_52bb0822_1157574905654_34733_124"/>
+  <XholonStereotypes:GetterSetter xmi:id="_G9Y3MC5PEdyulMNDmjND_w" base_Property="_11_5_52bb0822_1158600595935_20391_152"/>
+  <XholonStereotypes:GetterSetter xmi:id="_9aaV8C8bEdyaXqTpV7fS7g" base_Property="_11_5_52bb0822_1158689429437_794470_79"/>
+</xmi:XMI>

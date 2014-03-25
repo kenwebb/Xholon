@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" activeDiagram="//@subdiagrams.1/@diagrams.0">
+  <model href="HelloWorldTutorialSysML.sysml#idPackage"/>
+  <diagrams position="0,0" size="100,100" name="InheritanceHierarchy" viewport="0,241">
+    <property key="pageFormatName" value="A4"/>
+    <property key="diagramWidth" value="840"/>
+    <property key="diagramHeight" value="1188"/>
+    <property key="pageMarginName" value="Small Margin"/>
+    <property key="diagramTopMargin" value="20"/>
+    <property key="diagramBottomMargin" value="20"/>
+    <property key="diagramLeftMargin" value="20"/>
+    <property key="diagramRightMargin" value="20"/>
+    <property key="orientation" value="portrait"/>
+    <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="org.topcased.modeler.sysml.blockdefinitiondiagram">
+      <element href="HelloWorldTutorialSysML.sysml#idPackage"/>
+    </semanticModel>
+    <contained xsi:type="di:GraphNode" position="256,39" size="162,-1">
+      <anchorage graphEdge="//@diagrams.0/@contained.4 //@diagrams.0/@contained.5 //@diagrams.0/@contained.6"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+        <element href="HelloWorldTutorialSysML.sysml#_Rn8fgEwWEdyDdISDSUDL6g"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode">
+        <property key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+          <element href="HelloWorldTutorialSysML.sysml#_Rn8fgEwWEdyDdISDSUDL6g"/>
+        </semanticModel>
+      </contained>
+      <contained xsi:type="di:GraphNode">
+        <property key="eStructuralFeatureID" value="47"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+          <element href="HelloWorldTutorialSysML.sysml#_Rn8fgEwWEdyDdISDSUDL6g"/>
+        </semanticModel>
+      </contained>
+      <contained xsi:type="di:GraphNode">
+        <property key="eStructuralFeatureID" value="12"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+          <element href="HelloWorldTutorialSysML.sysml#_Rn8fgEwWEdyDdISDSUDL6g"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" position="92,187" size="120,-1">
+      <anchorage graphEdge="//@diagrams.0/@contained.4"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+        <element href="HelloWorldTutorialSysML.sysml#_Z7yvkEwXEdyDdISDSUDL6g"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode">
+        <property key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+          <element href="HelloWorldTutorialSysML.sysml#_Z7yvkEwXEdyDdISDSUDL6g"/>
+        </semanticModel>
+      </contained>
+      <contained xsi:type="di:GraphNode">
+        <property key="eStructuralFeatureID" value="47"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+          <element href="HelloWorldTutorialSysML.sysml#_Z7yvkEwXEdyDdISDSUDL6g"/>
+        </semanticModel>
+      </contained>
+      <contained xsi:type="di:GraphNode">
+        <property key="eStructuralFeatureID" value="12"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+          <element href="HelloWorldTutorialSysML.sysml#_Z7yvkEwXEdyDdISDSUDL6g"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" position="278,186" size="120,-1">
+      <anchorage graphEdge="//@diagrams.0/@contained.5"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+        <element href="HelloWorldTutorialSysML.sysml#_b1YucEwXEdyDdISDSUDL6g"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode">
+        <property key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+          <element href="HelloWorldTutorialSysML.sysml#_b1YucEwXEdyDdISDSUDL6g"/>
+        </semanticModel>
+      </contained>
+      <contained xsi:type="di:GraphNode">
+        <property key="eStructuralFeatureID" value="47"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+          <element href="HelloWorldTutorialSysML.sysml#_b1YucEwXEdyDdISDSUDL6g"/>
+        </semanticModel>
+      </contained>
+      <contained xsi:type="di:GraphNode">
+        <property key="eStructuralFeatureID" value="12"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+          <element href="HelloWorldTutorialSysML.sysml#_b1YucEwXEdyDdISDSUDL6g"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" position="444,186" size="120,-1">
+      <anchorage graphEdge="//@diagrams.0/@contained.6"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+        <element href="HelloWorldTutorialSysML.sysml#_dsTMwEwXEdyDdISDSUDL6g"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode">
+        <property key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+          <element href="HelloWorldTutorialSysML.sysml#_dsTMwEwXEdyDdISDSUDL6g"/>
+        </semanticModel>
+      </contained>
+      <contained xsi:type="di:GraphNode">
+        <property key="eStructuralFeatureID" value="47"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+          <element href="HelloWorldTutorialSysML.sysml#_dsTMwEwXEdyDdISDSUDL6g"/>
+        </semanticModel>
+      </contained>
+      <contained xsi:type="di:GraphNode">
+        <property key="eStructuralFeatureID" value="12"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+          <element href="HelloWorldTutorialSysML.sysml#_dsTMwEwXEdyDdISDSUDL6g"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphEdge" anchor="//@diagrams.0/@contained.1/@anchorage.0 //@diagrams.0/@contained.0/@anchorage.0">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+        <element href="HelloWorldTutorialSysML.sysml#_kAtxIEwXEdyDdISDSUDL6g"/>
+      </semanticModel>
+    </contained>
+    <contained xsi:type="di:GraphEdge" anchor="//@diagrams.0/@contained.2/@anchorage.0 //@diagrams.0/@contained.0/@anchorage.0">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+        <element href="HelloWorldTutorialSysML.sysml#_lqz7cEwXEdyDdISDSUDL6g"/>
+      </semanticModel>
+    </contained>
+    <contained xsi:type="di:GraphEdge" anchor="//@diagrams.0/@contained.3/@anchorage.0 //@diagrams.0/@contained.0/@anchorage.0">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+        <element href="HelloWorldTutorialSysML.sysml#_l-LjYEwXEdyDdISDSUDL6g"/>
+      </semanticModel>
+    </contained>
+    <contained xsi:type="di:GraphNode" position="92,398" size="100,-1">
+      <anchorage graphEdge="//@diagrams.0/@contained.10"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+        <element href="HelloWorldTutorialSysML.sysml#_ev3QoEwZEdyDdISDSUDL6g"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode">
+        <property key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+          <element href="HelloWorldTutorialSysML.sysml#_ev3QoEwZEdyDdISDSUDL6g"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+            <element href="HelloWorldTutorialSysML.sysml#_legS4EwZEdyDdISDSUDL6g"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphNode">
+        <property key="eStructuralFeatureID" value="38"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+          <element href="HelloWorldTutorialSysML.sysml#_ev3QoEwZEdyDdISDSUDL6g"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" position="244,399" size="100,-1">
+      <anchorage graphEdge="//@diagrams.0/@contained.11"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+        <element href="HelloWorldTutorialSysML.sysml#_BqJCMEwaEdyDdISDSUDL6g"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode">
+        <property key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+          <element href="HelloWorldTutorialSysML.sysml#_BqJCMEwaEdyDdISDSUDL6g"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+            <element href="HelloWorldTutorialSysML.sysml#_F6PlcEwaEdyDdISDSUDL6g"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphNode">
+        <property key="eStructuralFeatureID" value="38"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+          <element href="HelloWorldTutorialSysML.sysml#_BqJCMEwaEdyDdISDSUDL6g"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" position="176,291" size="69,50">
+      <anchorage graphEdge="//@diagrams.0/@contained.10 //@diagrams.0/@contained.11"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge">
+        <element href="HelloWorldTutorialSysML.sysml#_x3bh8EwaEdyDdISDSUDL6g"/>
+      </semanticModel>
+    </contained>
+    <contained xsi:type="di:GraphEdge" anchor="//@diagrams.0/@contained.9/@anchorage.0 //@diagrams.0/@contained.7/@anchorage.0">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+        <element href="HelloWorldTutorialSysML.sysml#_SveWAEwbEdyDdISDSUDL6g"/>
+      </semanticModel>
+    </contained>
+    <contained xsi:type="di:GraphEdge" anchor="//@diagrams.0/@contained.9/@anchorage.0 //@diagrams.0/@contained.8/@anchorage.0">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+        <element href="HelloWorldTutorialSysML.sysml#_eKOiEEwbEdyDdISDSUDL6g"/>
+      </semanticModel>
+      <contained xsi:type="di:EdgeObjectOffset" id="BlockUsageStereotypeEdgeObject"/>
+    </contained>
+  </diagrams>
+  <subdiagrams>
+    <model href="HelloWorldTutorialSysML.sysml#_Z7yvkEwXEdyDdISDSUDL6g"/>
+    <diagrams position="0,0" size="100,100" name="HelloWorld_CompositeStructure" viewport="0,0">
+      <property key="pageFormatName" value="A4"/>
+      <property key="diagramWidth" value="840"/>
+      <property key="diagramHeight" value="1188"/>
+      <property key="pageMarginName" value="Small Margin"/>
+      <property key="diagramTopMargin" value="20"/>
+      <property key="diagramBottomMargin" value="20"/>
+      <property key="diagramLeftMargin" value="20"/>
+      <property key="diagramRightMargin" value="20"/>
+      <property key="orientation" value="portrait"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="org.topcased.modeler.sysml.internalblockdiagram">
+        <element href="HelloWorldTutorialSysML.sysml#_Z7yvkEwXEdyDdISDSUDL6g"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" position="75,75" size="130,70">
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+          <element href="HelloWorldTutorialSysML.sysml#_pK8BAEwcEdyDdISDSUDL6g"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" position="48,36" size="-1,-1">
+          <property key="portPosition" value="4"/>
+          <anchorage graphEdge="//@subdiagrams.0/@diagrams.0/@contained.2"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+            <element href="HelloWorldTutorialSysML.sysml#_OdWuoEwdEdyDdISDSUDL6g"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphNode" position="327,75" size="130,70">
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+          <element href="HelloWorldTutorialSysML.sysml#_xDyMkEwcEdyDdISDSUDL6g"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" position="0,36" size="-1,-1">
+          <property key="portPosition" value="1"/>
+          <anchorage graphEdge="//@subdiagrams.0/@diagrams.0/@contained.2"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+            <element href="HelloWorldTutorialSysML.sysml#_eqBxkEwdEdyDdISDSUDL6g"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphEdge" anchor="//@subdiagrams.0/@diagrams.0/@contained.0/@contained.0/@anchorage.0 //@subdiagrams.0/@diagrams.0/@contained.1/@contained.0/@anchorage.0">
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+          <element href="HelloWorldTutorialSysML.sysml#_QEhssExdEdyddLXXppivPg"/>
+        </semanticModel>
+        <contained xsi:type="di:EdgeObjectOffset" id="nameEdgeObject" offset="0,-15"/>
+        <contained xsi:type="di:EdgeObjectOffset" visible="false" id="ConnectorItemFlowIconEdgeObject"/>
+        <contained xsi:type="di:EdgeObjectOffset" visible="false" id="ConnectorItemFlowNameEdgeObject" offset="0,15"/>
+        <contained xsi:type="di:EdgeObjectUV" id="ConnectorSrcCountEdgeObject" uDistance="12" vDistance="12"/>
+        <contained xsi:type="di:EdgeObjectUV" id="ConnectorSrcNameEdgeObject" uDistance="10" vDistance="10"/>
+        <contained xsi:type="di:EdgeObjectUV" id="ConnectorTargetCountEdgeObject" uDistance="10" vDistance="10"/>
+        <contained xsi:type="di:EdgeObjectUV" id="ConnectorTargetNameEdgeObject" uDistance="12" vDistance="12"/>
+      </contained>
+    </diagrams>
+  </subdiagrams>
+  <subdiagrams>
+    <model href="HelloWorldTutorialSysML.sysml#_pgmdEEweEdyDdISDSUDL6g"/>
+    <diagrams position="0,0" size="100,100" name="unnamed" viewport="12,80">
+      <property key="pageFormatName" value="A4"/>
+      <property key="diagramWidth" value="840"/>
+      <property key="diagramHeight" value="1188"/>
+      <property key="pageMarginName" value="Small Margin"/>
+      <property key="diagramTopMargin" value="20"/>
+      <property key="diagramBottomMargin" value="20"/>
+      <property key="diagramLeftMargin" value="20"/>
+      <property key="diagramRightMargin" value="20"/>
+      <property key="orientation" value="portrait"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="org.topcased.modeler.sysml.statemachinediagram">
+        <element href="HelloWorldTutorialSysML.sysml#_pgmdEEweEdyDdISDSUDL6g"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" position="0,0" size="-1,-1">
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+          <element href="HelloWorldTutorialSysML.sysml#_zRtKwEweEdyDdISDSUDL6g"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" position="70,50" size="414,189">
+          <anchorage/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+            <element href="HelloWorldTutorialSysML.sysml#_06wzQEweEdyDdISDSUDL6g"/>
+          </semanticModel>
+          <contained xsi:type="di:GraphNode">
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+              <element href="HelloWorldTutorialSysML.sysml#_06wzQUweEdyDdISDSUDL6g"/>
+            </semanticModel>
+            <contained xsi:type="di:GraphNode" position="31,25" size="20,20">
+              <anchorage graphEdge="//@subdiagrams.1/@diagrams.0/@contained.0/@contained.0/@contained.0/@contained.2"/>
+              <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+                <element href="HelloWorldTutorialSysML.sysml#_561a4EweEdyDdISDSUDL6g"/>
+              </semanticModel>
+            </contained>
+            <contained xsi:type="di:GraphNode" position="149,61" size="133,50">
+              <anchorage graphEdge="//@subdiagrams.1/@diagrams.0/@contained.0/@contained.0/@contained.0/@contained.2 //@subdiagrams.1/@diagrams.0/@contained.0/@contained.0/@contained.0/@contained.3"/>
+              <anchorage graphEdge="//@subdiagrams.1/@diagrams.0/@contained.0/@contained.0/@contained.0/@contained.3"/>
+              <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+                <element href="HelloWorldTutorialSysML.sysml#_8PGjkEweEdyDdISDSUDL6g"/>
+              </semanticModel>
+            </contained>
+            <contained xsi:type="di:GraphEdge" anchor="//@subdiagrams.1/@diagrams.0/@contained.0/@contained.0/@contained.0/@contained.0/@anchorage.0 //@subdiagrams.1/@diagrams.0/@contained.0/@contained.0/@contained.0/@contained.1/@anchorage.0">
+              <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+                <element href="HelloWorldTutorialSysML.sysml#_DazVQEwfEdyDdISDSUDL6g"/>
+              </semanticModel>
+              <contained xsi:type="di:EdgeObjectOffset" id="nameEdgeObject" offset="136,-23"/>
+            </contained>
+            <contained xsi:type="di:GraphEdge" anchor="//@subdiagrams.1/@diagrams.0/@contained.0/@contained.0/@contained.0/@contained.1/@anchorage.0 //@subdiagrams.1/@diagrams.0/@contained.0/@contained.0/@contained.0/@contained.1/@anchorage.1">
+              <property key="router" value="Rectilinear"/>
+              <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+                <element href="HelloWorldTutorialSysML.sysml#_F6PzMEwfEdyDdISDSUDL6g"/>
+              </semanticModel>
+              <contained xsi:type="di:EdgeObjectOffset" id="nameEdgeObject" offset="0,19"/>
+              <waypoints>[45, 48, 45, 48]</waypoints>
+              <waypoints>[-43, 48, -43, 48]</waypoints>
+            </contained>
+          </contained>
+        </contained>
+        <contained xsi:type="di:GraphNode" position="159,250" size="268,49">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+            <element href="HelloWorldTutorialSysML.sysml#_1F8NEExhEdyddLXXppivPg"/>
+          </semanticModel>
+        </contained>
+      </contained>
+    </diagrams>
+  </subdiagrams>
+  <subdiagrams>
+    <model href="HelloWorldTutorialSysML.sysml#_HW2CIEwhEdyDdISDSUDL6g"/>
+    <diagrams position="0,0" size="100,100" name="unnamed" viewport="0,11">
+      <property key="pageFormatName" value="A4"/>
+      <property key="diagramWidth" value="840"/>
+      <property key="diagramHeight" value="1188"/>
+      <property key="pageMarginName" value="Small Margin"/>
+      <property key="diagramTopMargin" value="20"/>
+      <property key="diagramBottomMargin" value="20"/>
+      <property key="diagramLeftMargin" value="20"/>
+      <property key="diagramRightMargin" value="20"/>
+      <property key="orientation" value="portrait"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="org.topcased.modeler.sysml.statemachinediagram">
+        <element href="HelloWorldTutorialSysML.sysml#_HW2CIEwhEdyDdISDSUDL6g"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" position="0,0" size="-1,-1">
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+          <element href="HelloWorldTutorialSysML.sysml#_OVIp8EwhEdyDdISDSUDL6g"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" position="83,22" size="353,217">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+            <element href="HelloWorldTutorialSysML.sysml#_O8Lb0EwhEdyDdISDSUDL6g"/>
+          </semanticModel>
+          <contained xsi:type="di:GraphNode">
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+              <element href="HelloWorldTutorialSysML.sysml#_O8Lb0UwhEdyDdISDSUDL6g"/>
+            </semanticModel>
+            <contained xsi:type="di:GraphNode" position="29,29" size="20,20">
+              <anchorage graphEdge="//@subdiagrams.2/@diagrams.0/@contained.0/@contained.0/@contained.0/@contained.2"/>
+              <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+                <element href="HelloWorldTutorialSysML.sysml#_UlYgAEwhEdyDdISDSUDL6g"/>
+              </semanticModel>
+            </contained>
+            <contained xsi:type="di:GraphNode" position="109,82" size="124,50">
+              <anchorage graphEdge="//@subdiagrams.2/@diagrams.0/@contained.0/@contained.0/@contained.0/@contained.2 //@subdiagrams.2/@diagrams.0/@contained.0/@contained.0/@contained.0/@contained.3"/>
+              <anchorage graphEdge="//@subdiagrams.2/@diagrams.0/@contained.0/@contained.0/@contained.0/@contained.3"/>
+              <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+                <element href="HelloWorldTutorialSysML.sysml#_VV9BUEwhEdyDdISDSUDL6g"/>
+              </semanticModel>
+            </contained>
+            <contained xsi:type="di:GraphEdge" anchor="//@subdiagrams.2/@diagrams.0/@contained.0/@contained.0/@contained.0/@contained.0/@anchorage.0 //@subdiagrams.2/@diagrams.0/@contained.0/@contained.0/@contained.0/@contained.1/@anchorage.0">
+              <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+                <element href="HelloWorldTutorialSysML.sysml#_ZD7u8EwhEdyDdISDSUDL6g"/>
+              </semanticModel>
+              <contained xsi:type="di:EdgeObjectOffset" id="nameEdgeObject"/>
+            </contained>
+            <contained xsi:type="di:GraphEdge" anchor="//@subdiagrams.2/@diagrams.0/@contained.0/@contained.0/@contained.0/@contained.1/@anchorage.0 //@subdiagrams.2/@diagrams.0/@contained.0/@contained.0/@contained.0/@contained.1/@anchorage.1">
+              <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+                <element href="HelloWorldTutorialSysML.sysml#_aPCQIEwhEdyDdISDSUDL6g"/>
+              </semanticModel>
+              <contained xsi:type="di:EdgeObjectOffset" id="nameEdgeObject" offset="2,14"/>
+              <waypoints>[8, 56, 8, 56]</waypoints>
+              <waypoints>[-50, 56, -50, 56]</waypoints>
+            </contained>
+          </contained>
+        </contained>
+      </contained>
+    </diagrams>
+  </subdiagrams>
+</diagrams:Diagrams>

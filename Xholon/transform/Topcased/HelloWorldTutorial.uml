@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:XholonStereotypes="http:///schemas/XholonStereotypes/_6yG0ECZhEdyPzLcl1Gj0vA/0" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/2.1.0/UML" xsi:schemaLocation="http:///schemas/XholonStereotypes/_6yG0ECZhEdyPzLcl1Gj0vA/0 XholonStereotypes.uml#_6yG0EiZhEdyPzLcl1Gj0vA">
+  <uml:Model xmi:id="_qb8akM37EdqwVrslYOdUDA" name="HelloWorldTutorial">
+    <eAnnotations xmi:id="_rnmaICagEdy3860_4A0aKQ" source="http://www.topcased.org/documentation">
+      <details xmi:id="_rnmaISagEdy3860_4A0aKQ" key="documentation" value="This model was built using the instructions in the online documentation - Xholon with TOPCASED HelloWorld Tutorial."/>
+    </eAnnotations>
+    <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="HelloWorldTutorial">
+      <packagedElement xmi:type="uml:Class" xmi:id="_fCubmCZkEdyPzLcl1Gj0vA" name="HelloWorldSystem">
+        <eAnnotations xmi:id="_ewFwYSdJEdyLTZDTB-eHBw" source="http://www.topcased.org/documentation">
+          <details xmi:id="_kK_S0CdJEdyLTZDTB-eHBw" key="documentation" value="HelloWorldSystem is the root node in the composite structure hierarchy."/>
+        </eAnnotations>
+        <generalization xmi:id="_yZdmwyZkEdyPzLcl1Gj0vA" general="_TcFt0CafEdy3860_4A0aKQ"/>
+        <ownedAttribute xmi:id="_O1XxQCZmEdyPzLcl1Gj0vA" name="" type="_lfCXuCZkEdyPzLcl1Gj0vA" aggregation="composite"/>
+        <ownedAttribute xmi:id="_SOebEiZmEdyPzLcl1Gj0vA" name="" type="_m6PKaCZkEdyPzLcl1Gj0vA" aggregation="composite"/>
+        <ownedConnector xmi:id="_GxSsdCZuEdyPzLcl1Gj0vA" name="Connector1" kind="assembly">
+          <end xmi:id="_GxSsdSZuEdyPzLcl1Gj0vA" partWithPort="_O1XxQCZmEdyPzLcl1Gj0vA" role="_c2VtcCZtEdyPzLcl1Gj0vA"/>
+          <end xmi:id="_GxSsdiZuEdyPzLcl1Gj0vA" partWithPort="_SOebEiZmEdyPzLcl1Gj0vA" role="_tHVPsyZtEdyPzLcl1Gj0vA"/>
+        </ownedConnector>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_lfCXuCZkEdyPzLcl1Gj0vA" name="Hello">
+        <generalization xmi:id="_zHM2hCZkEdyPzLcl1Gj0vA" general="_TcFt0CafEdy3860_4A0aKQ"/>
+        <ownedAttribute xmi:type="uml:Port" xmi:id="_c2VtcCZtEdyPzLcl1Gj0vA" name="ph" type="_MQau-CZrEdyPzLcl1Gj0vA" aggregation="composite" isBehavior="true" isService="false">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_U-kDcCZuEdyPzLcl1Gj0vA" value="1"/>
+        </ownedAttribute>
+        <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_CP1BgCZwEdyPzLcl1Gj0vA" name="Hello">
+          <region xmi:id="_6IwsYiZyEdyPzLcl1Gj0vA" name="Region1">
+            <subvertex xmi:type="uml:State" xmi:id="_bH0HYCZzEdyPzLcl1Gj0vA" name="Top">
+              <region xmi:id="_bH0HYSZzEdyPzLcl1Gj0vA" name="Region1">
+                <subvertex xmi:type="uml:Pseudostate" xmi:id="_gVJu8CZzEdyPzLcl1Gj0vA" name="Pseudostate1"/>
+                <subvertex xmi:type="uml:State" xmi:id="_gue08iZzEdyPzLcl1Gj0vA" name="SayingHello"/>
+                <transition xmi:id="_jUB65SZzEdyPzLcl1Gj0vA" name="" target="_gue08iZzEdyPzLcl1Gj0vA" source="_gVJu8CZzEdyPzLcl1Gj0vA">
+                  <effect xmi:type="uml:OpaqueBehavior" xmi:id="_Hu4HUCZ0EdyPzLcl1Gj0vA">
+                    <body>print(&quot;{Hello &quot;);&#xA;port[Partner].sendMessage(SIGNAL_ONE, null, this);</body>
+                  </effect>
+                </transition>
+                <transition xmi:id="_05XZ5CZzEdyPzLcl1Gj0vA" name="CNPT_OUTGOING1" target="_gue08iZzEdyPzLcl1Gj0vA" source="_gue08iZzEdyPzLcl1Gj0vA">
+                  <effect xmi:type="uml:OpaqueBehavior" xmi:id="_JYE5wCZ0EdyPzLcl1Gj0vA">
+                    <body>print(&quot;{Hello &quot;);&#xA;port[Partner].sendMessage(SIGNAL_ONE, null, this);</body>
+                  </effect>
+                  <trigger xmi:id="_KJ_e4CZ0EdyPzLcl1Gj0vA" name="signalOne" event="_Jcmn4CaJEdylcv7LQIu4fA" port="_c2VtcCZtEdyPzLcl1Gj0vA"/>
+                </transition>
+              </region>
+            </subvertex>
+          </region>
+        </ownedBehavior>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_m6PKaCZkEdyPzLcl1Gj0vA" name="World">
+        <generalization xmi:id="_zou2QyZkEdyPzLcl1Gj0vA" general="_TcFt0CafEdy3860_4A0aKQ"/>
+        <ownedAttribute xmi:type="uml:Port" xmi:id="_tHVPsyZtEdyPzLcl1Gj0vA" name="pw" type="_MQau-CZrEdyPzLcl1Gj0vA" aggregation="composite" isBehavior="true"/>
+        <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_JZARYCZ1EdyPzLcl1Gj0vA" name="World">
+          <region xmi:id="_NnAi4iZ1EdyPzLcl1Gj0vA" name="Region1">
+            <subvertex xmi:type="uml:State" xmi:id="_QpUdVCZ1EdyPzLcl1Gj0vA" name="Top">
+              <region xmi:id="_QpUdVSZ1EdyPzLcl1Gj0vA" name="Region1">
+                <subvertex xmi:type="uml:State" xmi:id="_V7uLEiZ1EdyPzLcl1Gj0vA" name="SayingWorld"/>
+                <subvertex xmi:type="uml:Pseudostate" xmi:id="_XozX8iZ1EdyPzLcl1Gj0vA" name="Pseudostate1"/>
+                <transition xmi:id="_YiUZ5SZ1EdyPzLcl1Gj0vA" name="" target="_V7uLEiZ1EdyPzLcl1Gj0vA" source="_XozX8iZ1EdyPzLcl1Gj0vA"/>
+                <transition xmi:id="_aYfRVCZ1EdyPzLcl1Gj0vA" name="CNPT_OUTGOING1" target="_V7uLEiZ1EdyPzLcl1Gj0vA" source="_V7uLEiZ1EdyPzLcl1Gj0vA">
+                  <effect xmi:type="uml:OpaqueBehavior" xmi:id="_l1BmECZ1EdyPzLcl1Gj0vA">
+                    <body>println(&quot;World}&quot;);&#xA;port[Partner].sendMessage(SIGNAL_ONE, null, this);</body>
+                  </effect>
+                  <trigger xmi:id="_nTWlQCZ1EdyPzLcl1Gj0vA" name="signalOne" event="_Jcmn4CaJEdylcv7LQIu4fA" port="_tHVPsyZtEdyPzLcl1Gj0vA"/>
+                </transition>
+              </region>
+            </subvertex>
+          </region>
+        </ownedBehavior>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_EuOI2CZrEdyPzLcl1Gj0vA" name="IHwIn">
+        <ownedAttribute xmi:id="_QyR7IiZsEdyPzLcl1Gj0vA" name="" isStatic="true" type="_jmAZsCaJEdylcv7LQIu4fA" isReadOnly="true"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_HoL_mCZrEdyPzLcl1Gj0vA" name="IHwOut">
+        <ownedAttribute xmi:id="_2awYUiZsEdyPzLcl1Gj0vA" name="" isStatic="true" type="_jmAZsCaJEdylcv7LQIu4fA" isReadOnly="true"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_MQau-CZrEdyPzLcl1Gj0vA" name="Partner" clientDependency="_jAkF8yZrEdyPzLcl1Gj0vA _9lVlUCaQEdylcv7LQIu4fA">
+        <ownedAttribute xmi:id="__zYxEiZrEdyPzLcl1Gj0vA" name="" isStatic="true" isReadOnly="true">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_BhgfwCZsEdyPzLcl1Gj0vA" value="0"/>
+        </ownedAttribute>
+        <interfaceRealization xmi:id="_jAkF8yZrEdyPzLcl1Gj0vA" name="" supplier="_EuOI2CZrEdyPzLcl1Gj0vA" client="_MQau-CZrEdyPzLcl1Gj0vA" contract="_EuOI2CZrEdyPzLcl1Gj0vA"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:SignalEvent" xmi:id="_Jcmn4CaJEdylcv7LQIu4fA" name="SIGNAL_ONEse" signal="_jmAZsCaJEdylcv7LQIu4fA"/>
+      <packagedElement xmi:type="uml:Signal" xmi:id="_jmAZsCaJEdylcv7LQIu4fA" name="SIGNAL_ONE">
+        <ownedAttribute xmi:id="_zvuZ0CaKEdylcv7LQIu4fA" isReadOnly="true">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_2_JjMCaKEdylcv7LQIu4fA" value="100"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Usage" xmi:id="_9lVlUCaQEdylcv7LQIu4fA" supplier="_HoL_mCZrEdyPzLcl1Gj0vA" client="_MQau-CZrEdyPzLcl1Gj0vA"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_nJ4jkCaeEdy3860_4A0aKQ" name="Configuration"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_TcFt0CafEdy3860_4A0aKQ" name="XholonClass" isAbstract="true"/>
+    <profileApplication xmi:id="_i7dl4CafEdy3860_4A0aKQ">
+      <eAnnotations xmi:id="_i7dl4SafEdy3860_4A0aKQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="XholonStereotypes.uml#_6yG0EiZhEdyPzLcl1Gj0vA"/>
+      </eAnnotations>
+      <appliedProfile href="XholonStereotypes.uml#_U6c8ICZFEdyPzLcl1Gj0vA"/>
+    </profileApplication>
+  </uml:Model>
+  <XholonStereotypes:PureContainer xmi:id="_i7nW4CafEdy3860_4A0aKQ"/>
+  <XholonStereotypes:PureActiveObject xmi:id="_i7nW4SafEdy3860_4A0aKQ" base_Class="_lfCXuCZkEdyPzLcl1Gj0vA"/>
+  <XholonStereotypes:PureActiveObject xmi:id="_i7nW4iafEdy3860_4A0aKQ" base_Class="_m6PKaCZkEdyPzLcl1Gj0vA"/>
+  <XholonStereotypes:PureContainer xmi:id="_mvZKgCafEdy3860_4A0aKQ" base_Class="_TcFt0CafEdy3860_4A0aKQ"/>
+</xmi:XMI>

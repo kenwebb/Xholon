@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/2.1.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA" name="StateMachineOnly">
+  <ownedComment xmi:id="_uBs5QG4WEdyHNaQqjwtpZg">
+    <body>This model has a single state machine, with no class that owns the state machine. It's a test to confirm that Xholon can handle this case.&#xD;
+The transition from state One to state Two has no trigger, which makes it a completion transition. It will immediately make this transition as soon as the model is started in Xholon.</body>
+  </ownedComment>
+  <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="StateMachineOnly">
+    <packagedElement xmi:type="uml:StateMachine" xmi:id="_sekAcG3zEdyHNaQqjwtpZg" name="StateMachineWithNoClass">
+      <region xmi:id="_sekAcW3zEdyHNaQqjwtpZg">
+        <subvertex xmi:type="uml:Pseudostate" xmi:id="_tadoAm3zEdyHNaQqjwtpZg" name="Pseudostate1"/>
+        <subvertex xmi:type="uml:State" xmi:id="_ugDXEm3zEdyHNaQqjwtpZg" name="One"/>
+        <subvertex xmi:type="uml:State" xmi:id="_v5daAG3zEdyHNaQqjwtpZg" name="Two"/>
+        <transition xmi:id="_7Vsz1W3zEdyHNaQqjwtpZg" name="" target="_ugDXEm3zEdyHNaQqjwtpZg" source="_tadoAm3zEdyHNaQqjwtpZg">
+          <effect xmi:type="uml:OpaqueBehavior" xmi:id="_2xhG4G4HEdyHNaQqjwtpZg">
+            <body>println(&quot;\nTransitioning from initial pseudostate to state One.&quot;);</body>
+          </effect>
+        </transition>
+        <transition xmi:id="_8DJvtG3zEdyHNaQqjwtpZg" name="Transition1" target="_v5daAG3zEdyHNaQqjwtpZg" source="_ugDXEm3zEdyHNaQqjwtpZg">
+          <effect xmi:type="uml:OpaqueBehavior" xmi:id="_4ZhmgG4HEdyHNaQqjwtpZg">
+            <body>print(&quot;Transitioning from state One to state Two. This completion transition occurs because there is no explicitly defined trigger leading from One to Two.&quot;);</body>
+          </effect>
+        </transition>
+      </region>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>
