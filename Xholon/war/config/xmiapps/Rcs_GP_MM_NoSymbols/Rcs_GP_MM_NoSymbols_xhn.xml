@@ -18,16 +18,16 @@
 <param name="MaxProcessLoops" value="100"/>
 <param name="TimeStepInterval" value="10"/>
 <param name="SizeMessageQueue" value="10"/>
-<param name="InheritanceHierarchyFile" value="./config/xmiapps/Rcs_GP_MM_NoSymbols/Rcs_GP_MM_NoSymbols_InheritanceHierarchy.xml"/>
-<param name="CompositeStructureHierarchyFile" value="./config/xmiapps/Rcs_GP_MM_NoSymbols/Rcs_GP_MM_NoSymbols_CompositeStructureHierarchy.xml"/>
-<param name="ClassDetailsFile" value="./config/xmiapps/Rcs_GP_MM_NoSymbols/Rcs_GP_MM_NoSymbols_ClassDetails.xml"/>
-<param name="InformationFile" value="./config/xmiapps/Rcs_GP_MM_NoSymbols/Rcs_GP_MM_NoSymbols_Information.xml"/>
-<param name="JavaClassName" value="org.primordion.xholon.xmiapps.AppRcs_GP_MM_NoSymbols"/>
-<param name="JavaXhClassName" value="org.primordion.xholon.xmiapps.XhRcs_GP_MM_NoSymbols"/>
+<param name="InheritanceHierarchyFile" value="config/xmiapps/Rcs_GP_MM_NoSymbols/Rcs_GP_MM_NoSymbols_InheritanceHierarchy.xml"/>
+<param name="CompositeStructureHierarchyFile" value="config/xmiapps/Rcs_GP_MM_NoSymbols/Rcs_GP_MM_NoSymbols_CompositeStructureHierarchy.xml"/>
+<param name="ClassDetailsFile" value="config/xmiapps/Rcs_GP_MM_NoSymbols/Rcs_GP_MM_NoSymbols_ClassDetails.xml"/>
+<param name="InformationFile" value="config/xmiapps/Rcs_GP_MM_NoSymbols/Rcs_GP_MM_NoSymbols_Information.xml"/>
+<param name="JavaClassName" value="org.primordion.user.xmiapps.Rcs_GP_MM_NoSymbols.AppRcs_GP_MM_NoSymbols"/>
+<param name="JavaXhClassName" value="org.primordion.user.xmiapps.Rcs_GP_MM_NoSymbols.XhRcs_GP_MM_NoSymbols"/>
 <param name="MaxPorts" value="4"/>
 <!-- Viewers -->
-<!-- UseDataPlotter: none JFreeChart gnuplot -->
-<param name="UseDataPlotter" value="JFreeChart"/>
+<!-- UseDataPlotter: none JFreeChart gnuplot google2 nvd3 c3 -->
+<param name="UseDataPlotter" value="nvd3"/>
 <!-- DataPlotterParams: Title,XAxisLabel,YAxisLabel,Path,TypeOfData,NameConcatLevels,WriteType -->
 <param name="DataPlotterParams" value="Glycogen --&gt; G1P over time,Time Step,Substance Quantity,./statistics/,rcsSymStats,1,WRITE_AS_LONG"/>
 <param name="UseGraphicalTreeViewer" value="false"/>

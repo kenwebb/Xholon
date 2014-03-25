@@ -165,8 +165,16 @@ public class Xholon implements EntryPoint {
     else if ("Collisions".equals(appName)) {Collisions(withGui);}
     else if ("Hex".equals(appName)) {Hex(withGui);}
     else if ("_09SpatialGames".equals(appName)) {_09SpatialGames(withGui);}
+    
+    // RCS manually-created
     else if ("Rcs1".equals(appName)) {Rcs1(withGui);}
     else if ("Rcs2".equals(appName)) {Rcs2(withGui);}
+    // RCS from UML MagicDraw
+    else if ("Rcs_GP_FSM".equals(appName)) {Rcs_GP_FSM(withGui);}
+    else if ("Rcs_GP_FSM_Grid".equals(appName)) {Rcs_GP_FSM_Grid(withGui);}
+    else if ("Rcs_GP_MM".equals(appName)) {Rcs_GP_MM(withGui);}
+    else if ("Rcs_GP_MM_NoSymbols".equals(appName)) {Rcs_GP_MM_NoSymbols(withGui);}
+    
     else if ("roomsghosts".equals(appName)) {roomsghosts(withGui);}
     else if ("Beard2005_UML_Xholon_Step4_v1".equals(appName)) {Beard2005_UML_Xholon_Step4_v1(withGui);}
     //else if ("Risk".equals(appName)) {Risk(withGui);}
@@ -707,6 +715,42 @@ public class Xholon implements EntryPoint {
     xhn(withGui,
       (IApplication)GWT.create(org.primordion.user.app.rcs.Rcs2.AppRcs2.class),
       "config/Rcs/Rcs2_xhn.xml");
+  }
+  
+  /**
+   * Rcs_GP_FSM
+   */
+  private void Rcs_GP_FSM(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.user.xmiapps.Rcs_GP_FSM.AppRcs_GP_FSM.class),
+      "config/xmiapps/Rcs_GP_FSM/Rcs_GP_FSM_xhn.xml");
+  }
+  
+  /**
+   * Rcs_GP_FSM_Grid
+   */
+  private void Rcs_GP_FSM_Grid(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.user.xmiapps.Rcs_GP_FSM_Grid.AppRcs_GP_FSM_Grid.class),
+      "config/xmiapps/Rcs_GP_FSM_Grid/Rcs_GP_FSM_Grid_xhn.xml");
+  }
+  
+  /**
+   * Rcs_GP_MM
+   */
+  private void Rcs_GP_MM(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.user.xmiapps.Rcs_GP_MM.AppRcs_GP_MM.class),
+      "config/xmiapps/Rcs_GP_MM/Rcs_GP_MM_xhn.xml");
+  }
+  
+  /**
+   * Rcs_GP_MM_NoSymbols
+   */
+  private void Rcs_GP_MM_NoSymbols(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.user.xmiapps.Rcs_GP_MM_NoSymbols.AppRcs_GP_MM_NoSymbols.class),
+      "config/xmiapps/Rcs_GP_MM_NoSymbols/Rcs_GP_MM_NoSymbols_xhn.xml");
   }
   
   /**

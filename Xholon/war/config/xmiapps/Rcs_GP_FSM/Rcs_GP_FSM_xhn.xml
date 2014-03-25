@@ -18,22 +18,22 @@
 <param name="MaxProcessLoops" value="100"/>
 <param name="TimeStepInterval" value="10"/>
 <param name="SizeMessageQueue" value="10"/>
-<param name="InheritanceHierarchyFile" value="./config/xmiapps/Rcs_GP_FSM/Rcs_GP_FSM_InheritanceHierarchy.xml"/>
-<param name="CompositeStructureHierarchyFile" value="./config/xmiapps/Rcs_GP_FSM/Rcs_GP_FSM_CompositeStructureHierarchy.xml"/>
-<param name="ClassDetailsFile" value="./config/xmiapps/Rcs_GP_FSM/Rcs_GP_FSM_ClassDetails.xml"/>
-<param name="InformationFile" value="./config/xmiapps/Rcs_GP_FSM/Rcs_GP_FSM_Information.xml"/>
-<param name="JavaClassName" value="org.primordion.xholon.xmiapps.AppRcs_GP_FSM"/>
-<param name="JavaXhClassName" value="org.primordion.xholon.xmiapps.XhRcs_GP_FSM"/>
+<param name="InheritanceHierarchyFile" value="config/xmiapps/Rcs_GP_FSM/Rcs_GP_FSM_InheritanceHierarchy.xml"/>
+<param name="CompositeStructureHierarchyFile" value="config/xmiapps/Rcs_GP_FSM/Rcs_GP_FSM_CompositeStructureHierarchy.xml"/>
+<param name="ClassDetailsFile" value="config/xmiapps/Rcs_GP_FSM/Rcs_GP_FSM_ClassDetails.xml"/>
+<param name="InformationFile" value="config/xmiapps/Rcs_GP_FSM/Rcs_GP_FSM_Information.xml"/>
+<param name="JavaClassName" value="org.primordion.user.xmiapps.Rcs_GP_FSM.AppRcs_GP_FSM"/>
+<param name="JavaXhClassName" value="org.primordion.user.xmiapps.Rcs_GP_FSM.XhRcs_GP_FSM"/>
 <param name="MaxPorts" value="3"/>
 <!-- Viewers -->
-<!-- UseDataPlotter: none JFreeChart gnuplot -->
-<param name="UseDataPlotter" value="JFreeChart"/>
+<!-- UseDataPlotter: none JFreeChart gnuplot google2 nvd3 c3 -->
+<param name="UseDataPlotter" value="nvd3"/>
 <!-- DataPlotterParams: Title,XAxisLabel,YAxisLabel,Path,TypeOfData,NameConcatLevels,WriteType -->
 <param name="DataPlotterParams" value="Glycogen --&gt; G1P over time,Time Step,Substance Quantity,./statistics/,rcsSymStats,1,WRITE_AS_LONG"/>
-<param name="UseGraphicalTreeViewer" value="true"/>
+<param name="UseGraphicalTreeViewer" value="false"/>
 <!-- GraphicalTreeViewerParams: XPathExpression,DistX,DistY,SizeX,SizeY,FontSize,Title,ShowNodeLabels -->
 <param name="GraphicalTreeViewerParams" value="/,20,20,800,500,9,Application Composite Structure,false"/>
-<param name="UseGraphicalNetworkViewer" value="true"/>
+<param name="UseGraphicalNetworkViewer" value="false"/>
 <!-- GraphicalNetworkViewerParams: XPathExpression,SizeX,SizeY,FontSize,LayoutType,ShowContainers,Title,ShowNodeLabels -->
 <param name="GraphicalNetworkViewerParams" value="/,800,500,9,LAYOUT_KK,false,Application Port Connections,false"/>
 <param name="UseGridViewer" value="false"/>
@@ -41,7 +41,7 @@
 <!-- GridViewerParams: XPathExpression,CellSize,Title -->
 <param name="GridViewerParams" value="descendant::Row/..,5,Grid Viewer App"/>
 <param name="UseInteractions" value="true"/>
-<param name="InteractionParams" value="4,true,localhost,60001"/>
+<param name="InteractionParams" value="32,true,localhost,60001"/>
 <param name="UseVrml" value="false"/>
 <param name="VrmlWriterClassName" value="org.primordion.xholon.tutorials.VrmlWriterMyApp"/>
 <!-- VrmlParams: DoClassicStyle,VrmlWriteDir,UseLOD,CreateProtoFiles -->

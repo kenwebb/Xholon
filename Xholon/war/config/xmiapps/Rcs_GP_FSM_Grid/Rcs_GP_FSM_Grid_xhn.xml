@@ -18,16 +18,16 @@
 <param name="MaxProcessLoops" value="-1"/>
 <param name="TimeStepInterval" value="10"/>
 <param name="SizeMessageQueue" value="20"/>
-<param name="InheritanceHierarchyFile" value="./config/xmiapps/Rcs_GP_FSM_Grid/Rcs_GP_FSM_Grid_InheritanceHierarchy.xml"/>
-<param name="CompositeStructureHierarchyFile" value="./config/xmiapps/Rcs_GP_FSM_Grid/Rcs_GP_FSM_Grid_CompositeStructureHierarchy.xml"/>
-<param name="ClassDetailsFile" value="./config/xmiapps/Rcs_GP_FSM_Grid/Rcs_GP_FSM_Grid_ClassDetails.xml"/>
-<param name="InformationFile" value="./config/xmiapps/Rcs_GP_FSM_Grid/Rcs_GP_FSM_Grid_Information.xml"/>
-<param name="JavaClassName" value="org.primordion.xholon.xmiapps.AppRcs_GP_FSM_Grid"/>
-<param name="JavaXhClassName" value="org.primordion.xholon.xmiapps.XhRcs_GP_FSM_Grid"/>
+<param name="InheritanceHierarchyFile" value="config/xmiapps/Rcs_GP_FSM_Grid/Rcs_GP_FSM_Grid_InheritanceHierarchy.xml"/>
+<param name="CompositeStructureHierarchyFile" value="config/xmiapps/Rcs_GP_FSM_Grid/Rcs_GP_FSM_Grid_CompositeStructureHierarchy.xml"/>
+<param name="ClassDetailsFile" value="config/xmiapps/Rcs_GP_FSM_Grid/Rcs_GP_FSM_Grid_ClassDetails.xml"/>
+<param name="InformationFile" value="config/xmiapps/Rcs_GP_FSM_Grid/Rcs_GP_FSM_Grid_Information.xml"/>
+<param name="JavaClassName" value="org.primordion.user.xmiapps.Rcs_GP_FSM_Grid.AppRcs_GP_FSM_Grid"/>
+<param name="JavaXhClassName" value="org.primordion.user.xmiapps.Rcs_GP_FSM_Grid.XhRcs_GP_FSM_Grid"/>
 <param name="MaxPorts" value="2"/>
 <!-- Viewers -->
-<!-- UseDataPlotter: none JFreeChart gnuplot -->
-<param name="UseDataPlotter" value="JFreeChart"/>
+<!-- UseDataPlotter: none JFreeChart gnuplot google2 nvd3 c3 -->
+<param name="UseDataPlotter" value="nvd3"/>
 <!-- DataPlotterParams: Title,XAxisLabel,YAxisLabel,Path,TypeOfData,NameConcatLevels,WriteType -->
 <param name="DataPlotterParams" value="Glycogen --&gt; G1P over time,Time Step,Substance Quantity,./statistics/,rcsSymStats,1,WRITE_AS_LONG"/>
 <param name="UseGraphicalTreeViewer" value="false"/>
@@ -37,11 +37,11 @@
 <!-- GraphicalNetworkViewerParams: XPathExpression,SizeX,SizeY,FontSize,LayoutType,ShowContainers,Title,ShowNodeLabels -->
 <param name="GraphicalNetworkViewerParams" value="/,800,500,9,LAYOUT_KK,false,Application Port Connections,false"/>
 <param name="UseGridViewer" value="true"/>
-<param name="GridPanelClassName" value="org.primordion.xholon.xmiapps.GridPanelRcs_GP_FSM_Grid"/>
+<param name="GridPanelClassName" value="org.primordion.user.xmiapps.Rcs_GP_FSM_Grid.GridPanelRcs_GP_FSM_Grid"/>
 <!-- GridViewerParams: XPathExpression,CellSize,Title -->
 <param name="GridViewerParams" value="descendant::Row/..,10,Rcs_GP_FSM Grid"/>
 <param name="UseInteractions" value="true"/>
-<param name="InteractionParams" value="4,true,localhost,60001"/>
+<param name="InteractionParams" value="32,true,localhost,60001"/>
 <param name="UseVrml" value="false"/>
 <param name="VrmlWriterClassName" value="org.primordion.xholon.tutorials.VrmlWriterMyApp"/>
 <!-- VrmlParams: DoClassicStyle,VrmlWriteDir,UseLOD,CreateProtoFiles -->

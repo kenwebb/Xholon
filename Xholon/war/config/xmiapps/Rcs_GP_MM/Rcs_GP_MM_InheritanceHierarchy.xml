@@ -36,9 +36,9 @@
 </Polysaccharide>
 <Solution/>
 <!-- StateMachineEntity -->
-<xi:include href="_mechanism/StateMachineEntity.xml"/>
+<!--<xi:include href="_mechanism/StateMachineEntity.xml"/>-->
 <!-- Port -->
-<xi:include href="_mechanism/Port.xml"/>
+<!--<xi:include href="_mechanism/Port.xml"/>-->
 <!-- Xholon Viewers -->
-<xi:include href="_viewer/XholonViewer.xml"/>
+<!--<xi:include href="_viewer/XholonViewer.xml"/>-->
 </XholonClass>
