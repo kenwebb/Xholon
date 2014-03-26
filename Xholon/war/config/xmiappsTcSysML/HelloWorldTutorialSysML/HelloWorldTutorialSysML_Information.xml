@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+		<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+		-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+
+<!--
+	HelloWorldTutorialSysML Displayable information about this application.
+	Author: KenWebb
+	Date:   Tue Sep 25 14:30:03 EDT 2007
+	File:   HelloWorldTutorialSysML.sysml
+	Target: Xholon 0.6 http://www.primordion.com/Xholon
+	SysML: 
+	XMI: , 
+	XSLT: 1.0, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<document xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:uml="http://www.eclipse.org/uml2/2.1.0/UML" xmlns:sysML="http://www.topcased.org/1.0/sysML" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:Ecore="http://www.eclipse.org/uml2/schemas/Ecore/3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xmi="http://www.omg.org/XMI">
+<header>
+<title>HelloWorldTutorialSysML</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>The model includes an EAnnotation.The HelloWorldTutorialSysML is a simple tutorial, modeled using Topcased SysML. (comment)</p>
+<p>Hello: The Hello block includes a state machine, which it uses to enter into a dialog with World.</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<p/>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p/>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p/>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p/>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p/>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p/>
+</section>
+
+</body>
+</document>

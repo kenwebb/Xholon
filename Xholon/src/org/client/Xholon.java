@@ -230,7 +230,13 @@ public class Xholon implements EntryPoint {
     else if ("ProvidedRequiredTest".equals(appName)) {ProvidedRequiredTest(withGui);}
     else if ("StopWatch".equals(appName)) {StopWatch(withGui);}
     else if ("StopWatch_Xhym".equals(appName)) {StopWatch_Xhym(withGui);}
+    
+    // other UML/SysML (ArgoUML Poseidon Topcased)
+    else if ("HelloWorldTutorialArgoUML".equals(appName)) {HelloWorldTutorialArgoUML(withGui);}
     else if ("Watch".equals(appName)) {Watch(withGui);}
+    else if ("HelloWorldTutorialSysML".equals(appName)) {HelloWorldTutorialSysML(withGui);}
+    else if ("HelloWorldTutorialTc".equals(appName)) {HelloWorldTutorialTc(withGui);}
+    else if ("StateMachineOnly".equals(appName)) {StateMachineOnly(withGui);}
     
     // Petri Net
     else if ("feinberg1".equals(appName)) {feinberg1(withGui);}
@@ -591,11 +597,43 @@ public class Xholon implements EntryPoint {
   }
   
   /**
-   * Watch
+   * Watch (Poseidon)
    */
   private void Watch(String withGui) {
     xhn(withGui, (IApplication)GWT.create(org.primordion.user.xmiapps.Watch.AppWatch.class),
       "config/xmiapps/Watch/Watch_xhn.xml");
+  }
+  
+  /**
+   * HelloWorldTutorialArgoUML
+   */
+  private void HelloWorldTutorialArgoUML(String withGui) {
+    xhn(withGui, (IApplication)GWT.create(org.primordion.user.xmiappsArgoUML.AppHelloWorldTutorialArgoUML.class),
+      "config/xmiappsArgoUML/HelloWorldTutorial/HelloWorldTutorial_xhn.xml");
+  }
+  
+  /**
+   * HelloWorldTutorialSysML
+   */
+  private void HelloWorldTutorialSysML(String withGui) {
+    xhn(withGui, (IApplication)GWT.create(org.primordion.user.xmiappsTcSysML.AppHelloWorldTutorialSysML.class),
+      "config/xmiappsTcSysML/HelloWorldTutorialSysML/HelloWorldTutorialSysML_xhn.xml");
+  }
+  
+  /**
+   * HelloWorldTutorialTc
+   */
+  private void HelloWorldTutorialTc(String withGui) {
+    xhn(withGui, (IApplication)GWT.create(org.primordion.user.xmiappsTc.HelloWorldTutorial.AppHelloWorldTutorialTc.class),
+      "config/xmiappsTc/HelloWorldTutorial/HelloWorldTutorial_xhn.xml");
+  }
+  
+  /**
+   * StateMachineOnly
+   */
+  private void StateMachineOnly(String withGui) {
+    xhn(withGui, (IApplication)GWT.create(org.primordion.user.xmiappsTc.StateMachineOnly.AppStateMachineOnly.class),
+      "config/xmiappsTc/StateMachineOnly/StateMachineOnly_xhn.xml");
   }
   
   /**

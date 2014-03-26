@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	HelloWorldTutorial application - Inheritance Hierarchy
+	Author: Compaq_Administrator
+	Date:   Wed Sep 12 10:58:06 EDT 2007
+	File:   HelloWorldTutorial.xmi
+	Target: Xholon 0.4 http://www.primordion.com/Xholon
+	UML: ArgoUML 0.24
+	XMI: 1.2, Tue Sep 11 19:25:34 EDT 2007, ArgoUML (using Netbeans XMI Writer version 1.0)
+	XSLT: 1.0, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<params xmlns:UML2="org.omg.xmi.namespace.UML2" xmlns:UML="org.omg.xmi.namespace.UML">
+<param name="ShowParams" value="false"/>
+<param name="ModelName" value="HelloWorldTutorial"/>
+<param name="AppM" value="true"/>
+<param name="InfoM" value="false"/>
+<param name="ErrorM" value="true"/>
+<param name="MaxProcessLoops" value="10"/>
+<param name="TimeStepInterval" value="10"/>
+<param name="SizeMessageQueue" value="10"/>
+<param name="InheritanceHierarchyFile" value="config/xmiappsArgoUML/HelloWorldTutorial/HelloWorldTutorial_InheritanceHierarchy.xml"/>
+<param name="CompositeStructureHierarchyFile" value="config/xmiappsArgoUML/HelloWorldTutorial/HelloWorldTutorial_CompositeStructureHierarchy.xml"/>
+<param name="ClassDetailsFile" value="config/xmiappsArgoUML/HelloWorldTutorial/HelloWorldTutorial_ClassDetails.xml"/>
+<param name="InformationFile" value="config/xmiappsArgoUML/HelloWorldTutorial/HelloWorldTutorial_Information.xml"/>
+<param name="JavaClassName" value="org.primordion.user.xmiappsArgoUML.AppHelloWorldTutorialArgoUML"/>
+<param name="JavaXhClassName" value="org.primordion.user.xmiappsArgoUML.XhHelloWorldTutorial"/>
+<param name="RandomNumberSeed" value="1234"/>
+<param name="MaxPorts" value="5"/>
+<!-- enable/disable all viewers -->
+<param name="UseDataPlotter" value="false"/>
+<param name="UseGraphicalTreeViewer" value="false"/>
+<param name="UseGraphicalNetworkViewer" value="false"/>
+<param name="UseGridViewer" value="false"/>
+<param name="UseInteractions" value="false"/>
+<param name="UseVrml" value="false"/>
+<param name="UseTextTree" value="false"/>
+<param name="SaveSnapshots" value="false"/>
+</params>

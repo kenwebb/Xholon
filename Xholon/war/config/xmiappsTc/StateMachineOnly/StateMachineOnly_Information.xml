@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+		<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+		-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+
+<!--
+	StateMachineOnly Displayable information about this application.
+	Author: Compaq_Administrator
+	Date:   Fri Sep 28 19:06:25 EDT 2007
+	File:   StateMachineOnly.uml
+	Target: Xholon 0.6 http://www.primordion.com/Xholon
+	UML:  
+	XMI: , 
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<document xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:uml="http://www.eclipse.org/uml2/2.1.0/UML" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:Ecore="http://www.eclipse.org/uml2/schemas/Ecore/3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1">
+<header>
+<title>StateMachineOnly</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This model has a single state machine, with no class that owns the state machine. It's a test to confirm that Xholon can handle this case.&#13;
+The transition from state One to state Two has no trigger, which makes it a completion transition. It will immediately make this transition as soon as the model is started in Xholon.</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<p/>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p/>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p/>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p/>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p/>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p/>
+</section>
+
+</body>
+</document>

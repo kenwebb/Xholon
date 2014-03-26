@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	HelloWorldTutorial application - Composite Structure Hierarchy
+	Author: KenWebb
+	Date:   17/07/2007
+	File:   HelloWorldTutorial.uml
+	Target: Xholon 0.6 http://www.primordion.com/Xholon
+	UML: TOPCASED 1.0.0 
+	XMI: 2.1 
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<HelloWorldSystem xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:uml="http://www.eclipse.org/uml2/2.1.0/UML" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:Ecore="http://www.eclipse.org/uml2/schemas/Ecore/3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1">
+<Hello roleName="">
+<StateMachine>
+<Region>
+<State uid="1880853625" roleName="Top">
+<Region>
+<PseudostateInitial uid="1320783625" roleName="Pseudostate1"/>
+<State uid="1371085625" roleName="SayingHello"/>
+<TransitionExternal uid="1612659625" roleName="">
+<Activity uid="1874813605"/>
+</TransitionExternal>
+<TransitionExternal uid="1054653625" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIGNAL_ONE"/>
+<Activity uid="1055593605"/>
+</TransitionExternal>
+</Region>
+</State>
+</Region>
+</StateMachine>
+</Hello>
+<World roleName="">
+<StateMachine>
+<Region>
+<State uid="1721023615" roleName="Top">
+<Region>
+<PseudostateInitial uid="1412485615" roleName="Pseudostate1"/>
+<State uid="1277255615" roleName="SayingWorld"/>
+<TransitionExternal uid="1551659615" roleName=""/>
+<TransitionExternal uid="1752823615" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIGNAL_ONE"/>
+<Activity uid="1812953615"/>
+</TransitionExternal>
+</Region>
+</State>
+</Region>
+</StateMachine>
+</World>
+</HelloWorldSystem>

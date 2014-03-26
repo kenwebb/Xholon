@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	StateMachineOnly application - _xhn configuration
+	Author: Compaq_Administrator
+	Date:   Fri Sep 28 19:06:25 EDT 2007
+	File:   StateMachineOnly.uml
+	Target: Xholon 0.6 http://www.primordion.com/Xholon
+	UML:  
+	XMI: , 
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<params xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:uml="http://www.eclipse.org/uml2/2.1.0/UML" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:Ecore="http://www.eclipse.org/uml2/schemas/Ecore/3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1">
+<param name="ShowParams" value="false"/>
+<param name="ModelName" value="StateMachineOnly"/>
+<param name="AppM" value="true"/>
+<param name="InfoM" value="false"/>
+<param name="ErrorM" value="true"/>
+<param name="MaxProcessLoops" value="10"/>
+<param name="TimeStepInterval" value="10"/>
+<param name="SizeMessageQueue" value="10"/>
+<param name="InheritanceHierarchyFile" value="config/xmiappsTc/StateMachineOnly/StateMachineOnly_InheritanceHierarchy.xml"/>
+<param name="CompositeStructureHierarchyFile" value="config/xmiappsTc/StateMachineOnly/StateMachineOnly_CompositeStructureHierarchy.xml"/>
+<param name="ClassDetailsFile" value="config/xmiappsTc/StateMachineOnly/StateMachineOnly_ClassDetails.xml"/>
+<param name="InformationFile" value="config/xmiappsTc/StateMachineOnly/StateMachineOnly_Information.xml"/>
+<param name="JavaClassName" value="org.primordion.user.xmiappsTc.StateMachineOnly.AppStateMachineOnly"/>
+<param name="JavaXhClassName" value="org.primordion.user.xmiappsTc.StateMachineOnly.XhStateMachineOnly"/>
+<param name="MaxPorts" value="5"/>
+<!-- Viewers -->
+<!-- UseDataPlotter: none JFreeChart gnuplot -->
+<param name="UseDataPlotter" value="none"/>
+<!-- DataPlotterParams: Title,XAxisLabel,YAxisLabel,Path,TypeOfData,NameConcatLevels,WriteType -->
+<param name="DataPlotterParams" value="Title,Time (timesteps),Y,./statistics/,stats,1,WRITE_AS_LONG"/>
+<param name="UseGraphicalTreeViewer" value="false"/>
+<!-- GraphicalTreeViewerParams: XPathExpression,DistX,DistY,SizeX,SizeY,FontSize,Title,ShowNodeLabels -->
+<param name="GraphicalTreeViewerParams" value="/,20,20,800,500,9,Application Composite Structure,false"/>
+<param name="UseGraphicalNetworkViewer" value="false"/>
+<!-- GraphicalNetworkViewerParams: XPathExpression,SizeX,SizeY,FontSize,LayoutType,ShowContainers,Title,ShowNodeLabels -->
+<param name="GraphicalNetworkViewerParams" value="/,800,500,9,LAYOUT_KK,false,Application Port Connections,false"/>
+<param name="UseGridViewer" value="false"/>
+<param name="GridPanelClassName" value="org.primordion.xholon.samples.GridPanelMyApp"/>
+<!-- GridViewerParams: XPathExpression,CellSize,Title -->
+<param name="GridViewerParams" value="descendant::Row/..,5,Grid Viewer App"/>
+<param name="UseInteractions" value="true"/>
+<!-- InteractionParams: OutputFormat,ShowStates,SocketHost,SocketPort -->
+<param name="InteractionParams" value="32,true,localhost,60001"/>
+<param name="UseVrml" value="false"/>
+<param name="VrmlWriterClassName" value="org.primordion.xholon.tutorials.VrmlWriterMyApp"/>
+<!-- VrmlParams: DoClassicStyle,VrmlWriteDir,UseLOD,CreateProtoFiles -->
+<param name="VrmlParams" value="true,./3d/,false,false"/>
+<param name="UseTextTree" value="false"/>
+<param name="SaveSnapshots" value="false"/>
+<!-- SnapshotParams: SnapshotSource(0 1),SnapshotTostring,Path -->
+<param name="SnapshotParams" value="0,true,./snapshot/"/>
+<!-- The following parameters, if any, are specific to this application -->
+</params>

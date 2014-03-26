@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	HelloWorldTutorialSysML application - Inheritance Hierarchy
+	Author: KenWebb
+	Date:   Tue Sep 25 14:30:02 EDT 2007
+	File:   HelloWorldTutorialSysML.sysml
+	Target: Xholon 0.6 http://www.primordion.com/Xholon
+	SysML: TOPCASED 1.0.0
+	XMI: , 
+	XSLT: 1.0, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<XholonClass>
+<HelloWorldSystem/>
+<Hello/>
+<World/>
+<!-- StateMachineEntity -->
+<!--<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="_mechanism/StateMachineEntity.xml"/>-->
+<!-- Port -->
+<!--<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="_mechanism/Port.xml"/>-->
+<!-- Xholon Viewers -->
+<!--<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

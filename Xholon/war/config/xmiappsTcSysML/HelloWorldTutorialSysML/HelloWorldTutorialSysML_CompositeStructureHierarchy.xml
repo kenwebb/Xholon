@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	HelloWorldTutorialSysML application - Composite Structure Hierarchy
+	Author: KenWebb
+	Date:   Tue Sep 25 14:30:02 EDT 2007
+	File:   HelloWorldTutorialSysML.sysml
+	Target: Xholon 0.6 http://www.primordion.com/Xholon
+	SysML: TOPCASED 1.0.0
+	XMI:  
+	XSLT: 1.0, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<HelloWorldSystem>
+<Hello roleName="hello">
+<StateMachine>
+<Region>
+<State uid="1069275915" roleName="Top">
+<Region>
+<PseudostateInitial uid="1561745915" roleName="Pseudostate1"/>
+<State uid="1867675915" roleName="SayingHello"/>
+<TransitionExternal uid="1472275925" roleName="">
+<Activity uid="1722095925"/>
+</TransitionExternal>
+<TransitionExternal uid="1666235925" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIGNAL_ONE"/>
+<Activity uid="1322195935"/>
+</TransitionExternal>
+</Region>
+</State>
+</Region>
+</StateMachine>
+</Hello>
+<World roleName="world">
+<StateMachine>
+<Region>
+<State uid="1582805945" roleName="Top">
+<Region>
+<PseudostateInitial uid="1185315945" roleName="Pseudostate1"/>
+<State uid="1229215945" roleName="SayingWorld"/>
+<TransitionExternal uid="1647785945" roleName="">
+<Activity uid="1733375005"/>
+</TransitionExternal>
+<TransitionExternal uid="1763795945" roleName="CNPT_OUTGOING1">
+<Trigger roleName="SIGNAL_ONE"/>
+<Activity uid="1616145015"/>
+</TransitionExternal>
+</Region>
+</State>
+</Region>
+</StateMachine>
+</World>
+</HelloWorldSystem>

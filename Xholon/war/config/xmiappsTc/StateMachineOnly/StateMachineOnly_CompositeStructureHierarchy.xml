@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	StateMachineOnly application - Composite Structure Hierarchy
+	Author: Compaq_Administrator
+	Date:   Fri Sep 28 19:06:24 EDT 2007
+	File:   StateMachineOnly.uml
+	Target: Xholon 0.6 http://www.primordion.com/Xholon
+	UML: TOPCASED 1.0.0 
+	XMI:  
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<StateMachineWithNoClass xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:uml="http://www.eclipse.org/uml2/2.1.0/UML" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:Ecore="http://www.eclipse.org/uml2/schemas/Ecore/3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1">
+<StateMachine>
+<Region>
+<PseudostateInitial uid="1670119325" roleName="Pseudostate1"/>
+<State uid="1734459325" roleName="One"/>
+<State uid="1850717325" roleName="Two"/>
+<TransitionExternal uid="1725213325" roleName="">
+<Activity uid="1204747485"/>
+</TransitionExternal>
+<TransitionExternal uid="1840867325" roleName="Transition1">
+<Activity uid="1464937485"/>
+</TransitionExternal>
+</Region>
+</StateMachine>
+</StateMachineWithNoClass>
