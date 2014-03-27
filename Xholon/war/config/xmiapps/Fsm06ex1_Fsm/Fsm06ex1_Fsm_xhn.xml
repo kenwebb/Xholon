@@ -22,7 +22,7 @@
 <param name="CompositeStructureHierarchyFile" value="config/xmiapps/Fsm06ex1_Fsm/Fsm06ex1_Fsm_CompositeStructureHierarchy.xml"/>
 <param name="ClassDetailsFile" value="config/xmiapps/Fsm06ex1_Fsm/Fsm06ex1_Fsm_ClassDetails.xml"/>
 <param name="InformationFile" value="config/xmiapps/Fsm06ex1_Fsm/Fsm06ex1_Fsm_Information.xml"/>
-<param name="JavaClassName" value="org.primordion.user.xmiapps.Fsm06ex1_Fsm.AppFsm06ex1_Fsm"/>
+<param name="JavaClassName" value="org.primordion.user.xmiapps.Fsm06ex1_Fsm.AppFsm06ex1_FsmXmi"/>
 <param name="JavaXhClassName" value="org.primordion.user.xmiapps.Fsm06ex1_Fsm.XhFsm06ex1_Fsm"/>
 <param name="MaxPorts" value="1"/>
 <!-- Viewers -->
