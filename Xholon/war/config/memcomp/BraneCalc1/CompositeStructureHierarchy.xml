@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- BraneCalc1
+-->
+
+<BraneCalcSystem>
+	<!-- Test the pino action -->
+	<System roleName="Pino_white">
+		<Membrane>
+			<Subsystem roleName="P_black"/>
+			<Patch roleName="u"/>
+			<Patch roleName="s">
+				<Pino/>
+			</Patch>
+			<Patch roleName="t"/>
+		</Membrane>
+	</System>
+	<!-- Test the phago action -->
+	<System roleName="Phago_white">
+		<Membrane>
+			<Subsystem roleName="P_black"/>
+			<Patch roleName="u"/>
+			<Patch roleName="t"/>
+		</Membrane>
+		<Membrane>
+			<Subsystem roleName="Q_black"/>
+			<Patch roleName="w"/>
+			<Patch roleName="s">
+				<Phago/>
+			</Patch>
+			<Patch roleName="v"/>
+		</Membrane>
+	</System>
+	<!-- Test the exo action -->
+	<System roleName="Exo_white">
+		<Membrane>
+			<Subsystem roleName="Q_black"/>
+			<Patch roleName="w"/>
+			<Patch roleName="v"/>
+			<Membrane>
+				<Subsystem roleName="P_white"/>
+				<Patch roleName="u"/>
+				<Exo/>
+				<Patch roleName="t"/>
+			</Membrane>
+		</Membrane>
+	</System>
+	<!-- Test the mate action -->
+	<System roleName="Mate_white">
+		<Membrane>
+			<Subsystem roleName="P_black"/>
+			<Patch roleName="u"/>
+			<Patch roleName="t"/>
+		</Membrane>
+		<Membrane>
+			<Subsystem roleName="Q_black"/>
+			<Patch roleName="w"/>
+			<Patch roleName="s">
+				<Mate/>
+			</Patch>
+			<Patch roleName="v"/>
+		</Membrane>
+	</System>
+	<!-- Test the bud action -->
+	<System roleName="Bud_white">
+		<Membrane>
+			<Subsystem roleName="Q_black"/>
+			<Patch roleName="u"/> <!-- tauNull -->
+			<Patch roleName="s">  <!-- rho -->
+				<Bud/>
+			</Patch>
+			<Patch roleName="t"/> <!-- tau -->
+			<Membrane>
+				<Subsystem roleName="P_white"/>
+				<Patch roleName="v"/> <!-- sigma -->
+				<Patch roleName="w"/> <!-- sigmaNull -->
+			</Membrane>
+		</Membrane>
+	</System>
+	<!-- Test the drip action -->
+	<System roleName="Drip_white">
+		<Membrane>
+			<Subsystem roleName="P_black"/>
+			<Patch roleName="u"/> <!-- sigmaNull -->
+			<Patch roleName="s">  <!-- rho -->
+				<Drip/>
+			</Patch>
+			<Patch roleName="t"/> <!-- sigma -->
+		</Membrane>
+	</System>
+	<System roleName="ViralInfection">
+		<!-- Virus -->
+		<Membrane>
+			<Subsystem roleName="Nucleocapsid"/>
+			<Patch roleName="r"/>
+			<Patch roleName="s"/>
+			<Patch roleName="t"/>
+		</Membrane>
+		<!-- Cell -->
+		<Membrane>
+			<Subsystem roleName="Cytosol"/>
+			<Patch roleName="u"/>
+			<Patch roleName="v"/>
+			<Patch roleName="w"/>
+		</Membrane>
+	</System>
+</BraneCalcSystem>

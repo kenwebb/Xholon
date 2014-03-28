@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	StateMachineEntities application - Inheritance Hierarchy
+	Author: Ken Webb
+	Date:   today's date
+	File:   fileName.xml
+	UML: MagicDraw UML 10.5
+	XMI: 2.1, Tue Jan 17 16:48:29 EST 2006
+	XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+	<Membrane1/>
+	<Membrane2/>
+	<Membrane3/>
+
+	<!-- StateMachineEntity -->
+	<!--<xi:include href="_mechanism/StateMachineEntity.xml"/>-->
+	
+	<!-- Xholon Viewers -->
+	<!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

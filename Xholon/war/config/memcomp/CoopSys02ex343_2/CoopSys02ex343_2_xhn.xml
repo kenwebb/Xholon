@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Cooperative P System - configuration file
+	 source: Paun, Gh. (2002). Membrane Computing. Second example in section 3.4.3.
+	 Answers the question: "whether or not n is a multiple of k", where:
+	   n is the number of instances of "a" at the start,
+	   k is the number of instances of "c" at the start.
+	 Ken Webb
+	 January 12, 2006
+-->
+
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Coop PSystem 2002 ex343_2"/>
+	<param name="AppM" value="true"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="20"/>
+	<param name="SizeMessageQueue" value="20"/>
+	<param name="InheritanceHierarchyFile" value="config/memcomp/CoopSys02ex343_2/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="config/memcomp/CoopSys02ex343_2/CompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="config/memcomp/CoopSys02ex343_2/ClassDetails.xml"/>
+	<param name="InformationFile" value="config/memcomp/CoopSys02ex343_2/Information_psys_CoopSys02ex343_2.xml"/>
+	<param name="JavaClassName" value="org.primordion.memcomp.app.CoopSys02ex343_2.AppCoopSys02ex343_2"/>
+	<param name="JavaXhClassName" value="org.primordion.memcomp.app.CoopSys02ex343_2.XhCoopSys02ex343_2"/>
+	<param name="MaxPorts" value="6"/>
+	<!-- Whether or not to capture interactions between Xholons, and output as a graphical UML Sequence Diagram. -->
+	<param name="UseInteractions" value="true"/>
+	<param name="InteractionParams" value="32,false,localhost,60001"/>
+	<!-- Graphical Viewers -->
+	<param name="UseGraphicalTreeViewer" value="false"/>
+	<param name="GraphicalTreeViewerParams"
+		value="/,20,30,1000,200,9,Xholon - Membrane Computing - CoopSys02ex343_2,false"/>
+	<param name="UseGraphicalNetworkViewer" value="false"/>
+</params>

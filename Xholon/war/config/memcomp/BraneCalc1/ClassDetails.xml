@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MembraneComputing memcomp/BraneCalc1 ClassDetails.xml
+from XhAbstractBraneCalc:
+  public static final int P_MEMBRANEP = 0;
+	public static final int P_MEMBRANEQ = 1;
+	public static final int P_PATCH = 2;
+-->
+<xholonClassDetails>
+	<Pino xhType="XhtypeBraneCalcEntityActive">
+		<port name="port" index="0" connector="#xpointer(ancestor::Membrane)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Patch)"/>
+	</Pino>
+	<Phago xhType="XhtypeBraneCalcEntityActive">
+		<port name="port" index="0" connector="#xpointer(ancestor::System/Membrane[1])"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Membrane)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Patch)"/>
+	</Phago>
+	<Exo xhType="XhtypeBraneCalcEntityActive">
+		<port name="port" index="0" connector="#xpointer(ancestor::Membrane)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Membrane/..)"/>
+	</Exo>
+	<Mate xhType="XhtypeBraneCalcEntityActive">
+		<port name="port" index="0" connector="#xpointer(ancestor::System/Membrane[1])"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Membrane)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Patch)"/>
+	</Mate>
+	<Bud xhType="XhtypeBraneCalcEntityActive">
+		<port name="port" index="0" connector="#xpointer(ancestor::Membrane/Membrane)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::Membrane)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Patch)"/>
+	</Bud>
+	<Drip xhType="XhtypeBraneCalcEntityActive">
+		<port name="port" index="0" connector="#xpointer(ancestor::Membrane)"/>
+		<port name="port" index="2" connector="#xpointer(ancestor::Patch)"/>
+	</Drip>
+	<Membrane xhType="XhtypeBraneCalcEntityPassive">
+	</Membrane>
+	<Patch xhType="XhtypeBraneCalcEntityPassive">
+	</Patch>
+	<BraneCalculusEntity xhType="XhtypeBraneCalcEntity">
+	</BraneCalculusEntity>
+	<XholonClass xhType="XhtypePureContainer">
+	</XholonClass>
+</xholonClassDetails>

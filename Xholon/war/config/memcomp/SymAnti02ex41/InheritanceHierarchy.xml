@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- SymAnti02ex41
+-->
+
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+	<MembraneComputingEntity>
+		<MembraneStructure>
+			<SuperCellSystem/>
+		</MembraneStructure>
+		<Objects/>
+		<Object>
+			<a/>
+			<b/>
+			<c/>
+			<z/> <!-- c' -->
+			<d/>
+			<e/>
+			<y/> <!-- e' -->
+			<f/>
+			<g/>
+			<_/> <!-- # -->
+		</Object>
+		<Membrane/>
+		<MRegion/>
+		<Environment/>
+		<RuleSet/>
+		<Rule>
+			<!-- R1 rules -->
+			<R1r1/>
+			<R1r2/>
+			<R1r3/>
+			<R1r4/>
+			<R1r5/>
+			<R1r6/>
+			<R1r7/>
+			<R1r8/>
+			<R1r9/>
+			<R1r10/>
+			<!-- R2 rules -->
+			<R2r1/>
+			<R2r2/>
+			<R2r3/>
+			<R2r4/>
+			<R2r5/>
+			<R2r6/>
+			<R2r7/>
+			<R2r8/>
+			<R2r9/>
+		</Rule>
+		<CompletionDetector/>
+	</MembraneComputingEntity>
+	
+	<!-- Xholon Viewers -->
+	<!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

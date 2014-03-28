@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Fsm06ex1
+-->
+
+<SuperCellSystem>
+	<CompletionDetector/>
+	<!-- mu=[1[2]2[3]3]1 -->
+	<Environment>
+		<Objects>
+		</Objects>
+	</Environment>
+    <Membrane roleName="1">                  <!--  [1    -->
+		<MRegion>
+			<Objects>
+				<m/>
+			</Objects>
+			<RuleSet roleName="R1">
+			</RuleSet>
+		</MRegion>
+		<Membrane roleName="2">              <!--  [2    -->
+			<MRegion>
+				<Objects>
+					<a/>
+					<q/>
+				</Objects>
+				<RuleSet roleName="R2">
+					<R2r1/>
+					<R2r2/>
+					<R2r3/>
+					<R2r4/>
+					<R2r5/>
+					<R2r6/>
+					<R2r7/>
+					<R2r8/>
+					<R2r9/>
+				</RuleSet>
+			</MRegion>
+		</Membrane>                          <!--    ]2  -->
+		<Membrane roleName="3">              <!--  [3    -->
+			<MRegion>
+				<Objects>
+					<a/>
+				</Objects>
+				<RuleSet roleName="R3">
+					<R3r1/>
+					<R3r2/>
+					<R3r3/>
+					<R3r4/>
+					<R3r5/>
+					<R3r6/>
+					<R3r7/>
+					<R3r8/>
+					<R3r9/>
+					<R3r10/>
+					<R3r11/>
+				</RuleSet>
+			</MRegion>
+		</Membrane>                          <!--    ]3  -->
+	</Membrane>                              <!--    ]1  -->
+</SuperCellSystem>

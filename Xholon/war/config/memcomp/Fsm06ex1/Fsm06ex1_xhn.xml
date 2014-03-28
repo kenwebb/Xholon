@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Fsm06ex1
+	 P System - configuration file
+	 Simple finite state machine (FSM) implemented as a P System.
+	 Ken Webb
+	 January 12, 2006
+-->
+
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="FSM as P System"/>
+	<param name="AppM" value="true"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="20"/>
+	<param name="SizeMessageQueue" value="5"/>
+	<param name="InheritanceHierarchyFile" value="config/memcomp/Fsm06ex1/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="config/memcomp/Fsm06ex1/CompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="config/memcomp/Fsm06ex1/ClassDetails.xml"/>
+	<param name="InformationFile" value="config/memcomp/Fsm06ex1/Information_psys_fsm06ex1.xml"/>
+	<param name="JavaClassName" value="org.primordion.memcomp.app.Fsm06ex1.AppFsm06ex1"/>
+	<param name="JavaXhClassName" value="org.primordion.memcomp.app.Fsm06ex1.XhFsm06ex1"/>
+	<param name="MaxPorts" value="6"/>
+	<!-- Whether or not to capture interactions between Xholons, and output as a graphical UML Sequence Diagram. -->
+	<param name="UseInteractions" value="true"/>
+	<param name="InteractionParams" value="32,false,localhost,60001"/>
+	<!-- Graphical Viewers -->
+	<param name="UseGraphicalTreeViewer" value="false"/>
+	<param name="GraphicalTreeViewerParams"
+		value="/,20,30,1000,200,9,Xholon - Membrane Computing - Fsm06ex1,false"/>
+	<param name="UseGraphicalNetworkViewer" value="false"/>
+</params>

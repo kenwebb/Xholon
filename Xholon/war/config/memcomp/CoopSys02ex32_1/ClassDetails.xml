@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MembraneComputing memcomp/CoopSys02ex32_1 ClassDetails.xml
+// Port indices
+	public static final int P_HERE = 0;
+	public static final int P_OUT  = 1; // out membrane
+	public static final int P_IN1  = 2; // in membranes
+	public static final int P_IN2  = 3;
+	public static final int P_IN3  = 4;
+	public static final int P_IN4  = 5;
+	public static final int P_OUTPUT = 0; // output membrane
+-->
+<xholonClassDetails>
+	<RuleSet xhType="XhtypeMemCompEntityActiveContainer">
+		<port name="port" index="0" connector="#xpointer(ancestor::MRegion/Objects)"/>
+		<port name="port" index="3" connector="#xpointer(ancestor::Membrane/Membrane[1]/MRegion/Objects)"/>
+		<port name="port" index="1" connector="#xpointer(ancestor::SuperCellSystem/Environment/Objects)"/>
+	</RuleSet>
+	<CompletionDetector xhType="XhtypeMemCompEntityActive">
+		<port name="port" index="0" connector="#xpointer(ancestor::SuperCellSystem/descendant::Membrane[@roleName='2'])"/>
+	</CompletionDetector>
+	<Object xhType="XhtypeMemCompEntityPassive">
+	</Object>
+	<MembraneComputingEntity xhType="XhtypeMemCompEntity">
+	</MembraneComputingEntity>
+	<XholonClass xhType="XhtypePureContainer">
+	</XholonClass>
+</xholonClassDetails>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>Brane Calculus - Xholon App</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This is a model that demonstrates some aspects of Brane Calculus,
+a Computational Systems Biology research area originated by Luca Cardelli.
+It's related to process calculi, and also to membrane computing.
+"Brane" in this case is short for Membrane.</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+<title/>
+<p>Run it:</p>
+<ol>
+<li>Run the Java application through the Xholon GUI (org.primordion.xholon.app.Xhn.java),
+and select File --> Open --> memcomp --> BraneCalc1 --> BraneCalc1_xhn.</li>
+<li>Expand the Controller node in the tree.</li>
+<li>Press the Start node.</li>
+<li>You should see a list of parameters in the console window.</li>
+</ol>
+</section>
+<section><title/>
+<source>
+
+</source>
+</section>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p>The simulation will display a tree graph showing the complete composite structure hierarchy.</p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>The various subsystems contained within this Xholon model,
+are based on the published work of Luca Cardelli and Gheorghe Paun.</p>
+<p>Cardelli, L. (2004). Brane Calculi - Interactions of Biological Membranes. LNCS.</p>
+<p>Cardelli, L. and Paun, Gh. (2005).
+A universality result for a (mem)brane calculus based on mate/drip operations.
+International Journal of Foundations of Computer Science, 17(1), pp 49-68. World Scientific Publishing Company. </p>
+<p><a href="http://www.luca.demon.co.uk/">Cardelli</a></p>
+</section>
+
+</body>
+</document>

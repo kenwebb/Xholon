@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+-->
+
+<SuperCellSystem>
+	<CompletionDetector/>
+	<!-- mu=[1[2[3]3]2[4]4]1 -->
+	<Environment>
+		<Objects>
+		</Objects>
+	</Environment>
+    <Membrane roleName="1">                  <!--  [1    -->
+		<MRegion>
+			<Objects>
+				<!-- w1=aac -->
+				<a/>
+				<a/>
+				<c/>
+			</Objects>
+			<RuleSet roleName="R1">
+				<!--
+					R1={
+					r1:c->(c,in4),
+					r2:c->(b,in4),
+					r3:a->(a,in2)b,
+					dd->(a,in4)
+					}
+					p1={r1>r3,r2>r3}
+				-->
+				<R1r1/>
+				<R1r2/>
+				<R1r4/>
+				<R1r3>
+				  <!--<attribute name="priority" value="99"/>-->
+				  <Attribute_int roleName="priority">99</Attribute_int>
+				</R1r3>
+			</RuleSet>
+		</MRegion>
+		<Membrane roleName="2">              <!--  [2    -->
+			<MRegion>
+				<Objects>
+					<!-- w2=a -->
+					<a/>
+				</Objects>
+				<RuleSet roleName="R2">
+					<R2r1/>
+					<R2r2/>
+				</RuleSet>
+			</MRegion>
+			<Membrane roleName="3">          <!--  [3]3  -->
+				<MRegion>
+					<Objects>
+						<!-- w3=cd -->
+						<c/>
+						<d/>
+					</Objects>
+					<RuleSet roleName="R3">
+						<R3r1/>
+					</RuleSet>
+				</MRegion>
+			</Membrane>
+		</Membrane>                          <!--    ]2  -->
+		<Membrane roleName="4">              <!--  [4]4  -->
+			<MRegion>
+				<!-- output membrane -->
+				<Objects>
+					<!-- w4=emptySet -->
+				</Objects>
+				<RuleSet roleName="R4">
+					<R4r1/>
+					<R4r2/>
+				</RuleSet>
+			</MRegion>
+		</Membrane>
+	</Membrane>                              <!--    ]1  -->
+</SuperCellSystem>

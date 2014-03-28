@@ -1,0 +1,80 @@
+// references to other Xholon instances; indices into the port array
+public static final int P_PARTNER = 0;
+
+// maximum number of ports found in any Xholon class
+private static final int SIZE_MYAPP_PORTS = 1;
+
+// Signals, Events
+public static final int SOUT_P = 100;
+public static final int SOUT_Q = 110;
+public static final int SOUT_R = 120;
+public static final int SIN_M = 200;
+public static final int SIN_N = 210;
+
+	public void performActivity(int activityId)
+	{
+		switch (activityId) {
+		case 36471992: // sinNfromB
+System.out.println("M2: bn -> aq");
+System.out.println("M2: (q, out)");
+port[P_PARTNER].sendMessage(SOUT_Q, null, this);
+			break;
+		case 887811995: // mFromB
+System.out.println("M2: bm -> cr");
+System.out.println("M2: (r, out)");
+port[P_PARTNER].sendMessage(SOUT_R, null, this);
+			break;
+		case 5596918: // sinMfromA
+// the choice of which transition to take is non-deterministic
+// get a random number, either 0 or 1
+mChoice = Misc.getRandomInt(0,9);
+			break;
+		case 75715137: // mChoice>0
+System.out.println("M2: am -> bp");
+System.out.println("M2: (p, out)");
+port[P_PARTNER].sendMessage(SOUT_P, null, this);
+			break;
+		case 85698141: // mChoice==0
+System.out.println("M2: am -> c");
+			break;
+		case 899281219: // pFromA
+System.out.println("M3: ap -> bn");
+System.out.println("M3: (n, out)");
+port[P_PARTNER].sendMessage(SIN_N, null, this);
+			break;
+		case 856941214: // qFromB
+System.out.println("M3: bq -> am");
+System.out.println("M3: (m, out)");
+port[P_PARTNER].sendMessage(SIN_M, null, this);
+			break;
+		case 6553419: // 
+System.out.println("Starting ...");
+port[P_PARTNER].sendMessage(SIN_M, null, this);
+			break;
+		case 598251291: // qFromD
+System.out.println("M3: dq -> e");
+			break;
+		case 257731217: // rFromC
+System.out.println("M3: cr -> d, where c is either a or b");
+			break;
+		case 839291293: // pFromD
+System.out.println("M3: dp -> a");
+			break;
+		default:
+			System.out.println("XhStateMachineEntities: performActivity() unknown Activity " + activityId);
+			break;
+		}
+	}
+
+	public boolean performGuard(int activityId)
+	{
+		switch (activityId) {
+		case 22459135: // 1
+			return mChoice > 0;
+		case 95867138: // 2
+			return mChoice == 0;
+		default:
+			System.out.println("XhStateMachineEntities: performGuard() unknown Activity " + activityId);
+			return false;
+		}
+	}

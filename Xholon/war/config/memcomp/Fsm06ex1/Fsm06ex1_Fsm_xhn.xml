@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Fsm06ex1_Fsm
+	 FSM - configuration file
+	 Simple finite state machine (FSM) version.
+	 Ken Webb
+	 January 17, 2006
+-->
+
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Fsm06ex1_Fsm"/>
+	<param name="AppM" value="true"/>
+	<param name="InfoM" value="true"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="20"/>
+	<param name="SizeMessageQueue" value="5"/>
+	<param name="InheritanceHierarchyFile" value="config/memcomp/Fsm06ex1/InheritanceHierarchy_FsmMD.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="config/memcomp/Fsm06ex1/CompositeStructureHierarchy_FsmMD.xml"/>
+	<param name="ClassDetailsFile" value="config/memcomp/Fsm06ex1/ClassDetails_FsmMD.xml"/>
+	<param name="InformationFile" value="config/memcomp/Fsm06ex1/Information_psys_fsm06ex1.xml"/>
+	<param name="JavaClassName" value="org.primordion.memcomp.app.Fsm06ex1.AppFsm06ex1_Fsm"/>
+	<param name="JavaXhClassName" value="org.primordion.memcomp.app.Fsm06ex1.XhFsm06ex1_Fsm"/>
+	<param name="MaxPorts" value="1"/>
+	<!-- Whether or not to capture interactions between Xholons, and output as a graphical UML Sequence Diagram. -->
+	<param name="UseInteractions" value="true"/>
+	<param name="InteractionParams" value="32,true,localhost,60001"/>
+	<!-- UseDataPlotter: none JFreeChart gnuplot google2 nvd3 c3 -->
+	<param name="UseDataPlotter" value="nvd3"/>
+	<!-- DataPlotterParams: Title,XAxisLabel,YAxisLabel,Path,TypeOfData,NameConcatLevels,WriteType -->
+	<param name="DataPlotterParams"
+		value="Fsm06ex1_Fsm - Active States,Time Step,Active State,./statistics/,elevatorStats,1,WRITE_AS_LONG"/>
+	<!-- Graphical Viewers -->
+	<param name="UseGraphicalTreeViewer" value="false"/>
+	<param name="GraphicalTreeViewerParams"
+		value="/,20,30,1000,200,9,Xholon - Membrane Computing - Fsm06ex1_Fsm,false"/>
+	<param name="UseGraphicalNetworkViewer" value="false"/>
+</params>

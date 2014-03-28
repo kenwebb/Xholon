@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- CoopSys02ex32_1
+-->
+
+<SuperCellSystem>
+	<CompletionDetector/>
+	<!-- mu=[1[2]2]1 -->
+	<Environment>
+		<Objects>
+		</Objects>
+	</Environment>
+    <Membrane roleName="1">                  <!--  [1    -->
+		<MRegion>
+			<Objects>
+				<a/>
+				<a/>
+			</Objects>
+			<RuleSet roleName="R1">
+				<R1r1/>
+				<R1r2/>
+			</RuleSet>
+		</MRegion>
+		<Membrane roleName="2">              <!--  [2    -->
+			<MRegion>
+				<Objects>
+				</Objects>
+				<RuleSet roleName="R2">
+				</RuleSet>
+			</MRegion>
+		</Membrane>                          <!--    ]2  -->
+	</Membrane>                              <!--    ]1  -->
+</SuperCellSystem>

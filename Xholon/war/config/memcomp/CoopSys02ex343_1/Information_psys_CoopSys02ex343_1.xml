@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>Membrane Computing - Xholon App</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This is a model of a Membrane Computing system.</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+<title/>
+<p>Run it:</p>
+<ol>
+<li>Run the Java application through the XhnMemComp GUI (org.primordion.memcomp.app.XhnMemComp.java),
+and select File --> Open --> memcomp --> CoopPSys02ex343_1 --> CoopPSys02ex343_1_xhn.</li>
+<li>Expand the Controller node in the tree.</li>
+<li>Press the Start node.</li>
+<li>You should see ...</li>
+</ol>
+</section>
+<section><title/>
+<source>
+Expected Results for each membrane (for deterministic, or typical case)
+DIS - dissolved
+
+Step  env    m1     m2       m3
+===== ====== ====== ======   ======
+0                            af
+1                            abff
+2                   bbffff   DIS
+3                   ffdddede
+4                   fdededeedee
+5            eedede DIS
+6     dd     eeee
+"Computation was successful."    
+</source>
+</section>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p></p>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p></p>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p></p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon and Ealontro features</title>
+<p></p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p>Paun, Gh. (2002). Membrane Computing. First example in section 3.4.3</p>
+<p><a href="http://psystems.disco.unimib.it/">PSystems</a></p>
+</section>
+
+</body>
+</document>

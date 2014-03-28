@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+StateMachineEntities application - Composite Structure Hierarchy
+Author: Ken Webb
+Date:   today's date
+File:   fileName.xml
+UML: MagicDraw UML 10.5
+XMI: 2.1, Tue Jan 17 16:48:29 EST 2006
+XSLT: 1, Apache Software Foundation, http://xml.apache.org/xalan-j
+-->
+<Membrane1 xmlns:xmi="http://schema.omg.org/spec/XMI/2.1"
+	xmlns:uml="http://schema.omg.org/spec/UML/2.0">
+	<Membrane2>
+		<StateMachine>
+			<Region>
+				<State uid="17763191" roleName="Top">
+					<Region>
+						<Transition uid="77278162" roleName="initialize"/>
+						<Transition uid="69475186" roleName="CNPT_OUTGOING_1">
+							<Trigger roleName="SIN_N"/>
+							<Activity uid="36471992"/>
+						</Transition>
+						<Transition uid="386981991" roleName="CNPT_OUTGOING2">
+							<Trigger roleName="SIN_M"/>
+							<Activity uid="887811995"/>
+						</Transition>
+						<Transition uid="6721317" roleName="CNPT_OUTGOING1">
+							<Trigger roleName="SIN_M"/>
+							<Activity uid="5596918"/>
+						</Transition>
+						<Transition uid="84984199" roleName="1">
+							<Guard uid="22459135"/>
+							<Activity uid="75715137"/>
+						</Transition>
+						<Transition uid="69142123" roleName="2">
+							<Guard uid="95867138"/>
+							<Activity uid="85698141"/>
+						</Transition>
+						<PseudostateInitial uid="99847124" roleName=""/>
+						<State uid="97914131" roleName="a"/>
+						<State uid="19279143" roleName="b"/>
+						<FinalState uid="99352156" roleName="c"/>
+						<PseudostateChoice uid="9659412" roleName=""/>
+					</Region>
+				</State>
+			</Region>
+		</StateMachine>
+	</Membrane2>
+	<Membrane3>
+		<StateMachine>
+			<Region>
+				<State uid="396751243" roleName="Top">
+					<Region>
+						<Transition uid="851121398" roleName="initialize">
+							<Activity uid="6553419"/>
+						</Transition>
+						<Transition uid="148221355" roleName="CNPT_OUTGOING2">
+							<Trigger roleName="SOUT_Q"/>
+							<Activity uid="598251291"/>
+						</Transition>
+						<Transition uid="669291399" roleName="CNPT_OUTGOING1">
+							<Trigger roleName="SOUT_R"/>
+							<Activity uid="257731217"/>
+						</Transition>
+						<Transition uid="749541413" roleName="CNPT_OUTGOING_1">
+							<Trigger roleName="SOUT_P"/>
+							<Activity uid="839291293"/>
+						</Transition>
+						<PseudostateInitial uid="362761257" roleName=""/>
+						<State uid="774491265" roleName="c">
+							<Region>
+								<Transition uid="8471337" roleName="initialize"/>
+								<Transition uid="911831367"
+									roleName="CNPT_OUTGOING1">
+									<Trigger roleName="SOUT_P"/>
+									<Activity uid="899281219"/>
+								</Transition>
+								<Transition uid="513421379"
+									roleName="CNPT_OUTGOING_1">
+									<Trigger roleName="SOUT_Q"/>
+									<Activity uid="856941214"/>
+								</Transition>
+								<State uid="854931292" roleName="a"/>
+								<State uid="917291315" roleName="b"/>
+								<PseudostateInitial uid="487671339" roleName=""/>
+							</Region>
+						</State>
+						<State uid="523831279" roleName="d"/>
+						<FinalState uid="319991349" roleName="e"/>
+					</Region>
+				</State>
+			</Region>
+		</StateMachine>
+	</Membrane3>
+</Membrane1>

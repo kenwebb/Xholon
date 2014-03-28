@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- CoopSys02ex32_1
+-->
+
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+	<MembraneComputingEntity>
+		<MembraneStructure>
+			<SuperCellSystem/>
+		</MembraneStructure>
+		<Objects/>
+		<Object>
+			<a/>
+			<b/>
+			<c/>
+		</Object>
+		<Membrane/>
+		<MRegion/>
+		<Environment/>
+		<RuleSet/>
+		<Rule>
+			<R1r1/>
+			<R1r2/>
+		</Rule>
+		<CompletionDetector/>
+	</MembraneComputingEntity>
+	
+	<!-- Xholon Viewers -->
+	<!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

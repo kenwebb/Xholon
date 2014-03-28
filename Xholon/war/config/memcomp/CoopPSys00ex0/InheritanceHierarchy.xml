@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+- An Object is just a symbol with no internal structure.
+-->
+
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+	<MembraneComputingEntity>
+		<MembraneStructure>
+			<SuperCellSystem/> <!-- SuperCellSystem is a MembraneStructure that may contain Objects. -->
+		</MembraneStructure>
+		<Objects/>
+		<Object> <!-- membrane computing "objects" that belong to the alphabet V -->
+			<!-- V={a,b,c,d} -->
+			<a/>
+			<b/>
+			<c/>
+			<d/>
+		</Object>
+		<Membrane/>
+		<MRegion/>
+		<Environment/>
+		<RuleSet/>
+		<Rule>
+			<R1r1/>
+			<R1r2/>
+			<R1r3/>
+			<R1r4/>
+			<R2r1/>
+			<R2r2/>
+			<R3r1/>
+			<R4r1/>
+			<R4r2/>
+		</Rule>
+		<CompletionDetector/>
+		
+		<!-- The following are terms from the Membrane Computing literature,
+			 not currently used in my Composite Structure. -->
+		<Alphabet/>
+	</MembraneComputingEntity>
+	
+	<!-- Xholon Viewers -->
+	<!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

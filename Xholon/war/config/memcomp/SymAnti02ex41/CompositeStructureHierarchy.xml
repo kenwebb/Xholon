@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- SymAnti02ex41
+-->
+
+<SuperCellSystem>
+	<CompletionDetector/>
+	<!-- mu=[1[2]2]1 -->
+	<Environment>
+		<Objects>
+			<a/>
+			<b/>
+			<c/>
+			<z/> <!-- c' -->
+			<e/>
+			<y/> <!-- e' -->
+			<f/>
+			<g/>
+			<_/> <!-- # -->
+		</Objects>
+	</Environment>
+    <Membrane roleName="1">                  <!--  [1    -->
+		<MRegion>
+			<Objects>
+				<a/>
+				<c/>
+			</Objects>
+			<RuleSet roleName="R1">
+				<R1r1/>
+				<R1r2/>
+				<R1r3/>
+				<R1r4/>
+				<R1r5/>
+				<R1r6/>
+				<R1r7/>
+				<R1r8/>
+				<R1r9/>
+				<R1r10/>
+			</RuleSet>
+		</MRegion>
+		<Membrane roleName="2">              <!--  [2    -->
+			<MRegion>
+				<Objects>
+					<d/>
+					<f/>
+				</Objects>
+				<RuleSet roleName="R2">
+					<R2r1/>
+					<R2r2/>
+					<R2r3/>
+					<R2r4/>
+					<R2r5/>
+					<R2r6/>
+					<R2r7/>
+					<R2r8/>
+					<R2r9/>
+				</RuleSet>
+			</MRegion>
+		</Membrane>                          <!--    ]2  -->
+	</Membrane>                              <!--    ]1  -->
+</SuperCellSystem>

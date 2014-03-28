@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>Membrane Computing - Xholon App</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This is a model of a simple finite state machine (FSM) implemented as a P System.</p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+<title/>
+<p>Run it:</p>
+<ol>
+<li>Run the Java application through the XhnMemComp GUI (org.primordion.memcomp.app.XhnMemComp.java),
+and select File --> Open --> memcomp --> Fsm06ex1 --> Fsm06ex1_xhn.</li>
+<li>Expand the Controller node in the tree.</li>
+<li>Press the Start node.</li>
+<li>You should see ...</li>
+</ol>
+</section>
+<section><title/>
+<source>
+version 1: Model is implemented as a P System. (Fsm06ex1)
+---------------------------------------------------------
+Expected Results at each timeStep (for deterministic, or typical case)
+TIMESTEP: 0
+R2r4 M2: (m, in)
+R2r7 M2: (q, out)
+TIMESTEP: 1
+R2r1 M2: am -> bp
+R3r8 M3: (q, in)
+TIMESTEP: 2
+R2r6 M2: (p, out)
+TIMESTEP: 3
+R3r7 M3: (p, in)
+TIMESTEP: 4
+R3r1 M3: ap -> bn
+TIMESTEP: 5
+R3r2 M3: bq -> am
+R3r11 M3: (n, out)
+TIMESTEP: 6
+R2r5 M2: (n, in)
+R3r10 M3: (m, out)
+TIMESTEP: 7
+R2r4 M2: (m, in)
+R2r2 M2: bn -> aq
+TIMESTEP: 8
+R2r9 M2: am -> c
+R2r7 M2: (q, out)
+TIMESTEP: 9
+R3r8 M3: (q, in)
+TIMESTEP: 10
+Computation was successful.
+
+version 2: Model is implemented as a state machine. (Fsm06ex1_Fsm)
+------------------------------------------------------------------
+Expected Results at each timeStep (for deterministic, or typical case)
+Opening model: C:\Eclipse31\eclipse\workspace\MembraneComputing\config\memcomp\Fsm06ex1\Fsm06ex1_Fsm_xhn.xml
+AppM : false
+InfoM : false
+ErrorM : true
+MaxXholons : 1000
+MaxXholonClasses : 50
+MaxStateMachineEntities : 100
+MaxProcessLoops : 20
+InheritanceHierarchyFile : ./config/memcomp/Fsm06ex1/InheritanceHierarchy_FsmMD.xml
+CompositeStructureHierarchyFile : ./config/memcomp/Fsm06ex1/CompositeStructureHierarchy_FsmMD.xml
+ClassDetailsFile : ./config/memcomp/Fsm06ex1/ClassDetails_FsmMD.txt
+JavaClassName : org.primordion.memcomp.app.AppFsm06ex1_Fsm
+UseInteractions : false
+UseGraphicalTreeViewer : false
+UseGraphicalNetworkViewer : false
+Top:state_4 activeSubState is a:state_23
+stateMachine_2 activeSubState is Top:state_4
+
+c:state_44 activeSubState is a:state_53
+Top:state_30 activeSubState is c:state_44
+stateMachine_28 activeSubState is Top:state_30
+
+Top:state_30 activeSubState is c:state_44
+stateMachine_28 activeSubState is Top:state_30
+
+TIMESTEP: 0
+Starting ... 
+TIMESTEP: 1
+M2: (m, in)
+M2: am -> bp
+M2: (p, out)
+Top:state_4 activeSubState is b:state_24
+stateMachine_2 activeSubState is Top:state_4
+
+TIMESTEP: 2
+M3: (p, in)
+M3: ap -> bn
+M3: (n, out)
+c:state_44 activeSubState is b:state_54
+Top:state_30 activeSubState is c:state_44
+stateMachine_28 activeSubState is Top:state_30
+
+TIMESTEP: 3
+M2: (n, in)
+M2: bn -> aq
+M2: (q, out)
+Top:state_4 activeSubState is a:state_23
+stateMachine_2 activeSubState is Top:state_4
+
+TIMESTEP: 4
+M3: (q, in)
+M3: bq -> am
+M3: (m, out)
+c:state_44 activeSubState is a:state_53
+Top:state_30 activeSubState is c:state_44
+stateMachine_28 activeSubState is Top:state_30
+
+TIMESTEP: 5
+M2: (m, in)
+M2: am -> bp
+M2: (p, out)
+Top:state_4 activeSubState is b:state_24
+stateMachine_2 activeSubState is Top:state_4
+
+TIMESTEP: 6
+M3: (p, in)
+M3: ap -> bn
+M3: (n, out)
+c:state_44 activeSubState is b:state_54
+Top:state_30 activeSubState is c:state_44
+stateMachine_28 activeSubState is Top:state_30
+
+TIMESTEP: 7
+M2: (n, in)
+M2: bn -> aq
+M2: (q, out)
+Top:state_4 activeSubState is a:state_23
+stateMachine_2 activeSubState is Top:state_4
+
+TIMESTEP: 8
+M3: (q, in)
+M3: bq -> am
+M3: (m, out)
+c:state_44 activeSubState is a:state_53
+Top:state_30 activeSubState is c:state_44
+stateMachine_28 activeSubState is Top:state_30
+
+TIMESTEP: 9
+M2: (m, in)
+M2: am -> bp
+M2: (p, out)
+Top:state_4 activeSubState is b:state_24
+stateMachine_2 activeSubState is Top:state_4
+
+TIMESTEP: 10
+M3: (p, in)
+M3: ap -> bn
+M3: (n, out)
+c:state_44 activeSubState is b:state_54
+Top:state_30 activeSubState is c:state_44
+stateMachine_28 activeSubState is Top:state_30
+
+TIMESTEP: 11
+M2: (n, in)
+M2: bn -> aq
+M2: (q, out)
+Top:state_4 activeSubState is a:state_23
+stateMachine_2 activeSubState is Top:state_4
+
+TIMESTEP: 12
+M3: (q, in)
+M3: bq -> am
+M3: (m, out)
+c:state_44 activeSubState is a:state_53
+Top:state_30 activeSubState is c:state_44
+stateMachine_28 activeSubState is Top:state_30
+
+TIMESTEP: 13
+M2: (m, in)
+M2: am -> bp
+M2: (p, out)
+Top:state_4 activeSubState is b:state_24
+stateMachine_2 activeSubState is Top:state_4
+
+TIMESTEP: 14
+M3: (p, in)
+M3: ap -> bn
+M3: (n, out)
+c:state_44 activeSubState is b:state_54
+Top:state_30 activeSubState is c:state_44
+stateMachine_28 activeSubState is Top:state_30
+
+TIMESTEP: 15
+M2: (n, in)
+M2: bn -> aq
+M2: (q, out)
+Top:state_4 activeSubState is a:state_23
+stateMachine_2 activeSubState is Top:state_4
+
+TIMESTEP: 16
+M3: (q, in)
+M3: bq -> am
+M3: (m, out)
+c:state_44 activeSubState is a:state_53
+Top:state_30 activeSubState is c:state_44
+stateMachine_28 activeSubState is Top:state_30
+
+TIMESTEP: 17
+M2: (m, in)
+M2: am -> bp
+M2: (p, out)
+Top:state_4 activeSubState is b:state_24
+stateMachine_2 activeSubState is Top:state_4
+
+TIMESTEP: 18
+M3: (p, in)
+M3: ap -> bn
+M3: (n, out)
+c:state_44 activeSubState is b:state_54
+Top:state_30 activeSubState is c:state_44
+stateMachine_28 activeSubState is Top:state_30
+
+TIMESTEP: 19
+M2: (n, in)
+M2: bn -> aq
+M2: (q, out)
+Top:state_4 activeSubState is a:state_23
+stateMachine_2 activeSubState is Top:state_4
+</source>
+</section>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p></p>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p></p>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p></p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon and Ealontro features</title>
+<p></p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p><a href="http://psystems.disco.unimib.it/">PSystems</a></p>
+</section>
+
+</body>
+</document>

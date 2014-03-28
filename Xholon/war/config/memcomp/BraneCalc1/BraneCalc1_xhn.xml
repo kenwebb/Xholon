@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- BraneCalc1
+	 Brane Calculus - configuration file
+	 Test 1
+	 Ken Webb
+	 January 14, 2006
+-->
+
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Brane Calculus"/>
+	<param name="AppM" value="true"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<!--
+	<param name="MaxXholons" value="1000"/>
+	<param name="MaxXholonClasses" value="50"/>
+	<param name="MaxStateMachineEntities" value="0"/>
+	<param name="TreeNodeFactoryDynamic" value="false"/>
+	-->
+	<param name="MaxProcessLoops" value="20"/>
+	<param name="InheritanceHierarchyFile" value="config/memcomp/BraneCalc1/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="config/memcomp/BraneCalc1/CompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="config/memcomp/BraneCalc1/ClassDetails.xml"/>
+	<param name="InformationFile" value="config/memcomp/BraneCalc1/Information_branecalc1.xml"/>
+	<param name="JavaClassName" value="org.primordion.memcomp.app.BraneCalc1.AppBraneCalc1"/>
+	<param name="JavaXhClassName" value="org.primordion.memcomp.app.BraneCalc1.XhBraneCalc1"/>
+	<param name="MaxPorts" value="3"/>
+	<!-- Whether or not to capture interactions between Xholons, and output as a graphical UML Sequence Diagram. -->
+	<param name="UseInteractions" value="false"/>
+	<!-- Graphical Viewers -->
+	<param name="UseGraphicalTreeViewer" value="false"/>
+	<param name="GraphicalTreeViewerParams"
+		value="/,20,30,1000,200,9,Xholon - Brane Calculus - Composite Structure,false"/>
+	<param name="UseGraphicalNetworkViewer" value="false"/>
+	<param name="GraphicalNetworkViewerParams"
+		value="/,1000,600,9,LAYOUT_KK,false,Xholon - Brane Calculus - Port Connections,false"/>
+</params>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+-->
+
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+	<MembraneComputingEntity>
+		<MembraneStructure>
+			<SuperCellSystem/>
+		</MembraneStructure>
+		<Objects/>
+		<Object>
+			<a/>
+			<b/>
+			<d/>
+			<e/>
+			<f/>
+		</Object>
+		<Membrane/>
+		<MRegion/>
+		<Environment/>
+		<RuleSet/>
+		<Rule>
+			<R1r1/>
+			<R2r1/>
+			<R2r2/>
+			<R2r3/>
+			<R2r4/>
+			<R3r1/>
+			<R3r2/>
+			<R3r3/>
+		</Rule>
+		<CompletionDetector/>
+	</MembraneComputingEntity>
+	
+	<!-- Xholon Viewers -->
+	<!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

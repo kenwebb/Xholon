@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Cooperative P System - configuration file
+	 source: Paun, Gh. (2000). Computing with Membranes. Example on p. 117+.
+	 Ken Webb
+	 December 31, 2005
+-->
+
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="Coop PSystem 2000 ex0"/>
+	<param name="AppM" value="true"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="20"/>
+	<param name="SizeMessageQueue" value="20"/>
+	<param name="InheritanceHierarchyFile" value="config/memcomp/CoopPSys00ex0/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="config/memcomp/CoopPSys00ex0/CompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="config/memcomp/CoopPSys00ex0/ClassDetails.xml"/>
+	<param name="InformationFile" value="config/memcomp/CoopPSys00ex0/Information_psys_CoopPSys00ex0.xml"/>
+	<param name="JavaClassName" value="org.primordion.memcomp.app.CoopPSys00ex0.AppCoopPSys00ex0"/>
+	<param name="JavaXhClassName" value="org.primordion.memcomp.app.CoopPSys00ex0.XhCoopPSys00ex0"/>
+	<param name="MaxPorts" value="6"/>
+	<!-- Whether or not to capture interactions between Xholons, and output as a graphical UML Sequence Diagram. -->
+	<param name="UseInteractions" value="true"/>
+	<param name="InteractionParams" value="32,false,localhost,60001"/>
+	<!-- Graphical Viewers -->
+	<param name="UseGraphicalTreeViewer" value="false"/>
+	<param name="GraphicalTreeViewerParams"
+		value="/,20,30,1000,200,9,Xholon - Membrane Computing - CoopPSys00ex0,false"/>
+	<param name="UseGraphicalNetworkViewer" value="false"/>
+	<param name="GraphicalNetworkViewerParams"
+		value="/,1000,600,9,LAYOUT_KK,false,Xholon - Membrane Computing - CoopPSys00ex0,false"/>
+</params>
+

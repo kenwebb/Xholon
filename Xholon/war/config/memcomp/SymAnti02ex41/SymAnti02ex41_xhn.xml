@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- SymAnti02ex41
+	 Symport Antiport P System - configuration file
+	 source: Paun, Gh. (2002). Membrane Computing. Example in section 4.1.
+	 Ken Webb
+	 January 4, 2006
+-->
+
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="SymAnti 2002 ex41"/>
+	<param name="AppM" value="true"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="20"/>
+	<param name="SizeMessageQueue" value="20"/>
+	<param name="InheritanceHierarchyFile" value="config/memcomp/SymAnti02ex41/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="config/memcomp/SymAnti02ex41/CompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="config/memcomp/SymAnti02ex41/ClassDetails.xml"/>
+	<param name="InformationFile" value="config/memcomp/SymAnti02ex41/Information_psys_symanti02ex41.xml"/>
+	<param name="JavaClassName" value="org.primordion.memcomp.app.SymAnti02ex41.AppSymAnti02ex41"/>
+	<param name="JavaXhClassName" value="org.primordion.memcomp.app.SymAnti02ex41.XhSymAnti02ex41"/>
+	<param name="MaxPorts" value="6"/>
+	<!-- Whether or not to capture interactions between Xholons, and output as a graphical UML Sequence Diagram. -->
+	<param name="UseInteractions" value="true"/>
+	<param name="InteractionParams" value="32,false,localhost,60001"/>
+	<!-- Graphical Viewers -->
+	<param name="UseGraphicalTreeViewer" value="false"/>
+	<param name="GraphicalTreeViewerParams"
+		value="/,20,30,1000,200,9,Xholon - Membrane Computing - SymAnti02ex41,false"/>
+	<param name="UseGraphicalNetworkViewer" value="false"/>
+</params>

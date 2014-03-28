@@ -222,7 +222,7 @@ public class Xholon implements EntryPoint {
     else if ("Elevator".equals(appName)) {Elevator(withGui);}
     else if ("Elevator_ShowStates".equals(appName)) {Elevator_ShowStates(withGui);}
     else if ("Beard2005_UML_Xholon_Step4_v1".equals(appName)) {Beard2005_UML_Xholon_Step4_v1(withGui);}
-    else if ("Fsm06ex1_Fsm".equals(appName)) {Fsm06ex1_Fsm(withGui);}
+    else if ("Fsm06ex1_FsmXmi".equals(appName)) {Fsm06ex1_FsmXmi(withGui);}
     else if ("HelloWorldTutorial".equals(appName)) {HelloWorldTutorial(withGui);}
     else if ("HelloWorldTutorial_multiWorld".equals(appName)) {HelloWorldTutorial_multiWorld(withGui);}
     else if ("HelloWorldTutorial_plus".equals(appName)) {HelloWorldTutorial_plus(withGui);}
@@ -251,6 +251,16 @@ public class Xholon implements EntryPoint {
     else if ("Train".equals(appName)) {Train(withGui);}
     else if ("leakybucket".equals(appName)) {leakybucket(withGui);}
     else if ("stability".equals(appName)) {stability(withGui);}
+    
+    // Membrane Computing (PSystems)
+    else if ("BraneCalc1".equals(appName)) {BraneCalc1(withGui);}
+    else if ("CoopPSys00ex0".equals(appName)) {CoopPSys00ex0(withGui);}
+    else if ("CoopSys02ex32_1".equals(appName)) {CoopSys02ex32_1(withGui);}
+    else if ("CoopSys02ex343_1".equals(appName)) {CoopSys02ex343_1(withGui);}
+    else if ("CoopSys02ex343_2".equals(appName)) {CoopSys02ex343_2(withGui);}
+    else if ("Fsm06ex1".equals(appName)) {Fsm06ex1(withGui);}
+    else if ("Fsm06ex1_Fsm".equals(appName)) {Fsm06ex1_Fsm(withGui);}
+    else if ("SymAnti02ex41".equals(appName)) {SymAnti02ex41(withGui);}
     
     // gist (ex: "gist3377945")
     else if ((appName.startsWith("gist")) && (appName.length() > 4)) {gist(withGui, appName);}
@@ -533,10 +543,10 @@ public class Xholon implements EntryPoint {
   }
   
   /**
-   * Fsm06ex1_Fsm
+   * Fsm06ex1_FsmXmi
    */
-  private void Fsm06ex1_Fsm(String withGui) {
-    xhn(withGui, (IApplication)GWT.create(org.primordion.user.xmiapps.Fsm06ex1_Fsm.AppFsm06ex1_Fsm.class),
+  private void Fsm06ex1_FsmXmi(String withGui) {
+    xhn(withGui, (IApplication)GWT.create(org.primordion.user.xmiapps.Fsm06ex1_Fsm.AppFsm06ex1_FsmXmi.class),
       "config/xmiapps/Fsm06ex1_Fsm/Fsm06ex1_Fsm_xhn.xml");
   }
   
@@ -1016,6 +1026,80 @@ public class Xholon implements EntryPoint {
     xhn(withGui,
       (IApplication)GWT.create(org.primordion.user.app.WaterLogic.AppWaterLogic.class),
       "config/user/WaterLogic/WaterLogic_xhn.xml");
+  }
+  
+  // Membrane Computing (PSystems)
+  
+  /**
+   * BraneCalc1
+   */
+  private void BraneCalc1(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.memcomp.app.BraneCalc1.AppBraneCalc1.class),
+      "config/memcomp/BraneCalc1/BraneCalc1_xhn.xml");
+  }
+  
+  /**
+   * CoopPSys00ex0
+   */
+  private void CoopPSys00ex0(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.memcomp.app.CoopPSys00ex0.AppCoopPSys00ex0.class),
+      "config/memcomp/CoopPSys00ex0/CoopPSys00ex0_xhn.xml");
+  }
+  
+  /**
+   * CoopSys02ex32_1
+   */
+  private void CoopSys02ex32_1(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.memcomp.app.CoopSys02ex32_1.AppCoopSys02ex32_1.class),
+      "config/memcomp/CoopSys02ex32_1/CoopSys02ex32_1_xhn.xml");
+  }
+  
+  /**
+   * CoopSys02ex343_1
+   */
+  private void CoopSys02ex343_1(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.memcomp.app.CoopSys02ex343_1.AppCoopSys02ex343_1.class),
+      "config/memcomp/CoopSys02ex343_1/CoopSys02ex343_1_xhn.xml");
+  }
+  
+  /**
+   * CoopSys02ex343_2
+   */
+  private void CoopSys02ex343_2(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.memcomp.app.CoopSys02ex343_2.AppCoopSys02ex343_2.class),
+      "config/memcomp/CoopSys02ex343_2/CoopSys02ex343_2_xhn.xml");
+  }
+  
+  /**
+   * Fsm06ex1
+   */
+  private void Fsm06ex1(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.memcomp.app.Fsm06ex1.AppFsm06ex1.class),
+      "config/memcomp/Fsm06ex1/Fsm06ex1_xhn.xml");
+  }
+  
+  /**
+   * Fsm06ex1_Fsm
+   */
+  private void Fsm06ex1_Fsm(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.memcomp.app.Fsm06ex1_Fsm.AppFsm06ex1_Fsm.class),
+      "config/memcomp/Fsm06ex1/Fsm06ex1_Fsm_xhn.xml");
+  }
+  
+  /**
+   * SymAnti02ex41
+   */
+  private void SymAnti02ex41(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.memcomp.app.SymAnti02ex41.AppSymAnti02ex41.class),
+      "config/memcomp/SymAnti02ex41/SymAnti02ex41_xhn.xml");
   }
   
   /**
