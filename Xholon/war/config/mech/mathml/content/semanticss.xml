@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MathML 2.0 Semantics
+This is part of a Xholon Inheritance Hierarchy.
+Note: The root node has an extra 's' at the end to distinguish it from the child "semantics" element.
+-->
+<semanticss xmlns="http://www.w3.org/1998/Math/MathML">
+	<annotation/>
+    <annotation-xml/>
+    <semantics/>
+</semanticss>

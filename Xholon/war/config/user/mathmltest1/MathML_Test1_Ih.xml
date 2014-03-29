@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MathML example test1 -->
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+	
+	<MathML_Test1/>
+	<TestCi/>
+	
+	<!-- MathML Mechanism -->
+	<xi:include href="config/mech/mathml/MathMLEntity.xml"/>
+	<xi:include href="config/mech/mathml/MathML_ClassDetails.xml"/>
+	
+</XholonClass>

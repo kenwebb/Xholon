@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../../information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../../information/info.css"?>
+<!--
+	MathML 2.0 Displayable information about this application.
+-->
+<document>
+<header>
+<title>MathML 2.0 - Xholon Mechanism</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p>This is an example of a complete Xholon mechanism.
+A mechanism must or may contain the following:
+</p>
+<ul>
+<li>A config/mech folder, for example: config/mech/mathml</li>
+<li>An inheritance hierarchy XML file,
+with the same name as the root element in the mechanism,
+for example: MathMLEntity.xml.
+This may directly contain the entire inheritance hierarchy for the mechanism,
+and/or it may contain one or more xi:include elements.
+The root element must include the xmlns and id attributes.</li>
+<li>A ClassDetails.xml file, that specifies the xhType and implName for each
+xholon element in the InheritanceHierarchy.xml file.</li>
+<li>An Information.xml file, such as this file that you are currently reading or browsing.</li>
+<li>An XhMechanisms.xml file. This file is partly documentation for humans,
+and is not strictly necessary.</li>
+<li>A DTD file (optional).</li>
+<li>An XML Schema (xsd) file (optional).</li>
+<li>A source org.primordion.xholon.mech package with the Java classes
+that implement the xholon elements specified in InheritanceHierarchy.xml and ClassDetails.xml ,
+for example src/org.primordion.xholon.mech.mathml .</li>
+<li>A build script that can generate a jar file for example: buildMechanismJar.xml .
+The jar file must contain the config/mech files, all the compiled Java classes,
+and possibly other files.
+It might optionally include the example Xholon test application.
+The jar file must contain everything needed to use the mechanism,
+but will normally not duplicate the contents of Xholon.jar .
+It might contain third party libraries (jars) required for the mechanism to function.
+If third-party libraries are provided within the jar,
+they must be extracted from the third-party library and inserted directly into the mechanism jar.</li>
+<li>An example Xholon application, that can be used to test the mechanism.</li>
+</ul>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<p>
+Look at the example MathML application in this project. See: 
+config/user/test1
+src/org.primordion.user.app.test1
+src/org.primordion.xholon.app
+</p>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p/>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p/>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p/>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p/>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p/>
+</section>
+
+</body>
+</document>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- OrNodeSample configuration file
+	 Ken Webb
+	 April 27, 2008 -->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="OrNode Sample"/>
+	<param name="AppM" value="true"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="-1"/> <!-- 10 -->
+	<param name="TimeStepInterval" value="200"/> <!-- 10 -->
+	<param name="SizeMessageQueue" value="2"/>
+	<param name="InheritanceHierarchyFile" value="config/OrNodeSample/InheritanceHierarchy.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="config/OrNodeSample/CompositeStructureHierarchy.xml"/>
+	<param name="ClassDetailsFile" value="config/OrNodeSample/ClassDetails.xml"/>
+	<param name="InformationFile" value="config/OrNodeSample/Information.xml"/>
+	<param name="JavaClassName" value="org.primordion.user.app.OrNode.AppOrNodeSample"/>
+	<param name="JavaXhClassName" value="org.primordion.user.app.OrNode.XhOrNodeSample"/>
+	<param name="MaxPorts" value="1"/>
+	<!-- Whether or not to capture interactions between Xholons, and output as a graphical UML Sequence Diagram. -->
+	<param name="UseInteractions" value="false"/>
+	<param name="InteractionParams" value="4,true,localhost,60001"/>
+	<!-- Whether or not to create a web-based or other special purpose GUI. -->
+	<!-- ZUML -->
+	<!--<param name="UseXholon2Gui" value="false"/>
+	<param name="Xholon2GuiParams" value="/jetty-6.1.5/webapps/xholon/,1,200,http://localhost:8080/xholon/,true,false,false"/>
+	<param name="Xholon2GuiClassName" value="org.primordion.xholon.io.Xholon2Zuml"/>-->
+</params>

@@ -186,6 +186,8 @@ public class Xholon implements EntryPoint {
     else if ("TestFsmKW".equals(appName)) {TestFsmKW(withGui);}
     else if ("Turnstile".equals(appName)) {Turnstile(withGui);}
     else if ("testNodePorts".equals(appName)) {testNodePorts(withGui);}
+    else if ("MathmlTest1".equals(appName)) {MathmlTest1(withGui);}
+    else if ("OrNodeSample".equals(appName)) {OrNodeSample(withGui);}
     
     // Ealontro (non-Genetic Programming versions)
     else if ("AntForaging".equals(appName)) {AntForaging(withGui);}
@@ -952,6 +954,24 @@ public class Xholon implements EntryPoint {
     xhn(withGui,
       (IApplication)GWT.create(org.primordion.user.app.testNodePorts.ApptestNodePorts.class),
       null);
+  }
+  
+  /**
+   * MathmlTest1
+   */
+  private void MathmlTest1(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.user.app.mathmltest1.AppMathmlTest1.class),
+      "config/user/mathmltest1/MathML_Test1_xhn.xml");
+  }
+  
+  /**
+   * OrNodeSample
+   */
+  private void OrNodeSample(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.user.app.OrNode.AppOrNodeSample.class),
+      "config/OrNodeSample/OrNodeSample_xhn.xml");
   }
   
   // Ealontro

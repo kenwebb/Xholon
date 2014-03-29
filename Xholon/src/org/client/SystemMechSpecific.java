@@ -15,6 +15,7 @@ import org.primordion.xholon.base.StateMachineEntity;
 import org.primordion.xholon.base.Turtle;
 import org.primordion.xholon.base.XholonClass;
 import org.primordion.xholon.base.XholonWithPorts;
+import org.primordion.xholon.mech.mathml.content.Ci;
 import org.primordion.xholon.mech.petrinet.AnalysisPetriNet;
 import org.primordion.xholon.mech.petrinet.Arc;
 import org.primordion.xholon.mech.petrinet.PetriNet;
@@ -36,7 +37,7 @@ public class SystemMechSpecific extends Application {
   public static final SystemMechSpecific instance = new SystemMechSpecific();
   
   @SuppressWarnings("unchecked")
-public IXholon getAppSpecificObjectVal(IXholon node, Class<IXholon> clazz, String attrName) {
+  public IXholon getAppSpecificObjectVal(IXholon node, Class<IXholon> clazz, String attrName) {
     if (node == null) {return null;}
     else if ("org.primordion.xholon.base.OrNode".equals(clazz.getName())) {
       if ("onlyChild".equalsIgnoreCase(attrName)) {
@@ -86,6 +87,11 @@ public IXholon getAppSpecificObjectVal(IXholon node, Class<IXholon> clazz, Strin
         return ((org.primordion.xholon.mech.petrinet.grid.PneBehavior)node).getPne();
       }
     }
+    else if ("org.primordion.xholon.mech.mathml.content.Ci".equals(clazz.getName())) {
+      if ("bvar".equalsIgnoreCase(attrName)) {
+        return ((org.primordion.xholon.mech.mathml.content.Ci)node).getBvar();
+      }
+    }
     Class<?> superclass = (Class<?>)clazz.getSuperclass();
     if (superclass.getName().startsWith("org.primordion.xholon")) {
       return getAppSpecificObjectVal(node, (Class<IXholon>)superclass, attrName);
@@ -124,6 +130,9 @@ public String getAppSpecificObjectValNames(IXholon node, Class<IXholon> clazz) {
     else if ("org.primordion.xholon.mech.petrinet.grid.PneBehavior".equals(clazz.getName())) {
       names = "pne,";
     }
+    else if ("org.primordion.xholon.mech.mathml.content.Ci".equals(clazz.getName())) {
+      names = "bvar,";
+    }
     Class<?> superclass = (Class<?>)clazz.getSuperclass();
     if (superclass.getName().startsWith("org.primordion.xholon")) {
       names = names + getAppSpecificObjectValNames(node, (Class<IXholon>)superclass);
@@ -132,11 +141,17 @@ public String getAppSpecificObjectValNames(IXholon node, Class<IXholon> clazz) {
   }
   
   @SuppressWarnings("unchecked")
-public boolean setAppSpecificObjectVal(IXholon node, Class<IXholon> clazz, String attrName, IXholon val) {
+  public boolean setAppSpecificObjectVal(IXholon node, Class<IXholon> clazz, String attrName, IXholon val) {
     if (node == null) {return false;}
     else if ("org.primordion.xholon.base.OrNode".equals(clazz.getName())) {
       if ("onlyChild".equalsIgnoreCase(attrName)) {
         ((org.primordion.xholon.base.OrNode)node).setOnlyChild((IXholon)val);
+        return true;
+      }
+    }
+    else if ("org.primordion.xholon.mech.mathml.content.Ci".equals(clazz.getName())) {
+      if ("bvar".equalsIgnoreCase(attrName)) {
+        ((org.primordion.xholon.mech.mathml.content.Ci)node).setBvar((IXholon)val);
         return true;
       }
     }
@@ -148,7 +163,7 @@ public boolean setAppSpecificObjectVal(IXholon node, Class<IXholon> clazz, Strin
   }
   
   @SuppressWarnings("unchecked")
-public Object getAppSpecificAttribute(IXholon node, Class<IXholon> clazz, String attrName) {
+  public Object getAppSpecificAttribute(IXholon node, Class<IXholon> clazz, String attrName) {
     if (node == null) {return null;}
     else if ("org.primordion.xholon.base.Turtle".equals(clazz.getName())) {
       if ("Breed".equalsIgnoreCase(attrName)) {return ((Turtle)node).getBreed();}

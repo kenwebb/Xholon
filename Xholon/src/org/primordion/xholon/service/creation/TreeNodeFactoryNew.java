@@ -290,6 +290,11 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 				newNode = new org.primordion.xholon.base.Turtle();
 			}
 			
+			// OrNode
+			else if (implName.endsWith("OrNode")) {
+				newNode = new org.primordion.xholon.base.OrNode();
+			}
+			
 			else {
 				System.out.println(implName);
 			}
@@ -348,6 +353,46 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			}
 			else if (implName.endsWith("AnalysisMemComp")) {
 				newNode = new org.primordion.xholon.mech.petrinet.memcomp.AnalysisMemComp();
+			}
+		}
+		
+		// mech.mathml
+		else if (implName.startsWith("org.primordion.xholon.mech.mathml")) {
+		  if (implName.endsWith("content.JavaMath")) {
+			  newNode = new org.primordion.xholon.mech.mathml.content.JavaMath();
+			}
+			else if (implName.endsWith("Math")) {
+				newNode = new org.primordion.xholon.mech.mathml.Math();
+			}
+			else if (implName.endsWith("content.Apply")) {
+				newNode = new org.primordion.xholon.mech.mathml.content.Apply();
+			}
+			else if (implName.endsWith("content.Ci")) {
+				newNode = new org.primordion.xholon.mech.mathml.content.Ci();
+			}
+			else if (implName.endsWith("content.Cn")) {
+				newNode = new org.primordion.xholon.mech.mathml.content.Cn();
+			}
+			else if (implName.endsWith("content.Divide")) {
+				newNode = new org.primordion.xholon.mech.mathml.content.Divide();
+			}
+			else if (implName.endsWith("content.Eq")) {
+				newNode = new org.primordion.xholon.mech.mathml.content.Eq();
+			}
+			else if (implName.endsWith("content.Factorial")) {
+				newNode = new org.primordion.xholon.mech.mathml.content.Factorial();
+			}
+			else if (implName.endsWith("content.Minus")) {
+				newNode = new org.primordion.xholon.mech.mathml.content.Minus();
+			}
+			else if (implName.endsWith("content.Plus")) {
+				newNode = new org.primordion.xholon.mech.mathml.content.Plus();
+			}
+			else if (implName.endsWith("content.Semantics")) {
+				newNode = new org.primordion.xholon.mech.mathml.content.Semantics();
+			}
+			else if (implName.endsWith("content.Times")) {
+				newNode = new org.primordion.xholon.mech.mathml.content.Times();
 			}
 		}
 		

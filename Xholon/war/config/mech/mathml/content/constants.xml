@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MathML 2.0 Constants
+This is part of a Xholon Inheritance Hierarchy.
+-->
+<constants xmlns="http://www.w3.org/1998/Math/MathML">
+	<naturalnumbers/>
+    <primes/>
+    <integers/>
+    <rationals/>
+    <reals/>
+    <complexes/>
+    <emptyset/>
+    <exponentiale/>
+    <imaginaryi/>
+    <pi/>
+    <eulergamma/>
+    <true/>
+    <false/>
+    <infinity/>
+    <notanumber/>
+</constants>

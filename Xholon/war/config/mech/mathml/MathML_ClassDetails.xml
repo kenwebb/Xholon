@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MathML_ClassDetails.xml -->
+<xholonClassDetails>
+	
+	<!-- MathML root node -->
+	<math xhType="XhtypePureContainer" implName="org.primordion.xholon.mech.mathml.Math"/>
+	
+	<!-- arith -->
+	<abs xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.JavaMath"/>
+    <conjugate xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Conjugate"/>
+    <factorial xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Factorial"/>
+    <arg xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Arg"/>
+    <real xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Real"/>
+    <imaginary xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Imaginary"/>
+    <floor xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.JavaMath"/>
+    <ceiling xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.JavaMath"/>
+    <quotient xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Quotient"/>
+    <divide xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Divide"/>
+    <rem xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.JavaMath"/>
+    <minus xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Minus"/>
+	<plus xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Plus"/>
+    <times xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Times"/>
+    <power xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.JavaMath"/>
+    <root xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Root"/>
+    <max xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.JavaMath"/>
+    <min xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.JavaMath"/>
+    <gcd xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Gcd"/>
+    <lcm xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Lcm"/>
+    <sum xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Sum"/>
+    <product xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Product"/>
+	
+	<!-- calculus -->
+	<int xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Int"/>
+	<diff xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Diff"/>
+	<partialdiff xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Partialdiff"/>
+	<limit xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Limit"/>
+	<lowlimit xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Lowlimit"/>
+	<uplimit xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Uplimit"/>
+	<tendsto xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Tendsto"/>
+	
+	<!-- constants -->
+	<naturalnumbers xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Naturalnumbers"/>
+	<primes xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Primes"/>
+	<integers xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Integers"/>
+	<rationals xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Rationals"/>
+	<reals xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Reals"/>
+	<complexes xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Complexes"/>
+	<emptyset xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Emptyset"/>
+	<exponentiale xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.JavaMath"/>
+	<imaginaryi xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Imaginaryi"/>
+	<pi xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.JavaMath"/>
+	<eulergamma xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Eulergamma"/>
+	<true xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.True"/>
+	<false xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.False"/>
+	<infinity xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Infinity"/>
+	<notanumber xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Notanumber"/>
+	
+	<!-- constructs -->
+	<apply xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Apply"/>
+	<interval xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Interval"/>
+	<inverse xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Inverse"/>
+	<condition xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Condition"/>
+	<declare xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Declare"/>
+	<lambda xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Lambda"/>
+	<piecewise xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Piecewise"/>
+	<bvar xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Bvar"/>
+	<degree xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Degree"/>
+	
+	<!-- elementaryfunctions -->
+	<exp xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.JavaMath"/>
+	<ln xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Ln"/>
+	<log xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.JavaMath"/>
+	<logbase xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Logbase"/>
+	<sin xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.JavaMath"/>
+	<cos xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.JavaMath"/>
+	<tan xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.JavaMath"/>
+	<sec xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Sec"/>
+	<csc xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Csc"/>
+	<cot xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Cot"/>
+	<arcsin xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.JavaMath"/>
+	<arccos xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.JavaMath"/>
+	<arctan xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.JavaMath"/>
+	<arcsec xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Arcsec"/>
+	<arccsc xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Arccsc"/>
+	<arccot xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Arccot"/>
+	<sinh xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Sinh"/>
+	<cosh xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Cosh"/>
+	<tanh xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Tanh"/>
+	<sech xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Sech"/>
+	<csch xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Ssch"/>
+	<coth xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Coth"/>
+	<arccosh xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Arccosh"/>
+	<arccoth xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Arccoth"/>
+	<arccsch xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Arccsch"/>
+	<arcsech xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Arcsech"/>
+	<arcsinh xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Arcsinh"/>
+	<arctanh xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Arctanh"/>
+	
+	<!-- functions -->
+	<compose xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Compose"/>
+	<domain xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Domain"/>
+	<codomain xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Codomain"/>
+	<image xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Image"/>
+	<domainofapplication xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Domainofapplication"/>
+	<ident xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Ident"/>
+	
+	<!-- linearalgebra -->
+	<vector xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Vector"/>
+	<matrix xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Matrix"/>
+	<determinant xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Determinant"/>
+	<transpose xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Transpose"/>
+	<selector xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Selector"/>
+	<vectorproduct xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Vectorproduct"/>
+	<scalarproduct xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Scalarproduct"/>
+	<outerproduct xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Outerproduct"/>
+	
+	<!-- logic -->
+	<and xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.And"/>
+	<or xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Or"/>
+	<xor xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Xor"/>
+	<not xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Not"/>
+	<exists xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Exists"/>
+	<forall xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Forall"/>
+	<implies xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Implies"/>
+	
+	<!-- relations -->
+	<eq xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Eq"/>
+	<neq xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Neq"/>
+	<leq xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Leq"/>
+	<lt xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Lt"/>
+	<geq xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Geq"/>
+	<gt xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Gt"/>
+	<equivalent xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Equivalent"/>
+	<approx xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Approx"/>
+	<factorof xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Factorof"/>
+	
+	<!-- semanticss -->
+	<annotation xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Annotation"/>
+	<annotation-xml xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Annotationxml"/>
+	<semantics xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Semantics"/>
+	
+	<!-- sets -->
+	<set xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Set"/>
+	<list xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.List"/>
+	<union xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Union"/>
+	<intersect xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Intersect"/>
+	<in xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.In"/>
+	<notin xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Notin"/>
+	<subset xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Subset"/>
+	<prsubset xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Prsubset"/>
+	<notsubset xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Notsubset"/>
+	<notprsubset xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Notprsubset"/>
+	<setdiff xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Setdiff"/>
+	<card xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Card"/>
+	<cartesianproduct xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Cartesianproduct"/>
+	
+	<!-- statistics -->
+	<mean xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Mean"/>
+	<sdev xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Sdev"/>
+	<variance xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Variance"/>
+	<median xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Median"/>
+	<mode xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Mode"/>
+	<moment xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Moment"/>
+	<momentabout xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Momentabout"/>
+	
+	<!-- tokens -->
+	<cn xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.mech.mathml.content.Cn"/>
+	<ci xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Ci">
+		<port name="bvar" index="-1" connector="#xpointer(ancestor::math/..)"/>
+	</ci>
+	<csymbol xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Csymbol"/>
+	
+	<!-- vectorcalculus -->
+	<divergence xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Divergence"/>
+	<grad xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Grad"/>
+	<curl xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Curl"/>
+	<laplacian xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.mathml.content.Laplacian"/>
+	
+	<!-- Root of the Xholon/MathML inheritance hierarchy. Never instantiated. -->
+	<MathMLEntity xhType="XhtypePureContainer"/>
+	
+</xholonClassDetails>

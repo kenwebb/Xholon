@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MathML 2.0 Linear-algebra
+This is part of a Xholon Inheritance Hierarchy.
+-->
+<linearalgebra xmlns="http://www.w3.org/1998/Math/MathML">
+	<vector/>
+     <matrix/>
+     <determinant/>
+     <transpose/>
+     <selector/>
+     <vectorproduct/>
+     <scalarproduct/>
+     <outerproduct/>
+</linearalgebra>

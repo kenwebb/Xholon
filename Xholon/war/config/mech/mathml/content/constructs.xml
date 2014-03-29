@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MathML 2.0 Constructs
+This is part of a Xholon Inheritance Hierarchy.
+-->
+<constructs xmlns="http://www.w3.org/1998/Math/MathML">
+	<apply/>
+    <interval/>
+    <inverse/>
+    <condition/>
+    <declare/>
+    <lambda/>
+    <piecewise/>
+    <bvar/>
+    <degree/>
+</constructs>

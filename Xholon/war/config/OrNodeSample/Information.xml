@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">-->
+<?xml-stylesheet type="text/xsl" href="../../information/info2html.xsl"?>
+<?xml-stylesheet type="text/css" href="../../information/info.css"?>
+<!-- Displayable information about this application. -->
+<document>
+<header>
+<title>Or Node - Sample Xholon App</title>
+</header>
+<body>
+
+<section id="whatisit">
+<title>What is it</title>
+<p></p>
+</section>
+
+<section id="howtouseit">
+<title>How to use it</title>
+<section>
+<title/>
+<p>Run it:</p>
+<ol>
+<li>Run the Java application through the Xhn GUI (org.primordion.xholon.app.Xhn.java),
+and select File --> Open --> OrNodeSample --> OrNodeSample_xhn.xml.</li>
+<li>Expand the Controller node in the tree.</li>
+<li>Press the Start node.</li>
+<li>You should see the words "Hello World" displayed five times in the console window (see below),
+	with the word "World" in five different languages.</li>
+</ol>
+</section>
+<section>
+<title/>
+<source>
+Hello World !
+Hello Monde !
+Hello Mondo !
+Hello Welt !
+Hello Mir !
+</source>
+</section>
+</section>
+
+<section id="thingstonotice">
+<title>Things to notice</title>
+<p></p>
+</section>
+
+<section id="thingstotry">
+<title>Things to try</title>
+<p></p>
+</section>
+
+<section id="extendingthemodel">
+<title>Extending the model</title>
+<p>This is a very simple model that can be extended in many ways.</p>
+</section>
+
+<section id="xholonfeatures">
+<title>Xholon features</title>
+<p></p>
+</section>
+
+<section id="creditsandreferences">
+<title>Credits and references</title>
+<p></p>
+</section>
+
+</body>
+</document>

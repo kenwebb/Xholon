@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE math 
+    PUBLIC "-//W3C//DTD MathML 2.0//EN"
+           "http://www.w3.org/Math/DTD/mathml2/mathml2.dtd"
+>
+<MathML_Test1 xmlns:xi="http://www.w3.org/2001/XInclude">
+	
+	<math xmlns="http://www.w3.org/1998/Math/MathML">
+		<apply>
+			<plus/>
+			<cn>5.1</cn>
+			<cn>2.0f</cn>
+			<cn>3</cn>
+			<apply>
+				<times/>
+				<cn>8</cn>
+				<cn>9</cn>
+				<apply>
+					<abs/>
+					<cn>-2</cn>
+				</apply>
+			</apply>
+		</apply>
+	</math>
+	
+	<!-- factorial -->
+	<math>
+		<apply>
+			<factorial/>
+			<cn>5</cn>
+		</apply>
+	</math>
+	
+	<!-- minus -->
+	<math>
+		<apply>
+			<minus/>
+			<cn>7</cn>
+			<cn>3</cn>
+		</apply>
+	</math>
+	
+	<!-- divide -->
+	<math>
+		<apply>
+			<divide/>
+			<cn>13</cn>
+			<cn>5</cn>
+		</apply>
+	</math>
+	
+	<!-- power -->
+	<math>
+		<apply>
+  			<power/>
+  			<cn>2</cn>
+  			<cn>3</cn>
+		</apply>
+	</math>
+	
+	<!-- ci -->
+	<TestCi>
+		<Attribute_double roleName="x">153.0</Attribute_double>
+		<Attribute_double roleName="y">513.0</Attribute_double>
+		<math>
+			<apply>
+				<plus/>
+				<ci>x</ci>
+				<ci>y</ci>
+			</apply>
+		</math>
+	</TestCi>
+	
+</MathML_Test1>

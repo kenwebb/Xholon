@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MathML 2.0 Arithmetic
+This is part of a Xholon Inheritance Hierarchy.
+-->
+<arith xmlns="http://www.w3.org/1998/Math/MathML">
+	<abs/>
+    <conjugate/>
+    <factorial/>
+    <arg/>
+    <real/>
+    <imaginary/>
+    <floor/>
+    <ceiling/>
+    <quotient/>
+    <divide/>
+    <rem/>
+    <minus/>
+    <plus/>
+    <times/>
+    <power/>
+    <root/>
+    <max/>
+    <min/>
+    <gcd/>
+    <lcm/>
+    <sum/>
+    <product/>
+</arith>

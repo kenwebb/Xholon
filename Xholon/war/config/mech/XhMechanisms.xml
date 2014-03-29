@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+MathML Xholon mechanism
+
+This file is not strictly necessary.
+It serves as:
+(1) human readable documentation, and
+(2) may be read at runtime into the Xholon mechanisms subtree.
+-->
+
+<!--<XhMechanisms roleName="XhMechanisms">-->
+	
+	<!-- UserMechanisms -->
+	
+	<UserMechanisms roleName="UserMechanisms">
+	
+		<XholonMechanism roleName="MathML">
+			<NamespaceUri>http://www.w3.org/1998/Math/MathML</NamespaceUri>
+			<DefaultPrefix>m</DefaultPrefix> <!-- m mml -->
+			<RangeStart>5000000</RangeStart>
+			<RangeEnd>5000999</RangeEnd>
+		</XholonMechanism>
+	
+	</UserMechanisms>
+<!--</XhMechanisms>-->

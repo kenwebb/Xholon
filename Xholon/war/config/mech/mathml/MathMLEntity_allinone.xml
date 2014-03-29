@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MathMLEntity xmlns="http://www.w3.org/1998/Math/MathML" id="5000000">
+	<math/>
+	<arith>
+		<abs/>
+		<conjugate/>
+		<factorial/>
+		<arg/>
+		<real/>
+		<imaginary/>
+		<floor/>
+		<ceiling/>
+		<quotient/>
+		<divide/>
+		<rem/>
+		<minus/>
+		<plus/>
+		<times/>
+		<power/>
+		<root/>
+		<max/>
+		<min/>
+		<gcd/>
+		<lcm/>
+		<sum/>
+		<product/>
+	</arith>
+	<calculus>
+		<int />
+		<diff />
+		<partialdiff />
+		<limit />
+		<lowlimit />
+		<uplimit />
+		<tendsto />
+	</calculus>
+	<constants>
+		<naturalnumbers />
+		<primes />
+		<integers />
+		<rationals />
+		<reals />
+		<complexes />
+		<emptyset />
+		<exponentiale />
+		<imaginaryi />
+		<pi />
+		<eulergamma />
+		<true />
+		<false />
+		<infinity />
+		<notanumber />
+	</constants>
+	<constructs>
+		<apply/>
+		<interval />
+		<inverse />
+		<condition />
+		<declare />
+		<lambda />
+		<piecewise />
+		<bvar />
+		<degree />
+	</constructs>
+	<elementaryfunctions>
+		<exp />
+		<ln />
+		<log />
+		<logbase />
+		<sin />
+		<cos />
+		<tan />
+		<sec />
+		<csc />
+		<cot />
+		<arcsin />
+		<arccos />
+		<arctan />
+		<arcsec />
+		<arccsc />
+		<arccot />
+		<sinh />
+		<cosh />
+		<tanh />
+		<sech />
+		<csch />
+		<coth />
+		<arccosh />
+		<arccoth />
+		<arccsch />
+		<arcsech />
+		<arcsinh />
+		<arctanh />
+	</elementaryfunctions>
+	<functions>
+		<compose />
+		<domain />
+		<codomain />
+		<image />
+		<domainofapplication />
+		<ident />
+	</functions>
+	<linearalgebra>
+		<vector />
+		<matrix />
+		<determinant />
+		<transpose />
+		<selector />
+		<vectorproduct />
+		<scalarproduct />
+		<outerproduct />
+	</linearalgebra>
+	<logic>
+		<and />
+		<or />
+		<xor />
+		<not />
+		<exists />
+		<forall />
+		<implies />
+	</logic>
+	<relations>
+		<eq />
+		<neq />
+		<leq />
+		<lt />
+		<geq />
+		<gt />
+		<equivalent />
+		<approx />
+		<factorof />
+	</relations>
+	<semanticss>
+		<annotation />
+		<annotation-xml />
+		<semantics />
+	</semanticss>
+	<sets>
+		<set />
+		<list />
+		<union />
+		<intersect />
+		<in />
+		<notin />
+		<subset />
+		<prsubset />
+		<notsubset />
+		<notprsubset />
+		<setdiff />
+		<card />
+		<cartesianproduct />
+	</sets>
+	<statistics>
+		<mean />
+		<sdev />
+		<variance />
+		<median />
+		<mode />
+		<moment />
+		<momentabout />
+	</statistics>
+	<tokens>
+		<cn/>
+		<ci />
+		<csymbol />
+	</tokens>
+	<vectorcalculus>
+		<divergence />
+		<grad />
+		<curl />
+		<laplacian />
+	</vectorcalculus>
+</MathMLEntity>

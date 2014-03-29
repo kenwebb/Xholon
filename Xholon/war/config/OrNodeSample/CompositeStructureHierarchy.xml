@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<HelloWorldSystem xmlns:xi="http://www.w3.org/2001/XInclude">
+    <Hello/>
+    <OrNode>
+		<attribute name="val" value="ru"/>
+		<World roleName="en"/> <!-- English -->
+		<World roleName="fr"/> <!-- French -->
+		<World roleName="es"/> <!-- Spanish -->
+		<World roleName="de"/> <!-- German -->
+		<World roleName="ru"/> <!-- Russian -->
+    </OrNode>
+</HelloWorldSystem>

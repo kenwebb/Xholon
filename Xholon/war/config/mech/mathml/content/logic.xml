@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MathML 2.0 Logic
+This is part of a Xholon Inheritance Hierarchy.
+-->
+<logic xmlns="http://www.w3.org/1998/Math/MathML">
+	<and/>
+    <or/>
+    <xor/>
+    <not/>
+    <exists/>
+    <forall/>
+    <implies/>
+</logic>

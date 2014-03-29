@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MathML test1 configuration file
+	 Ken Webb
+	 April 21, 2009 -->
+<params>
+	<param name="ShowParams" value="false"/>
+	<param name="ModelName" value="MathML test1"/>
+	<param name="AppM" value="true"/>
+	<param name="InfoM" value="false"/>
+	<param name="ErrorM" value="true"/>
+	<param name="MaxProcessLoops" value="-1"/> <!-- 10 -->
+	<param name="TimeStepInterval" value="10"/> <!-- 10 -->
+	<param name="SizeMessageQueue" value="5"/>
+	<param name="InheritanceHierarchyFile" value="config/user/mathmltest1/MathML_Test1_Ih.xml"/>
+	<param name="CompositeStructureHierarchyFile" value="config/user/mathmltest1/MathML_Test1_Csh.xml"/>
+	<param name="ClassDetailsFile" value="config/user/mathmltest1/MathML_Test1_Cd.xml"/>
+	<param name="InformationFile" value="config/mech/mathml/MathML_Information.xml"/>
+	<param name="JavaClassName" value="org.primordion.user.app.mathmltest1.AppMathmlTest1"/>
+	<param name="JavaXhClassName" value="org.primordion.user.app.mathmltest1.XhTest1"/>
+	<param name="MaxPorts" value="1"/>
+	<!-- Whether or not to capture interactions between Xholons, and output as a graphical UML Sequence Diagram. -->
+	<param name="UseInteractions" value="false"/>
+	<param name="InteractionParams" value="7,true,localhost,60001"/>
+	<!-- Whether or not to create a web-based or other special purpose GUI. -->
+	<!-- XUL -->
+	<!--
+	<param name="UseXholon2Gui" value="true"/>
+	<param name="Xholon2GuiParams" value="./gui/,4,200,file:///C:/Xholon/gui/,true,false,true"/>
+	<param name="Xholon2GuiClassName" value="org.primordion.xholon.io.Xholon2Xul"/>
+	-->
+	<!-- ZUML -->
+	<!--<param name="UseXholon2Gui" value="false"/>
+	<param name="Xholon2GuiParams" value="/jetty-6.1.5/webapps/xholon/,1,200,http://localhost:8080/xholon/,true,false,false"/>
+	<param name="Xholon2GuiClassName" value="org.primordion.xholon.io.Xholon2Zuml"/>-->
+</params>

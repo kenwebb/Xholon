@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MathML 2.0 -->
+<MathMLEntity
+		xmlns="http://www.w3.org/1998/Math/MathML"
+		xmlns:xi="http://www.w3.org/2001/XInclude"
+		id="5000000">
+	
+	<!-- The root node of any MathML expression. -->
+	<math/>
+	
+	<!-- content -->
+	<xi:include href="config/mech/mathml/content/arith.xml"/>
+	<xi:include href="config/mech/mathml/content/calculus.xml"/>
+	<xi:include href="config/mech/mathml/content/constants.xml"/>
+	<xi:include href="config/mech/mathml/content/constructs.xml"/>
+	<xi:include href="config/mech/mathml/content/elementaryfunctions.xml"/>
+	<xi:include href="config/mech/mathml/content/functions.xml"/>
+	<xi:include href="config/mech/mathml/content/linearalgebra.xml"/>
+	<xi:include href="config/mech/mathml/content/logic.xml"/>
+	<xi:include href="config/mech/mathml/content/relations.xml"/>
+	<xi:include href="config/mech/mathml/content/semanticss.xml"/>
+	<xi:include href="config/mech/mathml/content/sets.xml"/>
+	<xi:include href="config/mech/mathml/content/statistics.xml"/>
+	<xi:include href="config/mech/mathml/content/tokens.xml"/>
+	<xi:include href="config/mech/mathml/content/vectorcalculus.xml"/>
+	
+	<!-- presentation -->
+	
+</MathMLEntity>
