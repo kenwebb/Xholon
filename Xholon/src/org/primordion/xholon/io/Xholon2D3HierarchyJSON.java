@@ -20,6 +20,7 @@ public class Xholon2D3HierarchyJSON {
 	private String indent = "                              ";
 	private boolean shouldShowStateMachineEntities = false;
 	private boolean shouldIncludeDecorations = true;
+	private boolean insertDummyData = false; // this should be false by default
 	
 	private int numNodes = 0;
 	
@@ -83,11 +84,9 @@ public class Xholon2D3HierarchyJSON {
 		else if (node.hasChildNodes()) {
 			IXholon childNode = node.getFirstChild();
 			String dummy = "";
-			if (childNode.getNextSibling() == null) {
+			if (insertDummyData && childNode.getNextSibling() == null) {
 			  // this is a container with only one child
 			  sb
-			  // NO make it slightly larger so it won't be hidden
-			  //.append("\"size\": 1.2, ")
 			  // prevent it from accumulating a darker color
 			  .append("\"opacity\": \"0\", ");
 			  dummy = tab
@@ -199,6 +198,15 @@ public class Xholon2D3HierarchyJSON {
 	
 	public void setShouldIncludeDecorations(boolean shouldIncludeDecorations) {
 	  this.shouldIncludeDecorations = shouldIncludeDecorations;
+	}
+	
+	// insertDummyData
+	public boolean isInsertDummyData() {
+	  return insertDummyData;
+	}
+	
+	public void setInsertDummyData(boolean insertDummyData) {
+	  this.insertDummyData = insertDummyData;
 	}
 	
 }

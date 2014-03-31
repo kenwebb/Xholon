@@ -46,6 +46,7 @@ public class XholonGuiD3CirclePack extends AbstractXholonGui {
 	  xhRoot = node;
 	  Xholon2D3HierarchyJSON xholon2json = new Xholon2D3HierarchyJSON();
 	  xholon2json.initialize(node);
+	  xholon2json.setInsertDummyData(true);
 	  xholon2json.writeAll();
 	  String jsonStr = xholon2json.getJsonStr();
 	  int numNodes = xholon2json.getNumNodes();

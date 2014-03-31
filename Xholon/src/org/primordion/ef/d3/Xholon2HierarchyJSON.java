@@ -31,6 +31,7 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
 	//private String indent = "                              ";
 	private boolean shouldShowStateMachineEntities = false;
 	private boolean shouldIncludeDecorations = true;
+	private boolean insertDummyData = false; // this should be false by default
 	
 	//private int numNodes = 0;
 	
@@ -66,6 +67,7 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
 	  xholon2json.initialize(root);
 	  xholon2json.setShouldShowStateMachineEntities(shouldShowStateMachineEntities);
 	  xholon2json.setShouldIncludeDecorations(shouldIncludeDecorations);
+	  xholon2json.setInsertDummyData(insertDummyData);
 	  xholon2json.writeAll();
 	  String jsonStr = xholon2json.getJsonStr();
 	  int numNodes = xholon2json.getNumNodes();
@@ -85,6 +87,15 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
 		  JavaScriptObject json = ((JSONObject)JSONParser.parseLenient(jsonStr)).getJavaScriptObject();
 		  createD3(json, width, height, "#xhgraph");
 		}
+	}
+	
+	// insertDummyData
+	public boolean isInsertDummyData() {
+	  return insertDummyData;
+	}
+	
+	public void setInsertDummyData(boolean insertDummyData) {
+	  this.insertDummyData = insertDummyData;
 	}
 	
 	/**

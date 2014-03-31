@@ -16,7 +16,9 @@ import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
  */
 public class Xholon2CirclePack extends Xholon2HierarchyJSON implements IXholon2ExternalFormat {
 	
-	public Xholon2CirclePack() {}
+	public Xholon2CirclePack() {
+	  this.setInsertDummyData(true);
+	}
 	
 	/**
 	 * Create a D3 Pack Layout from the JSON data.
