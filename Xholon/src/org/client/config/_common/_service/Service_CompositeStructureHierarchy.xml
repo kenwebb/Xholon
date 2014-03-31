@@ -112,13 +112,16 @@
       <attr:Attribute_String roleName="Wikipedia (simple)">http://simple.wikipedia.org/wiki/</attr:Attribute_String>
       <attr:Attribute_String roleName="Wiktionary (simple)">http://simple.wiktionary.org/wiki/</attr:Attribute_String>
       http://duckduckgo.com/?q=
-      http://www.trueknowledge.com/q/mars_mass
+      http://www.trueknowledge.com/q/mars_mass (replaced by evi)
+      http://www.evi.com/q/solar_system
       http://www.dmoz.org/search?q=Solar+System http://www.dmoz.org/search?q=%22Climate+change%22
       http://search.aol.com/aol/search?query=Solar+System
       http://search.yippy.com/search?query=Solar%20System
       http://gigablast.com/search?q=Solar%20System
       http://hakia.com/search?q=Solar%20System
       http://www.youtube.com/results?search_query=
+      http://babelnet.org/search.jsp?word=Solar+System&lang=EN
+      http://babelnet.org/explore.jsp?word=Solar+System&lang=EN
       -->
     </XholonMap>
   </SearchEngineService>
