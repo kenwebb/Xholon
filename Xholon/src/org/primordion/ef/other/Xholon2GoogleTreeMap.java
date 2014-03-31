@@ -101,6 +101,8 @@ public class Xholon2GoogleTreeMap extends AbstractXholon2ExternalFormat implemen
 	
 	private int sizeAlgorithm = SIZE_ALGORITHM_VAL;
 	
+	private int maxDepth = 12; // 5
+	
 	/**
 	 * Constructor.
 	 */
@@ -166,7 +168,7 @@ public class Xholon2GoogleTreeMap extends AbstractXholon2ExternalFormat implemen
 			.append("  var tree = new google.visualization.TreeMap(document.getElementById('xhtreemap'));\n")
 			.append("  tree.draw(data, {\n");
 			sb
-			.append("    maxDepth: '5',\n")
+			.append("    maxDepth: '").append(maxDepth).append("',\n")
 			.append("    maxPostDepth: '1',\n")
 			//.append("    minColor: '#f00',\n")
 			//.append("    midColor: '#ddd',\n")
@@ -495,6 +497,14 @@ public class Xholon2GoogleTreeMap extends AbstractXholon2ExternalFormat implemen
 	
 	public void setSizeAlgorithm(int sizeAlgorithm) {
 	  this.sizeAlgorithm = sizeAlgorithm;
+	}
+	
+	public int getMaxDepth() {
+	  return maxDepth;
+	}
+	
+	public void setMaxDepth(int maxDepth) {
+	  this.maxDepth = maxDepth;
 	}
 	
 }
