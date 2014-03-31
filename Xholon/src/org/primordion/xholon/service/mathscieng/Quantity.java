@@ -48,19 +48,24 @@ public class Quantity extends Xholon implements IQuantity {
 	protected String roleName = null;
 	
 	public void postConfigure() {
-		if (instance == null) {
+	  if (instance == null) {
 			// probably no value was specified in the XML
-			instance = new QuantityScalarInner();
+			instance = getInstance();
 		}
 		((IXholon)instance).postConfigure();
 		super.postConfigure();
 	}
+	
 	public Object getVal_Object() {return ((IXholon)instance).getVal_Object();}
-	public void setVal(Object val) {((IXholon)instance).setVal(val);}
+	
+	public void setVal(Object val) {
+	  ((IXholon)instance).setVal(val);
+	}
+	
 	public String getVal_String() {return ((IXholon)instance).getVal_String();}
 	
 	public void setVal(String val) {
-		val = val.trim();
+	  val = val.trim();
 		if (instance == null) {
 			if ((val != null) && (val.length() > 0)) {
 				if (val.split(" ").length > 2) {
@@ -69,7 +74,7 @@ public class Quantity extends Xholon implements IQuantity {
 				}
 				else {
 					// ex: "1.0 m"
-					instance = new QuantityScalarInner();
+					instance = getInstance();
 				}
 			}
 		}
@@ -77,19 +82,37 @@ public class Quantity extends Xholon implements IQuantity {
 	}
 	
 	public double getVal() {return ((IXholon)instance).getVal();}
-	public void setVal(double val) {((IXholon)getInstance()).setVal(val);}
+	
+	public void setVal(double val) {
+	  ((IXholon)getInstance()).setVal(val);
+	}
+	
 	public void incVal(double val) {((IXholon)instance).incVal(val);}
 	public void decVal(double val) {((IXholon)instance).decVal(val);}
+	
 	public long getVal_long() {return ((IXholon)instance).getVal_long();}
 	public void setVal(long val) {((IXholon)instance).setVal(val);}
+	
 	public int getVal_int() {return ((IXholon)instance).getVal_int();}
-	public void setVal(int val) {((IXholon)instance).setVal(val);}
-	public String getUnit() {return ((IQuantity)instance).getUnit();}
+	
+	public void setVal(int val) {
+	  ((IXholon)getInstance()).setVal(val);
+	}
+	
+	public String getUnit() {
+	  return ((IQuantity)instance).getUnit();
+	}
+	
 	public String getStandardUnit() {return ((IQuantity)instance).getStandardUnit();}
 	public String getDimension() {return ((IQuantity)instance).getDimension();}
+	
 	public double[] getValues() {return ((IQuantity)instance).getValues();}
 	public double getValueN(int index) {return ((IQuantity)instance).getValueN(index);}
-	public String toString() {return instance.toString();}
+	
+	public String toString() {
+	  return getInstance().toString();
+	}
+	
 	public String getRoleName() {return roleName;}
 	public void setRoleName(String roleName) {this.roleName = roleName;}
 	
@@ -109,11 +132,14 @@ public class Quantity extends Xholon implements IQuantity {
 		 * @see org.primordion.xholon.base.Xholon#postConfigure()
 		 */
 		public void postConfigure() {
-			if (amount == null) {
+		  if (amount == null) {
 				String defaultContent = ((IXholon)Quantity.this).getXhc().getDefaultContent();
 				if (defaultContent != null) {
 					this.setVal(defaultContent);
 				}
+			}
+			if (amount == null) {
+			  this.setVal(0.0); // this will create an Amount with the default Unit
 			}
 		}
 
@@ -122,20 +148,9 @@ public class Quantity extends Xholon implements IQuantity {
 		 */
 		public String toString() {
 			IXholon tqo = (IXholon)Quantity.this;
-			//String format = ((IDecoration)tqo.getXhc()).getFormat(); // GWT
 			if (amount == null) {
 				return tqo.getName();
 			}
-			/* format is only used in original Xholon in a few user/wb/khan models (GWT)
-			else if ((format != null) && (format.length() > 0)) {
-				return String.format(format,
-						amount.doubleValue(amount.getUnit()), // 1$
-						amount.getUnit().toString(),          // 2$
-						amount.getRelativeError(),            // 3$
-						tqo.getName(),                        // 4$
-						this.getDimension()                   // 5$
-						);
-			}*/
 			else {
 				return tqo.getName() + " " + this.getAmount() + " " + this.getDimension();
 			}

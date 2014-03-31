@@ -92,19 +92,6 @@ public class QuantityScalar extends Xholon implements IQuantity {
 	 */
 	protected String roleName = null;
 	
-	/*
-	 * @see org.primordion.xholon.base.Xholon#postConfigure()
-	 */
-	public void postConfigure() {
-		if (amount == null) {
-			String defaultContent = this.getXhc().getDefaultContent();
-			if (defaultContent != null) {
-				this.setVal(defaultContent);
-			}
-		}
-		super.postConfigure();
-	}
-	
 	/**
 	 * @see org.primordion.xholon.base.Xholon#getVal_Object()
 	 * @return An instance of org.jscience.physics.amount.Amount.
@@ -126,7 +113,7 @@ public class QuantityScalar extends Xholon implements IQuantity {
 	 * @see org.primordion.xholon.base.Xholon#getVal_String()
 	 */
 	public String getVal_String() {
-		return "" + amount;
+	  return "" + amount;
 	}
 	
 	/*
@@ -140,7 +127,7 @@ public class QuantityScalar extends Xholon implements IQuantity {
 	 * @see org.primordion.xholon.base.Xholon#getVal()
 	 */
 	public double getVal() {
-		//return amount.doubleValue(amount.getUnit());
+	  //return amount.doubleValue(amount.getUnit());
 		return amount.doubleValue();
 	}
 	
@@ -153,7 +140,6 @@ public class QuantityScalar extends Xholon implements IQuantity {
 			setAmount(Amount.valueOf(val, Unit.ONE));
 		}
 		else {
-			//setAmount(Amount.valueOf(val, amount.getUnit()));
 			amount.setVal(val);
 		}
 	}
@@ -176,7 +162,7 @@ public class QuantityScalar extends Xholon implements IQuantity {
 	 * @see org.primordion.xholon.base.Xholon#getVal_long()
 	 */
 	public long getVal_long() {
-		try {
+	  try {
 			return amount.longValue(amount.getUnit());
 		} catch (ArithmeticException e) {
 			return Long.MIN_VALUE;
@@ -200,7 +186,7 @@ public class QuantityScalar extends Xholon implements IQuantity {
 	 * @see org.primordion.xholon.base.Xholon#getVal_int()
 	 */
 	public int getVal_int() {
-		try {
+	  try {
 			return (int)amount.longValue(amount.getUnit());
 		} catch (ArithmeticException e) {
 			return (int)Integer.MIN_VALUE;
@@ -224,22 +210,22 @@ public class QuantityScalar extends Xholon implements IQuantity {
 	 * @see org.primordion.xholon.base.IQuantity#getUnit()
 	 */
 	public String getUnit() {
-		return amount.getUnit().toString();
+	  return amount.getUnit().toString();
 	}
 	
 	/*
 	 * @see org.primordion.xholon.base.IQuantity#getStandardUnit()
 	 */
 	public String getStandardUnit() {
-		return amount.getUnit().getStandardUnit().toString();
+	  return amount.getUnit().getStandardUnit().toString();
 	}
 	
 	/*
 	 * @see org.primordion.xholon.base.IQuantity#getDimension()
 	 */
 	public String getDimension() {
-		Unit unit = amount.getUnit();
-		if (unit.equals(Unit.ONE)) {
+	  Unit unit = amount.getUnit();
+		if (Unit.ONE.equals(unit)) {
 			return "";
 		}
 		else {
@@ -278,22 +264,11 @@ public class QuantityScalar extends Xholon implements IQuantity {
 	 * @see org.primordion.xholon.base.Attribute#toString()
 	 */
 	public String toString() {
-		//String format = ((IDecoration)this.getXhc()).getFormat(); // GWT
 		if (amount == null) {
-			return this.getName();
+		  return this.getName();
 		}
-		/* format is only used in original Xholon in a few user/wb/khan models (GWT)
-		else if ((format != null) && (format.length() > 0)) {
-			return String.format(format,
-					amount.doubleValue(amount.getUnit()), // 1$
-					amount.getUnit().toString(),          // 2$
-					amount.getRelativeError(),            // 3$
-					this.getName(),                       // 4$
-					this.getDimension()                   // 5$
-					);
-		}*/
 		else {
-			return this.getName() + " " + this.getAmount() + " " + this.getDimension();
+		  return this.getName() + " " + this.getAmount() + " " + this.getDimension();
 		}
 	}
 

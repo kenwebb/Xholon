@@ -10,7 +10,7 @@ public class Amount {
   
   protected double val = 0.0;
   
-  protected Unit unit = null;
+  protected Unit unit = Unit.ONE; //null;
   
   public static Amount valueOf(double val, Unit unit) {
     Amount amount = new Amount();
