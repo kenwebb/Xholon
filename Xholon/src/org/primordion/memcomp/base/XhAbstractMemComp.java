@@ -37,7 +37,7 @@ public abstract class XhAbstractMemComp extends XholonWithPorts implements IMemb
 	protected static int currentPriority = 0;
 	
 	// are rules selected in a deterministic way, or are they selected in a random order?
-	protected static boolean isDeterministic = true;
+	protected static boolean isDeterministic = false;
 	// are rules maximally parallel?
 	protected static boolean isMaximallyParallel = true;
 	
