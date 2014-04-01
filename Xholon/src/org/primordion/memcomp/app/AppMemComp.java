@@ -45,12 +45,14 @@ public class AppMemComp extends Application {
 	 */
 	protected void step()
 	{
-	  consoleLog("AppMemComp step() starting ... root " + root.getName());
-		root.act();
+	  root.act();
 		root.postAct();
 		if (XhAbstractMemComp.isComputationComplete()) {
 			// no need to continue processing
 			setControllerState(IControl.CS_STOPPED);
+			if (XhAbstractMemComp.isComputationSuccessful()) {
+			  println("Computation was successful.");
+		  }
 		}
 	}
 	
@@ -59,7 +61,8 @@ public class AppMemComp extends Application {
 	 */
 	public void wrapup()
 	{
-		if (XhAbstractMemComp.isComputationSuccessful()) {
+	  if (XhAbstractMemComp.isComputationSuccessful()) {
+	    // wrapup() will probably never get called in this situation, so put the println in step()
 			println("Computation was successful.");
 		}
 		else {
