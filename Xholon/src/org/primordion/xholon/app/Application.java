@@ -656,7 +656,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	 */
 	public void setGridViewerParams(String gridViewerParams)
 	{
-	  consoleLog("Application setGridViewerParams " + gridViewerParams);
+	  //consoleLog("Application setGridViewerParams " + gridViewerParams);
 		GridViewerDetails gvd = new GridViewerDetails();
 		gvd.useGridViewer = useGridViewer;
 		gvd.gridPanelClassName = gridPanelClassName;
@@ -725,7 +725,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	 */
 	public void setUseHistogramPlotter(String useHistogramPlotter)
 	{
-	  consoleLog("App setUseHistogramPlotter: " + useHistogramPlotter);
+	  //consoleLog("App setUseHistogramPlotter: " + useHistogramPlotter);
 		// default values "none"
 		this.useHistogramPlotter = false;
 		this.useJFreeChart_Hist = false;
@@ -757,7 +757,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	
 	/** histogramPlotterParams */
 	public void setHistogramPlotterParams(String histogramPlotterParams) {
-	  consoleLog(histogramPlotterParams);
+	  //consoleLog(histogramPlotterParams);
 		this.histogramPlotterParams = histogramPlotterParams;
 	}
 	
@@ -1934,7 +1934,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 		String ih = null;
 		if (workbookBundle != null) {
 		  ih = workbookBundle.getResource(XholonWorkbookBundle.RESOURCE_IH);
-		  consoleLog(ih);
+		  //consoleLog(ih);
 		}
 		if (ih != null) {
 		  xml2XholonClass.xmlString2Xholon(ih, xhcRoot);
@@ -1949,7 +1949,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 		String cd = null;
 		if (workbookBundle != null) {
 		  cd = workbookBundle.getResource(XholonWorkbookBundle.RESOURCE_CD);
-		  consoleLog(cd);
+		  //consoleLog(cd);
 		}
 		if (cd != null) {
 		  xml2XholonClass.xmlString2Xholon(cd, xhcRoot);
@@ -1990,7 +1990,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	 */
 	protected void createContainmentHierarchy()
 	{
-		System.out.println("App.createContainmentHierarchy() starting ...");
+		//consoleLog("App.createContainmentHierarchy() starting ...");
 		IXml2Xholon xml2Xholon = new Xml2Xholon();
 		xml2Xholon.setTreeNodeFactory( factory );
 		xml2Xholon.setApp(this);
@@ -1999,10 +1999,9 @@ public abstract class Application extends AbstractApplication implements IApplic
 		IXholon csControlRoot = controlRoot
 			.getNextSibling().getNextSibling().getFirstChild();
 		String csh = null;
-	  consoleLog(workbookBundle);
-		if (workbookBundle != null) {
+	  if (workbookBundle != null) {
 		  csh = workbookBundle.getResource(XholonWorkbookBundle.RESOURCE_CSH);
-		  consoleLog(csh);
+		  //consoleLog(csh);
 		}
 		if (csh != null) {
 		  root = xml2Xholon.xmlString2Xholon(csh, csControlRoot);
@@ -2011,7 +2010,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	    root = xml2Xholon.xmlString2Xholon(rcConfig("csh", findGwtClientBundle()), csControlRoot);
 	  }
 	  else {
-		  root = xml2Xholon.xmlUri2Xholon(compositeStructureHierarchyFile, csControlRoot);
+	    root = xml2Xholon.xmlUri2Xholon(compositeStructureHierarchyFile, csControlRoot);
 		}
 		if (root != null) { // TODO this will cause problems later
 			// swap the position of root and srvRoot, so root is the first child
@@ -2019,7 +2018,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 			root.setNextSibling(srvRoot);
 			srvRoot.setNextSibling(null);
 		}
-
+		
 	}
 	
 	/**
@@ -2059,12 +2058,12 @@ public abstract class Application extends AbstractApplication implements IApplic
 	 */
 	public int createGridViewer(int vIx)
 	{
-	  consoleLog("Application.createGridViewer( " + vIx);
+	  //consoleLog("Application.createGridViewer( " + vIx);
 		if (vIx == -1) {
 			vIx = gridViewers.size() - 1;
 		}
 		GridViewerDetails gvd = (GridViewerDetails)gridViewers.get(vIx);
-		consoleLog("Application.createGridViewer( " + gvd.gridViewerParams);
+		//consoleLog("Application.createGridViewer( " + gvd.gridViewerParams);
 		StringTokenizer st = new StringTokenizer(gvd.gridViewerParams, ",");
 		/* GWT
 		try {
@@ -2242,7 +2241,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	 */
 	public void wrapup()
 	{
-	  consoleLog("Application.wrapup() starting ...");
+	  //consoleLog("Application.wrapup() starting ...");
 		// Draw simple 2D text-based tree.
 		if (getUseTextTree()) {
 			//root.draw();
@@ -2257,19 +2256,19 @@ public abstract class Application extends AbstractApplication implements IApplic
 			|| ((interaction.getOutputFormat() & IInteraction.FORMAT_SDEDIT) == IInteraction.FORMAT_SDEDIT)
 			|| ((interaction.getOutputFormat() & IInteraction.FORMAT_WEBSD) == IInteraction.FORMAT_WEBSD)
 			|| ((interaction.getOutputFormat() & IInteraction.FORMAT_UML_GRAPH) == IInteraction.FORMAT_UML_GRAPH)) {
-			consoleLog("do sequence diagram on wrapup");
+			//consoleLog("do sequence diagram on wrapup");
 			invokeInteraction();
 		}
 		
 		// Create a JFreeChart or gnuplot chart.
 		if (INVOKE_VIEWERS_ON_WRAPUP || noGui || (getUseGnuplot())) {
-		  consoleLog("do data plotter on wrapup");
+		  //consoleLog("do data plotter on wrapup");
 			invokeDataPlotter();
 		}
 		
 		// Create a JFreeChart or gnuplot histogram.
 		if (INVOKE_VIEWERS_ON_WRAPUP || (getUseGnuplot_Hist())) {
-		  consoleLog("do histogram on wrapup");
+		  //consoleLog("do histogram on wrapup");
 			invokeHistogramPlotter();
 		}
 		
@@ -2301,14 +2300,14 @@ public abstract class Application extends AbstractApplication implements IApplic
 				logger.error("Unable to find optional VRML writer ", e);
 			}*/
 			
-			consoleLog("about to create instance of IVrmlWriter vw");
+			//consoleLog("about to create instance of IVrmlWriter vw");
 			IVrmlWriter vw = null;
 			try {
-			  consoleLog(getVrmlWriterClassName());
+			  //consoleLog(getVrmlWriterClassName());
 			  vw = (IVrmlWriter)factory.getXholonNode(getVrmlWriterClassName());
 			} catch(XholonConfigurationException e) {}
 			if (vw != null) {
-			  consoleLog("about to vw.writeAsVrml(root);");
+			  //consoleLog("about to vw.writeAsVrml(root);");
 				vw.writeAsVrml(root);
 			}
 			
@@ -2408,7 +2407,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	 */
 	public void initViewers()
 	{
-	  consoleLog("Application starting initViewers() ...");
+	  //consoleLog("Application starting initViewers() ...");
 		// XYChart
 		if (getUseDataPlotter()) {
 		  System.out.println("Application initViewers() calling createChart(null)");
@@ -2417,9 +2416,9 @@ public abstract class Application extends AbstractApplication implements IApplic
 		
 		// Histogram
 		if (getUseHistogramPlotter()) {
-		  consoleLog("calling createHistogram()");
+		  //consoleLog("calling createHistogram()");
 			createHistogram();
-			consoleLog("finished call to createHistogram()");
+			//consoleLog("finished call to createHistogram()");
 		}
 		
 		// GraphicalNetworkViewer
@@ -2471,7 +2470,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 			xs.appendChild("XhymAgent", null, "org.primordion.xholon.base.XhymAgent");
 			xhymSpace.postConfigure();
 		}
-		consoleLog("Application ending initViewers()");
+		//consoleLog("Application ending initViewers()");
 	}
 	
 	/*
@@ -2692,7 +2691,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	
 	protected void createHistogram()
 	{
-	  consoleLog("createHistogram() 1");
+	  //consoleLog("createHistogram() 1");
 		StringTokenizer st = new StringTokenizer(getHistogramPlotterParams(), ",");
 		createHistogram(
 				st.nextToken(),
@@ -2721,14 +2720,14 @@ public abstract class Application extends AbstractApplication implements IApplic
 			int writeType
 			)
 	{
-	  consoleLog("createHistogram() 2");
+	  //consoleLog("createHistogram() 2");
 		// add chart parameters to tree under View
 		IXholon aParentNode = view;
 		
 		// XYChart
 		IXholon histRootView = aParentNode.appendChild("HistogramViewer", histogramTitle);
 		
-		consoleLog("createHistogram() 3");
+		//consoleLog("createHistogram() 3");
 		// XAxisLabel_Hist, YAxisLabel_Hist
 		histRootView.appendChild("XAxisLabel_Hist", xAxisLabel);
 		histRootView.appendChild("YAxisLabel_Hist", yAxisLabel);
@@ -2758,7 +2757,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 			//}
 		}
 		else if (getUseGnuplot_Hist()) {
-		  consoleLog("createHistogram() 10");
+		  //consoleLog("createHistogram() 10");
 		  histogramViewer = new HistogramViewerGnuplot();
 			((org.primordion.xholon.io.HistogramViewerGnuplot)histogramViewer).initialize(
 					histRootModel, histRootView, inherHier.getClassNode(xholonClass), numBins,
@@ -2766,7 +2765,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 					);
 		}
 		else if (getUseGoogle2_Hist()) {
-		  consoleLog("createHistogram() 11");
+		  //consoleLog("createHistogram() 11");
 		  histogramViewer = new HistogramViewerGoogle2();
 			((org.primordion.xholon.io.HistogramViewerGoogle2)histogramViewer).initialize(
 					histRootModel, histRootView, inherHier.getClassNode(xholonClass), numBins,
@@ -2775,7 +2774,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 					);
 		}
 		else if (getUseD3_Hist()) {
-		  consoleLog("createHistogram() 12");
+		  //consoleLog("createHistogram() 12");
 		  histogramViewer = new HistogramViewerD3();
 			((org.primordion.xholon.io.HistogramViewerD3)histogramViewer).initialize(
 					histRootModel, histRootView, inherHier.getClassNode(xholonClass), numBins,
@@ -2893,7 +2892,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	    String svgStr1 = null;
 	    if (workbookBundle != null) {
 		    svgStr1 = workbookBundle.getResource(XholonWorkbookBundle.RESOURCE_SVG);
-		    consoleLog(svgStr1);
+		    //consoleLog(svgStr1);
 		  }
 		  if (svgStr1 != null) {
 		    imageFile = null; // no SVG file is specified
@@ -3143,10 +3142,10 @@ ${MODELNAME_DEFAULT},${SVGURI_DEFAULT},,,./,${VIEWABLES_CREATE}
 	 */
 	public IViewer invokeDataPlotter()
 	{
-	  consoleLog("App.invokeDataPlotter() starting ...");
+	  //consoleLog("App.invokeDataPlotter() starting ...");
 		if (getUseDataPlotter()) {
-  	  consoleLog("App.invokeDataPlotter() 1");
-  	  consoleLog(chartViewer);
+  	  //consoleLog("App.invokeDataPlotter() 1");
+  	  //consoleLog(chartViewer);
 			chartViewer.chart();
 		}
 		return null;
@@ -3157,10 +3156,10 @@ ${MODELNAME_DEFAULT},${SVGURI_DEFAULT},,,./,${VIEWABLES_CREATE}
 	 */
 	public IViewer invokeHistogramPlotter()
 	{
-	  consoleLog("App.invokeHistogramPlotter() starting ...");
+	  //consoleLog("App.invokeHistogramPlotter() starting ...");
 		if (getUseHistogramPlotter()) {
-		  consoleLog("invokeHistogramPlotter() 1");
-		  consoleLog(histogramViewer);
+		  //consoleLog("invokeHistogramPlotter() 1");
+		  //consoleLog(histogramViewer);
 			histogramViewer.chart();
 		}
 		return null;
