@@ -70,7 +70,7 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 				}
 				else {
 					String tagName = xmlReader.getName();
-					//System.out.println("Xml2Xholon xml2Xh: " + tagName);
+					//consoleLog("Xml2Xholon xml2Xh: " + tagName);
 					if ("attribute".equals(tagName)) {
 						// ex: <attribute name="output" value="255.0"/>
 						currentXholon = newXholon("Attribute_attribute", parentXholon, xmlReader);
@@ -89,7 +89,7 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 					}
 					else if (("include".equals(tagName) && (xmlReader.getPrefix().equals(xincludePrefix)))
 					    || ("xi:include".equals(tagName))) {
-					  //System.out.println(xincludePrefix + ":" + tagName);
+					  //consoleLog(xincludePrefix + ":" + tagName);
 						// there may be a recursive hierarchy of include and fallback elements
 						// keep passing the same parentXholon down the hierarchy until find a match
 						// this is an OR hierarchy, rather than an AND hierarchy
@@ -107,7 +107,7 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 								savedRoleName = attrValue;
 							}
 						}
-					  //System.out.println(xincludePrefix + ":" + tagName + " " + uri);
+					  //consoleLog(xincludePrefix + ":" + tagName + " " + uri);
 						
 						// if the file name begins with ./, then this is the complete relative path
 						// else, it needs to be appended to the end of the standard xinclude path
@@ -144,7 +144,7 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 					} // end xi:include processing
 					else if ("fallback".equals(tagName) && (xmlReader.getPrefix().equals(xincludePrefix))) {
 						// the parent of a fallback element must be an include element
-						//System.out.println("fallback: " + parentXholon);
+						//consoleLog("fallback: " + parentXholon);
 						currentXholon = parentXholon; // be ready to pass the parentXholon down another level
 					}
 					else if ((tagName.startsWith(XML_FOREST)) && (parentXholon != null)) {
@@ -152,14 +152,14 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 						// the children of this element are a forest
 						// this node is probably the root node in an xinclude file
 						currentXholon = parentXholon;
-						//System.out.println("forest:" + tagName + " parentXholon:" + parentXholon);
+						//consoleLog("forest:" + tagName + " parentXholon:" + parentXholon);
 					}
 					else if ("XholonWorkbook".equals(tagName)) {
 						return new XholonWorkbook().xml2Xh(app, xmlReader.getUnderlyingReader());
 					}
 					else { // regular elements including Attribute_ nodes
 						currentXholon = newXholon(tagName, parentXholon, xmlReader);
-						//System.out.println("  Xml2Xholon xml2Xh: " + currentXholon);
+						//consoleLog("  Xml2Xholon xml2Xh: " + currentXholon);
 						if (currentXholon != null) {
 							int attrCount = xmlReader.getAttributeCount();
 							for (int i = 0; i < attrCount; i++) {
@@ -207,7 +207,6 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 				}
 				// handle multiplicity
 				if (multiplicity > 1) {
-					//System.out.println(multStr);
 					multiply(currentXholon, multiplicity - 1); // GWT
 					multiplicity = 1; // reset to its default value
 				}
@@ -284,7 +283,7 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 	@SuppressWarnings("unchecked")
 	protected IXholon newXholon(String tagName, IXholon parentXholon, IXmlReader xmlReader)
 	{
-	  //System.out.println("Xml2Xholon newXholon1 " + tagName);
+	  //consoleLog("Xml2Xholon newXholon1 " + tagName);
 		String prefix = xmlReader.getPrefix();
 		IXholonClass xhcNode = null;
 		if (inherHier != null) {
@@ -296,16 +295,16 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 				xhcNode = inherHier.getClassNode(tagName);
 			}
 		}
-		//System.out.println("Xml2Xholon newXholon2 " + xhcNode);
+		//consoleLog("Xml2Xholon newXholon2 " + xhcNode);
 		if (xhcNode == null) {
 			String implName = null;
 			int attrCount = xmlReader.getAttributeCount();
-			//System.out.println("Xml2Xholon newXholon3 " + attrCount);
+			//consoleLog("Xml2Xholon newXholon3 " + attrCount);
 			for (int i = 0; i < attrCount; i++) {
 				String attrName = xmlReader.getAttributeName(i);
 				String attrValue = xmlReader.getAttributeValue(i);
 				if ("implName".equals(attrName)) {
-				  //System.out.println("Xml2Xholon newXholon4 " + tagName + " " + attrName + " " + attrValue);
+				  //consoleLog("Xml2Xholon newXholon4 " + tagName + " " + attrName + " " + attrValue);
 					if (attrValue.endsWith("inline:")) {
 						// this is an ad-hoc non-Java inline script
 						// the next event should be the TEXT between the start and end tags
@@ -322,7 +321,7 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 					break;
 				}
 			}
-			//System.out.println("Xml2Xholon newXholon5 " + implName);
+			//consoleLog("Xml2Xholon newXholon5 " + implName);
 			if (implName == null) {
 				if ((parentXholon == null)
 						|| (parentXholon.getXhc() == null)
@@ -331,13 +330,13 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 					xhcNode = makeStandardSubXholonClass(tagName);
 				}
 			}
-			//System.out.println("Xml2Xholon newXholon6 " + xhcNode);
+			//consoleLog("Xml2Xholon newXholon6 " + xhcNode);
 			if (xhcNode == null) {
 				// try to create a new ad-hoc class node from the tagName
 				xhcNode = makeAdHocXholonClass(tagName, implName, parentXholon);
 			}
 		}
-		//System.out.println("Xml2Xholon newXholon7 " + xhcNode);
+		//consoleLog("Xml2Xholon newXholon7 " + xhcNode);
 		if (xhcNode == null) {
 			String warnMsg = "Can't create instance of unknown XholonClass: ";
 			if (prefix != null) {
@@ -372,7 +371,7 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 				}
 			}
 			else*/
-			//System.out.println("Xml2Xholon newXholon8 " + implName);
+			//consoleLog("Xml2Xholon newXholon8 " + implName);
 			if (implName != null) { // has a Java implementation class been specified?
 				if (implName.startsWith(IMPLNAME_SPECIAL)) {
 					// use ASM to create a subclass of the default Xh class, to handle custom ports
@@ -408,7 +407,7 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 				}
 			}
 			else { // use the default implementation class
-			  //System.out.println("Xml2Xholon newXholon9 calling factory.getXholonNode()");
+			  //consoleLog("Xml2Xholon newXholon9 calling factory.getXholonNode()");
 				newXholon = factory.getXholonNode();
 			}
 		} catch (XholonConfigurationException e) {
@@ -477,7 +476,7 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 	 */
 	protected IXholonClass makeAdHocXholonClass(String tagName, String implName, IXholon parentXholon)
 	{
-	  //System.out.println("trying makeAdHocXholonClass() 1 " + tagName + " " + implName);
+	  //consoleLog("trying makeAdHocXholonClass() 1 " + tagName + " " + implName);
 		if (!ALLOW_AD_HOC_INSTANCES) {return null;}
 		// determine if there is a Java class in the application's home Java package called tagName
 		String defaultXhName = app.getJavaXhClassName();
@@ -488,17 +487,17 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 			// this is a non-Java script
 		}
 		else if (!factory.isClassFindable(implName)) {
-		  //System.out.println("makeAdHocXholonClass() 2");
+		  //consoleLog("makeAdHocXholonClass() 2");
 			// try the common default package for Java script classes
 			implName = "org.primordion.xholon.script." + tagName;
 			if (!factory.isClassFindable(implName)) {
-				//System.out.println("makeAdHocXholonClass() 3");
+				//consoleLog("makeAdHocXholonClass() 3");
 				if (parentXholon != null) {
-				  //System.out.println("makeAdHocXholonClass() 3a");
+				  //consoleLog("makeAdHocXholonClass() 3a");
 					// parentXholon may be a container such as XholonList, that knows the default type of its children
 					String childSuperClassName = parentXholon.getXhc().getChildSuperClass();
 					if (childSuperClassName != null) {
-					  //System.out.println("makeAdHocXholonClass() 3b");
+					  //consoleLog("makeAdHocXholonClass() 3b");
 						IXholonClass childSuperClass = inherHier.getClassNode(childSuperClassName);
 						if (childSuperClass != null) {
 							IXholonClass newXholonClass = makeXholonClass(tagName);
@@ -519,7 +518,7 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 		else { // there is a findable Java class
 			// try to find a XholonClass with the same name as the Java class
 			// ex: org.primordion.xholon.mech.filesystem.Directory > Directory
-			//System.out.println("makeAdHocXholonClass() 4");
+			//consoleLog("makeAdHocXholonClass() 4");
 			int beginIndex = implName.lastIndexOf('.');
 			if (beginIndex == -1) {beginIndex = 0;}
 			else {beginIndex++;}
@@ -551,7 +550,7 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 	 */
 	protected IXholonClass makeStandardSubXholonClass(String tagName)
 	{
-		//System.out.println("trying makeStandardSubXholonClass() " + tagName);
+		//consoleLog("trying makeStandardSubXholonClass() " + tagName);
 		IXholonClass candidateSuperclass = null;
 		int index = tagName.length() - 1;
 		char ch = tagName.charAt(index);
@@ -583,7 +582,7 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 			// make the new XholonClass a subclass of the candidate superclass
 			newXholonClass.appendChild(candidateSuperclass);
 			inherHier.createHashEntry(newXholonClass);
-			//System.out.println("makeStandardSubXholonClass() " + newXholonClass);
+			//consoleLog("makeStandardSubXholonClass() " + newXholonClass);
 			return newXholonClass;
 		}
 		return null;
@@ -598,14 +597,14 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 	 */
 	protected void multiply(IXholon currentXholon, int multiplicity)
 	{
-		//System.out.println("Multiplying " + currentXholon + " " + multiplicity + " times.");
+		//consoleLog("Multiplying " + currentXholon + " " + multiplicity + " times.");
 		IXholon parentXholon = currentXholon.getParentNode();
 		IXholon2Xml xholon2Xml = new Xholon2Xml();
 		// the attribute nodes should still be present in the tree, so no need to recreate them
 		xholon2Xml.setXhAttrStyle(IXholon2Xml.XHATTR_TO_NULL);
 		// first, transform currentXholon into XML
 		String xmlString = xholon2Xml.xholon2XmlString(currentXholon);
-		//System.out.println(xmlString);
+		//consoleLog(xmlString);
 		// then, pass the XML to xmlString2Xholon() multiplicity times
 		for (int i = 0; i < multiplicity; i++) {
 			xmlString2Xholon_internal(xmlString, parentXholon);
