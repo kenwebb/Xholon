@@ -19,8 +19,8 @@
 	<param name="CompositeStructureHierarchyFile" value="config/memcomp/Fsm06ex1/CompositeStructureHierarchy_FsmMD.xml"/>
 	<param name="ClassDetailsFile" value="config/memcomp/Fsm06ex1/ClassDetails_FsmMD.xml"/>
 	<param name="InformationFile" value="config/memcomp/Fsm06ex1/Information_psys_fsm06ex1.xml"/>
-	<param name="JavaClassName" value="org.primordion.memcomp.app.Fsm06ex1.AppFsm06ex1_Fsm"/>
-	<param name="JavaXhClassName" value="org.primordion.memcomp.app.Fsm06ex1.XhFsm06ex1_Fsm"/>
+	<param name="JavaClassName" value="org.primordion.memcomp.app.Fsm06ex1_Fsm.AppFsm06ex1_Fsm"/>
+	<param name="JavaXhClassName" value="org.primordion.memcomp.app.Fsm06ex1_Fsm.XhFsm06ex1_Fsm"/>
 	<param name="MaxPorts" value="1"/>
 	<!-- Whether or not to capture interactions between Xholons, and output as a graphical UML Sequence Diagram. -->
 	<param name="UseInteractions" value="true"/>
