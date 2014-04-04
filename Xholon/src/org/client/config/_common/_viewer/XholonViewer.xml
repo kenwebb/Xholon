@@ -22,6 +22,8 @@ Any or all of these can be commented out.
 
 <Interactions xmlns="http://www.primordion.com/namespace/Interactions" id="1000600"/>
 
+<Snapshot xmlns="http://www.primordion.com/namespace/Snapshot" id="1000700"/>
+
 <SvgEntity xmlns="http://www.primordion.com/namespace/SvgEntity" id="1011600">
   <SvgLabel/>
   <SvgViewable/>

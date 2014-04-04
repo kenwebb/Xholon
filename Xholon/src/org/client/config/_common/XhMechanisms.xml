@@ -250,6 +250,84 @@ The following XML is an alphabetical list of all Xholon Mechanisms and Viewers.
 	
 	<XholonViewers roleName="XholonViewers">
 	
+	<XholonViewer roleName="DataPlotter">
+		<NamespaceUri>http://www.primordion.com/namespace/DataPlotter</NamespaceUri>
+		<DefaultPrefix>dplot</DefaultPrefix>
+		<RangeStart>1000200</RangeStart>
+		<RangeEnd>1000299</RangeEnd>
+	</XholonViewer>
+	
+	<XholonViewer roleName="GraphicalNetworkViewer">
+		<NamespaceUri>http://www.primordion.com/namespace/GraphicalNetworkViewer</NamespaceUri>
+		<DefaultPrefix>gnv</DefaultPrefix>
+		<RangeStart>1000300</RangeStart>
+		<RangeEnd>1000399</RangeEnd>
+	</XholonViewer>
+	
+	<XholonViewer roleName="GraphicalTreeViewer">
+		<NamespaceUri>http://www.primordion.com/namespace/GraphicalTreeViewer</NamespaceUri>
+		<DefaultPrefix>gtv</DefaultPrefix>
+		<RangeStart>1000400</RangeStart>
+		<RangeEnd>1000499</RangeEnd>
+	</XholonViewer>
+	
+	<XholonViewer roleName="GridViewer">
+		<NamespaceUri>http://www.primordion.com/namespace/GridViewer</NamespaceUri>
+		<DefaultPrefix>grvwr</DefaultPrefix>
+		<RangeStart>1000500</RangeStart>
+		<RangeEnd>1000599</RangeEnd>
+	</XholonViewer>
+	
+	<XholonViewer roleName="HistogramViewer">
+		<NamespaceUri>http://www.primordion.com/namespace/HistogramViewer</NamespaceUri>
+		<DefaultPrefix>hsvwr</DefaultPrefix>
+		<RangeStart>1002100</RangeStart>
+		<RangeEnd>1002199</RangeEnd>
+	</XholonViewer>
+	
+	<XholonViewer roleName="Interactions">
+		<NamespaceUri>http://www.primordion.com/namespace/Interactions</NamespaceUri>
+		<DefaultPrefix>ntrc</DefaultPrefix>
+		<RangeStart>1000600</RangeStart>
+		<RangeEnd>1000699</RangeEnd>
+	</XholonViewer>
+	
+	<XholonViewer roleName="Snapshot">
+		<NamespaceUri>http://www.primordion.com/namespace/Snapshot</NamespaceUri>
+		<DefaultPrefix>snap</DefaultPrefix>
+		<RangeStart>1000700</RangeStart>
+		<RangeEnd>1000799</RangeEnd>
+	</XholonViewer>
+	
+	<XholonViewer roleName="SvgEntity">
+		<NamespaceUri>http://www.primordion.com/namespace/SvgEntity</NamespaceUri>
+		<DefaultPrefix>svg</DefaultPrefix>
+		<RangeStart>1011600</RangeStart>
+		<RangeEnd>1011699</RangeEnd>
+	</XholonViewer>
+	
+	<XholonViewer roleName="TextTree">
+		<NamespaceUri>http://www.primordion.com/namespace/TextTree</NamespaceUri>
+		<DefaultPrefix>txtr</DefaultPrefix>
+		<RangeStart>1000800</RangeStart>
+		<RangeEnd>1000899</RangeEnd>
+	</XholonViewer>
+	
+	<XholonViewer roleName="Vrml">
+		<NamespaceUri>http://www.primordion.com/namespace/Vrml</NamespaceUri>
+		<DefaultPrefix>vrml</DefaultPrefix>
+		<RangeStart>1000900</RangeStart>
+		<RangeEnd>1000999</RangeEnd>
+	</XholonViewer>
+	
+	<!-- XholonConsole is specified in a folder external to _common -->
+	<XholonViewer roleName="XholonConsole">
+		<NamespaceUri>http://www.primordion.com/namespace/XholonConsole</NamespaceUri>
+		<DefaultPrefix>xhcon</DefaultPrefix>
+		<RangeStart>1010900</RangeStart>
+		<RangeEnd>1010999</RangeEnd>
+	</XholonViewer>
+	
 	</XholonViewers>
 	
 	
