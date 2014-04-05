@@ -37,8 +37,10 @@ public class GridPanelGeneric extends GridPanel implements IGridPanel {
 	
 	/**
 	 * Maps a XholonClass id to a Color.
+	 * There's a bug? that makes it impossible to look-up the CssColor directly,
+	 * so this has to be a String-to-String mapping.
 	 */
-	private Map colorMap = new HashMap();
+	private Map<String, String> colorMap = new HashMap<String, String>();
 	
 	/**
 	 * RGB colors that can be applied to nodes in the grid.
@@ -70,24 +72,24 @@ public class GridPanelGeneric extends GridPanel implements IGridPanel {
 	 */
 	public CssColor getColor(IXholon xhNode)
 	{
-		if (xhNode.hasChildNodes()) {
+	  if (xhNode.hasChildNodes()) {
 			String xhcName = xhNode.getLastChild().getXhcName();
 			if (colorMap.containsKey(xhcName)) {
-				return (CssColor)colorMap.get(xhcName);
+			  return CssColor.make(colorMap.get(xhcName));
 			}
 			else {
-				CssColor color = CssColor.make(seriesColor[nextColorIndex]);
+				String color = seriesColor[nextColorIndex];
 				colorMap.put(xhcName, color);
 				nextColorIndex++;
 				if (nextColorIndex >= seriesColor.length) {
 					// start over with the same set of colors
 					nextColorIndex = 0;
 				}
-				return color;
+				return CssColor.make(color);
 			}
 		}
 		else {
-			return gridCellColor;
+		  return gridCellColor;
 		}
 	}
 
