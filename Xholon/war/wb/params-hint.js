@@ -28,7 +28,9 @@
 '<param name="UseDataPlotter" value="none|google2|gnuplot|c3|nvd3"/>',
 '<param name="DataPlotterParams" value="Line Chart Title,Time (timesteps),Y,./statistics/,stats,1,WRITE_AS_LONG"/>',
 '<param name="UseInteractions" value="false|true"/>',
-'<param name="InteractionParams" value="32,false,localhost,60001"/>'
+'<param name="InteractionParams" value="32,false,localhost,60001"/>',
+'<param name="SaveSnapshots" value="false|true"/>',
+'<param name="SnapshotParams" value="SnapshotXml|SnapshotYaml|_d3,CirclePack|HTModL|???,.,./snapshot/,false|true"/>'
 ];
     return found;
   }
