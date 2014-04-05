@@ -43,7 +43,7 @@ See http://ccl.northwestern.edu/netlogo/models/WolfSheepPredation for terms of u
 <param name="UseTextTree" value="false"/>
 <param name="SaveSnapshots" value="false"/>
 <!-- SnapshotParams: SnapshotSource(0 1),SnapshotTostring,Path -->
-<param name="SnapshotParams" value="0,true,./snapshot/"/>
+<param name="SnapshotParams" value="SnapshotXml,.,./snapshot/,false"/>
 
 <!-- The following parameters are specific to this application -->
 <param name="GrowGrass"           value="true"/> <!-- Grass true -->

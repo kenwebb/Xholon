@@ -49,7 +49,7 @@
 <param name="UseTextTree" value="false"/>
 <param name="SaveSnapshots" value="false"/>
 <!-- SnapshotParams: SnapshotSource(0 1),SnapshotTostring,Path -->
-<param name="SnapshotParams" value="0,true,./snapshot/"/>
+<param name="SnapshotParams" value="SnapshotXml,.,./snapshot/,false"/>
 <!-- app-specific params -->
 <param name="TimeStepMultiplier" value="32"/> <!-- 10 16 128 IIntegration.M_128 -->
 <param name="ChartInterval" value="1"/> <!-- 1 2 16 -->

@@ -49,7 +49,7 @@
 <param name="UseTextTree" value="false"/>
 <param name="SaveSnapshots" value="false"/>
 <!-- SnapshotParams: SnapshotSource(0 1),SnapshotTostring,Path -->
-<param name="SnapshotParams" value="0,true,./snapshot/"/>
+<param name="SnapshotParams" value="SnapshotXml,.,./snapshot/,false"/>
 <!-- The following parameters, if any, are specific to this application -->
 <param name="AppSpecificParam1" value="This is a test parameter."/>
 </params>

@@ -49,7 +49,7 @@
 <param name="UseTextTree" value="false"/>
 <param name="SaveSnapshots" value="false"/>
 <!-- SnapshotParams: SnapshotSource(0 1),SnapshotTostring,Path -->
-<param name="SnapshotParams" value="0,true,./snapshot/"/>
+<param name="SnapshotParams" value="SnapshotXml,.,./snapshot/,false"/>
 <param name="UseXholon2Gui" value="false"/>
 <!-- possible values:
 	circle square poly house toPolyspi toInspi toEquispi toBranch toLBranch toLDragon nil

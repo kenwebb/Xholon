@@ -168,7 +168,7 @@
 	<!--<param name="JavaXhClassClassName" value="org.primordion.xholon.base.XholonClass"/>-->
 	<!--<param name="JavaActivityClassName" value="null"/>-->
 	<!--<param name="SaveSnapshots" value="false"/>-->
-	<!--<param name="SnapshotParams" value="0,true,./snapshot/"/>-->
+	<!--<param name="SnapshotParams" value="SnapshotXml,.,./snapshot/,false"/>-->
 	<!--<param name="RandomNumberSeed" value="-1"/>-->
 	<!--<param name="XincludePath" value=""/>-->
 	<!--<param name="XhymAgent" value=""/>-->

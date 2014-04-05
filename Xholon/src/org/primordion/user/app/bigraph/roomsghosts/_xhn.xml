@@ -44,6 +44,6 @@
 <param name="VrmlParams" value="true,./3d/,false,false"/>
 <param name="UseTextTree" value="false"/>
 <param name="SaveSnapshots" value="false"/>
-<!-- SnapshotParams: SnapshotSource(0 1),SnapshotTostring,Path -->
-<param name="SnapshotParams" value="0,true,./snapshot/"/>
+<!-- SnapshotParams: externalFormatName,fullXPathFromRoot,outputPathGwtTabName,reuseTabDiv[,snapshotTostring] -->
+<param name="SnapshotParams" value="SnapshotXml,.,./snapshot/,false"/>
 </params>
