@@ -472,19 +472,18 @@ public class Interaction extends Xholon implements IInteraction {
 	protected boolean createSdSdedit(String modelName, boolean useSocket)
 	{
 		boolean rc = false;
-		/*int nextNum = 0; // for use when outputting states
+		int nextNum = 0; // for use when outputting states
 		IXholon xhObj = null;
-		//Message msg = null;
 		int i;
 		Date now = new Date();
 		StringBuilder sb = new StringBuilder();
 		// create any missing output directories
-		File dirOut = new File(outputDir);
+		/*File dirOut = new File(outputDir);
 		dirOut.mkdirs(); // will create a new directory only if there is no existing one
 		Writer out = null;
-		Socket socket = null;
-		try {
-			if (useSocket) {
+		Socket socket = null;*/
+		//try {
+			/*if (useSocket) {
 				socket = new Socket(socketHost, socketPort);
 			    out = new PrintWriter(socket.getOutputStream(), true);
 			    sb.append(modelName + "\n");
@@ -492,7 +491,7 @@ public class Interaction extends Xholon implements IInteraction {
 			else { // FORMAT_SDEDIT
 				out = MiscIo.openOutputFile(outputDir + "seq" + now.getTime() + ".sd");
 			}
-			if (out == null) {return rc;}
+			if (out == null) {return rc;}*/
 			sb.append( "# Model: " + modelName );
 			sb.append( "\n# Created by: Xholon http://www.primordion.com/Xholon/" );
 			sb.append( "\n# Date:  " + now.getTime() + " " + now + "\n");
@@ -579,7 +578,7 @@ public class Interaction extends Xholon implements IInteraction {
 				}
 				else {
 					if (isSwingEntityMessage(msg.getSignal())) {
-						sb.append( SwingEntity.getSignalName(msg.getSignal()) + "(" );
+						//sb.append( SwingEntity.getSignalName(msg.getSignal()) + "(" );
 					}
 					else if (providedRequiredInterface == null) {
 						sb.append( msg.getSignal ()+ "(" );
@@ -597,9 +596,10 @@ public class Interaction extends Xholon implements IInteraction {
 					}
 					sb.append( ")\n" );
 				}
+				XholonGwtTabPanelHelper.addTab(sb.toString(), "sd", "seq" + now.getTime() + ".sd", false);
 			}
 			
-			if (useSocket) {
+			/*if (useSocket) {
 				sb.append("end\n");
 				out.write(sb.toString());
 				out.close();
@@ -608,11 +608,10 @@ public class Interaction extends Xholon implements IInteraction {
 			else { // FORMAT_SDEDIT
 				out.write(sb.toString());
 				MiscIo.closeOutputFile( out );
-			}
+			}*/
 			rc = true; // successful
-		} catch (UnknownHostException e) {
+		/*} catch (UnknownHostException e) {
 			logger.error("Unable to create socket connection to " + socketHost + " using port " + socketPort, e);
-			//e.printStackTrace();
 		} catch (IOException e) {
 			logger.error("Unable to write to " + out, e);
 		}*/
@@ -627,7 +626,7 @@ public class Interaction extends Xholon implements IInteraction {
 	 */
 	protected void createSdUmlGraph(String modelName)
 	{
-		/*IXholon xhObj = null;
+		IXholon xhObj = null;
 		Message msg = null;
 		int i;
 		Date now = new Date();
@@ -720,7 +719,7 @@ public class Interaction extends Xholon implements IInteraction {
 			}
 			else {
 				if (isSwingEntityMessage(msg.signal)) {
-					sb.append("\"" + SwingEntity.getSignalName(msg.signal) + "(");
+					//sb.append("\"" + SwingEntity.getSignalName(msg.signal) + "(");
 				}
 				else if (providedRequiredInterface == null) {
 					sb.append("\"" + msg.signal + "(");
@@ -750,8 +749,10 @@ public class Interaction extends Xholon implements IInteraction {
 		}			
 		sb.append( ".PE\012" );
 		
+		XholonGwtTabPanelHelper.addTab(sb.toString(), "sd", "seq" + now.getTime() + ".pic", false);
+		
 		// create any missing output directories
-		File dirOut = new File(outputDir);
+		/*File dirOut = new File(outputDir);
 		dirOut.mkdirs(); // will create a new directory only if there is no existing one
 		Writer out = MiscIo.openOutputFile(outputDir + "seq" + now.getTime() + ".pic");
 		if (out == null) {return;}
@@ -769,7 +770,7 @@ public class Interaction extends Xholon implements IInteraction {
 	 */
 	protected void createSdRose(String modelName)
 	{
-		/*IXholon xhObj = null;
+		IXholon xhObj = null;
 		Message msg = null;
 		int i;
 		Date now = new Date();
@@ -875,7 +876,7 @@ public class Interaction extends Xholon implements IInteraction {
 			}
 			else {
 				if (isSwingEntityMessage(msg.signal)) {
-					sb.append("\"" + SwingEntity.getSignalName(msg.signal) + "(");
+					//sb.append("\"" + SwingEntity.getSignalName(msg.signal) + "(");
 				}
 				else if (providedRequiredInterface == null) {
 					sb.append("\"" + msg.signal + "(");
@@ -935,8 +936,10 @@ public class Interaction extends Xholon implements IInteraction {
 		sb.append("  CreateScenarioDiagram aUseCase, diagramName\n");
 		sb.append("End Sub\n");
 		
+		XholonGwtTabPanelHelper.addTab(sb.toString(), "sd", "seq" + now.getTime() + ".ebs", false);
+		
 		// create any missing output directories
-		File dirOut = new File(outputDir);
+		/*File dirOut = new File(outputDir);
 		dirOut.mkdirs(); // will create a new directory only if there is no existing one
 		Writer out = MiscIo.openOutputFile(outputDir + "seq" + now.getTime() + ".ebs");
 		if (out == null) {return;}
@@ -954,17 +957,20 @@ public class Interaction extends Xholon implements IInteraction {
 	 */
 	protected void createSdPlantUml(String modelName)
 	{
-	  /*
 		//IXholon xhObj = null;
 		Message msg = null;
 		int i;
 		Date now = new Date();
 		StringBuilder sb = new StringBuilder();
-		sb.append("' Model: " + modelName + "\n");
-		sb.append("' Created by: Xholon http://www.primordion.com/Xholon/\n");
-		sb.append("' Date:  " + now.getTime() + " " + now + "\n");
-		sb.append("@startuml ./seq" + now.getTime() + ".png\n");
-		sb.append("' Message sequences\n");
+		sb.append("' Model: " + modelName + "\n")
+		.append("' Created by: Xholon http://www.primordion.com/Xholon/\n")
+		.append("' Date:  " + now.getTime() + " " + now + "\n\n")
+		.append("' To view this file, use PlantUML from plantuml.sourceforge.net\n")
+    .append("' See also: www.plantuml.com/plantuml\n")
+    .append("' See also: www.planttext.com\n")
+    .append("' See also: seeduml.com\n\n")
+		.append("@startuml ./seq" + now.getTime() + ".png\n")
+		.append("' Message sequences\n");
 		for (i = 0; i < messageV.size(); i++) {
 			IXholon xhNode = (IXholon)messageV.elementAt(i);
 			
@@ -1039,7 +1045,7 @@ public class Interaction extends Xholon implements IInteraction {
 			}
 			else {
 				if (isSwingEntityMessage(msg.signal)) {
-					sb.append(SwingEntity.getSignalName(msg.signal));
+					//sb.append(SwingEntity.getSignalName(msg.signal));
 				}
 				else if (providedRequiredInterface == null) {
 					sb.append("" + msg.signal);
@@ -1065,8 +1071,10 @@ public class Interaction extends Xholon implements IInteraction {
 		}
 		sb.append("@enduml\n");
 		
+		XholonGwtTabPanelHelper.addTab(sb.toString(), "sd", "seq" + now.getTime() + ".txt", false);
+		
 		// create any missing output directories
-		File dirOut = new File(outputDir);
+		/*File dirOut = new File(outputDir);
 		dirOut.mkdirs(); // will create a new directory only if there is no existing one
 		Writer out = MiscIo.openOutputFile(outputDir + "seq" + now.getTime() + ".txt");
 		if (out == null) {return;}
@@ -1191,20 +1199,14 @@ public class Interaction extends Xholon implements IInteraction {
 			}
 			sb.append( "\n" );
 		}
-		System.out.println(sb.toString());
-		showWebSd(sb.toString());
+		//System.out.println(sb.toString());
+		//showWebSd(sb.toString());
+		XholonGwtTabPanelHelper.addTab(sb.toString(), "sd", "sequencediagram.txt", false);
 	}
 	
-	//protected native void showWebSd(String text) /*-{
-	//  var element = $doc.getElementById("sequencediagram");
-  //  if (element) {
-  //    element.innerHTML = "<pre>" + text + "</pre>";
-  //  }
-	//}-*/;
-	
-	protected void showWebSd(String text) {
-	  XholonGwtTabPanelHelper.addTab(text, "sd", "sequencediagram.txt", false);
-	}
+	//protected void showWebSd(String text) {
+	//  
+	//}
 	
 	/**
 	 * Get the name of this Xholon lifeline object.
