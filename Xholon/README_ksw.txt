@@ -39,6 +39,7 @@ yuidoc .
 To search and replace in all files in a directory (recursively)
  search recursively from the directory of execution
  operate on only regular, readable, writeable files
+ WARNING this changes the file date/time for ALL files it examines
 find ./ -type f -readable -writable -exec sed -i "s/Chameleon/Furcifer/g" {} \;
 find ./ -type f -readable -writable -exec sed -i "s/xholon.tutorials/user.app/g" {} \;
 
