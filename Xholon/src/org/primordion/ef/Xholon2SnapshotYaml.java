@@ -50,7 +50,7 @@ public class Xholon2SnapshotYaml extends AbstractXholon2ExternalFormat implement
 	 */
 	public void writeAll() {
 		Snapshot snapshot = new SnapshotYAML();
-		Snapshot.setPathName(outPath);
+		Snapshot.setOutputPathGwtTabName(outPath);
 		snapshot.saveSnapshot(root, modelName);
 	}
 	

@@ -95,8 +95,8 @@ import org.primordion.xholon.io.ISnapshot;
 import org.primordion.xholon.io.IViewer;
 import org.primordion.xholon.io.IXholonGui;
 import org.primordion.xholon.io.IXholon2Gui;
-//import org.primordion.xholon.io.Snapshot; // GWT
-//import org.primordion.xholon.io.SnapshotXML; // GWT
+import org.primordion.xholon.io.Snapshot;
+//import org.primordion.xholon.io.SnapshotXML;
 import org.primordion.xholon.io.XholonGwtTabPanelHelper;
 import org.primordion.xholon.io.XholonWorkbookBundle;
 //import org.primordion.xholon.io.ef.other.Xholon2ChapNetwork;
@@ -284,8 +284,13 @@ public abstract class Application extends AbstractApplication implements IApplic
 	/** Whether to save snapshots to XML files. */
 	protected boolean saveSnapshots = false;
 	
-	/** Snapshot parameters. */
-	protected String snapshotParams = "0,true,./snapshot/";
+	/** Snapshot parameters.
+	 * see Snapshot.java for full description of each param
+	 */
+	//"SnapshotSource(0 1),SnapshotTostring,Path" // old format
+	//protected String snapshotParams = "0,true,./snapshot/";
+	//"externalFormatName,fullXPathFromRoot,outputPathGwtTabName,reuseTabDiv[,snapshotTostring]" // new format
+	protected String snapshotParams = "SnapshotXml,.,./snapshot/,false,true";
 	
 	/** Script parameters, for use by ScriptService. */
 	protected String scriptParams = null;
@@ -798,9 +803,9 @@ public abstract class Application extends AbstractApplication implements IApplic
 	/** @param saveSnapshots The saveSnapshots to set. */
 	public void setSaveSnapshots(boolean saveSnapshots)
 	{
-		this.saveSnapshots = saveSnapshots;
-		if (saveSnapshots) {
-			//snapshot = new SnapshotXML(); // GWT
+	  this.saveSnapshots = saveSnapshots;
+		if (saveSnapshots && (snapshot == null)) {
+		  snapshot = new Snapshot();
 		}
 	}
 	
@@ -1042,10 +1047,14 @@ public abstract class Application extends AbstractApplication implements IApplic
 	public String getJavaActivityClassName() {return javaActivityClassName;}
 	
 	/** @return Returns the saveSnapshots. */
-	public boolean getSaveSnapshots() {return saveSnapshots;}
+	public boolean getSaveSnapshots() {
+	  return saveSnapshots;
+	}
 	
 	/** @return snapshotParams */
-	public String getSnapshotParams() {return snapshotParams;}
+	public String getSnapshotParams() {
+	  return snapshotParams;
+	}
 	
 	/** @return scriptParams */
 	public String getScriptParams() {return scriptParams;}
@@ -1649,7 +1658,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 		System.out.println("App.initialize() this.configFileName: " + this.configFileName);
 		System.out.println("App.initialize() xincludePath: " + xincludePath);
 		
-		//StringTokenizer st;
+		StringTokenizer st;
 		
 		/*
 		try {
@@ -1743,6 +1752,8 @@ public abstract class Application extends AbstractApplication implements IApplic
 			}
 		}
 		
+		parseSnapshotParams();
+		
 		// Process a list of xh divs to hide, as specified on the url
 		String hideStr = Location.getParameter("hide");
 		if (hideStr != null) {
@@ -1769,6 +1780,44 @@ public abstract class Application extends AbstractApplication implements IApplic
 		//  xhcRoot.preOrderPrint(0);
 		//}
 		
+	}
+	
+	/**
+	 * Initialize parameters of the Snapshot feature.
+	 * Parse the SnapshotParams string into its component parts.
+	 * Minimum content of snapshotParams, with 4 tokens, might be: "A,.,b,true"
+	 * 
+   * old format
+   * st.nextToken(); // skip first parameter; no longer used
+   * Snapshot.setSnapshotTostring(Misc.booleanValue(st.nextToken()));
+   * Snapshot.setPathName(st.nextToken());
+   * 
+   * new format
+   * "externalFormatName,fullXPathFromRoot,outputPathGwtTabName,reuseTabDiv[,snapshotTostring]" // new format
+   * protected String snapshotParams = "SnapshotXml,.,./snapshot/,false,true";
+   * externalFormatName may contain a comma if it starts with "_", for example _d3,CirclePack
+	 */
+	protected void parseSnapshotParams() {
+	  //consoleLog("Application parseSnapshotParams() starting");
+	  if ((snapshotParams != null) && (snapshotParams.length() >= 10)) {
+	    //consoleLog("Application parseSnapshotParams() 1");
+		  StringTokenizer st = new StringTokenizer(snapshotParams, ",");
+		  int numTokens = st.countTokens();
+		  if (numTokens < 4) {return;}
+		  //consoleLog("Application parseSnapshotParams() 2 " + numTokens);
+	    String efn = st.nextToken();
+	    if (efn.startsWith("_")) {
+	      efn = efn + "," + st.nextToken();
+	      if (numTokens < 5) {return;}
+	    }
+	    Snapshot.setExternalFormatName(efn);
+	    Snapshot.setFullXPathFromRoot(st.nextToken());
+	    Snapshot.setOutputPathGwtTabName(st.nextToken());
+	    Snapshot.setReuseTabDiv(Misc.booleanValue(st.nextToken()));
+	    if (st.hasMoreTokens()) {
+	      Snapshot.setSnapshotTostring(Misc.booleanValue(st.nextToken()));
+	    }
+	  }
 	}
 	
 	@Override
@@ -2168,7 +2217,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	 */
 	public void processOnce()
 	{
-		// Initialize the optional web-based or other special purpose GUI
+	  // Initialize the optional web-based or other special purpose GUI
 		//if (useXholon2Gui) {
 		//	if (getXholon2GuiClassName().indexOf("Zuml") != -1) {
 		//		invokeXholon2Gui(getRoot(), null); // Zuml web-based GUI needs to be loaded at start 
@@ -2224,6 +2273,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	{
 		root.preAct();
 		root.act();
+		this.saveSnapshot();
 		root.postAct();
 		if (shouldStepView) {
 			view.act();
@@ -2458,7 +2508,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 		
 		// Snapshot
 		if (getSaveSnapshots()) {
-			view.appendChild("Snapshot", null);
+		  view.appendChild("Snapshot", null);
 		}
 		
 		// Xhym
@@ -2788,8 +2838,8 @@ public abstract class Application extends AbstractApplication implements IApplic
 	 */
 	public void saveSnapshot()
 	{
-		if (getSaveSnapshots()) {
-			snapshot.saveSnapshot(appRoot, modelName);
+	  if (getSaveSnapshots()) {
+		  snapshot.saveSnapshot(root, modelName);
 		}
 	}
 	

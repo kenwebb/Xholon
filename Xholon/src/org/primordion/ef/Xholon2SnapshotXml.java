@@ -50,7 +50,7 @@ public class Xholon2SnapshotXml extends AbstractXholon2ExternalFormat implements
 	 */
 	public void writeAll() {
 		Snapshot snapshot = new SnapshotXML();
-		Snapshot.setPathName(outPath);
+		Snapshot.setOutputPathGwtTabName(outPath);
 		snapshot.saveSnapshot(root, modelName);
 	}
 

@@ -169,7 +169,7 @@ public class ExternalFormatServiceGenerator extends Generator {
 			sbAn.append("    \"" + actionName + "\",\n");
 			sbInit.append("  else if (\"")
         .append(actionName)
-        .append("\".equals(formatName)) {\n")
+        .append("\".equalsIgnoreCase(formatName)) {\n")
         .append("    xholon2ef = new ")
         .append(packageName)
         .append(".Xholon2")
@@ -205,7 +205,7 @@ public class ExternalFormatServiceGenerator extends Generator {
 			  .append(subPackageName.substring(start))
 			  .append(",")
         .append(actionName)
-        .append("\".equals(formatName)) {\n")
+        .append("\".equalsIgnoreCase(formatName)) {\n")
         .append("    xholon2ef = new ")
         .append(subPackageName)
         .append(".Xholon2")
@@ -261,12 +261,13 @@ public IXholon2ExternalFormat initExternalFormatWriter(IXholon node, String form
   }
   IXholon2ExternalFormat xholon2ef = null;
   if (formatName == null) {return null;}
-  else if ("HTModL".equals(formatName)) {
+  else if ("HTModL".equalsIgnoreCase(formatName)) {
     xholon2ef = new org.primordion.xholon.io.ef.Xholon2HTModL();
   }
-  else if ("_other,ChapNetwork".equals(formatName)) {
+  else if ("_other,ChapNetwork".equalsIgnoreCase(formatName)) {
     xholon2ef = new org.primordion.xholon.io.ef.other.Xholon2ChapNetwork();
   }
+  else {return null;}
   if (xholon2ef.initialize(null, modelName, node)) {
     return xholon2ef;
   }
@@ -284,7 +285,7 @@ public IXholon2ExternalFormat initExternalFormatWriter(IXholon node, String form
       if (typeStr.startsWith("Xholon2")) {
         sbt.append("  else if (\"")
         .append(typeStr.substring(7))
-        .append("\".equals(formatName)) {\n")
+        .append("\".equalsIgnoreCase(formatName)) {\n")
         .append("    xholon2ef = new ")
         .append(types[i].getPackage().getName())
         .append(".")
@@ -303,6 +304,7 @@ public IXholon2ExternalFormat initExternalFormatWriter(IXholon node, String form
     .append("  IXholon2ExternalFormat xholon2ef = null;\n")
     .append("  if (formatName == null) {return null;}\n")
     .append(sbInit.toString())
+    .append("  else {return null;}\n")
     .append("  if (xholon2ef.initialize(null, modelName, node)) {\n")
     .append("    return xholon2ef;\n")
     .append("  }\n")

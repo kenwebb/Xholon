@@ -179,6 +179,10 @@ public abstract class AbstractXholonGui implements IXholonGui {
 		    app.invokeHistogramPlotter();
 		    setText((String)node.handleNodeSelection());
 		  }
+		  else if (nodeName.indexOf("snapshot") != -1) {
+		    app.setSaveSnapshots(!app.getSaveSnapshots());
+		    setText((String)node.handleNodeSelection());
+		  }
 		  else {
         setText((String)node.handleNodeSelection());
       }

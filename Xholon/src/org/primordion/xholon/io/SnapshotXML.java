@@ -56,7 +56,7 @@ public class SnapshotXML extends Snapshot implements ISnapshot {
 	 */
 	public void saveSnapshot(IXholon snRoot, String modelName)
 	{
-		saveSnapshot(snRoot, snRoot.getName(), modelName);
+	  saveSnapshot(snRoot, snRoot.getName(), modelName);
 	}
 	
 	/**
@@ -67,8 +67,8 @@ public class SnapshotXML extends Snapshot implements ISnapshot {
 	 */
 	protected void saveSnapshot(Object snRoot, String snRootName, String modelName)
 	{
-		Date now = new Date();
-		String fileName = pathName + "xhsnap" + now.getTime() + ".xml";
+	  Date now = new Date();
+		String fileName = outputPathGwtTabName + "xhsnap" + now.getTime() + ".xml";
 		/*boolean shouldClose = true;
 		if (((IXholon)snRoot).getApp().isUseAppOut()) {
 			out = ((IXholon)snRoot).getApp().getOut();
@@ -98,7 +98,7 @@ public class SnapshotXML extends Snapshot implements ISnapshot {
 			sb.append("<" + snRootName + ">\n");
 			writeNode(((IXholon)snRoot).getFirstChild(), 1);
 			sb.append("</" + snRootName + ">\n");
-			writeToTarget(sb.toString(), fileName, pathName, (IXholon)snRoot);
+			writeToTarget(sb.toString(), fileName, outputPathGwtTabName, (IXholon)snRoot);
 			//out.write(sb.toString());
 			//out.flush();
 		//} catch (IOException e) {

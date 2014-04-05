@@ -570,6 +570,9 @@ public interface IApplication extends IXholon {
 	 */
 	public abstract void setTimeStepInterval(int timeStepInterval);
 	
+	public abstract boolean getSaveSnapshots();
+	public abstract void setSaveSnapshots(boolean saveSnapshots);
+	
 	/** @return Returns the classDetailsFile. */
 	public abstract String getClassDetailsFile();
 

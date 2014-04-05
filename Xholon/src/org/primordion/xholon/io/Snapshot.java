@@ -18,22 +18,66 @@
 
 package org.primordion.xholon.io;
 
+import com.google.gwt.core.client.GWT;
+
 //import java.io.Writer;
 import org.primordion.xholon.base.IXholon;
+import org.primordion.xholon.base.Xholon;
+import org.primordion.xholon.service.ExternalFormatService;
+import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
 
 /**
- * Take a shapshot of an entire Xholon tree.
+ * Take a shapshot of an entire Xholon tree, or of a specified subtree.
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.3 (Created on May 17, 2006)
  */
-public abstract class Snapshot implements ISnapshot {
+public class Snapshot extends Xholon implements ISnapshot {
 	
-	// Whether to include toString() information for each node.
+	/** Snapshot parameters.
+	old format:
+	  SnapshotParams: SnapshotSource(0 1),SnapshotTostring,Path
+	new format April 2014:
+	  "externalFormatName,fullXPathFromRoot,outputPathGwtTabName,reuseTabDiv[,snapshotTostring]"
+	  "SnapshotXml,/Node[13]/Node,./snapshot/,false,true"
+	*/
+	
+	/**
+	 * Full external format name. For a complete list, use the following XholonJsApi method:
+	 * $wnd.xh.xports()
+	 * Examples:
+	 *  HTModL
+	 *  _d3,CirclePack
+	 *  _other,Newick
+	*/
+	protected static String externalFormatName = "SnapshotXml";
+	
+	/**
+	 * Full XPath expression that specifies the snapshot root, assuming the context node is the app root.
+	 * Examples:
+	 *  .
+	 *  /Node[13]/Node
+	 *  ../..
+	 */
+	protected static String fullXPathFromRoot = ".";
+	
+	/**
+	 * Old format: pathName  file parameters
+	 * New format: outputPathGwtTabName
+	 */
+	protected static String outputPathGwtTabName = "./snapshot/";
+	
+	/**
+	 * Whether to reuse the same GWT tab or HTML div each timestep (true),
+	 * or to create a new one each timestep (false).
+	 */
+	protected static boolean reuseTabDiv = false;
+	
+	/**
+	 * Whether to include toString() information for each node.
+	 * This is only useful when the external format is SnapshotXml or SnapshotYaml.
+	 */
 	protected static boolean snapshotTostring = true;
-	
-	// File parameters
-	protected static String pathName = "./snapshot/";
 	
 	//Writer out;
 	
@@ -46,11 +90,46 @@ public abstract class Snapshot implements ISnapshot {
 	
 	// parameters
 	
-	public static void setSnapshotTostring(boolean snapTostring) {snapshotTostring = snapTostring;}
+	public static void setExternalFormatName(String externalFormatNameArg) {
+	  externalFormatName = externalFormatNameArg;
+	}
+	public static String getExternalFormatName() {return externalFormatName;}
+	
+	public static void setFullXPathFromRoot(String fullXPathFromRootArg) {
+	  fullXPathFromRoot = fullXPathFromRootArg;
+	}
+	public static String getFullXPathFromRoot() {return fullXPathFromRoot;}
+	
+	public static void setOutputPathGwtTabName(String outputPathGwtTabNameArg) {
+	  outputPathGwtTabName = outputPathGwtTabNameArg;
+	}
+	public static String getOutputPathGwtTabName() {return outputPathGwtTabName;}
+	
+	public static void setReuseTabDiv(boolean reuseTabDivArg) {
+	  reuseTabDiv = reuseTabDivArg;
+	}
+	public static boolean getReuseTabDiv() {return reuseTabDiv;}
+	
+	public static void setSnapshotTostring(boolean snapshotTostringArg) {
+	  snapshotTostring = snapshotTostringArg;
+	}
 	public static boolean getSnapshotTostring() {return snapshotTostring;}
 	
-	public static void setPathName(String path) {pathName = path;}
-	public static String getPathName() {return pathName;}
+	/* 
+	 * @see org.primordion.xholon.io.ISnapshot#saveSnapshot(org.primordion.xholon.base.IXholon, java.lang.String)
+	 */
+	public void saveSnapshot(IXholon snRoot, String modelName)
+	{
+	  consoleLog("Snapshot saveSnapshot() 1");
+		ExternalFormatService efs = GWT.create(org.primordion.xholon.service.ExternalFormatService.class);
+		IXholon node = ((Xholon)snRoot).getXPath().evaluate(fullXPathFromRoot, snRoot);
+		consoleLog("Snapshot saveSnapshot() 1");
+		if (node != null) {
+		  consoleLog("Snapshot saveSnapshot() " + node.getName());
+		  IXholon2ExternalFormat xholon2ef = efs.initExternalFormatWriter(node, externalFormatName);
+		  efs.writeAll(xholon2ef);
+    }
+	}
 	
 	/**
 	 * Get the name of a node, without any prefixed role name.
