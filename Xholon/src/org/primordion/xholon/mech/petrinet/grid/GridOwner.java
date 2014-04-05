@@ -99,7 +99,7 @@ public class GridOwner extends XholonWithPorts {
 	 * @see org.primordion.xholon.base.XholonWithPorts#postConfigure()
 	 */
 	public void postConfigure() {
-		xholonHelperService = this.getService("XholonHelperService");
+	  xholonHelperService = this.getService("XholonHelperService");
 		nodeSelectionService = this.getService("NodeSelectionService");
 		// the following creates 3 grids; maybe Application does some final stuff?
 		/*if ((petriNet != null) && (((PetriNet)petriNet).getKineticsType() == IKinetics.KINETICS_GRID)) {
@@ -112,21 +112,17 @@ public class GridOwner extends XholonWithPorts {
 	 * @see org.primordion.xholon.base.Xholon#act()
 	 */
 	public void act() {
-	  //println("GridOwner act()1 petriNet:" + petriNet);
+	  //consoleLog("GridOwner act()1 petriNet:" + petriNet);
 		if (this.getApp().getTimeStep() == 0) {
-		  //println("GridOwner act()2");
 		  if (petriNet == null) {
 		    Iterator<PortInformation> it =
 		      ReflectionFactory.instance().getAllPorts(this, true, "petriNet").iterator();
-  		  //println("GridOwner act()3");
 		    if (it.hasNext()) {
 		      PortInformation pi = it.next();
-		      //println("GridOwner act()4 pi:" + pi);
 		      petriNet = pi.getReffedNode();
 		    }
 		  }
 			if ((petriNet != null) && (((PetriNet)petriNet).getKineticsType() == IKinetics.KINETICS_GRID)) {
-			  //println("GridOwner act()5");
 				generateGridAndPopulate();
 			}
 		}
@@ -164,7 +160,7 @@ public class GridOwner extends XholonWithPorts {
 	 * Generate a grid, and populate it with existing places and transitions in the Petri net.
 	 */
 	protected void generateGridAndPopulate() {
-	  //println("GridOwner generateGridAndPopulate()1");
+	  //consoleLog("GridOwner generateGridAndPopulate() starting");
 		if (gridGenerator == null) {
 			generateGrid();
 		}
@@ -195,6 +191,7 @@ public class GridOwner extends XholonWithPorts {
 	 * @see org.primordion.xholon.base.Xholon#visit(org.primordion.xholon.base.IXholon)
 	 */
 	public boolean visit(IXholon visitor) {
+	  //consoleLog("GridOwner visit() starting");
 		if (visitor == null || visitor.getXhc() == null) {
 			return true;
 		}
@@ -220,7 +217,7 @@ public class GridOwner extends XholonWithPorts {
 	 * Generate a grid.
 	 */
 	protected void generateGrid() {
-	  //println("GridOwner generateGrid()1");
+	  //consoleLog("GridOwner generateGrid() starting");
 		IApplication app = this.getApp();
 		IXholon xhcRoot = app.getXhcRoot();
 		IXholon cnode = this;
@@ -263,6 +260,7 @@ public class GridOwner extends XholonWithPorts {
 	 * based on which places and transitions in the Petri net are selected.
 	 */
 	protected void populateGrid() {
+	  //consoleLog("GridOwner populateGrid() starting");
 		IMessage msg = ((NodeSelectionService)nodeSelectionService)
 		  .sendSyncMessage(NodeSelectionService.SIG_GET_SELECTED_NODES_REQ, null, this);
 		IXholon[] nssNodes = (IXholon[])msg.getData();
@@ -289,6 +287,7 @@ public class GridOwner extends XholonWithPorts {
 	 * If null, then a random location will be selected.
 	 */
 	protected void createPlaceInGrid(IXholon pnNode, IXholon gridCell) {
+	  //consoleLog("GridOwner createPlaceInGrid() starting");
 		if (gridCell == null) {
 			gridCell = randomGridCell();
 		}
@@ -315,6 +314,7 @@ public class GridOwner extends XholonWithPorts {
 	 * If null, then a random location will be selected.
 	 */
 	protected void createTransitionInGrid(IXholon pnNode, IXholon gridCell) {
+	  //consoleLog("GridOwner createTransitionInGrid() starting");
 		if (gridCell == null) {
 			gridCell = randomGridCell();
 		}
@@ -336,6 +336,7 @@ public class GridOwner extends XholonWithPorts {
 	 * @return A random gridCell.
 	 */
 	protected IXholon randomGridCell() {
+	  //consoleLog("GridOwner randomGridCell() starting");
 		int row = MiscRandom.getRandomInt(0,
 				this.findFirstChildWithXhClass("Grid").getNumChildren(false)) + 1;
 		int col = MiscRandom.getRandomInt(0,
@@ -349,6 +350,7 @@ public class GridOwner extends XholonWithPorts {
 	 * @see org.primordion.xholon.base.Xholon#setAttributeVal(java.lang.String, java.lang.String)
 	 */
 	public int setAttributeVal(String attrName, String attrVal) {
+	  //consoleLog("GridOwner setAttributeVal() starting " + attrName + " " + attrVal);
 		if (attrName.equals("gridGenerator")) {
 			setGridGenerator(attrVal);
 		}
