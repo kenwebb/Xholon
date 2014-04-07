@@ -629,6 +629,19 @@ public class ReflectionJavaMicro implements IReflection {
    */
   public int setAttributeVal(Object tNode, String attrName, String val, int valIx)
   {
+    if (tNode.getClass() == org.primordion.cellontro.base.BioXholonClass.class) {
+      if ("reversible".equals(attrName)) {
+        // most SBML apps have <attribute name="reversible" value="false"/> in their CD.xml
+        boolean boolVal = false;
+        char inChar = val.charAt(valIx);
+				if ((inChar == 't') || (inChar == 'T')) {
+					boolVal = true;
+				}
+				((org.primordion.cellontro.base.BioXholonClass)tNode).reversible = boolVal;
+        return Misc.JAVACLASS_boolean;
+      }
+    }
+    
     return ((IXholon)tNode).setAttributeVal(attrName, val.substring(valIx));
   }
   
