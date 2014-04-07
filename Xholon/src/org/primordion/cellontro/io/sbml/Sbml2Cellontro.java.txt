@@ -1,0 +1,1747 @@
+/* Cellontro - models & simulates cells and other biological entities
+ * Copyright (C) 2005, 2006, 2007, 2008 Ken Webb
+ *
+ * This library is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ */
+
+package org.primordion.cellontro.io.sbml;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.StringTokenizer;
+
+import org.primordion.xholon.base.Xholon;
+import org.primordion.xholon.io.ISbml2Cellontro;
+import org.primordion.xholon.util.MiscIo;
+import org.sbml.libsbml.*;
+
+/**
+ * Sbml2Cellontro transforms SBML files into Xholon/Cellontro model files.
+ * This is a standalone application that runs separately from a Cellontro application.
+ * To execute a model specified in an SBML file:
+ * (1) transform it from SBML to Xholon/Cellontro format using this program,
+ * (2) execute AppSbml passing in the name of the newly generated application as a parameter.
+ * @see AppSbml.java
+ * @see Additional copyright, license, and author information in the writeXhNode() method.
+ * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
+ * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
+ * @since 0.2 (Created on December 7, 2005)
+ */
+public class Sbml2Cellontro implements ISbml2Cellontro {
+	
+	// TODO decide how to deal with parameters in SBML, geneVal in Cellontro
+	private static final boolean useGeneVal = false;
+	// TODO decide how to deal with enzymeLevel, pheneVal for enzymes
+	private static final boolean useEnzymeLevel = false;
+	// Whether to use name field if it exists, when getting name or id for compartment, species, reaction
+	private static final boolean useNameAttribute = true;
+	
+	// don't allow duplicate xholons in InheritanceHierarchy.xml, Ce___.java, Xh___.java, etc.
+	private Set namesUsed;
+	// store a list of global constant parameters (added December 13, 2006)
+	private Set globalConstantParametersUsed;
+	
+	private String sbmlFileName;
+	private SBMLReader reader;
+	private SBMLDocument document;
+	private Model model;
+	private Compartment rootCompartment;
+	private String writeDirConfig = "./config/sbml/";
+	private String writeDirJava = "./src/org/primordion/cellontro/app/sbml/";
+	private String fileNamePrefix = "";
+	private String javaClassName = "";
+	private Date timeNow;
+	
+	// Keep track of maximum number of various things.
+	// These are used when writing the .java files.
+	private int maxReactants = 0;
+	private int maxProducts  = 0;
+	private int maxModifiers = 0;
+	private int maxPorts = 0;
+	
+	// Used by writeXhNode() to get access to <listOfParameters>
+	ListOf xhListOfParameters = null;
+	int xhNumParameters = 0;
+	
+	// Used by CE
+	private static int ceNext = 0;
+	
+	// Units
+	// SBML spec defines 5 built-in units <unitDefinition>
+	// These are the Cellontro defaults for these.
+	// SBML models may override these with their own values.
+	// TODO make it possible for models to define new unit types.
+	// TODO handle units more comprehensively.
+	private int unitKindSubstance = libsbmlConstants.UNIT_KIND_ITEM;
+	//private int unitKindVolume    = libsbmlConstants.UNIT_KIND_LITRE;
+	//private int unitKindArea      = libsbmlConstants.UNIT_KIND_METRE;
+	//private int unitKindLength    = libsbmlConstants.UNIT_KIND_METRE;
+	//private int unitKindTime      = libsbmlConstants.UNIT_KIND_SECOND;
+	
+	/**
+	 * Constructor.
+	 */
+	public Sbml2Cellontro() {}
+	
+	/**
+	 * Constructor.
+	 * @param sbmlFileName Name of the SBML file to be read in. 
+	 */
+	public Sbml2Cellontro(String sbmlFileName) {
+		initialize(sbmlFileName);
+	}
+	
+	/**
+	 * Get next sequential number, to use in the class enumeration (CE).
+	 * @return The next sequential number.
+	 */
+	protected int getCeNext() {return ceNext++;}
+	
+	/*
+	 * @see org.primordion.xholon.io.ISbml2Cellontro#initialize(java.lang.String)
+	 */
+	public boolean initialize(String sbmlFileName) {
+		this.sbmlFileName = sbmlFileName;
+		try {
+			System.loadLibrary("sbmlj");
+		} catch (UnsatisfiedLinkError e) {
+			Xholon.getLogger().error("Unable to load sbmlj native library. This can be downloaded from http://sbml.org/", e);
+			//System.err.println("Unable to load sbmlj native library. This can be downloaded from http://sbml.org/");
+			return false;
+		} catch (RuntimeException e) {
+			Xholon.getLogger().error("RuntimeException while trying to load sbmlj native library.");
+			//System.err.println("RuntimeException while trying to load sbmlj native library.");
+			return false;
+		}
+		reader = new SBMLReader();
+		document = reader.readSBML(sbmlFileName);
+		if (document.getLevel() < 2) {
+			System.err.println("Unable to convert models with SBML version = "
+				+ document.getLevel() + ".");
+			return false;
+		}
+		model = document.getModel();
+		timeNow = new Date();
+		if (model == null) {
+			System.err.println("Model is null. SBML file name may be incorrect: " + sbmlFileName);
+			return false;
+		}
+		fileNamePrefix = model.getName();
+		if ((fileNamePrefix == null) || fileNamePrefix.equals("")) {
+			fileNamePrefix = model.getId();
+			if (fileNamePrefix == null) {
+				fileNamePrefix = "M" + Long.toString(timeNow.getTime());
+			}
+		}
+		if (fileNamePrefix.length() > 20) {
+			javaClassName = fileNamePrefix.substring(0, 20);
+		}
+		else {
+			javaClassName = fileNamePrefix;
+		}
+		fileNamePrefix = javaClassName + "_";
+		// handle duplicates
+		namesUsed = new HashSet();
+		globalConstantParametersUsed = new HashSet();
+		// Units
+		setUnits();
+		// make any non-existing directories
+		File f = new File(writeDirConfig);
+		if (!f.exists()) {
+			if (!f.mkdirs()) {
+				System.out.println("Unable to create directory " + f.getPath());
+				return false;
+			}
+		}
+		f = new File(writeDirJava);
+		if (!f.exists()) {
+			if (!f.mkdirs()) {
+				System.out.println("Unable to create directory " + f.getPath());
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/* 
+	 * @see org.primordion.cellontro.io.sbml.ISbml2Cellontro#writeAll()
+	 */
+	public void writeAll() {
+		writeInheritanceHierarchy();
+		writeClassEnumeration();
+		writeCompositeStructureHierarchy();
+		writeClassDetails();
+		writeXhJava();
+		writeConfig();
+	}
+	
+	//										Configuration File
+	/**
+	 * Write Config.xml file.
+	 */
+	protected void writeConfig() {
+		Writer cnfgOut = MiscIo.openOutputFile(writeDirConfig + fileNamePrefix + "xhn.xml");
+		if (cnfgOut == null) {return;}
+		StringBuilder cnfgSb = new StringBuilder(1000);
+		try {
+			cnfgSb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+			cnfgSb.append("<!-- \n");
+			cnfgSb.append("     Edit the parameters in this file as necessary for your application.\n\n");
+			cnfgSb.append(fileNamePrefix + "xhn.xml\n");
+			cnfgSb.append("Automatically generated by Sbml2Cellontro from ");
+			cnfgSb.append(sbmlFileName + "\n");
+			cnfgSb.append(timeNow + "\n");
+			cnfgSb.append("-->\n");
+			cnfgSb.append("<params>\n");
+			cnfgSb.append("<param name=\"ShowParams\" value=\"false\"></param>\n");
+			cnfgSb.append("<param name=\"ModelName\" value=\"" + fileNamePrefix + "\"></param>\n");
+			cnfgSb.append("<param name=\"AppM\" value=\"true\"></param>\n");
+			cnfgSb.append("<param name=\"InfoM\" value=\"false\"></param>\n");
+			cnfgSb.append("<param name=\"ErrorM\" value=\"true\"></param>\n");
+			cnfgSb.append("<!--\n"); // comment out the next three lines; use dynamic factory
+			cnfgSb.append("<param name=\"MaxXholons\" value=\"200\"></param>\n");
+			cnfgSb.append("<param name=\"MaxXholonClasses\" value=\"100\"></param>\n");
+			cnfgSb.append("<param name=\"MaxStateMachineEntities\" value=\"0\"></param>\n");
+			cnfgSb.append("<param name=\"TreeNodeFactoryDynamic\" value=\"false\"></param>\n");
+			cnfgSb.append("-->\n");
+			cnfgSb.append("<param name=\"MaxProcessLoops\" value=\"500\"></param>\n");
+			cnfgSb.append("<param name=\"TimeStepInterval\" value=\"10\"></param>\n");
+			cnfgSb.append("<param name=\"SizeMessageQueue\" value=\"0\"></param>\n");
+			cnfgSb.append("<param name=\"InheritanceHierarchyFile\" value=\"");
+			cnfgSb.append("./config/sbml/" + fileNamePrefix + "InheritanceHierarchy.xml\"></param>\n");
+			cnfgSb.append("<param name=\"CompositeStructureHierarchyFile\" value=\"");
+			cnfgSb.append("./config/sbml/" + fileNamePrefix + "CompositeStructureHierarchy.xml\"></param>\n");
+			cnfgSb.append("<param name=\"ClassDetailsFile\" value=\"");
+			cnfgSb.append("./config/sbml/" + fileNamePrefix + "ClassDetails.xml\"></param>\n");
+			cnfgSb.append("<param name=\"InformationFile\" value=\"");
+			cnfgSb.append("./config/sbml/" + "Information.xml\"></param>\n");
+			cnfgSb.append("<param name=\"JavaClassName\" value=\"");
+			cnfgSb.append("org.primordion.cellontro.app.AppSbml\"></param>\n");
+			cnfgSb.append("<param name=\"JavaXhClassName\" value=\"");
+			cnfgSb.append("org.primordion.cellontro.app.sbml.Xh" + javaClassName + "\"></param>\n");
+			cnfgSb.append("<param name=\"MaxPorts\" value=\"" + maxPorts + "\"></param>\n");
+			cnfgSb.append("<!-- UseDataPlotter determines whether the data each timestep is plotted on a graph. -->\n");
+			cnfgSb.append("<param name=\"UseDataPlotter\" value=\"JFreeChart\"></param>\n");
+			cnfgSb.append("<!-- Graphics -->\n");
+			cnfgSb.append("<param name=\"UseTextTree\" value=\"false\"></param>\n");
+			cnfgSb.append("<param name=\"UseGraphicalTreeViewer\" value=\"false\"></param>\n");
+			cnfgSb.append("<param name=\"UseGraphicalNetworkViewer\" value=\"false\"></param>\n");
+			cnfgSb.append("</params>\n");
+			cnfgOut.write(cnfgSb.toString());
+			MiscIo.closeOutputFile( cnfgOut );
+		} catch (IOException e) {
+			Xholon.getLogger().error("", e);
+		}
+	}
+	
+	//										Class Enumeration (CE)
+	/**
+	 * Write Class Enumeration (CE) Java file.
+	 * This contains all the same classes as in the Inheritance Hierarchy.
+	 */
+	protected void writeClassEnumeration() {
+		Writer ceOut = MiscIo.openOutputFile(writeDirJava + "Ce" + javaClassName + ".java");
+		if (ceOut == null) {return;}
+		StringBuilder ceSb = new StringBuilder();
+		namesUsed.clear();
+		try {
+			ceSb.append("// DO NOT MODIFY.\n");
+			ceSb.append("// Automatically generated by Sbml2Cellontro from ");
+			ceSb.append(sbmlFileName + "\n");
+			ceSb.append("// " + timeNow + "\n\n");
+			ceSb.append("package org.primordion.cellontro.app.sbml;\n\n");
+			ceSb.append("public interface Ce" + javaClassName + " {\n\n");
+			writeCe(ceSb, "XholonClass");
+			writeCeCompartments(ceSb);
+			writeCeSpecies(ceSb);
+			writeCeReactions(ceSb);
+			//writeCeView(ceOut); // no longer needed
+			ceSb.append("}\n");
+			ceOut.write(ceSb.toString());
+			MiscIo.closeOutputFile( ceOut );
+		} catch (IOException e) {
+			Xholon.getLogger().error("", e);
+		}
+	}
+	
+	/**
+	 * Write CE compartments.
+	 * @param ceOut Writer
+	 */
+	protected void writeCeCompartments(StringBuilder ceSb) {
+		ListOf listOfCompartments = model.getListOfCompartments();
+		writeCe(ceSb, "SbmlCompartment");
+		for (int i = 0; i < model.getNumCompartments(); i++) {
+			Compartment compartment = (Compartment)listOfCompartments.get(i);
+			writeCe(ceSb, getNameOrId(compartment));
+		}
+	}
+	
+	/**
+	 * Write CE species.
+	 * @param ceOut Writer
+	 */
+	protected void writeCeSpecies(StringBuilder ceSb) {
+		ListOf listOfSpecies = model.getListOfSpecies();
+		writeCe(ceSb, "Species");
+		for (int i = 0; i < model.getNumSpecies(); i++) {
+			Species species = (Species)listOfSpecies.get(i);
+			writeCe(ceSb, getNameOrId(species));
+		}
+	}
+	
+	/**
+	 * Write CE reactions.
+	 * @param ceOut Writer
+	 */
+	protected void writeCeReactions(StringBuilder ceSb) {
+		ListOf listOfReactions = model.getListOfReactions();
+		writeCe(ceSb, "Reaction");
+		for (int i = 0; i < model.getNumReactions(); i++) {
+			Reaction reaction = (Reaction)listOfReactions.get(i);
+			writeCe(ceSb, getNameOrId(reaction));
+		}
+	}
+	
+	/**
+	 * Write CE View xholon classes. These have to do with creating charts and other viewers.
+	 * @param ceOut Writer
+	 * @deprecated
+	 */
+	//protected void writeCeView(Writer ceOut) {
+	//	writeCe(ceOut, "XYChart");
+	//	writeCe(ceOut, "XAxisLabel");
+	//	writeCe(ceOut, "YAxisLabel");
+	//	writeCe(ceOut, "XYSeries");
+	//}
+	
+	/**
+	 * Write a single CE entry.
+	 * @param ihOut Writer
+	 * @param xhClassName The name of a Xholon class.
+	 */
+	protected void writeCe(StringBuilder ceSb, String xhClassName) {
+		//try {
+			if (!namesUsed.contains(xhClassName)) {
+				ceSb.append("    public static final int " + xhClassName + "CE = " + getCeNext() + ";\n");
+				namesUsed.add(xhClassName);
+			}
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+	}
+	
+	//										Inheritance Hierarchy
+	/**
+	 * Write InheritanceHierarchy.xml file.
+	 */
+	protected void writeInheritanceHierarchy() {
+		Writer ihOut = MiscIo.openOutputFile(writeDirConfig + fileNamePrefix + "InheritanceHierarchy.xml");
+		if (ihOut == null) {return;}
+		StringBuilder ihSb = new StringBuilder();
+		namesUsed.clear();
+		try {
+			ihSb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+			ihSb.append("<!-- \n");
+			ihSb.append(fileNamePrefix + "InheritanceHierarchy.xml\n");
+			ihSb.append("Automatically generated by Sbml2Cellontro from ");
+			ihSb.append(sbmlFileName + "\n");
+			ihSb.append(timeNow + "\n");
+			ihSb.append("-->\n");
+			ihSb.append("<XholonClass xmlns:xi=\"http://www.w3.org/2001/XInclude\">\n");
+			writeIhCompartments(ihSb);
+			writeIhSpecies(ihSb);
+			writeIhReactions(ihSb);
+			writeIhView(ihSb);
+			ihSb.append("</XholonClass>\n");
+			ihOut.write(ihSb.toString());
+			MiscIo.closeOutputFile( ihOut );
+		} catch (IOException e) {
+			Xholon.getLogger().error("", e);
+		}
+	}
+	
+	/**
+	 * Write InheritanceHierarchy compartments.
+	 * @param ihOut Writer
+	 */
+	protected void writeIhCompartments(StringBuilder ihSb) {
+		ListOf listOfCompartments = model.getListOfCompartments();
+		//try {
+		ihSb.append("<SbmlCompartment>\n");
+		for (int i = 0; i < model.getNumCompartments(); i++) {
+			Compartment compartment = (Compartment)listOfCompartments.get(i);
+			String nameOrId = getNameOrId(compartment);
+			if (!namesUsed.contains(nameOrId)) {
+				ihSb.append("<" + nameOrId + "/>\n");
+				namesUsed.add(nameOrId);
+			}
+		}
+		ihSb.append("</SbmlCompartment>\n");
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+	}
+	
+	/**
+	 * Write InheritanceHierarchy species.
+	 * @param ihOut Writer
+	 */
+	protected void writeIhSpecies(StringBuilder ihSb) {
+		ListOf listOfSpecies = model.getListOfSpecies();
+		//try {
+		ihSb.append("<Species>\n");
+		for (int i = 0; i < model.getNumSpecies(); i++) {
+			Species species = (Species)listOfSpecies.get(i);
+			String nameOrId = getNameOrId(species);
+			if (!namesUsed.contains(nameOrId)) {
+				ihSb.append("<" + nameOrId + "/>\n");
+				namesUsed.add(nameOrId);
+			}
+		}
+		ihSb.append("</Species>\n");
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+	}
+	
+	/**
+	 * Write InheritanceHierarchy reactions.
+	 * @param ihOut Writer
+	 */
+	protected void writeIhReactions(StringBuilder ihSb) {
+		ListOf listOfReactions = model.getListOfReactions();
+		//try {
+		ihSb.append("<Reaction>\n");
+		for (int i = 0; i < model.getNumReactions(); i++) {
+			Reaction reaction = (Reaction)listOfReactions.get(i);
+			String nameOrId = getNameOrId(reaction);
+			if (!namesUsed.contains(nameOrId)) {
+				ihSb.append("<" + nameOrId + "/>\n");
+				namesUsed.add(nameOrId);
+			}
+		}
+		ihSb.append("</Reaction>\n");
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+	}
+	
+	/**
+	 * Write InheritanceHierarchy View xholon classes.
+	 * These have to do with creating charts and other viewers.
+	 * @param ihOut Writer
+	 */
+	protected void writeIhView(StringBuilder ihSb) {
+		//try {
+			//ihSb.append("<!-- View chart classes -->\n");
+			//ihSb.append("<XYChart/>\n");
+			//ihSb.append("<XAxisLabel/>\n");
+			//ihSb.append("<YAxisLabel/>\n");
+			//ihSb.append("<XYSeries/>\n");
+			ihSb.append("<!-- Xholon Viewers -->\n");
+			ihSb.append("<xi:include href=\"_viewer/XholonViewer.xml\"/>\n");
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+	}
+	
+	//										Composite Structure Hierarchy
+	/**
+	 * Write CompositeStructureHierarchy.xml file.
+	 */
+	protected void writeCompositeStructureHierarchy() {
+		Writer cshOut = MiscIo.openOutputFile(writeDirConfig + fileNamePrefix + "CompositeStructureHierarchy.xml");
+		if (cshOut == null) {return;}
+		StringBuilder cshSb = new StringBuilder(1000);
+		try {
+			cshSb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+			cshSb.append("<!-- \n");
+			cshSb.append(fileNamePrefix + "CompositeStructureHierarchy.xml\n");
+			cshSb.append("Automatically generated by Sbml2Cellontro from ");
+			cshSb.append(sbmlFileName + "\n");
+			cshSb.append(timeNow + "\n");
+			cshSb.append("-->\n");
+			writeCshRootCompartment(cshSb);
+			cshOut.write(cshSb.toString());
+			MiscIo.closeOutputFile( cshOut );
+		} catch (IOException e) {
+			Xholon.getLogger().error("", e);
+		}
+	}
+	
+	/**
+	 * Write CompositeStructureHierarchy root compartment.
+	 * @param cshOut Writer
+	 */
+	protected void writeCshRootCompartment(StringBuilder cshSb) {
+		ListOf listOfCompartments = model.getListOfCompartments();
+		for (int i = 0; i < model.getNumCompartments(); i++) {
+			rootCompartment = (Compartment)listOfCompartments.get(i);
+			String parent = rootCompartment.getOutside();
+			if (parent.equals("")) {
+				// if no parent, then this is the root compartment
+				break;
+			}
+		}
+		//try {
+			cshSb.append("<" + getNameOrId(rootCompartment) + ">\n");
+			if (model.getNumCompartments() == 1) {
+				// write species
+				writeCshSpecies(cshSb, rootCompartment.getId());
+				// write reactions
+				writeCshReactions(cshSb, rootCompartment.getId());
+			}
+			else {
+				// write nested compartments
+				writeCshNestedCompartment(cshSb, rootCompartment.getId());
+			}
+			cshSb.append("</" + getNameOrId(rootCompartment) + ">\n");
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+	}
+	
+	/**
+	 * Write CompositeStructureHierarchy nested compartments.
+	 * @param cshOut Writer
+	 * @param parent The compartment that is calling this method.
+	 */
+	protected void writeCshNestedCompartment(StringBuilder cshSb, String parent) {
+		ListOf listOfCompartments = model.getListOfCompartments();
+		for (int i = 0; i < model.getNumCompartments(); i++) {
+			Compartment compartment = (Compartment)listOfCompartments.get(i);
+			if (compartment.getOutside().equals(parent)) { // is this a child of parent
+				//try {
+					cshSb.append("<" + getNameOrId(compartment) + ">\n");
+					// write species
+					writeCshSpecies(cshSb, compartment.getId());
+					// write reactions
+					writeCshReactions(cshSb, compartment.getId());
+					// could be another level of nested compartments
+					writeCshNestedCompartment(cshSb, compartment.getId());
+					cshSb.append("</" + getNameOrId(compartment) + ">\n");
+				//} catch (IOException e) {
+				//	Xholon.getLogger().error("", e);
+				//	//e.printStackTrace();
+				//}
+			}
+		}
+	}
+	
+	/**
+	 * Write CompositeStructureHierarchy species.
+	 * @param cshOut Writer
+	 * @param parent The compartment that is calling this method.
+	 */
+	protected void writeCshSpecies(StringBuilder cshSb, String parent) {
+		ListOf listOfSpecies = model.getListOfSpecies();
+		double initValue;
+		//try {
+		for (int i = 0; i < model.getNumSpecies(); i++) {
+			Species species = (Species)listOfSpecies.get(i);
+			if (species.getCompartment().equals(parent)) {
+				cshSb.append("<" + getNameOrId(species) + ">");
+				// ex: <attribute name="pheneVal" value="1.5e-015"/>
+				cshSb.append("<attribute name=\"pheneVal\" value=\"");
+				if (unitKindSubstance == libsbmlConstants.UNIT_KIND_ITEM) {
+					initValue = species.getInitialAmount();
+				}
+				else {
+					initValue = species.getInitialConcentration();
+				}
+				cshSb.append(Double.toString(initValue));
+				cshSb.append("\"/>");
+				cshSb.append("</" + getNameOrId(species) + ">\n");
+			}
+		}
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+	}
+
+	/**
+	 * Write CompositeStructureHierarchy reactions.
+	 * @param cshOut Writer
+	 * @param parent The compartment that is calling this method.
+	 */
+	protected void writeCshReactions(StringBuilder cshSb, String parent) {
+		ListOf listOfReactions = model.getListOfReactions();
+		//try {
+		for (int i = 0; i < model.getNumReactions(); i++) {
+			Reaction reaction = (Reaction)listOfReactions.get(i);
+			if (useEnzymeLevel) {
+				cshSb.append("<" + getNameOrId(reaction) + ">");
+				// ex: <attribute name="pheneVal" value="1.5e-015"/>
+				cshSb.append("<attribute name=\"pheneVal\" value=\"");
+				cshSb.append("1");
+				cshSb.append("\"/>");
+				cshSb.append("</" + getNameOrId(reaction) + ">\n");
+			}
+			else {
+				cshSb.append("<" + getNameOrId(reaction) + "/>\n");
+			}
+			//}
+		}
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+	}
+	
+	//										Class Details
+	/**
+	 * Write ClassDetails.txt file.
+	 */
+	protected void writeClassDetails() {
+		Writer cdOut = MiscIo.openOutputFile(writeDirConfig + fileNamePrefix + "ClassDetails.xml");
+		if (cdOut == null) {return;}
+		StringBuilder cdSb = new StringBuilder(1000);
+		namesUsed.clear();
+		try {
+			cdSb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+			cdSb.append("<!-- \n");
+			cdSb.append(fileNamePrefix + "ClassDetails.xml\n");
+			cdSb.append("Automatically generated by Sbml2Cellontro from ");
+			cdSb.append(sbmlFileName + "\n");
+			cdSb.append(timeNow + "\n");
+			cdSb.append("-->\n");
+			cdSb.append("<xholonClassDetails>\n");
+			writeCdReactions(cdSb);
+			cdSb.append("\t<Species xhType=\"XhtypePurePassiveObject\"/>\n");
+			cdSb.append("\t<XholonClass xhType=\"XhtypePureContainer\"/>\n");
+			cdSb.append("</xholonClassDetails>\n");
+			cdOut.write(cdSb.toString());
+			MiscIo.closeOutputFile( cdOut );
+		} catch (IOException e) {
+			Xholon.getLogger().error("", e);
+		}
+	}
+	
+	/**
+	 * Write ClassDetails reactions.
+	 * @param cdOut Writer
+	 */
+	protected void writeCdReactions(StringBuilder cdSb) {
+		ListOf listOfReactions = model.getListOfReactions();
+		KineticLaw kineticLaw = null;
+		int numReactants = 0;
+		int numProducts = 0;
+		int numModifiers = 0;
+		int numParameters = 0;
+		//try {
+		for (int i = 0; i < model.getNumReactions(); i++) {
+			Reaction reaction = (Reaction)listOfReactions.get(i);
+			String nameOrId = getNameOrId(reaction);
+			if (namesUsed.contains(nameOrId)) {
+				continue; // this is a duplicate
+			}
+			else {
+				namesUsed.add(nameOrId);
+			}
+			cdSb.append("\t<" + nameOrId + " xhType=\"XhtypePureActiveObject\">\n");
+			numReactants = (int)reaction.getNumReactants();
+			numProducts = (int)reaction.getNumProducts();
+			numModifiers = (int)reaction.getNumModifiers();
+			//cdSb.append(Integer.toString(numReactants + numProducts + numModifiers));
+			
+			// optional geneVal
+			if (useGeneVal) {
+				kineticLaw = reaction.getKineticLaw();
+				//numParameters = (int)kineticLaw.getNumParameters();
+				//cdSb.append("," + numParameters + 1); // +1 for reversible
+			}
+			else {
+				//cdSb.append("," + 1); // reversible
+			}
+			
+			//cdSb.append("\n");
+			
+			int j;
+			// Reactants
+			ListOf listOfReactants = reaction.getListOfReactants();
+			for (j = 0; j < numReactants; j++) {
+				SpeciesReference reactant = (SpeciesReference)listOfReactants.get(j);
+				cdSb.append("\t\t<port name=\"port\" index=\"P_SM_SUB" + (j+1) + "\"");
+				cdSb.append(" connector=\"#xpointer(ancestor::");
+				cdSb.append(getNameOrId(rootCompartment));
+				cdSb.append("/descendant::");
+				cdSb.append(getNameOrId(reactant));
+				cdSb.append(")\"/>\n");
+			}
+			// Products
+			ListOf listOfProducts = reaction.getListOfProducts();
+			for (j = 0; j < numProducts; j++) {
+				SpeciesReference product = (SpeciesReference)listOfProducts.get(j);
+				cdSb.append("\t\t<port name=\"port\" index=\"P_SM_PRD" + (j+1) + "\"");
+				cdSb.append(" connector=\"#xpointer(ancestor::");
+				cdSb.append(getNameOrId(rootCompartment));
+				cdSb.append("/descendant::");
+				cdSb.append(getNameOrId(product));
+				cdSb.append(")\"/>\n");
+			}
+			// Modifiers
+			ListOf listOfModifiers = reaction.getListOfModifiers();
+			for (j = 0; j < numModifiers; j++) {
+				ModifierSpeciesReference modifier = (ModifierSpeciesReference)listOfModifiers.get(j);
+				cdSb.append("\t\t<port name=\"port\" index=\"P_SM_MOD" + (j+1) + "\"");
+				cdSb.append(" connector=\"#xpointer(ancestor::");
+				cdSb.append(getNameOrId(rootCompartment));
+				cdSb.append("/descendant::");
+				cdSb.append(getNameOrId(modifier));
+				cdSb.append(")\"/>\n");
+			}
+			// Parameters
+			if (useGeneVal) {
+				ListOf listOfParameters = kineticLaw.getListOfParameters();
+				for (j = 0; j < numParameters; j++) {
+					Parameter parameter = (Parameter)listOfParameters.get(j);
+					cdSb.append("\t\t<attribute name=\"geneVal\" index=\"");
+					cdSb.append(getNameOrId(parameter) + "\" value=\"=");
+					cdSb.append((int)parameter.getValue() + "\"/>\n");
+				}
+			}
+			// Reversible
+			cdSb.append("\t\t<attribute name=\"reversible\" value=\"");
+			cdSb.append(reaction.getReversible() + "\"/>\n");
+			
+			cdSb.append("\t</" + nameOrId + ">\n");
+			
+			// Update maximums
+			if (numReactants > maxReactants) {maxReactants = numReactants;}
+			if (numProducts > maxProducts)   {maxProducts = numProducts;}
+			if (numModifiers > maxModifiers) {maxModifiers = numModifiers;}
+		}
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+	}
+	
+	//										Java Xh file
+	/**
+	 * Write Xh.java file.
+	 */
+	protected void writeXhJava() {
+		namesUsed.clear();
+		Writer xhOut = MiscIo.openOutputFile(writeDirJava + "Xh" + javaClassName + ".java");
+		if (xhOut == null) {return;}
+		StringBuilder xhSb = new StringBuilder(1000);
+		try {
+			xhSb.append("package org.primordion.cellontro.app.sbml;\n\n");
+			xhSb.append("import org.primordion.xholon.base.IIntegration;\n");
+			xhSb.append("import org.primordion.xholon.base.XholonClass;\n");
+			xhSb.append("import org.primordion.cellontro.app.XhAbstractSbml;\n\n");
+			xhSb.append("/**\n");
+			xhSb.append(formatNotes(model.getNotes()));
+			xhSb.append("\n */\n");
+			xhSb.append("public class Xh" + javaClassName + " extends XhAbstractSbml {\n");
+			xhSb.append("\n// indices into the port array; refs to substrates & products\n");
+			writeXhConstants(xhSb);
+			xhSb.append("\n");
+			writeXhUnits(xhSb);
+			writeXhVariables(xhSb);
+			writeXhFunctions(xhSb);
+			// get/set reactants, products, modifiers
+			xhSb.append("\n// Getters and setters.\n");
+			xhSb.append("public int getNumReactants() {return numReactants;}\n");
+			xhSb.append("public void setNumReactants(int numR) {numReactants = numR;}\n\n");
+			xhSb.append("public int getNumProducts() {return numProducts;}\n");
+			xhSb.append("public void setNumProducts(int numP) {numProducts = numP;}\n\n");
+			xhSb.append("public int getNumModifiers() {return numModifiers;}\n");
+			xhSb.append("public void setNumModifiers(int numM) {numModifiers = numM;}\n\n");
+			// get/set timeStepMultiplier (added Jan 18, 2007)
+			xhSb.append("public int getTimeStepMultiplier() {return timeStepMultiplier;}\n");
+			xhSb.append("public static void setTimeStepMultiplier(int tms) {timeStepMultiplier = tms;}\n\n");
+			// act
+			xhSb.append("/*\n");
+			xhSb.append(" * @see org.primordion.xholon.base.IXholon#act()\n");
+			xhSb.append(" */\n");
+			xhSb.append("public void act() {\n");
+			xhSb.append("if ((xhClass.getXhType() & XholonClass.XhtypePureActiveObject) == XholonClass.XhtypePureActiveObject) {\n");
+			xhSb.append("switch(getXhcId()) {\n"); // switch based on the xholon class
+			writeXhReactions(xhSb);
+			xhSb.append("default:\n\tbreak;\n");
+			xhSb.append("} // end switch\n");
+			xhSb.append("} // end if\n");
+			
+			writeXhRules(xhSb); // added December 12, 2006 to handle Beard file converted from CellML
+			
+			xhSb.append("\n// execute recursively\n");
+			xhSb.append("try {\n");
+			xhSb.append("	if (firstChild != null) {\n");
+			xhSb.append("		firstChild.act();\n");
+			xhSb.append("	}\n");
+			xhSb.append("	if (nextSibling != null) {\n");
+			xhSb.append("		nextSibling.act();\n");
+			xhSb.append("	}\n");
+			xhSb.append("} catch (StackOverflowError e) {\n");
+			xhSb.append("	System.err.println(\"Xh" + javaClassName + " act() stack overflow: \" + this + \" \");\n");
+			xhSb.append("	return;\n");
+			xhSb.append("}\n");
+
+			xhSb.append("} // end method\n");
+			xhSb.append("} // end class\n");
+			xhOut.write(xhSb.toString());
+			MiscIo.closeOutputFile( xhOut );
+		} catch (IOException e) {
+			Xholon.getLogger().error("", e);
+		}
+	}
+	
+	/**
+	 * Write Xholon Java constants.
+	 * @param xhOut Writer
+	 */
+	protected void writeXhConstants(StringBuilder xhSb) {
+		int i;
+		int j;
+		//try {
+		for (i = 0, j = 0; i < maxReactants; i++, j++) {
+			xhSb.append("public static final int P_SM_SUB" + (i+1) + " = " + j + ";\n");
+		}
+		for (i = 0; i < maxProducts; i++, j++) { // continue count from where left off
+			xhSb.append("public static final int P_SM_PRD" + (i+1) + " = " + j + ";\n");
+		}
+		for (i = 0; i < maxModifiers; i++, j++) { // continue count from where left off
+			xhSb.append("public static final int P_SM_MOD" + (i+1) + " = " + j + ";\n");
+		}
+		//xhSb.append("protected static int SIZE_CELLONTRO_PORTS = " + j + ";\n");
+		maxPorts = j;
+		
+		// global constant parameters (added December 13, 2006)
+		String nameOrId;
+		ListOf listOfParameters = model.getListOfParameters();
+		boolean headerNotYetWritten = true;
+		for (i = 0; i < model.getNumParameters(); i++) {
+			Parameter parameter = (Parameter)listOfParameters.get(i);
+			nameOrId = getNameOrId(parameter);
+			if (parameter.getConstant() && !namesUsed.contains(nameOrId)) {
+				if (headerNotYetWritten) {
+					xhSb.append("\n// global constant parameters\n");
+					headerNotYetWritten = false;
+				}
+				double value = 0.0; // default value
+				if (parameter.isSetValue()) {
+					value = parameter.getValue();
+				}
+				String units = "no units specified"; // default units
+				if (parameter.isSetUnits()) {
+					units = parameter.getUnits();
+				}
+				xhSb.append("protected static final double " + nameOrId
+					+ " = " + value + "; // " + units + "\n");
+				namesUsed.add(nameOrId);
+				globalConstantParametersUsed.add(nameOrId);
+			}
+		}
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+	}
+	
+	/**
+	 * Write Xholon Java variables.
+	 * @param xhOut Writer
+	 */
+	protected void writeXhVariables(StringBuilder xhSb) {
+		String nameOrId;
+		int i;
+		//try {
+			xhSb.append("\n// Maximum number of reactants, products, modifiers in any reaction.\n");
+			xhSb.append("protected static int numReactants = " + maxReactants + ";\n");
+			xhSb.append("protected static int numProducts = " + maxProducts + ";\n");
+			xhSb.append("protected static int numModifiers = " + maxModifiers + ";\n");
+			
+			// write a declaration for the size (amt) of each compartment, so can use in act()
+			xhSb.append("\n// Compartment sizes.\n");
+			ListOf listOfCompartments = model.getListOfCompartments();
+			for (i = 0; i < model.getNumCompartments(); i++) {
+				Compartment compartment = (Compartment)listOfCompartments.get(i);
+				nameOrId = getNameOrId(compartment);
+				if (!namesUsed.contains(nameOrId)) {
+					xhSb.append("protected static double amt" + nameOrId
+						+ " = " + compartment.getSize() + ";\n");
+					namesUsed.add(nameOrId);
+				}
+			}
+			
+			// write a declaration for the amount of each species, so can use in act()
+			xhSb.append("\n// Amount of each species, initialized to 0.0.\n");
+			xhSb.append("// Actual values are in " + fileNamePrefix + "CompositeStructureHierarchy.xml.\n");
+			ListOf listOfSpecies = model.getListOfSpecies();
+			double initValue = 0.0;
+			for (i = 0; i < model.getNumSpecies(); i++) {
+				Species species = (Species)listOfSpecies.get(i);
+				nameOrId = getNameOrId(species);
+				if (!namesUsed.contains(nameOrId)) {
+					xhSb.append("protected static double amt" + nameOrId
+						+ " = " + initValue + ";\n");
+					namesUsed.add(nameOrId);
+				}
+			}
+			
+			// write a declaration for each global variable parameter (added December 13, 2006)
+			ListOf listOfParameters = model.getListOfParameters();
+			boolean headerNotYetWritten = true;
+			for (i = 0; i < model.getNumParameters(); i++) {
+				Parameter parameter = (Parameter)listOfParameters.get(i);
+				nameOrId = getNameOrId(parameter);
+				if (!parameter.getConstant() && !namesUsed.contains(nameOrId)) {
+					if (headerNotYetWritten) {
+						xhSb.append("\n// global variable parameters\n");
+						headerNotYetWritten = false;
+					}
+					double value = 0.0; // default value
+					if (parameter.isSetValue()) {
+						value = parameter.getValue();
+					}
+					String units = "no units specified"; // default units
+					if (parameter.isSetUnits()) {
+						units = parameter.getUnits();
+					}
+					xhSb.append("protected static double amt" + nameOrId
+						+ " = " + value + "; // " + units + "\n");
+					namesUsed.add(nameOrId);
+				}
+			}
+			
+			// time step multiplier (added January 18, 2007)
+			xhSb.append("\n// time step multiplier (you may need to make this bigger or smaller)\n");
+			xhSb.append("public static int timeStepMultiplier = IIntegration.M_128; // M_128\n");
+
+
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+	}
+	
+	/**
+	 * Write Xholon Java units.
+	 * @param xhOut Writer
+	 */
+	protected void writeXhUnits(StringBuilder xhSb) {
+		ListOf listOfUnitDefinitions = model.getListOfUnitDefinitions();
+		//try {
+		if (model.getNumUnitDefinitions() > 0) {
+			xhSb.append("// Unit definitions (not yet supported).\n");
+			xhSb.append("/*\n");
+			for (int i = 0; i < model.getNumUnitDefinitions(); i++) {
+				UnitDefinition unitDefinition = (UnitDefinition)listOfUnitDefinitions.get(i);
+				xhSb.append(unitDefinition.toSBML());
+			}
+			xhSb.append("*/\n");
+		}
+		else {
+			xhSb.append("// No units are defined in this SBML model.\n");
+		}
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+	}
+	
+	/**
+	 * Write Xholon Java reactions.
+	 * @param xhOut Writer
+	 */
+	protected void writeXhReactions(StringBuilder xhSb) {
+		namesUsed.clear();
+		ListOf listOfReactions = model.getListOfReactions();
+		int numReactants = 0;
+		int numProducts = 0;
+		int numModifiers = 0;
+		//try {
+		for (int i = 0; i < model.getNumReactions(); i++) {
+			Reaction reaction = (Reaction)listOfReactions.get(i);
+			String nameOrId = getNameOrId(reaction);
+			if (namesUsed.contains(nameOrId)) {
+				continue; // this is a duplicate
+			}
+			else {
+				namesUsed.add(nameOrId);
+			}
+			numReactants = (int)reaction.getNumReactants();
+			numProducts = (int)reaction.getNumProducts();
+			numModifiers = (int)reaction.getNumModifiers();
+			KineticLaw kineticLaw = reaction.getKineticLaw();
+			int j;
+			xhSb.append("case Ce" + javaClassName + "." + nameOrId + "CE:\n");
+			// Reactants in
+			ListOf listOfReactants = reaction.getListOfReactants();
+			for (j = 0; j < numReactants; j++) {
+				SpeciesReference reactant = (SpeciesReference)listOfReactants.get(j);
+				xhSb.append("\tamt" + getNameOrId(reactant)
+					+ " = ((Xh" + javaClassName + ")port[P_SM_SUB" + (j+1) + "]).getPheneVal();\n");
+			}
+			// Modifiers in
+			ListOf listOfModifiers = reaction.getListOfModifiers();
+			for (j = 0; j < numModifiers; j++) {
+				ModifierSpeciesReference modifier = (ModifierSpeciesReference)listOfModifiers.get(j);
+				xhSb.append("\tamt" + getNameOrId(modifier)
+					+ " = ((Xh" + javaClassName + ")port[P_SM_MOD" + (j+1) + "]).getPheneVal();\n");
+			}
+			// Products in, if reversible
+			ListOf listOfProducts = reaction.getListOfProducts();
+			if (reaction.getReversible()) {
+				for (j = 0; j < numProducts; j++) {
+					SpeciesReference product = (SpeciesReference)listOfProducts.get(j);
+					xhSb.append("\tamt" + getNameOrId(product)
+						+ " = ((Xh" + javaClassName + ")port[P_SM_PRD" + (j+1) + "]).getPheneVal();\n");
+				}
+			}
+			
+			writeXhKineticLaw(xhSb, kineticLaw);
+			
+			// Reactants out
+			for (j = 0; j < numReactants; j++) {
+				SpeciesReference reactant = (SpeciesReference)listOfReactants.get(j);
+				// if this is not a constant, then it's OK to change its value (Jan 7, 2007)
+				// TODO also handle boundaryCondition
+				if (model.getSpecies(reactant.getSpecies()).getConstant() == false) {
+					xhSb.append("\t((Xh" + javaClassName + ")port[P_SM_SUB" + (j+1) + "]).decPheneVal(nTimes");
+					// added stoichiometry (Jan 7, 2007)
+					if (reactant.getStoichiometry() != 1.0) {
+						xhSb.append(" * " + reactant.getStoichiometry());
+					}
+					xhSb.append(");\n");
+				}
+			}
+			// Products out
+			for (j = 0; j < numProducts; j++) {
+				SpeciesReference product = (SpeciesReference)listOfProducts.get(j);
+				// if this is not a constant, then it's OK to change its value (Jan 7, 2007)
+				// TODO also handle boundaryCondition
+				if (model.getSpecies(product.getSpecies()).getConstant() == false) {
+					xhSb.append("\t((Xh" + javaClassName + ")port[P_SM_PRD" + (j+1) + "]).incPheneVal(nTimes");
+					// added stoichiometry (Jan 7, 2007)
+					if (product.getStoichiometry() != 1.0) {
+						xhSb.append(" * " + product.getStoichiometry());
+					}
+					xhSb.append(");\n");
+				}
+			}
+			xhSb.append("\tbreak;\n\n");
+		}
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+	}
+	
+	/**
+	 * Write a Xholon Java kinetic law.
+	 * @param xhOut Writer
+	 * @param kineticLaw An instance of KineticLaw.
+	 */
+	protected void writeXhKineticLaw(StringBuilder xhSb, KineticLaw kineticLaw) {
+		//try {
+		xhSb.append("\tnTimes = ");
+		if (useEnzymeLevel) {
+			xhSb.append("enzymeLevel * ");
+		}
+		ASTNode astNode = kineticLaw.getMath();
+		
+		// set the parameter global variables for use by writeXhNode()
+		xhListOfParameters = kineticLaw.getListOfParameters();
+		xhNumParameters = (int)kineticLaw.getNumParameters();
+		
+		writeXhNode(xhSb, astNode);
+		xhSb.append(" / timeStepMultiplier;\n"); // edited Jan 18, 2007
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+	}
+	
+	/**
+	 * Write Xholon Java rules.
+	 * Added December 12, 2006)
+	 * @param xhOut Writer
+	 */
+	protected void writeXhRules(StringBuilder xhSb) {
+		if (model.getNumRules() == 0) {
+			return;
+		}
+		
+		ListOf listOfRules = model.getListOfRules();
+		String nameOrId = null;
+		//try {
+		xhSb.append("else if (isRootNode()) {\n");
+		for (int i = 0; i < model.getNumRules(); i++) {
+			Rule rule = (Rule)listOfRules.get(i);
+			//System.out.println(rule.getTypeCode());
+			switch (rule.getTypeCode()) {
+			case libsbmlConstants.SBML_ASSIGNMENT_RULE: // AssignmentRule 17
+				nameOrId = ((AssignmentRule)rule).getVariable();
+				xhSb.append("// AssignmentRule: " + nameOrId + "\n");
+				break;
+			case libsbmlConstants.SBML_RATE_RULE: // RateRule 18
+				nameOrId = ((RateRule)rule).getVariable();
+				xhSb.append("// RateRule: " + nameOrId + "\n");
+				break;
+			case libsbmlConstants.SBML_ALGEBRAIC_RULE: // AlgebraicRule
+				nameOrId = "unknownAlgebraicRule";
+				xhSb.append("// AlgebraicRule: " + nameOrId + "\n");
+				break;
+			default:
+				// there should only be these three types of rules
+				break;
+			}
+			//System.out.println(nameOrId);
+			ASTNode astNode = rule.getMath();
+			xhSb.append("amt" + nameOrId + " = ");
+			writeXhNode(xhSb, astNode);
+			xhSb.append(";\n");
+		}
+		xhSb.append("} // end if\n");
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+	}
+	
+	/**
+	 * Write Xholon Java functions.
+	 * @param xhOut Writer
+	 */
+	protected void writeXhFunctions(StringBuilder xhSb) {
+		ASTNode math;
+		String formula;
+		ListOf listOfFunctionDefinitions = model.getListOfFunctionDefinitions();
+		//try {
+		if (model.getNumFunctionDefinitions() > 0) {
+			xhSb.append("\n// SBML user-defined functions.\n");
+		}
+		for (int i = 0; i < model.getNumFunctionDefinitions(); i++) {
+			FunctionDefinition fd = (FunctionDefinition)listOfFunctionDefinitions.get(i);
+			if (fd.isSetMath())
+		    {
+              xhSb.append("\nprotected double " + fd.getId() + "(");
+		      math = fd.getMath();
+		      if (math.getNumChildren() > 1)
+		      {
+		    	xhSb.append("double " + math.getLeftChild().getName());
+		        for (int j = 1; j < math.getNumChildren() - 1; j++)
+		        {
+			      xhSb.append(", double " + math.getChild(j).getName());
+		        }
+		      }
+		      xhSb.append(") {\n");
+		      if (math.getNumChildren() == 0)
+		      {
+		    	xhSb.append("// no function body defined\n");
+		      }
+		      else
+		      {
+		        math    = math.getChild(math.getNumChildren() - 1);
+		        // TODO outputs pow() for ^; should be Math.pow(); I need to parse the formula string
+		        formula = libsbml.formulaToString(math);
+		        xhSb.append("return (" + formula + ");\n");
+		      }
+		      xhSb.append("}\n");
+		    }
+		}
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+	}
+	
+	/**
+	 * Write a Xholon Java math node.
+	 * <p>Most of the code in this method is adapted from evaluateMath.java included with the libsbml distribution.</p>
+	 * <p>See that file for copyright, license and author details, which includes:</p>
+	 * <p>Copyright 2005 California Institute of Technology and Japan Science and Technology Corporation.</p>
+	 * <p>License: GNU Lesser General Public License</p>
+	 * <p>I've retained some of the code from evaluateMath.java as comments.</p>
+	 * <p>WARNING: Most of the AST_FUNCTION_ types are untested within Cellontro.</p>
+	 * @author Rainer Machne (original C++), Nicolas Rodriguez (Java), Ken Webb (Cellontro)
+	 * @see <a href="http://sbml.org">sbml.org</a>
+	 * @param xhOut Writer
+	 * @param node An instance of ASTNode (Abstract Syntax Tree).
+	 */
+	protected void writeXhNode(StringBuilder xhSb, ASTNode node) {
+		int i;
+		if (node == null) {
+			System.err.println("writeXhNode() node is null");
+			return;
+		}
+		//try {
+		switch (node.getType()) {
+		case libsbmlConstants.AST_PLUS:
+			xhSb.append("(");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(" + ");
+			writeXhNode(xhSb, node.getChild(1));
+			xhSb.append(")");
+			break;
+		case libsbmlConstants.AST_MINUS:
+			if (node.getNumChildren() == 1) { // unary minus ex: -1
+				xhSb.append("-");
+				writeXhNode(xhSb, node.getChild(0));
+			}
+			else {
+				xhSb.append("(");
+				writeXhNode(xhSb, node.getChild(0));
+				xhSb.append(" - ");
+				writeXhNode(xhSb, node.getChild(1));
+				xhSb.append(")");
+			}
+			break;
+		case libsbmlConstants.AST_TIMES:
+			xhSb.append("(");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(" * ");
+			writeXhNode(xhSb, node.getChild(1));
+			xhSb.append(")");
+			break;
+		case libsbmlConstants.AST_DIVIDE:
+			xhSb.append("(");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(" / ");
+			writeXhNode(xhSb, node.getChild(1));
+			xhSb.append(")");
+			break;
+		case libsbmlConstants.AST_INTEGER:
+			xhSb.append(Integer.toString(node.getInteger()));
+			break;
+		case libsbmlConstants.AST_RATIONAL:
+			xhSb.append(Double.toString(node.getReal()));
+			break;
+		case libsbmlConstants.AST_REAL:
+			xhSb.append(Double.toString(node.getReal()));
+			break;
+		case libsbmlConstants.AST_REAL_E:
+			xhSb.append(Double.toString(node.getReal()));
+			break;
+		case libsbmlConstants.AST_NAME:
+			// if the name is in the local or global listOfParameters, then it's a K, V, or other constant
+			Parameter parameter = null;
+			String nodeName = getNameOrId(node);
+			for (i = 0; i < xhNumParameters; i++) { // local parameter (overrides any global parameter)
+				parameter = (Parameter)xhListOfParameters.get(i);
+				if (nodeName.equals(getNameOrId(parameter))) { // is it a constant parameter ?
+					xhSb.append(Double.toString(parameter.getValue()));
+					return;
+				}
+			}
+			if (globalConstantParametersUsed.contains(nodeName)) { // global parameter
+				xhSb.append(nodeName);
+			}
+			// else it's the current amount of a species  or compartment
+			else {
+				xhSb.append("amt" + nodeName);
+			}
+			break;
+		case libsbmlConstants.AST_NAME_TIME:
+			break;
+		case libsbmlConstants.AST_FUNCTION: // user-defined function
+			xhSb.append(node.getName());
+			xhSb.append("(");
+			if (node.getNumChildren() > 1)
+		      {
+		    	writeXhNode(xhSb, node.getLeftChild());
+		        for (int j = 1; j < node.getNumChildren(); j++)
+		        {
+			      xhSb.append(", ");
+			      writeXhNode(xhSb, node.getChild(j));
+		        }
+		      }
+			xhSb.append(")");
+			break;
+		case libsbmlConstants.AST_LAMBDA:
+			System.out.println("Found a lambda");
+			break;
+		case libsbmlConstants.AST_CONSTANT_E:
+			xhSb.append("Math.exp(1)");
+			break;
+		case libsbmlConstants.AST_CONSTANT_PI:
+			xhSb.append("4 * Math.atan(1.)");
+			break;
+		case libsbmlConstants.AST_CONSTANT_FALSE:
+			xhSb.append("0.0");
+			break;
+		case libsbmlConstants.AST_CONSTANT_TRUE:
+			xhSb.append("1.0");
+			break;
+		case libsbmlConstants.AST_FUNCTION_POWER:
+		case libsbmlConstants.AST_POWER:
+			//Math.pow(evalAST(child[0]), evalAST(child[1]));
+			xhSb.append("Math.pow(");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(",");
+			writeXhNode(xhSb, node.getChild(1));
+			xhSb.append(")");
+			break;
+		case libsbmlConstants.AST_FUNCTION_ABS:
+	        //result = Math.abs(evalAST(child[0]));
+			xhSb.append("Math.abs(");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(")");
+	        break;
+        case libsbmlConstants.AST_FUNCTION_ARCCOS:
+            //result = Math.acos(evalAST(child[0]));
+        	xhSb.append("Math.acos(");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(")");
+            break;
+        case libsbmlConstants.AST_FUNCTION_ARCCOSH:
+            //result = Math.acos(evalAST(child[0])); // TODO : fix to have acosh
+        	xhSb.append("Math.acosh("); // is this correct?
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(")");
+            break;
+        case libsbmlConstants.AST_FUNCTION_ARCCOT:
+            /* arccot x =  arctan (1 / x) */
+            //result = Math.atan(1. / evalAST(child[0]));
+        	xhSb.append("Math.atan(1. / ");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(")");
+            break;
+        case libsbmlConstants.AST_FUNCTION_ARCCOTH:
+            /* arccoth x = 1/2 * ln((x+1)/(x-1)) */
+            //result = ((1. / 2.) *
+            //          Math.log((evalAST(child[0]) + 1.) /
+            //                   (evalAST(child[0]) - 1.) ));
+        	xhSb.append("Math.abs(");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(")");
+            break;
+        case libsbmlConstants.AST_FUNCTION_ARCCSC:
+          /* arccsc(x) = Arctan(1 / sqrt((x - 1)(x + 1))) */
+          //result = Math.atan(1. / Math.sqrt((evalAST(child[0]) - 1.) *
+          //                                  (evalAST(child[0]) + 1.) ));
+        	xhSb.append("Math.atan(1. / Math.sqrt((");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(" - 1.) * (");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(" + 1.)))");
+			break;
+        // TODO implement the rest of these functions
+        case libsbmlConstants.AST_FUNCTION_ARCCSCH:
+          /* arccsch(x) = ln((1 + sqrt(1 + x^2)) / x) */
+          //result = Math.log((1. +
+          //                   Math.pow(1 + Math.pow(evalAST(child[0]), 2), 2))
+          //                  / evalAST(child[0]));
+        	xhSb.append("Math.log((1. + Math.pow(1 + Math.pow(");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(", 2), 2)) / ");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(")");
+			break;
+	    case libsbmlConstants.AST_FUNCTION_ARCSEC:
+	        /* arcsec(x) = arctan(sqrt((x - 1)(x + 1))) */
+	        //result = Math.atan(Math.sqrt((evalAST(child[0]) - 1.) *
+	        //                             (evalAST(child[0]) + 1.) ));
+	    	xhSb.append("Math.atan(Math.sqrt((");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(" - 1.) * (");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(" + 1.)))");
+	        break;
+	    case libsbmlConstants.AST_FUNCTION_ARCSECH:
+	        /* arcsech(x) = ln((1 + sqrt(1 - x^2)) / x) */
+	        //result = Math.log((1. + Math.pow(1 -
+	        //                                 Math.pow(evalAST(child[0]), 2), 0.5))
+	        //                  / evalAST(child[0]));
+	    	xhSb.append("Math.log((1. + Math.pow(1 - Math.pow(");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(", 2), 0.5)) / ");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(")");
+	        break;
+	    case libsbmlConstants.AST_FUNCTION_ARCSIN:
+	        //result = Math.asin(evalAST(child[0]));
+	    	xhSb.append("Math.asin(");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(")");
+	        break;
+	    case libsbmlConstants.AST_FUNCTION_ARCSINH:
+	        //result = Math.asin(evalAST(child[0])); // TODO : fix to have asinh
+	    	xhSb.append("Math.asin(");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(")");
+	        break;
+	    case libsbmlConstants.AST_FUNCTION_ARCTAN:
+	        //result = Math.atan(evalAST(child[0]));
+	    	xhSb.append("Math.atan(");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(")");
+	        break;
+	      case libsbmlConstants.AST_FUNCTION_ARCTANH:
+	        //result = Math.atan(evalAST(child[0])); // TODO : fix to have atanh
+	    	xhSb.append("Math.atan(");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(")");
+	        break;
+	      case libsbmlConstants.AST_FUNCTION_CEILING:
+	        //result = Math.ceil(evalAST(child[0]));
+	    	xhSb.append("Math.ceil(");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(")");
+	        break;
+	      case libsbmlConstants.AST_FUNCTION_COS:
+	        //result = Math.cos(evalAST(child[0]));
+	    	xhSb.append("Math.cos(");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(")");
+	        break;
+	      case libsbmlConstants.AST_FUNCTION_COSH:
+	      //  result = Math.cosh(evalAST(child[0]));
+	        break;
+	      case libsbmlConstants.AST_FUNCTION_COT:
+	        /* cot x = 1 / tan x */
+	        //result = 1. / Math.tan(evalAST(child[0]));
+	    	xhSb.append("1. / Math.tan(");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(")");
+	        break;
+	      case libsbmlConstants.AST_FUNCTION_COTH:
+		    break;
+	      case libsbmlConstants.AST_FUNCTION_CSC:
+	        /* csc x = 1 / sin x */
+	        //result = (1. / Math.sin(evalAST(child[0])));
+	    	xhSb.append("1. / Math.sin(");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(")");
+	        break;
+	      case libsbmlConstants.AST_FUNCTION_CSCH:
+			break;
+	      case libsbmlConstants.AST_FUNCTION_DELAY:
+			break;
+	      case libsbmlConstants.AST_FUNCTION_EXP:
+	        //result = Math.exp(evalAST(child[0]));
+			xhSb.append("Math.exp(");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(")");
+	        break;
+	      case libsbmlConstants.AST_FUNCTION_FACTORIAL:
+	        /*msg =
+	          "\n--------- MESSAGE FROM EVALUATION FUNCTION ----------\n\n"    +
+	          "The factorial is only implemented for integer values. If a\n"   +
+	          "floating point number is passed, the floor value is used for\n" +
+	          "calculation!\n" +
+	          "\n--------- END MESSAGE ----------\n\n";
+	        println(msg);
+	        double dbl = Math.floor(evalAST(child[0]));
+	        for(result = 1; dbl > 1; --dbl)
+	        {
+	          result *= i;
+	        } */
+	        break;
+	      case libsbmlConstants.AST_FUNCTION_FLOOR:
+	        //result = Math.floor(evalAST(child[0]));
+		    xhSb.append("Math.floor(");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(")");
+	        break;
+	      case libsbmlConstants.AST_FUNCTION_LN:
+	        //result = Math.log(evalAST(child[0]));
+	    	xhSb.append("Math.log(");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(")");
+	        break;
+	      case libsbmlConstants.AST_FUNCTION_LOG:
+	    	break;
+	      case libsbmlConstants.AST_FUNCTION_PIECEWISE:
+	        /*msg =
+	          "\n--------- MESSAGE FROM EVALUATION FUNCTION ----------\n\n" +
+	          "This function is not implemented yet.\n" +
+	          "The value defaults to 0.\n"              +
+	          "\n--------- END MESSAGE ----------\n\n";
+	        println(msg);
+	        result = 0.0; */
+	        break;
+	      case libsbmlConstants.AST_FUNCTION_ROOT:
+	        //result = Math.pow(evalAST(child[1]), 1. / evalAST(child[0]));
+	        break;
+	      case libsbmlConstants.AST_FUNCTION_SEC:
+	        /* sec x = 1 / cos x */
+	        //result = 1. / Math.cos(evalAST(child[0]));
+	    	xhSb.append("1. / Math.cos(");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(")");
+	        break;
+	      case libsbmlConstants.AST_FUNCTION_SECH:
+	    	break;
+	      case libsbmlConstants.AST_FUNCTION_SIN:
+	        //result = Math.sin(evalAST(child[0]));
+	    	xhSb.append("Math.sin(");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(")");
+	        break;
+	      case libsbmlConstants.AST_FUNCTION_SINH:
+		    break;
+	      case libsbmlConstants.AST_FUNCTION_TAN:
+	        //result = Math.tan(evalAST(child[0]));
+	    	xhSb.append("Math.tan(");
+			writeXhNode(xhSb, node.getChild(0));
+			xhSb.append(")");
+	        break;
+	      case libsbmlConstants.AST_FUNCTION_TANH:
+		    break;
+	      case libsbmlConstants.AST_LOGICAL_AND:
+			break;
+	      case libsbmlConstants.AST_LOGICAL_NOT:
+			break;
+	      case libsbmlConstants.AST_LOGICAL_OR:
+			break;
+	      case libsbmlConstants.AST_LOGICAL_XOR:
+			break;
+	      case libsbmlConstants.AST_RELATIONAL_EQ:
+			break;
+	      case libsbmlConstants.AST_RELATIONAL_GEQ:
+			break;
+	      case libsbmlConstants.AST_RELATIONAL_GT:
+			break;
+	      case libsbmlConstants.AST_RELATIONAL_LEQ:
+			break;
+	      case libsbmlConstants.AST_RELATIONAL_LT:
+			break;
+	      case libsbmlConstants.AST_RELATIONAL_NEQ:
+			break;
+	      case libsbmlConstants.AST_UNKNOWN:
+				break;
+
+	      default:
+			Xholon.getLogger().error("Unknown AST type: " + node.getType());
+			//System.err.println("Unknown AST type: " + node.getType());
+			xhSb.append("0.0");
+			break;
+		}
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+	}
+	
+	//										Utility methods
+	
+	/**
+	 * Set units.
+	 */
+	// TODO set scale, multiplier, offset, exponent
+	protected void setUnits() {
+		ListOf listOfUnitDefinitions = model.getListOfUnitDefinitions();
+		for (int i = 0; i < model.getNumUnitDefinitions(); i++) {
+			UnitDefinition unitDefinition = (UnitDefinition)listOfUnitDefinitions.get(i);
+			String unitDefId = unitDefinition.getId();
+			// TODO for now, assuming only one unit per unit def; allow for multiple
+			Unit unit = unitDefinition.getUnit(0);
+			if (("substance".equals(unitDefId)) && (unit != null)) {
+				unitKindSubstance = unit.getKind();
+			}
+			/* TODO implement a use for the following 4 unit kinds
+			else if (("volume".equals(unitDefId)) && (unit != null)) {
+				unitKindVolume = unit.getKind();
+			}
+			else if (("area".equals(unitDefId)) && (unit != null)) {
+				unitKindArea = unit.getKind();
+			}
+			else if (("length".equals(unitDefId)) && (unit != null)) {
+				unitKindLength = unit.getKind();
+			}
+			else if (("time".equals(unitDefId)) && (unit != null)) {
+				unitKindTime = unit.getKind();
+			}
+			*/
+		}
+	}
+	
+	/**
+	 * Get name or id of a compartment.
+	 * @param entity The compartment.
+	 * @return The name or id, or "".
+	 */
+	protected String getNameOrId(Compartment entity) {
+		String result = "";
+		if (useNameAttribute) {
+			result = entity.getName();
+			if ("".equals(result)) {
+				result = entity.getId();
+			}
+		}
+		else {
+			result = entity.getId();
+		}
+		return result;
+	}
+	
+	/**
+	 * Get name or id of a species.
+	 * @param entity The species.
+	 * @return The name or id, or "".
+	 */
+	protected String getNameOrId(Species entity) {
+		String result = "";
+		if (useNameAttribute) {
+			result = entity.getName();
+			if ("".equals(result)) {
+				result = entity.getId();
+			}
+		}
+		else {
+			result = entity.getId();
+		}
+		return result;
+	}
+	
+	/**
+	 * Get name or id of a reaction.
+	 * @param entity The reaction.
+	 * @return The name or id, or "".
+	 */
+	protected String getNameOrId(Reaction entity) {
+		String result = "";
+		if (useNameAttribute) {
+			result = entity.getName();
+			if ("".equals(result)) {
+				result = entity.getId();
+			}
+		}
+		else {
+			result = entity.getId();
+		}
+		return result;
+	}
+	
+	/**
+	 * Get name or id of a parameter.
+	 * @param entity The parameter.
+	 * @return The name or id, or "".
+	 */
+	protected String getNameOrId(Parameter entity) {
+		String result = "";
+		if (useNameAttribute) {
+			result = entity.getName();
+			if ("".equals(result)) {
+				result = entity.getId();
+			}
+		}
+		else {
+			result = entity.getId();
+		}
+		return result;
+	}
+	
+	/**
+	 * Get name or id of a simple species reference.
+	 * This could be either subclass of SimpleSpeciesReference:
+	 *      SpeciesReference, or
+	 *      ModifierSpeciesReference.
+	 * @param entity The species reference.
+	 * @return The name or id, or "".
+	 */
+	protected String getNameOrId(SimpleSpeciesReference entity) {
+		String result = "";
+		if (useNameAttribute) {
+			result = model.getSpecies(entity.getSpecies()).getName();
+			if ("".equals(result)) {
+				result = entity.getSpecies();
+			}
+		}
+		else {
+			result = entity.getSpecies();
+		}
+		return result;
+	}
+	
+	/**
+	 * Get name or id of an ASTNode.
+	 * @param entity The ASTNode.
+	 * @return The name or id, or "".
+	 */
+	protected String getNameOrId(ASTNode entity) {
+		if (useNameAttribute) {
+			// may be a species, compartment, parameter, or reaction
+			SBase sbase;
+			sbase = model.getSpecies(entity.getName());
+			if (sbase != null) {
+				return ((Species)sbase).getName();
+			}
+			sbase = model.getCompartment(entity.getName());
+			if (sbase != null) {
+				return ((Compartment)sbase).getName();
+			}
+			sbase = model.getParameter(entity.getName());
+			if (sbase != null) {
+				return ((Parameter)sbase).getName();
+			}
+			sbase = model.getReaction(entity.getName());
+			if (sbase != null) {
+				return ((Reaction)sbase).getName();
+			}
+			return entity.getName();
+		}
+		else {
+			return entity.getName();
+		}
+	}
+	
+	/**
+	 * Format the notes field of an SBML entity.
+	 * Raw notes contain escape sequences such as &lt;
+	 * @param notesIn The original unformatted notes.
+	 * @return The formatted notes.
+	 */
+	protected String formatNotes(String notesIn) {
+		String notesOut = "";
+		//String stSegment = "";
+		String token = "";
+		StringTokenizer st = new StringTokenizer(notesIn, "&;");
+		while (st.hasMoreTokens()) {
+			token = st.nextToken();
+			if ("lt".equals(token)) {notesOut += "<";}
+			else if ("gt".equals(token)) {notesOut += ">";}
+			else if ("amp".equals(token)) {notesOut += "&";}
+			else if ("quot".equals(token)) {notesOut += "\"";}
+			else if ("apos".equals(token)) {notesOut += "'";}
+			else {notesOut += token;}
+		}
+		return notesOut;
+	}
+	
+	/**
+	 * main
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		if (args.length == 0) {
+			System.out.println("usage: java Sbml2Cellontro <sbmlFileName>");
+			System.out.println("ex   : java Sbml2Cellontro ./sbml/YeastGlyB.xml");
+			return;
+		}
+		ISbml2Cellontro s2c = new Sbml2Cellontro();
+		boolean rc = s2c.initialize(args[0]);
+		if (rc) {
+			s2c.writeAll();
+		}
+	}
+
+}

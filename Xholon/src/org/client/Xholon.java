@@ -264,6 +264,14 @@ public class Xholon implements EntryPoint {
     else if ("Fsm06ex1_Fsm".equals(appName)) {Fsm06ex1_Fsm(withGui);}
     else if ("SymAnti02ex41".equals(appName)) {SymAnti02ex41(withGui);}
     
+    // SBML
+    else if ("Brusselator".equals(appName)) {Brusselator(withGui);}
+    else if ("CellModel".equals(appName)) {CellModel(withGui);}
+    else if ("CircadianClock".equals(appName)) {CircadianClock(withGui);}
+    else if ("DimericMWCstiff".equals(appName)) {DimericMWCstiff(withGui);}
+    else if ("Glycolysis".equals(appName)) {Glycolysis(withGui);}
+    else if ("YeastGlyPritchardKel".equals(appName)) {YeastGlyPritchardKel(withGui);}
+    
     // gist (ex: "gist3377945")
     else if ((appName.startsWith("gist")) && (appName.length() > 4)) {gist(withGui, appName);}
     
@@ -1120,6 +1128,62 @@ public class Xholon implements EntryPoint {
     xhn(withGui,
       (IApplication)GWT.create(org.primordion.memcomp.app.SymAnti02ex41.AppSymAnti02ex41.class),
       "config/memcomp/SymAnti02ex41/SymAnti02ex41_xhn.xml");
+  }
+  
+  // SBML
+  
+  /**
+   * Brusselator
+   */
+  private void Brusselator(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.cellontro.app.sbml.AppSbml.class),
+      "config/sbml/Brusselator_xhn.xml");
+  }
+  
+  /**
+   * CellModel
+   */
+  private void CellModel(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.cellontro.app.sbml.AppSbml.class),
+      "config/sbml/CellModel_xhn.xml");
+  }
+  
+  /**
+   * CircadianClock
+   */
+  private void CircadianClock(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.cellontro.app.sbml.AppSbml.class),
+      "config/sbml/CircadianClock_xhn.xml");
+  }
+  
+  /**
+   * DimericMWCstiff
+   */
+  private void DimericMWCstiff(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.cellontro.app.sbml.AppSbml.class),
+      "config/sbml/DimericMWCstiff_xhn.xml");
+  }
+  
+  /**
+   * Glycolysis
+   */
+   private void Glycolysis(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.cellontro.app.sbml.AppSbml.class),
+      "config/sbml/Glycolysis_xhn.xml");
+  }
+  
+  /**
+   * YeastGlyPritchardKel
+   */
+  private void YeastGlyPritchardKel(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.cellontro.app.sbml.AppSbml.class),
+      "config/sbml/YeastGlyPritchardKel_xhn.xml");
   }
   
   /**

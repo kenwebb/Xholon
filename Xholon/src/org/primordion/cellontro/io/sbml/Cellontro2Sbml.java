@@ -1,0 +1,470 @@
+/* Cellontro - models & simulates cells and other biological entities
+ * Copyright (C) 2005, 2006, 2007, 2008 Ken Webb
+ *
+ * This library is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ */
+
+package org.primordion.cellontro.io.sbml;
+
+import org.primordion.xholon.io.ICellontro2Sbml;
+//import java.io.IOException;
+//import java.io.Writer;
+import java.util.Date;
+import org.primordion.cellontro.base.BioXholonClass;
+import org.primordion.cellontro.base.IBioXholon;
+import org.primordion.cellontro.base.IBioXholonClass;
+import org.primordion.xholon.base.IXholon;
+import org.primordion.xholon.base.IXholonClass;
+import org.primordion.xholon.base.Xholon;
+import org.primordion.xholon.util.ClassHelper;
+//import org.primordion.xholon.util.MiscIo;
+
+/**
+ * <p>Cellontro2Sbml transforms Xholon runtime models into SBML Level 2 files.
+ * The exported file contains SBML compartments, species, and reactions.</p>
+ * 
+ * <p>TODO Do a better job of exporting partial Cellontro models to SBML. For partial models,
+ * create an external compartment that's the actual root compartment. Any species
+ * references that are outside the subtree being exported will have this as their compartment.
+ * To implement this, possibly store species in a temporary data structure first, so that
+ * additional external species can be added while processing the reactions.</p>
+ * 
+ * <p>TODO Be able to export the kinetics, in addition to the structure.</p>
+ * 
+ * <p>TODO [February 19, 2007]
+ * Be able to export models that only implement IXholon and IXholonClass,
+ * rather than requiring that they implement the interface extensions IBioXholon and IBioXholonClass.
+ * The following incompatible methods are used in Cellontro2Sbml:
+ *   getPheneVal()
+ *   isReversible()
+ *   getNumReactants()
+ *   getNumProducts()
+ *   getNumModifiers()
+ *   IBioXholonClass.SIZE_ARRAY_GENEVAL
+ * </p>
+ * 
+ * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
+ * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
+ * @since 0.2 (Created on December 11, 2005)
+ */
+public class Cellontro2Sbml implements ICellontro2Sbml {
+
+	// suffixes to add to SBML id's to ensure no duplicates across the various SBML types
+	protected static final String CMPT = "c"; // compartment
+	protected static final String SPEC = "s"; // species
+	protected static final String REAC = "r"; // reaction
+	
+	// dummy species to output if a Xholon active object doesn't act on anything
+	protected static final String DUMMY_SPECIES = "DUMMY_000s"; // make it easy to recognize
+	
+	private String sbmlFileName;
+	//private Writer sbmlOut;
+	private StringBuilder sbmlSb;
+	private String modelName;
+	private IXholon root;
+	
+	/**
+	 * Is the root being exported the true outermost root of the Xholon composite structure tree?
+	 * If it's not, then we need to be careful not to export anything not contained within this subtree.
+	 */
+	private boolean rootIsTrueRoot = true;
+	private Date timeNow;
+	
+	/**
+	 * Constructor.
+	 */
+	public Cellontro2Sbml() {}
+	
+	/**
+	 * Constructor.
+	 * @param sbmlFileName Name of the output SBML XML file.
+	 * @param modelName Name of the model.
+	 * @param root Root of the tree that will be written out.
+	 */
+	public Cellontro2Sbml(String sbmlFileName, String modelName, IXholon root) {
+		initialize(sbmlFileName, modelName, root);
+	}
+	
+	/* 
+	 * @see org.primordion.cellontro.io.sbml.ICelllontro2Sbml#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
+	 */
+	public boolean initialize(String sbmlFileName, String modelName, IXholon root) {
+		//if (IBioXholon.class.isAssignableFrom(root.getClass())) {
+		if (ClassHelper.isAssignableFrom(IBioXholon.class, root.getClass())) {
+			this.sbmlFileName = sbmlFileName;
+			this.modelName = modelName;
+			this.root = root;
+			rootIsTrueRoot = root.isRootNode() ? true : false;
+			timeNow = new Date();
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	/* 
+	 * @see org.primordion.cellontro.io.sbml.ICelllontro2Sbml#writeAll()
+	 */
+	public void writeAll() {
+		//sbmlOut = MiscIo.openOutputFile(sbmlFileName);
+		sbmlSb = new StringBuilder(1000);
+		//try {
+			sbmlSb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+			sbmlSb.append(
+				"<!--\nAutomatically generated by Xholon (Cellontro) version 0.5, using Cellontro2Sbml.java\n"
+				+ new Date() + "\nwww.primordion.com/Xholon\n-->\n");
+			sbmlSb.append("<sbml xmlns=\"http://www.sbml.org/sbml/level2\" level=\"2\" version=\"1\">\n");
+			sbmlSb.append("<model id=\"" + modelName + "_" + timeNow.getTime()
+					+ "\" name=\"" + modelName + "\">\n");
+			
+			writeNotes();
+			writeUnits();
+			writeCompartments();
+			writeSpecies();
+			writeReactions();
+			
+			sbmlSb.append("</model>\n");
+			sbmlSb.append("</sbml>\n");
+			//sbmlOut.write(sbmlSb.toString());
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//}
+		//MiscIo.closeOutputFile(sbmlOut);
+	}
+	
+	/**
+	 * Write notes, in XHTML format.
+	 */
+	protected void writeNotes() {
+		//try {
+		sbmlSb.append("<notes>\n");
+		sbmlSb.append("<body xmlns=\"http://www.w3.org/1999/xhtml\">\n");
+		sbmlSb.append("<p>");
+		sbmlSb.append("This SBML file has been generated by an early version of the Cellontro SBML exporter.\n");
+		sbmlSb.append("The file contains only structure, and no real kinetics.\n");
+		sbmlSb.append("KineticLaw parameters are included, along with dummy plus functions\n");
+		sbmlSb.append("that may make it easier for other software to read in the parameters.\n");
+		sbmlSb.append("</p>");
+		sbmlSb.append("</body>\n");
+		sbmlSb.append("</notes>\n");
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+	}
+	
+	/**
+	 * Write default units.
+	 * In Cellontro, all species units are amounts of individual molecules.
+	 */
+	protected void writeUnits() {
+		//try {
+			sbmlSb.append("\n<!-- Unit Definitions -->\n");
+			sbmlSb.append("<listOfUnitDefinitions>\n");
+			sbmlSb.append(" <unitDefinition id=\"volume\">\n");
+			sbmlSb.append("  <listOfUnits>\n");
+			sbmlSb.append("   <unit kind=\"litre\" scale=\"-3\" multiplier=\"1\" offset=\"0\"/>\n");
+			sbmlSb.append("  </listOfUnits>\n");
+			sbmlSb.append(" </unitDefinition>\n");
+			sbmlSb.append(" <unitDefinition id=\"substance\">\n");
+			sbmlSb.append("  <listOfUnits>\n");
+			sbmlSb.append("   <unit kind=\"item\" exponent=\"1\"/>\n");
+			sbmlSb.append("  </listOfUnits>\n");
+			sbmlSb.append(" </unitDefinition>\n");
+			sbmlSb.append("</listOfUnitDefinitions>\n");
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+	}
+	
+	/**
+	 * Write out all SBML compartments.
+	 * An SBML compartment corresponds to a Xholon container.
+	 */
+	protected void writeCompartments() {
+		//try {
+			sbmlSb.append("\n<!-- Lists of Compartments -->\n");
+			sbmlSb.append("<listOfCompartments>\n");
+			// write the root node as a compartment, no matter what xhType it is
+			sbmlSb.append("<compartment id=\"" + root.getName() + CMPT
+				+ "\" name=\"" + root.getXhcName() + "\"");
+			sbmlSb.append(" size=\"1\"/>\n");
+			if (root.getFirstChild() != null) {
+				writeCompartment(root.getFirstChild());
+			}
+			sbmlSb.append("</listOfCompartments>\n");
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+	}
+	
+	/**
+	 * Write out a single SBML compartment, and recursively write out all of its children and siblings.
+	 * @param The current node in the tree.
+	 */
+	protected void writeCompartment(IXholon node) {
+		//if (!IBioXholon.class.isAssignableFrom(node.getClass())) {
+		if (!ClassHelper.isAssignableFrom(IBioXholon.class, node.getClass())) {
+			return;
+		}
+		//try {
+			// if it has children, we must write it out as a compartment
+			//if ((node.getXhType() & XholonClass.XhtypePureContainer) == XholonClass.XhtypePureContainer) {
+			if (node.hasChildNodes()) {
+				sbmlSb.append("<compartment id=\"" + node.getName() + CMPT
+					+ "\" name=\"" + node.getXhcName() + "\"");
+				sbmlSb.append(" outside=\"" + node.getParentNode().getName() + CMPT + "\"");
+				sbmlSb.append(" size=\"1\"/>\n");
+			}
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+		if (node.getFirstChild() != null) {
+			writeCompartment(node.getFirstChild());
+		}
+		if (node.getNextSibling() != null) {
+			writeCompartment(node.getNextSibling());
+		}
+	}
+	
+	/**
+	 * Write out all SBML species.
+	 * An SBML species corresponds to a Xholon passive object.
+	 */
+	protected void writeSpecies() {
+		//try {
+			sbmlSb.append("\n<!-- Lists of Species -->\n");
+			sbmlSb.append("<listOfSpecies>\n");
+			writeSpecies(root);
+			if (!rootIsTrueRoot) {
+				// There's a good chance there will be a reaction with no reactants or products,
+				// so write out a dummy species that these reactions can reference.
+				sbmlSb.append("<species id=\"" + DUMMY_SPECIES
+						 + "\"");
+				sbmlSb.append(" compartment=\"" + root.getName() + CMPT + "\"");
+				sbmlSb.append(" initialAmount=\"" + "0.0" + "\"/>\n");
+			}
+			sbmlSb.append("</listOfSpecies>\n");
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+	}
+	
+	/**
+	 * Write out a single SBML species, and recursively write out all of its children and siblings.
+	 * @param The current node in the tree.
+	 */
+	protected void writeSpecies(IXholon node) {
+		//if (!IBioXholon.class.isAssignableFrom(node.getClass())) {
+		if (!ClassHelper.isAssignableFrom(IBioXholon.class, node.getClass())) {
+			return;
+		}
+		//try {
+			// XhtypexxxFgsCon is a passive object that's also a container.
+			if ((node.getXhType() == IXholonClass.XhtypePurePassiveObject)
+					|| (node.getXhType() == IXholonClass.XhtypexxxFgsCon)) {
+				
+				sbmlSb.append("<species id=\"" + node.getName()  + SPEC
+					+ "\" name=\"" + node.getXhcName() + "\"");
+				if (!node.isRootNode()) {
+					sbmlSb.append(" compartment=\"" + node.getParentNode().getName() + CMPT + "\"");
+				}
+				sbmlSb.append(" initialAmount=\"" + ((IBioXholon)node).getPheneVal() + "\"/>\n");
+			}
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+		if (node.getFirstChild() != null) {
+			writeSpecies(node.getFirstChild());
+		}
+		if (node.getNextSibling() != null) {
+			writeSpecies(node.getNextSibling());
+		}
+	}
+	
+	/**
+	 * Write out all SBML reactions.
+	 * An SBML reaction corresponds to a Xholon active object.
+	 */
+	protected void writeReactions() {
+		//try {
+			sbmlSb.append("\n<!-- Lists of Reactions -->\n");
+			sbmlSb.append("<listOfReactions>\n");
+			writeReaction(root);
+			sbmlSb.append("</listOfReactions>\n");
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+	}
+	
+	/**
+	 * Write out a single SBML reaction, and recursively write out all of its children and siblings.
+	 * @param The current node in the tree.
+	 */
+	protected void writeReaction(IXholon node) {
+		//if (!IBioXholon.class.isAssignableFrom(node.getClass())) {
+		if (!ClassHelper.isAssignableFrom(IBioXholon.class, node.getClass())) {
+			return;
+		}
+		int i, j;
+		IXholon  speciesRef;
+		boolean foundOne = false;
+		int numFound = 0; // there must be at least one reactant or product in each reaction
+		//try {
+			// if this is a pure active object, or also a passive object and/or also a container.
+			//if ((node.getXhType() & IXholonClass.XhtypePureActiveObject) == IXholonClass.XhtypePureActiveObject) {
+			if (node.isActiveObject()) {
+				sbmlSb.append("<!-- Reaction -->\n");
+				sbmlSb.append("<reaction id=\"" + node.getName() + REAC
+					+ "\" name=\"" + node.getXhcName() + "\"");
+				if (((IBioXholonClass)node.getXhc()).isReversible()) {
+					sbmlSb.append(" reversible=\"true\">\n");
+				}
+				else {
+					sbmlSb.append(" reversible=\"false\">\n");
+				}
+				int maxReactants = ((IBioXholon)node).getNumReactants();
+				int maxProducts = ((IBioXholon)node).getNumProducts();
+				int maxModifiers = ((IBioXholon)node).getNumModifiers();
+				
+				// Reactants
+				for (i = 0, j = 0; i < maxReactants; i++, j++) {
+					speciesRef = node.getPort(j);
+					if (speciesRef != null // make sure this ref is within the subtree being exported
+							&& (rootIsTrueRoot || (speciesRef.hasAncestor(root.getName())))) {
+						if (!foundOne) { // if this is the first reactant found
+							sbmlSb.append("<listOfReactants>\n");
+							foundOne = true;
+						}
+						sbmlSb.append("<speciesReference species=\"" + speciesRef.getName() + SPEC + "\"/>\n");
+						numFound++;
+					}
+				}
+				if (foundOne) {
+					sbmlSb.append("</listOfReactants>\n");
+					foundOne = false;
+				}
+				
+				// Products
+				for (i = 0; i < maxProducts; i++, j++) {
+					speciesRef = node.getPort(j);
+					if (speciesRef != null // make sure this ref is within the subtree being exported
+							&& (rootIsTrueRoot || (speciesRef.hasAncestor(root.getName())))) {
+						if (!foundOne) { // if this is the first product found
+							sbmlSb.append("<listOfProducts>\n");
+							foundOne = true;
+						}
+						sbmlSb.append("<speciesReference species=\"" + speciesRef.getName() + SPEC  + "\"/>\n");
+						numFound++;
+					}
+				}
+				if (foundOne) {
+					sbmlSb.append("</listOfProducts>\n");
+					foundOne = false;
+				}
+				
+				if (numFound == 0 && !rootIsTrueRoot) { // must be at least one reactant or product
+					// this is a Xholon active object that doesn't act on anything 
+					// write out a dummy reactant; otherwise this will be an ill-formed SBML file
+					sbmlSb.append("<listOfReactants>\n");
+					sbmlSb.append("<speciesReference species=\"" + DUMMY_SPECIES + "\"/>\n");
+					sbmlSb.append("</listOfReactants>\n");
+				}
+				
+				// Modifiers (optional)
+				for (i = 0; i < maxModifiers; i++, j++) {
+					speciesRef = node.getPort(j);
+					if (speciesRef != null // make sure this ref is within the subtree being exported
+							&& (rootIsTrueRoot || (speciesRef.hasAncestor(root.getName())))) {
+						if (!foundOne) { // if this is the first modifier found
+							sbmlSb.append("<listOfModifiers>\n");
+							foundOne = true;
+						}
+						
+						sbmlSb.append("<modifierSpeciesReference species=\"" + speciesRef.getName() + SPEC  + "\"/>\n");
+					}
+				}
+				if (foundOne) {
+					sbmlSb.append("</listOfModifiers>\n");
+					foundOne = false;
+				}
+				writeKinetics(node);
+				sbmlSb.append("</reaction>\n");
+			}
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+		if (node.getFirstChild() != null) {
+			writeReaction(node.getFirstChild());
+		}
+		if (node.getNextSibling() != null) {
+			writeReaction(node.getNextSibling());
+		}
+	}
+	
+	/**
+	 * Write kinetics.
+	 * @param The current node in the tree.
+	 */
+	protected void writeKinetics(IXholon node) {
+		int i;
+		int geneVal;
+		boolean foundOne = false;
+		
+		//try {
+		sbmlSb.append("<kineticLaw>\n");
+		sbmlSb.append("<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n");
+		sbmlSb.append("<apply>\n");
+		// math is not yet implemented
+		// for now, write parameters as a dummy plus calculation
+		sbmlSb.append("<plus/>\n");
+		sbmlSb.append("<cn> 0 </cn>\n");
+		for (i = 0; i < IBioXholonClass.SIZE_ARRAY_GENEVAL; i++) {
+			if (((BioXholonClass)node.getXhc()).geneVal[i] != Integer.MAX_VALUE) {
+				sbmlSb.append("<ci> Param_" + i + " </ci>\n");
+			}
+		}
+		sbmlSb.append("</apply>\n");
+		sbmlSb.append("</math>\n");
+		// Parameters (optional)
+		for (i = 0; i < IBioXholonClass.SIZE_ARRAY_GENEVAL; i++) {
+			geneVal = ((BioXholonClass)node.getXhc()).geneVal[i];
+			if (geneVal != Integer.MAX_VALUE) {
+				if (!foundOne) { // if this is the first modifier found
+					sbmlSb.append("<listOfParameters>\n");
+					foundOne = true;
+				}
+				sbmlSb.append("<parameter id=\"Param_" + i + "\" value=\"" + geneVal + "\"/>\n");
+			}
+		}
+		if (foundOne) {
+			sbmlSb.append("</listOfParameters>\n");
+			foundOne = false;
+		}
+		sbmlSb.append("</kineticLaw>\n");
+		//} catch (IOException e) {
+		//	Xholon.getLogger().error("", e);
+		//	//e.printStackTrace();
+		//}
+	}
+}
