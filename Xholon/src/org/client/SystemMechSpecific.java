@@ -149,6 +149,58 @@ public String getAppSpecificObjectValNames(IXholon node, Class<IXholon> clazz) {
         return true;
       }
     }
+    /*else if ("org.primordion.xholon.base.Port".equals(clazz.getName())) {
+      if ("link".equalsIgnoreCase(attrName)) {
+        ((org.primordion.xholon.base.Port)node).setLink((IXholon)val);
+        return true;
+      }
+    }*/
+    /*else if ("org.primordion.xholon.base.StateMachineEntity".equals(clazz.getName())) {
+      if ("owningXholon".equalsIgnoreCase(attrName)) {
+        ((org.primordion.xholon.base.StateMachineEntity)node).setOwningXholon((IXholon)val);
+        return true;
+      }
+    }*/
+    else if ("org.primordion.xholon.mech.petrinet.Arc".equals(clazz.getName())) {
+      if ("place".equalsIgnoreCase(attrName)) {
+        ((org.primordion.xholon.mech.petrinet.Arc)node).setPlace((IXholon)val);
+        return true;
+      }
+    }
+    else if ("org.primordion.xholon.mech.petrinet.Transition".equals(clazz.getName())) {
+      if ("inputArcs".equalsIgnoreCase(attrName)) {
+        ((org.primordion.xholon.mech.petrinet.Transition)node).setInputArcs((IXholon)val);
+        return true;
+      }
+      if ("outputArcs".equalsIgnoreCase(attrName)) {
+        ((org.primordion.xholon.mech.petrinet.Transition)node).setOutputArcs((IXholon)val);
+        return true;
+      }
+    }
+    else if ("org.primordion.xholon.mech.petrinet.QueueTransitions".equals(clazz.getName())) {
+      if ("transitionsRoot".equalsIgnoreCase(attrName)) {
+        ((org.primordion.xholon.mech.petrinet.QueueTransitions)node).setTransitionsRoot((IXholon)val);
+        return true;
+      }
+    }
+    /*else if ("org.primordion.xholon.mech.petrinet.PetriNet".equals(clazz.getName())) {
+      if ("transitionsRoot".equalsIgnoreCase(attrName)) {
+        ((org.primordion.xholon.mech.petrinet.PetriNet)node).setTransitionsRoot((IXholon)val);
+        return true;
+      }
+    }*/
+    else if ("org.primordion.xholon.mech.petrinet.grid.GridOwner".equals(clazz.getName())) {
+      if ("petriNet".equalsIgnoreCase(attrName)) {
+        ((org.primordion.xholon.mech.petrinet.grid.GridOwner)node).setPetriNet((IXholon)val);
+        return true;
+      }
+    }
+    else if ("org.primordion.xholon.mech.petrinet.grid.PneBehavior".equals(clazz.getName())) {
+      if ("pne".equalsIgnoreCase(attrName)) {
+        ((org.primordion.xholon.mech.petrinet.grid.PneBehavior)node).setPne((IXholon)val);
+        return true;
+      }
+    }
     else if ("org.primordion.xholon.mech.mathml.content.Ci".equals(clazz.getName())) {
       if ("bvar".equalsIgnoreCase(attrName)) {
         ((org.primordion.xholon.mech.mathml.content.Ci)node).setBvar((IXholon)val);
