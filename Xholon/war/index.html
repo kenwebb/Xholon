@@ -956,6 +956,25 @@
     <div>
     <p>You can also open workbooks located in your browser's localStorage.</p>
     
+    <pre id="localStorageList"></pre>
+    <script>
+if (('localStorage' in window) && (window['localStorage'] !== null)) {
+  var lstorDiv = document.getElementById("localStorageList");
+  var len = localStorage.length;
+  if (lstorDiv && len > 0) {
+    var lstorStr = "";
+    for (var i = 0; i < len; i++) {
+      var key = localStorage.key(i);
+      var item = localStorage.getItem(key);
+      if (item.indexOf("XholonWorkbook") != -1) {
+        lstorStr = lstorStr + key + "\n";
+      }
+    }
+    lstorDiv.textContent = lstorStr;
+  }
+}
+    </script>
+    
     <!-- Open from localStorage with classic gui -->
     <form id="lstrformopen" action="Xholon.html" method="get" target = "_blank">
       <input id="lstrid" type="text" name="app" size="8" title="A workbook localStorage id"/>
