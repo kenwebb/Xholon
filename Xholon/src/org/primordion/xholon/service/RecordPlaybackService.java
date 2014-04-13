@@ -148,10 +148,11 @@ public class RecordPlaybackService extends AbstractXholonService {
 	}
 	
 	String toggleRecord = "Toggle Record";
-	String showStorage = "Show Storage";
+	String showStorageNames = "Show Storage Names";
+	String showStorageValues = "Show Storage Values";
 	String showStatus = "Show Status";
 	String clear = "Remove all items from Storage";
-	String actionList[] = {toggleRecord, showStorage, showStatus, clear};
+	String actionList[] = {toggleRecord, showStorageNames, showStorageValues, showStatus, clear};
 	
 	@Override
 	public String[] getActionList() {
@@ -166,7 +167,14 @@ public class RecordPlaybackService extends AbstractXholonService {
 	  if (toggleRecord.equals(action)) {
 	    setShouldRecord(!isShouldRecord());
 	  }
-	  else if (showStorage.equals(action)) {
+	  else if (showStorageNames.equals(action)) {
+      if (storage != null) {
+        for (int i = 0; i < storage.getLength(); i++) {
+	        println(storage.key(i));
+	      }
+	    }
+	  }
+	  else if (showStorageValues.equals(action)) {
       if (storage != null) {
         for (int i = 0; i < storage.getLength(); i++) {
 	        println("\n" + storage.getItem(storage.key(i)));
