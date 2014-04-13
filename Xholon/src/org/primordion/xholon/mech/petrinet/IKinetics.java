@@ -108,6 +108,65 @@ public interface IKinetics {
 	public static final int KINETICS_DIFFUSION = 7;
 	
 	/**
+	 * AND
+	 * A typical use is to represent an AND Gate in a digital circuit (2 inputs, 1 output).
+	 * I use the definition from section 3.3.4 of the SICP book:
+	 * "If both of its input signals become 1,
+	 *  then one and-gate-delay time later the and-gate will force its output signal to be 1;
+	 *  otherwise the output will be 0."
+	 * AND Truth Table
+	 * In1 In2 Out
+	 * --- --- ---
+	 * 1   1   1
+	 * 1   0   0
+	 * 0   1   0
+	 * 0   0   0
+	 */
+	public static final int KINETICS_LOGIC_AND = 8;
+	
+	/**
+	 * OR
+	 * If any input has at least one token,
+	 * [then consume that one token, NO]
+	 * and add one token to all outputs.
+	 * A typical use is to represent an OR Gate in a digital circuit (2 inputs, 1 output).
+	 * I use the definition from section 3.3.4 of the SICP book:
+	 * "The output will become 1 if at least one of the input signals is 1;
+	 *  otherwise the output will become 0."
+	 * OR Truth Table
+	 * In1 In2 Out
+	 * --- --- ---
+	 * 1   1   1
+	 * 1   0   1
+	 * 0   1   1
+	 * 0   0   0
+	 */
+	public static final int KINETICS_LOGIC_OR = 9;
+	
+	/**
+	 * NOT
+	 * NOT assumes a single input and typically one output.
+	 * If there are more than one inputs, only the first is checked and the others are ignored.
+	 * If the input has at least one token,
+	 * [then consume that one token, NO]
+	 * and remove all tokens from all outputs.
+	 * If the input has no tokens,
+	 * then place a token at all outputs.
+	 * A typical use is to represent an Inverter in a digital circuit (1 input, 1 output).
+	 * I use the definition from section 3.3.4 of the SICP book:
+	 * "If the input signal to an inverter changes to 0,
+	 *  then one inverter-delay later the inverter will change its output signal to 1.
+	 *  If the input signal to an inverter changes to 1,
+	 *  then one inverter-delay later the inverter will change its output signal to 0."
+	 * NOT Truth Table
+	 * In  Out
+	 * --- ---
+	 * 1   0
+	 * 0   1
+	 */
+	public static final int KINETICS_LOGIC_NOT = 10;
+	
+	/**
 	 * The default kinetics.
 	 */
 	public static final int KINETICS_DEFAULT = KINETICS_BASIC_PTNET;
@@ -141,6 +200,16 @@ public interface IKinetics {
 	 * Michaelis-Menten vmax is unspecified; typically used by Transition.
 	 */
 	public static final double VMAX_UNSPECIFIED = -1.0;
+	
+	/**
+	 * For use with KINETICS_LOGIC_ types.
+	 */
+	public static final double LOGIC_TRUE = 1.0;
+	
+	/**
+	 * For use with KINETICS_LOGIC_ types.
+	 */
+	public static final double LOGIC_FALSE = 0.0;
 	
 	/**
 	 * Get kinetics type.

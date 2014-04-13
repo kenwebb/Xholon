@@ -187,6 +187,15 @@ public class Transition extends XholonWithPorts implements IKinetics {
 			break;
 		case KINETICS_CUSTOM:
 			break;
+		case KINETICS_LOGIC_AND:
+		  kLogicAnd();
+		  break;
+		case KINETICS_LOGIC_OR:
+		  kLogicOr();
+		  break;
+		case KINETICS_LOGIC_NOT:
+		  kLogicNot();
+		  break;
 		case KINETICS_NULL:
 		default:
 			break;
@@ -373,6 +382,70 @@ public class Transition extends XholonWithPorts implements IKinetics {
 	}
 	
 	/**
+	 * AND
+	 */
+	protected void kLogicAnd() {
+	  double outputVal = LOGIC_TRUE; // LOGIC_FALSE=0 or LOGIC_TRUE=1
+	  if ((inputArcs != null) && (outputArcs != null)) {
+	    Arc inputArc = (Arc)inputArcs.getFirstChild();
+			while (inputArc != null) {
+			  if (inputArc.getPlace().getVal() == LOGIC_FALSE) {
+				  outputVal = LOGIC_FALSE;
+					break;
+				}
+				inputArc = (Arc)inputArc.getNextSibling();
+			}
+			Arc outputArc = (Arc)outputArcs.getFirstChild();
+			while (outputArc != null) {
+			  outputArc.getPlace().setVal(outputVal);
+				outputArc = (Arc)outputArc.getNextSibling();
+			}
+		}
+	}
+	
+	/**
+	 * OR
+	 */
+	protected void kLogicOr() {
+	  double outputVal = LOGIC_FALSE; // LOGIC_FALSE=0 or LOGIC_TRUE=1
+	  if ((inputArcs != null) && (outputArcs != null)) {
+			Arc inputArc = (Arc)inputArcs.getFirstChild();
+			while (inputArc != null) {
+				if (inputArc.getPlace().getVal() != LOGIC_FALSE) {
+					outputVal = LOGIC_TRUE;
+					break;
+				}
+				inputArc = (Arc)inputArc.getNextSibling();
+			}
+			Arc outputArc = (Arc)outputArcs.getFirstChild();
+			while (outputArc != null) {
+				outputArc.getPlace().setVal(outputVal);
+				outputArc = (Arc)outputArc.getNextSibling();
+			}
+		}
+	}
+	
+	/**
+	 * NOT
+	 */
+	protected void kLogicNot() {
+	  double outputVal = LOGIC_FALSE; // 0 or 1
+	  if ((inputArcs != null) && (outputArcs != null)) {
+			Arc inputArc = (Arc)inputArcs.getFirstChild();
+			if (inputArc != null) {
+				if (inputArc.getPlace().getVal() == LOGIC_FALSE) {
+					outputVal = LOGIC_TRUE;
+				}
+			}
+			Arc outputArc = (Arc)outputArcs.getFirstChild();
+			while (outputArc != null) {
+				outputArc.getPlace().setVal(outputVal);
+				outputArc = (Arc)outputArc.getNextSibling();
+			}
+		}
+	}
+	
+	/**
 	 * This is a simple prototype of one way to do Sequence Diagrams with a Petri net.
 	 * Using www.websequencediagrams.com format.
 	 * example
@@ -442,7 +515,21 @@ sender_2->sender_2: ReceiveAck
 			setVal(attrVal);
 		}
 		else if (attrName.equals("kineticsType")) {
-			setKineticsType(Integer.parseInt(attrVal));
+		  if (attrVal.startsWith("KINETICS_")) {
+		    if (attrVal.endsWith("BASIC_PTNET")) {setKineticsType(KINETICS_BASIC_PTNET);}
+		    else if (attrVal.endsWith("MASS_ACTION")) {setKineticsType(KINETICS_MASS_ACTION);}
+		    else if (attrVal.endsWith("GRID")) {setKineticsType(KINETICS_GRID);}
+		    else if (attrVal.endsWith("MICHAELIS_MENTEN")) {setKineticsType(KINETICS_MICHAELIS_MENTEN);}
+		    else if (attrVal.endsWith("MAXIMAL_PARALLELISM")) {setKineticsType(KINETICS_MAXIMAL_PARALLELISM);}
+		    else if (attrVal.endsWith("CUSTOM")) {setKineticsType(KINETICS_CUSTOM);}
+		    else if (attrVal.endsWith("DIFFUSION")) {setKineticsType(KINETICS_DIFFUSION);}
+		    else if (attrVal.endsWith("LOGIC_AND")) {setKineticsType(KINETICS_LOGIC_AND);}
+		    else if (attrVal.endsWith("LOGIC_OR")) {setKineticsType(KINETICS_LOGIC_OR);}
+		    else if (attrVal.endsWith("LOGIC_NOT")) {setKineticsType(KINETICS_LOGIC_NOT);}
+		  }
+		  else {
+			  setKineticsType(Integer.parseInt(attrVal));
+			}
 		}
 		// Michaelis-Menten vmax
 		else if (attrName.equals("vmax")) {
@@ -464,7 +551,15 @@ sender_2->sender_2: ReceiveAck
 	 */
 	public void toXmlAttributes(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {
 		if (roleName != null) {xmlWriter.writeAttribute("roleName", roleName);}
-		//xmlWriter.writeAttribute("kineticsType", Integer.toString(kineticsType));
+		
+		// The kineticsType is usually specifed once for the entire Petri Net, so this is usually redundant.
+		// But with Petri Nets that use the KINETICS_LOGIC_ types, each node must be individually specified.
+		if ((kineticsType == KINETICS_LOGIC_AND)
+		 || (kineticsType == KINETICS_LOGIC_OR)
+		 || (kineticsType == KINETICS_LOGIC_NOT)) {
+		  xmlWriter.writeAttribute("kineticsType", Integer.toString(kineticsType));
+		}
+		
 		xmlWriter.writeAttribute("p", Double.toString(p));
 		xmlWriter.writeAttribute("k", Double.toString(k));
 		xmlWriter.writeAttribute("count", Double.toString(count));
