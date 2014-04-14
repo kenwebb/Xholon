@@ -585,7 +585,7 @@ test("Print", 1, function() {
  * A IXholon node can perform named actions.
  * this tests actions() action()
  */
-test("Actions", 6, function() {
+test("Actions", 7, function() {
   var root = xh.root();
   //var service = xh.service("RecordPlaybackService");
   // can't get the service directly
@@ -593,14 +593,16 @@ test("Actions", 6, function() {
   var actions = service.actions();
   root.println(actions);
   console.log(actions);
-  // ["Toggle Record", "Show Storage", "Show Status", "Remove all items from Storage"]
+  // ["Toggle Record", "Show Storage Names", "Show Storage Values", "Show Status", "Remove all items from Storage"]
   equal(actions[0], "Toggle Record",
     '"Toggle Record" is a valid RecordPlaybackService action');
-  equal(actions[1], "Show Storage",
-    '"Show Storage" is a valid RecordPlaybackService action');
-  equal(actions[2], "Show Status",
+  equal(actions[1], "Show Storage Names",
+    '"Show Storage Names" is a valid RecordPlaybackService action');
+  equal(actions[2], "Show Storage Values",
+    '"Show Storage Values" is a valid RecordPlaybackService action');
+  equal(actions[3], "Show Status",
     '"Show Status" is a valid RecordPlaybackService action');
-  equal(actions[3], "Remove all items from Storage",
+  equal(actions[4], "Remove all items from Storage",
     '"Remove all items from Storage" is a valid RecordPlaybackService action');
   notEqual(actions, null, "RecordPlaybackService can perform actions.");
   equal(service.action("Show Status").action("Toggle Record")
