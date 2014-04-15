@@ -233,7 +233,18 @@ public class XPath extends AbstractXPath {
 					return contextNode;
 					// break;
 				case IXPath.AXIS_FOLLOWINGSIBLING:
-					contextNode = contextNode.getNextSibling();
+					if ("*".equals(locationStep)) {
+						contextNode = contextNode.getNextSibling();
+					}
+					else {
+						IXholon tempNode = contextNode.getNextSibling();
+						if ((tempNode != null) && (tempNode.getXhcName().equals(locationStep))) {
+						  contextNode = tempNode;
+						}
+						else {
+						  contextNode = null;
+						}
+					}
 					break;
 				case IXPath.AXIS_FOLLOWING:
 					break;
@@ -247,7 +258,18 @@ public class XPath extends AbstractXPath {
 					contextNode = searchAncestorsForClassName(contextNode, locationStep, true);
 					break;
 				case IXPath.AXIS_PRECEDINGSIBLING:
-					contextNode = contextNode.getPreviousSibling();
+					if ("*".equals(locationStep)) {
+						contextNode = contextNode.getPreviousSibling();
+					}
+					else {
+						IXholon tempNode = contextNode.getPreviousSibling();
+						if ((tempNode != null) && (tempNode.getXhcName().equals(locationStep))) {
+						  contextNode = tempNode;
+						}
+						else {
+						  contextNode = null;
+						}
+					}
 					break;
 				case IXPath.AXIS_PRECEDING:
 					break;

@@ -459,7 +459,7 @@ test("Val", 10, function() {
  * A IXholon node can locate other nodes using XPath 1.0 expressions.
  * this tests xpath()
  */
-test("XPath 1.0", 14, function() {
+test("XPath 1.0", 18, function() {
   var root = xh.root();
   var first = root.first();
   var next = first.next();
@@ -502,6 +502,16 @@ test("XPath 1.0", 14, function() {
   // node with index
   var galIndexed = universe.xpath("Galaxy[3]");
   equal(galIndexed.name(), "galaxy_10", "XPath expressions can include indexes Galaxy[3]");
+  // following-sibling and preceding-sibling axes
+  var fsib = universe.first();
+  fsib = fsib.xpath("following-sibling::*");
+  equal(fsib.name(), "two:galaxy_9", "XPath expressions can locate a following-sibling using wildcard");
+  fsib = fsib.xpath("preceding-sibling::*");
+  equal(fsib.name(), "one:galaxy_8", "XPath expressions can locate a preceding-sibling using wildcard");
+  fsib = fsib.xpath("following-sibling::Galaxy");
+  equal(fsib.name(), "two:galaxy_9", "XPath expressions can locate a following-sibling using XholonClass name");
+  fsib = fsib.xpath("preceding-sibling::Galaxy");
+  equal(fsib.name(), "one:galaxy_8", "XPath expressions can locate a preceding-sibling using XholonClass name");
 });
 
 /**
