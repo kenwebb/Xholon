@@ -1,0 +1,134 @@
+http://www.delimited.io/blog/2014/1/15/getting-started-with-neo4j-on-ubuntu-server
+
+Neo4j 2.0 is an awesome release of Neo Technology's great graph database.
+There are some significant new features and some changes to the data model that, I think,
+make it more accessible.  You can install it locally to play around and do some testing,
+but I wanted to create a remote server that I could use as a back-end for data visualization projects.
+Below are some notes on getting Neo4j installed on Ubuntu 12.04. 
+
+There are some real gotchas that took some time to figure out,
+but if you follow this step-by-step procedure you should have the browser application bundled with Neo4j
+up and running in less than 15 minutes.
+
+I should note that the Neo4j website has instructions for setting up on debian based systems,
+but those instructions, which are very helpful, are incomplete and in some cases just don't work
+for Ubuntu 12.04 (at least at the time I am writing this post).
+
+Start from Fresh Ubuntu 12.04 Install
+
+Neo4j is a Java application and in order to run the 2.0 version of the db server you need
+to have Java 7 installed before installing Neo4j.  Ubuntu does not officially support Java 7
+so this becomes at little bit of a headache.  To install it using apt-get you need to add a
+repository and, incredibly, the command for adding repositories was unintentionally left out
+the latest versions of Ubuntu, so we need to correct that first.
+
+You can add "sudo" (e.g. sudo apt-get update) to the following commands as applicable.
+In my case, I installed as the root user on the server.
+
+KSW Note: Java is already installed
+
+Install Java 7
+Add the "add-apt-repository" command (important):
+
+apt-get update
+apt-get install python-software-properties
+
+Install Java 7:
+add-apt-repository ppa:webupd8team/java
+apt-get update
+apt-get install oracle-java7-installer
+
+Install Neo4j:
+
+Note:  this largely the same as Neo4j recommends, but I had to change a few things.
+KSW notes:
+ - I added sudo to the 4 statements below
+ - I had to manually edit neo4j.list and add the one-line result of the echo
+
+sudo wget -O - http://debian.neo4j.org/neotechnology.gpg.key | sudo apt-key add -
+sudo echo 'deb http://debian.neo4j.org/repo stable/' > /etc/apt/sources.list.d/neo4j.list
+sudo apt-get update
+sudo apt-get install neo4j
+
+Start the Server:
+KSW Note: it's already been started
+/etc/init.d/neo4j-service start
+
+Increasing Max Files
+
+You'll notice when you start the server that you get warning saying:
+
+WARNING: Max 1024 open files allowed, minimum of 40 000 recommended.
+
+Let's correct that.
+The instructions for handling this on the neo4j website did not work for me without a little modification.
+Here's what to do:
+
+1. Edit /etc/security/limits.conf and add these two lines:
+root   soft    nofile  40000
+root   hard    nofile  40000
+
+The neo4j recommends "neo4j" in place of "root" here.  That does not work.
+
+2. Edit /etc/pam.d/su and uncomment or add the following line:
+session    required   pam_limits.so
+
+A restart is required for the settings to take effect.
+
+Optionally Allow External Connections
+
+If you want to be able to open the browser app and interact with the graph db on the remote server
+you need to allow remote connections.
+Note that if you allow any IP address to connect then anyone can access your database,
+but if you just want to play around with the browser app this is what you do:
+
+Edit /etc/neo4j/neo4j-server.properties and uncomment the following line:
+
+org.neo4j.server.webserver.address=0.0.0.0
+
+That will allow connections from any IP address, but you can also specify your current IP
+to limit to just that one.  That will make it a little bit safer,
+but if your IP changes you need to update the file accordingly.
+
+So now just restart the database server and open the browser application in your web browser by going to:
+
+http://{IP_ADDRESS}:7474/
+
+ 
+Removing All Data from Neo4j
+
+A couple more quick notes.
+If you are playing around with the neo4j database and just want to clear it out and start over again,
+there are two things you can do:
+
+1. Run a cypher query like this:
+
+match n
+with n
+optional match n-[r]-()
+delete r,n
+
+This will remove all the nodes and relations in the db.
+However, a lot of meta-data remains and, in my experience,
+if have a lot of data in the db it will fail or take a long time to run (or both).
+
+2. Recreate the Data Directory
+
+If you really want to get the job done, it's better to wipe out the entire data directory and make a new one.
+The default directory is set in the /etc/neo4j/neo4j-server.properties file to data/graph.db.
+On Ubuntu this directory will be located at:
+
+/var/lib/neo4j/data
+
+To wipe out the data the process would be:
+
+/etc/init.d/neo4j-service stop     // Stop the Server
+cd /var/lib/neo4j                  // Change to directory
+rm -rf data                        // Remove data/
+mkdir data                         // Make a new data/
+chown neo4j data                   // Make sure neo4j can write to it
+/etc/init.d/neo4j-service start    // Restart - Neo4j will make new graph.db etc
+
+Hope that helps someone out there.
+
+ Enjoy!
