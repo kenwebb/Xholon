@@ -253,6 +253,18 @@ public interface IXholonClass extends IXholon {
 	public abstract void setImplName(String implName);
 	
 	/**
+	 * Get the optional decoration object.
+	 * @returns An instance of IDecoration, or null.
+	 */
+	public abstract IDecoration getDecoration();
+	
+	/**
+	 * Set the optional decoration object.
+	 * @param An instance of IDecoration.
+	 */
+	public abstract void setDecoration(IDecoration decoration);
+	
+	/**
 	 * 
 	 * @return The default content of instances of this Xholon class.
 	 */

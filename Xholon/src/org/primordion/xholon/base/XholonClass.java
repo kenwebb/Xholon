@@ -981,6 +981,20 @@ public class XholonClass extends Xholon implements IXholonClass, IDecoration {
 	}
 	
 	/*
+	 * @see org.primordion.xholon.base.IXholonClass#getDecoration()
+	 */
+	public IDecoration getDecoration() {
+	  return decoration;
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.IXholonClass#setDecoration(IDecoration)
+	 */
+	public void setDecoration(IDecoration decoration) {
+	  this.decoration = decoration;
+	}
+	
+	/*
 	 * @see org.primordion.xholon.base.IDecoration#getColor()
 	 */
 	public String getColor() {

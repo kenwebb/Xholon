@@ -64,6 +64,18 @@ public interface IMechanism extends IXholon {
 	public abstract void setRangeEnd(int rangeEnd);
 	
 	/**
+	 * Get the optional decoration object.
+	 * @returns An instance of IDecoration, or null.
+	 */
+	public abstract IDecoration getDecoration();
+	
+	/**
+	 * Set the optional decoration object.
+	 * @param An instance of IDecoration.
+	 */
+	public abstract void setDecoration(IDecoration decoration);
+	
+	/**
 	 * Get the IXholonClass nodes that belong to this IMechanism.
 	 * @return An array, or null.
 	 */

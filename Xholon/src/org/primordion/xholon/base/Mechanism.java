@@ -138,6 +138,20 @@ public class Mechanism extends Xholon implements IMechanism, IDecoration, Compar
 	}
 	
 	/*
+	 * @see org.primordion.xholon.base.IMechanism#getDecoration()
+	 */
+	public IDecoration getDecoration() {
+	  return decoration;
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.IMechanism#setDecoration(IDecoration)
+	 */
+	public void setDecoration(IDecoration decoration) {
+	  this.decoration = decoration;
+	}
+	
+	/*
 	 * @see org.primordion.xholon.base.IDecoration#getColor()
 	 */
 	public String getColor() {
