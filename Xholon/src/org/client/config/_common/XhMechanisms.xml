@@ -145,6 +145,13 @@ The following XML is an alphabetical list of all Xholon Mechanisms and Viewers.
 		<RangeEnd>1010399</RangeEnd>
 	</XholonMechanism>
 	
+	<XholonMechanism roleName="NoSql">
+    <NamespaceUri>http://www.primordion.com/namespace/NoSql</NamespaceUri>
+    <DefaultPrefix>nosql</DefaultPrefix>
+    <RangeStart>1014000</RangeStart>
+    <RangeEnd>1014099</RangeEnd>
+  </XholonMechanism>
+  
 	<XholonMechanism roleName="OrNode">
 		<NamespaceUri>http://www.primordion.com/namespace/OrNode</NamespaceUri>
 		<DefaultPrefix>ornd</DefaultPrefix>

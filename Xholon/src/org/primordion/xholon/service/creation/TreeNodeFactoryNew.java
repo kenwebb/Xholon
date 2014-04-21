@@ -539,7 +539,7 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 				//newNode = new org.primordion.xholon.service.VfsService();
 			}
 			else if (implName.endsWith("NoSqlService")) {
-				//newNode = new org.primordion.xholon.service.NoSqlService();
+				newNode = new org.primordion.xholon.service.NoSqlService();
 			}
 			else if (implName.endsWith("RestService")) {
 				//newNode = new org.primordion.xholon.service.RestService();

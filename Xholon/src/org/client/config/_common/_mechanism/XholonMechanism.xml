@@ -112,6 +112,15 @@
 	<ListenerList/> <!-- a list of listeners -->
 </Listener>
 
+<!--
+This can be used as part of an Inheritance Hierarchy.
+Uses IDs in range 1014000 - 1014099
+-->
+<NoSql xmlns="http://www.primordion.com/namespace/NoSql" id="1014000">
+  <NoSqlClient/> <!-- a generic client -->
+  <Neo4jClient/> <!-- a Neo4j specific client -->
+</NoSql>
+
 <!-- represents instances of the Java OrNode class -->
 <OrNode xmlns="http://www.primordion.com/namespace/OrNode" id="1003000"/>
 

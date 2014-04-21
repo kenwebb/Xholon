@@ -145,11 +145,11 @@
   
   <!--<VfsService/>-->
   
-  <!--<NoSqlService>
+  <NoSqlService>
     <XholonMap>
-      <attr:Attribute_String roleName="NoSqlService-Neo4j">org.primordion.xholon.service.nosql.Neo4j</attr:Attribute_String>
+      <attr:Attribute_String roleName="NoSqlService-Neo4jRestApi">org.primordion.xholon.service.nosql.Neo4jRestApi</attr:Attribute_String>
     </XholonMap>
-  </NoSqlService>-->
+  </NoSqlService>
   
   <!--<RestService>
     <XholonMap>
