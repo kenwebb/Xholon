@@ -34,9 +34,11 @@ import org.primordion.xholon.base.XholonClass;
 import org.primordion.xholon.base.XhRelTypes;
 import org.primordion.xholon.common.mechanism.CeStateMachineEntity;
 import org.primordion.xholon.io.xml.IXholon2Xml;
+import org.primordion.xholon.service.IXholonService;
+import org.primordion.xholon.service.ef.IXholon2GraphFormat;
+import org.primordion.xholon.service.nosql.INoSql;
 import org.primordion.xholon.util.ClassHelper;
 import org.primordion.ef.AbstractXholon2ExternalFormat;
-import org.primordion.xholon.service.ef.IXholon2GraphFormat;
 
 /**
  * Export a Xholon model in Neo4j Cypher format.
@@ -191,7 +193,7 @@ public class Xholon2Neo4jCypher extends AbstractXholon2ExternalFormat implements
   private boolean appSpecificProperties = true;
   
   private boolean stateMachines = false;
-  private boolean headerComment = true;
+  private boolean headerComment = false;
   private boolean decorations = true; // xhc and mech nodes may contain decorations
   
   private String ihVariableName = "ih"; // Neo4j Cypher variable for Xholon IH nodes
@@ -200,6 +202,8 @@ public class Xholon2Neo4jCypher extends AbstractXholon2ExternalFormat implements
   private String cshVariableName = CSH_VARIABLE_NAME; // Neo4j Cypher variable for Xholon CSH nodes
   private String cshNameTemplate = IXholon.GETNAME_NOROLENAME; // "^^c_i^"
   private boolean useCshVariableName = false; // true (cshVariableName), false (cshNameTemplate)
+  
+  private boolean restApi = true; // use Neo4j REST API
   
   /**
    * Set of XholonClass nodes that are used by Xholon instances in this model.
@@ -248,7 +252,9 @@ public class Xholon2Neo4jCypher extends AbstractXholon2ExternalFormat implements
     writeMechanismNodes();
     writeApplication();
     sbNode.append(sbRel.toString());
-    writeToTarget(sbNode.toString(), outFileName, outPath, root);
+    String sbNodeStr = sbNode.toString();
+    writeToTarget(sbNodeStr, outFileName, outPath, root);
+    createUsingRestApi(sbNodeStr);
   }
   
   /**
@@ -792,6 +798,33 @@ public class Xholon2Neo4jCypher extends AbstractXholon2ExternalFormat implements
     if (mechNodes) {
       // (app)-[:PORT {fieldName: "mechRoot"}]->(mech0)
       writeRelationship("app", XhRelTypes.PORT, "{fieldName: \"mechRoot\"}", makeNeo4jMechVariable(app.getMechRoot()));
+    }
+  }
+  
+  /**
+   * Create new Neo4j database content from a Cypher statement using the Neo4j REST API.
+   * @param cypherStatement A Cypher CREATE statement.
+   * ex: "CREATE (n)"
+   */
+  protected void createUsingRestApi(String cypherStatement) {
+    if (!restApi) {return;}
+    
+    IXholon service = root.getService(IXholonService.XHSRV_NOSQL + "-Neo4jRestApi");
+    if (service != null) {
+      service.sendSyncMessage(INoSql.SIG_ADDALL_TOGRAPH_REQ, cypherStatement, root);
+    }
+    
+    //testRestApi();
+  }
+  
+  protected void testRestApi() {
+    IXholon service = root.getService(IXholonService.XHSRV_NOSQL + "-Neo4jRestApi");
+    if (service == null) {
+      service = root.getService(IXholonService.XHSRV_NOSQL);
+    }
+    if (service != null) {
+      //service.sendMessage(INoSql.SIG_TEST_REQ, null, root); // doesn't work in Cell Model; OK in Hello World
+      service.sendSyncMessage(INoSql.SIG_TEST_REQ, null, root); // works
     }
   }
   
