@@ -3,6 +3,7 @@ package org.primordion.xholon.io;
 import com.google.gwt.core.client.JavaScriptObject;
 
 //import org.primordion.xholon.io.ef.IXholon2ExternalFormat;
+import org.primordion.xholon.base.IXholon;
 
 /**
  * Display the structure of a Xholon model using D3 circle packing.
@@ -15,6 +16,15 @@ import com.google.gwt.core.client.JavaScriptObject;
 public class Xholon2D3CirclePack {
 	
 	public Xholon2D3CirclePack() {}
+	
+	/**
+   * Get all referencing nodes as an array.
+   * @param node
+   * @return An array of IXholon objects, or an empty array.
+   */
+  public static Object[] searchForReferencingNodes(IXholon node) {
+    return node.searchForReferencingNodes().toArray();
+  }
 	
 	/**
 	 * Create a D3 Pack Layout from the JSON data.
@@ -210,57 +220,133 @@ public class Xholon2D3CirclePack {
     // Toggle the display of ports.
     // @param node A IXholon node. from anywhere in the overall tree.
     function togglePorts(node) {
+      var titles = svg.selectAll("g title");
       var xhc = node.@org.primordion.xholon.base.IXholon::getXhc()();
       if (xhc) {
-        // this is an ActiveObject node in the CSH
+        
+        // toggle a Xholon node's XholonClass node
+        var xhcTitle = titles.filter(function(d, i) {
+          return d.name == xhc.name();
+        });
+        findAndStyleReferencedNode(xhcTitle);
+        
+        // toggle the Xholon node's ports
         var ports = node.ports();
         if (ports && ports.length) {
-          var titles = svg.selectAll("g title");
+          // this is an ActiveObject node in the CSH
           for (var i = 0; i < ports.length; i++) {
-            var portInfo = ports[i].obj(); //getVal_Object();
+            var portInfo = ports[i].obj();
             var reffedNode = portInfo.reffedNode;
             if (reffedNode) {
               var title = titles.filter(function(d, i) {
-                return d.name == reffedNode.name(); //getName();
+                return d.name == reffedNode.name();
               });
-              if (title) {
-                //var circleNode = svgTitleEle.node().nextElementSibling;
-                var parent = $wnd.d3.select(title.node().parentNode);
-                var circleNode = parent.select("circle");
-                if (circleNode) {
-                  
-                  // fill
-                  var styleFill = circleNode.style("fill");
-                  if (styleFill) { // != ""
-                    var styleFillHex = $wnd.d3.rgb(styleFill).toString();
-                    if (styleFillHex == "#ffff00") { // "yellow"
-                      circleNode.style("fill", null);
-                    }
-                    else {
-                      circleNode.style("fill", invertColor(styleFillHex));
-                    }
-                  }
-                  else {
-                    circleNode.style("fill", "yellow");
-                  }
-                  
-                  // fill-opacity
-                  var styleOpac = circleNode.style("fill-opacity"); // --> "0.1" or "0.98765" or ""
-                  if (styleOpac) { // != ""
-                    if (styleOpac == 0.98765) {
-                      circleNode.style("fill-opacity", null);
-                    }
-                    else {
-                      circleNode.style("fill-opacity", 1 - styleOpac);
-                    }
-                  }
-                  else {
-                    circleNode.style("fill-opacity", 0.98765);
-                  }
-                }
-              }
+              findAndStyleReferencedNode(title);
             }
           }
+        }
+        
+        // toggle other IXholon nodes that reference this node
+        // use a different way of highlighting; highlight the stroke color
+        var reffingNodes = @org.primordion.xholon.io.Xholon2D3CirclePack::searchForReferencingNodes(Lorg/primordion/xholon/base/IXholon;)(node);
+        if (reffingNodes && reffingNodes.length) {
+          for (var i = 0; i < reffingNodes.length; i++) {
+            var reffingNode = reffingNodes[i];
+            if (reffingNode) {
+              var title = titles.filter(function(d, i) {
+                return d.name == reffingNode.name();
+              });
+              findAndStyleReferencingNode(title);
+            }
+          }
+        }
+      }
+      else {
+        // this is a XholonClass node
+        // toggle IXholon nodes that reference this XholonClassnode
+        // highlight the stroke color
+        var reffingNodes = @org.primordion.xholon.io.Xholon2D3CirclePack::searchForReferencingNodes(Lorg/primordion/xholon/base/IXholon;)(node);
+        if (reffingNodes && reffingNodes.length) {
+          for (var i = 0; i < reffingNodes.length; i++) {
+            var reffingNode = reffingNodes[i];
+            if (reffingNode) {
+              var title = titles.filter(function(d, i) {
+                return d.name == reffingNode.name();
+              });
+              findAndStyleReferencingNode(title);
+            }
+          }
+        }
+      }
+    }
+    
+    
+    // find a D3 circle node that's referenced by another node, and
+    // invert or set its fill and fill-opacity styles
+    function findAndStyleReferencedNode(title) {
+      if (title.empty()) {return;}
+      var parent = $wnd.d3.select(title.node().parentNode);
+      var circleNode = parent.select("circle");
+      if (circleNode) {
+        // fill
+        var styleFill = circleNode.style("fill");
+        if (styleFill) { // != ""
+          var styleFillHex = $wnd.d3.rgb(styleFill).toString();
+          if (styleFillHex == "#ffff00") { // "yellow"
+            circleNode.style("fill", null);
+          }
+          else {
+            circleNode.style("fill", invertColor(styleFillHex));
+          }
+        }
+        else {
+          circleNode.style("fill", "yellow");
+        }
+        
+        // fill-opacity
+        var styleOpac = circleNode.style("fill-opacity"); // --> "0.1" or "0.98765" or ""
+        if (styleOpac) { // != ""
+          if (styleOpac == 0.98765) {
+            circleNode.style("fill-opacity", null);
+          }
+          else {
+            circleNode.style("fill-opacity", 1 - styleOpac);
+          }
+        }
+        else {
+          circleNode.style("fill-opacity", 0.98765);
+        }
+      }
+    }
+    
+    // find a D3 circle node that references another node, and
+    // invert or set its stroke and stroke-width styles
+    function findAndStyleReferencingNode(title) {
+      if (title.empty()) {return;}
+      var parent = $wnd.d3.select(title.node().parentNode);
+      var circleNode = parent.select("circle");
+      if (circleNode) {
+        // stroke-width
+        var styleStrokeWidth = circleNode.style("stroke-width");
+        // TODO don't depend on these specific values
+        if (styleStrokeWidth == "0px") {styleStrokeWidth = "1px";}
+        else if (styleStrokeWidth == "1px") {styleStrokeWidth = "0px";}
+        else if (styleStrokeWidth == ".5px") {styleStrokeWidth = "1.5px";}
+        else {styleStrokeWidth = ".5px";}
+        circleNode.style("stroke-width", styleStrokeWidth);
+        // stroke
+        var styleStroke = circleNode.style("stroke");
+        if (styleStroke) {
+          var styleStrokeHex = $wnd.d3.rgb(styleStroke).toString();
+          if (styleStrokeHex == "#ffff00") { // "yellow"
+            circleNode.style("stroke", null);
+          }
+          else {
+            circleNode.style("stroke", invertColor(styleStrokeHex));
+          }
+        }
+        else {
+          circleNode.style("stroke", "yellow");
         }
       }
     }
