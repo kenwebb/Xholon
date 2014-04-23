@@ -155,6 +155,7 @@ public class Xholon2Neo4jCypher extends AbstractXholon2ExternalFormat implements
   private static final String CSH_VARIABLE_NAME = "csh"; // Composite Structure Hierarchy domain-specific nodes
   private static final String SRV_VARIABLE_NAME = "srv"; // Service hierarchy nodes
   private static final String MECH_VARIABLE_NAME = "mech"; // Mechanism hierarchy nodes
+  private static final String CNTRL_VARIABLE_NAME = "cntrl"; // Control hierarchy nodes
   
   private String outFileName;
   private String outPath = "./ef/cypher/";
@@ -181,7 +182,7 @@ public class Xholon2Neo4jCypher extends AbstractXholon2ExternalFormat implements
   // separate booleans for nodes and relationships ?
   private boolean xhcNodes = true;
   private boolean mechNodes = true;
-  private boolean controlNodes = false;
+  private boolean controlNodes = true;
   private boolean viewNodes = false;
   private boolean serviceNodes = true;
   
@@ -199,6 +200,7 @@ public class Xholon2Neo4jCypher extends AbstractXholon2ExternalFormat implements
   private String ihVariableName = "ih"; // Neo4j Cypher variable for Xholon IH nodes
   private String mechVariableName = MECH_VARIABLE_NAME;
   private String srvVariableName = SRV_VARIABLE_NAME;
+  private String cntrlVariableName = CNTRL_VARIABLE_NAME;
   private String cshVariableName = CSH_VARIABLE_NAME; // Neo4j Cypher variable for Xholon CSH nodes
   private String cshNameTemplate = IXholon.GETNAME_NOROLENAME; // "^^c_i^"
   private boolean useCshVariableName = false; // true (cshVariableName), false (cshNameTemplate)
@@ -248,6 +250,7 @@ public class Xholon2Neo4jCypher extends AbstractXholon2ExternalFormat implements
     sbNode.append("CREATE\n");
     writeNode(root);
     writeXholonServices();
+    writeControlNodes();
     writeXholonClassNodes();
     writeMechanismNodes();
     writeApplication();
@@ -399,7 +402,7 @@ public class Xholon2Neo4jCypher extends AbstractXholon2ExternalFormat implements
   
   /**
    * Make a Neo4j-compatible variable from a MECH node.
-   * @param xhcNode ex: an instance of a Mechanism node with defaultPrefix = "xh"
+   * @param mechNode ex: an instance of a Mechanism node with defaultPrefix = "xh"
    * @return ex: "mechxh"
    */
   protected String makeNeo4jMechVariable(IMechanism mechNode) {
@@ -408,6 +411,20 @@ public class Xholon2Neo4jCypher extends AbstractXholon2ExternalFormat implements
     sbVar
     .append(mechVariableName)
     .append(mechNode.getDefaultPrefix());
+    return sbVar.toString();
+  }
+  
+  /**
+   * Make a Neo4j-compatible variable from a Control node.
+   * @param cntrlNode ex: an instance of a Control node with id = 9
+   * @return ex: "cntrl9"
+   */
+  protected String makeNeo4jCntrlVariable(IXholon cntrlNode) {
+    if (cntrlNode == null) {return "";}
+    StringBuilder sbVar = new StringBuilder();
+    sbVar
+    .append(cntrlVariableName)
+    .append(cntrlNode.getId());
     return sbVar.toString();
   }
   
@@ -489,14 +506,56 @@ public class Xholon2Neo4jCypher extends AbstractXholon2ExternalFormat implements
   /**
    * Write Xholon services.
    */
-  protected void writeXholonServices()
-  {
+  protected void writeXholonServices() {
     if (!serviceNodes) {return;}
     IXholon node = root.getRootNode().getNextSibling();
     if (node != null) {
       cshVariableName = SRV_VARIABLE_NAME; // "srv"
       writeNode(node);
       cshVariableName = CSH_VARIABLE_NAME; // set it back to "csh"
+    }
+  }
+  
+  /**
+   * Write Control hierarchy.
+   * See Control_CompositeHierarchy.xml for details of the structure.
+   */
+  protected void writeControlNodes() {
+    if (!controlNodes) {return;}
+    IXholon node = app.getControlRoot(); // Controller node which has Control children and siblings
+    if ((node != null) && ("Control".equals(node.getXhcName()))) {
+      writeControlNode(node);
+    }
+  }
+  
+  /**
+   * Write a Control node and its firstChild and nextSibling.
+   * @param node A non-null Control node.
+   * Examples:
+(cntrl1 {roleName: "Controller"}),
+(cntrl2 {roleName: "Start"}),
+...
+(cntrl11 {roleName: "MechanismHierarchy"}),
+   */
+  protected void writeControlNode(IXholon node) {
+    String cntrlVarName = makeNeo4jCntrlVariable(node);
+    sbNode
+    .append(",\n(")
+    .append(cntrlVarName)
+    .append(" {");
+    writeStringProperty("roleName", node.getRoleName(), "", sbNode);
+    sbNode.append("})");
+    // firstChild
+    IXholon child = node.getFirstChild();
+    if ((child != null) && ("Control".equals(child.getXhcName()))) {
+      writeRelationship(cntrlVarName, XhRelTypes.FIRST_CHILD, null, makeNeo4jCntrlVariable(child));
+      writeControlNode(child);
+    }
+    // nextSibling
+    IXholon sib = node.getNextSibling();
+    if ((sib != null) && ("Control".equals(sib.getXhcName()))) {
+      writeRelationship(cntrlVarName, XhRelTypes.NEXT_SIBLING, null, makeNeo4jCntrlVariable(sib));
+      writeControlNode(sib);
     }
   }
   
@@ -786,18 +845,27 @@ public class Xholon2Neo4jCypher extends AbstractXholon2ExternalFormat implements
     }
     sbNode.append(")");
     // (app)-[:PORT {fieldName: "root"}]->(csh0)
-    writeRelationship("app", XhRelTypes.PORT, "{fieldName: \"root\"}", makeNeo4jCshVariable(app.getRoot()));
+    writeRelationship("app", XhRelTypes.PORT, "{fieldName: \"root\"}",
+        makeNeo4jCshVariable(app.getRoot()));
     if (xhcNodes) {
       // (app)-[:PORT {fieldName: "xhcRoot"}]->(ih0)
-      writeRelationship("app", XhRelTypes.PORT, "{fieldName: \"xhcRoot\"}", makeNeo4jIhVariable(app.getXhcRoot()));
+      writeRelationship("app", XhRelTypes.PORT, "{fieldName: \"xhcRoot\"}",
+          makeNeo4jIhVariable(app.getXhcRoot()));
     }
     if (serviceNodes) {
       // (app)-[:PORT {fieldName: "srvRoot"}]->(srv0)
-      writeRelationship("app", XhRelTypes.PORT, "{fieldName: \"srvRoot\"}", makeNeo4jSrvVariable(app.getSrvRoot()));
+      writeRelationship("app", XhRelTypes.PORT, "{fieldName: \"srvRoot\"}",
+          makeNeo4jSrvVariable(app.getSrvRoot()));
     }
     if (mechNodes) {
       // (app)-[:PORT {fieldName: "mechRoot"}]->(mech0)
-      writeRelationship("app", XhRelTypes.PORT, "{fieldName: \"mechRoot\"}", makeNeo4jMechVariable(app.getMechRoot()));
+      writeRelationship("app", XhRelTypes.PORT, "{fieldName: \"mechRoot\"}",
+          makeNeo4jMechVariable(app.getMechRoot()));
+    }
+    if (controlNodes) {
+      // (app)-[:PORT {fieldName: "cntrlRoot"}]->(cntrl0)
+      writeRelationship("app", XhRelTypes.PORT, "{fieldName: \"cntrlRoot\"}",
+          makeNeo4jCntrlVariable(app.getControlRoot()));
     }
   }
   
