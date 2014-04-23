@@ -1176,6 +1176,28 @@ public class XholonClass extends Xholon implements IXholonClass, IDecoration {
 	  return p; // returns a function()
 	}-*/;
 
+  @Override
+	public List<IXholon> searchForReferencingNodes()
+	{
+	  // create list of IXholon nodes that reference (belong to) this XholonClass
+		List<IXholon> reffingNodes = new ArrayList<IXholon>();
+		searchForReferencingNodesRecurse((Xholon)app.getRoot(), reffingNodes);
+		return reffingNodes;
+	}
+	
+	@Override
+	protected void searchForReferencingNodesRecurse(Xholon node, List<IXholon> reffingNodes)
+	{
+	  if (node.getXhc() == this) {
+	    reffingNodes.add(node);
+	  }
+	  IXholon childNode = node.getFirstChild();
+	  while (childNode != null) {
+	    searchForReferencingNodesRecurse((Xholon)childNode, reffingNodes);
+	    childNode = childNode.getNextSibling();
+	  }
+	}
+	
 	/* 
 	 * @see org.primordion.xholon.base.IXholonClass#toString()
 	 */

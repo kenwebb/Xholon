@@ -18,8 +18,9 @@
 
 package org.primordion.xholon.base;
 
-//import java.util.List;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
+//import java.util.Vector;
 
 //import org.primordion.xholon.common.mechanism.CeControl;
 import org.primordion.xholon.util.ClassHelper;
@@ -497,50 +498,45 @@ public abstract class XholonWithPorts extends Xholon {
 		super.terminate();
 	}
 	
-	/**
-	 * Search for instances of Xholon with ports that reference this instance. (expensive in time)
-	 * @param reffedNode The Xholon node that we're looking for references to.
-	 * @return A Vector with instances of .
-	 */
-	protected Vector searchForReferencingNodes()
+	/*@Override
+	public List<IXholon> searchForReferencingNodes()
 	{
-		Vector v = new Vector(); 
+		List<IXholon> reffingNodes = new ArrayList<IXholon>();
 		IXholon myRoot = getRootNode();
 		if (myRoot.getClass() != Control.class) {
-			((XholonWithPorts)myRoot).searchForReferencingNodes( this, v );
+			((XholonWithPorts)myRoot).searchForReferencingNodes(this, reffingNodes);
 		}
-		return v;
-	}
+		return reffingNodes;
+	}*/
 	
 	/**
 	 * Search for instances of Xholon with ports that reference this instance.
 	 * @param reffedNode The Xholon node that we're looking for references to.
-	 * @param v A vector that is being filled with references.
+	 * @param reffingNodes A list that is being filled with references.
 	 */
-	protected void searchForReferencingNodes(IXholon reffedNode, Vector v)
+	/*@Override
+	protected void searchForReferencingNodes(IXholon reffedNode, List<IXholon> reffingNodes)
 	{
 	  if (port != null) {
 			for (int i = 0; i < port.length; i++) {
 				if (port[i] != null) {
 					if (port[i] == reffedNode) {
-						v.addElement(this);
+						reffingNodes.add(this);
 					}
 				}
 			}
 		}
 		if (firstChild != null) {
-			//if (XholonWithPorts.class.isAssignableFrom(firstChild.getClass())) {
 			if (ClassHelper.isAssignableFrom(XholonWithPorts.class, firstChild.getClass())) {
-				((XholonWithPorts)firstChild).searchForReferencingNodes( reffedNode, v );
+				((XholonWithPorts)firstChild).searchForReferencingNodes(reffedNode, reffingNodes);
 			}
 		}
 		if (nextSibling != null) {
-			//if (XholonWithPorts.class.isAssignableFrom(nextSibling.getClass())) {
 			if (ClassHelper.isAssignableFrom(XholonWithPorts.class, nextSibling.getClass())) {
-				((XholonWithPorts)nextSibling).searchForReferencingNodes( reffedNode, v );
+				((XholonWithPorts)nextSibling).searchForReferencingNodes(reffedNode, reffingNodes);
 			}
 		}
-	}
+	}*/
 	
 	/*
 	 * @see org.primordion.xholon.base.Xholon#toString()

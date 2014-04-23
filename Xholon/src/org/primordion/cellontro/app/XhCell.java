@@ -18,12 +18,12 @@
 
 package org.primordion.cellontro.app;
 
-import java.util.Vector;
+import java.util.List;
 import org.primordion.cellontro.base.BioXholonClass;
 import org.primordion.cellontro.base.IBioXholon;
 import org.primordion.cellontro.base.IBioXholonClass;
 //import org.primordion.xholon.base.Control;
-//import org.primordion.xholon.base.IXholon;
+import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
 import org.primordion.xholon.base.XholonWithPorts;
 import org.primordion.xholon.io.xml.IXholon2Xml;
@@ -462,46 +462,6 @@ public class XhCell extends XholonWithPorts implements IBioXholon {
 		//}
 	}
 	
-	/**
-	 * Search for instances of Xholon with ports that reference this instance. (expensive in time)
-	 * TODO These two methods should be in IXholon XholonWithPorts.
-	 * @param reffedNode The Xholon node that we're looking for references to.
-	 * @return A Vector with instances of XhCell_Chart.
-	 */
-	/*protected Vector searchForReferencingNodes(IXholon reffedNode)
-	{
-		Vector v = new Vector(); 
-		IXholon myRoot = (IXholon)getRootNode();
-		if (myRoot.getClass() != Control.class) {
-			((XhCell)myRoot).searchForReferencingNodes( reffedNode, v );
-		}
-		return v;
-	} */
-	
-	/**
-	 * Search for instances of Xholon with ports that reference this instance.
-	 * @param reffedNode The Xholon node that we're looking for references to.
-	 * @param v A vector that is being filled with references.
-	 */
-	/*protected void searchForReferencingNodes(IXholon reffedNode, Vector v)
-	{
-		if (port != null) {
-			for (int i = 0; i < port.length; i++) {
-				if (port[i] != null) {
-					if (port[i] == reffedNode) {
-						v.addElement(this);
-					}
-				}
-			}
-		}
-		if (firstChild != null) {
-			((XhCell)firstChild).searchForReferencingNodes( reffedNode, v );
-		}
-		if (nextSibling != null) {
-			((XhCell)nextSibling).searchForReferencingNodes( reffedNode, v );
-		}
-	} */
-	
 	/*
 	 * @see org.primordion.xholon.base.Xholon#toXmlAttributes(int, org.primordion.xholon.io.xml.XmlWriter)
 	 */
@@ -605,12 +565,11 @@ public class XhCell extends XholonWithPorts implements IBioXholon {
 			}
 		}
 		// Show BioXholon instances that reference this BioXholon instance
-		Vector rnV = searchForReferencingNodes();
-		//if (rnIt.hasNext()) {
+		List<IXholon> rnV = searchForReferencingNodes();
 		if (!rnV.isEmpty()) {
 			tStr += " # reffed by: ";
 			for (i = 0; i < rnV.size(); i++) {
-				tStr += ((IBioXholon)rnV.elementAt(i)).getName() + " ";
+				tStr += rnV.get(i).getName() + " ";
 			}
 			tStr += "#";
 		}

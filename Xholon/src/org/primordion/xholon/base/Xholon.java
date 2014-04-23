@@ -26,6 +26,7 @@ import com.google.gwt.dom.client.TextAreaElement;
 //import java.io.PrintWriter;
 import java.io.Serializable;
 //import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -2331,6 +2332,42 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 	{
 		removeChild();
 		remove();
+	}
+	
+	@Override
+	public List<IXholon> searchForReferencingNodes()
+	{
+		List<IXholon> reffingNodes = new ArrayList<IXholon>();
+		IXholon myRoot = getRootNode();
+		if (myRoot.getClass() != Control.class) {
+			((Xholon)myRoot).searchForReferencingNodesRecurse(this, reffingNodes);
+		}
+		return reffingNodes;
+	}
+	
+	/**
+	 * Search for instances of Xholon with ports that reference this instance.
+	 * @param reffedNode The Xholon node that we're looking for references to.
+	 * @param reffingNodes A list that is being filled with references.
+	 */
+	protected void searchForReferencingNodesRecurse(Xholon reffedNode, List<IXholon> reffingNodes)
+	{
+	  IXholon[] port = getPort();
+	  if (port != null) {
+			for (int i = 0; i < port.length; i++) {
+				if (port[i] != null) {
+					if (port[i] == reffedNode) {
+						reffingNodes.add(this);
+					}
+				}
+			}
+		}
+		if (firstChild != null) {
+			((Xholon)firstChild).searchForReferencingNodesRecurse(reffedNode, reffingNodes);
+		}
+		if (nextSibling != null) {
+			((Xholon)nextSibling).searchForReferencingNodesRecurse(reffedNode, reffingNodes);
+		}
 	}
 	
 	/*

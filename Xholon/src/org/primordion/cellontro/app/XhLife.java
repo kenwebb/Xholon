@@ -18,6 +18,7 @@
 
 package org.primordion.cellontro.app;
 
+import java.util.List;
 import java.util.Vector;
 import org.primordion.cellontro.base.BioXholonClass;
 import org.primordion.cellontro.base.IBioXholon;
@@ -1334,46 +1335,6 @@ if (rInt >= MAX_SUB) {
 	}
 	
 	/**
-	 * Search for instances of Xholon with ports that reference this instance. (expensive in time)
-	 * TODO These two methods should be in IXholon XholonWithPorts.
-	 * @param reffedNode The Xholon node that we're looking for references to.
-	 * @return An Iterator with instances of XhLife.
-	 */
-	/*protected Vector searchForReferencingNodes(IXholon reffedNode)
-	{
-		Vector v = new Vector();
-		IXholon myRoot = (IXholon)getRootNode();
-		if (myRoot.getClass() != Control.class) {
-			((XhLife)myRoot).searchForReferencingNodes( reffedNode, v );
-		}
-		return v;
-	}*/
-	
-	/**
-	 * Search for instances of Xholon with ports that reference this instance.
-	 * @param reffedNode The Xholon node that we're looking for references to.
-	 * @param v A vector that is being filled with references.
-	 */
-	/*protected void searchForReferencingNodes(IXholon reffedNode, Vector v)
-	{
-		if (port != null) {
-			for (int i = 0; i < port.length; i++) {
-				if (port[i] != null) {
-					if (port[i] == reffedNode) {
-						v.addElement(this);
-					}
-				}
-			}
-		}
-		if ((firstChild != null) && (firstChild.getClass() == XhLife.class)) {
-			((XhLife)firstChild).searchForReferencingNodes( reffedNode, v );
-		}
-		if ((nextSibling != null) && (nextSibling.getClass() == XhLife.class)) {
-			((XhLife)nextSibling).searchForReferencingNodes( reffedNode, v );
-		}
-	} */
-	
-	/**
 	 * Create a synapse.
 	 * This should be invoked by an instance of SynapticVesicleBilayer.
 	 * NmdaReceptor is a subclass of LgNeuroreceptor.
@@ -1596,11 +1557,11 @@ if (rInt >= MAX_SUB) {
 			}
 		}
 		// Show Xholon instances that reference this BioEnity instance
-		Vector rnV = searchForReferencingNodes();
+		List<IXholon> rnV = searchForReferencingNodes();
 		if (!rnV.isEmpty()) {
 			tStr += " # reffed by: ";
 			for (i = 0; i < rnV.size(); i++) {
-				tStr += ((IXholon)rnV.elementAt(i)).getName() + " ";
+				tStr += rnV.get(i).getName() + " ";
 			}
 			tStr += "#";
 		}
