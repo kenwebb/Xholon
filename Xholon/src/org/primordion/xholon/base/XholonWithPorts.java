@@ -149,6 +149,13 @@ public abstract class XholonWithPorts extends Xholon {
 	}
 	
 	/**
+	 * Resize the port array.
+	 * This is intended for use by subclasses, such as XhChameleon.
+	 * @param newSize The requested size of the new port[] array.
+	 */
+	protected void resizePortArray(int newSize) {}
+	
+	/**
 	 * Set ports dynamically, for each port owned by this xholon.
 	 * Search for an interaction partner that currently resides in the same container as this xholon.
 	 * If a port already references a xholon that currently resides in the same container, then leave it as is.
@@ -250,7 +257,7 @@ public abstract class XholonWithPorts extends Xholon {
 	 */
 	public int configurePorts(String instructions, int instructIx)
 	{
-		if (instructions.charAt(instructIx) == 'P') { // port(s) with another name
+	  if (instructions.charAt(instructIx) == 'P') { // port(s) with another name
 			return configurePortsWithOtherNames(instructions, instructIx);
 		}
 		instructIx += 5; // point at char after opening [
@@ -263,14 +270,15 @@ public abstract class XholonWithPorts extends Xholon {
 		instructIx++; // point to = or {
 		if (instructions.charAt(instructIx) == '=') { // direct port from a Xholon
 			instructIx++; // point to first char after =
+			resizePortArray(portNum+1);
 			// handle multiple xpointers to same port; to allow alternatives if first one(s) don't work
 			try {
-				if (port[portNum] == null) { // don't replace one that's already been assigned
+			  if (port[portNum] == null) { // don't replace one that's already been assigned
 					port[portNum] = getPortRef(instructions, instructIx);
 				}
 			} catch (RuntimeException e) {
 				// in some circumstances this is OK
-				logger.debug(getName() + ": Unable to set up a port. The port variable may be null." + e.getMessage());
+				//consoleLog(getName() + ": Unable to set up a port. The port variable may be null." + e.getMessage());
 			}
 		}
 		else if (instructions.charAt(instructIx) == '{') { // Port port
@@ -424,16 +432,15 @@ public abstract class XholonWithPorts extends Xholon {
 				instructIx++; // point to = or {
 				if (instructions.charAt(instructIx) == '=') { // direct port from a Xholon
 					instructIx++; // point to first char after =
-					
+					resizePortArray(portNum+1);
 					// handle multiple xpointers to same port; to allow alternatives if first one(s) don't work
 					try {
-						if (port[portNum] == null) { // don't replace one that's already been assigned
-							port[portNum] = getPortRef(instructions, instructIx);
+					  if (port[portNum] == null) { // don't replace one that's already been assigned
+						  port[portNum] = getPortRef(instructions, instructIx);
 						}
 					} catch (RuntimeException e) {
 						// in some circumstances this is OK
-						System.out.println(getName() + ": Unable to set up a port. The port variable may be null." + e.getMessage());
-						logger.debug(getName() + ": Unable to set up a port. The port variable may be null." + e.getMessage());
+						//consoleLog(getName() + ": Unable to set up a port. The port variable may be null.");
 					}
 				}
 				while ((instructIx < len) && (instructions.charAt(instructIx) != IInheritanceHierarchy.NAVINFO_SEPARATOR)) {

@@ -1186,7 +1186,7 @@ public class XholonClass extends Xholon implements IXholonClass, IDecoration {
 	}
 	
 	@Override
-	protected void searchForReferencingNodesRecurse(Xholon node, List<IXholon> reffingNodes)
+	public void searchForReferencingNodesRecurse(Xholon node, List<IXholon> reffingNodes)
 	{
 	  if (node.getXhc() == this) {
 	    reffingNodes.add(node);

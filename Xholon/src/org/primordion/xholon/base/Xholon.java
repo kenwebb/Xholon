@@ -1717,7 +1717,6 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 	 * TODO don't replace a port that's already bound ?
 	 */
 	public void bindPorts() {
-	  //consoleLog("bindPorts");
 	  List<PortInformation> xhcPortList = this.getXhc().getPortInformation();
 		// eval the XPath expressions to determine the reffed nodes
 		Iterator<PortInformation> portIt = xhcPortList.iterator();
@@ -1808,14 +1807,13 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 	 */
 	protected IXholon getPortRef(String instructions, int instructIx)
 	{
-		IXholon node = this;
+	  IXholon node = this;
 		int xpointerInc = 11; // increment past '"#xpointer(' string
 		int endIxInc = 2; // increment past xpointer ')' end string
 		while (instructIx < instructions.length()) {
 			switch( instructions.charAt(instructIx)) {
 			case '"': // opening "
 				IXholon contextNode = this;
-				//consoleLog(instructions.substring(instructIx));
 				if (instructions.charAt(instructIx+1) != '#') {
 					// this references an IXholon in another application or at a remote location,
 					// or this app isn't using #xpointer(...)
@@ -1824,7 +1822,7 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 					if (endIndex == -1) {
 					  // this app isn't using #xpointer(...),
 					  // so just return the entire contents between the opening and closing "
-					  xpointerInc = 1; // increment past opening '"'
+					  xpointerInc = 0; //1; // increment past opening '"'
 					  endIxInc = 1; // increment past closing '"'
 					}
 					else {
@@ -1848,9 +1846,7 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 					endIx -= endIxInc;
 				}
 				String nodePath = instructions.substring(instructIx, endIx).trim();
-				System.out.println("Xholon.getPortRef() " + nodePath);
 				node = getXPath().evaluate(nodePath, contextNode);
-				System.out.println("Xholon.getPortRef() " + node);
 				instructIx = endIx + endIxInc; // point beyond closing )"
 				break;
 
@@ -2335,9 +2331,11 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 	}
 	
 	@Override
+	// TODO include non-port ports
+	// but don't call getAllPorts() which is too slow when used in D3 Circle Pack
 	public List<IXholon> searchForReferencingNodes()
 	{
-		List<IXholon> reffingNodes = new ArrayList<IXholon>();
+	  List<IXholon> reffingNodes = new ArrayList<IXholon>();
 		IXholon myRoot = getRootNode();
 		if (myRoot.getClass() != Control.class) {
 			((Xholon)myRoot).searchForReferencingNodesRecurse(this, reffingNodes);
@@ -2350,14 +2348,14 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 	 * @param reffedNode The Xholon node that we're looking for references to.
 	 * @param reffingNodes A list that is being filled with references.
 	 */
-	protected void searchForReferencingNodesRecurse(Xholon reffedNode, List<IXholon> reffingNodes)
+	public void searchForReferencingNodesRecurse(Xholon reffedNode, List<IXholon> reffingNodes)
 	{
 	  IXholon[] port = getPort();
 	  if (port != null) {
-			for (int i = 0; i < port.length; i++) {
-				if (port[i] != null) {
-					if (port[i] == reffedNode) {
-						reffingNodes.add(this);
+	    for (int i = 0; i < port.length; i++) {
+			  if (port[i] != null) {
+				  if (port[i] == reffedNode) {
+					  reffingNodes.add(this);
 					}
 				}
 			}
@@ -2365,7 +2363,8 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 		if (firstChild != null) {
 			((Xholon)firstChild).searchForReferencingNodesRecurse(reffedNode, reffingNodes);
 		}
-		if (nextSibling != null) {
+		// don't search nextSibling if this is xhRoot and nextSibling is srvRoot
+		if ((nextSibling != null) && (this.id != 0)) {
 			((Xholon)nextSibling).searchForReferencingNodesRecurse(reffedNode, reffingNodes);
 		}
 	}

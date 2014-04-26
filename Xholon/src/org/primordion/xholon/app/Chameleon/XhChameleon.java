@@ -27,6 +27,7 @@ import java.util.Map;
 import org.primordion.xholon.base.IMessage;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.PortInformation;
+import org.primordion.xholon.base.Xholon;
 import org.primordion.xholon.base.XholonWithPorts;
 
 /**
@@ -34,6 +35,9 @@ import org.primordion.xholon.base.XholonWithPorts;
 	<p>Xholon 0.8.1 http://www.primordion.com/Xholon</p>
 */
 public class XhChameleon extends XholonWithPorts implements CeChameleon {
+	
+	// maximum size when resizing the port[] array
+	public static final int MAX_RESIZE_PORTS = 100;
 	
 	// time step multiplier
 	public static int timeStepMultiplier = 1;
@@ -86,6 +90,9 @@ public class XhChameleon extends XholonWithPorts implements CeChameleon {
 	@SuppressWarnings("unchecked")
 	public List getAllPorts() {
 		List<PortInformation> xhcPortList = this.getXhc().getPortInformation();
+		if ((xhcPortList == null) || (xhcPortList.size() == 0)) {
+		  return xhcPortList;
+		}
 		List<PortInformation> realPortList = new ArrayList<PortInformation>();
 		// eval the XPath expressions to determine the reffed nodes
 		Iterator<PortInformation> portIt = xhcPortList.iterator();
@@ -103,13 +110,32 @@ public class XhChameleon extends XholonWithPorts implements CeChameleon {
 		return realPortList;
 	}
 	
+	/**
+	 * Resize the port array.
+	 * This is primarily intended for use with XholonWorkbooks when "port" ports are used.
+	 * This method creates a new port[] array, and copies items from the old port[] array.
+	 * @param newSize The requested size of the new port[] array.
+	 * If newSize <= the current size, then do nothing.
+	 * If newSize > MAX_RESIZE_PORTS, then do nothing. This is to prevent malicious intent and mistakes.
+	 * TODO if port is null, create it ? (for example, with "Countries of Europe" workbook)
+	 */
+	protected void resizePortArray(int newSize) {
+	  if (port == null) {return;}
+	  if (newSize <= port.length) {return;}
+	  if (newSize > MAX_RESIZE_PORTS) {return;}
+	  IXholon[] newPort = new IXholon[newSize];
+	  for (int i = 0; i < port.length; i++) {
+	    newPort[i] = port[i];
+	  }
+	  port = newPort;
+	}
+	
 	public void initialize()
 	{
 		super.initialize();
 	}
 	
 	public void configure() {
-	  //consoleLog("configure");
 	  bindPorts();
 	  if (firstChild != null) {
 			firstChild.configure();
