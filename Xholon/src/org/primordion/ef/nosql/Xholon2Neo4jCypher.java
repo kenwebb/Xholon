@@ -545,6 +545,12 @@ public class Xholon2Neo4jCypher extends AbstractXholon2ExternalFormat implements
     .append(" {");
     writeStringProperty("roleName", node.getRoleName(), "", sbNode);
     sbNode.append("})");
+    // store node's XholonClass
+    xholonClassSet.add(node.getXhc());
+    // write XHC relationship from CSH node to IH node
+    if (xhcNodes) {
+      writeRelationship(cntrlVarName, XhRelTypes.XHC, null, makeNeo4jIhVariable(node.getXhc()));
+    }
     // firstChild
     IXholon child = node.getFirstChild();
     if ((child != null) && ("Control".equals(child.getXhcName()))) {
