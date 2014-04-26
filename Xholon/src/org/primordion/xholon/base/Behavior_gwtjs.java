@@ -173,6 +173,10 @@ public class Behavior_gwtjs extends Xholon {
 		hasProcessReceivedMessage = hasFunction(beh, "processReceivedMessage");
 		if (hasFunction(beh, "postConfigure")) {
 		  postConfigure(beh);
+		  if (this.getParentNode() == null) {
+		    // the beh object has called .remove() on this instance of Behavior_gwtjs
+		    return;
+		  }
 		}
 		scriptConfigured = true;
 		// register this behavior to receive all otherwise unhandled messages
