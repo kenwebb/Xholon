@@ -171,4 +171,84 @@ public class Neo4jRestApi extends Xholon implements INoSql {
     }
 	}
 	
+	/**
+	 * Post a Cypher MATCH statement to the Neo4j database.
+	 * @param cypherStatement A Cypher statement that begins with "MATCH".
+	 */
+	protected void postMatch(String cypherStatement) {
+	  String url = "http://localhost:7474/db/data/cypher";
+	  
+	  String jsonReqStr = "{\"query\" : "
+	  // escapes double-quote to \\" and LF to \\n, and puts double-quote at start and end
+	  + JsonUtils.escapeValue(cypherStatement)
+	  + "}";
+	  
+	  try {
+	    RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, URL.encode(url));
+	    builder.setHeader("Accept", "application/json;charset=utf-8");
+	    builder.setHeader("Content-Type", "application/json");
+	    builder.sendRequest(jsonReqStr, new RequestCallback() {
+	      
+        @Override
+        public void onResponseReceived(Request req, Response resp) {
+          if (resp.getStatusCode() == resp.SC_OK) {
+            String jsonRespStr = resp.getText();
+            // display the raw returned JSON String
+            contextNode.println(jsonRespStr);
+          }
+          else {
+            contextNode.println("status code:" + resp.getStatusCode());
+            contextNode.println("status text:" + resp.getStatusText());
+            contextNode.println("text:\n" + resp.getText());
+          }
+        }
+
+        @Override
+        public void onError(Request req, Throwable e) {
+          contextNode.println("onError:" + e.getMessage());
+        }
+        
+      });
+    } catch(RequestException e) {
+      contextNode.println("RequestException:" + e.getMessage());
+    }
+	}
+	
+	/** An action. List all Application nodes in the Neo4j database. */
+  private static final String listApplications = "List apps";
+  
+	/** Action list. */
+  private String[] actions = {listApplications};
+  
+  /*
+   * @see org.primordion.xholon.base.IXholon#getActionList()
+   */
+  public String[] getActionList()
+  {
+    return actions;
+  }
+  
+  /*
+   * @see org.primordion.xholon.base.Xholon#setActionList(java.lang.String[])
+   */
+  public void setActionList(String[] actionList)
+  {
+    actions = actionList;
+  }
+  
+  /*
+   * @see org.primordion.xholon.base.IXholon#doAction(java.lang.String)
+   */
+  public void doAction(String action)
+  {
+    if (action == null) {return;}
+    if (action.equals(listApplications)) {
+      listApplications();
+    }
+  }
+  
+  protected void listApplications() {
+    postMatch("MATCH (n:Application) RETURN n");
+  }
+	
 }
