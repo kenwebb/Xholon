@@ -29,7 +29,20 @@ import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
  */
 @SuppressWarnings("serial")
 public class Xholon2Svg extends org.primordion.xholon.io.Xholon2Svg implements IXholon2ExternalFormat {
-
+  
+  @Override
+  public native boolean canAdjustOptions() /*-{
+    if (this.efParams) {
+      return true;
+    }
+    return false;
+  }-*/;
+  
+  @Override
+  public void adjustOptions(String outFileName, String modelName, IXholon root, String formatName) {
+    
+  }
+  
 	/*
 	 * @see org.primordion.ef.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
 	 */

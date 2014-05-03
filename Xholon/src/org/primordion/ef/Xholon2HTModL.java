@@ -54,20 +54,20 @@ public class Xholon2HTModL extends AbstractXholon2ExternalFormat implements IXho
 	private long timeStamp;
 	
 	/** Whether or not to show state machine nodes. */
-	private boolean shouldShowStateMachineEntities = false;
+	//private boolean shouldShowStateMachineEntities = false;
 	
 	/** Template to use when writing out node names. */
-	protected String nameTemplate = "r:C^^^";
+	//protected String nameTemplate = "r:C^^^";
 	
 	/** Whether or not to make the content visible, by applying a CSS style. */
-	private boolean shouldBeVisible = true;
+	//private boolean shouldBeVisible = true;
 
 	/** Whether or not to make the content visible and labeled, by applying a CSS style. */
-	private boolean shouldBeLabeled = true;
+	//private boolean shouldBeLabeled = true;
 	
-	private String cssVisible = "div {float:left;border:1px solid %231F4F82;padding:1px;margin:1px;background-color:%23F0F8FF;}";
+	//private String cssVisible = "div {float:left;border:1px solid %231F4F82;padding:1px;margin:1px;background-color:%23F0F8FF;}";
 	
-	private String cssVisibleLabeled = "div {float:left;border:1px solid %231F4F82;padding:1px;margin:1px;background-color:%23F0F8FF;font-size:90%25} div:after {content: attr(class);}";
+	//private String cssVisibleLabeled = "div {float:left;border:1px solid %231F4F82;padding:1px;margin:1px;background-color:%23F0F8FF;font-size:90%25} div:after {content: attr(class);}";
 	
 	private static final String HTML_DATA_URI = "data:text/html;charset=utf-8,";
 	
@@ -140,11 +140,11 @@ public class Xholon2HTModL extends AbstractXholon2ExternalFormat implements IXho
 			sb.append("<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">\n");
 			sb.append("<head>\n");
 			sb.append("  <title>" + modelName + "</title>\n");
-			if (shouldBeLabeled) {
-				sb.append("  <style type=\"text/css\">" + cssVisibleLabeled + "</style>\n");
+			if (isShouldBeLabeled()) {
+				sb.append("  <style type=\"text/css\">" + getCssVisibleLabeled() + "</style>\n");
 			}
-			else if (shouldBeVisible) {
-				sb.append("  <style type=\"text/css\">" + cssVisible + "</style>\n");
+			else if (isShouldBeVisible()) {
+				sb.append("  <style type=\"text/css\">" + getCssVisible() + "</style>\n");
 			}
 			sb.append("</head>\n");
 			sb.append("<body>\n");
@@ -176,12 +176,12 @@ public class Xholon2HTModL extends AbstractXholon2ExternalFormat implements IXho
 	protected void writeNode(IXholon node, int level) {
 		// only show state machine nodes if should show them, or if root is a StateMachineCE
 		if ((node.getXhcId() == CeStateMachineEntity.StateMachineCE)
-				&& (shouldShowStateMachineEntities == false)
+				&& (isShouldShowStateMachineEntities() == false)
 				&& (level > 0)) {
 			return;
 		}
 		//try {
-			sb.append("<div class=\"" + node.getName(nameTemplate) + "\">");
+			sb.append("<div class=\"" + node.getName(getNameTemplate()) + "\">");
 			if (node.hasChildNodes()) {
 				sb.append("\n");
 			}
@@ -198,5 +198,37 @@ public class Xholon2HTModL extends AbstractXholon2ExternalFormat implements IXho
 		//	Xholon.getLogger().error("", e);
 		//}
 	}
+	
+	/**
+	 * Make a JavaScript object with all the parameters for this external format.
+	 */
+	protected native void makeEfParams() /*-{
+	  var p = {};
+	  p.shouldShowStateMachineEntities = false;
+	  p.nameTemplate = "r:C^^^";
+	  p.shouldBeVisible = true;
+	  p.shouldBeLabeled = true;
+	  p.cssVisible = "div {float:left;border:1px solid %231F4F82;padding:1px;margin:1px;background-color:%23F0F8FF;}";
+	  p.cssVisibleLabeled = "div {float:left;border:1px solid %231F4F82;padding:1px;margin:1px;background-color:%23F0F8FF;font-size:90%25} div:after {content: attr(class);}";
+	  this.efParams = p;
+	}-*/;
+	
+	public native boolean isShouldShowStateMachineEntities() /*-{return this.efParams.shouldShowStateMachineEntities;}-*/;
+	//public native void setShouldShowStateMachineEntities(boolean shouldShowStateMachineEntities) /*-{this.efParams.shouldShowStateMachineEntities = shouldShowStateMachineEntities;}-*/;
+
+	public native String getNameTemplate() /*-{return this.efParams.nameTemplate;}-*/;
+	//public native void setNameTemplate(String nameTemplate) /*-{this.efParams.nameTemplate = nameTemplate;}-*/;
+	
+	public native boolean isShouldBeVisible() /*-{return this.efParams.shouldBeVisible;}-*/;
+	//public native void setShouldBeVisible(boolean shouldBeVisible) /*-{this.efParams.shouldBeVisible = shouldBeVisible;}-*/;
+	
+	public native boolean isShouldBeLabeled() /*-{return this.efParams.shouldBeLabeled;}-*/;
+	//public native void setShouldBeLabeled(boolean shouldBeLabeled) /*-{this.efParams.shouldBeLabeled = shouldBeLabeled;}-*/;
+	
+	public native String getCssVisibleLabeled() /*-{return this.efParams.cssVisibleLabeled;}-*/;
+	//public native void setCssVisibleLabeled(String cssVisibleLabeled) /*-{this.efParams.cssVisibleLabeled = cssVisibleLabeled;}-*/;
+	
+	public native String getCssVisible() /*-{return this.efParams.cssVisible;}-*/;
+	//public native void setCssVisible(String cssVisible) /*-{this.efParams.cssVisible = cssVisible;}-*/;
 	
 }

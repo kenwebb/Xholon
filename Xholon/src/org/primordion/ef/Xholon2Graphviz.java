@@ -55,11 +55,11 @@ digraph 0 { label=HelloWorldSystem
 @SuppressWarnings("serial")
 public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IXholon2ExternalFormat {
 
-	protected static final String GV_DEFAULT_FILE_EXT = ".gv"; // .gv .dot
-	protected static final String GV_DEFAULT_GRAPH = "digraph"; // graph digraph
-	protected static final String GV_DEFAULT_LAYOUT = "dot"; // dot neato twopi circo fdp sfdp
-	protected static final String GV_DEFAULT_EDGEOP = "->"; // -- ->
-	protected static final String GV_CLUSTER = "cluster";
+	//protected static final String GV_DEFAULT_FILE_EXT = ".gv"; // .gv .dot
+	//protected static final String GV_DEFAULT_GRAPH = "digraph"; // graph digraph
+	//protected static final String GV_DEFAULT_LAYOUT = "dot"; // dot neato twopi circo fdp sfdp
+	//protected static final String GV_DEFAULT_EDGEOP = "->"; // -- ->
+	//protected static final String GV_CLUSTER = "cluster";
 	protected static final int GV_MAXLABELLEN_NULL = -1;
 	
 	protected String outFileName;
@@ -68,35 +68,35 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 	protected IXholon root;
 	//protected Writer out;
 	private StringBuilder sb;
-	protected String gvFileExt = GV_DEFAULT_FILE_EXT;
-	protected String gvGraph = GV_DEFAULT_GRAPH;
-	protected String layout = GV_DEFAULT_LAYOUT;
-	protected String edgeOp = GV_DEFAULT_EDGEOP;
+	//protected String gvFileExt = GV_DEFAULT_FILE_EXT;
+	//protected String gvGraph = GV_DEFAULT_GRAPH;
+	//protected String layout = GV_DEFAULT_LAYOUT;
+	//protected String edgeOp = GV_DEFAULT_EDGEOP;
 	
 	/** Current date and time. */
 	protected Date timeNow;
 	protected long timeStamp;
 	
 	/** Whether or not to show state machine nodes. */
-	protected boolean shouldShowStateMachineEntities = true;
+	//protected boolean shouldShowStateMachineEntities = true;
 	
 	/** Template to use when writing out node IDs. */
-	protected String nameTemplateNodeId = "^^^^i^"; // id only
+	//protected String nameTemplateNodeId = "^^^^i^"; // id only
 	
 	/** Template to use when writing out node labels. */
-	protected String nameTemplateNodeLabel = "R^^^^^"; // roleName or className, but not both
+	//protected String nameTemplateNodeLabel = "R^^^^^"; // roleName or className, but not both
 	//protected String nameTemplateNodeLabel = "r:C^^^"; // shouldQuoteLabels = true
 	//protected String nameTemplateNodeLabel = "r^^^^^"; // roleName only
 	//protected String nameTemplateNodeLabel = "^^C^^^"; // className only
 	
 	/** Whether or not labels/names should be quoted. */
-	protected boolean shouldQuoteLabels = true;
+	//protected boolean shouldQuoteLabels = true;
 	
 	/** Whether or not to draw edges between nodes. */
-	protected boolean shouldShowLinks = true;
+	//protected boolean shouldShowLinks = true;
 	
 	/** Whether or not to specify the layout engine. */
-	protected boolean shouldSpecifyLayout = false;
+	//protected boolean shouldSpecifyLayout = false;
 	
 	/**
 	 * For use with indenting by level.
@@ -113,43 +113,69 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 	 * <p>GV_MAXLABELLEN_NULL - no max len </p>
 	 * <p>0 - don't show labels</p>
 	 */
-	protected int maxLabelLen = GV_MAXLABELLEN_NULL;
+	//protected int maxLabelLen = GV_MAXLABELLEN_NULL;
 	
 	/**
 	 * Whether or not to provide a fill color for nodes.
 	 * If possible, the fill color will be taken from the XholonClass color.
 	 */
-	protected boolean shouldColor = true;
+	//protected boolean shouldColor = true;
 	
 	/**
 	 * Default fill color if shouldColor == true.
 	 */
-	protected String defaultColor = "\"#f0f8ff\"";
+	//protected String defaultColor = "\"#f0f8ff\"";
 	
 	/**
 	 * Whether or not to specify a stylesheet file name in the output.
 	 */
-	protected boolean shouldSpecifyStylesheet = false;
+	//protected boolean shouldSpecifyStylesheet = false;
 	
 	/**
 	 * Name of a stylesheet (css) file.
 	 */
-	protected String stylesheet = "xholon.css";
+	//protected String stylesheet = "xholon.css";
 	
 	/**
 	 * Whether or not to specify a rankdir.
 	 */
-	protected boolean shouldSpecifyRankdir = false;
+	//protected boolean shouldSpecifyRankdir = false;
 	
 	/**
 	 * rankdir=LR|RL|BT
 	 */
-	protected String rankdir = "LR";
+	//protected String rankdir = "LR";
 	
 	/**
 	 * Constructor
 	 */
 	public Xholon2Graphviz() {}
+	
+	/**
+	 * Make a JavaScript object with all the parameters for this external format.
+	 */
+	protected native void makeEfParams() /*-{
+	  var p = {};
+	  p.gvFileExt = ".gv";
+	  p.gvGraph = "digraph";
+	  p.layout = "dot";
+	  p.edgeOp = "->";
+	  p.gvCluster = "";
+	  p.shouldShowStateMachineEntities = false;
+	  p.nameTemplateNodeId = "^^^^i^";
+	  p.nameTemplateNodeLabel = "R^^^^^";
+	  p.shouldQuoteLabels = true;
+	  p.shouldShowLinks = true;
+	  p.shouldSpecifyLayout = false;
+	  p.maxLabelLen = -1;
+	  p.shouldColor = true;
+	  p.defaultColor = "#f0f8ff";
+	  p.shouldSpecifyStylesheet = false;
+	  p.stylesheet = "xholon.css";
+	  p.shouldSpecifyRankdir = false;
+	  p.rankdir = "LR";
+	  this.efParams = p;
+	}-*/;
 	
 	/*
 	 * @see org.primordion.ef.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
@@ -158,13 +184,14 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 		timeNow = new Date();
 		timeStamp = timeNow.getTime();
 		if (outFileName == null) {
-			this.outFileName = outPath + root.getXhcName() + "_" + root.getId() + "_" + timeStamp + gvFileExt;
+			this.outFileName = outPath + root.getXhcName() + "_" + root.getId() + "_" + timeStamp + getGvFileExt();
 		}
 		else {
 			this.outFileName = outFileName;
 		}
 		this.modelName = modelName;
 		this.root = root;
+		this.edgeMap = null;
 		return true;
 	}
 
@@ -199,13 +226,13 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 					+ "www.primordion.com/Xholon\n\n");
 			sb.append("To view this file, use Graphviz dot|fdp|neato|twopi|circo|sfdp from http://www.graphviz.org/\n");
 			sb.append("For example, to generate an SVG file:\n");
-			sb.append("  " + layout + " -Tsvg -O " + fn + gvFileExt + "\n");
+			sb.append("  " + getLayout() + " -Tsvg -O " + fn + getGvFileExt() + "\n");
 			sb.append("Alternatively try one of these:\n");
-			sb.append("  " + "dot" + " -Tsvg -O " + fn + gvFileExt + "\n");
-			sb.append("  " + "dot" + " -Tsvg -O -Grankdir=LR " + fn + gvFileExt + "\n");
-			sb.append("  " + "fdp" + " -Tsvg -O " + fn + gvFileExt + "\n");
-			sb.append("  " + "neato" + " -Tsvg -O " + fn + gvFileExt + "\n");
-			sb.append("  " + "circo" + " -Tsvg -O " + fn + gvFileExt + "\n");
+			sb.append("  " + "dot" + " -Tsvg -O " + fn + getGvFileExt() + "\n");
+			sb.append("  " + "dot" + " -Tsvg -O -Grankdir=LR " + fn + getGvFileExt() + "\n");
+			sb.append("  " + "fdp" + " -Tsvg -O " + fn + getGvFileExt() + "\n");
+			sb.append("  " + "neato" + " -Tsvg -O " + fn + getGvFileExt() + "\n");
+			sb.append("  " + "circo" + " -Tsvg -O " + fn + getGvFileExt() + "\n");
 			sb.append("Or use one of: -Tgif -Tjpg -Tpdf -Tpng -Txdot -Txlib\n");
 			sb.append("See also: http://hughesbennett.net/Graphviz\n");
 			sb.append("See also: http://graphviz-dev.appspot.com/\n");
@@ -232,13 +259,13 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 	protected void writeNode(IXholon node, int level) {
 		// only show state machine nodes if should show them, or if root is a StateMachineCE
 		if ((node.getXhcId() == CeStateMachineEntity.StateMachineCE)
-				&& (shouldShowStateMachineEntities == false)
+				&& (isShouldShowStateMachineEntities() == false)
 				&& (level > 0)) {
 			return;
 		}
 		String nodeId = makeNodeId(node);
 		String nodeLabel = makeNodeLabel(node);
-		if (shouldQuoteLabels) {
+		if (isShouldQuoteLabels()) {
 			//nodeId = "\"" + nodeId + "\"";
 			if (nodeLabel != null) {
 				nodeLabel = "\"" + nodeLabel + "\"";
@@ -249,29 +276,29 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 			// children
 			if (node.hasChildNodes()) {
 				if (node == root) {
-					sb.append(gvGraph + " ");
+					sb.append(getGvGraph() + " ");
 					sb.append(nodeId);
 					sb.append(" {");
 					if (nodeLabel != null) {
 						sb.append(" label=" + nodeLabel);
 					}
 					sb.append("\n");
-					if (shouldSpecifyLayout) {
-						sb.append(" layout=" + layout + ";\n");
+					if (isShouldSpecifyLayout()) {
+						sb.append(" layout=" + getLayout() + ";\n");
 					}
-					if (shouldSpecifyStylesheet) {
-						sb.append(" stylesheet=\"" + stylesheet + "\";\n");
+					if (isShouldSpecifyStylesheet()) {
+						sb.append(" stylesheet=\"" + getStylesheet() + "\";\n");
 					}
-					if (shouldSpecifyRankdir) {
-						sb.append(" rankdir=" + rankdir + ";\n");
+					if (isShouldSpecifyRankdir()) {
+						sb.append(" rankdir=" + getRankdir() + ";\n");
 					}
-					if (shouldColor) {
-						sb.append(" node [style=filled,fillcolor=" + defaultColor + "]\n");
+					if (isShouldColor()) {
+						sb.append(" node [style=filled,fillcolor=\"" + getDefaultColor() + "\"]\n");
 					}
 				}
 				else if (isCluster(node)) {
 					sb.append(tab + "subgraph ");
-					nodeId = GV_CLUSTER + nodeId;
+					nodeId = getGvCluster() + nodeId;
 					sb.append(nodeId);
 					sb.append(" {");
 					if (nodeLabel != null) {
@@ -347,7 +374,7 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 	 */
 	@SuppressWarnings("unchecked")
 	protected boolean writeLinks(IXholon node, String nodeId, String tab) {
-		if (shouldShowLinks == false) {return false;}
+		if (isShouldShowLinks() == false) {return false;}
 		tab += " ";
 		boolean rc = false;
 		int nodeNum = 0;
@@ -397,14 +424,14 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 		}
 		String remoteNodeId = makeNodeId(remoteNode);
 		if (isCluster(remoteNode)) {
-			remoteNodeId = GV_CLUSTER + remoteNodeId;
+			remoteNodeId = getGvCluster() + remoteNodeId;
 		}
 		StringBuilder sbEdge = new StringBuilder();
 		if (reverseArrows) {
-			sbEdge.append(remoteNodeId).append(" ").append(edgeOp).append(" ").append(nodeId).append(linkLabel).append(";");
+			sbEdge.append(remoteNodeId).append(" ").append(getEdgeOp()).append(" ").append(nodeId).append(linkLabel).append(";");
 		}
 		else {
-			sbEdge.append(nodeId).append(" ").append(edgeOp).append(" ").append(remoteNodeId).append(linkLabel).append(";");
+			sbEdge.append(nodeId).append(" ").append(getEdgeOp()).append(" ").append(remoteNodeId).append(linkLabel).append(";");
 		}
 		String edgeStr = sbEdge.toString();
 		if ((node.getParentNode() == remoteNode.getParentNode())
@@ -447,7 +474,7 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 	 */
 	protected String makeColor(IXholon node) {
 		IXholon xhcNode = node.getXhc();
-		if (shouldColor) {
+		if (isShouldColor()) {
 			String color = null;
 			while ((xhcNode != null) && (xhcNode instanceof IXholonClass)) {
 				color = ((IDecoration)xhcNode).getColor();
@@ -508,7 +535,7 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 	 * @return
 	 */
 	protected String makeNodeId(IXholon node) {
-		return node.getName(nameTemplateNodeId);
+		return node.getName(getNameTemplateNodeId());
 	}
 	
 	/**
@@ -517,13 +544,13 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 	 * @return A node label, or null if the node should not have a label.
 	 */
 	protected String makeNodeLabel(IXholon node) {
-		if (maxLabelLen == 0) {
+		if (getMaxLabelLen() == 0) {
 			return null;
 		}
-		String label = node.getName(nameTemplateNodeLabel);
-		if (maxLabelLen > GV_MAXLABELLEN_NULL) {
-			if (maxLabelLen < label.length()) {
-				label = label.substring(0, maxLabelLen);
+		String label = node.getName(getNameTemplateNodeLabel());
+		if (getMaxLabelLen() > GV_MAXLABELLEN_NULL) {
+			if (getMaxLabelLen() < label.length()) {
+				label = label.substring(0, getMaxLabelLen());
 			}
 		}
 		return label;
@@ -544,142 +571,101 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 		}
 		return false;
 	}
+	
+	/** ".gv" or ".dot" */
+	public native String getGvFileExt() /*-{return this.efParams.gvFileExt;}-*/;
+	//public native void setGvFileExt(String gvFileExt) /*-{this.efParams.gvFileExt = gvFileExt;}-*/;
 
-	public String getGvFileExt() {
-		return gvFileExt;
-	}
+  /** "graph" or "digraph" */
+	public native String getGvGraph() /*-{return this.efParams.gvGraph;}-*/;
+	//public native void setGvGraph(String gvGraph) /*-{this.efParams.gvGraph = gvGraph;}-*/;
 
-	public void setGvFileExt(String gvFileExt) {
-		this.gvFileExt = gvFileExt;
-	}
+  /** one of "dot" "neato" "twopi" "circo" "fdp" "sfdp" */
+	public native String getLayout() /*-{return this.efParams.layout;}-*/;
+	//public native void setLayout(String layout) /*-{this.efParams.layout = layout;}-*/;
 
-	public String getGvGraph() {
-		return gvGraph;
-	}
+  /** "--" or "->" */
+	public native String getEdgeOp() /*-{return this.efParams.edgeOp;}-*/;
+	//public native void setEdgeOp(String edgeOp) /*-{this.efParams.edgeOp = edgeOp;}-*/;
+	
+	/** "cluster" or any other string */
+	public native String getGvCluster() /*-{return this.efParams.gvCluster;}-*/;
+	//public native void setGvCluster(String gvCluster) /*-{this.efParams.gvCluster = gvCluster;}-*/;
 
-	public void setGvGraph(String gvGraph) {
-		this.gvGraph = gvGraph;
-	}
+  /** Whether or not to show state machine nodes. */
+	public native boolean isShouldShowStateMachineEntities() /*-{return this.efParams.shouldShowStateMachineEntities;}-*/;
+	//public native void setShouldShowStateMachineEntities(boolean shouldShowStateMachineEntities) /*-{this.efParams.shouldShowStateMachineEntities = shouldShowStateMachineEntities;}-*/;
 
-	public String getLayout() {
-		return layout;
-	}
+  /**
+   * Template to use when writing out node IDs.
+   * "^^^^i^" id only
+   */
+	public native String getNameTemplateNodeId() /*-{return this.efParams.nameTemplateNodeId;}-*/;
+	//public native void setNameTemplateNodeId(String nameTemplateNodeId) /*-{this.efParams.nameTemplateNodeId = nameTemplateNodeId;}-*/;
 
-	public void setLayout(String layout) {
-		this.layout = layout;
-	}
+  /**
+   * Template to use when writing out node labels.
+   * "R^^^^^" roleName or className, but not both
+	 * "r:C^^^" shouldQuoteLabels = true
+	 * "r^^^^^" roleName only
+	 * "^^C^^^" className only
+  */
+	public native String getNameTemplateNodeLabel() /*-{return this.efParams.nameTemplateNodeLabel;}-*/;
+	//public native void setNameTemplateNodeLabel(String nameTemplateNodeLabel) /*-{this.efParams.nameTemplateNodeLabel = nameTemplateNodeLabel;}-*/;
 
-	public String getEdgeOp() {
-		return edgeOp;
-	}
+  /** Whether or not labels/names should be quoted. */
+	public native boolean isShouldQuoteLabels() /*-{return this.efParams.shouldQuoteLabels;}-*/;
+	//public native void setShouldQuoteLabels(boolean shouldQuoteLabels) /*-{this.efParams.shouldQuoteLabels = shouldQuoteLabels;}-*/;
 
-	public void setEdgeOp(String edgeOp) {
-		this.edgeOp = edgeOp;
-	}
+	/** Whether or not to draw edges between nodes. */
+	public native boolean isShouldShowLinks() /*-{return this.efParams.shouldShowLinks;}-*/;
+	//public native void setShouldShowLinks(boolean shouldShowLinks) /*-{this.efParams.shouldShowLinks = shouldShowLinks;}-*/;
 
-	public boolean isShouldShowStateMachineEntities() {
-		return shouldShowStateMachineEntities;
-	}
+	/** Whether or not to specify the layout engine. */
+	public native boolean isShouldSpecifyLayout() /*-{return this.efParams.shouldSpecifyLayout;}-*/;
+	//public native void setShouldSpecifyLayout(boolean shouldSpecifyLayout) /*-{this.efParams.shouldSpecifyLayout = shouldSpecifyLayout;}-*/;
 
-	public void setShouldShowStateMachineEntities(
-			boolean shouldShowStateMachineEntities) {
-		this.shouldShowStateMachineEntities = shouldShowStateMachineEntities;
-	}
+  /**
+	 * Maximum length of a label.
+	 * <p>GV_MAXLABELLEN_NULL - no max len </p>
+	 * <p>0 - don't show labels</p>
+	 */
+	public native int getMaxLabelLen() /*-{return this.efParams.maxLabelLen;}-*/;
+	//public native void setMaxLabelLen(int maxLabelLen) /*-{this.efParams.maxLabelLen = maxLabelLen;}-*/;
 
-	public String getNameTemplateNodeId() {
-		return nameTemplateNodeId;
-	}
+  /**
+	 * Whether or not to provide a fill color for nodes.
+	 * If possible, the fill color will be taken from the XholonClass color.
+	 */
+	public native boolean isShouldColor() /*-{return this.efParams.shouldColor;}-*/;
+	//public native void setShouldColor(boolean shouldColor) /*-{this.efParams.shouldColor = shouldColor;}-*/;
 
-	public void setNameTemplateNodeId(String nameTemplateNodeId) {
-		this.nameTemplateNodeId = nameTemplateNodeId;
-	}
+  /**
+	 * Default fill color if shouldColor == true.
+	 */
+	public native String getDefaultColor() /*-{return this.efParams.defaultColor;}-*/;
+	//public native void setDefaultColor(String defaultColor) /*-{this.efParams.defaultColor = defaultColor;}-*/;
 
-	public String getNameTemplateNodeLabel() {
-		return nameTemplateNodeLabel;
-	}
+  /**
+	 * Whether or not to specify a stylesheet file name in the output.
+	 */
+	public native boolean isShouldSpecifyStylesheet() /*-{return this.efParams.shouldSpecifyStylesheet;}-*/;
+	//public native void setShouldSpecifyStylesheet(boolean shouldSpecifyStylesheet) /*-{this.efParams.shouldSpecifyStylesheet = shouldSpecifyStylesheet;}-*/;
 
-	public void setNameTemplateNodeLabel(String nameTemplateNodeLabel) {
-		this.nameTemplateNodeLabel = nameTemplateNodeLabel;
-	}
+  /**
+	 * Name of a stylesheet (css) file.
+	 */
+	public native String getStylesheet() /*-{return this.efParams.stylesheet;}-*/;
+	//public native void setStylesheet(String stylesheet) /*-{this.efParams.stylesheet = stylesheet;}-*/;
 
-	public boolean isShouldQuoteLabels() {
-		return shouldQuoteLabels;
-	}
-
-	public void setShouldQuoteLabels(boolean shouldQuoteLabels) {
-		this.shouldQuoteLabels = shouldQuoteLabels;
-	}
-
-	public boolean isShouldShowLinks() {
-		return shouldShowLinks;
-	}
-
-	public void setShouldShowLinks(boolean shouldShowLinks) {
-		this.shouldShowLinks = shouldShowLinks;
-	}
-
-	public boolean isShouldSpecifyLayout() {
-		return shouldSpecifyLayout;
-	}
-
-	public void setShouldSpecifyLayout(boolean shouldSpecifyLayout) {
-		this.shouldSpecifyLayout = shouldSpecifyLayout;
-	}
-
-	public int getMaxLabelLen() {
-		return maxLabelLen;
-	}
-
-	public void setMaxLabelLen(int maxLabelLen) {
-		this.maxLabelLen = maxLabelLen;
-	}
-
-	public boolean isShouldColor() {
-		return shouldColor;
-	}
-
-	public void setShouldColor(boolean shouldColor) {
-		this.shouldColor = shouldColor;
-	}
-
-	public String getDefaultColor() {
-		return defaultColor;
-	}
-
-	public void setDefaultColor(String defaultColor) {
-		this.defaultColor = defaultColor;
-	}
-
-	public boolean isShouldSpecifyStylesheet() {
-		return shouldSpecifyStylesheet;
-	}
-
-	public void setShouldSpecifyStylesheet(boolean shouldSpecifyStylesheet) {
-		this.shouldSpecifyStylesheet = shouldSpecifyStylesheet;
-	}
-
-	public String getStylesheet() {
-		return stylesheet;
-	}
-
-	public void setStylesheet(String stylesheet) {
-		this.stylesheet = stylesheet;
-	}
-
-	public boolean isShouldSpecifyRankdir() {
-		return shouldSpecifyRankdir;
-	}
-
-	public void setShouldSpecifyRankdir(boolean shouldSpecifyRankdir) {
-		this.shouldSpecifyRankdir = shouldSpecifyRankdir;
-	}
-
-	public String getRankdir() {
-		return rankdir;
-	}
-
-	public void setRankdir(String rankdir) {
-		this.rankdir = rankdir;
-	}
+  /**
+	 * Whether or not to specify a rankdir.
+	 */
+	public native boolean isShouldSpecifyRankdir() /*-{return this.efParams.shouldSpecifyRankdir;}-*/;
+	//public native void setShouldSpecifyRankdir(boolean shouldSpecifyRankdir) /*-{this.efParams.shouldSpecifyRankdir = shouldSpecifyRankdir;}-*/;
+  
+  /** rankdir=LR|RL|BT */
+	public native String getRankdir() /*-{return this.efParams.rankdir;}-*/;
+	//public native void setRankdir(String rankdir) /*-{this.efParams.rankdir = rankdir;}-*/;
 	
 }

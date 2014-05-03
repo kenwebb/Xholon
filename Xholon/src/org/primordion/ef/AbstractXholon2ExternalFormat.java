@@ -40,6 +40,69 @@ public abstract class AbstractXholon2ExternalFormat extends Xholon {
   private boolean writeToTab = true;
   
   /**
+	 * Constructor.
+	 */
+  public AbstractXholon2ExternalFormat() {
+    makeEfParams();
+  }
+  
+  /**
+	 * Make a JavaScript object with all the parameters for this external format.
+	 * Subclasses may override this.
+	 */
+	protected void makeEfParams() {}
+  
+  public native boolean canAdjustOptions() /*-{
+    if (this.efParams) {
+      return true;
+    }
+    return false;
+  }-*/;
+  
+  /**
+   * Allow user to change the values of options for this external format writer.
+   * Use dat.GUI.js
+   * Use Xholon require or require.js to load dat.GUI.js
+   * @param 
+   */
+  public void adjustOptions(String outFileName, String modelName, IXholon root, String formatName) {
+    loadDatGui(outFileName, modelName, root, formatName);
+  }
+  
+  /**
+   * Allow user to change the values of options for this external format writer.
+   * This should only be called if the dat.GUI library has been loaded.
+   */
+  public native void adjustOptionsNative(String outFileName, String modelName, IXholon root, String formatName) /*-{
+    if (this.efParams && ((typeof $wnd.dat != "undefined") && (typeof $wnd.dat.GUI != "undefined"))) {
+	    if (typeof $wnd.xh.efParamsGui == "undefined") {
+	      $wnd.xh.efParamsGui = new $wnd.dat.GUI();
+	    }
+      var gui = $wnd.xh.efParamsGui;
+      var p = this.efParams;
+	    var folder = gui.addFolder(formatName);
+	    var $this = this;
+      p.doExport = function() {
+        $this.@org.primordion.xholon.service.ef.IXholon2ExternalFormat::initialize(Ljava/lang/String;Ljava/lang/String;Lorg/primordion/xholon/base/IXholon;)(outFileName, modelName, root);
+        $this.@org.primordion.xholon.service.ef.IXholon2ExternalFormat::writeAll()();
+      };
+      //gui.remember(p); // causes page freeze in Firefox, but not in Chrome
+      for (var prop in p) {
+        var pname = prop;
+        //if (pname == "EXPORT_TYPE") {continue;}
+        var pval = p[pname];
+        if ((pval.length == 7) && (pval.charAt(0) == "#")) {
+          folder.addColor(p, pname); // ex: ""#ffae23""
+        }
+        else {
+          folder.add(p, pname);
+        }
+      }
+      folder.open();
+	  }
+  }-*/;
+  
+  /**
    * Write the entire external-format text to an appropriate target.
    * @param efText The external-format text.
    * @param uri A file name, or a GWT-usable tooltip.
@@ -210,5 +273,38 @@ public abstract class AbstractXholon2ExternalFormat extends Xholon {
     }
     return font;
   }
+  
+  /**
+   * Load dat.GUI library asynchronously.
+   */
+  protected void loadDatGui(String outFileName, String modelName, IXholon root, String formatName) {
+    //loadCss("xholon/lib/dat-gui.css");
+    requireDatGui(this, outFileName, modelName, root, formatName);
+  }
+  
+  /**
+   * use requirejs to load dat.GUI
+   */
+  protected native void requireDatGui(final AbstractXholon2ExternalFormat ef, String outFileName, String modelName, IXholon root, String formatName) /*-{
+    $wnd.requirejs.config({
+      enforceDefine: false,
+      paths: {
+        datgui: [
+          "xholon/lib/dat.gui.min"
+        ]
+      }
+    });
+    $wnd.require(["datgui"], function(datgui) {
+      ef.@org.primordion.ef.AbstractXholon2ExternalFormat::adjustOptionsNative(Ljava/lang/String;Ljava/lang/String;Lorg/primordion/xholon/base/IXholon;Ljava/lang/String;)(outFileName, modelName, root, formatName);
+    });
+  }-*/;
+  
+  protected native void loadCss(String url) /*-{
+    var link = $doc.createElement("link");
+    link.type = "text/css";
+    link.rel = "stylesheet";
+    link.href = url;
+    $doc.getElementsByTagName("head")[0].appendChild(link);
+  }-*/;
   
 }

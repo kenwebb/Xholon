@@ -35,6 +35,21 @@ public interface IXholon2ExternalFormat {
 	public static final String STRING_WRITER = "stringwriter";
 	
 	/**
+	 * Allow user to change the values of options for this external format writer.
+	 * @param outFileName Name of the output file.
+	 * @param modelName Name of the model.
+	 * @param root Root of the hierarchy to write out (composite or inheritance structure).
+	 * @param formatName ex: "Graphviz"
+	 */
+	public abstract void adjustOptions(String outFileName, String modelName, IXholon root, String formatName);
+	
+	/**
+	 * Is this external format writer capable of allowing the user to change the values of options.
+	 * @return true or false
+	 */
+	public abstract boolean canAdjustOptions();
+	
+	/**
 	 * Initialize.
 	 * @param outFileName Name of the output file.
 	 * @param modelName Name of the model.
