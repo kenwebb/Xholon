@@ -1100,6 +1100,18 @@ public abstract class AbstractGrid extends XholonWithPorts implements IGrid {
 		return portList;
 	}
 	
+	@Override
+	/**
+	 * Prevent a search for referencing nodes.
+	 * Grid nodes are typically bidirectionally connected to each other,
+	 * so it's redundant and very time consuming to search for nodes that
+	 * reference this node.
+	 * @return an empty list
+	 */
+	public List<IXholon> searchForReferencingNodes() {
+	  return new ArrayList<IXholon>();
+	}
+	
 	/**
 	 * Is this a valid node in a Grid mechanism?
 	 * All children of a &lt;Grid> node must be &lt;Row> nodes.
