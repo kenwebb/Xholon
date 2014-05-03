@@ -47,6 +47,7 @@ public class ReflectionJavaMicro implements IReflection {
     Application app = (Application)obj;
     switch (pName.charAt(0)) {
     case 'A':
+      if ("AllowConfigSrv".equals(pName)) {app.setAllowConfigSrv(Misc.booleanValue(pValue)); return true;}
       if ("AppM".equals(pName)) {app.setAppM(Misc.booleanValue(pValue)); return true;}
       if ("AttributePostConfigAction".equals(pName)) {app.setAttributePostConfigAction(Integer.parseInt(pValue)); return true;}
       break;
@@ -168,6 +169,7 @@ public class ReflectionJavaMicro implements IReflection {
     Application app = (Application)obj;
     switch (pName.charAt(0)) {
     case 'A':
+      if ("AllowConfigSrv".equals(pName)) {return Boolean.toString(app.isAllowConfigSrv());}
       if ("AppM".equals(pName)) {return Boolean.toString(app.getAppM());}
       //if ("AttributePostConfigAction".equals(pName)) {app.setAttributePostConfigAction(Integer.parseInt(pValue)); return true;}
       break;
@@ -317,6 +319,7 @@ public class ReflectionJavaMicro implements IReflection {
       names.add("UseNVD3"); values.add(app.getUseNVD3());
       names.add("MaxProcessLoops"); values.add(app.getMaxProcessLoops());
       names.add("TimeStepInterval"); values.add(app.getTimeStepInterval());
+      names.add("AllowConfigSrv"); values.add(app.isAllowConfigSrv());
       // Note: keep "ModelName" as the last one in this list; Xholon2Neo4jCypher uses assumes this
       // TODO be able to specify whether to return only node-specific attributes
       names.add("ModelName"); values.add(app.getModelName());
