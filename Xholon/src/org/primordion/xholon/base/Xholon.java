@@ -1722,21 +1722,28 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 		Iterator<PortInformation> portIt = xhcPortList.iterator();
 		while (portIt.hasNext()) {
 			PortInformation pi = (PortInformation)portIt.next();
-			IXholon reffedNode = this.getXPath().evaluate(pi.getXpathExpression().trim(), this);
-			if (reffedNode != null) {
-			  String fieldName = pi.getFieldName();
-			  int index = pi.getFieldNameIndex();
-			  if (fieldName != null) {
-			    if (index == PortInformation.PORTINFO_NOTANARRAY) {
-			      bindPort(this, fieldName, reffedNode);
-			    }
-			    else {
-			      // this is an array, possibly a "port" port
-			      if ("port".equals(fieldName)) {
-			        setPort(index, reffedNode);
+			String xpathExpression = pi.getXpathExpression();
+			if (xpathExpression == null) {
+			  // TODO this is probably an IPort with portReplication
+			  consoleLog("Xholon bindPorts() xpathExpression == null");
+			}
+			else {
+			  IXholon reffedNode = this.getXPath().evaluate(xpathExpression.trim(), this);
+			  if (reffedNode != null) {
+			    String fieldName = pi.getFieldName();
+			    int index = pi.getFieldNameIndex();
+			    if (fieldName != null) {
+			      if (index == PortInformation.PORTINFO_NOTANARRAY) {
+			        bindPort(this, fieldName, reffedNode);
 			      }
 			      else {
-			        bindPort(this, fieldName, index, reffedNode);
+			        // this is an array, possibly a "port" port
+			        if ("port".equals(fieldName)) {
+			          setPort(index, reffedNode);
+			        }
+			        else {
+			          bindPort(this, fieldName, index, reffedNode);
+			        }
 			      }
 			    }
 			  }
@@ -1745,16 +1752,18 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 	}
 	
 	public native void consoleLog(Object obj) /*-{
-	  if (console) {
-	    console.log(obj);
+	  if ($wnd.console && $wnd.console.log) {
+	    $wnd.console.log(obj);
 	  }
 	}-*/;
 	
 	protected native void bindPort(IXholon node, String fieldName, IXholon reffedNode) /*-{
-	  console.log("bindPort");
-	  console.log(node.toString());
-	  console.log(fieldName);
-	  console.log(reffedNode.toString());
+	  if ($wnd.console && $wnd.console.log) {
+	    $wnd.console.log("bindPort");
+	    $wnd.console.log(node.toString());
+	    $wnd.console.log(fieldName);
+	    $wnd.console.log(reffedNode.toString());
+	  }
 	  node[fieldName] = reffedNode;
 	}-*/;
 	
