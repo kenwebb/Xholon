@@ -151,32 +151,6 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 	 */
 	public Xholon2Graphviz() {}
 	
-	/**
-	 * Make a JavaScript object with all the parameters for this external format.
-	 */
-	protected native void makeEfParams() /*-{
-	  var p = {};
-	  p.gvFileExt = ".gv";
-	  p.gvGraph = "digraph";
-	  p.layout = "dot";
-	  p.edgeOp = "->";
-	  p.gvCluster = "";
-	  p.shouldShowStateMachineEntities = false;
-	  p.nameTemplateNodeId = "^^^^i^";
-	  p.nameTemplateNodeLabel = "R^^^^^";
-	  p.shouldQuoteLabels = true;
-	  p.shouldShowLinks = true;
-	  p.shouldSpecifyLayout = false;
-	  p.maxLabelLen = -1;
-	  p.shouldColor = true;
-	  p.defaultColor = "#f0f8ff";
-	  p.shouldSpecifyStylesheet = false;
-	  p.stylesheet = "xholon.css";
-	  p.shouldSpecifyRankdir = false;
-	  p.rankdir = "LR";
-	  this.efParams = p;
-	}-*/;
-	
 	/*
 	 * @see org.primordion.ef.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
 	 */
@@ -571,6 +545,32 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 		}
 		return false;
 	}
+	
+	/**
+	 * Make a JavaScript object with all the parameters for this external format.
+	 */
+	protected native void makeEfParams() /*-{
+	  var p = {};
+	  p.gvFileExt = ".gv";
+	  p.gvGraph = "digraph";
+	  p.layout = "dot";
+	  p.edgeOp = "->";
+	  p.gvCluster = "";
+	  p.shouldShowStateMachineEntities = false;
+	  p.nameTemplateNodeId = "^^^^i^";
+	  p.nameTemplateNodeLabel = "R^^^^^";
+	  p.shouldQuoteLabels = true;
+	  p.shouldShowLinks = true;
+	  p.shouldSpecifyLayout = false;
+	  p.maxLabelLen = -1;
+	  p.shouldColor = true;
+	  p.defaultColor = "#f0f8ff";
+	  p.shouldSpecifyStylesheet = false;
+	  p.stylesheet = "xholon.css";
+	  p.shouldSpecifyRankdir = false;
+	  p.rankdir = "LR";
+	  this.efParams = p;
+	}-*/;
 	
 	/** ".gv" or ".dot" */
 	public native String getGvFileExt() /*-{return this.efParams.gvFileExt;}-*/;
