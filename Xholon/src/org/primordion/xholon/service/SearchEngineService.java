@@ -92,13 +92,14 @@ public class SearchEngineService extends AbstractXholonService {
 	@SuppressWarnings("unchecked")
 	public void doAction(String action)
 	{
-	  System.out.println("SES action:" + action);
+	  //consoleLog("SES action:" + action);
 		if (action == null) {return;}
 		Map<String, String> map = (Map<String, String>)getFirstChild();
 		if (map == null) {return;}
 		boolean shouldBeLowerCase = false;
 		boolean shouldBeCapitalized = false; // HelloWorld becomes Hello world
 		boolean shouldBeListOf = false;
+		boolean shouldHandleMultiSelection = false;
 		StringTokenizer st = new StringTokenizer(action, ",");
 		String searchEngineName = st.nextToken();
 		String searchTermOriginal = st.nextToken();
@@ -125,6 +126,9 @@ public class SearchEngineService extends AbstractXholonService {
 		else if (searchEngineName.startsWith("Azimuth")) {
 			shouldBeCapitalized = true;
 		}
+		else if (searchEngineName.startsWith("Wolfram")) { // Wolfram|Alpha
+		  shouldHandleMultiSelection = true;
+		}
 		searchTerm = splitCamelCase(searchTerm, replaceStr);
 		if (shouldBeLowerCase) {
 			searchTerm = searchTerm.toLowerCase();
@@ -135,14 +139,16 @@ public class SearchEngineService extends AbstractXholonService {
 		if (shouldBeListOf) {
 			searchTerm = listOf + replaceStr + searchTerm.toLowerCase();
 		}
-		searchTerm += handleNodeSelections(searchTermOriginal, replaceStr, searchEngineName);
+		if (shouldHandleMultiSelection) {
+		  searchTerm += handleNodeSelections(searchTermOriginal, replaceStr, searchEngineName);
+		}
 		String searchUrl = map.get(searchEngineName);
 		if (searchUrl == null) {return;}
 		searchUrl = localize(searchUrl);
 		searchUrl += searchTerm;
-		//System.out.println(searchUrl);
+		//consoleLog(searchUrl);
 		//BrowserLauncher.launch(searchUrl); // GWT
-		System.out.println("SES searchUrl:" + searchUrl);
+		//consoleLog("SES searchUrl:" + searchUrl);
 		if (UriUtils.isSafeUri(searchUrl)) {
 		  Window.open(searchUrl, "_blank", ""); // safe uri
 		}
