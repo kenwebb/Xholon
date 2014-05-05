@@ -125,9 +125,6 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
   /** The root node in the generated GUI. */
   protected IXholon root;
   
-  /** The instance of Writer that writes to svgFileName. */
-  //protected Writer svgOut;
-  
   /**
    * The instance of StringBuilder that builds a String
    * that can be written to svgFileName or other target.
@@ -147,82 +144,76 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
   protected String svgId;
   
   /** Whether or not to show state machines. */
-  protected boolean showStates = false;
+  //protected boolean showStates = false;
   
   /** */
-  protected String nameTemplate = "r:C^^^";
-  protected String nameTemplate4Ports = "^^c_i^"; //"^^c^^^";
+  //protected String nameTemplate = "r:C^^^";
+  //protected String nameTemplate4Ports = "^^c_i^"; //"^^c^^^";
   
   // SVG Properties
   
   /** Font family (default: "Verdana"). */
   // Windows: "Verdana", "Courier New", "Comic Sans MS"
   // Linux:   ""Bitstream Vera Sans", "Bitstream Vera Sans Mono"
-  protected String fontFamily = "\"Courier New\",courier,monospace"; //"Verdana";
+  //protected String fontFamily = "\"Courier New\",courier,monospace"; //"Verdana";
   
   /** Font size (default: 8.0f). */
-  protected float fontSize = 8.0f;
+  //protected float fontSize = 8.0f;
   
   /** Font size increment (default: 1.0f). */
-  protected float fontSizeInc = 1.0f;
+  //protected float fontSizeInc = 1.0f;
   
   /** Font color (default: "black"). */
-  protected String fontColor = "black";
+  //protected String fontColor = "black";
   
   /** Stroke width in px (default: 1.0f). */
-  protected float strokeWidth = 1.0f;
+  //protected float strokeWidth = 1.0f;
   
   /** Stroke width in px (default: 0.05f). */
-  protected float strokeWidthInc = 0.05f;
+  //protected float strokeWidthInc = 0.05f;
   
   /** Stroke color (default: "#a121f1"). */
-  protected String strokeColor = "#a121f1"; // purplish
+  //protected String strokeColor = "#a121f1"; // purplish
   
   /** Shape fill color (default: "white"). */
-  protected String shapeFillColor = "white";
+  //protected String shapeFillColor = "white";
   
   /** Alternate shape fill color (default: ""). */
-  protected String shapeFillColorAlternate = "#efffdf"; // light greenish
+  //protected String shapeFillColorAlternate = "#efffdf"; // light greenish
   
   protected static final float ROUNDED_RECT_NULL = -1.0f;
   
   /** Optional rx value on rect, for a rounded rectangle. */
-  protected float shapeRx = ROUNDED_RECT_NULL;
+  //protected float shapeRx = ROUNDED_RECT_NULL;
   
   /** Optional ry value on rect, for a rounded rectangle. */
-  protected float shapeRy = ROUNDED_RECT_NULL;
+  //protected float shapeRy = ROUNDED_RECT_NULL;
   
   // width and height are for 11 x 8.5 inch paper (landscape)
   /** Page width in px (default: 990.0f). */
-  protected float pageWidth = 990.0f;
+  //protected float pageWidth = 990.0f;
   /** Page width in px (default: 765.0f). */
-  protected float pageHeight = 765.0f;
+  //protected float pageHeight = 765.0f;
   
   // Properties of individual SVG elements
-  //Properties svgProperties = null;
   
   // ports
-  //protected String portStrokeColor = "#0000ff"; // dark blue
-  //protected String portFillColor = "#e0e0f8"; // light blue
-  protected boolean shouldShowPorts = true;
-  // ports as rectangles
-  //protected String portTemplate = "<rect id=\"%s\" x=\"%f\" y=\"%f\" width=\"6\" height=\"6\" fill=\"#e0e0f8\" stroke=\"#0000ff\" stroke-width=\"2px\"/>";
-  //protected String portConjugatedTemplate = "<rect id=\"%s\" x=\"%f\" y=\"%f\" width=\"6\" height=\"6\" fill=\"#0000ff\" stroke=\"#e0e0f8\" stroke-width=\"2px\"/>";
+  //protected boolean shouldShowPorts = true;
   // ports as circle (rounded rectangle) and triangle
-  protected String portTemplate = "<rect id=\"%s\" x=\"%f\" y=\"%f\" ry=\"2.5\" width=\"6\" height=\"6\" fill=\"#0000ff\" stroke=\"#e0e0f8\" stroke-width=\"1px\"/>";
-  protected String portConjugatedTemplate="<polygon id=\"%s\" points=\"0,0 0,6 6,3\" transform=\"translate(%f,%f)\" width=\"6\" height=\"6\" fill=\"#e0e0f8\" stroke=\"#0000ff\" stroke-width=\"1px\"/>";
-  protected float portCenterX = 0.0f; //3.0f;
-  protected float portCenterY = 0.0f; //3.0f;
+  //protected String portTemplate = "<rect id=\"%s\" x=\"%f\" y=\"%f\" ry=\"2.5\" width=\"6\" height=\"6\" fill=\"#0000ff\" stroke=\"#e0e0f8\" stroke-width=\"1px\"/>";
+  //protected String portConjugatedTemplate="<polygon id=\"%s\" points=\"0,0 0,6 6,3\" transform=\"translate(%f,%f)\" width=\"6\" height=\"6\" fill=\"#e0e0f8\" stroke=\"#0000ff\" stroke-width=\"1px\"/>";
+  //protected float portCenterX = 0.0f; //3.0f;
+  //protected float portCenterY = 0.0f; //3.0f;
   
   // Connector lines
-  protected String connectorStrokeColor = "black";
-  protected float connectorStrokeWidth = 1.0f;
-  protected boolean shouldShowConnectors = true;
+  //protected String connectorStrokeColor = "black";
+  //protected float connectorStrokeWidth = 1.0f;
+  //protected boolean shouldShowConnectors = true;
   
   /**
    * Whether or not to write connectors using Inkscape-specific syntax.
    */
-  protected boolean useInkscape = true;
+  //protected boolean useInkscape = true;
   
   /**
    * Should all the connector lines be commented out?
@@ -240,7 +231,7 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
    *     Inkscape will automatically correct the positions of the connector lines.</li>
    * </ol>
    */
-  protected boolean shouldCommentConnectors = true;
+  //protected boolean shouldCommentConnectors = true;
   
   // other options
   
@@ -249,7 +240,7 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
    * If this option is chosen, then only a root node
    * and its descendant leaf nodes are included in the generated SVG.
    */
-  protected boolean shouldFlatten = false;
+  //protected boolean shouldFlatten = false;
   
   /**
    * Should take selected nodes only?
@@ -257,12 +248,12 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
    * and any descendant nodes that are available from the Node Selection Service,
    * are included in the generated SVG.
    */
-  protected boolean selectedNodesOnly = false;
+  //protected boolean selectedNodesOnly = false;
   
   /**
    * Whether to write a stylesheet (true), or inline XML attributes.
    */
-  protected boolean shouldWriteStylesheet = true;
+  //protected boolean shouldWriteStylesheet = true;
   
   /**
    * Root node in a tree of counts of how many times each IXholon is referenced by others.
@@ -276,14 +267,14 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
    * ex: rtwo_12.port[1],19.0,34.0,cO2_5  .conjport[0]
    * ex: hello_1.port[0],17.0,34.0,world_2  .conjport[0]
    */
-  protected List svgStartPort;
+  protected List svgStartPort = null;
   
   /**
    * A collection of all conjugated/end ports.
    * This is used to generate SVG connectors.
    * ex: cO2_5.conjport[0]=23.0,44.0
    */
-  protected Map svgEndPort;
+  protected Map svgEndPort = null;
   
   /** Whether or not reffedRoot has been initialized. */
   protected boolean rootInitialized = false;
@@ -291,18 +282,18 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
   /** How far a new group (container) is translated in the x direction.
    * How far a new level in the containment hierarchy is translated in the x direction.
    */
-  protected int levelTranslateX = 20;
+  //protected int levelTranslateX = 20;
   
   /** How far a new group (container) is translated in the y direction.
    * How far a new level in the containment hierarchy is translated in the x direction.
    */
-  protected int levelTranslateY = 20;
+  //protected int levelTranslateY = 20;
   
   /** How far a new sibling node is translated in the x direction. */
-  protected int siblingTranslateX = 2;
+  //protected int siblingTranslateX = 2;
   
   /** How far a new sibling node is translated in the y direction. */
-  protected int siblingTranslateY = 0;
+  //protected int siblingTranslateY = 0;
   
   /** Do nothing. */
   protected static final String SVGCLIENT_NULL = "null";
@@ -335,6 +326,9 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
   /** Use for pretty-printing the output. */
   private String indent = "                              ";
 
+  /** constructor */
+  public Xholon2Svg() {makeEfParams();}
+  
   /**
    * This method will only be called if an instance of this class is pasted in.
    * It will not be called if an instance is created by XholonGui.
@@ -368,6 +362,13 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
     this.svgFileName = ISvgView.SVG_DATA_URI; // GWT
     this.modelName = modelName;
     this.root = root;
+    this.reffedRoot = null;
+    this.svgStartPort = null;
+    this.svgEndPort = null;
+    this.rootInitialized = false;
+    this.svgClientOption = SVGCLIENT_RUN;
+    this.writeValType = null;
+    this.nextSvgId = 1;
     setXPathLocal((IXPath)root.getService(AbstractXholonService.XHSRV_XPATH));
     return true;
   }
@@ -398,7 +399,7 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
    */
   protected void populateReffedTree(IXholon node)
   {
-    if (!showStates && isStateMachineEntity(node)) {return;}
+    if (!isShowStates() && isStateMachineEntity(node)) {return;}
     List portList = node.getAllPorts();
     for (int j = 0; j < portList.size(); j++) {
       PortInformation portInfo = (PortInformation)portList.get(j);
@@ -444,7 +445,7 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
   public void writeAll()
   {
     //boolean shouldClose = true;
-    if (shouldShowConnectors) {
+    if (isShouldShowConnectors()) {
       svgStartPort = new ArrayList();
       svgEndPort = new HashMap();
     }
@@ -491,12 +492,12 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
       .append("\"")
       .append(" xmlns=\"http://www.w3.org/2000/svg\"")
       .append(" xmlns:xlink=\"http://www.w3.org/1999/xlink\"");
-      if (useInkscape) {
+      if (isUseInkscape()) {
         svgSb.append(" xmlns:sodipodi=\"http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd\""
           + " xmlns:inkscape=\"http://www.inkscape.org/namespaces/inkscape\"");
       }
-      svgSb.append(" version=\"1.1\" width=\"" + pageWidth
-          + "\" height=\"" + pageHeight + "\">\n");
+      svgSb.append(" version=\"1.1\" width=\"" + getPageWidth()
+          + "\" height=\"" + getPageHeight() + "\">\n");
       
       // optionally write a CSS stylesheet
       writeStylesheet();
@@ -644,7 +645,7 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
    */
   protected void writeAllContour()
   {
-    if (selectedNodesOnly) {
+    if (isSelectedNodesOnly()) {
       writeSelectedNodesOnly();
     }
     else {
@@ -688,7 +689,7 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
   protected void writeContourNode(IXholon node, int level, int siblingIndex)
   {
     // optionally show state machines
-    if (!showStates && isStateMachineEntity(node)) {return;}
+    if (!isShowStates() && isStateMachineEntity(node)) {return;}
     if (node == this) {return;}
     if (node.isContainer()) {
       // this is a container
@@ -712,7 +713,7 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
    */
   protected void writeContourContainerChoose(IXholon node, int level, int siblingIndex)
   {
-    if (shouldFlatten && level != 0) {
+    if (isShouldFlatten() && level != 0) {
       // skip this level, but retain the root level
       IXholon childNode = node.getFirstChild();
       siblingIndex = 0;
@@ -739,11 +740,11 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
 		  tab = indent.substring(0, level+1);
 		}
 		
-    String nodeName = node.getName(nameTemplate); //.getXhcName();
+    String nodeName = node.getName(getNameTemplate()); //.getXhcName();
     
     // initialize rectangle x, y, width, height with default values
-    float rectX = 10.0f + siblingIndex * siblingTranslateX;
-    float rectY = 10.0f + siblingIndex * siblingTranslateY;
+    float rectX = 10.0f + siblingIndex * getSiblingTranslateX();
+    float rectY = 10.0f + siblingIndex * getSiblingTranslateY();
     float rectWidth = nodeName.length() * 7.0f;
     if (rectWidth < 40.0f) {rectWidth = 40.0f;}
     float rectHeight = 50.0f;
@@ -759,9 +760,9 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
       }
     }
     
-    String fill = shapeFillColor;
+    String fill = getShapeFillColor();
     if (level % 2 == 0) {
-      fill = shapeFillColorAlternate;
+      fill = getShapeFillColorAlternate();
     }
     if (level != 0) {
       // group that includes this container and its children
@@ -769,9 +770,9 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
       .append(tab)
       .append("<g")
       .append(" transform=\"translate(")
-      .append(levelTranslateX)
+      .append(getLevelTranslateX())
       .append(",")
-      .append(levelTranslateY)
+      .append(getLevelTranslateY())
       .append(")\"")
       .append(">\n");
     }
@@ -797,26 +798,26 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
     .append(" height=\"")
     .append(rectHeight)
     .append("\"");
-    if (!shouldWriteStylesheet) {
+    if (!isShouldWriteStylesheet()) {
       svgSb
       .append(" fill=\"")
       .append(fill)
       .append("\"")
       .append(" stroke=\"")
-      .append(strokeColor)
+      .append(getStrokeColor())
       .append("\"")
       .append(" stroke-width=\"")
-      .append(strokeWidth)
+      .append(getStrokeWidth())
       .append("px\"");
     }
     else if (level % 2 == 0) {
       svgSb.append(" class=\"rectalt\"");
     }
-    if (shapeRx != ROUNDED_RECT_NULL) {
-      svgSb.append(" rx=\"").append(shapeRx).append("\"");
+    if (getShapeRx() != ROUNDED_RECT_NULL) {
+      svgSb.append(" rx=\"").append(getShapeRx()).append("\"");
     }
-    if (shapeRy != ROUNDED_RECT_NULL) {
-      svgSb.append(" ry=\"").append(shapeRy).append("\"");
+    if (getShapeRy() != ROUNDED_RECT_NULL) {
+      svgSb.append(" ry=\"").append(getShapeRy()).append("\"");
     }
     svgSb.append("/>\n");
     svgSb
@@ -830,16 +831,16 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
     .append(" y=\"")
     .append((rectY+10.0f))
     .append("\"");
-    if (!shouldWriteStylesheet) {
+    if (!isShouldWriteStylesheet()) {
       svgSb
       .append(" font-family=\"")
-      .append(fontFamily)
+      .append(getFontFamily())
       .append("\"")
       .append(" font-size=\"")
-      .append(fontSize)
+      .append(getFontSize())
       .append("\"")
       .append(" fill=\"")
-      .append(fontColor)
+      .append(getFontColor())
       .append("\"");
     }
     svgSb.append(">");
@@ -876,11 +877,11 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
 		  tab = indent.substring(0, level+1);
 		}
 		
-    String nodeName = node.getName(nameTemplate); //node.getXhcName();
+    String nodeName = node.getName(getNameTemplate()); //node.getXhcName();
     
     // initialize rectangle x, y, width, height with default values
-    float rectX = 20.0f + siblingIndex * siblingTranslateX;
-    float rectY = 30.0f + siblingIndex * siblingTranslateY;;
+    float rectX = 20.0f + siblingIndex * getSiblingTranslateX();
+    float rectY = 30.0f + siblingIndex * getSiblingTranslateY();;
     float rectWidth = nodeName.length() * 7.0f;
     if (rectWidth < 40.0f) {rectWidth = 40.0f;}
     float rectHeight = 20.0f;
@@ -896,9 +897,9 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
       }
     }
     
-    String fill = shapeFillColor;
+    String fill = getShapeFillColor();
     if (level % 2 == 0) {
-      fill = shapeFillColorAlternate;
+      fill = getShapeFillColorAlternate();
     }
     svgSb.append(tab).append("<g id=\"g").append(nextSvgId++).append("\">\n");
     //writeDescription(node, level);
@@ -921,26 +922,26 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
     .append(" height=\"")
     .append(rectHeight)
     .append("\"");
-    if (!shouldWriteStylesheet) {
+    if (!isShouldWriteStylesheet()) {
       svgSb
       .append(" fill=\"")
       .append(fill)
       .append("\"")
       .append(" stroke=\"")
-      .append(strokeColor)
+      .append(getStrokeColor())
       .append("\"")
       .append(" stroke-width=\"")
-      .append(strokeWidth)
+      .append(getStrokeWidth())
       .append("px\"");
     }
     else if (level % 2 == 0) {
       svgSb.append(" class=\"rectalt\"");
     }
-    if (shapeRx != ROUNDED_RECT_NULL) {
-      svgSb.append(" rx=\"").append(shapeRx).append("\"");
+    if (getShapeRx() != ROUNDED_RECT_NULL) {
+      svgSb.append(" rx=\"").append(getShapeRx()).append("\"");
     }
-    if (shapeRy != ROUNDED_RECT_NULL) {
-      svgSb.append(" ry=\"").append(shapeRy).append("\"");
+    if (getShapeRy() != ROUNDED_RECT_NULL) {
+      svgSb.append(" ry=\"").append(getShapeRy()).append("\"");
     }
     svgSb.append("/>\n");
     svgSb
@@ -954,16 +955,16 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
     .append(" y=\"")
     .append((rectY+10.0f))
     .append("\"");
-    if (!shouldWriteStylesheet) {
+    if (!isShouldWriteStylesheet()) {
       svgSb
       .append(" font-family=\"")
-      .append(fontFamily)
+      .append(getFontFamily())
       .append("\"")
       .append(" font-size=\"")
-      .append(fontSize)
+      .append(getFontSize())
       .append("\"")
       .append(" fill=\"")
-      .append(fontColor)
+      .append(getFontColor())
       .append("\"");
     }
     svgSb.append(">");
@@ -1069,7 +1070,7 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
       .append(rectY)
       .append("\"")
       .append(" font-size=\"")
-      .append((fontSize-2.0f))
+      .append((getFontSize() - 2.0f))
       .append("\">")
       .append(valStr)
       .append("</tspan>");
@@ -1089,7 +1090,7 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
     //System.out.println("Xholon2Svg writePorts " + portList.size());
     for (int i = 0; i < portList.size(); i++) {
       // ex: atmosphere_27.surface
-      String portId = node.getName(nameTemplate4Ports) + "."
+      String portId = node.getName(getNameTemplate4Ports()) + "."
         + ((PortInformation)portList.get(i)).getLocalName();
       writePort(x, y, false, (PortInformation)portList.get(i), portId, level);
       
@@ -1115,7 +1116,7 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
     //System.out.println("Xholon2Svg writeReffedPorts " + numReffedPorts);
     for (int i = 0; i < numReffedPorts; i++) {
       // ex: world_2.conjport[0]
-      String portId = node.getName(nameTemplate4Ports) + ".conjport[" + i + "]";
+      String portId = node.getName(getNameTemplate4Ports()) + ".conjport[" + i + "]";
       writePort(x, y, true, null, portId, level);
     }
   }
@@ -1131,7 +1132,7 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
   @SuppressWarnings("unchecked")
   protected void writePort(float x, float y, boolean isConjugated, PortInformation portInfo, String portId, int level)
   {
-    if (!shouldShowPorts) {return;}
+    if (!isShouldShowPorts()) {return;}
     
     String tab = indent;
 		if (level < indent.length()) {
@@ -1171,7 +1172,7 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
         .append(",")
         .append(y)
         .append(")\" width=\"6\" height=\"6\"");
-        if (!shouldWriteStylesheet) {
+        if (!isShouldWriteStylesheet()) {
           svgSb.append(" fill=\"#e0e0f8\" stroke=\"#0000ff\" stroke-width=\"1px\"");
         }
         svgSb.append("/>\n");
@@ -1191,7 +1192,7 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
         .append("\" y=\"")
         .append(y)
         .append("\" ry=\"2.5\" width=\"6\" height=\"6\"");
-        if (!shouldWriteStylesheet) {
+        if (!isShouldWriteStylesheet()) {
           svgSb.append(" fill=\"#0000ff\" stroke=\"#e0e0f8\" stroke-width=\"1px\"");
         }
         svgSb.append("/>\n");
@@ -1203,7 +1204,7 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
         .append(",")
         .append(y)
         .append(",")
-        .append(portInfo.getReffedNode().getName(nameTemplate4Ports));
+        .append(portInfo.getReffedNode().getName(getNameTemplate4Ports()));
         svgStartPort.add(sb.toString());
       }
       /*svgSb.append("<rect x=\"" + x + "\" y=\"" + y + "\" width=\"" + "6" + "\" height=\"6\""
@@ -1222,11 +1223,11 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
    */
   protected void writeConnector()
   {
-    if (!shouldShowConnectors) {return;}
+    if (!isShouldShowConnectors()) {return;}
     svgSb
     .append("<line x1=\"20\" y1=\"40\" x2=\"20\" y2=\"90\"")
     .append(" stroke=\"")
-    .append(connectorStrokeColor)
+    .append(getConnectorStrokeColor())
     .append("\"")
     .append(" stroke-width=\"")
     .append("1")
@@ -1254,8 +1255,8 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
  sodipodi:nodetypes="cc" />
    */
   protected void writeConnector(String startPortId, String endPortId, float x, float y) {
-    if (!shouldShowConnectors) {return;}
-    if (useInkscape) {
+    if (!isShouldShowConnectors()) {return;}
+    if (isUseInkscape()) {
       // TODO Inkscape doesn't act as if this is a connector
       svgSb.append("<path");
       svgSb.append(" stroke=\"#000000\" stroke-width=\"1px\"");
@@ -1305,30 +1306,30 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
    * Write connector lines between ports.
    */
   protected void writeConnectors() {
-    if (!shouldShowConnectors) {return;}
+    if (!isShouldShowConnectors()) {return;}
     Iterator itStart = svgStartPort.iterator();
-    if (shouldCommentConnectors) {svgSb.append(" <!--\n");}
+    if (isShouldCommentConnectors()) {svgSb.append(" <!--\n");}
     while (itStart.hasNext()) {
       String startPortStr = (String)itStart.next();
       //System.out.println(str);
       // ex: hello_1.port[0],17.0,34.0,world_2
       StringTokenizer startPortSt = new StringTokenizer(startPortStr, ",");
       String startPortId = startPortSt.nextToken();
-      float startX = Float.parseFloat(startPortSt.nextToken()) + portCenterX;
-      float startY = Float.parseFloat(startPortSt.nextToken()) + portCenterY;
+      float startX = Float.parseFloat(startPortSt.nextToken()) + getPortCenterX();
+      float startY = Float.parseFloat(startPortSt.nextToken()) + getPortCenterY();
       String endPortId = startPortSt.nextToken() + ".conjport[0]";
       // ex: naOH_4.conjport[0]=21.0,44.0
       String endPortStr = (String)svgEndPort.get(endPortId);
       if (endPortStr == null) {continue;}
       StringTokenizer endPortSt = new StringTokenizer(endPortStr, ",");
-      float endX = Float.parseFloat(endPortSt.nextToken()) + portCenterX;
-      float endY = Float.parseFloat(endPortSt.nextToken()) + portCenterY;
-      if (useInkscape) {
+      float endX = Float.parseFloat(endPortSt.nextToken()) + getPortCenterX();
+      float endY = Float.parseFloat(endPortSt.nextToken()) + getPortCenterY();
+      if (isUseInkscape()) {
         svgSb.append(" <path");
         svgSb.append(" stroke=\"")
-        .append(connectorStrokeColor)
+        .append(getConnectorStrokeColor())
         .append("\" stroke-width=\"")
-        .append(connectorStrokeWidth)
+        .append(getConnectorStrokeWidth())
         .append("px\"");
         //style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
         //d="M 284.11907,289.53756 C 314.49326,261.95355 306.48215,222.37412 308.8464,186.037"
@@ -1359,9 +1360,9 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
         svgSb
         .append(" <path")
         .append(" stroke=\"")
-        .append(connectorStrokeColor)
+        .append(getConnectorStrokeColor())
         .append("\" stroke-width=\"")
-        .append(connectorStrokeWidth)
+        .append(getConnectorStrokeWidth())
         .append("px\"")
         .append(" d=\"M ")
         .append(startX)
@@ -1375,7 +1376,7 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
         .append(" />\n");
       }
     }
-    if (shouldCommentConnectors) {svgSb.append(" -->\n");}
+    if (isShouldCommentConnectors()) {svgSb.append(" -->\n");}
   }
   
   /**
@@ -1499,49 +1500,90 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
    * Optionally write a CSS stylesheet.
   */
   protected void writeStylesheet() {
-    if (!shouldWriteStylesheet) {return;}
+    if (!isShouldWriteStylesheet()) {return;}
     StringBuilder sbStyle = new StringBuilder()
     .append("\n<style>\n")
     
     .append("svg#").append(svgId).append(" rect {\n")
-    .append("  fill: ").append(shapeFillColor).append(";\n")
-    .append("  stroke: ").append(strokeColor).append(";\n")
-    .append("  stroke-width: ").append(strokeWidth).append("px;\n")
+    .append("  fill: ").append(getShapeFillColor()).append(";\n")
+    .append("  stroke: ").append(getStrokeColor()).append(";\n")
+    .append("  stroke-width: ").append(getStrokeWidth()).append("px;\n")
     .append("}\n")
     
     .append("svg#").append(svgId).append(" rect.rectalt {\n")
-    .append("  fill: ").append(shapeFillColorAlternate).append(";\n")
+    .append("  fill: ").append(getShapeFillColorAlternate()).append(";\n")
     .append("}\n")
     
     .append("svg#").append(svgId).append(" rect:active {\n")
-    .append("  stroke-width: ").append(strokeWidth * 2).append("px;\n")
+    .append("  stroke-width: ").append(getStrokeWidth() * 2).append("px;\n")
     .append("}\n")
     
     .append("svg#").append(svgId).append(" text {\n")
-    .append("  font-family: ").append(fontFamily).append(";\n")
-    .append("  font-size: ").append(fontSize).append("px;\n")
+    .append("  font-family: ").append(getFontFamily()).append(";\n")
+    .append("  font-size: ").append(getFontSize()).append("px;\n")
     //.append("  font-weight: ").append("bold").append(";\n")
-    .append("  fill: ").append(fontColor).append(";\n")
+    .append("  fill: ").append(getFontColor()).append(";\n")
     .append("  pointer-events: ").append("none").append(";\n")
     .append("}\n")
     
     .append("svg#").append(svgId).append(" rect[id*=\".port[\"] {\n")
     .append("  fill: ").append("#0000ff").append(";\n")
     .append("  stroke: ").append("#e0e0f8").append(";\n")
-    .append("  stroke-width: ").append(strokeWidth).append("px;\n")
+    .append("  stroke-width: ").append(getStrokeWidth()).append("px;\n")
     .append("}\n")
     
     .append("svg#").append(svgId).append(" rect[id*=\".conjport[\"],")
     .append(" svg#").append(svgId).append(" polygon[id*=\".conjport[\"] {\n")
     .append("  fill: ").append("#e0e0f8").append(";\n")
     .append("  stroke: ").append("#0000ff").append(";\n")
-    .append("  stroke-width: ").append(strokeWidth).append("px;\n")
+    .append("  stroke-width: ").append(getStrokeWidth()).append("px;\n")
     .append("}\n")
     
     .append("</style>\n");
     
     svgSb.append(sbStyle.toString());
   }
+  
+  /**
+   * Make a JavaScript object with all the parameters for this external format.
+   */
+  protected native void makeEfParams() /*-{
+    var p = {};
+    p.showStates = false;
+    p.nameTemplate = "r:C^^^";
+    p.nameTemplate4Ports = "^^c_i^";
+    p.fontFamily = '"Courier New",courier,monospace';
+    p.fontSize = 8.0;
+    p.fontSizeInc = 1.0;
+    p.fontColor = "black";
+    p.strokeWidth = 1.0;
+    p.strokeWidthInc = 0.05;
+    p.strokeColor = "#a121f1";
+    p.shapeFillColor = "white";
+    p.shapeFillColorAlternate = "#efffdf";
+    p.shapeRx = -1.0;
+    p.shapeRy = -1.0;
+    p.pageWidth = 990.0;
+    p.pageHeight = 765.0;
+    p.shouldShowPorts = true;
+    p.portTemplate = '<rect id="%s" x="%f" y="%f" ry="2.5" width="6" height="6" fill="#0000ff" stroke="#e0e0f8" stroke-width="1px"/>';
+    p.portConjugatedTemplate = '<polygon id="%s" points="0,0 0,6 6,3" transform="translate(%f,%f)" width="6" height="6" fill="#e0e0f8" stroke="#0000ff" stroke-width="1px"/>';
+    p.portCenterX = 0.0;
+    p.portCenterY = 0.0;
+    p.connectorStrokeColor = "black";
+    p.connectorStrokeWidth = 1.0;
+    p.shouldShowConnectors = true;
+    p.useInkscape = true;
+    p.shouldCommentConnectors = true;
+    p.shouldFlatten = false;
+    p.selectedNodesOnly = false;
+    p.shouldWriteStylesheet = true;
+    p.levelTranslateX = 20;
+    p.levelTranslateY = 20;
+    p.siblingTranslateX = 2;
+    p.siblingTranslateY = 0;
+    this.efParams = p;
+  }-*/;
   
   public String getSvgFileName() {
     return svgFileName;
@@ -1567,14 +1609,6 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
     this.root = root;
   }
 
-  //public Writer getSvgOut() {
-  //  return svgOut;
-  //}
-
-  //public void setSvgOut(Writer svgOut) {
-  //  this.svgOut = svgOut;
-  //}
-
   public String getSvgPathName() {
     return svgPathName;
   }
@@ -1599,182 +1633,6 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
     this.timeStamp = timeStamp;
   }
 
-  public boolean isShowStates() {
-    return showStates;
-  }
-
-  public void setShowStates(boolean showStates) {
-    this.showStates = showStates;
-  }
-
-  public String getNameTemplate() {
-    return nameTemplate;
-  }
-
-  public void setNameTemplate(String nameTemplate) {
-    this.nameTemplate = nameTemplate;
-  }
-
-  public String getFontFamily() {
-    return fontFamily;
-  }
-
-  public void setFontFamily(String fontFamily) {
-    this.fontFamily = fontFamily;
-  }
-
-  public float getFontSize() {
-    return fontSize;
-  }
-
-  public void setFontSize(float fontSize) {
-    this.fontSize = fontSize;
-  }
-
-  public float getFontSizeInc() {
-    return fontSizeInc;
-  }
-
-  public void setFontSizeInc(float fontSizeInc) {
-    this.fontSizeInc = fontSizeInc;
-  }
-
-  public String getFontColor() {
-    return fontColor;
-  }
-
-  public void setFontColor(String fontColor) {
-    this.fontColor = fontColor;
-  }
-
-  public float getStrokeWidth() {
-    return strokeWidth;
-  }
-
-  public void setStrokeWidth(float strokeWidth) {
-    this.strokeWidth = strokeWidth;
-  }
-
-  public float getStrokeWidthInc() {
-    return strokeWidthInc;
-  }
-
-  public void setStrokeWidthInc(float strokeWidthInc) {
-    this.strokeWidthInc = strokeWidthInc;
-  }
-
-  public String getStrokeColor() {
-    return strokeColor;
-  }
-
-  public void setStrokeColor(String strokeColor) {
-    this.strokeColor = strokeColor;
-  }
-
-  public String getShapeFillColor() {
-    return shapeFillColor;
-  }
-
-  public void setShapeFillColor(String shapeFillColor) {
-    this.shapeFillColor = shapeFillColor;
-  }
-
-  public String getShapeFillColorAlternate() {
-    return shapeFillColorAlternate;
-  }
-
-  public void setShapeFillColorAlternate(String shapeFillColorAlternate) {
-    this.shapeFillColorAlternate = shapeFillColorAlternate;
-  }
-
-  public float getPageWidth() {
-    return pageWidth;
-  }
-
-  public void setPageWidth(float pageWidth) {
-    this.pageWidth = pageWidth;
-  }
-
-  public float getPageHeight() {
-    return pageHeight;
-  }
-
-  public void setPageHeight(float pageHeight) {
-    this.pageHeight = pageHeight;
-  }
-
-  /*public String getPortStrokeColor() {
-    return portStrokeColor;
-  }
-
-  public void setPortStrokeColor(String portStrokeColor) {
-    this.portStrokeColor = portStrokeColor;
-  }
-
-  public String getPortFillColor() {
-    return portFillColor;
-  }
-
-  public void setPortFillColor(String portFillColor) {
-    this.portFillColor = portFillColor;
-  }*/
-
-  public boolean isShouldShowPorts() {
-    return shouldShowPorts;
-  }
-
-  public void setShouldShowPorts(boolean shouldShowPorts) {
-    this.shouldShowPorts = shouldShowPorts;
-  }
-
-  public String getPortTemplate() {
-    return portTemplate;
-  }
-
-  public void setPortTemplate(String portTemplate) {
-    this.portTemplate = portTemplate;
-  }
-
-  public String getPortConjugatedTemplate() {
-    return portConjugatedTemplate;
-  }
-
-  public void setPortConjugatedTemplate(String portConjugatedTemplate) {
-    this.portConjugatedTemplate = portConjugatedTemplate;
-  }
-
-  public String getConnectorStrokeColor() {
-    return connectorStrokeColor;
-  }
-
-  public void setConnectorStrokeColor(String connectorStrokeColor) {
-    this.connectorStrokeColor = connectorStrokeColor;
-  }
-
-  public boolean isShouldShowConnectors() {
-    return shouldShowConnectors;
-  }
-
-  public void setShouldShowConnectors(boolean shouldShowConnectors) {
-    this.shouldShowConnectors = shouldShowConnectors;
-  }
-
-  public boolean isUseInkscape() {
-    return useInkscape;
-  }
-
-  public void setUseInkscape(boolean useInkscape) {
-    this.useInkscape = useInkscape;
-  }
-
-  public boolean isShouldCommentConnectors() {
-    return shouldCommentConnectors;
-  }
-
-  public void setShouldCommentConnectors(boolean shouldCommentConnectors) {
-    this.shouldCommentConnectors = shouldCommentConnectors;
-  }
-
   public XholonSortedNode getReffedRoot() {
     return reffedRoot;
   }
@@ -1789,38 +1647,6 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
 
   public void setXPathLocal(IXPath xPathLocal) {
     this.xPathLocal = xPathLocal;
-  }
-
-  public int getLevelTranslateX() {
-    return levelTranslateX;
-  }
-
-  public void setLevelTranslateX(int levelTranslateX) {
-    this.levelTranslateX = levelTranslateX;
-  }
-
-  public int getLevelTranslateY() {
-    return levelTranslateY;
-  }
-
-  public void setLevelTranslateY(int levelTranslateY) {
-    this.levelTranslateY = levelTranslateY;
-  }
-
-  public int getSiblingTranslateX() {
-    return siblingTranslateX;
-  }
-
-  public void setSiblingTranslateX(int siblingTranslateX) {
-    this.siblingTranslateX = siblingTranslateX;
-  }
-
-  public int getSiblingTranslateY() {
-    return siblingTranslateY;
-  }
-
-  public void setSiblingTranslateY(int siblingTranslateY) {
-    this.siblingTranslateY = siblingTranslateY;
   }
 
   public String getSvgClientOption() {
@@ -1838,45 +1664,170 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
   public void setWriteValType(String writeValType) {
     this.writeValType = writeValType;
   }
+  
+    /** Whether or not to show state machines. */
+  public native boolean isShowStates() /*-{return this.efParams.showStates;}-*/;
+  //public native void setShowStates(boolean showStates) /*-{this.efParams.showStates = showStates;}-*/;
 
-  public boolean isShouldFlatten() {
-    return shouldFlatten;
-  }
+  public native String getNameTemplate() /*-{return this.efParams.nameTemplate;}-*/;
+  //public native void setNameTemplate(String nameTemplate) /*-{this.efParams.nameTemplate = nameTemplate;}-*/;
 
-  public void setShouldFlatten(boolean shouldFlatten) {
-    this.shouldFlatten = shouldFlatten;
-  }
+  //"^^c^^^";
+  public native String getNameTemplate4Ports() /*-{return this.efParams.nameTemplate4Ports;}-*/;
+  //public native void setNameTemplate4Ports(String nameTemplate4Ports) /*-{this.efParams.nameTemplate4Ports = nameTemplate4Ports;}-*/;
 
-  public boolean isSelectedNodesOnly() {
-    return selectedNodesOnly;
-  }
+  /** Font family (default: "Verdana").
+   * Windows: "Verdana", "Courier New", "Comic Sans MS"
+   * Linux:   ""Bitstream Vera Sans", "Bitstream Vera Sans Mono"
+   */
+  public native String getFontFamily() /*-{return this.efParams.fontFamily;}-*/;
+  //public native void setFontFamily(String fontFamily) /*-{this.efParams.fontFamily = fontFamily;}-*/;
 
-  public void setSelectedNodesOnly(boolean selectedNodesOnly) {
-    this.selectedNodesOnly = selectedNodesOnly;
-  }
+  /** Font size (default: 8.0f). */
+  public native float getFontSize() /*-{return this.efParams.fontSize;}-*/;
+  //public native void setFontSize(float fontSize) /*-{this.efParams.fontSize = fontSize;}-*/;
 
-  public float getConnectorStrokeWidth() {
-    return connectorStrokeWidth;
-  }
+  /** Font size increment (default: 1.0f). */
+  public native float getFontSizeInc() /*-{return this.efParams.fontSizeInc;}-*/;
+  //public native void setFontSizeInc(float fontSizeInc) /*-{this.efParams.fontSizeInc = fontSizeInc;}-*/;
 
-  public void setConnectorStrokeWidth(float connectorStrokeWidth) {
-    this.connectorStrokeWidth = connectorStrokeWidth;
-  }
+  /** Font color (default: "black"). */
+  public native String getFontColor() /*-{return this.efParams.fontColor;}-*/;
+  //public native void setFontColor(String fontColor) /*-{this.efParams.fontColor = fontColor;}-*/;
 
-  public float getShapeRx() {
-    return shapeRx;
-  }
+  /** Stroke width in px (default: 1.0f). */
+  public native float getStrokeWidth() /*-{return this.efParams.strokeWidth;}-*/;
+  //public native void setStrokeWidth(float strokeWidth) /*-{this.efParams.strokeWidth = strokeWidth;}-*/;
 
-  public void setShapeRx(float shapeRx) {
-    this.shapeRx = shapeRx;
-  }
+  /** Stroke width in px (default: 0.05f). */
+  public native float getStrokeWidthInc() /*-{return this.efParams.strokeWidthInc;}-*/;
+  //public native void setStrokeWidthInc(float strokeWidthInc) /*-{this.efParams.strokeWidthInc = strokeWidthInc;}-*/;
 
-  public float getShapeRy() {
-    return shapeRy;
-  }
+  /** Stroke color (default: "#a121f1") purplish. */
+  public native String getStrokeColor() /*-{return this.efParams.strokeColor;}-*/;
+  //public native void setStrokeColor(String strokeColor) /*-{this.efParams.strokeColor = strokeColor;}-*/;
 
-  public void setShapeRy(float shapeRy) {
-    this.shapeRy = shapeRy;
-  }
+  /** Shape fill color (default: "white"). */
+  public native String getShapeFillColor() /*-{return this.efParams.shapeFillColor;}-*/;
+  //public native void setShapeFillColor(String shapeFillColor) /*-{this.efParams.shapeFillColor = shapeFillColor;}-*/;
+
+  /** Alternate shape fill color (default: "") light greenish. */
+  public native String getShapeFillColorAlternate() /*-{return this.efParams.shapeFillColorAlternate;}-*/;
+  //public native void setShapeFillColorAlternate(String shapeFillColorAlternate) /*-{this.efParams.shapeFillColorAlternate = shapeFillColorAlternate;}-*/;
+
+  /** Optional rx value on rect, for a rounded rectangle. */
+  public native float getShapeRx() /*-{return this.efParams.shapeRx;}-*/;
+  //public native void setShapeRx(float shapeRx) /*-{this.efParams.shapeRx = shapeRx;}-*/;
+
+  /** Optional ry value on rect, for a rounded rectangle. */
+  public native float getShapeRy() /*-{return this.efParams.shapeRy;}-*/;
+  //public native void setShapeRy(float shapeRy) /*-{this.efParams.shapeRy = shapeRy;}-*/;
+
+  // width and height are for 11 x 8.5 inch paper (landscape)
+  /** Page width in px (default: 990.0f). */
+  public native float getPageWidth() /*-{return this.efParams.pageWidth;}-*/;
+  //public native void setPageWidth(float pageWidth) /*-{this.efParams.pageWidth = pageWidth;}-*/;
+
+  /** Page width in px (default: 765.0f). */
+  public native float getPageHeight() /*-{return this.efParams.pageHeight;}-*/;
+  //public native void setPageHeight(float pageHeight) /*-{this.efParams.pageHeight = pageHeight;}-*/;
+
+  public native boolean isShouldShowPorts() /*-{return this.efParams.shouldShowPorts;}-*/;
+  //public native void setShouldShowPorts(boolean shouldShowPorts) /*-{this.efParams.shouldShowPorts = shouldShowPorts;}-*/;
+
+  // ports as circle (rounded rectangle) and triangle
+  public native String getPortTemplate() /*-{return this.efParams.portTemplate;}-*/;
+  //public native void setPortTemplate(String portTemplate) /*-{this.efParams.portTemplate = portTemplate;}-*/;
+
+  public native String getPortConjugatedTemplate() /*-{return this.efParams.portConjugatedTemplate;}-*/;
+  //public native void setPortConjugatedTemplate(String portConjugatedTemplate) /*-{this.efParams.portConjugatedTemplate = portConjugatedTemplate;}-*/;
+
+  public native float getPortCenterX() /*-{return this.efParams.portCenterX;}-*/;
+  //public native void setPortCenterX(float portCenterX) /*-{this.efParams.portCenterX = portCenterX;}-*/;
+
+  public native float getPortCenterY() /*-{return this.efParams.portCenterY;}-*/;
+  //public native void setPortCenterY(float portCenterY) /*-{this.efParams.portCenterY = portCenterY;}-*/;
+
+  // Connector lines
+  public native String getConnectorStrokeColor() /*-{return this.efParams.connectorStrokeColor;}-*/;
+  //public native void setConnectorStrokeColor(String connectorStrokeColor) /*-{this.efParams.connectorStrokeColor = connectorStrokeColor;}-*/;
+
+  public native float getConnectorStrokeWidth() /*-{return this.efParams.connectorStrokeWidth;}-*/;
+  //public native void setConnectorStrokeWidth(float connectorStrokeWidth) /*-{this.efParams.connectorStrokeWidth = connectorStrokeWidth;}-*/;
+
+  public native boolean isShouldShowConnectors() /*-{return this.efParams.shouldShowConnectors;}-*/;
+  //public native void setShouldShowConnectors(boolean shouldShowConnectors) /*-{this.efParams.shouldShowConnectors = shouldShowConnectors;}-*/;
+
+  /**
+   * Whether or not to write connectors using Inkscape-specific syntax.
+   */
+  public native boolean isUseInkscape() /*-{return this.efParams.useInkscape;}-*/;
+  //public native void setUseInkscape(boolean useInkscape) /*-{this.efParams.useInkscape = useInkscape;}-*/;
+
+  /**
+   * Should all the connector lines be commented out?
+   * This is useful when using the Inkscape-specific syntax,
+   * because Inkscape often looses the connector lines when the image is being edited.
+   * Steps:
+   * <ol>
+   * <li>Use Xholon2Svg to write an SVG image,
+   *     with shouldShowConnectors useInkscape shouldCommentConnectors set to true.</li>
+   * <li>Edit the image using Inkscape or other tools.
+   *     Make sure to retain the ports that the connector lines connect to.
+   *     Save it in a way that preserves the commented-out content.</li>
+   * <li>Use a text editor to remove the comments around the connector lines.</li>
+   * <li>Reload the image back into Inkscape.
+   *     Inkscape will automatically correct the positions of the connector lines.</li>
+   * </ol>
+   */
+  public native boolean isShouldCommentConnectors() /*-{return this.efParams.shouldCommentConnectors;}-*/;
+  //public native void setShouldCommentConnectors(boolean shouldCommentConnectors) /*-{this.efParams.shouldCommentConnectors = shouldCommentConnectors;}-*/;
+
+  // other options
+  
+  /**
+   * Should flatten the composite structure hierarchy?
+   * If this option is chosen, then only a root node
+   * and its descendant leaf nodes are included in the generated SVG.
+   */
+  public native boolean isShouldFlatten() /*-{return this.efParams.shouldFlatten;}-*/;
+  //public native void setShouldFlatten(boolean shouldFlatten) /*-{this.efParams.shouldFlatten = shouldFlatten;}-*/;
+
+  /**
+   * Should take selected nodes only?
+   * If this option is chosen, then only a root node
+   * and any descendant nodes that are available from the Node Selection Service,
+   * are included in the generated SVG.
+   */
+  public native boolean isSelectedNodesOnly() /*-{return this.efParams.selectedNodesOnly;}-*/;
+  //public native void setSelectedNodesOnly(boolean selectedNodesOnly) /*-{this.efParams.selectedNodesOnly = selectedNodesOnly;}-*/;
+
+  /**
+   * Whether to write a stylesheet (true), or inline XML attributes.
+   */
+  public native boolean isShouldWriteStylesheet() /*-{return this.efParams.shouldWriteStylesheet;}-*/;
+  //public native void setShouldWriteStylesheet(boolean shouldWriteStylesheet) /*-{this.efParams.shouldWriteStylesheet = shouldWriteStylesheet;}-*/;
+
+  /**
+   * How far a new group (container) is translated in the x direction.
+   * How far a new level in the containment hierarchy is translated in the x direction.
+   */
+  public native int getLevelTranslateX() /*-{return this.efParams.levelTranslateX;}-*/;
+  //public native void setLevelTranslateX(int levelTranslateX) /*-{this.efParams.levelTranslateX = levelTranslateX;}-*/;
+
+  /**
+   * How far a new group (container) is translated in the y direction.
+   * How far a new level in the containment hierarchy is translated in the x direction.
+   */
+  public native int getLevelTranslateY() /*-{return this.efParams.levelTranslateY;}-*/;
+  //public native void setLevelTranslateY(int levelTranslateY) /*-{this.efParams.levelTranslateY = levelTranslateY;}-*/;
+
+  /** How far a new sibling node is translated in the x direction. */
+  public native int getSiblingTranslateX() /*-{return this.efParams.siblingTranslateX;}-*/;
+  //public native void setSiblingTranslateX(int siblingTranslateX) /*-{this.efParams.siblingTranslateX = siblingTranslateX;}-*/;
+
+  /** How far a new sibling node is translated in the y direction. */
+  public native int getSiblingTranslateY() /*-{return this.efParams.siblingTranslateY;}-*/;
+  //public native void setSiblingTranslateY(int siblingTranslateY) /*-{this.efParams.siblingTranslateY = siblingTranslateY;}-*/;
 
 }
