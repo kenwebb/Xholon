@@ -389,7 +389,7 @@
    * Save content by showing it in a separate browser window/tab.
    */
   function saveToWindow(content) {
-    var uriContent = 'data:text/plain;base64,' + Base64.encode(content);
+    var uriContent = 'data:text/plain;charset=utf-8;base64,' + Base64.encode(content);
     // Note: it's not possible to successfully specify a filename for the file
     window.open(uriContent, '_blank', 'width=' + 500
         + ',height=' + 400 + ',status=yes,resizable=yes,menubar,scrollbars');
