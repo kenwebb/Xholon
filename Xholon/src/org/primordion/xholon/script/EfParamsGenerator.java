@@ -30,6 +30,9 @@ import org.primordion.xholon.base.IXholon;
  * is similar to the GWT concept of overlays.
  * Warning: This is intended as a best-effort helper, so don't expect it to be perfect.
  * 
+ * A possible alternative way to do this is with a GWT Editor (com.google.gwt.editor.client),
+ * but that approach requires one or more new Java classes and a ui.xml file for each EF type.
+ * 
  * Example usage:
  * <pre>
 &lt;EfParamsGenerator>
