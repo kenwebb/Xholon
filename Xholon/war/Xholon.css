@@ -75,6 +75,10 @@ h1 {
   stroke-width: 0px;
 }
 
+.d3cpleaf text {
+  pointer-events: none;
+}
+
 /** D3 SVG Bubble Chart */
 .d3bubnode circle {
   fill-opacity: 1;
