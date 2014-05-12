@@ -169,7 +169,7 @@ public class Xholon2MindMap extends AbstractXholon2ExternalFormat implements IXh
 	protected void writeNode(IXholon node, int level) {
 	  // only show state machine nodes if should show them, or if root is a StateMachineCE
 		if ((node.getXhcId() == CeStateMachineEntity.StateMachineCE)
-				&& (shouldShowStateMachineEntities == false)
+				&& (isShouldShowStateMachineEntities() == false)
 				&& (level > 0)) {
 			return;
 		}
@@ -184,18 +184,18 @@ public class Xholon2MindMap extends AbstractXholon2ExternalFormat implements IXh
 			if (level == 1) {
 				mmSb.append(" POSITION=\"right\"");
 			}
-			String text = node.getName(nameTemplate);
-			if (this.shouldSplitCamelCase) {
+			String text = node.getName(getNameTemplate());
+			if (this.isShouldSplitCamelCase()) {
 			  text = this.splitCamelCase(text, " ");
-				if (shouldBeLowerCase) {
+				if (isShouldBeLowerCase()) {
 				  text = text.toLowerCase();
 				}
-				else if (shouldBeCapitalized) {
+				else if (isShouldBeCapitalized()) {
 				  text = text.charAt(0) + text.substring(1).toLowerCase();
 				}
 			}
 			
-			if (shouldShowAnnotations && node.hasAnnotation()) {
+			if (isShouldShowAnnotations() && node.hasAnnotation()) {
 			  mmSb.append(">\n"); // end of the start node tag
 				mmSb.append(includeAnnotation(node, text) + "\n");
 			}
@@ -240,7 +240,7 @@ public class Xholon2MindMap extends AbstractXholon2ExternalFormat implements IXh
 	 */
 	protected void writeFolded(IXholon node, int level) {
 		// all nodes should be folded, except for the first level, and for lead nodes
-		if ((level > maxFoldLevel) && (node.hasChildNodes())) {
+		if ((level > getMaxFoldLevel()) && (node.hasChildNodes())) {
 			//try {
 				mmSb.append(" FOLDED=\"true\"");
 			//} catch (IOException e) {
@@ -257,13 +257,13 @@ public class Xholon2MindMap extends AbstractXholon2ExternalFormat implements IXh
 	 */
 	protected void writeCloud(IXholon node, int level)
 	{
-		if (!shouldShowClouds) {return;}
+		if (!isShouldShowClouds()) {return;}
 		if (!node.isContainer()) {return;}
 		if (!node.hasChildNodes()) {return;}
 		if (!hasDomainChildNodes(node)) {return;}
-		String fill = cloudFillColor;
+		String fill = getCloudFillColor();
 		if (level % 2 == 0) {
-			fill = cloudFillColorAlternate;
+			fill = getCloudFillColorAlternate();
 		}
 		//try {
 			mmSb.append("<cloud");
@@ -280,7 +280,7 @@ public class Xholon2MindMap extends AbstractXholon2ExternalFormat implements IXh
 	@SuppressWarnings("unchecked")
 	protected void writeLinks(IXholon node)
 	{
-	  if (shouldShowLinks == false) {return;}
+	  if (isShouldShowLinks() == false) {return;}
 		int nodeNum = 0;
 		List<PortInformation> portList = node.getAllPorts();
 		for (int i = 0; i < portList.size(); i++) {
@@ -303,10 +303,10 @@ public class Xholon2MindMap extends AbstractXholon2ExternalFormat implements IXh
 		//try {
 			mmSb.append("<arrowlink");
 			if (reverseArrows) {
-				mmSb.append(" COLOR=\"" + reverseLinkColor + "\"");
+				mmSb.append(" COLOR=\"" + getReverseLinkColor() + "\"");
 			}
 			else {
-				mmSb.append(" COLOR=\"" + linkColor + "\"");
+				mmSb.append(" COLOR=\"" + getLinkColor() + "\"");
 			}
 			mmSb.append(" DESTINATION=\"" + remoteNode.getId() + "\"");
 			if (reverseArrows) {
@@ -395,108 +395,77 @@ public class Xholon2MindMap extends AbstractXholon2ExternalFormat implements IXh
 		this.root = root;
 	}
 
-	public int getMaxFoldLevel() {
-		return maxFoldLevel;
-	}
+  /**
+   * Make a JavaScript object with all the parameters for this external format.
+   */
+  protected native void makeEfParams() /*-{
+    var p = {};
+    p.maxFoldLevel = 0;
+    p.shouldShowLinks = true;
+    p.linkColor = "#6666ff";
+    p.reverseLinkColor = "#6666ff";
+    p.shouldShowStateMachineEntities = false;
+    p.shouldShowClouds = true;
+    p.cloudFillColor = "#ffffff";
+    p.cloudFillColorAlternate = "#f8fff4";
+    p.nameTemplate = "r:C^^^";
+    p.shouldSplitCamelCase = true;
+    p.shouldBeLowerCase = false;
+    p.shouldBeCapitalized = true;
+    p.shouldShowAnnotations = true;
+    this.efParams = p;
+  }-*/;
 
-	public void setMaxFoldLevel(int maxFoldLevel) {
-		this.maxFoldLevel = maxFoldLevel;
-	}
+  /** Maximum hierarchy level at which nodes should still be unfolded (displayed by default). */
+  public native int getMaxFoldLevel() /*-{return this.efParams.maxFoldLevel;}-*/;
+  public native void setMaxFoldLevel(int maxFoldLevel) /*-{this.efParams.maxFoldLevel = maxFoldLevel;}-*/;
 
-	public boolean isShouldShowLinks() {
-		return shouldShowLinks;
-	}
+  /** Whether or not to draw links between nodes on the mind map. */
+  public native boolean isShouldShowLinks() /*-{return this.efParams.shouldShowLinks;}-*/;
+  //public native void setShouldShowLinks(boolean shouldShowLinks) /*-{this.efParams.shouldShowLinks = shouldShowLinks;}-*/;
 
-	public void setShouldShowLinks(boolean shouldShowLinks) {
-		this.shouldShowLinks = shouldShowLinks;
-	}
+  /** Color to use in drawing link arrows. */
+  public native String getLinkColor() /*-{return this.efParams.linkColor;}-*/;
+  public native void setLinkColor(String linkColor) /*-{this.efParams.linkColor = linkColor;}-*/;
 
-	public String getLinkColor() {
-		return linkColor;
-	}
+  /** Color to use in drawing reverse link arrows. */
+  public native String getReverseLinkColor() /*-{return this.efParams.reverseLinkColor;}-*/;
+  public native void setReverseLinkColor(String reverseLinkColor) /*-{this.efParams.reverseLinkColor = reverseLinkColor;}-*/;
 
-	public void setLinkColor(String linkColor) {
-		this.linkColor = linkColor;
-	}
+  /** Whether or not to show state machine nodes. */
+  public native boolean isShouldShowStateMachineEntities() /*-{return this.efParams.shouldShowStateMachineEntities;}-*/;
+  //public native void setShouldShowStateMachineEntities(boolean shouldShowStateMachineEntities) /*-{this.efParams.shouldShowStateMachineEntities = shouldShowStateMachineEntities;}-*/;
 
-	public String getReverseLinkColor() {
-		return reverseLinkColor;
-	}
+  /** Whether or not to draw clouds around container nodes. */
+  public native boolean isShouldShowClouds() /*-{return this.efParams.shouldShowClouds;}-*/;
+  public native void setShouldShowClouds(boolean shouldShowClouds) /*-{this.efParams.shouldShowClouds = shouldShowClouds;}-*/;
 
-	public void setReverseLinkColor(String reverseLinkColor) {
-		this.reverseLinkColor = reverseLinkColor;
-	}
+  /** Cloud fill color (default: "white"). */
+  public native String getCloudFillColor() /*-{return this.efParams.cloudFillColor;}-*/;
+  //public native void setCloudFillColor(String cloudFillColor) /*-{this.efParams.cloudFillColor = cloudFillColor;}-*/;
 
-	public boolean isShouldShowStateMachineEntities() {
-		return shouldShowStateMachineEntities;
-	}
+  /** Alternate cloud fill color (default: "") light greenish. */
+  public native String getCloudFillColorAlternate() /*-{return this.efParams.cloudFillColorAlternate;}-*/;
+  //public native void setCloudFillColorAlternate(String cloudFillColorAlternate) /*-{this.efParams.cloudFillColorAlternate = cloudFillColorAlternate;}-*/;
 
-	public void setShouldShowStateMachineEntities(
-			boolean shouldShowStateMachineEntities) {
-		this.shouldShowStateMachineEntities = shouldShowStateMachineEntities;
-	}
+  /** Template to use when writing out node names. */
+  public native String getNameTemplate() /*-{return this.efParams.nameTemplate;}-*/;
+  //public native void setNameTemplate(String nameTemplate) /*-{this.efParams.nameTemplate = nameTemplate;}-*/;
 
-	public boolean isShouldShowClouds() {
-		return shouldShowClouds;
-	}
+  /** Whether or not to split a camel case Xholon class name into multiple words. */
+  public native boolean isShouldSplitCamelCase() /*-{return this.efParams.shouldSplitCamelCase;}-*/;
+  //public native void setShouldSplitCamelCase(boolean shouldSplitCamelCase) /*-{this.efParams.shouldSplitCamelCase = shouldSplitCamelCase;}-*/;
 
-	public void setShouldShowClouds(boolean shouldShowClouds) {
-		this.shouldShowClouds = shouldShowClouds;
-	}
+  /** Whether or not split camel case should be all lower case. */
+  public native boolean isShouldBeLowerCase() /*-{return this.efParams.shouldBeLowerCase;}-*/;
+  //public native void setShouldBeLowerCase(boolean shouldBeLowerCase) /*-{this.efParams.shouldBeLowerCase = shouldBeLowerCase;}-*/;
 
-	public String getCloudFillColor() {
-		return cloudFillColor;
-	}
+  /** Whether or not split camel case should have first word capitalized and rest lower case. */
+  public native boolean isShouldBeCapitalized() /*-{return this.efParams.shouldBeCapitalized;}-*/;
+  //public native void setShouldBeCapitalized(boolean shouldBeCapitalized) /*-{this.efParams.shouldBeCapitalized = shouldBeCapitalized;}-*/;
 
-	public void setCloudFillColor(String cloudFillColor) {
-		this.cloudFillColor = cloudFillColor;
-	}
-
-	public String getCloudFillColorAlternate() {
-		return cloudFillColorAlternate;
-	}
-
-	public void setCloudFillColorAlternate(String cloudFillColorAlternate) {
-		this.cloudFillColorAlternate = cloudFillColorAlternate;
-	}
+  /** Whether or not to include Xholon annotations in the mind map output. */
+  public native boolean isShouldShowAnnotations() /*-{return this.efParams.shouldShowAnnotations;}-*/;
+  //public native void setShouldShowAnnotations(boolean shouldShowAnnotations) /*-{this.efParams.shouldShowAnnotations = shouldShowAnnotations;}-*/;
 	
-	public String getNameTemplate() {
-		return nameTemplate;
-	}
-
-	public void setNameTemplate(String nameTemplate) {
-		this.nameTemplate = nameTemplate;
-	}
-
-	public boolean isShouldSplitCamelCase() {
-		return shouldSplitCamelCase;
-	}
-
-	public void setShouldSplitCamelCase(boolean shouldSplitCamelCase) {
-		this.shouldSplitCamelCase = shouldSplitCamelCase;
-	}
-
-	public boolean isShouldBeLowerCase() {
-		return shouldBeLowerCase;
-	}
-
-	public void setShouldBeLowerCase(boolean shouldBeLowerCase) {
-		this.shouldBeLowerCase = shouldBeLowerCase;
-	}
-
-	public boolean isShouldBeCapitalized() {
-		return shouldBeCapitalized;
-	}
-
-	public void setShouldBeCapitalized(boolean shouldBeCapitalized) {
-		this.shouldBeCapitalized = shouldBeCapitalized;
-	}
-
-	public boolean isShouldShowAnnotations() {
-		return shouldShowAnnotations;
-	}
-
-	public void setShouldShowAnnotations(boolean shouldShowAnnotations) {
-		this.shouldShowAnnotations = shouldShowAnnotations;
-	}
 }
