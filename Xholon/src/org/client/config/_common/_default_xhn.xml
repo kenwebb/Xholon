@@ -43,6 +43,12 @@
 	-->
 	<param name="TimeStepInterval" value="10"/>
 	
+	<!--
+	 Whether or not users are allowed to configure a Service or ExternalFormat writer,
+	 just before the service or writer starts to do its things.
+	-->
+	<param name="AllowConfigSrv" value="true"/>
+	
 	<param name="IQueueImplName" value="org.primordion.xholon.base.Queue"/> <!-- Queue QueueSynchronized -->
 	<param name="SizeMessageQueue" value="1"/>
 	
@@ -154,15 +160,15 @@
 	<!-- driver, product, host, port, database, username, password, shouldReuseAppTable, catalog, schemaPattern, namingStrategy -->
 	<!-- Oracle jdbc:oracle:thin:scott/tiger@//myhost:1521/orcl -->
 	<!--<param name="JdbcParams" value="oracle.jdbc.OracleDriver,oracle:thin,localhost,1521,orcl,scott,tiger,false,unknown,unknown,org.primordion.xholon.io.db.DefaultNamingStrategy"/>-->
-	<param name="JdbcParams" value="org.postgresql.Driver,postgresql,localhost,5432,postgres,postgres,QH_842_wsk_,false,postgres,public,org.primordion.xholon.io.db.DefaultNamingStrategy"/>
-	<!--<param name="JdbcParams" value="com.mysql.jdbc.Driver,mysql,localhost,3306,xholondata,root,SWK_2389_asd,false,unknown,unknown,org.primordion.xholon.io.db.DefaultNamingStrategy"/>-->
-	<!--<param name="JdbcParams" value="com.mysql.jdbc.Driver,mysql,mysql4-x,3306,x151142_xholondata,x151142admin,asd9832SWK,false,unknown,unknown,org.primordion.xholon.io.db.DefaultNamingStrategy"/>-->
-	<!--<param name="JdbcParams" value="org.apache.derby.jdbc.EmbeddedDriver,derby,localhost,1527,COFFEEBREAK,myusername,mypassword,false,unknown,unknown,org.primordion.xholon.io.db.DefaultNamingStrategy"/>-->
-	<!--<param name="JdbcParams" value="org.hsqldb.jdbcDriver,hsqldb:hsql,localhost,0,defaultdatabase,sa,nullpassword,false,unknown,unknown,org.primordion.xholon.io.db.DefaultNamingStrategy"/>-->
+	<param name="JdbcParams" value="org.postgresql.Driver,postgresql,localhost,5432,postgres,postgres,password,false,postgres,public,org.primordion.xholon.io.db.DefaultNamingStrategy"/>
+	<!--<param name="JdbcParams" value="com.mysql.jdbc.Driver,mysql,localhost,3306,xholondata,root,password,false,unknown,unknown,org.primordion.xholon.io.db.DefaultNamingStrategy"/>-->
+	<!--<param name="JdbcParams" value="com.mysql.jdbc.Driver,mysql,mysql4-x,3306,x151142_xholondata,x151142admin,password,false,unknown,unknown,org.primordion.xholon.io.db.DefaultNamingStrategy"/>-->
+	<!--<param name="JdbcParams" value="org.apache.derby.jdbc.EmbeddedDriver,derby,localhost,1527,COFFEEBREAK,myusername,password,false,unknown,unknown,org.primordion.xholon.io.db.DefaultNamingStrategy"/>-->
+	<!--<param name="JdbcParams" value="org.hsqldb.jdbcDriver,hsqldb:hsql,localhost,0,defaultdatabase,sa,password,false,unknown,unknown,org.primordion.xholon.io.db.DefaultNamingStrategy"/>-->
 	
 	<!-- JPA parameters -->
-	<param name="JpaParams" value="org.hibernate.dialect.PostgreSQLDialect,org.postgresql.Driver,postgresql,localhost,5432,postgres,postgres,QH_842_wsk_,false"/>
-	<!--<param name="JpaParams" value="org.hibernate.dialect.MySQLDialect,com.mysql.jdbc.Driver,mysql,localhost,3306,xholondata,root,SWK_2389_asd,false"/>-->
+	<param name="JpaParams" value="org.hibernate.dialect.PostgreSQLDialect,org.postgresql.Driver,postgresql,localhost,5432,postgres,postgres,password,false"/>
+	<!--<param name="JpaParams" value="org.hibernate.dialect.MySQLDialect,com.mysql.jdbc.Driver,mysql,localhost,3306,xholondata,root,password,false"/>-->
 	
 	<!-- parameters that won't need to be changed very often -->
 	<!--<param name="JavaXhClassClassName" value="org.primordion.xholon.base.XholonClass"/>-->

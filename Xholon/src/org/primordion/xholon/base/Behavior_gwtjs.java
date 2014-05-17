@@ -189,32 +189,32 @@ public class Behavior_gwtjs extends Xholon {
 	}-*/;
 	
 	protected native JavaScriptObject configureJso(IXholon cnode, String scriptContent) /*-{
-	  console.log(scriptContent);
+	  $wnd.console.log(scriptContent);
 	  eval(scriptContent);
 	  
 	  try {
 	    if (beh === undefined) {
-	      //console.log("beh was undefined");
+	      //$wnd.console.log("beh was undefined");
 	      return null;
 	    }
 	    else {
-	      //console.log(beh);
+	      //$wnd.console.log(beh);
 	      beh.cnode = cnode;
 	      return beh;
 	    }
 	  } catch(e) {
-	    //console.log("beh was non-existent");
+	    //$wnd.console.log("beh was non-existent");
 	    return null;
 	  }
 	}-*/;
 	
 	protected native boolean hasFunction(JavaScriptObject bobj, String fname) /*-{
-	  //console.log("bobj[fname] " + fname);
+	  //$wnd.console.log("bobj[fname] " + fname);
 	  if (bobj && bobj[fname]) {
-	    //console.log(true);
+	    //$wnd.console.log(true);
 	    return true;
 	  }
-	  //console.log(false);
+	  //$wnd.console.log(false);
 	  return false;
 	}-*/;
 	

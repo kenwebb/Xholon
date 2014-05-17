@@ -769,8 +769,8 @@ public class StateMachineEntity extends Xholon implements IStateMachineEntity, C
 	}
 	
 	public native static void consoleLogSme(Object obj) /*-{
-	  if (console) {
-	    console.log(obj);
+	  if ($wnd.console && $wnd.console.log) {
+	    $wnd.console.log(obj);
 	  }
 	}-*/;
 	

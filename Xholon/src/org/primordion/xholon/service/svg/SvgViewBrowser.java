@@ -697,9 +697,7 @@ public class SvgViewBrowser extends Xholon implements ISvgView, EventListener {
    */
   private native void setAttribute(Element ele, String attr, String val) /*-{
     if (ele) {
-      //console.log(ele);
       ele.setAttributeNS(null, attr, val);
-      //console.log(ele);
     }
   }-*/;
   
@@ -708,9 +706,7 @@ public class SvgViewBrowser extends Xholon implements ISvgView, EventListener {
    */
   private native String getAttribute(Element ele, String attr) /*-{
     if (ele) {
-      //console.log(ele);
       return ele.getAttributeNS(null, attr);
-      //console.log(ele);
     }
   }-*/;
   

@@ -15,17 +15,17 @@ import org.primordion.xholon.base.Xholon;
 /*
 // wb callback from github gist request
     $wnd.xh.wb = $entry(function(json) {
-      //console.log("callback from github ...");
-      //console.log(JSON);
-      //console.log(JSON.stringify);
-      //console.log($wnd.JSON);
+      //$wnd.console.log("callback from github ...");
+      //$wnd.console.log(JSON);
+      //$wnd.console.log(JSON.stringify);
+      //$wnd.console.log($wnd.JSON);
       var jsonStr = $wnd.JSON.stringify(json);
-      //console.log(jsonStr);
+      //$wnd.console.log(jsonStr);
       $wnd.sessionStorage.setItem("workbookJsonStr", jsonStr);
       var fileName = app.@org.primordion.xholon.app.Application::getWorkbookFileName()();
-      console.log(fileName);
+      $wnd.console.log(fileName);
       var content = json["data"]["files"][fileName]["content"];
-      console.log(content);
+      $wnd.console.log(content);
       app.@org.primordion.xholon.app.Application::wbCallback(Ljava/lang/String;)(content);
     });
 */

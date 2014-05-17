@@ -1146,9 +1146,9 @@ public class XholonClass extends Xholon implements IXholonClass, IDecoration {
 	    .append("<")
 	    .append(name)
 	    .append(">\n")
-	    //.append("  console.log(\"beh calling ...\");\n")
-	    //.append("  console.log(this);\n") // window
-	    //.append("  console.log($wnd);\n")
+	    //.append("  $wnd.console.log(\"beh calling ...\");\n")
+	    //.append("  $wnd.console.log(this);\n") // window
+	    //.append("  $wnd.console.log($wnd);\n")
 	    // TODO "this" == window
 	    //.append("  var beh = new this.xhc().")
 	    //.append(name)
@@ -1169,10 +1169,10 @@ public class XholonClass extends Xholon implements IXholonClass, IDecoration {
 	
 	// return the protoype object as a JavaScriptObject
 	protected native JavaScriptObject createPrototype(String scriptContent) /*-{
-	  //console.log("createPrototype()");
-	  //console.log(scriptContent);
+	  //$wnd.console.log("createPrototype()");
+	  //$wnd.console.log(scriptContent);
 	  var p = eval(scriptContent);
-	  //console.log(p);
+	  //$wnd.console.log(p);
 	  return p; // returns a function()
 	}-*/;
 

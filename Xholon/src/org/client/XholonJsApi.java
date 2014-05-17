@@ -504,14 +504,10 @@ public class XholonJsApi {
       var node = this;
       var clazz = node.@org.primordion.xholon.base.IXholon::getClass()();
       var app = $wnd.xh.app();
-      //console.log(attrName);
-      //console.log(attrVal);
       if (attrVal === undefined) {
-        //console.log("getAppSpecificAttribute");
         return app.@org.primordion.xholon.app.Application::getAppSpecificAttribute(Lorg/primordion/xholon/base/IXholon;Ljava/lang/Class;Ljava/lang/String;)(node, clazz, attrName);
       }
       else {
-        //console.log("setAppSpecificAttribute");
         app.@org.primordion.xholon.app.Application::setAppSpecificAttribute(Lorg/primordion/xholon/base/IXholon;Ljava/lang/Class;Ljava/lang/String;Ljava/lang/Object;)(node, clazz, attrName, attrVal.toString());
         return this;
       }
@@ -553,7 +549,6 @@ public class XholonJsApi {
    * Copy all the API functions from Application to the org.primordion.xholon.base.Xholon prototype.
    */
   public static native void initIXholonApi() /*-{
-    //console.log("initIXholonApi");
     var root = $wnd.xh.root();
     var api = $wnd.xh.ixholonapi;
     
@@ -567,7 +562,6 @@ public class XholonJsApi {
       }
     } catch(e) {
       // TypeError, end of the prototype chain has been reached
-      //console.log("error");
     }
     var len = arr.length;
     // typical values in the final array
@@ -575,11 +569,8 @@ public class XholonJsApi {
     //  org.primordion.xholon.base.XholonWithPorts,
     //  org.primordion.xholon.base.Xholon,
     //  Object, Object, null]
-    //console.log(arr);
-    //console.log(len);
     if (len < 4) {return;}
     var xhp = arr[len - 4];
-    //console.log(xhp);
     
     // copy all the API functions from api to xhp
     for (fname in api) {

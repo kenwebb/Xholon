@@ -76,7 +76,7 @@ $wnd.xh.tlSrvc = service;
 // draw (wait until timeline .js .css have loaded)
 var service = $wnd.xh.tlSrvc;
 var root = $wnd.xh.root();
-console.log(service);
+$wnd.console.log(service);
 service.call(-3895, null, root);
 //------------------- end of part 2
 ]]></script>
@@ -218,7 +218,6 @@ public class TimelineViewerChapJSON extends AbstractTimelineViewer implements IT
     this.root = root;
     
     this.startSb = new StringBuilder(128)
-    //.append("console.log('Starting ...');\n")
     .append("var timeline = null;\n")
     .append("var data = null;\n")
     .append("function draw() {\n");
@@ -322,8 +321,6 @@ public class TimelineViewerChapJSON extends AbstractTimelineViewer implements IT
    * use requirejs
    */
   protected native void require(final ITimelineViewer tv) /*-{
-    //console.log("starting require ..");
-    //console.log($wnd.requirejs.config);
     $wnd.requirejs.config({
       enforceDefine: false,
       paths: {
@@ -332,12 +329,9 @@ public class TimelineViewerChapJSON extends AbstractTimelineViewer implements IT
         ]
       }
     });
-    //console.log("require 1");
     $wnd.require(["timeline"], function(timeline) {
-      //console.log("require 2");
       //tv.@org.primordion.xholon.service.timeline.ITimelineViewer::drawTimeline()();
     });
-    //console.log("require ended");
   }-*/;
   
   /**
@@ -345,7 +339,6 @@ public class TimelineViewerChapJSON extends AbstractTimelineViewer implements IT
    * @return it is defined (true), it's not defined (false)
    */
   protected native boolean isDefinedChapLinksTimeline() /*-{
-    //console.log("isDefinedChapLinksTimeline()");
     return (typeof $wnd.links != "undefined") && (typeof $wnd.links.Timeline != "undefined");
   }-*/;
   

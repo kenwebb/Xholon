@@ -435,18 +435,18 @@ public class ReflectionJavaMicro implements IReflection {
   }
   
   private native void getAttributes(IXholon cnode, List names, List values) /*-{
-    console.log("Starting getAttributes ...");
-    //console.log(cnode);
+    $wnd.console.log("Starting getAttributes ...");
+    //$wnd.console.log(cnode);
     //for (var prop in cnode.@org.primordion.xholon.base.IXholon) {
     //  if (prop.substr(0,3) == 'set') {
     //    var pname = prop.substr(3);
     //    var pname = pname.charAt(0).toLowerCase() + pname.substr(1);
     //    var pval = cnode[pname];
     //    if (pval !== undefined) {
-    //      console.log(pname + ": " + pval);
+    //      $wnd.console.log(pname + ": " + pval);
     //    }
     //    else {
-    //      console.log(pname + ":");
+    //      $wnd.console.log(pname + ":");
     //    }
     //  }
     //}

@@ -157,12 +157,7 @@ public class SvgAttribute extends Xholon {
 	// width height x y rx ry are instances of SVGAnimatedLength
 	private native void setLengthAttribute(Element ele, String attr, int val) /*-{
 	  if (ele) {
-	    console.log(ele);
-	    //ele.width.baseVal.value += inc;
-	    //ele.getBoundingClientRect().width += inc; // NO
-	    //ele.getBBox().width += inc; // NO
 	    ele.setAttributeNS(null, attr, val); // YES
-	    console.log(ele);
 	  }
 	}-*/;
 	
@@ -171,9 +166,7 @@ public class SvgAttribute extends Xholon {
 	 */
 	private native void setNonLengthAttribute(Element ele, String attr, String val) /*-{
 	  if (ele) {
-	    console.log(ele);
 	    ele.setAttributeNS(null, attr, val); // YES
-	    console.log(ele);
 	  }
 	}-*/;
 	

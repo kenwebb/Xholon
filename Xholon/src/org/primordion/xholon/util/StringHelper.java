@@ -57,7 +57,7 @@ public class StringHelper {
    * @param d A double or float
    */
   private static native String formatGWT(int digits, double d) /*-{
-    //console.log("formatGWT: " + digits + " " + d + " " + d.toFixed(digits));
+    //$wnd.console.log("formatGWT: " + digits + " " + d + " " + d.toFixed(digits));
     return d.toFixed(digits);
   }-*/;
   
