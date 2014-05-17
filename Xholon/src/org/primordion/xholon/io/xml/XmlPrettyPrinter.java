@@ -88,24 +88,17 @@ var xsl_string = '<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/199
 var xsl = (new DOMParser()).parseFromString(xsl_string, "text/xml");
 
 function stringToXml(xml_string) {
-  //console.log(xml_string);
   return (new DOMParser()).parseFromString(xml_string, "text/xml");
 }
 
 function xmlToString(xml) {
-  //console.log("xmlToString1");
-  //console.log(xml.documentElement);
   var serializer = new XMLSerializer();
-  //console.log(serializer);
   var str = serializer.serializeToString(xml);
-  //console.log(str);
-  //console.log("xmlToString99");
   return str;
 }
 
 function isParseError(xml) {
   try {
-    //console.log(xml.documentElement.firstChild.firstChild.tagName);
     return xml.documentElement.tagName == "parsererror" ||
            xml.documentElement.firstChild.firstChild.tagName == "parsererror";
   }
@@ -115,22 +108,16 @@ function isParseError(xml) {
 }
 
 function beautifyXml(input) {
-  //console.log(input);
   var xml = stringToXml(input);
 
   if (isParseError(xml)) {
-    //console.log("parse error");
     return input;
   }
-  //console.log("beautifyXml1");
   var transformedXml = xslTransformation(xml, xsl);
-  //console.log("beautifyXml2");
-  //console.log(transformedXml);
   return xmlToString(transformedXml);
 }
 
 function xslTransformation(xml, xsl) {
-  //console.log("xslTransformation1");
   // code for IE
   if (window.ActiveXObject) {
     var ex = xml.transformNode(xsl);
@@ -138,18 +125,13 @@ function xslTransformation(xml, xsl) {
   }
   // code for Mozilla, Firefox, Opera, etc.
   else if ($doc.implementation && $doc.implementation.createDocument) {
-    //console.log("xslTransformation2");
     var xsltProcessor = new XSLTProcessor();
-    //console.log(xsltProcessor);
-    //console.log(xsl_string);
     xsltProcessor.importStylesheet(xsl);
-    //console.log("xslTransformation3");
     var resultDocument = xsltProcessor.transformToDocument(xml, $doc);
-    //console.log("xslTransformation4");
     return resultDocument;
   }
   else {
-    //console.log("xslTransformation3");
+    // TODO ?
   }
 }
 

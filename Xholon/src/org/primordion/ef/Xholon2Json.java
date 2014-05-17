@@ -175,14 +175,14 @@ public class Xholon2Json extends AbstractXholon2ExternalFormat implements IXholo
 	}
 	
 	protected native void test(IXholon xhNode) /*-{
-	  console.log(JSON);
-	  console.log(JSON.parse);
-	  console.log(JSON.stringify);
-	  console.log(JSON.parse("[]"));
-	  console.log(JSON.parse('{"abc": "ABC"}'));
-	  //console.log(xhNode); // fails
-	  //console.log(xhNode.@org.primordion.xholon.base.Xholon::getRootNode()()); // fails
-	  //console.log(JSON.stringify(xhNode)); // fails
+	  $wnd.console.log(JSON);
+	  $wnd.console.log(JSON.parse);
+	  $wnd.console.log(JSON.stringify);
+	  $wnd.console.log(JSON.parse("[]"));
+	  $wnd.console.log(JSON.parse('{"abc": "ABC"}'));
+	  //$wnd.console.log(xhNode); // fails
+	  //$wnd.console.log(xhNode.@org.primordion.xholon.base.Xholon::getRootNode()()); // fails
+	  //$wnd.console.log(JSON.stringify(xhNode)); // fails
 	  
 	  // TypeError: Converting circular structure to JSON (Chrome dev tools, GWT prod mode)
 	  //JSON.stringify(xhApp_getRoot());

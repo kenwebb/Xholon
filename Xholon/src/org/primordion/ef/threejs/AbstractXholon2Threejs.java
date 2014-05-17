@@ -177,8 +177,8 @@ public abstract class AbstractXholon2Threejs extends AbstractXholon2ExternalForm
     .append("xhdiv.style.height = \"").append(height).append(unit).append("\";\n")
     .append("var divHalfX = ").append(width).append(" / 2;\n")
     .append("var divHalfY = ").append(height).append(" / 2;\n")
-    .append("console.log(\"divHalfX: \" + divHalfX);\n")
-    .append("console.log(\"divHalfY: \" + divHalfY);\n")
+    //.append("$wnd.console.log(\"divHalfX: \" + divHalfX);\n")
+    //.append("$wnd.console.log(\"divHalfY: \" + divHalfY);\n")
     ;
   }
   
@@ -338,10 +338,10 @@ public abstract class AbstractXholon2Threejs extends AbstractXholon2ExternalForm
    * use requirejs
    */
   protected native void require(final IXholon2ExternalFormat xh2Threejs) /*-{
-    console.log("starting require ..");
-    console.log($wnd.requirejs);
-    console.log($wnd.require);
-    console.log($wnd.requirejs.config);
+    //$wnd.console.log("starting require ..");
+    //$wnd.console.log($wnd.requirejs);
+    //$wnd.console.log($wnd.require);
+    //$wnd.console.log($wnd.requirejs.config);
     $wnd.requirejs.config({
       enforceDefine: false,
       shim: {
@@ -360,12 +360,9 @@ public abstract class AbstractXholon2Threejs extends AbstractXholon2ExternalForm
         ]
       }
     });
-    console.log("require 1");
     $wnd.require(["three", "font"], function(three, font) {
-      console.log("require 2");
       xh2Threejs.@org.primordion.xholon.service.ef.IXholon2ExternalFormat::writeAll()();
     });
-    console.log("require ended");
   }-*/;
   
   /**
@@ -373,7 +370,6 @@ public abstract class AbstractXholon2Threejs extends AbstractXholon2ExternalForm
    * @return it is defined (true), it's not defined (false)
    */
   protected native boolean isDefinedTHREE() /*-{
-    console.log("isDefinedTHREE()");
     return typeof $wnd.THREE != "undefined";
   }-*/;
   

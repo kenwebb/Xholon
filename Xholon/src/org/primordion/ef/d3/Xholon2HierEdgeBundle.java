@@ -213,7 +213,7 @@ public class Xholon2HierEdgeBundle extends AbstractXholon2ExternalFormat impleme
       var map = {};
       
       function find(name, data) {
-        //console.log("find start");
+        //$wnd.console.log("find start");
         var node = map[name], i;
         if (!node) {
           node = map[name] = data || {name: name, children: []};
@@ -227,7 +227,7 @@ public class Xholon2HierEdgeBundle extends AbstractXholon2ExternalFormat impleme
             node.key = name.substring(i + 1);
           }
         }
-        //console.log("find end");
+        //$wnd.console.log("find end");
         return node;
       }
       

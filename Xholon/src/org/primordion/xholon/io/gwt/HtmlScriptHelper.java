@@ -125,7 +125,7 @@ public class HtmlScriptHelper {
         break;
       }
     }
-    console.log(scriptName + " isLoaded : " + loaded);
+    $wnd.console.log(scriptName + " isLoaded : " + loaded);
     return loaded;
   }-*/;
   

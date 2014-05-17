@@ -85,7 +85,6 @@ public class Xholon2D3CirclePack {
         return (d.r * 1.75) + "px";
       })
       .text(function(d) {
-        //console.log("d.name: " + d.name);
         var dname = d.name.substring(0, 1);
         if ((dname == ":") && (d.name.length > 1)) {
           dname = d.name.substring(1, 2);
@@ -115,7 +114,7 @@ public class Xholon2D3CirclePack {
     
     // does this work ?   NO ?
     //node.on("drag", function(d, i) {
-    //  console.log("drag");
+    //  $wnd.console.log("drag");
     //  handleDrag(d, i);
     //});
     
@@ -162,28 +161,16 @@ public class Xholon2D3CirclePack {
     //function handleDragStart(d, i) {
     //  $wnd.d3.event.sourceEvent.preventDefault();
 	  //  $wnd.d3.event.sourceEvent.stopPropagation();
-    //  console.log("Xholon2D3CirclePack dragStart 1");
-    //  console.log(d);
-    //  console.log($wnd.d3.event);
     //}
     // nothing happens
     //function handleDrag(d, i) {
     //  $wnd.d3.event.sourceEvent.preventDefault();
 	  //  $wnd.d3.event.sourceEvent.stopPropagation();
-    //  console.log("Xholon2D3CirclePack drag 1");
-    //  console.log(d);
-    //  console.log($wnd.d3.event);
     //}
     //function handleDragEnd(d, i) {
     //  $wnd.d3.event.sourceEvent.preventDefault();
 	  //  $wnd.d3.event.sourceEvent.stopPropagation();
-	  //  console.log("Xholon2D3CirclePack dragEnd 1");
-	  //  console.log($wnd.d3.event); // not useful
-	  //  console.log($wnd.d3.event.sourceEvent); // mouseup native event
-    //  console.log($wnd.d3.select(this)); // d3-wrapped SVG node
-    //  console.log(d); // d3 object with children
-    //  console.log(i);
-    //  if (d.name == "Application") {
+	  //  if (d.name == "Application") {
         // TODO
         // public void handleDrop(String nodeName, Object data) {
         // there's no easy way to get the dropped data; nodeName = d.name

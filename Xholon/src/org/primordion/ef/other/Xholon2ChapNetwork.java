@@ -144,15 +144,12 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
 		}
 		
 		this.startSb = new StringBuilder(128)
-		//.append("console.log('Starting ...');\n")
 		.append("var nodesTable = null;\n")
 		.append("var linksTable = null;\n")
 		.append("var network = null;\n")
 		.append("//google.load('visualization', '1');\n")
 		.append("//google.setOnLoadCallback(draw);\n")
-		//.append("console.log('1');\n")
 		.append("function draw() {\n");
-		//.append("console.log('Starting draw() ...');\n");
 		
 		this.nodeSb = new StringBuilder(SB_INITIAL_CAPACITY)
 		.append("// nodes\n")
@@ -333,8 +330,6 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
    * use requirejs
    */
   protected native void require(final IXholon2GraphFormat xh2Chap) /*-{
-    //console.log("starting require ..");
-    //console.log($wnd.requirejs.config);
     $wnd.requirejs.config({
       enforceDefine: false,
       paths: {
@@ -343,12 +338,9 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
         ]
       }
     });
-    //console.log("require 1");
     $wnd.require(["network"], function(network) {
-      //console.log("require 2");
       xh2Chap.@org.primordion.xholon.service.ef.IXholon2GraphFormat::writeAll()();
     });
-    //console.log("require ended");
   }-*/;
   
   /**
@@ -356,7 +348,6 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
    * @return it is defined (true), it's not defined (false)
    */
   protected native boolean isDefinedChapLinksNetwork() /*-{
-    //console.log("isDefinedChapLinksNetwork()");
     return (typeof $wnd.links != "undefined") && (typeof $wnd.links.Network != "undefined");
   }-*/;
   

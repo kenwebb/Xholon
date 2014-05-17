@@ -52,7 +52,7 @@ public class Xholon2Partition extends Xholon2HierarchyJSON implements IXholon2Ex
       .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
       .style("fill-rule", "evenodd");
     
-    console.log(json);
+    $wnd.console.log(json);
     
     var tooltips= $wnd.d3.selectAll("path")
       .append("title")

@@ -724,7 +724,7 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
   {
     StringBuilder sb = new StringBuilder()
     .append("<script><![CDATA[\n")
-    //.append("console.log(\"Testing 1 2 3\");\n")
+    //.append("$wnd.console.log(\"Testing 1 2 3\");\n")
     .append("$wnd.xh.root().println(\"Testing 1 2 3\");\n")
     .append("]]></script>\n");
     setResult(sb.toString(), true);

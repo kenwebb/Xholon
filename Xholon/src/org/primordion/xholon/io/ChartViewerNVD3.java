@@ -388,8 +388,6 @@ public class ChartViewerNVD3 extends AbstractChartViewer implements IChartViewer
    * use requirejs
    */
   protected native void require(final ChartViewerNVD3 cv) /*-{
-    //console.log("starting require ..");
-    //console.log($wnd.requirejs.config);
     $wnd.requirejs.config({
       enforceDefine: false,
       paths: {
@@ -398,11 +396,9 @@ public class ChartViewerNVD3 extends AbstractChartViewer implements IChartViewer
         ]
       }
     });
-    //console.log("require 1");
     $wnd.require(["nvd3"], function(nvd3) {
       
     });
-    //console.log("require ended");
   }-*/;
   
   /**
@@ -410,7 +406,6 @@ public class ChartViewerNVD3 extends AbstractChartViewer implements IChartViewer
    * @return it is defined (true), it's not defined (false)
    */
   protected native boolean isDefinedNVD3() /*-{
-    //console.log("isDefinedNVD3()");
     return (typeof $wnd.nv != "undefined"); // && (typeof $wnd.nv.??? != "undefined");
   }-*/;
   

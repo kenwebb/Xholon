@@ -104,16 +104,16 @@ public class XholonGuiD3CirclePack extends AbstractXholonGui {
 	}
 	
 	protected native void removeChildren(Object guiItem) /*-{
-	  console.log("removeChildren of:");
-	  console.log(guiItem);
+	  //$wnd.console.log("removeChildren of:");
+	  //$wnd.console.log(guiItem);
     //guiItem.children = null;
   }-*/;
   
   protected native void updateD3(Object guiItem, IXholon xhNode, Element svgRoot) /*-{
-    console.log("updateD3:");
-	  console.log(guiItem);
-	  console.log(xhNode);
-	  console.log(svgRoot);
+    //$wnd.console.log("updateD3:");
+	  //$wnd.console.log(guiItem);
+	  //$wnd.console.log(xhNode);
+	  //$wnd.console.log(svgRoot);
     
   }-*/;
   

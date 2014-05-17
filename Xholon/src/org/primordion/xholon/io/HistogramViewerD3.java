@@ -175,13 +175,13 @@ public class HistogramViewerD3 extends AbstractHistogramViewer implements IHisto
 	 * see http://bl.ocks.org/mbostock/3048450
 	 */
 	protected native void chartD3(double[] values, int numBins, int widthArg, int heightArg) /*-{
-	  console.log(values);
-	  console.log(numBins);
+	  $wnd.console.log(values);
+	  $wnd.console.log(numBins);
 	  
 	  var minX = $wnd.d3.min(values);
 	  var maxX = $wnd.d3.max(values);
-	  console.log(minX);
-	  console.log(maxX);
+	  $wnd.console.log(minX);
+	  $wnd.console.log(maxX);
 	  
 		// A formatter for counts.
     var formatCount = $wnd.d3.format(",.0f");
@@ -198,7 +198,7 @@ public class HistogramViewerD3 extends AbstractHistogramViewer implements IHisto
     var data = $wnd.d3.layout.histogram()
         .bins(x.ticks(numBins))
         (values);
-    console.log(data);
+    $wnd.console.log(data);
 
     var y = $wnd.d3.scale.linear()
         .domain([0, $wnd.d3.max(data, function(d) { return d.y; })])

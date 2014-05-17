@@ -325,10 +325,10 @@ public class Xholon2CytojsNetwork extends AbstractXholon2Cytojs implements IXhol
    * use requirejs
    */
   //protected native void require(final IXholon2GraphFormat xh2Cyto) /*-{
-  /*  console.log("starting require ..");
-    console.log($wnd.requirejs);
-    console.log($wnd.require);
-    console.log($wnd.requirejs.config);
+  /*  $wnd.console.log("starting require ..");
+    $wnd.console.log($wnd.requirejs);
+    $wnd.console.log($wnd.require);
+    $wnd.console.log($wnd.requirejs.config);
     $wnd.requirejs.config({
       enforceDefine: false,
       shim: {
@@ -345,12 +345,12 @@ public class Xholon2CytojsNetwork extends AbstractXholon2Cytojs implements IXhol
         ]
       }
     });
-    console.log("require 1");
+    $wnd.console.log("require 1");
     $wnd.require(["cyto", "jquery"], function(cyto, jquery) {
-      console.log("require 2");
+      $wnd.console.log("require 2");
       xh2Cyto.@org.primordion.ef.IXholon2GraphFormat::writeAll()();
     });
-    console.log("require ended");*/
+    $wnd.console.log("require ended");*/
   //}-*/;
   
   /**
@@ -358,7 +358,7 @@ public class Xholon2CytojsNetwork extends AbstractXholon2Cytojs implements IXhol
    * @return it is defined (true), it's not defined (false)
    */
   //protected native boolean isDefined_cytoscape() /*-{
-  //  console.log("isDefined_cytoscape()");
+  //  $wnd.console.log("isDefined_cytoscape()");
   //  return typeof $wnd.cytoscape != "undefined";
   //}-*/;
   
