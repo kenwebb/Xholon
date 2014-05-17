@@ -67,9 +67,9 @@ class XholonGuiClassicTree extends Tree
     addMouseDownHandler(this);
     addDomHandler(this, ContextMenuEvent.getType());
     // Drag and Drop
-  	consoleLog("adding DragOverHandler to Tree ...");
+  	//consoleLog("adding DragOverHandler to Tree ...");
     addDomHandler(this, DragOverEvent.getType());
-  	consoleLog("adding DropHandler to Tree ...");
+  	//consoleLog("adding DropHandler to Tree ...");
     addDomHandler(this, DropEvent.getType());
   }
   
@@ -114,7 +114,7 @@ class XholonGuiClassicTree extends Tree
 	public void onMouseDown(MouseDownEvent event) {
 	  if (event.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
 	    contextMenuTreeItem = getTreeItemAt((TreeItem)gui.getGuiRoot(), event.getNativeEvent().getClientY());
-	    consoleLog("mouse-down on: " + contextMenuTreeItem.getText());
+	    //consoleLog("mouse-down on: " + contextMenuTreeItem.getText());
 	    event.preventDefault();
 	    event.stopPropagation();
 	  }
@@ -151,9 +151,9 @@ class XholonGuiClassicTree extends Tree
     gui.handleDrop(nodeName, data);
   }
   
-  protected native void consoleLog(Object obj) /*-{
-	  if (console) {
-	    console.log(obj);
+  public native void consoleLog(Object obj) /*-{
+	  if ($wnd.console && $wnd.console.log) {
+	    $wnd.console.log(obj);
 	  }
 	}-*/;
 	
