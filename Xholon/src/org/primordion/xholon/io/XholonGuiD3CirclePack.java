@@ -99,21 +99,7 @@ public class XholonGuiD3CirclePack extends AbstractXholonGui {
 	 * @param node The current IXholon node.
 	 */
 	public void refresh(Object guiItem, IXholon xhNode) {
-	  /*setText("TODO implement refresh(Object guiItem, IXholon xhNode)");
-		if (guiItem == null) {return;}
-		if (xhNode == null) {return;}
-		setText(xhNode.toString());
-		
-		Element div = Document.get().getElementById(xhdivId);
-		if (div != null) {
-		  Element svg = div.getFirstChildElement();
-		  if (svg != null) {
-		    removeChildren(guiItem);
-		    updateD3(guiItem, xhNode, svg);
-		  }
-		}*/
-		
-		// for now, refresh the entire GUI (this causes a lot of needless global refreshing)
+	  // for now, refresh the entire GUI (this causes a lot of needless global refreshing)
 		//refresh();
 	}
 	

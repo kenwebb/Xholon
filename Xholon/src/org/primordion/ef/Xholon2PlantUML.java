@@ -61,12 +61,9 @@ public class Xholon2PlantUML extends AbstractXholon2ExternalFormat implements IX
 	private Date timeNow;
 	private long timeStamp;
 	
-	/** Whether or not to show state machine nodes. */
-	private boolean shouldShowStateMachineEntities = false;
-	
 	/** Template to use when writing out node names. */
 	//protected String nameTemplate = "r:C^^^";
-	protected String nameTemplate = "^^C^^^"; // don't include role name
+	//protected String nameTemplate = "^^C^^^"; // don't include role name   UNUSED
 	
 	/** Root of the binary tree that sorts and counts Xholon nodes. */
 	private XholonSortedNode sortRoot = null;
@@ -77,15 +74,18 @@ public class Xholon2PlantUML extends AbstractXholon2ExternalFormat implements IX
 	/** An instance of XPath. */
 	private IXPath xpath = null;
 	
+	/** Whether or not to show state machine nodes. */
+	//private boolean shouldShowStateMachineEntities = false;
+	
 	/** Whether or not to show associations between classes. */
-	private boolean shouldShowClassAssociations = false;
+	//private boolean shouldShowClassAssociations = false;
 	
 	/**
 	 * Whether to get associations between classes,
 	 * from the XholonClass (true),
 	 * or from an instance of Xholon (false).
 	 */
-	private boolean shouldUseXholonClassAssociations = false;
+	//private boolean shouldUseXholonClassAssociations = false;
 
 	/**
 	 * Constructor.
@@ -119,7 +119,7 @@ public class Xholon2PlantUML extends AbstractXholon2ExternalFormat implements IX
 		Iterator<IXholon> it = root.getChildNodes(true).iterator();
 		while (it.hasNext()) {
 			IXholon node = it.next();
-			if (!shouldShowStateMachineEntities) {
+			if (!isShouldShowStateMachineEntities()) {
 				if (node.getXhcId() == CeStateMachineEntity.StateMachineCE) {continue;}
 			}
 			sortRoot.add(node.getXhc());
@@ -208,8 +208,8 @@ public class Xholon2PlantUML extends AbstractXholon2ExternalFormat implements IX
 				}
 				sb.append(xholonClass.getName() + "\n");
 				// associations, Xholon ports
-				if (shouldShowClassAssociations) {
-					if (shouldUseXholonClassAssociations) {
+				if (isShouldShowClassAssociations()) {
+					if (isShouldUseXholonClassAssociations()) {
 						String navInfo = xholonClass.getNavInfo();
 						System.out.println(navInfo);
 						// TODO use PortClassInformation.parse(xholonClass);
@@ -378,46 +378,12 @@ public class Xholon2PlantUML extends AbstractXholon2ExternalFormat implements IX
 		this.root = root;
 	}
 
-	public boolean isShouldShowStateMachineEntities() {
-		return shouldShowStateMachineEntities;
-	}
-
-	public void setShouldShowStateMachineEntities(
-			boolean shouldShowStateMachineEntities) {
-		this.shouldShowStateMachineEntities = shouldShowStateMachineEntities;
-	}
-	
-	public String getNameTemplate() {
-		return nameTemplate;
-	}
-
-	public void setNameTemplate(String nameTemplate) {
-		this.nameTemplate = nameTemplate;
-	}
-
 	public String getOutPath() {
 		return outPath;
 	}
 
 	public void setOutPath(String outPath) {
 		this.outPath = outPath;
-	}
-
-	//public Writer getOut() {
-	//	return out;
-	//}
-
-	//public void setOut(Writer out) {
-	//	this.out = out;
-	//}
-
-	public boolean isShouldUseXholonClassAssociations() {
-		return shouldUseXholonClassAssociations;
-	}
-
-	public void setShouldUseXholonClassAssociations(
-			boolean shouldUseXholonClassAssociations) {
-		this.shouldUseXholonClassAssociations = shouldUseXholonClassAssociations;
 	}
 
 	public XholonSortedNode getSortRoot() {
@@ -435,13 +401,32 @@ public class Xholon2PlantUML extends AbstractXholon2ExternalFormat implements IX
 	public void setRootXholonClass(IXholonClass rootXholonClass) {
 		this.rootXholonClass = rootXholonClass;
 	}
+	
+	/**
+   * Make a JavaScript object with all the parameters for this external format.
+   */
+  protected native void makeEfParams() /*-{
+    var p = {};
+    p.shouldShowStateMachineEntities = false;
+    p.shouldShowClassAssociations = false;
+    p.shouldUseXholonClassAssociations = false;
+    this.efParams = p;
+  }-*/;
 
-	public boolean isShouldShowClassAssociations() {
-		return shouldShowClassAssociations;
-	}
+  /** Whether or not to show state machine nodes. */
+  public native boolean isShouldShowStateMachineEntities() /*-{return this.efParams.shouldShowStateMachineEntities;}-*/;
+  //public native void setShouldShowStateMachineEntities(boolean shouldShowStateMachineEntities) /*-{this.efParams.shouldShowStateMachineEntities = shouldShowStateMachineEntities;}-*/;
 
-	public void setShouldShowClassAssociations(boolean shouldShowClassAssociations) {
-		this.shouldShowClassAssociations = shouldShowClassAssociations;
-	}
+  /** Whether or not to show associations between classes. */
+  public native boolean isShouldShowClassAssociations() /*-{return this.efParams.shouldShowClassAssociations;}-*/;
+  //public native void setShouldShowClassAssociations(boolean shouldShowClassAssociations) /*-{this.efParams.shouldShowClassAssociations = shouldShowClassAssociations;}-*/;
+
+  /**
+   * Whether to get associations between classes,
+   * from the XholonClass (true),
+   * or from an instance of Xholon (false).
+   */
+  public native boolean isShouldUseXholonClassAssociations() /*-{return this.efParams.shouldUseXholonClassAssociations;}-*/;
+  //public native void setShouldUseXholonClassAssociations(boolean shouldUseXholonClassAssociations) /*-{this.efParams.shouldUseXholonClassAssociations = shouldUseXholonClassAssociations;}-*/;
 
 }

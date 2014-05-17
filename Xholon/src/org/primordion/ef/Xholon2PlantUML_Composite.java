@@ -63,17 +63,17 @@ public class Xholon2PlantUML_Composite extends AbstractXholon2ExternalFormat imp
 	private long timeStamp;
 	
 	/** Whether or not to show state machine nodes. */
-	private boolean shouldShowStateMachineEntities = false;
+	//private boolean shouldShowStateMachineEntities = false;
 	
 	/** Template to use when writing out node names. */
 	//protected String nameTemplate = "r:C^^^";
 	//protected String nameTemplate = "^^C^^^"; // don't include role name
-	protected String nameTemplate = "^^c_i^";
+	//protected String nameTemplate = "^^c_i^";
 	
 	/**
 	 * Should connections between nodes be shown with their port labels.
 	 */
-	private boolean shouldShowPortLabels = false;
+	//private boolean shouldShowPortLabels = false;
 
 	/**
 	 * Constructor.
@@ -154,7 +154,7 @@ public class Xholon2PlantUML_Composite extends AbstractXholon2ExternalFormat imp
 	protected void writeNode(IXholon node) {
 		//try {
 			while (node != null) {
-				if (!shouldShowStateMachineEntities
+				if (!isShouldShowStateMachineEntities()
 						&& (node.getXhcId() == CeStateMachineEntity.StateMachineCE)) {
 					// ignore state machine entities
 				}
@@ -168,7 +168,7 @@ public class Xholon2PlantUML_Composite extends AbstractXholon2ExternalFormat imp
 						  .append(getNodeLabel(node))
 						  .append(" --> ")
 						  .append(targetStateStr);
-						if (shouldShowPortLabels) {
+						if (isShouldShowPortLabels()) {
 							sb.append(" : ")
 							  .append(portInfo.getFieldName());
 						}
@@ -203,7 +203,7 @@ public class Xholon2PlantUML_Composite extends AbstractXholon2ExternalFormat imp
 		if (node == null) {
 			return "null";
 		}
-		String label = node.getName(nameTemplate);
+		String label = node.getName(getNameTemplate());
 		return label;
 	}
 	
@@ -231,23 +231,6 @@ public class Xholon2PlantUML_Composite extends AbstractXholon2ExternalFormat imp
 		this.root = root;
 	}
 
-	public boolean isShouldShowStateMachineEntities() {
-		return shouldShowStateMachineEntities;
-	}
-
-	public void setShouldShowStateMachineEntities(
-			boolean shouldShowStateMachineEntities) {
-		this.shouldShowStateMachineEntities = shouldShowStateMachineEntities;
-	}
-	
-	public String getNameTemplate() {
-		return nameTemplate;
-	}
-
-	public void setNameTemplate(String nameTemplate) {
-		this.nameTemplate = nameTemplate;
-	}
-
 	public String getOutPath() {
 		return outPath;
 	}
@@ -256,12 +239,27 @@ public class Xholon2PlantUML_Composite extends AbstractXholon2ExternalFormat imp
 		this.outPath = outPath;
 	}
 
-	//public Writer getOut() {
-	//	return out;
-	//}
+	/**
+   * Make a JavaScript object with all the parameters for this external format.
+   */
+  protected native void makeEfParams() /*-{
+    var p = {};
+    p.shouldShowStateMachineEntities = false;
+    p.nameTemplate = "^^c_i^";
+    p.shouldShowPortLabels = false;
+    this.efParams = p;
+  }-*/;
 
-	//public void setOut(Writer out) {
-	//	this.out = out;
-	//}
+  /** Whether or not to show state machine nodes. */
+  public native boolean isShouldShowStateMachineEntities() /*-{return this.efParams.shouldShowStateMachineEntities;}-*/;
+  //public native void setShouldShowStateMachineEntities(boolean shouldShowStateMachineEntities) /*-{this.efParams.shouldShowStateMachineEntities = shouldShowStateMachineEntities;}-*/;
+
+  /** Template to use when writing out node names. */
+  public native String getNameTemplate() /*-{return this.efParams.nameTemplate;}-*/;
+  //public native void setNameTemplate(String nameTemplate) /*-{this.efParams.nameTemplate = nameTemplate;}-*/;
+
+  /** Should connections between nodes be shown with their port labels. */
+  public native boolean isShouldShowPortLabels() /*-{return this.efParams.shouldShowPortLabels;}-*/;
+  //public native void setShouldShowPortLabels(boolean shouldShowPortLabels) /*-{this.efParams.shouldShowPortLabels = shouldShowPortLabels;}-*/;
 
 }

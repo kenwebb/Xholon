@@ -26,17 +26,11 @@ public class Xholon2D3HierarchyJSON {
 	
 	public Xholon2D3HierarchyJSON() {}
 	
-	/*
-	 * 
-	 */
 	public boolean initialize(IXholon root) {
 		this.root = root;
 		return true;
 	}
 
-	/*
-	 * 
-	 */
 	public void writeAll() {
 		sb = new StringBuilder();
 		// JSON doesn't allow comments
@@ -71,20 +65,20 @@ public class Xholon2D3HierarchyJSON {
 		.append(node.getName())
 		.append("\", ");
 		
-		if (shouldIncludeDecorations) {
+		if (isShouldIncludeDecorations()) {
 		  sb.append(getDecorationStr(node));
 		}
 		
 		// only show nested state machine nodes if should show them, or if root is a StateMachineCE
 		if ((node.getXhcId() == CeStateMachineEntity.StateMachineCE)
-				&& (shouldShowStateMachineEntities == false)
+				&& (isShouldShowStateMachineEntities() == false)
 				&& (level > 0)) {
 			sb.append("\"size\": 1");
 		}
 		else if (node.hasChildNodes()) {
 			IXholon childNode = node.getFirstChild();
 			String dummy = "";
-			if (insertDummyData && childNode.getNextSibling() == null) {
+			if (isInsertDummyData() && childNode.getNextSibling() == null) {
 			  // this is a container with only one child
 			  sb
 			  // prevent it from accumulating a darker color
@@ -183,7 +177,7 @@ public class Xholon2D3HierarchyJSON {
 	}
 	
 	// shouldShowStateMachineEntities
-	public boolean getShouldShowStateMachineEntities() {
+	public boolean isShouldShowStateMachineEntities() {
 	  return shouldShowStateMachineEntities;
 	}
 	
@@ -192,7 +186,7 @@ public class Xholon2D3HierarchyJSON {
 	}
 	
 	// shouldIncludeDecorations
-	public boolean getShouldIncludeDecorations() {
+	public boolean isShouldIncludeDecorations() {
 	  return shouldIncludeDecorations;
 	}
 	

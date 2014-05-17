@@ -72,16 +72,16 @@ public class Xholon2GraphML extends AbstractXholon2ExternalFormat implements IXh
 	
 	// GraphML optional features
 	/** primer 3.1 Nested Graphs */
-	protected boolean featureNestedGraphs = false;
+	//protected boolean featureNestedGraphs = false;
 	/** primer 3.2 Hyperedges */
-	protected boolean featureHyperedges = false;
+	//protected boolean featureHyperedges = false;
 	/** primer 3.3 Ports */
-	protected boolean featurePorts = false;
+	//protected boolean featurePorts = false;
 	/**
 	 * Most GraphML software does not support parallel edges.
 	 * This class does not check to see if it's writing parallel edges.
 	 */
-	protected boolean featureParallelEdges = false;
+	//protected boolean featureParallelEdges = false;
 	
 	// GraphML tools (readers, editors) - each supports different features
 	/** base GraphML capabilities (primer up to 2.4.3) */
@@ -113,46 +113,46 @@ public class Xholon2GraphML extends AbstractXholon2ExternalFormat implements IXh
 	private long timeStamp;
 	
 	/** Whether or not to draw links between nodes. */
-	private boolean shouldShowLinks = true;
+	//private boolean shouldShowLinks = true;
 	
 	/**
 	 * "Optionally an identifier for the edge can be specified with the XML Attribute id. (Primer 2.3.3)"
 	 */
-	private boolean shouldShowEdgeId = false;
+	//private boolean shouldShowEdgeId = false;
 	
 	/** Color to use in drawing link arrows. */
-	private String linkColor = "#6666ff";
+	//private String linkColor = "#6666ff"; // UNUSED
 	
 	/** Whether or not to show state machine nodes. */
-	private boolean shouldShowStateMachineEntities = false;
+	//private boolean shouldShowStateMachineEntities = false;
 	
 	/** Template to use when writing out node names. */
-	protected String nameTemplate = "r:C^^^";
+	//protected String nameTemplate = "r:C^^^";
 	
 	/** The next edge id, used when writing an &lt;edge> element. */
-	protected int nextEdgeId = 0;
+	//protected int nextEdgeId = 0;
 
 	/** Whether or not ports are used with nodes and edges. */
-	protected boolean showPorts = false;
+	//protected boolean showPorts = false;
 	
 	/** Whether or not to write the hierarchical (tree) structure. */
-	protected boolean showHierarchy = true;
+	//protected boolean showHierarchy = true;
 	
 	/**
 	 * Whether or not to write the hierarchical (tree) structure as nested graphs (true)
 	 * or as sets of parentNode/firstChild/nextSibling edges.
 	 * This boolean is only valid if showHierarchy == true.
 	 */
-	protected boolean showHierarchyAsNestedGraphs = true;
+	//protected boolean showHierarchyAsNestedGraphs = true;
 	
 	/** Whether or not to include an edge from IXholon to IXholonClass. */
-	protected boolean showXhc = false;
+	//protected boolean showXhc = false;
 	
 	/** GraphML files can be .graphml or .xml */
-	protected String fileNameExtension = ".graphml";
+	//protected String fileNameExtension = ".graphml";
 	
 	/** Whether or not to write the root node in the subtree. */
-	protected boolean showSubtreeRoot = true;
+	//protected boolean showSubtreeRoot = true;
 	
 	/**
 	 * The accumulating text for all GraphML node elements.
@@ -199,7 +199,7 @@ public class Xholon2GraphML extends AbstractXholon2ExternalFormat implements IXh
 		timeStamp = timeNow.getTime();
 		if (outFileName == null) {
 			this.outFileName = outPath + root.getXhcName() + "_" + root.getId() + "_"
-					+ timeStamp + fileNameExtension;
+					+ timeStamp + getFileNameExtension();
 		}
 		else {
 			this.outFileName = outFileName;
@@ -207,7 +207,7 @@ public class Xholon2GraphML extends AbstractXholon2ExternalFormat implements IXh
 		this.modelName = modelName;
 		this.root = root;
 		
-		this.setFeatures(targetTool);
+		this.setFeatures(getTargetTool());
 		this.nodeSb = new StringBuilder(SB_INITIAL_CAPACITY).append("<!-- nodes -->\n");
 		this.edgeSb = new StringBuilder(SB_INITIAL_CAPACITY).append("\n<!-- edges -->\n");
 		this.keyNodeSet = new HashSet<String>();
@@ -259,7 +259,7 @@ public class Xholon2GraphML extends AbstractXholon2ExternalFormat implements IXh
 			
 			this.makeNodeKey("name", "name", KEY_ATTR_TYPE_STRING, null);
 			this.makeEdgeKey("fieldName", "fieldName", KEY_ATTR_TYPE_STRING, null);
-			if (showSubtreeRoot) {
+			if (isShowSubtreeRoot()) {
 				writeNode(root);
 			}
 			else {
@@ -294,22 +294,22 @@ public class Xholon2GraphML extends AbstractXholon2ExternalFormat implements IXh
 	public void writeNode(IXholon xhNode) {
 		// only show state machine nodes if should show them, or if root is a StateMachineCE
 		if ((xhNode.getXhcId() == CeStateMachineEntity.StateMachineCE)
-				&& (shouldShowStateMachineEntities == false)
+				&& (isShouldShowStateMachineEntities() == false)
 				&& xhNode != root) {
 			return;
 		}
 		
 		nodeSb.append("<node id=\"" + xhNode.getId() + "\">\n");
-		nodeSb.append("  <data key=\"name\">" + xhNode.getName(nameTemplate) + "</data>\n");
+		nodeSb.append("  <data key=\"name\">" + xhNode.getName(getNameTemplate()) + "</data>\n");
 		writeNodeAttributes(xhNode);
 		writeEdges(xhNode);
-		if (showPorts) {
+		if (isShowPorts()) {
 			List<PortInformation> portList = xhNode.getAllPorts();
 			for (int i = 0; i < portList.size(); i++) {
 				makeNodePort((PortInformation)portList.get(i));
 			}
 		}
-		if (showHierarchy && showHierarchyAsNestedGraphs && xhNode.hasChildNodes()) {
+		if (isShowHierarchy() && isShowHierarchyAsNestedGraphs() && xhNode.hasChildNodes()) {
 			nodeSb.append("<graph edgedefault=\"" + GRAPH_EDGEDEFAULT_DIRECTED + "\">\n");
 		}
 		else {
@@ -323,7 +323,7 @@ public class Xholon2GraphML extends AbstractXholon2ExternalFormat implements IXh
 			childNode = childNode.getNextSibling();
 		}
 		
-		if (showHierarchy && showHierarchyAsNestedGraphs && xhNode.hasChildNodes()) {
+		if (isShowHierarchy() && isShowHierarchyAsNestedGraphs() && xhNode.hasChildNodes()) {
 			nodeSb.append("</graph>\n");
 			nodeSb.append("</node>\n");
 		}
@@ -350,7 +350,7 @@ public class Xholon2GraphML extends AbstractXholon2ExternalFormat implements IXh
 	 */
 	protected void makeStandardEdges(IXholon node)
 	{
-		if (showHierarchy && !showHierarchyAsNestedGraphs) {
+		if (isShowHierarchy() && !isShowHierarchyAsNestedGraphs()) {
 			// show hierarchy as graph edges
 			IXholon pn = node.getParentNode();
 			if (!node.isRootNode() && (pn != null)
@@ -369,7 +369,7 @@ public class Xholon2GraphML extends AbstractXholon2ExternalFormat implements IXh
 		IXholon xhc = node.getXhc();
 		if (xhc != null) {
 			// this is an IXholon node, and not an IXholonClass node, so it can have an xhc
-			if (showXhc) {
+			if (isShowXhc()) {
 				this.makeLink(XhRelTypes.XHC.toCamelCase(), node, xhc);
 			}
 		}
@@ -404,7 +404,7 @@ public class Xholon2GraphML extends AbstractXholon2ExternalFormat implements IXh
 	@SuppressWarnings("unchecked")
 	protected void makeLinks(IXholon node)
 	{
-		if (shouldShowLinks == false) {return;}
+		if (isShouldShowLinks() == false) {return;}
 		List<PortInformation> portList = node.getAllPorts();
 		for (int i = 0; i < portList.size(); i++) {
 			makeLink(node, (PortInformation)portList.get(i));
@@ -421,12 +421,12 @@ public class Xholon2GraphML extends AbstractXholon2ExternalFormat implements IXh
 		if (portInfo == null) {return;}
 		IXholon remoteNode = portInfo.getReffedNode();
 		edgeSb.append("<edge");
-		if (shouldShowEdgeId) {
+		if (isShouldShowEdgeId()) {
 			edgeSb.append(" id=\"" + getNextEdgeIdStr() + "\"");
 		}
 		edgeSb.append(" source=\"" + node.getId() + "\"")
 		.append(" target=\"" + remoteNode.getId() + "\"");
-		if (showPorts) {
+		if (isShowPorts()) {
 			makeEdgePort(portInfo);
 		}
 		edgeSb.append(">\n")
@@ -444,7 +444,7 @@ public class Xholon2GraphML extends AbstractXholon2ExternalFormat implements IXh
 	 */
 	protected void makeLink(String label, IXholon source, IXholon target) {
 		edgeSb.append("<edge");
-		if (shouldShowEdgeId) {
+		if (isShouldShowEdgeId()) {
 			edgeSb.append(" id=\"" + getNextEdgeIdStr() + "\"");
 		}
 		edgeSb.append(" source=\"" + source.getId() + "\"")
@@ -540,34 +540,146 @@ public class Xholon2GraphML extends AbstractXholon2ExternalFormat implements IXh
 	protected void setFeatures(int tool) {
 		switch (tool) {
 		case TOOL_GENERIC:
-			this.featureNestedGraphs = false;
-			this.featureHyperedges = false;
-			this.featurePorts = false;
-			this.featureParallelEdges = false;
+			this.setFeatureNestedGraphs(false);
+			this.setFeatureHyperedges(false);
+			this.setFeaturePorts(false);
+			this.setFeatureParallelEdges(false);
 			break;
 		case TOOL_GEPHI:
-			this.featureNestedGraphs = true; // ?
-			this.featureHyperedges = false;
-			this.featurePorts = false; // ?
-			this.featureParallelEdges = false;
+			this.setFeatureNestedGraphs(true); // ?
+			this.setFeatureHyperedges(false);
+			this.setFeaturePorts(false); // ?
+			this.setFeatureParallelEdges(false);
 			break;
 		case TOOL_YED:
-			this.featureNestedGraphs = true;
-			this.featureHyperedges = false; // ?
-			this.featurePorts = false; // ?
-			this.featureParallelEdges = false;
+			this.setFeatureNestedGraphs(true);
+			this.setFeatureHyperedges(false); // ?
+			this.setFeaturePorts(false); // ?
+			this.setFeatureParallelEdges(false);
 			break;
 		case TOOL_NETWORKX:
 			// "This implementation does not support mixed graphs (directed and unidirected edges together),
 			// hypergraphs, nested graphs, or ports."
-			this.featureNestedGraphs = false;
-			this.featureHyperedges = false;
-			this.featurePorts = false;
-			this.featureParallelEdges = true; // converts to a MultiGraph
+			this.setFeatureNestedGraphs(false);
+			this.setFeatureHyperedges(false);
+			this.setFeaturePorts(false);
+			this.setFeatureParallelEdges(true); // converts to a MultiGraph
 		default:
 			break;
 		}
 	}
+	
+	/**
+   * Make a JavaScript object with all the parameters for this external format.
+   */
+  protected native void makeEfParams() /*-{
+    var p = {};
+    p.featureNestedGraphs = false;
+    p.featureHyperedges = false;
+    p.featurePorts = false;
+    p.featureParallelEdges = false;
+    p.targetTool = 2; //TOOL_YED;
+    p.shouldShowLinks = true;
+    p.shouldShowEdgeId = false;
+    //p.linkColor = "#6666ff";
+    p.shouldShowStateMachineEntities = false;
+    p.nameTemplate = "r:C^^^";
+    p.nextEdgeId = 0;
+    p.showPorts = false;
+    p.showHierarchy = true;
+    p.showHierarchyAsNestedGraphs = true;
+    p.showXhc = false;
+    p.fileNameExtension = ".graphml";
+    p.showSubtreeRoot = true;
+    this.efParams = p;
+  }-*/;
+
+  // GraphML optional features
+  /** primer 3.1 Nested Graphs */
+  public native boolean isFeatureNestedGraphs() /*-{return this.efParams.featureNestedGraphs;}-*/;
+  public native void setFeatureNestedGraphs(boolean featureNestedGraphs) /*-{this.efParams.featureNestedGraphs = featureNestedGraphs;}-*/;
+
+  /** primer 3.2 Hyperedges */
+  public native boolean isFeatureHyperedges() /*-{return this.efParams.featureHyperedges;}-*/;
+  public native void setFeatureHyperedges(boolean featureHyperedges) /*-{this.efParams.featureHyperedges = featureHyperedges;}-*/;
+
+  /** primer 3.3 Ports */
+  public native boolean isFeaturePorts() /*-{return this.efParams.featurePorts;}-*/;
+  public native void setFeaturePorts(boolean featurePorts) /*-{this.efParams.featurePorts = featurePorts;}-*/;
+
+  /**
+   * Most GraphML software does not support parallel edges.
+   * This class does not check to see if it's writing parallel edges.
+   */
+  public native boolean isFeatureParallelEdges() /*-{return this.efParams.featureParallelEdges;}-*/;
+  public native void setFeatureParallelEdges(boolean featureParallelEdges) /*-{this.efParams.featureParallelEdges = featureParallelEdges;}-*/;
+
+  public native int getTargetTool() /*-{return this.efParams.targetTool;}-*/;
+  //public native void setTargetTool(int targetTool) /*-{this.efParams.targetTool = targetTool;}-*/;
+
+  /** Whether or not to draw links between nodes. */
+  public native boolean isShouldShowLinks() /*-{return this.efParams.shouldShowLinks;}-*/;
+  //public native void setShouldShowLinks(boolean shouldShowLinks) /*-{this.efParams.shouldShowLinks = shouldShowLinks;}-*/;
+
+  /**
+   * "Optionally an identifier for the edge can be specified with the XML Attribute id. (Primer 2.3.3)"
+   */
+  public native boolean isShouldShowEdgeId() /*-{return this.efParams.shouldShowEdgeId;}-*/;
+  //public native void setShouldShowEdgeId(boolean shouldShowEdgeId) /*-{this.efParams.shouldShowEdgeId = shouldShowEdgeId;}-*/;
+
+  /** Color to use in drawing link arrows. UNUSED */
+  //public native String getLinkColor() /*-{return this.efParams.linkColor;}-*/;
+  //public native void setLinkColor(String linkColor) /*-{this.efParams.linkColor = linkColor;}-*/;
+
+  /** Whether or not to show state machine nodes. */
+  public native boolean isShouldShowStateMachineEntities() /*-{return this.efParams.shouldShowStateMachineEntities;}-*/;
+  //public native void setShouldShowStateMachineEntities(boolean shouldShowStateMachineEntities) /*-{this.efParams.shouldShowStateMachineEntities = shouldShowStateMachineEntities;}-*/;
+
+  /** Template to use when writing out node names. */
+  public native String getNameTemplate() /*-{return this.efParams.nameTemplate;}-*/;
+  //public native void setNameTemplate(String nameTemplate) /*-{this.efParams.nameTemplate = nameTemplate;}-*/;
+
+  /** The next edge id, used when writing an <edge> element. */
+  public native int getNextEdgeId() /*-{
+    return this.efParams.nextEdgeId++;
+  }-*/;
+  //public native void setNextEdgeId(int nextEdgeId) /*-{this.efParams.nextEdgeId = nextEdgeId;}-*/;
+  
+  /**
+	 * Get the next edge id as a String.
+	 * @return
+	 */
+	public String getNextEdgeIdStr() {
+		return "e" + getNextEdgeId();
+	};
+
+  /** Whether or not ports are used with nodes and edges. */
+  public native boolean isShowPorts() /*-{return this.efParams.showPorts;}-*/;
+  //public native void setShowPorts(boolean showPorts) /*-{this.efParams.showPorts = showPorts;}-*/;
+
+  /** Whether or not to write the hierarchical (tree) structure. */
+  public native boolean isShowHierarchy() /*-{return this.efParams.showHierarchy;}-*/;
+  //public native void setShowHierarchy(boolean showHierarchy) /*-{this.efParams.showHierarchy = showHierarchy;}-*/;
+
+  /**
+   * Whether or not to write the hierarchical (tree) structure as nested graphs (true)
+   * or as sets of parentNode/firstChild/nextSibling edges.
+   * This boolean is only valid if showHierarchy == true.
+   */
+  public native boolean isShowHierarchyAsNestedGraphs() /*-{return this.efParams.showHierarchyAsNestedGraphs;}-*/;
+  //public native void setShowHierarchyAsNestedGraphs(boolean showHierarchyAsNestedGraphs) /*-{this.efParams.showHierarchyAsNestedGraphs = showHierarchyAsNestedGraphs;}-*/;
+
+  /** Whether or not to include an edge from IXholon to IXholonClass. */
+  public native boolean isShowXhc() /*-{return this.efParams.showXhc;}-*/;
+  //public native void setShowXhc(boolean showXhc) /*-{this.efParams.showXhc = showXhc;}-*/;
+
+  /** GraphML files can be .graphml or .xml */
+  public native String getFileNameExtension() /*-{return this.efParams.fileNameExtension;}-*/;
+  //public native void setFileNameExtension(String fileNameExtension) /*-{this.efParams.fileNameExtension = fileNameExtension;}-*/;
+
+  /** Whether or not to write the root node in the subtree. */
+  public native boolean isShowSubtreeRoot() /*-{return this.efParams.showSubtreeRoot;}-*/;
+  //public native void setShowSubtreeRoot(boolean showSubtreeRoot) /*-{this.efParams.showSubtreeRoot = showSubtreeRoot;}-*/;
 
 	public String getOutFileName() {
 		return outFileName;
@@ -593,84 +705,12 @@ public class Xholon2GraphML extends AbstractXholon2ExternalFormat implements IXh
 		this.root = root;
 	}
 
-	public boolean isShouldShowLinks() {
-		return shouldShowLinks;
-	}
-
-	public void setShouldShowLinks(boolean shouldShowLinks) {
-		this.shouldShowLinks = shouldShowLinks;
-	}
-
-	public String getLinkColor() {
-		return linkColor;
-	}
-
-	public void setLinkColor(String linkColor) {
-		this.linkColor = linkColor;
-	}
-
-	public boolean isShouldShowStateMachineEntities() {
-		return shouldShowStateMachineEntities;
-	}
-
-	public void setShouldShowStateMachineEntities(
-			boolean shouldShowStateMachineEntities) {
-		this.shouldShowStateMachineEntities = shouldShowStateMachineEntities;
-	}
-	
-	public String getNameTemplate() {
-		return nameTemplate;
-	}
-
-	public void setNameTemplate(String nameTemplate) {
-		this.nameTemplate = nameTemplate;
-	}
-	public int getNextEdgeId() {
-		return nextEdgeId++;
-	}
-	
-	/**
-	 * Get the next edge id as a String.
-	 * @return
-	 */
-	public String getNextEdgeIdStr() {
-		return "e" + getNextEdgeId();
-	}
-
-	public void setNextEdgeId(int nextEdgeId) {
-		this.nextEdgeId = nextEdgeId;
-	}
-
-	public boolean isShowPorts() {
-		return showPorts;
-	}
-
-	public void setShowPorts(boolean showPorts) {
-		this.showPorts = showPorts;
-	}
-
-	public boolean isShowHierarchy() {
-		return showHierarchyAsNestedGraphs;
-	}
-
-	public void setShowHierarchy(boolean showHierarchy) {
-		this.showHierarchyAsNestedGraphs = showHierarchy;
-	}
-
 	public String getOutPath() {
 		return outPath;
 	}
 
 	public void setOutPath(String outPath) {
 		this.outPath = outPath;
-	}
-
-	public String getFileNameExtension() {
-		return fileNameExtension;
-	}
-
-	public void setFileNameExtension(String fileNameExtension) {
-		this.fileNameExtension = fileNameExtension;
 	}
 
 	// #############################################################################
@@ -755,45 +795,5 @@ public class Xholon2GraphML extends AbstractXholon2ExternalFormat implements IXh
 	@Override
 	// DO NOT IMPLEMENT THIS
 	public void flush() {}
-
-	public int getTargetTool() {
-		return targetTool;
-	}
-
-	public void setTargetTool(int targetTool) {
-		this.targetTool = targetTool;
-	}
-
-	public boolean isShouldShowEdgeId() {
-		return shouldShowEdgeId;
-	}
-
-	public void setShouldShowEdgeId(boolean shouldShowEdgeId) {
-		this.shouldShowEdgeId = shouldShowEdgeId;
-	}
-
-	public boolean isShowHierarchyAsNestedGraphs() {
-		return showHierarchyAsNestedGraphs;
-	}
-
-	public void setShowHierarchyAsNestedGraphs(boolean showHierarchyAsNestedGraphs) {
-		this.showHierarchyAsNestedGraphs = showHierarchyAsNestedGraphs;
-	}
-
-	public boolean isShowXhc() {
-		return showXhc;
-	}
-
-	public void setShowXhc(boolean showXhc) {
-		this.showXhc = showXhc;
-	}
-
-	public boolean isShowSubtreeRoot() {
-		return showSubtreeRoot;
-	}
-
-	public void setShowSubtreeRoot(boolean showSubtreeRoot) {
-		this.showSubtreeRoot = showSubtreeRoot;
-	}
 
 }

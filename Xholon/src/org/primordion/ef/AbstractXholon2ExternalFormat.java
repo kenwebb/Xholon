@@ -80,7 +80,13 @@ public abstract class AbstractXholon2ExternalFormat extends Xholon {
 	    }
       var gui = $wnd.xh.efParamsGui;
       var p = this.efParams;
-	    var folder = gui.addFolder(formatName);
+	    var folder = null;
+	    try {
+	      folder = gui.addFolder(formatName);
+	    } catch (e) {
+	      // prevent 'Error: You already have a folder in this GUI by the name "_d3,CirclePack"'
+	      folder = gui.addFolder(formatName + new Date().getTime());
+	    }
 	    var $this = this;
       p.doExport = function() {
         $this.@org.primordion.xholon.service.ef.IXholon2ExternalFormat::initialize(Ljava/lang/String;Ljava/lang/String;Lorg/primordion/xholon/base/IXholon;)(outFileName, modelName, root);
