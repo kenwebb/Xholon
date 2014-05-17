@@ -430,8 +430,11 @@
       uri += "&src=lstr";
     }
     uri +="&gui=" + gui;
-    window.open(uri, modelName, 'width=' + 1000
-        + ',height=' + 800 + ',status=yes,resizable=yes,menubar,scrollbars');
+    // window name must not contain whitespace or dash; replace with underscore
+    var winName = modelName.replace(/\s/g, "_").replace(/-/g, "_");
+    //console.log(uri);
+    //console.log(winName);
+    window.open(uri, winName, "width=1000, height=800, status=yes, resizable=yes, menubar=yes, scrollbars=yes");
   }
   
   /**
