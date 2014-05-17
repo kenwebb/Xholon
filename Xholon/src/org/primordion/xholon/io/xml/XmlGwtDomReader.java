@@ -254,7 +254,12 @@ public class XmlGwtDomReader extends XmlReader {
 
 	@Override
 	public String getPrefix() {
-		return currentNode.getPrefix();
+	  String prefix = currentNode.getPrefix();
+	  // IE9 returns an empty string if there's no prefix; other browsers return null
+	  if ((prefix != null) && (prefix.length() == 0)) {
+	    prefix = null;
+	  }
+		return prefix;
 	}
 
 	@Override
