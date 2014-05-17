@@ -168,7 +168,7 @@ public abstract class AbstractXml2Xholon_gwt extends Xholon implements IXml2Xhol
 
 	@Override
 	public IXholon xmlString2Xholon(String xmlString, IXholon parentXholon) {
-		return xmlString2Xholon_internal(xmlString, parentXholon);
+	  return xmlString2Xholon_internal(xmlString, parentXholon);
 	}
 	
 	/**
@@ -182,7 +182,7 @@ public abstract class AbstractXml2Xholon_gwt extends Xholon implements IXml2Xhol
 	 */
 	protected IXholon xmlString2Xholon_internal(String xmlString, IXholon parentXholon)
 	{
-		IXmlReader xmlReader = XmlReaderFactory_gwt.getXmlReader(xmlString);
+	  IXmlReader xmlReader = XmlReaderFactory_gwt.getXmlReader(xmlString);
 		int eventType = xmlReader.getEventType();
 		return xml2Xh(parentXholon, xmlReader, eventType);
 	}

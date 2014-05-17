@@ -1365,7 +1365,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	 * @see org.primordion.xholon.base.IXholon#getApp()
 	 */
 	public IApplication getApp() {
-	  //System.out.println("Starting getApp() ... " + this);
+	  //println("Starting getApp() ... " + this);
 		return this;
 	}
 	
@@ -1650,13 +1650,12 @@ public abstract class Application extends AbstractApplication implements IApplic
 	public void initialize( String configFileName ) throws XholonConfigurationException
 	{
 	  clearConsole(); println("initializing ...");
-	  System.out.println("App.initialize() starting ...");
-		// make sure configFileName is saved for possible future use
+	  // make sure configFileName is saved for possible future use
 		if (this.configFileName == null) {
 			this.configFileName = configFileName;
 		}
-		System.out.println("App.initialize() this.configFileName: " + this.configFileName);
-		System.out.println("App.initialize() xincludePath: " + xincludePath);
+		//println("App.initialize() this.configFileName: " + this.configFileName);
+		//println("App.initialize() xincludePath: " + xincludePath);
 		
 		StringTokenizer st;
 		
@@ -1697,7 +1696,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 		}
 				
 		inherHier = new InheritanceHierarchy();
-		System.out.println("App.initialize() inherHier: " + inherHier);
+		//System.out.println("App.initialize() inherHier: " + inherHier);
 		
 		createControlHierarchy();
 		clearConsole(); println("created control hierarchy");
@@ -1898,7 +1897,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	 */
 	protected void createControlHierarchy() throws XholonConfigurationException
 	{
-		System.out.println("App.createControlHierarchy() starting ...");
+		//println("App.createControlHierarchy() starting ...");
 		// this bit of code has to bootstrap itself because nothing else is set up yet
 		IXml2Xholon xml2Control = new Xml2Xholon();
 		xml2Control.setTreeNodeFactory(factory);
@@ -1913,7 +1912,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 		inherHier.createHashEntry(controlXholonClass);
 		xml2Control.setInheritanceHierarchy(inherHier);
 		controlRoot = (IControl)xml2Control.xmlString2Xholon(rcConfig(CONTROLHIERARCHY_FILENAME), this);
-	  this.setRoleName(controlRoot.getRoleName());
+		this.setRoleName(controlRoot.getRoleName());
 		// get Application's true first child, and adjust other nodes; remove Application's initial first child
 		IXholon controlNode = this.getFirstChild().getFirstChild();
 		while (controlNode != null) {
@@ -1935,7 +1934,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	 */
 	protected void createMechanismHierarchy()
 	{
-		System.out.println("App.createMechanismHierarchy() starting ...");
+		//println("App.createMechanismHierarchy() starting ...");
 		IXml2Xholon xml2Mechanism = new Xml2Mechanism();
 		xml2Mechanism.setTreeNodeFactory(factory);
 		xml2Mechanism.setApp(this);
@@ -1953,7 +1952,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	 */
 	protected void createInheritanceHierarchy()
 	{
-		System.out.println("App.createInheritanceHierarchy() starting ...");
+		//println("App.createInheritanceHierarchy() starting ...");
 		IXml2Xholon xml2XholonClass = new Xml2XholonClass();
 		xml2XholonClass.setTreeNodeFactory(factory);
 		xml2XholonClass.setApp(this);
@@ -2016,7 +2015,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	 */
 	protected void createXholonServiceHierarchy()
 	{
-	  System.out.println("App.createXholonServiceHierarchy() starting ...");
+	  //println("App.createXholonServiceHierarchy() starting ...");
 		IXml2Xholon xml2Service = new Xml2Xholon();
 		xml2Service.setTreeNodeFactory( factory );
 		xml2Service.setApp(this);
@@ -2387,7 +2386,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	 */
 	public void readConfigFromFileXml(String fileName) throws XholonConfigurationException
 	{
-	  System.out.println("App.readConfigFromFileXml() starting ... " + fileName);
+	  //println("App.readConfigFromFileXml() starting ... " + fileName);
 		Parameters.xmlUri2Params(fileName, this); // GWT
 		//Parameters.xmlString2Params("<params><param name='ModelName' value='Testing'/></params>", this);
 	}
@@ -2460,7 +2459,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	  //consoleLog("Application starting initViewers() ...");
 		// XYChart
 		if (getUseDataPlotter()) {
-		  System.out.println("Application initViewers() calling createChart(null)");
+		  //println("Application initViewers() calling createChart(null)");
 			createChart(null);
 		}
 		
@@ -2545,7 +2544,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	 */
 	public void createChart(IXholon chartRoot)
 	{
-	  System.out.println("Application createChart( " + chartRoot);
+	  //println("Application createChart( " + chartRoot);
 		StringTokenizer st = new StringTokenizer(getDataPlotterParams(), ",");
 		if (st.countTokens() != 7) {
 			st = new StringTokenizer("Title,Time (timesteps),Y,./statistics/,stats,1,WRITE_AS_LONG", ",");
@@ -2613,7 +2612,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 			int nameConcatLevels,
 			int writeType)
 	{
-	  System.out.println("Application createChart( " + xyChart + "|" + xAxisLabel + "|" + yAxisLabel + "|" + pathName + "|" + typeOfData + "|" + writeType);
+	  //println("Application createChart( " + xyChart + "|" + xAxisLabel + "|" + yAxisLabel + "|" + pathName + "|" + typeOfData + "|" + writeType);
 		if (nameConcatLevels < 1 || nameConcatLevels > 2) {
 			nameConcatLevels = 1;
 		}
@@ -2655,7 +2654,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 		}
 		else if (getUseGnuplot()) {
 			chartViewer = (IChartViewer)getService(AbstractXholonService.XHSRV_CHART_VIEWER + "-gnuplot");
-			System.out.println("Application createChart( using Gnuplot " + chartViewer);
+			//println("Application createChart( using Gnuplot " + chartViewer);
 			if (chartViewer == null) {
 				setUseDataPlotter("none");
 			}
@@ -2692,7 +2691,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 		}
 		else if (getUseGoogle2()) {
 			chartViewer = (IChartViewer)getService(AbstractXholonService.XHSRV_CHART_VIEWER + "-google2");
-			System.out.println("Application createChart( using google2 " + chartViewer);
+			//println("Application createChart( using google2 " + chartViewer);
 			if (chartViewer == null) {
 				setUseDataPlotter("none");
 			}
@@ -2702,7 +2701,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 		}
 		else if (getUseC3()) {
 			chartViewer = (IChartViewer)getService(AbstractXholonService.XHSRV_CHART_VIEWER + "-c3");
-			System.out.println("Application createChart( using c3 " + chartViewer);
+			//println("Application createChart( using c3 " + chartViewer);
 			if (chartViewer == null) {
 				setUseDataPlotter("none");
 			}
@@ -2712,7 +2711,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 		}
 		else if (getUseNVD3()) {
 			chartViewer = (IChartViewer)getService(AbstractXholonService.XHSRV_CHART_VIEWER + "-nvd3");
-			System.out.println("Application createChart( using nvd3 " + chartViewer);
+			//println("Application createChart( using nvd3 " + chartViewer);
 			if (chartViewer == null) {
 				setUseDataPlotter("none");
 			}
@@ -2966,7 +2965,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	    }
 	    else {
 	      imageFile = this.configFileName.substring(0, this.configFileName.lastIndexOf("/")) + "/" + imageFile;
-	      System.out.println("imageFile:" + imageFile);
+	      //println("imageFile:" + imageFile);
 	    }
 	  }
 	  if (imageFile == null) {return;}
