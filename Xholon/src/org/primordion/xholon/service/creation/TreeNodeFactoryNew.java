@@ -404,6 +404,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			else if (implName.endsWith("InteractionsViewer")) {
 				newNode = new org.primordion.xholon.script.InteractionsViewer();
 			}
+			else if (implName.endsWith("Lojban")) {
+				newNode = new org.primordion.xholon.script.Lojban();
+			}
 			else if (implName.endsWith("Plot")) {
 				newNode = new org.primordion.xholon.script.Plot();
 			}
@@ -652,6 +655,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 		  if (implName.endsWith("InteractionsViewer")) {
 		    return true;
 		  }
+		  if (implName.endsWith("Lojban")) {
+				return true;
+			}
 			if (implName.endsWith("Plot")) {
 				return true;
 			}
