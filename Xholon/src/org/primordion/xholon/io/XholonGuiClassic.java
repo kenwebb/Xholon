@@ -68,9 +68,11 @@ import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.resources.client.ImageResource;
 
 import org.client.GwtEnvironment;
+import org.client.JavaApp2Workbook;
 import org.client.RCImages;
 //import org.primordion.xholon.app.Application;
-//import org.primordion.xholon.app.IApplication;
+import org.primordion.xholon.app.ApplicationNull;
+import org.primordion.xholon.app.IApplication;
 import org.primordion.xholon.base.IDecoration;
 //import org.primordion.xholon.base.IMessage;
 //import org.primordion.xholon.base.IReflection;
@@ -172,18 +174,79 @@ public class XholonGuiClassic extends AbstractXholonGui { //DockPanel {
     // main menu at top of GUI
     MenuBar mainMenu = new MenuBar();
     mainMenu.setStylePrimaryName("mainMenu");
-    mainMenu.addItem("File", new Command() {
+    
+    // File
+    MenuBar fileMenu = new MenuBar(true);
+    MenuBar localStorageMenu = new MenuBar(true);
+    boolean enableFileItems = true;
+    //consoleLog(enableFileItems);
+    //consoleLog(Window.Location.getParameter("src"));
+    if ("gist".equals(Window.Location.getParameter("src"))) {
+      //consoleLog("setting to false");
+      enableFileItems = false;
+    }
+    //consoleLog(enableFileItems);
+    localStorageMenu.addItem("Save", new Command() {
+      @Override
+      public void execute() {
+        IApplication lsApp = new ApplicationNull();
+        String configFileName = app.getConfigFileName();
+        lsApp.setConfigFileName(configFileName);
+        JavaApp2Workbook app2Wb = new JavaApp2Workbook();
+        app2Wb.setWinName("_blank"); // open in new tab or window
+        app2Wb.save(configFileName, lsApp);
+      }
+    }).setEnabled(enableFileItems);
+    // save to localStorage using a new name
+    /*localStorageMenu.addItem("Save as", new Command() {
       @Override
       public void execute() {
         
       }
-    });
+    }).setEnabled(enableFileItems);*/
+    localStorageMenu.addItem("Edit", new Command() {
+      @Override
+      public void execute() {
+        IApplication lsApp = new ApplicationNull();
+        String configFileName = app.getConfigFileName();
+        lsApp.setConfigFileName(configFileName);
+        JavaApp2Workbook app2Wb = new JavaApp2Workbook();
+        app2Wb.setWinName("_blank"); // open in new tab or window
+        app2Wb.edit(configFileName, lsApp);
+      }
+    }).setEnabled(enableFileItems);
+    localStorageMenu.addItem("Restart from", new Command() {
+      @Override
+      public void execute() {
+        // restart the current app by reloading the HTML page (equivalent to browser F5)
+        // the reloaded app will automatically include the edited changes in localStorage
+        Window.Location.reload();
+      }
+    }).setEnabled(enableFileItems);
+    // remove from localStorage
+    /*localStorageMenu.addItem("Remove from", new Command() {
+      @Override
+      public void execute() {
+        
+      }
+    }).setEnabled(enableFileItems);*/
+    fileMenu.addItem("localStorage", localStorageMenu);
+    mainMenu.addItem("File", fileMenu);
+    
+    // Application
     mainMenu.addItem("Application", new Command() {
       @Override
       public void execute() {
-        
+        if (app == null) {
+					//app.println("Application not yet loaded.");
+				}
+				else {
+					app.about();
+				}
       }
     });
+    
+    // Help
     MenuBar helpMenu = new MenuBar(true);
     helpMenu.addItem("About", new Command() {
       @Override
