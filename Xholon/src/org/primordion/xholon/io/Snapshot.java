@@ -126,7 +126,7 @@ public class Snapshot extends Xholon implements ISnapshot {
 		consoleLog("Snapshot saveSnapshot() 1");
 		if (node != null) {
 		  consoleLog("Snapshot saveSnapshot() " + node.getName());
-		  IXholon2ExternalFormat xholon2ef = efs.initExternalFormatWriter(node, externalFormatName);
+		  IXholon2ExternalFormat xholon2ef = efs.initExternalFormatWriter(node, externalFormatName, null);
 		  efs.writeAll(xholon2ef);
     }
 	}
