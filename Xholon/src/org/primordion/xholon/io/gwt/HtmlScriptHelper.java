@@ -60,6 +60,22 @@ public class HtmlScriptHelper {
   }
   
   /**
+   * Inject a script into the app.
+   * @param scriptBody 
+   * @param removeTag Whether or not to remove the HTML tag after the script is run.
+   *        GWT default is true
+   * @return 
+   */
+  public static JavaScriptObject fromUrl(String scriptUrl, boolean removeTag) {
+    JavaScriptObject jso = ScriptInjector.fromUrl(scriptUrl)
+    .setWindow(ScriptInjector.TOP_WINDOW)
+    .setRemoveTag(removeTag)
+    .inject();
+    consoleLog(jso);
+    return jso;
+  }
+  
+  /**
    * USE require.js INSTEAD.
    * This method should only be used for very simple cases,
    * where only one script is being loaded.
