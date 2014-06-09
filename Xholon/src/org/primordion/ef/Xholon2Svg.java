@@ -31,6 +31,30 @@ import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
 public class Xholon2Svg extends org.primordion.xholon.io.Xholon2Svg implements IXholon2ExternalFormat {
   
   @Override
+	public native String getEfParamsAsJsonString() /*-{
+	  if (this.efParams) {
+      return $wnd.JSON.stringify(this.efParams);
+    }
+    else {
+      return null;
+    }
+	}-*/;
+  
+  @Override
+  public native void setEfParamsFromJsonString(String jsonStr) /*-{
+    if (this.efParams && jsonStr) {
+      var json = $wnd.JSON.parse(jsonStr);
+      for (var prop in json) {
+        var pname = prop;
+        var pval = json[pname];
+        if ((this.efParams[pname] !== undefined) && (typeof pval != "function")) {
+          this.efParams[pname] = pval;
+        }
+      }
+    }
+  }-*/;
+  
+  @Override
   public native boolean canAdjustOptions() /*-{
     $wnd.console.log("org.primordion.ef.Xholon2Svg canAdjustOptions() ");
     $wnd.console.log(this);
