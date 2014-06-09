@@ -29,6 +29,8 @@ import org.primordion.xholon.service.ef.IXholon2GraphFormat;
 
 /**
  * Export a Xholon model in Chap Network format.
+ * This implementation uses JavaScript arrays rather than Google DataTable,
+ * so there is NO dependency on the Google Visualization API.
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.9.0 (Created on July 30, 2013)
@@ -47,7 +49,6 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
 	private String outPath = "./ef/chnet/";
 	private String modelName;
 	private IXholon root;
-	//private Writer out;
 	
 	/** Current date and time. */
 	private Date timeNow;
@@ -93,23 +94,23 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
 	 */
 	protected boolean showTree = false;
 	
-	protected String width = "600px";
+	//protected String width = "600px";
 	
-	protected String height = "600px";
+	//protected String height = "600px";
 	
 	/**
 	 * The length of a link.
 	 */
-	protected int linksLength = 50; // 100
+	//protected int linksLength = 50; // 100
 	
 	/**
 	 * Whether or not a link should show the name of the port.
 	 */
-	protected boolean showPortName = false;
+	//protected boolean showPortName = false;
 	
-	protected String nodesStyle = "dot"; // rect text image
+	//protected String nodesStyle = "dot"; // rect text image
 	
-	protected String stabilize = "false";
+	//protected String stabilize = "false";
 	
 	/**
 	 * Constructor.
@@ -138,47 +139,38 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
 		this.root = root;
 		
 		if (showTree) {
-		  linksLength = 100; // 200
+		  setLinksLength(100);
 		  viewElementId = "treeview";
 		  outPath = "./ef/chtree/";
 		}
 		
+		// TODO why are there 2 "var nodesTable" and 2 "var linksTable" ?
 		this.startSb = new StringBuilder(128)
 		.append("var nodesTable = null;\n")
 		.append("var linksTable = null;\n")
 		.append("var network = null;\n")
-		.append("//google.load('visualization', '1');\n")
-		.append("//google.setOnLoadCallback(draw);\n")
 		.append("function draw() {\n");
 		
 		this.nodeSb = new StringBuilder(SB_INITIAL_CAPACITY)
 		.append("// nodes\n")
-		.append("var nodesTable = new google.visualization.DataTable();\n")
-		.append("nodesTable.addColumn('number', 'id');\n")
-		.append("nodesTable.addColumn('string', 'text');\n")
-		.append("nodesTable.addRows([\n");
+		.append("var nodesTable = [];\n");
 		
 		this.linkSb = new StringBuilder(SB_INITIAL_CAPACITY)
 		.append("// links\n")
-		.append("var linksTable = new google.visualization.DataTable();\n")
-		.append("linksTable.addColumn('number', 'from');\n")
-		.append("linksTable.addColumn('number', 'to');\n")
-		.append("linksTable.addColumn('string', 'text');\n")
-		.append("linksTable.addColumn('string', 'style');\n")
-		.append("linksTable.addRows([\n");
+		.append("var linksTable = [];\n");
 		
 		this.optionsSb = new StringBuilder(SB_INITIAL_CAPACITY)
 		.append("// options\n")
 		.append("var options = {\n")
-		.append("  'width': '" + width + "',\n")
-		.append("  'height': '" + height + "',\n")
+		.append("  'width': '" + getWidth() + "',\n")
+		.append("  'height': '" + getHeight() + "',\n")
 		.append("  'links': {\n")
-		.append("    'length': " + linksLength + "\n")
+		.append("    'length': " + getLinksLength() + "\n")
 		.append("  },\n")
 		.append("  'nodes': {\n")
-		.append("    'style': '" + nodesStyle + "'\n")
+		.append("    'style': '" + getNodesStyle() + "'\n")
 		.append("  },\n")
-		.append("  'stabilize': " + stabilize + "\n")
+		.append("  'stabilize': " + getStabilize() + "\n")
 		.append("};\n");
 		
 		this.endSb = new StringBuilder(128)
@@ -189,12 +181,7 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
 		.append("}\n")
 		.append("draw();\n");
 		
-		//root.consoleLog("about to call !isDefinedChapLinksNetwork()");
-		//boolean isIt = isDefinedChapLinksNetwork();
-		//root.consoleLog(isIt);
-    if (!isDefinedChapLinksNetwork()) {
-    //if (!isIt) {
-      //root.consoleLog("about to call loadChapLinksNetwork()");
+		if (!isDefinedChapLinksNetwork()) {
       loadChapLinksNetwork();
       return true; // do not return false; that just causes an error message
     }
@@ -204,14 +191,12 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
 
 	@Override
 	public void writeAll() {
-	  //root.consoleLog("Xholon2ChapNetwork writeAll()");
-    if (!isDefinedChapLinksNetwork()) {return;}
+	  if (!isDefinedChapLinksNetwork()) {return;}
 		writeNode(root);
-		nodeSb.append("]);\n");
-		linkSb.append("]);\n");
 		StringBuilder sb = new StringBuilder()
 		.append("// ")
 		.append(modelName)
+		.append("\n// see http://almende.github.io/chap-links-library/network.html")
 		.append("\n\n")
 		.append(startSb.toString())
 		.append(nodeSb.toString())
@@ -226,19 +211,18 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
 		}
 		else {
 			// TODO possibly write to a new browser window; open window and then write data
-			System.out.println(sb.toString());
+			//System.out.println(sb.toString());
 		}
 	}
 
 	@Override
 	public void writeNode(IXholon xhNode) {
 		// xhNode details
-		nodeSb.append("[")
+		nodeSb.append("nodesTable.push({'id': ")
 		.append(xhNode.getId())
-		.append(", '")
+		.append(", 'text': '")
 		.append(xhNode.getName())
-		.append("'],")
-		.append("\n");
+		.append("'});\n");
 		// xhNode outgoing edges
 		writeEdges(xhNode);
 		// xhNode children
@@ -259,20 +243,19 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
 				  new org.primordion.xholon.base.ReflectionJavaMicro().getAllPorts(xhNode, false);
 		  for (int i = 0; i < portList.size(); i++) {
 			  PortInformation pi = (PortInformation)portList.get(i);
-		    System.out.println(pi);
-			  linkSb.append("[")
+		    linkSb.append("linksTable.push({'from': ")
 			  .append(xhNode.getId())
-			  .append(", ")
+			  .append(", 'to': ")
 			  .append(pi.getReffedNode().getId())
-			  .append(", '");
-			  if (showPortName) {
+			  .append(", 'text': '");
+			  if (isShowPortName()) {
 			    linkSb.append(pi.getFieldName());
 			  }
 			  else {
 			    linkSb.append("");
 			  }
-			  linkSb.append("', 'arrow-end'")
-			  .append("],\n");
+			  linkSb.append("', 'style': 'arrow-end'")
+			  .append("});\n");
 		  }
 		}
 		
@@ -280,14 +263,14 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
 		if (showTree) {
 		  if (xhNode != root) {
 		    IXholon pNode = xhNode.getParentNode();
-	      linkSb.append("[")
-		    .append(pNode.getId())
-		    .append(", ")
-		    .append(xhNode.getId())
-		    .append(", '")
-		    .append("")
-		    .append("', undefined")
-		    .append("],\n");
+	      linkSb.append("linksTable.push({'from': ")
+			  .append(pNode.getId())
+			  .append(", 'to': ")
+			  .append(xhNode.getId())
+			  .append(", 'text': '")
+			  .append("")
+			  .append("', 'style': undefined")
+			  .append("});\n");
 		  }
 		}
 		
@@ -319,7 +302,7 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
 	}-*/
 	//;
 	
-	  /**
+	/**
    * Load CHAP Links Network library asynchronously.
    */
   protected void loadChapLinksNetwork() {
@@ -367,12 +350,45 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
     this.showTree = showTree;
   }
   
-  public int getLinksLength() {
-    return this.linksLength;
-  }
-  
-  public void setLinksLength(int linksLength) {
-    this.linksLength = linksLength;
-  }
+  /**
+   * Make a JavaScript object with all the parameters for this external format.
+   */
+  protected native void makeEfParams() /*-{
+    var p = {};
+    p.width = "600px";
+    p.height = "600px";
+    p.linksLength = 50;
+    p.showPortName = false;
+    p.nodesStyle = "dot";
+    p.stabilize = "false";
+    this.efParams = p;
+  }-*/;
+
+
+  public native String getWidth() /*-{return this.efParams.width;}-*/;
+  //public native void setWidth(String width) /*-{this.efParams.width = width;}-*/;
+
+  public native String getHeight() /*-{return this.efParams.height;}-*/;
+  //public native void setHeight(String height) /*-{this.efParams.height = height;}-*/;
+
+  /**
+   * The length of a link.
+   * 100
+   */
+  public native int getLinksLength() /*-{return this.efParams.linksLength;}-*/;
+  public native void setLinksLength(int linksLength) /*-{this.efParams.linksLength = linksLength;}-*/;
+
+  /**
+   * Whether or not a link should show the name of the port.
+   */
+  public native boolean isShowPortName() /*-{return this.efParams.showPortName;}-*/;
+  //public native void setShowPortName(boolean showPortName) /*-{this.efParams.showPortName = showPortName;}-*/;
+
+  // rect text image
+  public native String getNodesStyle() /*-{return this.efParams.nodesStyle;}-*/;
+  //public native void setNodesStyle(String nodesStyle) /*-{this.efParams.nodesStyle = nodesStyle;}-*/;
+
+  public native String getStabilize() /*-{return this.efParams.stabilize;}-*/;
+  //public native void setStabilize(String stabilize) /*-{this.efParams.stabilize = stabilize;}-*/;
   
 }
