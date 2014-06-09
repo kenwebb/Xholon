@@ -295,7 +295,7 @@ public IXholon2ExternalFormat initExternalFormatWriter(IXholon node, String form
       }
     }*/
     StringBuilder sb = new StringBuilder()
-    .append("public IXholon2ExternalFormat initExternalFormatWriter(IXholon node, String formatName) {\n")
+    .append("public IXholon2ExternalFormat initExternalFormatWriter(IXholon node, String formatName, String efParams) {\n")
     .append("  String modelName = \"\";\n")
     .append("  IApplication app = node.getApp();\n")
     .append("  if (app != null) {\n")
@@ -305,7 +305,8 @@ public IXholon2ExternalFormat initExternalFormatWriter(IXholon node, String form
     .append("  if (formatName == null) {return null;}\n")
     .append(sbInit.toString())
     .append("  else {return null;}\n")
-    .append("  if ((app.isAllowConfigSrv()) && (xholon2ef.canAdjustOptions())) {\n")
+    .append("  xholon2ef.setEfParamsFromJsonString(efParams);")
+    .append("  if ((app.isAllowConfigSrv()) && (xholon2ef.canAdjustOptions()) && (efParams == null)) {\n")
     .append("    xholon2ef.adjustOptions(null, modelName, node, formatName);\n")
     .append("    return null;")
     .append("  }\n")
@@ -317,7 +318,6 @@ public IXholon2ExternalFormat initExternalFormatWriter(IXholon node, String form
     .append("  }\n")
     .append("  return null;\n")
     .append("}\n");
-    //System.out.println(sb.toString());
     return sb.toString();
   }
   
