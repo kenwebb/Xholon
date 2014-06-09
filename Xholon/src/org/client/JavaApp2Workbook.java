@@ -87,6 +87,12 @@ public class JavaApp2Workbook extends Xholon {
   protected String appName = null;
   
   /**
+   * Window name. For use with Window.open().
+   * "_self" or "_blank"
+   */
+  protected String winName = "_self";
+  
+  /**
    * Save the app to the browser's localStorage.
    * @param configFileName The name and path of a _xhn.xml file, or null.
    * @param app 
@@ -154,7 +160,7 @@ public class JavaApp2Workbook extends Xholon {
     .append("&runsrc=none");
     //this.println(wbUrl.toString());
     // replace the current window with the XholonWorkbook editor
-    Window.open(wbUrl.toString(), "_self", ""); // starts with "http" or "https"
+    Window.open(wbUrl.toString(), winName, ""); // starts with "http" or "https"
   }
   
   /**
@@ -373,6 +379,14 @@ public class JavaApp2Workbook extends Xholon {
     sb.append("</XholonWorkbook>");
     
     return sb.toString();
+  }
+  
+  public String getWinName() {
+    return winName;
+  }
+  
+  public void setWinName(String winName) {
+    this.winName = winName;
   }
   
 }
