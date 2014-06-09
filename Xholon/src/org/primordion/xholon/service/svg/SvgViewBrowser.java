@@ -191,13 +191,14 @@ public class SvgViewBrowser extends Xholon implements ISvgView, EventListener {
   protected static final int IX_PATH = 6;
   protected static final int IX_TEXT = 7;
   protected static final int IX_TSPAN = 8;
+  protected static final int IX_G = 9;
   
   /**
    * Each SVG tool creates id's for new SVG shapes using it's own naming scheme.
    * For example, svg-edit id names all start with "svg", while Inkscape uses "rect", "text", "path".
    * Rect Circle Ellipse Line Polygon Polyline Path Text Tspan
    */
-  protected String[] idScheme = {"rect","path","path","path","path","path","path","text","tspan"}; // Inkscape
+  protected String[] idScheme = {"rect","path","path","path","path","path","path","text","tspan","g"}; // Inkscape
   //protected String[] idScheme = {"svg","svg","svg","svg","svg","svg","svg","svg","svg"}; // svg-edit
   
   /** Indicates whether or not this object has changed. */
@@ -912,18 +913,21 @@ public class SvgViewBrowser extends Xholon implements ISvgView, EventListener {
     Element ele = Element.as(((NativeEvent) cme).getEventTarget());
     String nodeName = ele.getNodeName();
     String svgElementId = ele.getId();
-    //println(nodeName + " " + svgElementId);
-    if (svgElementId == null) {return;}
+    if ((svgElementId == null) || ("".equals(svgElementId))) {
+      Element parentEle = ele.getParentElement();
+      if ("g".equals(parentEle.getNodeName())) {
+        // Graphviz creates the id on the SVG "g" parent element
+        svgElementId = parentEle.getId();
+        if ((svgElementId == null) || ("".equals(svgElementId))) {return;}
+      }
+      else {
+        return;
+      }
+    }
     if (!svgElementId.startsWith(findIdScheme(nodeName))) {
-      //invertStyle(ele, invertAttr);
       IXholon node = findXholonNode(svgElementId);
       if (node != null) {
-        //rememberNodeSelection(node, event.getCtrlKey());
-        //println(node.handleNodeSelection());
-        //int x = ele.getAbsoluteLeft();
         int y = ele.getAbsoluteTop();
-        //showPopupMenu(node, x, y);
-        
         new XholonGuiForHtml5().makeContextMenu(node, 0, y);
       }
     }
@@ -980,6 +984,7 @@ public class SvgViewBrowser extends Xholon implements ISvgView, EventListener {
 	}*/
   
   protected void mousePressed(Event event) {
+    //consoleLog("mousePressed");
     Element ele = Element.as(((NativeEvent) event).getEventTarget());
     //System.out.println("  ONMOUSEDOWN:" + ele.getNodeName() + " " + ele.getId());
     //println("  ONMOUSEDOWN:" + ele.getNodeName() + " " + ele.getId());
@@ -997,8 +1002,9 @@ public class SvgViewBrowser extends Xholon implements ISvgView, EventListener {
   }
   
   protected void mouseReleased(Event event) {
+    //consoleLog("mouseReleased");
     Element ele = Element.as(((NativeEvent) event).getEventTarget());
-    //println("  ONMOUSEUP:" + ele.getNodeName() + " " + ele.getId());
+    //consoleLog(ele);
     String nodeName = ele.getNodeName();
     
     String svgElementId = ele.getId();
@@ -1006,8 +1012,24 @@ public class SvgViewBrowser extends Xholon implements ISvgView, EventListener {
     if (("text".equals(nodeName)) || ("tspan".equals(nodeName))) {
       invertAttr = "fill";
     }
-    if (svgElementId == null) {return;}
+    //consoleLog("|" + svgElementId + "|");
+    if ((svgElementId == null) || ("".equals(svgElementId))) {
+      Element parentEle = ele.getParentElement();
+      //consoleLog("svgElementId == null 1");
+      //consoleLog(parentEle);
+      //consoleLog(parentEle.getNodeName());
+      if ("g".equals(parentEle.getNodeName())) {
+        // Graphviz creates the id on the SVG "g" parent element
+        svgElementId = parentEle.getId();
+        //consoleLog(svgElementId);
+        if ((svgElementId == null) || ("".equals(svgElementId))) {return;}
+      }
+      else {
+        return;
+      }
+    }
     if (!svgElementId.startsWith(findIdScheme(nodeName))) {
+      //consoleLog("!svgElementId.startsWith(findIdScheme(nodeName))");
       invertStyle(ele, invertAttr);
       IXholon node = findXholonNode(svgElementId);
       if (node != null) {
@@ -1033,6 +1055,7 @@ public class SvgViewBrowser extends Xholon implements ISvgView, EventListener {
     if ("line".equals(nodeName)) {return idScheme[IX_LINE];}
     if ("polygon".equals(nodeName)) {return idScheme[IX_POLYGON];}
     if ("polyline".equals(nodeName)) {return idScheme[IX_POLYLINE];}
+    if ("g".equals(nodeName)) {return idScheme[IX_G];}
     return "svg";
   }
 
