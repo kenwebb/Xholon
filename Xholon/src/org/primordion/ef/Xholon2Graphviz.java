@@ -29,10 +29,12 @@ import java.util.Map;
 
 import org.primordion.xholon.base.IDecoration;
 import org.primordion.xholon.base.IXholon;
+import org.primordion.xholon.base.IXPath;
 import org.primordion.xholon.base.IXholonClass;
 import org.primordion.xholon.base.PortInformation;
 //import org.primordion.xholon.base.Xholon;
 import org.primordion.xholon.common.mechanism.CeStateMachineEntity;
+import org.primordion.xholon.service.AbstractXholonService;
 import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
 //import org.primordion.xholon.util.MiscIo;
 
@@ -76,6 +78,9 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 	/** Current date and time. */
 	protected Date timeNow;
 	protected long timeStamp;
+	
+	/** A local singleton instance of XPath. */
+  protected IXPath xPathLocal = null;
 	
 	/** Whether or not to show state machine nodes. */
 	//protected boolean shouldShowStateMachineEntities = true;
@@ -166,6 +171,8 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 		this.modelName = modelName;
 		this.root = root;
 		this.edgeMap = null;
+		setXPathLocal((IXPath)root.getService(AbstractXholonService.XHSRV_XPATH));
+		
 		return true;
 	}
 
@@ -217,6 +224,16 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 			//out.write(sb.toString());
 			//out.flush();
 			writeToTarget(sb.toString(), outFileName, outPath, root);
+			
+  		if (isShouldDisplayGraph()) {
+  		  if (!isDefinedViz()) {
+  		    loadVizjs();
+  		  }
+  		  else {
+  		    displayVizjs();
+  		  }
+  		}
+			
 		//} catch (IOException e) {
 		//	Xholon.getLogger().error("", e);
 		//}
@@ -256,6 +273,9 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 					if (nodeLabel != null) {
 						sb.append(" label=" + nodeLabel);
 					}
+					if (isShouldDisplayGraph() && "svg".equals(getOutputFormat())) {
+					  sb.append(" id=\"" + getGraphvizNodeId(node) + "\"");
+					}
 					sb.append("\n");
 					if (isShouldSpecifyLayout()) {
 						sb.append(" layout=" + getLayout() + ";\n");
@@ -266,8 +286,23 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 					if (isShouldSpecifyRankdir()) {
 						sb.append(" rankdir=" + getRankdir() + ";\n");
 					}
-					if (isShouldColor()) {
-						sb.append(" node [style=filled,fillcolor=\"" + getDefaultColor() + "\"]\n");
+					if (isShouldColor() || isShouldSpecifyShape()) {
+					  String colorShapeSep = "";
+						sb.append(" node [");
+						if (isShouldColor()) {
+						  sb
+						  .append("style=filled,fillcolor=\"")
+						  .append(getDefaultColor())
+						  .append("\"");
+						  colorShapeSep = ",";
+						}
+						if (isShouldSpecifyShape()) {
+						  sb
+						  .append(colorShapeSep)
+						  .append("shape=")
+						  .append(getShape());
+						}
+						sb.append("]\n");
 					}
 				}
 				else if (isCluster(node)) {
@@ -277,6 +312,9 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 					sb.append(" {");
 					if (nodeLabel != null) {
 						sb.append(" label=" + nodeLabel);
+					}
+					if (isShouldDisplayGraph() && "svg".equals(getOutputFormat())) {
+					  sb.append(" id=\"" + getGraphvizNodeId(node) + "\"");
 					}
 					sb.append("\n");
 				}
@@ -325,7 +363,11 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 		//try {
 			sb.append(tab + nodeId);
 			if (nodeLabel != null) {
-				sb.append(" [label=" + nodeLabel + "]");
+				sb.append(" [label=" + nodeLabel);
+			  if (isShouldDisplayGraph() && "svg".equals(getOutputFormat())) {
+			    sb.append(" id=\"" + getGraphvizNodeId(node) + "\"");
+			  }
+			  sb.append("]");
 			}
 			sb.append("\n");
 			String colorStr = makeColor(node);
@@ -547,6 +589,91 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 	}
 	
 	/**
+   * Get a value for the node's Graphviz id attribute.
+   * Graphiz will use this if the output format is SVG.
+   * @param node
+   * @return
+   */
+  protected String getGraphvizNodeId(IXholon node) {
+    return getXPathLocal().getExpression(node, root, false);
+  }
+	
+	/**
+   * Load viz.js library asynchronously.
+   */
+  protected void loadVizjs() {
+    require(this);
+  }
+  
+  /**
+   * Display the Graphviz content as SVG or other output format, using viz.js .
+   */
+  public void displayVizjs() {
+    String of = getOutputFormat();
+    String out = graphviz2of(sb.toString(), of);
+    if (out != null) {
+      if ("".equals(out)) {
+        // Error: renderer for vrml is unavailable
+        out = "Error: renderer for " + of + " is unavailable";
+        of = "error";
+      }
+      /*if ("gif".equals(of) || "jpg".equals(of) || "png".equals(of)) {
+        // TODO
+        return;
+      }*/
+      writeToTarget(out, outFileName + "." + of, outPath, root);
+      if ("svg".equals(of)) {
+        root.getApp().makeSvgClient(out);
+      }
+    }
+  }
+  
+  /**
+   * Convert Graphviz content to a Graphviz-supported output format.
+   * svg = Viz("digraph { a -> b; }", "svg");
+   * @param graphvizContent Content in the DOT language.
+   * @param outputFormat ex: "svg" "xdot" "dot" "canon" "plain" "ps" "tk"
+   *   "vrml"NO "pdf"NO "png"NO "jpg"NO "gif"NO
+   */
+  protected native String graphviz2of(String graphvizContent, String outputFormat) /*-{
+    var out = $wnd.Viz(graphvizContent, outputFormat);
+    return out;
+  }-*/;
+  
+  /**
+   * use requirejs
+   */
+  protected native void require(final IXholon2ExternalFormat xh2Graphviz) /*-{
+    $wnd.requirejs.config({
+      enforceDefine: false,
+      paths: {
+        viz: [
+          "xholon/lib/viz"
+        ]
+      }
+    });
+    $wnd.require(["viz"], function(viz) {
+      xh2Graphviz.@org.primordion.ef.Xholon2Graphviz::displayVizjs()();
+    });
+  }-*/;
+  
+  /**
+   * Is $wnd.Viz defined.
+   * @return it is defined (true), it's not defined (false)
+   */
+  protected native boolean isDefinedViz() /*-{
+    return (typeof $wnd.Viz != "undefined");
+  }-*/;
+	
+	public IXPath getXPathLocal() {
+    return xPathLocal;
+  }
+
+  public void setXPathLocal(IXPath xPathLocal) {
+    this.xPathLocal = xPathLocal;
+  }
+  
+	/**
 	 * Make a JavaScript object with all the parameters for this external format.
 	 */
 	protected native void makeEfParams() /*-{
@@ -565,10 +692,14 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 	  p.maxLabelLen = -1;
 	  p.shouldColor = true;
 	  p.defaultColor = "#f0f8ff";
+	  p.shouldSpecifyShape = false;
+	  p.shape = "ellipse";
 	  p.shouldSpecifyStylesheet = false;
 	  p.stylesheet = "xholon.css";
 	  p.shouldSpecifyRankdir = false;
 	  p.rankdir = "LR";
+	  p.shouldDisplayGraph = false;
+	  p.outputFormat = "svg";
 	  this.efParams = p;
 	}-*/;
 	
@@ -647,6 +778,18 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 	//public native void setDefaultColor(String defaultColor) /*-{this.efParams.defaultColor = defaultColor;}-*/;
 
   /**
+	 * Whether or not to specify a node shape in the Graphviz output.
+	 */
+	public native boolean isShouldSpecifyShape() /*-{return this.efParams.shouldSpecifyShape;}-*/;
+	//public native void setShouldSpecifyShape(boolean shouldSpecifyShape) /*-{this.efParams.shouldSpecifyShape = shouldSpecifyShape;}-*/;
+
+  /**
+	 * Name of a Graphviz polygon-based shape.
+	 */
+	public native String getShape() /*-{return this.efParams.shape;}-*/;
+	//public native void setShape(String shape) /*-{this.efParams.shape = shape;}-*/;
+
+  /**
 	 * Whether or not to specify a stylesheet file name in the output.
 	 */
 	public native boolean isShouldSpecifyStylesheet() /*-{return this.efParams.shouldSpecifyStylesheet;}-*/;
@@ -657,7 +800,7 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 	 */
 	public native String getStylesheet() /*-{return this.efParams.stylesheet;}-*/;
 	//public native void setStylesheet(String stylesheet) /*-{this.efParams.stylesheet = stylesheet;}-*/;
-
+  
   /**
 	 * Whether or not to specify a rankdir.
 	 */
@@ -667,5 +810,17 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
   /** rankdir=LR|RL|BT */
 	public native String getRankdir() /*-{return this.efParams.rankdir;}-*/;
 	//public native void setRankdir(String rankdir) /*-{this.efParams.rankdir = rankdir;}-*/;
+	
+	/**
+	 * Should the generated Graphviz content be displayed on the HTML page, as SVG, using viz.js .
+	 */
+	public native boolean isShouldDisplayGraph() /*-{return this.efParams.shouldDisplayGraph;}-*/;
+	//public native void setShouldDisplayGraph(boolean shouldDisplayGraph) /*-{this.efParams.shouldDisplayGraph = shouldDisplayGraph;}-*/;
+	
+	/**
+	 * Get the Graphviz output format.
+	 */
+	public native String getOutputFormat() /*-{return this.efParams.outputFormat;}-*/;
+	//public native void setOutputFormat(String outputFormat) /*-{this.efParams.outputFormat = outputFormat;}-*/;
 	
 }
