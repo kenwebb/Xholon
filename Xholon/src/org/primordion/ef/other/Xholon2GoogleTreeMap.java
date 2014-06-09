@@ -51,6 +51,10 @@ import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
 
 /**
  * Export a Xholon model in Google TreeMap format.
+ * 
+ * TODO dynamically load the Google Visualization API.
+ * "https://www.google.com/jsapi?autoload={\"modules\":[{\"name\":\"visualization\",\"version\":\"1.0\",\"packages\":[\"corechart\",\"treemap\"]}]}"
+ * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.8.1 (Created on February 12, 2010)
@@ -73,13 +77,13 @@ public class Xholon2GoogleTreeMap extends AbstractXholon2ExternalFormat implemen
 	private boolean shouldShowStateMachineEntities = false;
 	
 	/** Template to use when writing out node names. */
-	protected String nameTemplate = "R^^_i^"; //"r:C^^^";
+	//protected String nameTemplate = "R^^_i^"; //"r:C^^^";
 
 	/** Whether or not to include a &lt;declarations element at the top. */
 	private boolean shouldShowDeclarations = true;
 	
 	/** Whether or not to run the separate TreeMap application to display the treemap. */
-	private boolean shouldRunTreeMap = true;
+	//private boolean shouldRunTreeMap = true;
 	
 	/** Maximum number of children of any node in the subtree. */
 	private int maxChildren = 0;
@@ -101,12 +105,27 @@ public class Xholon2GoogleTreeMap extends AbstractXholon2ExternalFormat implemen
 	
 	private int sizeAlgorithm = SIZE_ALGORITHM_VAL;
 	
-	private int maxDepth = 12; // 5
+	//private int maxDepth = 12; // 5
 	
 	/**
 	 * Constructor.
 	 */
-	public Xholon2GoogleTreeMap() {}
+	public Xholon2GoogleTreeMap() {
+	  if (!isGoogleVisLoaded()) {
+	    // some callback is required by Google Vis even though it's only   ,\"callback\":\"console.log\"
+	    HtmlScriptHelper.fromUrl("https://www.google.com/jsapi?autoload={\"modules\":[{\"name\":\"visualization\",\"version\":\"1.0\",\"packages\":[\"corechart\",\"treemap\"],\"callback\":\"console.log\"}]}", false);
+	  }
+	}
+	
+	/**
+	 * Is the google visualization library already loaded?
+	 */
+	protected native boolean isGoogleVisLoaded() /*-{
+	  if (($wnd.google !== undefined) && ($wnd.google.visualization !== undefined)) {
+	    return true;
+	  }
+	  return false;
+	}-*/;
 	
 	/*
 	 * @see org.primordion.xholon.io.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
@@ -168,7 +187,7 @@ public class Xholon2GoogleTreeMap extends AbstractXholon2ExternalFormat implemen
 			.append("  var tree = new google.visualization.TreeMap(document.getElementById('xhtreemap'));\n")
 			.append("  tree.draw(data, {\n");
 			sb
-			.append("    maxDepth: '").append(maxDepth).append("',\n")
+			.append("    maxDepth: '").append(getMaxDepth()).append("',\n")
 			.append("    maxPostDepth: '1',\n")
 			//.append("    minColor: '#f00',\n")
 			//.append("    midColor: '#ddd',\n")
@@ -188,7 +207,7 @@ public class Xholon2GoogleTreeMap extends AbstractXholon2ExternalFormat implemen
 		//}
 		//if (shouldClose) {
 		//	MiscIo.closeOutputFile(out);
-			if (shouldRunTreeMap) {
+			if (isShouldRunTreeMap()) {
 				runTreeMap();
 			}
 		//}
@@ -212,7 +231,7 @@ public class Xholon2GoogleTreeMap extends AbstractXholon2ExternalFormat implemen
 				&& (level > 0)) {
 			return;
 		}
-		String nodeName = node.getName(nameTemplate);
+		String nodeName = node.getName(getNameTemplate());
 		int sizeValue;
 		if (node.hasChildNodes()) {
 			sizeValue = 0;
@@ -451,14 +470,6 @@ public class Xholon2GoogleTreeMap extends AbstractXholon2ExternalFormat implemen
 		this.shouldShowStateMachineEntities = shouldShowStateMachineEntities;
 	}
 	
-	public String getNameTemplate() {
-		return nameTemplate;
-	}
-
-	public void setNameTemplate(String nameTemplate) {
-		this.nameTemplate = nameTemplate;
-	}
-
 	public String getOutPath() {
 		return outPath;
 	}
@@ -475,14 +486,6 @@ public class Xholon2GoogleTreeMap extends AbstractXholon2ExternalFormat implemen
 		this.shouldShowDeclarations = shouldShowDeclarations;
 	}
 
-	public boolean isShouldRunTreeMap() {
-		return shouldRunTreeMap;
-	}
-
-	public void setShouldRunTreeMap(boolean shouldRunTreeMap) {
-		this.shouldRunTreeMap = shouldRunTreeMap;
-	}
-	
 	public int getColorAlgorithm() {
 	  return colorAlgorithm;
 	}
@@ -499,12 +502,27 @@ public class Xholon2GoogleTreeMap extends AbstractXholon2ExternalFormat implemen
 	  this.sizeAlgorithm = sizeAlgorithm;
 	}
 	
-	public int getMaxDepth() {
-	  return maxDepth;
-	}
-	
-	public void setMaxDepth(int maxDepth) {
-	  this.maxDepth = maxDepth;
-	}
+	/**
+   * Make a JavaScript object with all the parameters for this external format.
+   */
+  protected native void makeEfParams() /*-{
+    var p = {};
+    p.nameTemplate = "R^^_i^";
+    p.shouldRunTreeMap = true;
+    p.maxDepth = 12;
+    this.efParams = p;
+  }-*/;
+
+
+  /** Template to use when writing out node names. "r:C^^^" */
+  public native String getNameTemplate() /*-{return this.efParams.nameTemplate;}-*/;
+  //public native void setNameTemplate(String nameTemplate) /*-{this.efParams.nameTemplate = nameTemplate;}-*/;
+
+  /** Whether or not to run the separate TreeMap application to display the treemap. */
+  public native boolean isShouldRunTreeMap() /*-{return this.efParams.shouldRunTreeMap;}-*/;
+  //public native void setShouldRunTreeMap(boolean shouldRunTreeMap) /*-{this.efParams.shouldRunTreeMap = shouldRunTreeMap;}-*/;
+
+  public native int getMaxDepth() /*-{return this.efParams.maxDepth;}-*/;
+  //public native void setMaxDepth(int maxDepth) /*-{this.efParams.maxDepth = maxDepth;}-*/;
 	
 }
