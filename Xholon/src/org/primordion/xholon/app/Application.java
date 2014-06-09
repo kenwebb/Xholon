@@ -100,6 +100,7 @@ import org.primordion.xholon.io.Snapshot;
 import org.primordion.xholon.io.XholonGwtTabPanelHelper;
 import org.primordion.xholon.io.XholonWorkbookBundle;
 //import org.primordion.xholon.io.ef.other.Xholon2ChapNetwork;
+import org.primordion.xholon.io.gwt.HtmlScriptHelper;
 //import org.primordion.xholon.io.vrml.AbstractVrmlWriter;
 import org.primordion.xholon.io.vrml.IVrmlWriter;
 import org.primordion.xholon.io.xml.IXholon2Xml;
@@ -2696,6 +2697,9 @@ public abstract class Application extends AbstractApplication implements IApplic
 				setUseDataPlotter("none");
 			}
 			else {
+			  // some callback is required by Google Vis even though it's only   ,\"callback\":\"console.log\"
+			  // TODO make it a more functional callback
+			  HtmlScriptHelper.fromUrl("https://www.google.com/jsapi?autoload={\"modules\":[{\"name\":\"visualization\",\"version\":\"1.0\",\"packages\":[\"corechart\",\"treemap\"],\"callback\":\"console.log\"}]}", false);
 				chartViewer.initialize(xyChartNode, nameConcatLevels, typeOfData, writeType, "");
 			}
 		}
@@ -3032,7 +3036,7 @@ ${MODELNAME_DEFAULT},${SVGURI_DEFAULT},,,./,${VIEWABLES_CREATE}
 <Attribute_String roleName="setup">${MODELNAME_DEFAULT},${SVGURI_DEFAULT}</Attribute_String>
 </SvgClient>
 	*/
-	protected void makeSvgClient(String svgStr) {
+	public void makeSvgClient(String svgStr) {
 	  StringBuilder sb = new StringBuilder(128)
 	  .append("<SvgClient>\n")
 	  .append("<Attribute_String roleName=\"svgUri\"><![CDATA[data:image/svg+xml,")

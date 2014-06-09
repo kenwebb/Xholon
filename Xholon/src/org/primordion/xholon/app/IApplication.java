@@ -326,6 +326,12 @@ public interface IApplication extends IXholon {
 	public abstract void image();
 	
 	/**
+	 * Make an SvgClient node, which will handle displaying the SVG content.
+	 * @param svgStr SVG content
+	 */
+	public abstract void makeSvgClient(String svgStr);
+	
+	/**
 	 * Get the model name.
 	 * @return The name of this model.
 	 */
