@@ -44,6 +44,7 @@ public abstract class AbstractXholon2ExternalFormat extends Xholon {
 	 */
   public AbstractXholon2ExternalFormat() {
     makeEfParams();
+    consoleLog(getEfParamsAsJsonString());
   }
   
   /**
@@ -51,6 +52,38 @@ public abstract class AbstractXholon2ExternalFormat extends Xholon {
 	 * Subclasses may override this.
 	 */
 	protected void makeEfParams() {}
+	
+	/**
+	 * Get the parameters for this external format, as a JSON string.
+	 * @return a JSON string, or null.
+	 */
+	public native String getEfParamsAsJsonString() /*-{
+	  if (this.efParams) {
+      return $wnd.JSON.stringify(this.efParams);
+    }
+    else {
+      return null;
+    }
+	}-*/;
+  
+  /**
+   * Set one or more parameters for this external format.
+   * The parameter must already exist, and cannot be a function.
+   * @param jsonStr one or more name/value pairs in JSON format, or null
+   *  ex: {"one":"two","three":true,"four":1234}
+   */
+  public native void setEfParamsFromJsonString(String jsonStr) /*-{
+    if (this.efParams && jsonStr) {
+      var json = $wnd.JSON.parse(jsonStr);
+      for (var prop in json) {
+        var pname = prop;
+        var pval = json[pname];
+        if ((this.efParams[pname] !== undefined) && (typeof pval != "function")) {
+          this.efParams[pname] = pval;
+        }
+      }
+    }
+  }-*/;
   
   public native boolean canAdjustOptions() /*-{
     if (this.efParams) {
