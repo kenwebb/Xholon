@@ -17,6 +17,8 @@
  */
 package org.primordion.xholon.service;
 
+import com.google.gwt.core.client.JsArrayString;
+
 //import java.io.File;
 //import java.io.IOException;
 //import java.io.Writer;
@@ -107,8 +109,28 @@ public class ExternalFormatService extends AbstractXholonService {
 		switch (msg.getSignal()) {
 		case IXholonService.SIG_PROCESS_REQUEST:
 			IXholon node = msg.getSender();
-			String formatName = (String)msg.getData();
-			IXholon2ExternalFormat xholon2ef = this.initExternalFormatWriter(node, formatName);
+			String formatName = null;
+			String efParams = null;
+			if (msg.getData() instanceof String) {
+			  consoleLog("efs msg data is a String ");
+			  formatName = (String)msg.getData();
+			}
+			else if (msg.getData() instanceof JsArrayString) {
+			  consoleLog("efs msg data is a JsArrayString");
+			  JsArrayString arr = (JsArrayString)msg.getData();
+			  consoleLog(arr.length());
+			  formatName = arr.get(0);
+			  efParams = arr.get(1);
+			}
+			else { // it's a String array
+			  consoleLog("efs msg data is a String array");
+			  String[] arr = (String[])msg.getData();
+			  formatName = arr[0];
+			  efParams = arr[1];
+			}
+			consoleLog(formatName);
+		  consoleLog(efParams);
+			IXholon2ExternalFormat xholon2ef = this.initExternalFormatWriter(node, formatName, efParams);
 			if (xholon2ef != null) {
 			  this.writeAll(xholon2ef);
 			}
@@ -194,10 +216,11 @@ public class ExternalFormatService extends AbstractXholonService {
 	 * such as for one of the Network Workbench (NWB) supported formats.
 	 * @param node The root node of the Xholon subtree to be written out.
 	 * @param formatName The name of an external format (ex: TreeML).
+	 * @param efParams An optional JSON string with ef params.
 	 * This is used as part of the Java class name.
 	 * ex: TreeML --> org.primordion.ef.Xholon2TreeML
 	 */
-	public IXholon2ExternalFormat initExternalFormatWriter(IXholon node, String formatName)
+	public IXholon2ExternalFormat initExternalFormatWriter(IXholon node, String formatName, String efParams)
 	{
 		String modelName = "";
 		IApplication app = node.getApp();

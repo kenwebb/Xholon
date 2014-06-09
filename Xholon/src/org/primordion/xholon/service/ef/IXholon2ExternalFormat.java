@@ -35,6 +35,20 @@ public interface IXholon2ExternalFormat {
 	public static final String STRING_WRITER = "stringwriter";
 	
 	/**
+	 * Get the parameters for this external format, as a JSON string.
+	 * @return a JSON string, or null.
+	 */
+	public abstract String getEfParamsAsJsonString();
+	
+	/**
+   * Set one or more parameters for this external format.
+   * The parameter must already exist, and cannot be a function.
+   * @param jsonStr one or more name/value pairs in JSON format
+   *  ex: {"one":"two","three":true,"four":1234}
+   */
+  public abstract void setEfParamsFromJsonString(String jsonStr);
+	
+	/**
 	 * Allow user to change the values of options for this external format writer.
 	 * @param outFileName Name of the output file.
 	 * @param modelName Name of the model.
