@@ -6,6 +6,9 @@ Ken Webb
 To build development code:
 ant devmode
 
+To build superdevmode code:
+ant superdevmode
+
 To build production obfuscated code:
 ant build
 
@@ -42,4 +45,7 @@ To search and replace in all files in a directory (recursively)
  WARNING this changes the file date/time for ALL files it examines
 find ./ -type f -readable -writable -exec sed -i "s/Chameleon/Furcifer/g" {} \;
 find ./ -type f -readable -writable -exec sed -i "s/xholon.tutorials/user.app/g" {} \;
+
+To use git
+git push origin master
 
