@@ -24,6 +24,14 @@ import org.primordion.xholon.io.gwt.HtmlScriptHelper;
 
 /**
  * <p>Captures data, and creates a histogram using Google Charts.</p>
+ * 
+ * This class should not be used.
+ *  - it doesn't work yet
+ *  - and it needs to dynamically load the Google Visualization API
+ *    "https://www.google.com/jsapi?autoload={\"modules\":[{\"name\":\"visualization\",\"version\":\"1.0\",\"packages\":[\"corechart\",\"treemap\"]}]}"
+ * 
+ * Use the D3 histogram class instead.
+ * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @see <a href="https://developers.google.com/chart/interactive/docs/gallery/histogram">Google Charts site</a>
