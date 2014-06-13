@@ -267,26 +267,55 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 			// children
 			if (node.hasChildNodes()) {
 				if (node == root) {
+				/*
+digraph 0 {
+ graph [label="ExtraCellularSpace",rankdir=LR,size=6,fontname="Courier New"];
+ node [style=filled,fillcolor="#386993",shape=box,fontname="Courier New"];
+ edge [arrowhead=vee];
+				*/
 					sb.append(getGvGraph() + " ");
 					sb.append(nodeId);
-					sb.append(" {");
+					sb.append(" {\n");
+					
+					// graph attributes
+					sb.append(" graph [");
+					String graphSep = "";
 					if (nodeLabel != null) {
-						sb.append(" label=" + nodeLabel);
+						sb.append("label=" + nodeLabel);
+						graphSep = ",";
 					}
 					if (isShouldDisplayGraph() && "svg".equals(getOutputFormat())) {
-					  sb.append(" id=\"" + getGraphvizNodeId(node) + "\"");
+					  sb.append(graphSep).append("id=\"" + getGraphvizNodeId(node) + "\"");
+						graphSep = ",";
 					}
-					sb.append("\n");
 					if (isShouldSpecifyLayout()) {
-						sb.append(" layout=" + getLayout() + ";\n");
+						sb.append(graphSep).append("layout=" + getLayout());
+						graphSep = ",";
 					}
 					if (isShouldSpecifyStylesheet()) {
-						sb.append(" stylesheet=\"" + getStylesheet() + "\";\n");
+						sb.append(graphSep).append("stylesheet=\"" + getStylesheet() + "\"");
+						graphSep = ",";
 					}
 					if (isShouldSpecifyRankdir()) {
-						sb.append(" rankdir=" + getRankdir() + ";\n");
+						sb.append(graphSep).append("rankdir=" + getRankdir());
+						graphSep = ",";
 					}
-					if (isShouldColor() || isShouldSpecifyShape()) {
+					if (isShouldSpecifySize()) {
+						sb.append(graphSep).append("size=" + getSize());
+						graphSep = ",";
+					}
+					if (isShouldSpecifyFontname()) {
+						sb.append(graphSep).append("fontname=" + getFontname());
+						graphSep = ",";
+					}
+					if (!"".equals(getGvCluster())) {
+						sb.append(graphSep).append("compound=true");
+						graphSep = ",";
+					}
+					sb.append("]\n");
+					
+					// node attributes
+					if (isShouldColor() || isShouldSpecifyShape() || isShouldSpecifyFontname()) {
 					  String colorShapeSep = "";
 						sb.append(" node [");
 						if (isShouldColor()) {
@@ -301,10 +330,24 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 						  .append(colorShapeSep)
 						  .append("shape=")
 						  .append(getShape());
+						  colorShapeSep = ",";
 						}
+						if (isShouldSpecifyFontname()) {
+						  sb.append(colorShapeSep).append("fontname=" + getFontname());
+					  }
 						sb.append("]\n");
 					}
-				}
+					
+					// edge attributes
+					if (isShouldSpecifyArrowhead()) {
+					  sb
+					  .append(" edge [")
+					  .append("arrowhead=")
+					  .append(getArrowhead())
+					  .append("]\n");
+					}
+					
+				} // end (node == root)
 				else if (isCluster(node)) {
 					sb.append(tab + "subgraph ");
 					nodeId = getGvCluster() + nodeId;
@@ -317,6 +360,10 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 					  sb.append(" id=\"" + getGraphvizNodeId(node) + "\"");
 					}
 					sb.append("\n");
+					// TODO cluster rule #2: if the node has ports or is reffed by ports
+					if (false) {
+					  sb.append(tab).append(" ").append(nodeId).append(" [shape=point,style=invis];\n");
+					}
 				}
 				else {
 					// this is not a cluster (ex: Petri net Transition node)
@@ -429,7 +476,8 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 	 */
 	protected boolean writeLink(int nodeNum, IXholon node, String nodeId, final PortInformation portInfo,
 			String linkLabel, boolean reverseArrows, String tab) {
-	  //System.out.println("Xholon2Graphviz writeLink() " + portInfo);
+	  // TODO cluster rule #3: add " [ltail=CLUSTER_NNN] and/or "lhead=CLUSTER_NNN"
+	  //   ex: [ltail=cluster0,lhead=cluster1]
 		if (portInfo == null) {return false;}
 		boolean rc = true;
 		IXholon remoteNode = portInfo.getReffedNode();
@@ -642,6 +690,7 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
   
   /**
    * use requirejs
+   * viz.js is a 2.5MB file, so wait longer than the default 7 seconds
    */
   protected native void require(final IXholon2ExternalFormat xh2Graphviz) /*-{
     $wnd.requirejs.config({
@@ -650,7 +699,8 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
         viz: [
           "xholon/lib/viz"
         ]
-      }
+      },
+      waitSeconds: 20
     });
     $wnd.require(["viz"], function(viz) {
       xh2Graphviz.@org.primordion.ef.Xholon2Graphviz::displayVizjs()();
@@ -694,8 +744,16 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 	  p.defaultColor = "#f0f8ff";
 	  p.shouldSpecifyShape = false;
 	  p.shape = "ellipse";
-	  p.shouldSpecifyStylesheet = false;
-	  p.stylesheet = "xholon.css";
+	  
+	  p.shouldSpecifySize = false;
+	  p.size = "6";
+	  p.shouldSpecifyFontname = false;
+	  p.fontname = "\"Courier New\"";
+	  p.shouldSpecifyArrowhead = false;
+	  p.arrowhead = "vee";
+	  
+	  p.shouldSpecifyStylesheet = true;
+	  p.stylesheet = "Xholon.css";
 	  p.shouldSpecifyRankdir = false;
 	  p.rankdir = "LR";
 	  p.shouldDisplayGraph = false;
@@ -788,7 +846,25 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 	 */
 	public native String getShape() /*-{return this.efParams.shape;}-*/;
 	//public native void setShape(String shape) /*-{this.efParams.shape = shape;}-*/;
-
+  
+  /**
+	 * Graphviz graph size.
+	 */
+	public native boolean isShouldSpecifySize() /*-{return this.efParams.shouldSpecifySize;}-*/;
+	public native String getSize() /*-{return this.efParams.size;}-*/;
+	
+	/**
+	 * Graphviz graph and node fontname.
+	 */
+	public native boolean isShouldSpecifyFontname() /*-{return this.efParams.shouldSpecifyFontname;}-*/;
+	public native String getFontname() /*-{return this.efParams.fontname;}-*/;
+	
+	/**
+	 * Graphviz edge arrowhead type.
+	 */
+	public native boolean isShouldSpecifyArrowhead() /*-{return this.efParams.shouldSpecifyArrowhead;}-*/;
+	public native String getArrowhead() /*-{return this.efParams.arrowhead;}-*/;
+  
   /**
 	 * Whether or not to specify a stylesheet file name in the output.
 	 */
