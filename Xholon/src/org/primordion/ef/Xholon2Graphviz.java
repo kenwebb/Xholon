@@ -50,6 +50,10 @@ digraph 0 { label=HelloWorldSystem
   2 -> 1;
 }
 </pre>
+
+ * For an example of handling cluster - cluster, and cluster -childNode edges, see:
+ *  https://gist.github.com/kenwebb/f8be0168f91899ffa47f
+ *
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.8.1 (Created on October 14, 2012)
@@ -219,10 +223,27 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
 			sb.append("See also: http://graphviz-dev.appspot.com/\n");
 			sb.append("See also: http://www.webgraphviz.com/\n");
 			sb.append("See also: http://rise4fun.com/agl/\n");
+			sb
+			.append("\nTo repeat this Xholon export:\n")
+			.append(" $wnd.xh.xport(\"Graphviz\", ");
+			if (root.isRootNode()) {
+			  sb.append("$wnd.xh.root()");
+			}
+			else {
+			  sb
+			  .append("$wnd.xh.root().parent().xpath(\"")
+			  .append(getXPathLocal().getExpression(root, root.getRootNode(), false))
+			  .append("\")");
+			}
+			sb
+			.append(", '")
+			.append(getEfParamsAsJsonString())
+			.append("');\n");
 			sb.append("*/\n");
 			writeNode(root, 0); // root is level 0
 			//out.write(sb.toString());
 			//out.flush();
+			
 			writeToTarget(sb.toString(), outFileName, outPath, root);
 			
   		if (isShouldDisplayGraph()) {
