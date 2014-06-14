@@ -18,8 +18,10 @@
 
 package org.primordion.xholon.io;
 
+import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.Xholon;
 import org.primordion.xholon.base.XholonWithPorts;
+import org.primordion.xholon.io.XholonGwtTabPanelHelper;
 
 /**
  * <p>This is the abstract superclass for concrete classes that capture data and display the data in a chart.</p>
@@ -45,6 +47,8 @@ public abstract class AbstractChartViewer extends Xholon implements IChartViewer
 	protected double maxY = 0.0;
 	
 	protected String yFormat = "%.0f";
+	
+	protected boolean writeToTab = true;
 
 	/*
 	 * @see org.primordion.xholon.io.IChartViewer#capture(double)
@@ -105,4 +109,26 @@ public abstract class AbstractChartViewer extends Xholon implements IChartViewer
 	 * @see org.primordion.xholon.io.IChartViewer#remove()
 	 */
 	public abstract void remove();
+	
+	/**
+   * Write the entire external-format text to an appropriate target.
+   * @param efText The external-format text.
+   * @param uri A file name, or a GWT-usable tooltip.
+   * @param outPath A file system path name, or GWT-usable content type (ex: "_xhn"), or equivalent.
+   * @param root The root node of the subtree being written out.
+   */
+  protected void writeToTarget(String efText, String uri, String outPath, IXholon root) {
+    if (root.getApp().isUseGwt()) {
+      if (writeToTab) {
+        XholonGwtTabPanelHelper.addTab(efText, outPath, uri, false);
+      }
+      else {
+        root.println(efText);
+      }
+    }
+    else {
+      //writeToTargetFile(efText, uri, outPath, root);
+    }
+  }
+  
 }

@@ -39,6 +39,9 @@ import org.primordion.xholon.base.XholonWithPorts;
  * easily generate a chart. Data and script files are written by default to the statistics directory.</p>
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
+ * @see <a href="http://www.gnuplot.info/">Gnuplot website</a>
+ * @see <a href="https://github.com/chhu/gnuplot-JS">An API to a JavaScript gnuplot port using emscripten</a>
+ * @see <a href="http://gnuplot.respawned.com/">Gnuplot online</a>
  * @since 0.3 (Created on April 24, 2006)
  */
 @SuppressWarnings("serial")
@@ -70,10 +73,18 @@ public class ChartViewerGnuplot extends AbstractChartViewer implements IChartVie
 	protected int yTicksSpacing = 0;
 	protected boolean useNotes = false;
 	protected boolean showLegend = true;
-	protected boolean useScript = false;
+	protected boolean useScript = true;
 	
 	// Array of names of series that are not connected to tree nodes
 	protected String seriesNameNonNode[] = null;
+	
+	// GWT gnuplot-JS
+	protected String outFileName = null; // name of the output data file
+	protected String outPathCsv = "gnuplot/csv/";
+	protected String outPathPlt = "gnuplot/plt/";
+	protected boolean useGnuplotJS = true;
+	protected int terminalWidth = 1024;
+	protected int terminalHeight = 768;
 	
 	/**
 	 * default constructor
@@ -110,7 +121,12 @@ public class ChartViewerGnuplot extends AbstractChartViewer implements IChartVie
 		gpTitle1 = "Gnuplot script file, generated from a Xholon application.";
 		
 		// Formats of various files
-		graphicFormat = "png"; // .png
+		if (useGnuplotJS) {
+		  graphicFormat = "svg";
+		}
+		else {
+		  graphicFormat = "png"; // .png
+		}
 		dataFormat    = "csv"; // .csv comma delimited; can be read in by Excel and other spreadsheets
 		scriptFormat  = "plt"; // .plt gnuplot
 		textFormat    = "txt"; // .txt notes
@@ -129,6 +145,7 @@ public class ChartViewerGnuplot extends AbstractChartViewer implements IChartVie
 		// open file
 		if (seriesCount > 0) {
 			sbd = new StringBuilder();
+			outFileName = pathName + statsSeries + dateTime + "_" + typeOfData + "." + dataFormat;
 			// create any missing output directories
 			//File dirOut = new File(pathName);
 			//dirOut.mkdirs(); // will create a new directory only if there is no existing one
@@ -249,7 +266,8 @@ public class ChartViewerGnuplot extends AbstractChartViewer implements IChartVie
 			Xholon.getLogger().error("", e);
 		}*/
 		//consoleLog(sbd.toString());
-		println(sbd.toString()); // for use by GWT
+		//println(sbd.toString()); // for use by GWT
+		writeToTarget(sbd.toString(), outFileName, outPathCsv, chartRoot);
 	}
 	
 	/**
@@ -257,7 +275,7 @@ public class ChartViewerGnuplot extends AbstractChartViewer implements IChartVie
 	 */
 	protected void createScript() {
 		if (!useScript) {return;}
-		System.out.println("ChartViewerGnuplot Creating gnuplot script ...");
+		//System.out.println("ChartViewerGnuplot Creating gnuplot script ...");
 		StringBuilder sbs = new StringBuilder();
 		String fileName = statsSeries + dateTime + "_" + typeOfData;
 		String dataFileName = fileName + "." + dataFormat;
@@ -265,9 +283,30 @@ public class ChartViewerGnuplot extends AbstractChartViewer implements IChartVie
 		// write out the lines of the gnuplot file
 		sbs.append( commentString + " " + gpTitle1 + "\n" );
 		sbs.append( commentString + " Data file: " + fileName + "." + dataFormat + "\n");
-		sbs.append( "reset\n" );
-		sbs.append( "set output \"" + fileName + "." + graphicFormat + "\"\n");
-		sbs.append( "set terminal " + graphicFormat + " size 1024,768\n" );
+		sbs.append( commentString + " see: http://gnuplot.respawned.com/\n");
+		if (!useGnuplotJS) {sbs.append( "reset\n" );}
+		
+		if (useGnuplotJS) {
+		  // gnuplot-JS  set output 'out.svg'
+		  sbs
+		  .append( "set output \"")
+		  .append("out")
+		  .append(".")
+		  .append(graphicFormat)
+		  .append("\"\n");
+		  // gnuplot-JS  set terminal svg size 400,300 enhanced fname 'arial'  fsize 10 butt solid
+		  sbs
+		  .append( "set terminal ")
+		  .append(graphicFormat)
+		  .append(" size ").append(terminalWidth).append(",").append(terminalHeight)
+		  .append(" enhanced fname 'arial' fsize 10 butt solid")
+		  .append("\n" );
+		}
+		else {
+		  sbs.append( "set output \"" + fileName + "." + graphicFormat + "\"\n");
+		  sbs.append( "set terminal " + graphicFormat + " size 1024,768\n" );
+		}
+		
 		sbs.append( "set datafile separator \"" + dataDelimiter + "\"\n" );
 		sbs.append( "set xlabel \"" + ((XholonWithPorts)chartRoot.getFirstChild()).getRoleName() + "\"\n" );
 		sbs.append( "set ylabel \"" + ((XholonWithPorts)chartRoot.getFirstChild().getNextSibling()).getRoleName() + "\"\n" );
@@ -294,17 +333,22 @@ public class ChartViewerGnuplot extends AbstractChartViewer implements IChartVie
 		// otherwise xrange and yrange handled automatically by gnuplot
 		//sbs.append( commentString + "set yrange [0:25]\n" );
 		// skip timeStep, which is the first value in each row
+		// gnuplot-JS  plot  "data.txt" using 1:2 title 'Col-Force' with lines, "data.txt" using 1:3 title 'Beam-Force' with linespoints
 		XholonWithPorts node = firstXYSeries;
 		String seriesName = null;
 		for (int i = 0; i < seriesCount; i++) {
 			if (i == 0) {
-				sbs.append( "plot '" );
+				sbs.append( "plot \"" );
 			}
 			else {
-				sbs.append( "     '" );
+				sbs.append( "     \"" );
 			}
 			
-			sbs.append( dataFileName + "' using " + (i+2) + " title \"");
+			sbs
+			.append(useGnuplotJS ? "data.txt" : dataFileName)
+			.append("\" using ")
+			.append(i+2)
+			.append(" title \"");
 			
 			if (node != null) { // if names are contained in tree nodes of the app
 				if (nameConcatLevels == 1) {
@@ -323,7 +367,12 @@ public class ChartViewerGnuplot extends AbstractChartViewer implements IChartVie
 				sbs.append( seriesNameNonNode[i]);
 			}
 			
-			sbs.append( "\" with lines " + (i+1) );
+			if (useGnuplotJS) {
+			  sbs.append( "\" with lines");
+			}
+			else {
+			  sbs.append( "\" with lines " + (i+1) );
+			}
 			
 			if (i == seriesCount - 1) { // last entry to plot
 				sbs.append("\n");
@@ -332,7 +381,7 @@ public class ChartViewerGnuplot extends AbstractChartViewer implements IChartVie
 				sbs.append( ", \\\n" );
 			}
 		}
-		sbs.append( "pause -1 \"Hit return to exit\"\n" );
+		if (!useGnuplotJS) {sbs.append( "pause -1 \"Hit return to exit\"\n" );}
 		
 		// create any missing output directories
 		/* GWT
@@ -347,7 +396,8 @@ public class ChartViewerGnuplot extends AbstractChartViewer implements IChartVie
 		}
 		MiscIo.closeOutputFile(sOut);
 		*/
-		println(sbs.toString()); // for use by GWT
+		//println(sbs.toString()); // for use by GWT
+		writeToTarget(sbs.toString(), dataFileName, outPathPlt, chartRoot);
 	}
 	
 	/**
