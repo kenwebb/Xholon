@@ -140,3 +140,13 @@ g.axis path, g.axis line {
   shape-rendering: crispEdges;
 }
 
+/** Graphviz SVG */
+g.graph {}
+g.cluster polygon {
+  stroke-width: 2px;
+}
+g.node polygon {
+  stroke-width: 0.5px;
+}
+g.edge {}
+
