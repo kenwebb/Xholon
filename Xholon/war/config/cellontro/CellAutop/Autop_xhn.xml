@@ -20,6 +20,7 @@
 	<param name="CompositeStructureHierarchyFile" value="config/cellontro/CellAutop/CompositeStructureHierarchy_Autop.xml"/>
 	<param name="ClassDetailsFile" value="config/cellontro/CellAutop/ClassDetails_Autop.xml"/>
 	<param name="InformationFile" value="config/cellontro/CellAutop/Information_cellautop.xml"/>
+	<param name="ImageFile" value="config/cellontro/CellAutop/ExtraCellularSpace_0_001.gv.svg"/>
 	<param name="JavaClassName" value="org.primordion.cellontro.app.AppCellAutop"/>
 	<param name="JavaXhClassName" value="org.primordion.cellontro.app.XhCellAutop"/>
 	<param name="JavaXhClassClassName" value="org.primordion.cellontro.base.BioXholonClass"/>

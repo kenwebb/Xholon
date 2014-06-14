@@ -1,0 +1,188 @@
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" viewBox="0.00 0.00 426.91 432.00" height="432pt" width="427pt">
+<g transform="scale(0.578468 0.578468) rotate(0) translate(4 742.8)" class="graph" id="ExtraCellularSpace">
+<title>0</title>
+<polygon points="-4,5 -4,-742.8 735,-742.8 735,5 -4,5" stroke="white" fill="white"/>
+<text font-size="14.00" font-family="arial" y="-8.2" x="365" text-anchor="middle">ExtraCellularSpace</text>
+<g class="cluster" id="ExtraCellularSpace/ExtraCellularSolution"><title>cluster_1</title>
+<polygon points="304,-32.8 304,-163.8 450,-163.8 450,-32.8 304,-32.8" stroke="black" fill="none"/>
+<text font-size="14.00" font-family="arial" y="-147.2" x="377" text-anchor="middle">ExtraCellularSolution</text>
+</g>
+<g class="cluster" id="ExtraCellularSpace/EukaryoticCell"><title>cluster_4</title>
+<polygon points="8,-171.8 8,-730.8 722,-730.8 722,-171.8 8,-171.8" stroke="black" fill="none"/>
+<text font-size="14.00" font-family="arial" y="-714.2" x="365" text-anchor="middle">EukaryoticCell</text>
+</g>
+<g class="cluster" id="ExtraCellularSpace/EukaryoticCell/CellMembrane"><title>cluster_5</title>
+<polygon points="53,-183.8 53,-409.8 488,-409.8 488,-183.8 53,-183.8" stroke="black" fill="none"/>
+<text font-size="14.00" font-family="arial" y="-393.2" x="270.5" text-anchor="middle">CellMembrane</text>
+</g>
+<g class="cluster" id="ExtraCellularSpace/EukaryoticCell/CellMembrane/CellBilayer"><title>cluster_6</title>
+<polygon points="61,-191.8 61,-376.8 480,-376.8 480,-191.8 61,-191.8" stroke="black" fill="none"/>
+<text font-size="14.00" font-family="arial" y="-360.2" x="270.5" text-anchor="middle">CellBilayer</text>
+</g>
+<g class="cluster" id="ExtraCellularSpace/EukaryoticCell/Cytoplasm"><title>cluster_11</title>
+<polygon points="16,-417.8 16,-697.8 714,-697.8 714,-417.8 16,-417.8" stroke="black" fill="none"/>
+<text font-size="14.00" font-family="arial" y="-681.2" x="365" text-anchor="middle">Cytoplasm</text>
+</g>
+<g class="cluster" id="ExtraCellularSpace/EukaryoticCell/Cytoplasm/Cytosol"><title>cluster_12</title>
+<polygon points="303,-425.8 303,-664.8 706,-664.8 706,-425.8 303,-425.8" stroke="black" fill="none"/>
+<text font-size="14.00" font-family="arial" y="-648.2" x="504.5" text-anchor="middle">Cytosol</text>
+</g>
+<!-- 2 -->
+<g class="node" id="ExtraCellularSpace/ExtraCellularSolution/Water"><title>2</title>
+<polygon points="404,-130.8 350,-130.8 350,-94.8 404,-94.8 404,-130.8" stroke="black" fill="#5268cd"/>
+<text font-size="14.00" font-family="arial" y="-108.6" x="377" text-anchor="middle">Water</text>
+</g>
+<!-- 3 -->
+<g class="node" id="ExtraCellularSpace/ExtraCellularSolution/Glucose"><title>3</title>
+<polygon points="410.846,-76.8 343.154,-76.8 343.154,-40.8 410.846,-40.8 410.846,-76.8" stroke="black" fill="#5268cd"/>
+<text font-size="14.00" font-family="arial" y="-54.6" x="377" text-anchor="middle">Glucose</text>
+</g>
+<!-- 7 -->
+<g class="node" id="ExtraCellularSpace/EukaryoticCell/CellMembrane/CellBilayer/Phosphatidyl_Ethanolamine"><title>7</title>
+<polygon points="471.998,-289.8 282.002,-289.8 282.002,-253.8 471.998,-253.8 471.998,-289.8" stroke="black" fill="#5268cd"/>
+<text font-size="14.00" font-family="arial" y="-267.6" x="377" text-anchor="middle">Phosphatidyl_Ethanolamine</text>
+</g>
+<!-- 8 -->
+<g class="node" id="ExtraCellularSpace/EukaryoticCell/CellMembrane/CellBilayer/Ethanolamine"><title>8</title>
+<polygon points="427.58,-343.8 326.42,-343.8 326.42,-307.8 427.58,-307.8 427.58,-343.8" stroke="black" fill="#5268cd"/>
+<text font-size="14.00" font-family="arial" y="-321.6" x="377" text-anchor="middle">Ethanolamine</text>
+</g>
+<!-- 9 -->
+<g class="node" id="ExtraCellularSpace/EukaryoticCell/CellMembrane/CellBilayer/Phosphatidic_Acid"><title>9</title>
+<polygon points="442.644,-235.8 311.356,-235.8 311.356,-199.8 442.644,-199.8 442.644,-235.8" stroke="black" fill="#5268cd"/>
+<text font-size="14.00" font-family="arial" y="-213.6" x="377" text-anchor="middle">Phosphatidic_Acid</text>
+</g>
+<!-- 10 -->
+<g class="node" id="ExtraCellularSpace/EukaryoticCell/CellMembrane/CellBilayer/LipidDisintegration"><title>10</title>
+<polygon points="200.625,-305.8 69.3751,-305.8 69.3751,-269.8 200.625,-269.8 200.625,-305.8" stroke="black" fill="#5268cd"/>
+<text font-size="14.00" font-family="arial" y="-283.6" x="135" text-anchor="middle">LipidDisintegration</text>
+</g>
+<!-- 10&#45;&gt;7 -->
+<g class="edge" id="ExtraCellularSpace_edge6"><title>10-&gt;7</title>
+<path d="M200.631,-283.491C222.498,-282.033 247.507,-280.366 271.655,-278.756" stroke="black" fill="none"/>
+<polygon points="281.939,-278.071 272.261,-283.226 276.95,-278.403 271.961,-278.736 271.961,-278.736 271.961,-278.736 276.95,-278.403 271.662,-274.246 281.939,-278.071 281.939,-278.071" stroke="black" fill="black"/>
+</g>
+<!-- 10&#45;&gt;8 -->
+<g class="edge" id="ExtraCellularSpace_edge10"><title>10-&gt;8</title>
+<path d="M200.631,-298.033C236.518,-303.715 280.867,-310.737 315.987,-316.298" stroke="black" fill="none"/>
+<polygon points="326.101,-317.899 315.52,-320.78 321.163,-317.117 316.224,-316.335 316.224,-316.335 316.224,-316.335 321.163,-317.117 316.928,-311.891 326.101,-317.899 326.101,-317.899" stroke="black" fill="black"/>
+</g>
+<!-- 10&#45;&gt;9 -->
+<g class="edge" id="ExtraCellularSpace_edge8"><title>10-&gt;9</title>
+<path d="M200.73,-272.994C215.716,-269.107 231.513,-264.633 246,-259.8 262.442,-254.314 265.643,-250.535 282,-244.8 288.298,-242.592 294.877,-240.425 301.504,-238.339" stroke="black" fill="none"/>
+<polygon points="311.219,-235.346 302.988,-242.591 306.441,-236.818 301.663,-238.291 301.663,-238.291 301.663,-238.291 306.441,-236.818 300.337,-233.99 311.219,-235.346 311.219,-235.346" stroke="black" fill="black"/>
+</g>
+<!-- 6 -->
+<!-- 6&#45;&gt;2 -->
+<g class="edge" id="ExtraCellularSpace_edge42"><title>6-&gt;2</title>
+<path d="M272.892,-191.953C275.139,-186.669 278.106,-181.29 282,-175.8 296.717,-155.049 320.596,-139.172 340.604,-128.547" stroke="black" fill="none"/>
+<polygon points="349.766,-123.896 342.886,-132.435 345.308,-126.159 340.849,-128.422 340.849,-128.422 340.849,-128.422 345.308,-126.159 338.812,-124.41 349.766,-123.896 349.766,-123.896" stroke="black" fill="black"/>
+</g>
+<!-- 6&#45;&gt;3 -->
+<g class="edge" id="ExtraCellularSpace_edge40"><title>6-&gt;3</title>
+<path d="M262.646,-191.868C255.265,-156.707 250.561,-121.393 282,-85.8 294.804,-71.3046 314.823,-64.3631 333.103,-61.1232" stroke="black" fill="none"/>
+<polygon points="343.022,-59.6796 333.774,-65.573 338.074,-60.3997 333.126,-61.1199 333.126,-61.1199 333.126,-61.1199 338.074,-60.3997 332.478,-56.6668 343.022,-59.6796 343.022,-59.6796" stroke="black" fill="black"/>
+</g>
+<!-- 13 -->
+<g class="node" id="ExtraCellularSpace/EukaryoticCell/Cytoplasm/Cytosol/Water"><title>13</title>
+<polygon points="404,-523.8 350,-523.8 350,-487.8 404,-487.8 404,-523.8" stroke="black" fill="#5268cd"/>
+<text font-size="14.00" font-family="arial" y="-501.6" x="377" text-anchor="middle">Water</text>
+</g>
+<!-- 6&#45;&gt;13 -->
+<g class="edge" id="ExtraCellularSpace_edge32"><title>6-&gt;13</title>
+<path d="M200.357,-376.466C216.478,-387.059 232.894,-399.69 246,-413.8 268.474,-437.997 256.164,-458.232 282,-478.8 298.364,-491.827 320.745,-498.569 339.564,-502.058" stroke="black" fill="none"/>
+<polygon points="349.591,-503.681 339.001,-506.525 344.655,-502.882 339.72,-502.083 339.72,-502.083 339.72,-502.083 344.655,-502.882 340.439,-497.641 349.591,-503.681 349.591,-503.681" stroke="black" fill="black"/>
+</g>
+<!-- 18 -->
+<g class="node" id="ExtraCellularSpace/EukaryoticCell/Cytoplasm/Cytosol/PE_InVicinity"><title>18</title>
+<polygon points="652.46,-496.8 553.54,-496.8 553.54,-460.8 652.46,-460.8 652.46,-496.8" stroke="black" fill="#5268cd"/>
+<text font-size="14.00" font-family="arial" y="-474.6" x="603" text-anchor="middle">PE_InVicinity</text>
+</g>
+<!-- 6&#45;&gt;18 -->
+<g class="edge" id="ExtraCellularSpace_edge34"><title>6-&gt;18</title>
+<path d="M280.426,-192.018C280.938,-191.61 281.462,-191.204 282,-190.8 318.605,-163.311 450.139,-165.068 488,-190.8 576.134,-250.701 596.131,-390.437 600.668,-450.517" stroke="black" fill="none"/>
+<polygon points="601.349,-460.771 596.197,-451.091 601.018,-455.782 600.687,-450.793 600.687,-450.793 600.687,-450.793 601.018,-455.782 605.177,-450.495 601.349,-460.771 601.349,-460.771" stroke="black" fill="black"/>
+</g>
+<!-- 14 -->
+<g class="node" id="ExtraCellularSpace/EukaryoticCell/Cytoplasm/Cytosol/Glucose"><title>14</title>
+<polygon points="410.846,-469.8 343.154,-469.8 343.154,-433.8 410.846,-433.8 410.846,-469.8" stroke="black" fill="#5268cd"/>
+<text font-size="14.00" font-family="arial" y="-447.6" x="377" text-anchor="middle">Glucose</text>
+</g>
+<!-- 6&#45;&gt;14 -->
+<g class="edge" id="ExtraCellularSpace_edge30"><title>6-&gt;14</title>
+<path d="M212.024,-376.644C252.296,-395.103 300.238,-417.076 333.847,-432.48" stroke="black" fill="none"/>
+<polygon points="343.054,-436.7 332.088,-436.624 338.508,-434.616 333.963,-432.533 333.963,-432.533 333.963,-432.533 338.508,-434.616 335.838,-428.442 343.054,-436.7 343.054,-436.7" stroke="black" fill="black"/>
+</g>
+<!-- 15 -->
+<g class="node" id="ExtraCellularSpace/EukaryoticCell/Cytoplasm/Cytosol/Ethanolamine"><title>15</title>
+<polygon points="427.58,-631.8 326.42,-631.8 326.42,-595.8 427.58,-595.8 427.58,-631.8" stroke="black" fill="#5268cd"/>
+<text font-size="14.00" font-family="arial" y="-609.6" x="377" text-anchor="middle">Ethanolamine</text>
+</g>
+<!-- 6&#45;&gt;15 -->
+<g class="edge" id="ExtraCellularSpace_edge38"><title>6-&gt;15</title>
+<path d="M207.153,-376.557C221.914,-386.717 235.998,-399.124 246,-413.8 290.228,-478.698 228.574,-529.236 282,-586.8 291.112,-596.618 303.535,-602.949 316.363,-607.01" stroke="black" fill="none"/>
+<polygon points="326.203,-609.693 315.372,-611.404 321.379,-608.377 316.555,-607.062 316.555,-607.062 316.555,-607.062 321.379,-608.377 317.739,-602.721 326.203,-609.693 326.203,-609.693" stroke="black" fill="black"/>
+</g>
+<!-- 16 -->
+<g class="node" id="ExtraCellularSpace/EukaryoticCell/Cytoplasm/Cytosol/Phosphatidic_Acid"><title>16</title>
+<polygon points="442.644,-577.8 311.356,-577.8 311.356,-541.8 442.644,-541.8 442.644,-577.8" stroke="black" fill="#5268cd"/>
+<text font-size="14.00" font-family="arial" y="-555.6" x="377" text-anchor="middle">Phosphatidic_Acid</text>
+</g>
+<!-- 6&#45;&gt;16 -->
+<g class="edge" id="ExtraCellularSpace_edge36"><title>6-&gt;16</title>
+<path d="M205.152,-376.493C220.33,-386.766 235.102,-399.239 246,-413.8 279.109,-458.038 242.654,-494.004 282,-532.8 287.696,-538.416 294.478,-542.88 301.755,-546.424" stroke="black" fill="none"/>
+<polygon points="311.192,-550.441 300.228,-550.665 306.591,-548.483 301.99,-546.525 301.99,-546.525 301.99,-546.525 306.591,-548.483 303.753,-542.384 311.192,-550.441 311.192,-550.441" stroke="black" fill="black"/>
+</g>
+<!-- cluster_6 -->
+<!-- cluster_6&#45;&gt;7 -->
+<g class="edge" id="ExtraCellularSpace_edge12"><title>cluster_6-&gt;7</title>
+<path d="M137.07,-249.898C146.183,-250.733 211.9,-256.757 272.107,-262.277" stroke="black" fill="none"/>
+<polygon points="282.101,-263.193 271.732,-266.761 277.122,-262.736 272.142,-262.28 272.142,-262.28 272.142,-262.28 277.122,-262.736 272.553,-257.798 282.101,-263.193 282.101,-263.193" stroke="black" fill="black"/>
+</g>
+<!-- cluster_6&#45;&gt;8 -->
+<g class="edge" id="ExtraCellularSpace_edge16"><title>cluster_6-&gt;8</title>
+<path d="M136.947,-249.657C145.158,-248.464 204.99,-240.683 246,-260.8 266.887,-271.046 262.119,-286.718 282,-298.8 292.429,-305.138 304.412,-310.045 316.254,-313.826" stroke="black" fill="none"/>
+<polygon points="326.13,-316.743 315.265,-318.226 321.335,-315.326 316.54,-313.91 316.54,-313.91 316.54,-313.91 321.335,-315.326 317.815,-309.594 326.13,-316.743 326.13,-316.743" stroke="black" fill="black"/>
+</g>
+<!-- cluster_6&#45;&gt;9 -->
+<g class="edge" id="ExtraCellularSpace_edge14"><title>cluster_6-&gt;9</title>
+<path d="M137.07,-249.657C147.7,-248.24 235.349,-236.553 301.432,-227.742" stroke="black" fill="none"/>
+<polygon points="311.425,-226.41 302.108,-232.192 306.469,-227.071 301.513,-227.732 301.513,-227.732 301.513,-227.732 306.469,-227.071 300.918,-223.271 311.425,-226.41 311.425,-226.41" stroke="black" fill="black"/>
+</g>
+<!-- 17 -->
+<g class="node" id="ExtraCellularSpace/EukaryoticCell/Cytoplasm/Cytosol/Phosphatidyl_Ethanolamine"><title>17</title>
+<polygon points="697.998,-550.8 508.002,-550.8 508.002,-514.8 697.998,-514.8 697.998,-550.8" stroke="black" fill="#5268cd"/>
+<text font-size="14.00" font-family="arial" y="-528.6" x="603" text-anchor="middle">Phosphatidyl_Ethanolamine</text>
+</g>
+<!-- 13&#45;&gt;17 -->
+<g class="edge" id="ExtraCellularSpace_edge20"><title>13-&gt;17</title>
+<path d="M404.134,-508.95C427.453,-511.761 463.182,-516.067 497.895,-520.252" stroke="black" fill="none"/>
+<polygon points="508.132,-521.486 497.665,-524.756 503.168,-520.887 498.204,-520.289 498.204,-520.289 498.204,-520.289 503.168,-520.887 498.742,-515.821 508.132,-521.486 508.132,-521.486" stroke="black" fill="black"/>
+</g>
+<!-- 13&#45;&gt;18 -->
+<g class="edge" id="ExtraCellularSpace_edge22"><title>13-&gt;18</title>
+<path d="M404.134,-502.65C438.146,-498.55 498.561,-491.268 543.714,-485.826" stroke="black" fill="none"/>
+<polygon points="553.679,-484.624 544.289,-490.289 548.715,-485.223 543.751,-485.821 543.751,-485.821 543.751,-485.821 548.715,-485.223 543.212,-481.354 553.679,-484.624 553.679,-484.624" stroke="black" fill="black"/>
+</g>
+<!-- 19 -->
+<g class="node" id="ExtraCellularSpace/EukaryoticCell/Cytoplasm/Phosphatidic_Acid_Phosphatase"><title>19</title>
+<polygon points="245.133,-631.8 24.8673,-631.8 24.8673,-595.8 245.133,-595.8 245.133,-631.8" stroke="black" fill="#5268cd"/>
+<text font-size="14.00" font-family="arial" y="-609.6" x="135" text-anchor="middle">Phosphatidic_Acid_Phosphatase</text>
+</g>
+<!-- 19&#45;&gt;17 -->
+<g class="edge" id="ExtraCellularSpace_edge26"><title>19-&gt;17</title>
+<path d="M188.584,-631.851C259.36,-653.073 387.933,-680.674 488,-640.8 529.136,-624.409 563.963,-585.342 583.928,-558.972" stroke="black" fill="none"/>
+<polygon points="589.877,-550.901 587.566,-561.621 586.91,-554.926 583.944,-558.951 583.944,-558.951 583.944,-558.951 586.91,-554.926 580.321,-556.281 589.877,-550.901 589.877,-550.901" stroke="black" fill="black"/>
+</g>
+<!-- 19&#45;&gt;15 -->
+<g class="edge" id="ExtraCellularSpace_edge28"><title>19-&gt;15</title>
+<path d="M245.465,-613.8C269.795,-613.8 294.706,-613.8 316.158,-613.8" stroke="black" fill="none"/>
+<polygon points="326.394,-613.8 316.394,-618.3 321.394,-613.8 316.394,-613.8 316.394,-613.8 316.394,-613.8 321.394,-613.8 316.394,-609.3 326.394,-613.8 326.394,-613.8" stroke="black" fill="black"/>
+</g>
+<!-- 19&#45;&gt;16 -->
+<g class="edge" id="ExtraCellularSpace_edge24"><title>19-&gt;16</title>
+<path d="M216.25,-595.744C243.8,-589.545 274.501,-582.637 301.569,-576.547" stroke="black" fill="none"/>
+<polygon points="311.364,-574.343 302.596,-580.928 306.486,-575.441 301.608,-576.538 301.608,-576.538 301.608,-576.538 306.486,-575.441 300.62,-572.148 311.364,-574.343 311.364,-574.343" stroke="black" fill="black"/>
+</g>
+</g>
+</svg>

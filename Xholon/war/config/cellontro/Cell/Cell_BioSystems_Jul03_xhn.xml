@@ -15,7 +15,7 @@
 		value="config/cellontro/Cell/CompositeStructureHierarchy_BioSystems_Jul03.xml"/>
 	<param name="ClassDetailsFile" value="config/cellontro/Cell/ClassDetails_BioSystems_Jul03.xml"/>
 	<param name="InformationFile" value="config/cellontro/Cell/Information_cell.xml"/>
-	<param name="ImageFile" value="config/cellontro/Cell/ExtraCellularSpace_0_1319344004318.svg"/>
+	<param name="ImageFile" value="config/cellontro/Cell/ExtraCellularSpace_0_1402419767857.gv.svg"/>
 	<param name="JavaClassName" value="org.primordion.cellontro.app.AppCell"/>
 	<param name="JavaXhClassName" value="org.primordion.cellontro.app.XhCell"/>
 	<param name="JavaXhClassClassName" value="org.primordion.cellontro.base.BioXholonClass"/>
