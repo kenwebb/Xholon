@@ -471,17 +471,26 @@ digraph 0 {
 			nodeNum++;
 		}
 		// process edges where node is the first common ancestor
-		if (edgeMap != null) {
+		/*if (edgeMap != null) {
 			String value = (String)edgeMap.get(node);
 			if (value != null) {
-				//try {
-					sb.append(tab + value + "\n");
-				//} catch (IOException e) {
-				//	Xholon.getLogger().error("", e);
-				//}
+				sb.append(tab + value + "\n");
+			}
+		}*/
+		processEdgeMapValue(node, tab);
+		return rc;
+	}
+	
+	/**
+	 * Process edges where node is the first common ancestor
+	 */
+	protected void processEdgeMapValue(IXholon node, String tab) {
+	  if (edgeMap != null) {
+			String value = (String)edgeMap.get(node);
+			if (value != null) {
+				sb.append(tab + value + "\n");
 			}
 		}
-		return rc;
 	}
 	
 	/**

@@ -36,19 +36,7 @@ public class Xholon2Graphviz4PetriNets extends Xholon2Graphviz {
 	/**
 	 * Unicode black large circle.
 	 */
-	private static final char TOKEN_ONE = '\u2B24';
-	
-	protected String placeColor = "#ffff00";
-	protected String transitionColor = "#00ffff";
-	
-	protected String placeShape = "ellipse";
-	protected String transitionShape = "box";
-	
-	protected boolean shouldWritePlacesCluster = false;
-	protected boolean shouldWriteTransitionsCluster = false;
-	protected boolean shouldWriteAnalysisGridClusters = false;
-	
-	protected boolean shouldWriteTokens = true;
+	private static final char TOKEN_ONE = '\u2B24'; // 11044 decimal
 	
 	/**
 	 * constructor
@@ -61,7 +49,7 @@ public class Xholon2Graphviz4PetriNets extends Xholon2Graphviz {
 	 * @see org.primordion.ef.Xholon2Graphviz#writeNode(org.primordion.xholon.base.IXholon, int)
 	 */
 	protected void writeNode(IXholon node, int level) {
-		if (!shouldWritePlacesCluster && node.getXhc().hasAncestor("Places")) {
+		if (!isShouldWritePlacesCluster() && node.getXhc().hasAncestor("Places")) {
 			IXholon childNode = node.getFirstChild();
 			while (childNode != null) {
 				writeNode(childNode, level+1);
@@ -69,7 +57,7 @@ public class Xholon2Graphviz4PetriNets extends Xholon2Graphviz {
 			}
 			return;
 		}
-		if (!shouldWriteTransitionsCluster && node.getXhc().hasAncestor("Transitions")) {
+		if (!isShouldWriteTransitionsCluster() && node.getXhc().hasAncestor("Transitions")) {
 			IXholon childNode = node.getFirstChild();
 			while (childNode != null) {
 				writeNode(childNode, level+1);
@@ -80,7 +68,7 @@ public class Xholon2Graphviz4PetriNets extends Xholon2Graphviz {
 		if ("InputArcs".equals(node.getXhcName())) {return;}
 		if ("OutputArcs".equals(node.getXhcName())) {return;}
 		if ("QueueTransitions".equals(node.getXhcName())) {return;}
-		if (!shouldWriteAnalysisGridClusters) {
+		if (!isShouldWriteAnalysisGridClusters()) {
 			if (node.getXhc().hasAncestor("AnalysisPN")) {return;}
 			if (node.getXhc().hasAncestor("GridOwner")) {return;}
 		}
@@ -134,6 +122,10 @@ public class Xholon2Graphviz4PetriNets extends Xholon2Graphviz {
 			}
 			
 		}
+		else if ("PetriNet".equals(node.getXhcName())) {
+		  // do not write links from PetriNet node
+		  processEdgeMapValue(node, tab);
+		}
 		else {
 			super.writeLinks(node, nodeId, tab);
 		}
@@ -170,10 +162,10 @@ public class Xholon2Graphviz4PetriNets extends Xholon2Graphviz {
 	 */
 	protected String makeColor(IXholon node) {
 		if (node.getXhc().hasAncestor("TransitionPN")) {
-			return "fillcolor=\"" + transitionColor + "\"";
+			return "fillcolor=\"" + getTransitionColor() + "\"";
 		}
 		else if (node.getXhc().hasAncestor("PlacePN")) {
-			return "fillcolor=\"" + placeColor + "\"";
+			return "fillcolor=\"" + getPlaceColor() + "\"";
 		}
 		else {
 			return super.makeColor(node);
@@ -185,10 +177,10 @@ public class Xholon2Graphviz4PetriNets extends Xholon2Graphviz {
 	 */
 	protected String makeShape(IXholon node) {
 		if (node.getXhc().hasAncestor("TransitionPN")) {
-			return "shape=" + transitionShape;
+			return "shape=" + getTransitionShape();
 		}
 		else if (node.getXhc().hasAncestor("PlacePN")) {
-			return "shape=" + placeShape;
+			return "shape=" + getPlaceShape();
 		}
 		else {
 			return null;
@@ -200,10 +192,10 @@ public class Xholon2Graphviz4PetriNets extends Xholon2Graphviz {
 	 */
 	protected String makeNodeLabel(IXholon node) {
 		String label = super.makeNodeLabel(node);
-		if (shouldWriteTokens && node.getXhc().hasAncestor("PlacePN")) {
+		if (isShouldWriteTokens() && node.getXhc().hasAncestor("PlacePN")) {
 			double val = node.getVal();
 			if (val == 1.0) {
-				label += "\\n" + TOKEN_ONE;
+				label += "\\n" + getTokenOne();
 			}
 			else if (val > 1.0) {
 				label += "\\n" + (int)node.getVal();
@@ -214,71 +206,57 @@ public class Xholon2Graphviz4PetriNets extends Xholon2Graphviz {
 		}
 		return label;
 	}
-
-	public String getPlaceColor() {
-		return placeColor;
+	
+	/**
+   * Make a JavaScript object with all the parameters for this external format.
+   */
+	protected void makeEfParams() {
+	  super.makeEfParams();
+	  this.makeEfParams4PetriNet(TOKEN_ONE);
 	}
+	
+	/**
+   * Add new attributes
+   * DO NOT delete superclass attributes
+   * no need to change values of superclass attributes.
+   */
+  protected native void makeEfParams4PetriNet(char tokenOne) /*-{
+    this.efParams.placeColor = "#ffff00";
+    this.efParams.transitionColor = "#00ffff";
+    this.efParams.placeShape = "ellipse";
+    this.efParams.transitionShape = "box";
+    this.efParams.shouldWritePlacesCluster = false;
+    this.efParams.shouldWriteTransitionsCluster = false;
+    this.efParams.shouldWriteAnalysisGridClusters = false;
+    this.efParams.shouldWriteTokens = true;
+    this.efParams.tokenOne = tokenOne;
+  }-*/;
 
-	public void setPlaceColor(String placeColor) {
-		this.placeColor = placeColor;
-	}
 
-	public String getTransitionColor() {
-		return transitionColor;
-	}
+  public native String getPlaceColor() /*-{return this.efParams.placeColor;}-*/;
+  //public native void setPlaceColor(String placeColor) /*-{this.efParams.placeColor = placeColor;}-*/;
 
-	public void setTransitionColor(String transitionColor) {
-		this.transitionColor = transitionColor;
-	}
+  public native String getTransitionColor() /*-{return this.efParams.transitionColor;}-*/;
+  //public native void setTransitionColor(String transitionColor) /*-{this.efParams.transitionColor = transitionColor;}-*/;
 
-	public String getPlaceShape() {
-		return placeShape;
-	}
+  public native String getPlaceShape() /*-{return this.efParams.placeShape;}-*/;
+  //public native void setPlaceShape(String placeShape) /*-{this.efParams.placeShape = placeShape;}-*/;
 
-	public void setPlaceShape(String placeShape) {
-		this.placeShape = placeShape;
-	}
+  public native String getTransitionShape() /*-{return this.efParams.transitionShape;}-*/;
+  //public native void setTransitionShape(String transitionShape) /*-{this.efParams.transitionShape = transitionShape;}-*/;
 
-	public String getTransitionShape() {
-		return transitionShape;
-	}
+  public native boolean isShouldWritePlacesCluster() /*-{return this.efParams.shouldWritePlacesCluster;}-*/;
+  //public native void setShouldWritePlacesCluster(boolean shouldWritePlacesCluster) /*-{this.efParams.shouldWritePlacesCluster = shouldWritePlacesCluster;}-*/;
 
-	public void setTransitionShape(String transitionShape) {
-		this.transitionShape = transitionShape;
-	}
+  public native boolean isShouldWriteTransitionsCluster() /*-{return this.efParams.shouldWriteTransitionsCluster;}-*/;
+  //public native void setShouldWriteTransitionsCluster(boolean shouldWriteTransitionsCluster) /*-{this.efParams.shouldWriteTransitionsCluster = shouldWriteTransitionsCluster;}-*/;
 
-	public boolean isShouldWritePlacesCluster() {
-		return shouldWritePlacesCluster;
-	}
+  public native boolean isShouldWriteAnalysisGridClusters() /*-{return this.efParams.shouldWriteAnalysisGridClusters;}-*/;
+  //public native void setShouldWriteAnalysisGridClusters(boolean shouldWriteAnalysisGridClusters) /*-{this.efParams.shouldWriteAnalysisGridClusters = shouldWriteAnalysisGridClusters;}-*/;
 
-	public void setShouldWritePlacesCluster(boolean shouldWritePlacesCluster) {
-		this.shouldWritePlacesCluster = shouldWritePlacesCluster;
-	}
-
-	public boolean isShouldWriteTransitionsCluster() {
-		return shouldWriteTransitionsCluster;
-	}
-
-	public void setShouldWriteTransitionsCluster(
-			boolean shouldWriteTransitionsCluster) {
-		this.shouldWriteTransitionsCluster = shouldWriteTransitionsCluster;
-	}
-
-	public boolean isShouldWriteAnalysisGridClusters() {
-		return shouldWriteAnalysisGridClusters;
-	}
-
-	public void setShouldWriteAnalysisGridClusters(
-			boolean shouldWriteAnalysisGridClusters) {
-		this.shouldWriteAnalysisGridClusters = shouldWriteAnalysisGridClusters;
-	}
-
-	public boolean isShouldWriteTokens() {
-		return shouldWriteTokens;
-	}
-
-	public void setShouldWriteTokens(boolean shouldWriteTokens) {
-		this.shouldWriteTokens = shouldWriteTokens;
-	}
+  public native boolean isShouldWriteTokens() /*-{return this.efParams.shouldWriteTokens;}-*/;
+  //public native void setShouldWriteTokens(boolean shouldWriteTokens) /*-{this.efParams.shouldWriteTokens = shouldWriteTokens;}-*/;
+  
+  public native char getTokenOne() /*-{return this.efParams.tokenOne;}-*/;
 	
 }
