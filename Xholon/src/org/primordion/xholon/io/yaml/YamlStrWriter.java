@@ -148,6 +148,8 @@ public class YamlStrWriter extends XmlWriter {
 	 */
 	public void writeAttribute(String name, String value)
 	{
+	  if ("Val".equalsIgnoreCase(name) && !isShouldWriteVal()) {return;}
+	  if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
 		StringBuilder indent = new StringBuilder(level);
 		for (int i = 0; i < level+1; i++) {
 			indent.append(indentCharacters);

@@ -591,6 +591,8 @@ public class Xholon2GraphML extends AbstractXholon2ExternalFormat implements IXh
     p.showXhc = false;
     p.fileNameExtension = ".graphml";
     p.showSubtreeRoot = true;
+    p.shouldWriteVal = true;
+    p.shouldWriteAllPorts = true;
     this.efParams = p;
   }-*/;
 
@@ -765,6 +767,8 @@ public class Xholon2GraphML extends AbstractXholon2ExternalFormat implements IXh
 	@Override
 	// This is for use by Xholon.toXmlAttributes() only
 	public void writeAttribute(String name, String value) {
+	  if ("Val".equalsIgnoreCase(name) && !isShouldWriteVal()) {return;}
+	  if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
 		this.makeNodeKey(name, name, KEY_ATTR_TYPE_STRING, null);
 		this.nodeSb
 		.append("  <data key=\"")
@@ -796,4 +800,32 @@ public class Xholon2GraphML extends AbstractXholon2ExternalFormat implements IXh
 	// DO NOT IMPLEMENT THIS
 	public void flush() {}
 
+  /* 
+	 * @see org.primordion.xholon.io.xml.IXmlWriter#isShouldWriteVal()
+	 */
+	public native boolean isShouldWriteVal() /*-{
+	  return this.efParams.shouldWriteVal;
+	}-*/;
+	
+	/* 
+	 * @see org.primordion.xholon.io.xml.IXmlWriter#setShouldWriteVal()
+	 */
+	public native void setShouldWriteVal(boolean shouldWriteVal) /*-{
+	  this.efParams.shouldWriteVal = shouldWriteVal;
+	}-*/;
+	
+	/* 
+	 * @see org.primordion.xholon.io.xml.IXmlWriter#isShouldWriteAllPorts()
+	 */
+	public native boolean isShouldWriteAllPorts() /*-{
+	  return this.efParams.shouldWriteAllPorts;
+	}-*/;
+	
+	/* 
+	 * @see org.primordion.xholon.io.xml.IXmlWriter#shouldWriteAllPorts()
+	 */
+	public native void setShouldWriteAllPorts(boolean shouldWriteAllPorts) /*-{
+	  this.efParams.shouldWriteAllPorts = shouldWriteAllPorts;
+	}-*/;
+	
 }

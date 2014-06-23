@@ -28,6 +28,16 @@ import org.primordion.xholon.base.Xholon;
  */
 public abstract class XmlWriter extends Xholon implements IXmlWriter {
 	
+	/**
+	 * Whether or not to write an attribute with the name "Val".
+	 */
+	private boolean shouldWriteVal = true;
+	
+	/**
+	 * Whether or not to write an attribute with the name "AllPorts".
+	 */
+	private boolean shouldWriteAllPorts = true;
+	
 	/*
 	 * @see org.primordion.xholon.io.xml.IXmlWriter#createNew(java.lang.Object)
 	 */
@@ -91,4 +101,33 @@ public abstract class XmlWriter extends Xholon implements IXmlWriter {
 	 * @see org.primordion.xholon.io.xml.IXmlWriter#flush()
 	 */
 	public abstract void flush();
+	
+	/* 
+	 * @see org.primordion.xholon.io.xml.IXmlWriter#isShouldWriteVal()
+	 */
+	public boolean isShouldWriteVal() {
+	  return shouldWriteVal;
+	}
+	
+	/* 
+	 * @see org.primordion.xholon.io.xml.IXmlWriter#setShouldWriteVal()
+	 */
+	public void setShouldWriteVal(boolean shouldWriteVal) {
+	  this.shouldWriteVal = shouldWriteVal;
+	}
+	
+	/* 
+	 * @see org.primordion.xholon.io.xml.IXmlWriter#isShouldWriteAllPorts()
+	 */
+	public boolean isShouldWriteAllPorts() {
+	  return shouldWriteAllPorts;
+	}
+	
+	/* 
+	 * @see org.primordion.xholon.io.xml.IXmlWriter#shouldWriteAllPorts()
+	 */
+	public void setShouldWriteAllPorts(boolean shouldWriteAllPorts) {
+	  this.shouldWriteAllPorts = shouldWriteAllPorts;
+	}
+	
 }

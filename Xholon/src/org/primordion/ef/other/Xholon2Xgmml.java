@@ -152,6 +152,16 @@ public class Xholon2Xgmml extends AbstractXholon2ExternalFormat implements IXhol
 	protected boolean shouldWriteToTarget = true;
 	
 	/**
+	 * Whether or not to write an attribute with the name "Val".
+	 */
+	private boolean shouldWriteVal = true;
+	
+	/**
+	 * Whether or not to write an attribute with the name "AllPorts".
+	 */
+	private boolean shouldWriteAllPorts = true;
+	
+	/**
 	 * Constructor.
 	 */
 	public Xholon2Xgmml() {}
@@ -716,6 +726,8 @@ public class Xholon2Xgmml extends AbstractXholon2ExternalFormat implements IXhol
 	// This is for use by Xholon.toXmlAttributes() only
 	// All attributes are type="string", the XGMML default.
 	public void writeAttribute(String name, String value) {
+	  if ("Val".equalsIgnoreCase(name) && !isShouldWriteVal()) {return;}
+	  if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
 		this.nodeSb
 		.append("  <att name=\"")
 		.append(name)
@@ -745,6 +757,34 @@ public class Xholon2Xgmml extends AbstractXholon2ExternalFormat implements IXhol
 	@Override
 	// DO NOT IMPLEMENT THIS
 	public void flush() {}
+	
+	/* 
+	 * @see org.primordion.xholon.io.xml.IXmlWriter#isShouldWriteVal()
+	 */
+	public boolean isShouldWriteVal() {
+	  return shouldWriteVal;
+	}
+	
+	/* 
+	 * @see org.primordion.xholon.io.xml.IXmlWriter#setShouldWriteVal()
+	 */
+	public void setShouldWriteVal(boolean shouldWriteVal) {
+	  this.shouldWriteVal = shouldWriteVal;
+	}
+	
+	/* 
+	 * @see org.primordion.xholon.io.xml.IXmlWriter#isShouldWriteAllPorts()
+	 */
+	public boolean isShouldWriteAllPorts() {
+	  return shouldWriteAllPorts;
+	}
+	
+	/* 
+	 * @see org.primordion.xholon.io.xml.IXmlWriter#shouldWriteAllPorts()
+	 */
+	public void setShouldWriteAllPorts(boolean shouldWriteAllPorts) {
+	  this.shouldWriteAllPorts = shouldWriteAllPorts;
+	}
 
 	public boolean isFeatureMetaNode() {
 		return featureMetaNode;

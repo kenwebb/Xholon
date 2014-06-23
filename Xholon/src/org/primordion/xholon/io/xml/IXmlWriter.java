@@ -109,5 +109,25 @@ public interface IXmlWriter {
 	 * Write any cached data to the underlying output mechanism.
 	 */
 	public abstract void flush();
-
+  
+  /**
+	 * Whether or not to write an attribute with the name "Val".
+	 */
+  public abstract boolean isShouldWriteVal();
+	
+	/**
+	 * Whether or not to write an attribute with the name "Val".
+	 */
+  public abstract void setShouldWriteVal(boolean shouldWriteVal);
+	
+	/**
+	 * Whether or not to write an attribute with the name "AllPorts".
+	 */
+	public abstract boolean isShouldWriteAllPorts();
+	
+	/**
+	 * Whether or not to write an attribute with the name "AllPorts".
+	 */
+	public abstract void setShouldWriteAllPorts(boolean shouldWriteAllPorts);
+	
 }
