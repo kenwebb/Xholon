@@ -24,7 +24,6 @@ import java.util.Date;
 
 import org.primordion.ef.AbstractXholon2ExternalFormat;
 import org.primordion.xholon.base.IXholon;
-//import org.primordion.xholon.base.Xholon;
 import org.primordion.xholon.common.mechanism.CeStateMachineEntity;
 import org.primordion.xholon.io.gwt.HtmlScriptHelper;
 import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
@@ -52,11 +51,6 @@ public class Xholon2Cloud extends AbstractXholon2ExternalFormat implements IXhol
   
   /** Whether or not to show state machine nodes. */
   private boolean shouldShowStateMachineEntities = false;
-  
-  /** Template to use when writing out node names. */
-  //protected String nameTemplate = "r:C^^^";
-  //protected String nameTemplate = "^^C^^^"; // don't include role name
-  //protected String nameTemplate = "R^^^^^";
   
   /** Use this to capture the words, instead of using StringBuilder sb */
   private JsArrayString wordsArr = null;
@@ -86,9 +80,7 @@ public class Xholon2Cloud extends AbstractXholon2ExternalFormat implements IXhol
     this.modelName = modelName;
     this.root = root;
     
-    root.consoleLog("about to call isDefinedD3Layout()");
     if (!isDefinedD3Layout()) {
-      root.consoleLog("about to call loadD3Cloud()");
       loadD3Cloud();
       return true; // do not return false; that just causes an error message
     }
@@ -100,9 +92,7 @@ public class Xholon2Cloud extends AbstractXholon2ExternalFormat implements IXhol
    * @see org.primordion.xholon.io.IXholon2ExternalFormat#writeAll()
    */
   public void writeAll() {
-    root.consoleLog("starting writeAll() ...");
     if (!isDefinedD3Layout()) {return;}
-    root.consoleLog("writeAll() 1");
     wordsArr = getNativeArray();
     writeNode(root, 0); // root is level 0
     writeToTarget(wordsArr.join(), outFileName, outPath, root);
@@ -152,7 +142,6 @@ public class Xholon2Cloud extends AbstractXholon2ExternalFormat implements IXhol
    * use requirejs
    */
   protected native void require(final IXholon2ExternalFormat xh2D3Cloud) /*-{
-    console.log("require 1");
     $wnd.requirejs.config({
       enforceDefine: false,
       paths: {
@@ -161,12 +150,9 @@ public class Xholon2Cloud extends AbstractXholon2ExternalFormat implements IXhol
         ]
       }
     });
-    console.log("require 2");
     $wnd.require(["cloud"], function(cloud) {
-      console.log("require 3");
       xh2D3Cloud.@org.primordion.xholon.service.ef.IXholon2ExternalFormat::writeAll()();
     });
-    console.log("require 4");
   }-*/;
   
   /**
@@ -189,7 +175,6 @@ public class Xholon2Cloud extends AbstractXholon2ExternalFormat implements IXhol
   protected native void runScript(JsArrayString wordzArr, int width, int height,
     String fontFamily, int angle, int sizeIncrementer, int sizeMultiplier,
     int translateX, int translateY, int padding) /*-{
-    $wnd.console.log(wordzArr);
     var fill = $wnd.d3.scale.category20();
     
     $wnd.d3.layout.cloud()
@@ -198,7 +183,7 @@ public class Xholon2Cloud extends AbstractXholon2ExternalFormat implements IXhol
         return {text: d, size: sizeIncrementer + Math.random() * sizeMultiplier};
       }))
       .padding(padding)
-      .rotate(function() { return ~~(Math.random() * 2) * angle; })
+      .rotate(function() { return Math.floor(Math.random() * (angle + angle) - angle); })
       .font(fontFamily)
       .fontSize(function(d) { return d.size; })
       .on("end", draw)
@@ -220,12 +205,16 @@ public class Xholon2Cloud extends AbstractXholon2ExternalFormat implements IXhol
           .attr("transform", function(d) {
             return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
           })
+          //.attr("id", function(d) { return d.text; })
           .text(function(d) { return d.text; });
     }
   }-*/;
   
   /**
    * Make a JavaScript object with all the parameters for this external format.
+   * Param values:
+   *  Countries of Europe: R^^^^^ 800 500 Impact 20 15 20 400 250 0
+   *  Cell XholonClass: BLANK 1300 900 Impact 90 6 9 600 450 0
    */
   protected native void makeEfParams() /*-{
     var p = {};
@@ -242,7 +231,7 @@ public class Xholon2Cloud extends AbstractXholon2ExternalFormat implements IXhol
     p.padding = 5;
     this.efParams = p;
   }-*/;
-
+  
   public native boolean isShouldShowRootNode() /*-{return this.efParams.shouldShowRootNode;}-*/;
   //public native void setShouldShowRootNode(boolean shouldShowRootNode) /*-{this.efParams.shouldShowRootNode = shouldShowRootNode;}-*/;
   
