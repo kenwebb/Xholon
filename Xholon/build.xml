@@ -23,9 +23,10 @@
 
   <target name="javac" depends="libs" description="Compile java source to bytecode">
     <mkdir dir="war/WEB-INF/classes"/>
+    <!-- changed source and target from 1.5 to 7 (June 30, 2014) -->
     <javac srcdir="src" includes="**" encoding="utf-8"
         destdir="war/WEB-INF/classes"
-        source="1.5" target="1.5" nowarn="true"
+        source="7" target="7" nowarn="true"
         debug="true" debuglevel="lines,vars,source">
       <classpath>
         <path refid="project.class.path"/>
@@ -92,8 +93,9 @@
 Test targets suppressed because -junit argument was not specified when running webAppCreator.-->
 
   <target name="javac.tests" depends="javac" description="Compiles test code">
+    <!-- changed source and target from 1.5 to 7 (June 30, 2014) -->
     <javac srcdir="test" includes="**" encoding="utf-8"
-      source="1.5" target="1.5" nowarn="true"
+      source="7" target="7" nowarn="true"
       destdir="war/WEB-INF/classes"
       debug="true" debuglevel="lines,vars,source">
       <classpath location="/home/ken/JavaThirdParty/junit4.11.1/junit-4.11.jar"/>
