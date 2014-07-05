@@ -434,11 +434,18 @@ public class XholonJsApi {
     
     // call
     api.call = $entry(function(signal, data, sender, index) {
+      var responseMsg = null;
       if (index === undefined) {
-        return this.@org.primordion.xholon.base.IXholon::sendSyncMessage(ILjava/lang/Object;Lorg/primordion/xholon/base/IXholon;)(signal, data, sender);
+        responseMsg = this.@org.primordion.xholon.base.IXholon::sendSyncMessage(ILjava/lang/Object;Lorg/primordion/xholon/base/IXholon;)(signal, data, sender);
       }
       else {
-        return this.@org.primordion.xholon.base.IXholon::sendSyncMessage(ILjava/lang/Object;Lorg/primordion/xholon/base/IXholon;I)(signal, data, sender, index);
+        responseMsg = this.@org.primordion.xholon.base.IXholon::sendSyncMessage(ILjava/lang/Object;Lorg/primordion/xholon/base/IXholon;I)(signal, data, sender, index);
+      }
+      if (responseMsg) {
+        return responseMsg.obj();
+      }
+      else {
+       return null;
       }
     });
     

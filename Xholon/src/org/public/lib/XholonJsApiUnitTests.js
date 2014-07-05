@@ -307,7 +307,7 @@ test("Sociable", 8, function() {
   
   var respMsg = receiver.call(signal, data, sender); // response to an unknown signal
   notEqual(respMsg, null, "The response to node.call() shall be a valid IMessage.");
-  var obj = respMsg.obj();
+  var obj = respMsg; //.obj();
   notEqual(obj, null, "A response message shall be accessable as a human-readable and processable JavaScript object.");
   equal(obj.signal, -8,
     "Signal received in a response to an unknown request message shall == ISignal.SIGNAL_UNKNOWN (-8).");
