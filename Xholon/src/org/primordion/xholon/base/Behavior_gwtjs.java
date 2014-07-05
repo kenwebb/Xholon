@@ -26,6 +26,7 @@ import java.util.List;
 import org.primordion.xholon.base.IMessage;
 import org.primordion.xholon.base.ISignal;
 import org.primordion.xholon.base.IXholon;
+import org.primordion.xholon.base.Message;
 import org.primordion.xholon.base.Xholon;
 //import org.primordion.xholon.exception.XholonConfigurationException;
 import org.primordion.xholon.io.xml.IXholon2Xml;
@@ -137,6 +138,11 @@ public class Behavior_gwtjs extends Xholon {
 	 */
 	private boolean hasProcessReceivedMessage = false;
 	
+	/**
+	 * Does the script contain a processReceivedSyncMessage(msg) method?
+	 */
+	private boolean hasProcessReceivedSyncMessage = false;
+	
 	/*
 	 * @see org.primordion.xholon.base.Xholon#getAllPorts()
 	 */
@@ -171,6 +177,7 @@ public class Behavior_gwtjs extends Xholon {
 		hasAct = hasFunction(beh, "act");
 		hasPostAct = hasFunction(beh, "postAct");
 		hasProcessReceivedMessage = hasFunction(beh, "processReceivedMessage");
+		hasProcessReceivedSyncMessage = hasFunction(beh, "processReceivedSyncMessage");
 		if (hasFunction(beh, "postConfigure")) {
 		  postConfigure(beh);
 		  if (this.getParentNode() == null) {
@@ -302,6 +309,23 @@ public class Behavior_gwtjs extends Xholon {
 	  bobj.processReceivedMessage(msg.obj());
 	}-*/;
 	
+	/*
+	 * @see org.primordion.xholon.base.IXholon#processReceivedSyncMessage(org.primordion.xholon.base.Message)
+	 */
+	public IMessage processReceivedSyncMessage(IMessage msg) {
+	  if (hasProcessReceivedSyncMessage) {
+		  if (beh != null) {
+		    Object data = processReceivedSyncMessage(beh, msg);
+		    return new Message(msg.getSignal(), data, msg.getReceiver(), msg.getSender());
+		  }
+	  }
+	  return super.processReceivedSyncMessage(msg);
+	}
+	
+	protected native Object processReceivedSyncMessage(JavaScriptObject bobj, IMessage msg) /*-{
+	  return bobj.processReceivedSyncMessage(msg.obj());
+	}-*/;
+	
 	/**
 	 * @see org.primordion.xholon.base.Xholon#handleNodeSelection()
 	 */
@@ -347,17 +371,32 @@ public class Behavior_gwtjs extends Xholon {
 	 * @see org.primordion.xholon.base.Xholon#toString()
 	 */
 	public String toString() {
+	  String behToString = "";
+	  if (hasFunction(beh, "toString")) {
+		  // returns "[object Object]" if the JavaScript object does not override toString()
+		  behToString = this.toString(beh);
+		  if (behToString == null) {
+		    behToString = "";
+		  }
+		  else if ((behToString.length() > 1) && (behToString.charAt(0) == '\r')) {
+		    // if the first character is a Carriage Return, then replace what Behavior_gwtjs would have returned
+		    // by definition, Carriage Return moves the cursor to the first position on the same line
+		    return behToString.substring(1);
+		  }
+		  else if (behToString.length() == 0) {}
+		  else {
+		    behToString = " " + behToString;
+		  }
+		}
 		StringBuilder sb = new StringBuilder()
 		.append(super.toString()).append(" ")
 		.append("scriptConfigured:").append(scriptConfigured)
 		.append(" hasPreAct:").append(hasPreAct)
 		.append(" hasAct:").append(hasAct)
 		.append(" hasPostAct:").append(hasPostAct)
-		.append(" hasProcessReceivedMessage:").append(hasProcessReceivedMessage);
-		if (hasFunction(beh, "toString")) {
-		  // returns "[object Object]" if the JavaScript object does not override toString()
-		  sb.append(" ").append(this.toString(beh));
-		}
+		.append(" hasProcessReceivedMessage:").append(hasProcessReceivedMessage)
+		.append(" hasProcessReceivedSyncMessage:").append(hasProcessReceivedSyncMessage)
+		.append(behToString);
 		return sb.toString();
 	}
 	
@@ -495,6 +534,13 @@ public class Behavior_gwtjs extends Xholon {
 	 */
 	public String getVal_String() {
 		return scriptContent;
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.Xholon#getVal_Object()
+	 */
+	public Object getVal_Object() {
+	  return beh;
 	}
 	
 	/*

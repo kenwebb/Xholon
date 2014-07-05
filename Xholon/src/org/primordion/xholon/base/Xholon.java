@@ -2323,8 +2323,17 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 	 */
 	public IMessage processReceivedSyncMessage(IMessage msg)
 	{
-		logger.warn("Unexpected sync message received : " + msg);
-		return new Message(ISignal.SIGNAL_UNKNOWN, null, this, msg.getSender());
+		//logger.warn("Unexpected sync message received : " + msg);
+		//return new Message(ISignal.SIGNAL_UNKNOWN, null, this, msg.getSender());
+		return forwardSyncMessage(msg);
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.IXholon#forwardSyncMessage(org.primordion.xholon.base.Message)
+	 */
+	public IMessage forwardSyncMessage(IMessage msg) {
+	  logger.warn("Unexpected sync message received : " + msg);
+	  return new Message(ISignal.SIGNAL_UNKNOWN, null, this, msg.getSender());
 	}
 	
 	/*

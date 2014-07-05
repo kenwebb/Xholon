@@ -1217,6 +1217,13 @@ public abstract IMessage sendSyncMessage(IMessage msg);
 public abstract IMessage processReceivedSyncMessage(IMessage msg);
 
 /**
+ * Forward a message to a registered forwardee, if any.
+ * @param msg The message that should be forwarded.
+ * @return A response message.
+ */
+public abstract IMessage forwardSyncMessage(IMessage msg);
+
+/**
  * Terminate a UML2 state machine, and optionally terminate the xholon that owns the state machine.
  * The UML 2.1.1 specification states (section 15.3.8):
  * "Entering a terminate pseudostate implies that the execution of this state

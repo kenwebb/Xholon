@@ -25,7 +25,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.primordion.xholon.base.IMessage;
+import org.primordion.xholon.base.ISignal;
 import org.primordion.xholon.base.IXholon;
+import org.primordion.xholon.base.Message;
 import org.primordion.xholon.base.PortInformation;
 import org.primordion.xholon.base.Xholon;
 import org.primordion.xholon.base.XholonWithPorts;
@@ -204,6 +206,22 @@ public class XhChameleon extends XholonWithPorts implements CeChameleon {
     if (forwardee != null) {
       forwardee.processReceivedMessage(msg);
     }
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.IXholon#forwardSyncMessage(org.primordion.xholon.base.Message)
+	 */
+	public IMessage forwardSyncMessage(IMessage msg) {
+	  int signal = msg.getSignal();
+	  IXholon forwardee = forwardees.get(signal);
+	  if (forwardee == null) {
+	    forwardee = forwardees.get(null);
+	  }
+    if (forwardee != null) {
+      return forwardee.processReceivedSyncMessage(msg);
+    }
+	  logger.warn("Unexpected sync message received : " + msg);
+	  return new Message(ISignal.SIGNAL_UNKNOWN, null, this, msg.getSender());
 	}
 	
 	/*
