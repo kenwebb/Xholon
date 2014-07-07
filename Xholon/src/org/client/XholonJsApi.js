@@ -1,7 +1,7 @@
 /**
  * <h3>Xholon JavaScript API</h3>
  * <p>This is the JavaScript application programming interface (API)
- * for Xholon (http://www.primordion.com/Xholon/gwt/) version 0.9.0.</p>
+ * for Xholon (http://www.primordion.com/Xholon/gwt/) version 0.9.1. (July 7, 2014)</p>
  * <p>It's a wrapper around the Xholon Google Web Toolkit (GWT) (http://www.gwtproject.org/) Java code.
  * Note that GWT compiles all of the Java code to optimized JavaScript.</p>
  * <p>The online JavaScript documentation is produced with the help of YuiDoc,
@@ -146,16 +146,32 @@ $wnd.xh.state = $entry(function(controllerState) {
  * Require a single named JavaScript library.
  * If the script is located in the Xholon application library,
  * then only the scriptName needs to be provided.
- * ex: $wnd.xh.require("d3.v2.min.js");
- * ex: $wnd.xh.require("three.min.js", "http://threejs.org/build/");
  * @method require
  * @param {String} scriptName The name of a script.
  * @param {String} [scriptPath] The URL for the script.
+ * @example
+ *     $wnd.xh.require("d3.v2.min.js");
  * @example
  *     $wnd.xh.require("three.min.js", "http://threejs.org/build/");
  */
 $wnd.xh.require = $entry(function(scriptName, scriptPath) {
   @org.primordion.xholon.io.gwt.HtmlScriptHelper::requireScript(Ljava/lang/String;Ljava/lang/String;)(scriptName, scriptPath)
+});
+
+/**
+ * Run the Xholon JavaScript API unit tests, using QUnit.
+ * The tests are intended to run inside the Furcifer app:
+ *   http://www.primordion.com/Xholon/gwt/XholonQUnit.html?app=Furcifer&gui=clsc
+ * See also the Information page for the Furcifer app (Help > Information).
+ * @method test
+ * @example
+ *     $wnd.xh.test();
+ */
+$wnd.xh.test = $entry(function() {
+  if ($wnd.QUnit) {
+    $wnd.QUnit.config.autostart = false;
+    $wnd.xh.require("XholonJsApiUnitTests.js");
+  }
 });
 
 /**
@@ -183,9 +199,13 @@ $wnd.xh.html.xhElements = $entry(function() {
 
 /**
  * Export a node and its subtree to an external format.
+ * Because "export" is a JS keyword, we use "xport" instead.
  * @method xport
  * @param {String} formatName The name of an external format (ex: "MindMap").
  * @param {IXholon} node An IXholon node.
+ * @param {String} [efParams] A JSON-formatted string containing one or more key/value pairs.
+ *   To determine the possible parameters for a given external format,
+ *   look at the efParams object in each ef source file.
  * @example
  *     var root = $wnd.xh.root();
  *     $wnd.xh.xport("MindMap", root);
@@ -193,12 +213,17 @@ $wnd.xh.html.xhElements = $entry(function() {
  *     $wnd.xh.xport("_other,Newick", root);
  *     $wnd.xh.xport("_xholon,Xhn", root);
  *     $wnd.xh.xport("_d3,CirclePack", root);
+ *     $wnd.xh.xport("Graphviz", root, '{"layout":"neato"}');
  */
-$wnd.xh.xport = $entry(function(formatName, node) {
+$wnd.xh.xport = $entry(function(formatName, node, efParams) {
   var efs = $wnd.xh.service('ExternalFormatService');
   if (efs) {
     // IXholonService.SIG_PROCESS_REQUEST = -3998
-    efs.call(-3998, formatName, node);
+    var data = formatName;
+    if (efParams !== undefined) {
+      data = [formatName, efParams];
+    }
+    efs.call(-3998, data, node);
   }
 });
 
@@ -743,17 +768,24 @@ api.msg = $entry(function(signal, data, sender, index) {
  * @param {Object} data Any data that needs to be sent, or null.
  * @param {IXholon} sender The sender of the message.
  * @param {Number} [index] The index of a replicated port.
- * @return {IMessage} A response message.
+ * @return {Object} A response message, or null.
  * @example
  *     var responseMsg = receiverNode.call(102, "What is 2 + 3 ?", thisNode);
- *     console.log(responseMsg.obj().data);
+ *     console.log(responseMsg.data);
  */
 api.call = $entry(function(signal, data, sender, index) {
+  var responseMsg = null;
   if (index === undefined) {
-    return this.@org.primordion.xholon.base.IXholon::sendSyncMessage(ILjava/lang/Object;Lorg/primordion/xholon/base/IXholon;)(signal, data, sender);
+    responseMsg = this.@org.primordion.xholon.base.IXholon::sendSyncMessage(ILjava/lang/Object;Lorg/primordion/xholon/base/IXholon;)(signal, data, sender);
   }
   else {
-    return this.@org.primordion.xholon.base.IXholon::sendSyncMessage(ILjava/lang/Object;Lorg/primordion/xholon/base/IXholon;I)(signal, data, sender, index);
+    responseMsg = this.@org.primordion.xholon.base.IXholon::sendSyncMessage(ILjava/lang/Object;Lorg/primordion/xholon/base/IXholon;I)(signal, data, sender, index);
+  }
+  if (responseMsg) {
+    return responseMsg.obj();
+  }
+  else {
+   return null;
   }
 });
 
@@ -939,6 +971,20 @@ api.attrs = $entry(function(returnAll) {
  */
 api.xpath = $entry(function(expression) {
   return @org.client.XholonJsApi::xpath(Ljava/lang/String;Lorg/primordion/xholon/base/IXholon;)(expression, this);
+});
+
+/**
+ * Report whether or not this node has the specified Xholon class.
+ * @method hasClass
+ * @param {String} className The name of a XholonClass (xhc).
+ * @return {boolean} true if the node's XholonClass (xhc) matches the className,
+ *   or if any ancestor (superclass) of the xhc matches.
+ * @example
+ *     var x = $wnd.xh.root().first().hasClass("Hello");
+ */
+api.hasClass = $entry(function(className) {
+  var xhc = this.@org.primordion.xholon.base.IXholon::getXhc()();
+  return xhc.@org.primordion.xholon.base.IXholonClass::hasAncestor(Ljava/lang/String;)(className);
 });
 
 // TODO pcs(expression) and select(expression)
