@@ -49,7 +49,7 @@ View the source code and run it, and then make a small edit in the source code a
   [6]: http://www.gwtproject.org/    "GWT"
   [7]: http://www.primordion.com/Xholon/gwt/javadoc/    "javadoc"
   [8]: http://www.primordion.com/Xholon/    "Original Xholon site"
-  [9]: https://sourceforge.net/apps/mediawiki/xholon/index.php?title=Main_Page    "Original Xholon wiki"
+  [9]: http://www.primordion.com/Xholon/wiki/    "Xholon wiki"
   [10]: http://sourceforge.net/projects/xholon/    "SF project"
   [11]: http://primordion.com/collabapp/    "Collaborative apps"
   [12]: http://www.primordion.com/    "Primordion site"
