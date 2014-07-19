@@ -240,7 +240,8 @@ public class XmlGwtDomReader extends XmlReader {
 		}
 		Attr attr = (Attr)currentNodeAttributes.item(index);
 		if (attr == null) {return null;}
-		return attr.getNodeValue(); // or .getValue() ?
+		// browsers report: "'Attr.nodeValue' is deprecated. Please use 'value' instead."
+		return attr.getValue(); //getNodeValue();
 	}
 
 	@Override
