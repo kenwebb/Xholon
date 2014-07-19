@@ -22,8 +22,16 @@ import java.util.Date;
 import java.util.List;
 
 import org.primordion.xholon.base.IMechanism;
+import org.primordion.xholon.base.IReflection;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.PortInformation;
+import org.primordion.xholon.base.ReflectionFactory;
+import org.primordion.xholon.base.Xholon;
+import org.primordion.xholon.io.xml.IXholon2Xml;
+import org.primordion.xholon.io.xml.IXmlWriter;
+import org.primordion.xholon.util.ClassHelper;
+import org.primordion.xholon.util.IJavaTypes;
+import org.primordion.xholon.util.Misc;
 import org.primordion.ef.AbstractXholon2ExternalFormat;
 import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
 
@@ -62,34 +70,65 @@ HelloWorldSystem IH and CSH
 ((0000000[XholonClass](0000001[HelloWorldSystem]0000002[Hello]0000003[World]))(1000000>0000001(1000002>0000002>10000031000003>0000003>1000002)))
  *
  * TODO
- *   - be able to capture attributes, probably as child nodes using Attribute_String etc.
- *   - the following example includes type, name, value
- *     (00f4adf[pheneVal=9876.5432]00f4ae3[myString=this is a string]00f4ada[myBool=true])
- *   - or use anonymous IDs, which are OK because no ports are involved with attributes
- *     ([pheneVal=9876.5432]>00f4adf[myString=this is a string]>00f4ae3[myBool=true]>00f4ada)
- * 
- * TODO
  *   - I'm not sure yet how to specify behavior.
  *   - it should be at a higher level than a programming language; declarative in some way
  *   - possibly provide before and after structures, as with Bigraphs
+ *   - For example, with the original Cell model, it would be possible to export a complete
+       Xholon2Future string each time step. An algorithmic process is implied by the systematically
+       changing values.
+ *   - A better example would be the Fibonacci model. The fibonacci sequence is the same at
+       any point in space or time.
+       The following shows the changing composite structure hierarchy over multiple time steps:
+(1000000>0000001([Val_int=0]>00f4adf)(1000001>0000003>1000003>1000002>1000004([Val_int=0]>00f4adf)1000002>0000006([Val_int=0]>00f4adf)1000003>0000007([Val_int=0]>00f4adf)1000004>0000009([Val_int=0]>00f4adf)))
+(1000000>0000001([Val_int=0]>00f4adf)(1000001>0000003>1000003>1000002>1000004([Val_int=0]>00f4adf)1000002>0000006([Val_int=0]>00f4adf)1000003>0000007([Val_int=0]>00f4adf)1000004>0000009([Val_int=0]>00f4adf)))
+(1000000>0000001([Val_int=0]>00f4adf)(1000001>0000003>1000003>1000002>1000004([Val_int=0]>00f4adf)1000002>0000006([Val_int=0]>00f4adf)1000003>0000007([Val_int=1]>00f4adf)1000004>0000009([Val_int=1]>00f4adf)))
+(1000000>0000001([Val_int=0]>00f4adf)(1000001>0000003>1000003>1000002>1000004([Val_int=0]>00f4adf)1000002>0000006([Val_int=1]>00f4adf)1000003>0000007([Val_int=1]>00f4adf)1000004>0000009([Val_int=1]>00f4adf)))
+(1000000>0000001([Val_int=0]>00f4adf)(1000001>0000003>1000003>1000002>1000004([Val_int=0]>00f4adf)1000002>0000006([Val_int=1]>00f4adf)1000003>0000007([Val_int=2]>00f4adf)1000004>0000009([Val_int=2]>00f4adf)))
+(1000000>0000001([Val_int=0]>00f4adf)(1000001>0000003>1000003>1000002>1000004([Val_int=0]>00f4adf)1000002>0000006([Val_int=2]>00f4adf)1000003>0000007([Val_int=3]>00f4adf)1000004>0000009([Val_int=3]>00f4adf)))
+(1000000>0000001([Val_int=0]>00f4adf)(1000001>0000003>1000003>1000002>1000004([Val_int=0]>00f4adf)1000002>0000006([Val_int=3]>00f4adf)1000003>0000007([Val_int=5]>00f4adf)1000004>0000009([Val_int=5]>00f4adf)))
+(1000000>0000001([Val_int=0]>00f4adf)(1000001>0000003>1000003>1000002>1000004([Val_int=0]>00f4adf)1000002>0000006([Val_int=5]>00f4adf)1000003>0000007([Val_int=8]>00f4adf)1000004>0000009([Val_int=8]>00f4adf))))
+(1000000>0000001([Val_int=0]>00f4adf)(1000001>0000003>1000003>1000002>1000004([Val_int=0]>00f4adf)1000002>0000006([Val_int=8]>00f4adf)1000003>0000007([Val_int=13]>00f4adf)1000004>0000009([Val_int=13]>00f4adf)))
+(1000000>0000001([Val_int=0]>00f4adf)(1000001>0000003>1000003>1000002>1000004([Val_int=0]>00f4adf)1000002>0000006([Val_int=13]>00f4adf)1000003>0000007([Val_int=21]>00f4adf)1000004>0000009([Val_int=21]>00f4adf)))
+(1000000>0000001([Val_int=0]>00f4adf)(1000001>0000003>1000003>1000002>1000004([Val_int=0]>00f4adf)1000002>0000006([Val_int=21]>00f4adf)1000003>0000007([Val_int=34]>00f4adf)1000004>0000009([Val_int=34]>00f4adf)))
+(1000000>0000001([Val_int=0]>00f4adf)(1000001>0000003>1000003>1000002>1000004([Val_int=0]>00f4adf)1000002>0000006([Val_int=34]>00f4adf)1000003>0000007([Val_int=55]>00f4adf)1000004>0000009([Val_int=55]>00f4adf)))
+(1000000>0000001([Val_int=0]>00f4adf)(1000001>0000003>1000003>1000002>1000004([Val_int=0]>00f4adf)1000002>0000006([Val_int=55]>00f4adf)1000003>0000007([Val_int=89]>00f4adf)1000004>0000009([Val_int=89]>00f4adf)))
+(1000000>0000001([Val_int=0]>00f4adf)(1000001>0000003>1000003>1000002>1000004([Val_int=0]>00f4adf)1000002>0000006([Val_int=89]>00f4adf)1000003>0000007([Val_int=144]>00f4adf)1000004>0000009([Val_int=144]>00f4adf)))
+(1000000>0000001([Val_int=0]>00f4adf)(1000001>0000003>1000003>1000002>1000004([Val_int=0]>00f4adf)1000002>0000006([Val_int=144]>00f4adf)1000003>0000007([Val_int=233]>00f4adf)1000004>0000009([Val_int=233]>00f4adf)))
+(1000000>0000001([Val_int=0]>00f4adf)(1000001>0000003>1000003>1000002>1000004([Val_int=0]>00f4adf)1000002>0000006([Val_int=233]>00f4adf)1000003>0000007([Val_int=377]>00f4adf)1000004>0000009([Val_int=377]>00f4adf)))
+       A partial inheritance hierarchy for this model is:
+(0000000[XholonClass](00f4ad8[Attribute](00f4ad9[Attribute_attribute]00f4ada[Attribute_boolean]00f4adb[Attribute_byte]00f4adc[Attribute_char]00f4add[Attribute_double]00f4ade[Attribute_float]00f4adf[Attribute_int]00f4ae0[Attribute_long]00f4ae1[Attribute_Object]00f4ae2[Attribute_short]00f4ae3[Attribute_String])0000001[FibonacciSystem]0000002[Function](0000003[FibonacciFunction])0000004[Variable](0000005[IndependentVariable](0000006[NMinus2]0000007[NMinus1])0000008[DependentVariable](0000009[N]))))
  * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.9.1 (Created on July 17, 2014)
  */
 @SuppressWarnings("serial")
-public class Xholon2Future extends AbstractXholon2ExternalFormat implements IXholon2ExternalFormat {
+public class Xholon2Future extends AbstractXholon2ExternalFormat implements IXholon2ExternalFormat, IXmlWriter {
   
   private String outFileName;
   private String outPath = "./ef/future/";
   private String modelName;
   private IXholon root;
   private StringBuilder sb;
+  private StringBuilder sbAttrs;
   
   /** Current date and time. */
   private Date timeNow;
   private long timeStamp;
-
+  
+  /** Use GWT reflection to get node attributes. */
+  private IReflection ir = null;
+  
+  private String nodeIdBoolean = null; // 00f4ada[Attribute_boolean]
+  private String nodeIdByte = null; // 00f4adb[Attribute_byte]
+  private String nodeIdChar = null; // 00f4adc[Attribute_char]
+  private String nodeIdDouble = null; // 00f4add[Attribute_double]
+  private String nodeIdFloat = null; // 00f4ade[Attribute_float]
+  private String nodeIdInt = null; // 00f4adf[Attribute_int]
+  private String nodeIdLong = null; // 00f4ae0[Attribute_long]
+  private String nodeIdShort = null; // 00f4ae2[Attribute_short]
+  private String nodeIdString = null; // 00f4ae3[Attribute_String]
+  
   /**
    * Constructor.
    */
@@ -109,6 +148,16 @@ public class Xholon2Future extends AbstractXholon2ExternalFormat implements IXho
     }
     this.modelName = modelName;
     this.root = root;
+    nodeIdBoolean = node2HexId(getIhPrefix(), root.getClassNode("Attribute_boolean").getId());
+    nodeIdByte    = node2HexId(getIhPrefix(), root.getClassNode("Attribute_byte").getId());
+    nodeIdChar    = node2HexId(getIhPrefix(), root.getClassNode("Attribute_char").getId());
+    nodeIdDouble  = node2HexId(getIhPrefix(), root.getClassNode("Attribute_double").getId());
+    nodeIdFloat   = node2HexId(getIhPrefix(), root.getClassNode("Attribute_float").getId());
+    nodeIdInt     = node2HexId(getIhPrefix(), root.getClassNode("Attribute_int").getId());
+    nodeIdLong    = node2HexId(getIhPrefix(), root.getClassNode("Attribute_long").getId());
+    nodeIdShort   = node2HexId(getIhPrefix(), root.getClassNode("Attribute_short").getId());
+    nodeIdString  = node2HexId(getIhPrefix(), root.getClassNode("Attribute_String").getId());
+    root.consoleLog(nodeIdString + " " + nodeIdInt + " " + nodeIdBoolean);
     return true;
   }
   
@@ -116,11 +165,11 @@ public class Xholon2Future extends AbstractXholon2ExternalFormat implements IXho
    * @see org.primordion.xholon.io.IXholon2ExternalFormat#writeAll()
    */
   public void writeAll() {
+    ir = ReflectionFactory.instance();
     sb = new StringBuilder();
     sb.append(getBracketOpen()).append(getBracketOpen());
     writeIhNode(root.getApp().getXhcRoot());
     sb.append(getBracketClosed());
-    if (isShouldInsertNewlines()) {sb.append("\n");}
     sb.append(getBracketOpen());
     writeNode(root);
     sb.append(getBracketClosed()).append(getBracketClosed());
@@ -132,6 +181,7 @@ public class Xholon2Future extends AbstractXholon2ExternalFormat implements IXho
    * @param node The current node in the Xholon composite structure hierarchy (CSH).
    */
   protected void writeNode(IXholon node) {
+    if (isShouldInsertNewlines()) {sb.append("\n");}
     sb.append(node2HexId(getCshPrefix(), node.getId()));
     String rn = node.getRoleName();
     if ((rn != null) && (rn.length() > 0)) {
@@ -139,6 +189,7 @@ public class Xholon2Future extends AbstractXholon2ExternalFormat implements IXho
     }
     sb.append(getPortSymbol()).append(node2HexId(getIhPrefix(), node.getXhcId()));
     writeLinks(node);
+    writeAttributes(node);
     if (node.hasChildNodes()) {
       sb.append(getBracketOpen());
       IXholon childNode = node.getFirstChild();
@@ -147,7 +198,6 @@ public class Xholon2Future extends AbstractXholon2ExternalFormat implements IXho
         childNode = childNode.getNextSibling();
       }
       sb.append(getBracketClosed());
-      if (isShouldInsertNewlines()) {sb.append("\n");}
     }
   }
   
@@ -158,6 +208,7 @@ public class Xholon2Future extends AbstractXholon2ExternalFormat implements IXho
    */
   protected void writeIhNode(IXholon xhcNode) {
     if (isShouldShowMechanismIhNodes() || (xhcNode.getId() < IMechanism.MECHANISM_ID_START)) {
+      if (isShouldInsertNewlines()) {sb.append("\n");}
       sb.append(node2HexId(getIhPrefix(), xhcNode.getId()));
       sb.append(getTextBracketOpen()).append(xhcNode.getName()).append(getTextBracketClosed());
       if (xhcNode.hasChildNodes()) {
@@ -168,7 +219,6 @@ public class Xholon2Future extends AbstractXholon2ExternalFormat implements IXho
           childXhcNode = childXhcNode.getNextSibling();
         }
         sb.append(getBracketClosed());
-        if (isShouldInsertNewlines()) {sb.append("\n");}
       }
     }
     else {
@@ -212,6 +262,25 @@ public class Xholon2Future extends AbstractXholon2ExternalFormat implements IXho
   }
   
   /**
+   * Write app-specific attributes.
+   * Example:
+   *   ([pheneVal=9876.5432]>00f4add[myString=this is a string]>00f4ae3[myBool=true]>00f4ada)
+   * @param node The node whose attributes should be written.
+   */
+  public void writeAttributes(IXholon node) {
+    sbAttrs = new StringBuilder();
+    IXholon2Xml xholon2xml = node.getXholon2Xml();
+    xholon2xml.setXhAttrStyle(IXholon2Xml.XHATTR_TO_XMLATTR);
+    node.toXmlAttributes(xholon2xml, this);
+    if (sbAttrs.length() > 0) {
+      sb
+      .append(getBracketOpen())
+      .append(sbAttrs.toString())
+      .append(getBracketClosed());
+    }
+  }
+  
+  /**
    * Convert an integer to a lowercase hex string.
    * The result should be padded with leading zeros.
    * @param prefix A string to prepend to the result.
@@ -241,7 +310,10 @@ public class Xholon2Future extends AbstractXholon2ExternalFormat implements IXho
     p.hexStrLen = 6;
     p.shouldInsertNewlines = false;
     p.shouldShowLinks = true;
+    p.shouldShowAttributes = true;
     p.shouldShowMechanismIhNodes = false;
+    p.shouldWriteVal = true;
+    p.shouldWriteAllPorts = true;
     this.efParams = p;
   }-*/;
 
@@ -295,6 +367,12 @@ public class Xholon2Future extends AbstractXholon2ExternalFormat implements IXho
   //public native void setShouldShowLinks(boolean shouldShowLinks) /*-{this.efParams.shouldShowLinks = shouldShowLinks;}-*/;
 
   /**
+   * Whether or not to show app-specific attributes of nodes.
+   */
+  public native boolean isShouldShowAttributes() /*-{return this.efParams.shouldShowAttributes;}-*/;
+  //public native void sethouldShowAttributes(boolean shouldShowAttributes) /*-{this.efParams.shouldShowAttributes = shouldShowAttributes;}-*/;
+
+  /**
    * Whether or not to show IH nodes that are part of a Xholon mechanism.
    * If this value is false, then only app-specific IH nodes will be shown.
    */
@@ -332,5 +410,112 @@ public class Xholon2Future extends AbstractXholon2ExternalFormat implements IXho
   public void setOutPath(String outPath) {
     this.outPath = outPath;
   }
+  
+  // #############################################################################
+  // methods required to implement IXmlWriter
+  
+  @Override
+  // DO NOT IMPLEMENT THIS
+  public void createNew(Object out) {}
+
+  @Override
+  public void writeStartDocument() {}
+
+  @Override
+  public void writeEndDocument() {}
+
+  @Override
+  // DO NOT IMPLEMENT THIS
+  public void writeStartElement(String prefix, String localName, String namespaceURI) {}
+
+  @Override
+  // DO NOT IMPLEMENT THIS
+  public void writeStartElement(String name) {}
+
+  @Override
+  // DO NOT IMPLEMENT THIS
+  public void writeEndElement(String name, String namespaceURI) {}
+
+  @Override
+  // DO NOT IMPLEMENT THIS
+  public void writeEndElement(String name) {}
+
+  @Override
+  // DO NOT IMPLEMENT THIS
+  public void writeNamespace(String prefix, String namespaceURI) {}
+
+  @Override
+  // This is for use by Xholon.toXmlAttributes() only
+  public void writeAttribute(String name, String value) {
+    if ("Val".equalsIgnoreCase(name) && !isShouldWriteVal()) {return;}
+    if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
+    if ("roleName".equalsIgnoreCase(name)) {return;} // roleName is already written out
+    sbAttrs
+    .append(getTextBracketOpen())
+    .append(name)
+    .append("=")
+    .append(value)
+    .append(getTextBracketClosed())
+    .append(getPortSymbol());
+    String ihId = nodeIdString;
+    switch(Misc.getJavaDataType(value)) {
+    case IJavaTypes.JAVACLASS_UNKNOWN: break;
+    case IJavaTypes.JAVACLASS_int: ihId = nodeIdInt; break;
+    case IJavaTypes.JAVACLASS_long: ihId = nodeIdLong; break;
+    case IJavaTypes.JAVACLASS_double: ihId = nodeIdDouble; break;
+    case IJavaTypes.JAVACLASS_float: ihId = nodeIdFloat; break;
+    case IJavaTypes.JAVACLASS_boolean: ihId = nodeIdBoolean; break;
+    case IJavaTypes.JAVACLASS_String: break;
+    case IJavaTypes.JAVACLASS_byte: ihId = nodeIdByte; break;
+    case IJavaTypes.JAVACLASS_char: ihId = nodeIdChar; break;
+    case IJavaTypes.JAVACLASS_short: ihId = nodeIdShort; break;
+    default: break;
+    }
+    sbAttrs.append(ihId);
+  }
+
+  @Override
+  // DO NOT IMPLEMENT THIS
+  public void writeText(String text) {}
+
+  @Override
+  public void writeComment(String data) {}
+
+  @Override
+  public String getWriterName() {
+    return "Xholon2Future";
+  }
+
+  @Override
+  // DO NOT IMPLEMENT THIS
+  public void flush() {}
+
+  /* 
+   * @see org.primordion.xholon.io.xml.IXmlWriter#isShouldWriteVal()
+   */
+  public native boolean isShouldWriteVal() /*-{
+    return this.efParams.shouldWriteVal;
+  }-*/;
+  
+  /* 
+   * @see org.primordion.xholon.io.xml.IXmlWriter#setShouldWriteVal()
+   */
+  public native void setShouldWriteVal(boolean shouldWriteVal) /*-{
+    this.efParams.shouldWriteVal = shouldWriteVal;
+  }-*/;
+  
+  /* 
+   * @see org.primordion.xholon.io.xml.IXmlWriter#isShouldWriteAllPorts()
+   */
+  public native boolean isShouldWriteAllPorts() /*-{
+    return this.efParams.shouldWriteAllPorts;
+  }-*/;
+  
+  /* 
+   * @see org.primordion.xholon.io.xml.IXmlWriter#shouldWriteAllPorts()
+   */
+  public native void setShouldWriteAllPorts(boolean shouldWriteAllPorts) /*-{
+    this.efParams.shouldWriteAllPorts = shouldWriteAllPorts;
+  }-*/;
 
 }
