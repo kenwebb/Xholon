@@ -18,21 +18,18 @@
 
 package org.primordion.xholon.io.xml;
 
-//import java.io.ByteArrayInputStream;
-//import java.io.ByteArrayOutputStream;
-
-//import javax.xml.transform.OutputKeys;
-//import javax.xml.transform.Source;
-//import javax.xml.transform.Transformer;
-//import javax.xml.transform.TransformerFactory;
-//import javax.xml.transform.sax.SAXSource;
-//import javax.xml.transform.sax.SAXTransformerFactory;
-//import javax.xml.transform.stream.StreamResult;
-
-//import org.xml.sax.InputSource;
-
 /**
- * Pretty-print an XML string.
+ * Pretty-print an XML string, using vkbeautify.
+ *
+ * vkBeautify - javascript plugin to pretty-print or minify text in XML, JSON, CSS and SQL formats.
+ * Version - 0.99.00.beta 
+ * Copyright (c) 2012 Vadim Kiryukhin
+ * vkiryukhin @ gmail.com
+ * http://www.eslinstructor.net/vkbeautify/
+ * Dual licensed under the MIT and GPL licenses:
+ *   http://www.opensource.org/licenses/mit-license.php
+ *   http://www.gnu.org/licenses/gpl.html
+ *
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.8.1 (Created on September 5, 2012)
@@ -44,99 +41,130 @@ public class XmlPrettyPrinter {
 	private String encoding = "UTF-8";
 	
   public String format(String xml) {
-    /* Java SE version
-    try {
-    	TransformerFactory tf = SAXTransformerFactory.newInstance();
-    	//tf.setAttribute("indent-number", new Integer(2));
-    	Transformer serializer= tf.newTransformer();
-        if (indentAmount == 0) {
-        	serializer.setOutputProperty(OutputKeys.INDENT, "no");
-        }
-        else {
-        	serializer.setOutputProperty(OutputKeys.INDENT, "yes");
-        }
-        serializer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, omitXmlDeclaration);
-        serializer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount",
-        		Integer.toString(indentAmount));
-        serializer.setOutputProperty(OutputKeys.ENCODING, encoding);
-        Source xmlSource = new SAXSource(new InputSource(new ByteArrayInputStream(xml.getBytes())));
-        StreamResult res = new StreamResult(new ByteArrayOutputStream());            
-        serializer.transform(xmlSource, res);
-        return new String(((ByteArrayOutputStream)res.getOutputStream()).toByteArray());
-    } catch (Exception e) {
-        return xml;
-    }*/
-    String indent = "yes";
-    if (indentAmount == 0) {indent = "no";}
-    return format(xml, omitXmlDeclaration, indent);
+    vkbeautifyInit();
+    return vkbeautify(xml, indentAmount);
   }
   
-  /**
-   * GWT version
-   * source: http://stackoverflow.com/questions/5657181/use-xslt-to-pretty-print-xml-xhtml-without-corrupting-namespace-info
-   */
-  public native String format(String inputXmlStr, String omitXmlDeclaration, String indent) /*-{
+  public native String vkbeautify(String xml, int indent) /*-{
+    if (typeof $wnd.vkbeautify === 'undefined') {return xml;}
+    return $wnd.vkbeautify.xml(xml, indent);
+  }-*/;
+  
+  public native void vkbeautifyInit() /*-{
+if (typeof $wnd.vkbeautify !== 'undefined') {return;}
 
-var xsl_string = '<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">\
-<xsl:output method="xml" indent="' + indent + '" omit-xml-declaration="' + omitXmlDeclaration + '"/>\
-<xsl:strip-space elements="*"/>\
-<xsl:template match="/">\
-  <xsl:copy-of select="."/>\
-</xsl:template>\
-</xsl:stylesheet>';
+(function() {
 
-var xsl = (new DOMParser()).parseFromString(xsl_string, "text/xml");
-
-function stringToXml(xml_string) {
-  return (new DOMParser()).parseFromString(xml_string, "text/xml");
+function createShiftArr(step) {
+  var space = '    ';
+  if ( isNaN(parseInt(step)) ) {  // argument is string
+    space = step;
+  } else { // argument is integer
+    switch(step) {
+      case 1: space = ' '; break;
+      case 2: space = '  '; break;
+      case 3: space = '   '; break;
+      case 4: space = '    '; break;
+      case 5: space = '     '; break;
+      case 6: space = '      '; break;
+      case 7: space = '       '; break;
+      case 8: space = '        '; break;
+      case 9: space = '         '; break;
+      case 10: space = '          '; break;
+      case 11: space = '           '; break;
+      case 12: space = '            '; break;
+    }
+  }
+  var shift = ['\n']; // array of shifts
+  for(ix=0;ix<100;ix++){
+    shift.push(shift[ix]+space); 
+  }
+  return shift;
 }
 
-function xmlToString(xml) {
-  var serializer = new XMLSerializer();
-  var str = serializer.serializeToString(xml);
-  return str;
+function vkbeautify(){
+  this.step = '    '; // 4 spaces
+  this.shift = createShiftArr(this.step);
+};
+
+vkbeautify.prototype.xml = function(text,step) {
+
+  var ar = text.replace(/>\s{0,}</g,"><")
+         .replace(/</g,"~::~<")
+         .replace(/\s*xmlns\:/g,"~::~xmlns:")
+         .replace(/\s*xmlns\=/g,"~::~xmlns=")
+         .split('~::~'),
+    len = ar.length,
+    inComment = false,
+    deep = 0,
+    str = '',
+    ix = 0,
+    shift = step ? createShiftArr(step) : this.shift;
+
+    for(ix=0;ix<len;ix++) {
+      // start comment or <![CDATA[...]]> or <!DOCTYPE //
+      if(ar[ix].search(/<!/) > -1) { 
+        str += shift[deep]+ar[ix];
+        inComment = true; 
+        // end comment  or <![CDATA[...]]> //
+        if(ar[ix].search(/-->/) > -1 || ar[ix].search(/\]>/) > -1 || ar[ix].search(/!DOCTYPE/) > -1 ) { 
+          inComment = false; 
+        }
+      } else 
+      // end comment  or <![CDATA[...]]> //
+      if(ar[ix].search(/-->/) > -1 || ar[ix].search(/\]>/) > -1) { 
+        str += ar[ix];
+        inComment = false; 
+      } else 
+      // <elm></elm> //
+      if( /^<\w/.exec(ar[ix-1]) && /^<\/\w/.exec(ar[ix]) &&
+        /^<[\w:\-\.\,]+/.exec(ar[ix-1]) == /^<\/[\w:\-\.\,]+/.exec(ar[ix])[0].replace('/','')) { 
+        str += ar[ix];
+        if(!inComment) deep--;
+      } else
+       // <elm> //
+      if(ar[ix].search(/<\w/) > -1 && ar[ix].search(/<\//) == -1 && ar[ix].search(/\/>/) == -1 ) {
+        str = !inComment ? str += shift[deep++]+ar[ix] : str += ar[ix];
+      } else 
+       // <elm>...</elm> //
+      if(ar[ix].search(/<\w/) > -1 && ar[ix].search(/<\//) > -1) {
+        str = !inComment ? str += shift[deep]+ar[ix] : str += ar[ix];
+      } else 
+      // </elm> //
+      if(ar[ix].search(/<\//) > -1) { 
+        str = !inComment ? str += shift[--deep]+ar[ix] : str += ar[ix];
+      } else 
+      // <elm/> //
+      if(ar[ix].search(/\/>/) > -1 ) { 
+        str = !inComment ? str += shift[deep]+ar[ix] : str += ar[ix];
+      } else 
+      // <? xml ... ?> //
+      if(ar[ix].search(/<\?/) > -1) { 
+        str += shift[deep]+ar[ix];
+      } else 
+      // xmlns //
+      if( ar[ix].search(/xmlns\:/) > -1  || ar[ix].search(/xmlns\=/) > -1) { 
+        str += shift[deep]+ar[ix];
+      } 
+      
+      else {
+        str += ar[ix];
+      }
+    }
+    
+  return  (str[0] == '\n') ? str.slice(1) : str;
 }
 
-function isParseError(xml) {
-  try {
-    return xml.documentElement.tagName == "parsererror" ||
-           xml.documentElement.firstChild.firstChild.tagName == "parsererror";
-  }
-  catch (ex) {
-    return false;
-  }
+vkbeautify.prototype.xmlmin = function(text, preserveComments) {
+  var str = preserveComments ? text
+    : text.replace(/\<![ \r\n\t]*(--([^\-]|[\r\n]|-[^\-])*--[ \r\n\t]*)\>/g,"")
+     .replace(/[ \r\n\t]{1,}xmlns/g, ' xmlns');
+  return  str.replace(/>\s{0,}</g,"><"); 
 }
 
-function beautifyXml(input) {
-  var xml = stringToXml(input);
+$wnd.vkbeautify = new vkbeautify();
 
-  if (isParseError(xml)) {
-    return input;
-  }
-  var transformedXml = xslTransformation(xml, xsl);
-  return xmlToString(transformedXml);
-}
-
-function xslTransformation(xml, xsl) {
-  // code for IE
-  if (window.ActiveXObject) {
-    var ex = xml.transformNode(xsl);
-    return ex;
-  }
-  // code for Mozilla, Firefox, Opera, etc.
-  else if ($doc.implementation && $doc.implementation.createDocument) {
-    var xsltProcessor = new XSLTProcessor();
-    xsltProcessor.importStylesheet(xsl);
-    var resultDocument = xsltProcessor.transformToDocument(xml, $doc);
-    return resultDocument;
-  }
-  else {
-    // TODO ?
-  }
-}
-
-return beautifyXml(inputXmlStr);
-
+})();
   }-*/;
 
   public int getIndentAmount() {
