@@ -38,6 +38,7 @@ import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
  * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
+ * @see <a href="http://coffeescript.org">coffeescript.org</a>
  * @since 0.9.1 (Created on July 23, 2014)
  */
 @SuppressWarnings("serial")
@@ -92,11 +93,22 @@ public class Xholon2CoffeeScript extends AbstractXholon2ExternalFormat implement
     writeIhNode(root.getApp().getXhcRoot());
     writeNode(root);
     if (sbPorts.length() > 0) {
-      sb.append("# ports\n").append(sbPorts.toString()).append("\n");
+      sb
+      .append("# ports\n")
+      .append(sbPorts.toString())
+      .append("\n");
     }
     sb.append(sbTest.toString());
     setWriteToTab(isWriteToNewTab());
-    writeToTarget(sb.toString(), outFileName, outPath, root);
+    String cs = sb.toString();
+    writeToTarget(cs, outFileName, outPath, root);
+    /*if (isCompileToJavaScript()) {
+      loadAndRunCoffeeScriptCompiler(cs);
+      // TODO write the JS to a tab
+      if (isExecuteJavaScript()) {
+        executeJavaScript();
+      }
+    }*/
   }
   
   /**
@@ -106,6 +118,7 @@ public class Xholon2CoffeeScript extends AbstractXholon2ExternalFormat implement
   protected void writeNode(IXholon node) {
     if (node == null) {return;}
     String nodeName = node.getName(getNameTemplate());
+    IXholon pnode = node.getParentNode();
     sb
     .append(nodeName)
     .append(" = new ")
@@ -115,11 +128,16 @@ public class Xholon2CoffeeScript extends AbstractXholon2ExternalFormat implement
     .append("\n");
     
     if (node == root) {
-      sbTest.append("console.log ").append(nodeName).append("\n");
+      sbTest
+      .append("console.log ").append(nodeName).append("\n")
+      .append("console.log ").append(nodeName).append(".first\n")
+      .append("console.log ").append(nodeName).append(".anno\n")
+      .append("console.log ").append(nodeName).append(".first.parent\n")
+      .append("console.log ").append(nodeName).append(".first.next\n");
     }
-    else if (node == node.getParentNode().getFirstChild()) {
+    else if (node == pnode.getFirstChild()) {
       sb
-      .append(node.getParentNode().getName(getNameTemplate()))
+      .append(pnode.getName(getNameTemplate()))
       .append(".first(")
       .append(nodeName)
       .append(")\n");
@@ -131,7 +149,13 @@ public class Xholon2CoffeeScript extends AbstractXholon2ExternalFormat implement
       .append(nodeName)
       .append(")\n");
     }
-    
+    if (node != root) {
+      sb
+      .append(nodeName)
+      .append(".parent(")
+      .append(pnode.getName(getNameTemplate()))
+      .append(")\n");
+    }
     String rn = node.getRoleName();
     if ((rn != null) && (rn.length() > 0)) {
       sb
@@ -142,6 +166,29 @@ public class Xholon2CoffeeScript extends AbstractXholon2ExternalFormat implement
     }
     writeLinks(node);
     writeAttributes(node);
+    String text = node.getVal_String();
+    if (text != null) {
+      sb
+      .append(nodeName)
+      .append(".text(\"")
+      .append(text)
+      .append("\")\n");
+    }
+    if (node.hasAnnotation()) {
+      sb
+      .append(nodeName)
+      .append(".anno(\"")
+      .append(node.getAnnotation())
+      .append("\")\n");
+    }
+    Object obj = node.getVal_Object();
+    if (obj != null) {
+      sb
+      .append(nodeName)
+      .append(".obj(")
+      .append(obj)
+      .append(")\n");
+    }
     sb.append("\n");
     if (node.hasChildNodes()) {
       IXholon childNode = node.getFirstChild();
@@ -161,24 +208,32 @@ public class Xholon2CoffeeScript extends AbstractXholon2ExternalFormat implement
     if (xhcNode == null) {return;}
     if ("XholonClass".equals(xhcNode.getName())) {
       sb
-      .append("# ")
-      .append(xhcNode.getId())
-      .append("\n")
       .append("class ")
       .append(xhcNode.getName())
       .append("\n")
       .append("  constructor: (@id) ->\n")
-      .append("  role: (@roleName) ->\n")
-      .append("  first: (@firstChild) ->\n")
-      .append("  next: (@nextSibling) ->\n");
-      // add as many ports as specified by app MaxPorts
+      .append("  role: (@role) ->\n")
+      .append("  first: (@first) ->\n")
+      .append("  next: (@next) ->\n")
+      .append("  parent: (@parent) ->\n")
+      .append("  val: (@val) ->\n")
+      .append("  inc: (incAmount) ->\n    @val += incAmount\n")
+      .append("  dec: (decAmount) ->\n    @val += decAmount\n")
+      .append("  text: (@text) ->\n")
+      .append("  obj: (@obj) ->\n");
       for (int i = 0; i < root.getApp().getMaxPorts(); i++) {
-        sb.append("  port").append(i).append(": (@port").append(id).append(") ->\n");
+        sb
+        .append("  port")
+        .append(i)
+        .append(": (@port")
+        .append(id)
+        .append(") ->\n");
       }
-      sb.append("\n");
+      sb
+      .append("  anno: (@anno) ->\n")
+      .append("\n");
     }
     else if (isShouldShowMechanismIhNodes() || (xhcNode.getId() < IMechanism.MECHANISM_ID_START)) {
-      sb.append("# " + xhcNode.getId() + "\n");
       sb
       .append("class ")
       .append(xhcNode.getName())
@@ -270,6 +325,8 @@ public class Xholon2CoffeeScript extends AbstractXholon2ExternalFormat implement
     p.shouldWriteVal = true;
     p.shouldWriteAllPorts = true;
     p.writeToNewTab = true;
+    //p.compileToJavaScript = false;
+    //p.executeJavaScript = false;
     this.efParams = p;
   }-*/;
 
@@ -305,7 +362,15 @@ public class Xholon2CoffeeScript extends AbstractXholon2ExternalFormat implement
    */
   public native boolean isWriteToNewTab() /*-{return this.efParams.writeToNewTab;}-*/;
   //public native void setWriteToNewTab(boolean writeToNewTab) /*-{this.efParams.writeToNewTab = writeToNewTab;}-*/;
-    
+  
+  /** compileToJavaScript */
+  //public native boolean isCompileToJavaScript() /*-{return this.efParams.compileToJavaScript;}-*/;
+  //public native void setCompileToJavaScript(boolean compileToJavaScript) /*-{this.efParams.compileToJavaScript = compileToJavaScript;}-*/;
+  
+  /** executeJavaScript */
+  //public native boolean isExecuteJavaScript() /*-{return this.efParams.executeJavaScript;}-*/;
+  //public native void setExecuteJavaScript(boolean executeJavaScript) /*-{this.efParams.executeJavaScript = executeJavaScript;}-*/;
+  
   public String getOutFileName() {
     return outFileName;
   }
@@ -347,7 +412,13 @@ public class Xholon2CoffeeScript extends AbstractXholon2ExternalFormat implement
 
   @Override
   public void writeStartDocument() {
-    sb.append("# ").append(modelName).append("\n\n");
+    sb
+    .append("# ")
+    .append(modelName)
+    .append("\n")
+    .append("# To compile this CoffeeScript into JavaScript, visit http://coffeescript.org\n")
+    .append("\n")
+    ;
   }
 
   @Override
@@ -376,11 +447,16 @@ public class Xholon2CoffeeScript extends AbstractXholon2ExternalFormat implement
   @Override
   // This is for use by Xholon.toXmlAttributes() only
   public void writeAttribute(String name, String value) {
-    if ("Val".equalsIgnoreCase(name) && !isShouldWriteVal()) {return;}
+    String nodeName = currentNode.getName(getNameTemplate());
+    if ("Val".equalsIgnoreCase(name)) {
+      if (isShouldWriteVal()) {
+        sbAttrs.append(nodeName).append(".val(").append(value).append(")\n");
+      }
+      return;
+    }
     if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
     if ("roleName".equalsIgnoreCase(name)) {return;} // roleName is already written out
     if ("implName".equalsIgnoreCase(name)) {return;}
-    String nodeName = currentNode.getName(getNameTemplate());
     switch(Misc.getJavaDataType(value)) {
     case IJavaTypes.JAVACLASS_String:
       sbAttrs.append(nodeName).append(".").append(name).append(" = \"").append(value).append("\"\n");
@@ -445,5 +521,48 @@ public class Xholon2CoffeeScript extends AbstractXholon2ExternalFormat implement
   public native void setShouldWriteAllPorts(boolean shouldWriteAllPorts) /*-{
     this.efParams.shouldWriteAllPorts = shouldWriteAllPorts;
   }-*/;
+  
+  //public native void compileToJavaScript(String source) /*-{
+  //  $wnd.xh.compiledJS = $wnd.CoffeeScript.compile(source, {bare: on});
+  //}-*/;
+  
+  /**
+   * Load the CoffeeScript compiler, and run the compile.
+   */
+  /*protected void loadAndRunCoffeeScriptCompiler(String csSource) {
+    if (isDefinedCoffeeScript()) {
+      compileToJavaScript(csSource);
+    }
+    else {
+      require(this, csSource);
+    }
+  }*/
+  
+  /**
+   * use requirejs
+   */
+  //protected native void require(final IXholon2ExternalFormat xh2Cs, String csSource) /*-{
+  //  $wnd.requirejs.config({
+  //    enforceDefine: false,
+  //    paths: {
+  //      coffee: [
+  //        "xholon/lib/coffee-script"
+  //      ]
+  //    }
+  //  });
+  //  $wnd.require(["coffee"], function(coffee) {
+  //    xh2Cs.@org.primordion.ef.program.Xholon2CoffeeScript::compileToJavaScript(Ljava/lang/String;)(csSource);
+  //  });
+  //}-*/;
+  
+  /**
+   * Is $wnd.CoffeeScript defined.
+   * @return it is defined (true), it's not defined (false)
+   */
+  //protected native boolean isDefinedCoffeeScript() /*-{
+  //  return (typeof $wnd.CoffeeScript != "undefined");
+  //}-*/;
+  
+  //public void executeJavaScript() {}
 
 }
