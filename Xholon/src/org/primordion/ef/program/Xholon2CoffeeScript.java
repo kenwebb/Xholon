@@ -18,11 +18,16 @@
 
 package org.primordion.ef.program;
 
+import com.google.gwt.http.client.URL;
+import com.google.gwt.user.client.Window;
+
 import java.util.Date;
 import java.util.List;
 
+import org.client.GwtEnvironment;
 import org.primordion.xholon.base.IMechanism;
 import org.primordion.xholon.base.IXholon;
+import org.primordion.xholon.base.IXholonClass;
 import org.primordion.xholon.base.PortInformation;
 import org.primordion.xholon.base.Xholon;
 import org.primordion.xholon.io.xml.IXholon2Xml;
@@ -100,8 +105,14 @@ public class Xholon2CoffeeScript extends AbstractXholon2ExternalFormat implement
     }
     sb.append(sbTest.toString());
     setWriteToTab(isWriteToNewTab());
+    if (isWrapInHtml()) {
+      wrapInHtml();
+    }
     String cs = sb.toString();
     writeToTarget(cs, outFileName, outPath, root);
+    if (isOpenInNewBrowserWindow()) {
+      openInNewBrowserWindow(cs);
+    }
     /*if (isCompileToJavaScript()) {
       loadAndRunCoffeeScriptCompiler(cs);
       // TODO write the JS to a tab
@@ -118,11 +129,13 @@ public class Xholon2CoffeeScript extends AbstractXholon2ExternalFormat implement
   protected void writeNode(IXholon node) {
     if (node == null) {return;}
     String nodeName = node.getName(getNameTemplate());
+    String xhcNodeName = node.getXhcName();
+    if (xhcNodeName.endsWith("behavior")) {return;}
     IXholon pnode = node.getParentNode();
     sb
     .append(nodeName)
     .append(" = new ")
-    .append(node.getXhcName())
+    .append(xhcNodeName)
     .append(" ")
     .append(node.getId())
     .append("\n");
@@ -133,7 +146,14 @@ public class Xholon2CoffeeScript extends AbstractXholon2ExternalFormat implement
       .append("console.log ").append(nodeName).append(".first\n")
       .append("console.log ").append(nodeName).append(".anno\n")
       .append("console.log ").append(nodeName).append(".first.parent\n")
-      .append("console.log ").append(nodeName).append(".first.next\n");
+      .append("console.log ").append(nodeName).append(".first.next\n")
+      .append("console.log ").append(nodeName).append(".act()\n");
+/* example of using act()
+class Hello extends XholonClass
+  act: () ->
+    console.log "Hello "
+    super
+*/
     }
     else if (node == pnode.getFirstChild()) {
       sb
@@ -206,10 +226,11 @@ public class Xholon2CoffeeScript extends AbstractXholon2ExternalFormat implement
    */
   protected void writeIhNode(IXholon xhcNode) {
     if (xhcNode == null) {return;}
-    if ("XholonClass".equals(xhcNode.getName())) {
+    String xhcNodeName = xhcNode.getName();
+    if ("XholonClass".equals(xhcNodeName)) {
       sb
       .append("class ")
-      .append(xhcNode.getName())
+      .append(xhcNodeName)
       .append("\n")
       .append("  constructor: (@id) ->\n")
       .append("  role: (@role) ->\n")
@@ -231,15 +252,24 @@ public class Xholon2CoffeeScript extends AbstractXholon2ExternalFormat implement
       }
       sb
       .append("  anno: (@anno) ->\n")
+      .append("  act: () ->\n    @first.act?()\n    @next.act?()\n")
       .append("\n");
     }
+    else if (xhcNodeName.endsWith("behavior")) {}
+    else if ("Chameleon".equals(xhcNodeName)) {}
+    else if ("Quantity".equals(xhcNodeName)) {}
     else if (isShouldShowMechanismIhNodes() || (xhcNode.getId() < IMechanism.MECHANISM_ID_START)) {
       sb
       .append("class ")
-      .append(xhcNode.getName())
+      .append(xhcNodeName)
       .append(" extends ")
       .append(xhcNode.getParentNode().getName())
-      .append("\n\n");
+      .append("\n");
+      String classContent = ((IXholonClass)xhcNode).getDefaultContent();
+      if (classContent != null) {
+        sb.append("  ").append(classContent.trim()).append("\n");
+      }
+      sb.append("\n");
     }
     else {} // this is a mechanism node that should not be shown, but should still be navigated
     
@@ -314,6 +344,43 @@ public class Xholon2CoffeeScript extends AbstractXholon2ExternalFormat implement
   }
   
   /**
+   * Wrap the CoffeeScript inside a simple HTML page.
+   */
+  protected void wrapInHtml() {
+    StringBuilder sbWrap = new StringBuilder();
+    sbWrap
+    .append("<!doctype html>\n")
+    .append("<html>\n")
+    .append("<head>\n")
+    .append("<title>CoffeeScript ").append(modelName).append("</title>\n")
+    .append("<script src=\"")
+    .append(GwtEnvironment.gwtHostPageBaseURL)
+    .append("xholon/lib/coffee-script.js\"></script>\n")
+    .append("</head>\n")
+    .append("<body>\n")
+    .append("<h3>CoffeeScript ").append(modelName).append("</h3>\n")
+    .append("<script type=\"text/coffeescript\">\n")
+    .append(sb.toString())
+    .append("</script>\n")
+    .append("</body>\n")
+    .append("</html>\n");
+    sb = sbWrap;
+  }
+  
+  /**
+   * Open the HTML-wrapped CoffeeScript in a new browser window.
+   * @param htmlStr The HTML-wrapped CoffeeScript.
+   *   This string includes indentation (pairs of space characters "  "),
+   *   which must be retained in order for the CoffeeScript parser to work.
+   */
+  protected void openInNewBrowserWindow(String htmlStr) {
+    String url = "data:text/html;charset=UTF-8,"
+      + URL.encode(htmlStr).replaceAll("  ", "%20%20").replaceAll("#", "%23");
+    root.consoleLog(url);
+    Window.open(url, "_blank", ""); // this is internally-generated HTML
+  }
+  
+  /**
    * Make a JavaScript object with all the parameters for this external format.
    */
   protected native void makeEfParams() /*-{
@@ -322,9 +389,11 @@ public class Xholon2CoffeeScript extends AbstractXholon2ExternalFormat implement
     p.shouldShowLinks = true;
     p.shouldShowAttributes = true;
     p.shouldShowMechanismIhNodes = false;
-    p.shouldWriteVal = true;
-    p.shouldWriteAllPorts = true;
+    p.shouldWriteVal = false;
+    p.shouldWriteAllPorts = false;
     p.writeToNewTab = true;
+    p.wrapInHtml = false;
+    p.openInNewBrowserWindow = false;
     //p.compileToJavaScript = false;
     //p.executeJavaScript = false;
     this.efParams = p;
@@ -363,6 +432,12 @@ public class Xholon2CoffeeScript extends AbstractXholon2ExternalFormat implement
   public native boolean isWriteToNewTab() /*-{return this.efParams.writeToNewTab;}-*/;
   //public native void setWriteToNewTab(boolean writeToNewTab) /*-{this.efParams.writeToNewTab = writeToNewTab;}-*/;
   
+  public native boolean isWrapInHtml() /*-{return this.efParams.wrapInHtml;}-*/;
+  //public native void setWrapInHtml(boolean wrapInHtml) /*-{this.efParams.wrapInHtml = wrapInHtml;}-*/;
+
+  public native boolean isOpenInNewBrowserWindow() /*-{return this.efParams.openInNewBrowserWindow;}-*/;
+  //public native void setOpenInNewBrowserWindow(boolean openInNewBrowserWindow) /*-{this.efParams.openInNewBrowserWindow = openInNewBrowserWindow;}-*/;
+
   /** compileToJavaScript */
   //public native boolean isCompileToJavaScript() /*-{return this.efParams.compileToJavaScript;}-*/;
   //public native void setCompileToJavaScript(boolean compileToJavaScript) /*-{this.efParams.compileToJavaScript = compileToJavaScript;}-*/;
@@ -522,6 +597,8 @@ public class Xholon2CoffeeScript extends AbstractXholon2ExternalFormat implement
     this.efParams.shouldWriteAllPorts = shouldWriteAllPorts;
   }-*/;
   
+  // $wnd.CoffeeScript doesn't exist, although the .js file is obtained
+  // possibly use https://github.com/requirejs/require-cs
   //public native void compileToJavaScript(String source) /*-{
   //  $wnd.xh.compiledJS = $wnd.CoffeeScript.compile(source, {bare: on});
   //}-*/;
