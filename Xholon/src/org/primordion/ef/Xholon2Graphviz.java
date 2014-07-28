@@ -86,6 +86,9 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
    * so a simple sequential search through an array of filters may be adequate.
    * TODO handle node IDs
    *  - possibly use int[] for everything rather than String[]; convert names to IDs
+   * Every filter string begins with two + or - characters
+   *   The first + or - specifies filterProcessing
+   *   The second + or - specifies filterTraversal
    * Example filter strings:
    *   --Behavior,Script,StateMachineEntity
    *   --14,23,55
@@ -93,6 +96,7 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
    *   ++17,33-35,62
    *   -+Row,HabitatCell   just do the agents that live in the grid
    *   +-Bank              process all Bank nodes, but not the BankAccounts inside the banks
+   *     TODO I don't think that +- is possible
    */
   protected String[] filter = null;
   
@@ -112,6 +116,14 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
    *   ignore this node's entire subtree
    */
   protected boolean filterTraversal = false;
+  
+  /**
+   * Whether or not the current node should be processed (written out).
+   * This value is set to false if traversal finds that the node is in the filter.
+   * It's value must be set back to true before processing the next node.
+   * The value is read by code in writeNode() before any content is written out to the StringBuilder.
+   */
+  protected boolean doProcessing = true;
   
   /**
    * Constructor
@@ -348,7 +360,7 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
         }
         
       } // end (node == root)
-      else if (isCluster(node)) {
+      else if (isCluster(node) && doProcessing) {
         sb.append(tab + "subgraph ");
         nodeId = getGvCluster() + nodeId;
         sb.append(nodeId);
@@ -365,7 +377,7 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
           sb.append(tab).append(" ").append(nodeId).append(" [shape=point,style=invis];\n");
         }
       }
-      else {
+      else if (doProcessing) {
         // this is not a cluster (ex: Petri net Transition node)
         this.writeNonClusterNode(node, level, nodeId, nodeLabel, tab);
       }
@@ -378,7 +390,7 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
         sb.append(tab + "}\n");
       }
     }
-    else { // this node is not a cluster or root
+    else if (doProcessing) { // this node is not a cluster or root
       this.writeNonClusterNode(node, level, nodeId, nodeLabel, tab);
     }
   }
