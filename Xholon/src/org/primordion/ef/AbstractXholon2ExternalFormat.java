@@ -53,6 +53,14 @@ public abstract class AbstractXholon2ExternalFormat extends Xholon {
 	 */
 	protected void makeEfParams() {}
 	
+	public boolean isWriteToTab() {
+	  return writeToTab;
+	}
+	
+	public void setWriteToTab(boolean writeToTab) {
+	  this.writeToTab = writeToTab;
+	}
+	
 	/**
 	 * Get the parameters for this external format, as a JSON string.
 	 * @return a JSON string, or null.
