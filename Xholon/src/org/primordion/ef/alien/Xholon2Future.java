@@ -98,6 +98,27 @@ HelloWorldSystem IH and CSH
        A partial inheritance hierarchy for this model is:
 (0000000[XholonClass](00f4ad8[Attribute](00f4ad9[Attribute_attribute]00f4ada[Attribute_boolean]00f4adb[Attribute_byte]00f4adc[Attribute_char]00f4add[Attribute_double]00f4ade[Attribute_float]00f4adf[Attribute_int]00f4ae0[Attribute_long]00f4ae1[Attribute_Object]00f4ae2[Attribute_short]00f4ae3[Attribute_String])0000001[FibonacciSystem]0000002[Function](0000003[FibonacciFunction])0000004[Variable](0000005[IndependentVariable](0000006[NMinus2]0000007[NMinus1])0000008[DependentVariable](0000009[N]))))
  * 
+ * Simple Tokenizer:
+var str = "((0000000[XholonClass](0000001[HelloWorldSystem]0000002[Hello]0000003[World]))(1000000>0000001([State=0]>00f4adf)(1000002>0000002>1000003([State=0]>00f4adf)1000003>0000003>1000002([State=0]>00f4adf))))";
+console.log(str.split(/([>()[\]])/g).filter(function(el){ return el.trim(); }));
+  ["(", "(", "0000000", "[", "XholonClass", "]", "(", "0000001", "[", "HelloWorldSystem", "]",
+   "0000002", "[", "Hello", "]", "0000003", "[", "World", "]", ")", ")", "(", "1000000", ">", "0000001",
+   "(", "[", "State=0", "]", ">", "00f4adf", ")", "(", "1000002", ">", "0000002", ">", "1000003",
+   "(", "[", "State=0", "]", ">", "00f4adf", ")", "1000003", ">", "0000003", ">", "1000002",
+   "(", "[", "State=0", "]", ">", "00f4adf", ")", ")", ")", ")"]
+
+// this has two IDs concatenated together; there should be two tokens
+// if a token begins with a digit (such as 0 or 1), then its length must be 7 (or whatever)
+var str = "((0000000[XholonClass](0000001[PingPongSystem]0000002[PingPongEntity]))(1000000>0000001(1000001>0000002>10000021000002>0000002>1000001)))";
+console.log(str.split(/([>()[\]])/g).filter(function(el){ return el.trim(); }));
+  ["(", "(", "0000000", "[", "XholonClass", "]", "(", "0000001", "[", "PingPongSystem", "]",
+   "0000002", "[", "PingPongEntity", "]", ")", ")", "(", "1000000", ">", "0000001",
+   "(", "1000001", ">", "0000002", ">", "10000021000002", ">", "0000002", ">", "1000001", ")", ")", ")"]
+
+// these work for fixed-length substrings
+"123456712345671234567".match(/[0-1].{1,6}/g);
+"123456792345671234567".match(/[0-1].{1,6}/g);
+ * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.9.1 (Created on July 17, 2014)
@@ -173,6 +194,7 @@ public class Xholon2Future extends AbstractXholon2ExternalFormat implements IXho
     sb.append(getBracketOpen());
     writeNode(root);
     sb.append(getBracketClosed()).append(getBracketClosed());
+    setWriteToTab(isWriteToNewTab());
     writeToTarget(sb.toString(), outFileName, outPath, root);
   }
   
@@ -314,6 +336,7 @@ public class Xholon2Future extends AbstractXholon2ExternalFormat implements IXho
     p.shouldShowMechanismIhNodes = false;
     p.shouldWriteVal = true;
     p.shouldWriteAllPorts = true;
+    p.writeToNewTab = true;
     this.efParams = p;
   }-*/;
 
@@ -379,6 +402,14 @@ public class Xholon2Future extends AbstractXholon2ExternalFormat implements IXho
   public native boolean isShouldShowMechanismIhNodes() /*-{return this.efParams.shouldShowMechanismIhNodes;}-*/;
   //public native void setShouldShowMechanismIhNodes(boolean shouldShowMechanismIhNodes) /*-{this.efParams.shouldShowMechanismIhNodes = shouldShowMechanismIhNodes;}-*/;
   
+  /**
+   * Whether or not to write to a new tab each time step.
+   * true create and write to a new tab
+   * false write to the existing out tab
+   */
+  public native boolean isWriteToNewTab() /*-{return this.efParams.writeToNewTab;}-*/;
+  //public native void setWriteToNewTab(boolean writeToNewTab) /*-{this.efParams.writeToNewTab = writeToNewTab;}-*/;
+    
   public String getOutFileName() {
     return outFileName;
   }
@@ -450,6 +481,7 @@ public class Xholon2Future extends AbstractXholon2ExternalFormat implements IXho
     if ("Val".equalsIgnoreCase(name) && !isShouldWriteVal()) {return;}
     if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
     if ("roleName".equalsIgnoreCase(name)) {return;} // roleName is already written out
+    if ("implName".equalsIgnoreCase(name)) {return;}
     sbAttrs
     .append(getTextBracketOpen())
     .append(name)
