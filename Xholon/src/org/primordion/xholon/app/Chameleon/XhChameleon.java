@@ -93,7 +93,8 @@ public class XhChameleon extends XholonWithPorts implements CeChameleon {
 	public List getAllPorts() {
 		List<PortInformation> xhcPortList = this.getXhc().getPortInformation();
 		if ((xhcPortList == null) || (xhcPortList.size() == 0)) {
-		  return xhcPortList;
+		  //return xhcPortList;
+		  return super.getAllPorts(); // calls Xholon.getAllPorts()
 		}
 		List<PortInformation> realPortList = new ArrayList<PortInformation>();
 		// eval the XPath expressions to determine the reffed nodes
@@ -255,8 +256,24 @@ public class XhChameleon extends XholonWithPorts implements CeChameleon {
 		return false;
 	}
 	
+	@Override
 	public String toString() {
-		String outStr = getName();
+	  String outStr = null;
+	  
+	  // another node such as a script/behavior may wish to provide the toString() content
+	  IXholon forwardee = null;
+	  if (forwardees != null) {
+	    forwardee = forwardees.get(null);
+	    if (forwardee != null) {
+        outStr = forwardee.toString();
+        if ((outStr != null) && (outStr.length() > 1) && (outStr.charAt(0) == '\r')) {
+          return outStr.substring(1);
+        }
+      }
+    }
+    
+	  // this node will provide the toString() content itself
+		outStr = getName();
 		if ((port != null) && (port.length > 0)) {
 			outStr += " [";
 			for (int i = 0; i < port.length; i++) {
