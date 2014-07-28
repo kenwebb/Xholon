@@ -51,7 +51,7 @@ public class Xholon2Xml extends AbstractXholon2ExternalFormat implements IXholon
 	private Date timeNow;
 	private long timeStamp;
 	
-	private boolean shouldPrettyPrint = true;
+	//private boolean shouldPrettyPrint = true;
 	
 	/**
 	 * Constructor
@@ -106,10 +106,29 @@ public class Xholon2Xml extends AbstractXholon2ExternalFormat implements IXholon
 				+ "model: " + modelName + "\n"
 				+ "www.primordion.com/Xholon\n-->\n");
 			IXholon2Xml xholon2Xml = root.getXholon2Xml();
-			xholon2Xml.setXhAttrStyle(IXholon2Xml.XHATTR_TO_XMLELEMENT);
-			xholon2Xml.setWriteStartDocument(false);
+			xholon2Xml.setXhAttrStyle(this.getXhAttrStyle()); //(IXholon2Xml.XHATTR_TO_XMLELEMENT);
+			xholon2Xml.setNameTemplate(this.getNameTemplate());
+			xholon2Xml.setXhAttrReturnAll(this.getXhAttrReturnAll());
+			xholon2Xml.setWriteStartDocument(this.isWriteStartDocument()); //(false);
+			xholon2Xml.setWriteXholonId(this.isWriteXholonId());
+			xholon2Xml.setWriteXholonRoleName(this.isWriteXholonRoleName());
+			xholon2Xml.setWritePorts(this.isWritePorts());
+			xholon2Xml.setWriteAnnotations(this.isWriteAnnotations());
+			xholon2Xml.setWriteAttributes(this.isWriteAttributes());
+			xholon2Xml.setWriteStandardAttributes(this.isWriteStandardAttributes());
+			root.consoleLog("ef.Xholon2Xml MAYBE about to set Val and AllPorts");
+			root.consoleLog(xholon2Xml.getClass().getName());
+			if (xholon2Xml instanceof org.primordion.xholon.io.xml.Xholon2Xml) {
+			  root.consoleLog("ef.Xholon2Xml about to set Val and AllPorts");
+			  root.consoleLog(this.isShouldWriteVal());
+			  root.consoleLog(this.isShouldWriteAllPorts());
+			  ((org.primordion.xholon.io.xml.Xholon2Xml)xholon2Xml)
+			    .setShouldWriteVal(this.isShouldWriteVal());
+			  ((org.primordion.xholon.io.xml.Xholon2Xml)xholon2Xml)
+			    .setShouldWriteAllPorts(this.isShouldWriteAllPorts());
+			}
 			String xmlString = xholon2Xml.xholon2XmlString(root);
-			if (shouldPrettyPrint) {
+			if (isShouldPrettyPrint()) {
 				XmlPrettyPrinter p = new XmlPrettyPrinter();
 				p.setOmitXmlDeclaration("yes");
 				xmlString = p.format(xmlString);
@@ -125,13 +144,49 @@ public class Xholon2Xml extends AbstractXholon2ExternalFormat implements IXholon
 		//	MiscIo.closeOutputFile(out);
 		//}
 	}
-
-	public boolean isShouldPrettyPrint() {
-		return shouldPrettyPrint;
-	}
-
-	public void setShouldPrettyPrint(boolean shouldPrettyPrint) {
-		this.shouldPrettyPrint = shouldPrettyPrint;
-	}
 	
+	/**
+   * Make a JavaScript object with all the parameters for this external format.
+   */
+  protected native void makeEfParams() /*-{
+    var p = {};
+    //p.shouldShowStateMachineEntities = false;
+    p.xhAttrStyle = 1;
+    p.nameTemplate = "^^C^^^";
+    p.xhAttrReturnAll = true;
+    p.writeStartDocument = false;
+    p.writeXholonId = false;
+	  p.writeXholonRoleName = true;
+	  p.writePorts = false;
+    p.writeAnnotations = true;
+    p.shouldPrettyPrint = true;
+    p.writeAttributes = true;
+    p.writeStandardAttributes = true;
+    p.shouldWriteVal = true;
+    p.shouldWriteAllPorts = true;
+    this.efParams = p;
+  }-*/;
+
+	public native boolean isShouldPrettyPrint() /*-{return this.efParams.shouldPrettyPrint;}-*/;
+	//public native void setShouldPrettyPrint(boolean shouldPrettyPrint) /*-{this.efParams.shouldPrettyPrint = shouldPrettyPrint;}-*/;
+	
+	/**
+	 * 0 XHATTR_TO_NULL
+	 * 1 XHATTR_TO_XMLATTR
+	 * 2 XHATTR_TO_XMLELEMENT
+	 */
+	public native int getXhAttrStyle() /*-{return this.efParams.xhAttrStyle;}-*/;
+	
+  public native String getNameTemplate() /*-{return this.efParams.nameTemplate;}-*/;
+  public native boolean getXhAttrReturnAll() /*-{return this.efParams.xhAttrReturnAll;}-*/;
+  public native boolean isWriteStartDocument() /*-{return this.efParams.writeStartDocument;}-*/;
+  public native boolean isWriteXholonId() /*-{return this.efParams.writeXholonId;}-*/;
+	public native boolean isWriteXholonRoleName() /*-{return this.efParams.writeXholonRoleName;}-*/;
+	public native boolean isWritePorts() /*-{return this.efParams.writePorts;}-*/;
+	public native boolean isWriteAnnotations() /*-{return this.efParams.writeAnnotations;}-*/;
+	public native boolean isWriteAttributes() /*-{return this.efParams.writeAttributes;}-*/;
+	public native boolean isWriteStandardAttributes() /*-{return this.efParams.writeStandardAttributes;}-*/;
+	public native boolean isShouldWriteVal() /*-{return this.efParams.shouldWriteVal;}-*/;
+  public native boolean isShouldWriteAllPorts() /*-{return this.efParams.shouldWriteAllPorts;}-*/;
+  
 }
