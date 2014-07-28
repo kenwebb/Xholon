@@ -380,8 +380,8 @@ public class Behavior_gwtjs extends Xholon {
 		  }
 		  else if ((behToString.length() > 1) && (behToString.charAt(0) == '\r')) {
 		    // if the first character is a Carriage Return, then replace what Behavior_gwtjs would have returned
-		    // by definition, Carriage Return moves the cursor to the first position on the same line
-		    return behToString.substring(1);
+		    // by definition, ASCII Carriage Return moves the cursor to the first position on the same line
+		    return behToString; //.substring(1);
 		  }
 		  else if (behToString.length() == 0) {}
 		  else {
