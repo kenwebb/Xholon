@@ -183,6 +183,8 @@ public class JsonStrWriter extends XmlWriter {
 		}*/
 		
 		// ex: "connector": "ancestor::PetriNet/Places/C"
+		if ("Val".equalsIgnoreCase(name) && !isShouldWriteVal()) {return;}
+	  if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
 		sb.append("\"")
 		.append(name)
 		.append("\":")

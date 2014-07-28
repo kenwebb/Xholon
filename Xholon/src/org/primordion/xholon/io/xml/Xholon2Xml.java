@@ -76,6 +76,16 @@ public class Xholon2Xml extends Xholon implements IXholon2Xml {
 	/** Should attributes be written out for each node. */
 	private boolean writeAttributes = true;
 	
+	/**
+	 * Whether or not to write an attribute with the name "Val".
+	 */
+	private boolean shouldWriteVal = true;
+	
+	/**
+	 * Whether or not to write an attribute with the name "AllPorts".
+	 */
+	private boolean shouldWriteAllPorts = true;
+	
 	/* 
 	 * @see org.primordion.xholon.io.xml.IXholon2Xml#getXhAttrStyle()
 	 */
@@ -177,6 +187,8 @@ public class Xholon2Xml extends Xholon implements IXholon2Xml {
 		//Writer out = new StringWriter();
 		StringBuilder out = new StringBuilder(); // for use with XmlStrWriter (GWT)
 		IXmlWriter xmlWriter = XmlWriterFactory.getXmlWriter(out);
+		xmlWriter.setShouldWriteVal(isShouldWriteVal());
+		xmlWriter.setShouldWriteAllPorts(isShouldWriteAllPorts());
 		if (isWriteStartDocument()) {
 			xmlWriter.writeStartDocument();
 		}
@@ -278,6 +290,34 @@ public class Xholon2Xml extends Xholon implements IXholon2Xml {
 	 */
 	public void writeSpecial(IXholon node) {
 		// do nothing
+	}
+	
+	/* 
+	 * @see org.primordion.xholon.io.xml.IXmlWriter#isShouldWriteVal()
+	 */
+	public boolean isShouldWriteVal() {
+	  return shouldWriteVal;
+	}
+	
+	/* 
+	 * @see org.primordion.xholon.io.xml.IXmlWriter#setShouldWriteVal()
+	 */
+	public void setShouldWriteVal(boolean shouldWriteVal) {
+	  this.shouldWriteVal = shouldWriteVal;
+	}
+	
+	/* 
+	 * @see org.primordion.xholon.io.xml.IXmlWriter#isShouldWriteAllPorts()
+	 */
+	public boolean isShouldWriteAllPorts() {
+	  return shouldWriteAllPorts;
+	}
+	
+	/* 
+	 * @see org.primordion.xholon.io.xml.IXmlWriter#shouldWriteAllPorts()
+	 */
+	public void setShouldWriteAllPorts(boolean shouldWriteAllPorts) {
+	  this.shouldWriteAllPorts = shouldWriteAllPorts;
 	}
 	
 }

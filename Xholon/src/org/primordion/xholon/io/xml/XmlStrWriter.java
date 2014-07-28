@@ -96,6 +96,8 @@ public class XmlStrWriter extends XmlWriter {
 
 	@Override
 	public void writeAttribute(String name, String value) {
+	  if ("Val".equalsIgnoreCase(name) && !isShouldWriteVal()) {return;}
+	  if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
 	  sb.append(" ").append(name).append("=\"").append(value).append("\"");
 	}
 
