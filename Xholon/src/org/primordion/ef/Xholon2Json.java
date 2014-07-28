@@ -61,7 +61,7 @@ public class Xholon2Json extends AbstractXholon2ExternalFormat implements IXholo
 	
 	/** Template to use when writing out node names. */
 	//protected String nameTemplate = "r:C^^^";
-	protected String nameTemplate = "^^C^^^"; // don't include role name
+	//protected String nameTemplate = "^^C^^^"; // don't include role name
 	
 	/** Whether or not labels/names should be quoted. */
 	private boolean shouldQuoteLabels = false;
@@ -77,33 +77,33 @@ public class Xholon2Json extends AbstractXholon2ExternalFormat implements IXholo
 	 * or attributes from all concrete classes in the inheritance hierarchy that extend
 	 * from Xholon or XholonWithPorts (true).
 	 */
-	private boolean xhAttrReturnAll = true;
+	//private boolean xhAttrReturnAll = true;
 	
 	/** Should the XML Declaration be written at the start of a new XML document. */
 	private boolean writeStartDocument = true;
 	
 	/** Should the Xholon ID be written out as an XML attribute for each node. */
-	private boolean writeXholonId = false;
+	//private boolean writeXholonId = false;
 	
 	/** Should the Xholon roleName be written out as an XML attribute for each node. */
-	private boolean writeXholonRoleName = true;
+	//private boolean writeXholonRoleName = true;
 	
 	/** Should ports be written out as XML attributes for each node that has ports. */
-	private boolean writePorts = false;
+	//private boolean writePorts = false;
 	
-	private boolean shouldPrettyPrint = true;
+	//private boolean shouldPrettyPrint = true;
 	
 	/** Should annotations be written when available for nodes. */
-	private boolean writeAnnotations = true;
+	//private boolean writeAnnotations = true;
 	
 	/** Annotation service. */
 	private IXholon annService = null;
 	
 	/** Should standard attributes be written out for each node. */
-	private boolean writeStandardAttributes = true;
+	//private boolean writeStandardAttributes = true;
 	
 	/** Should attributes be written out for each node. */
-	private boolean writeAttributes = true;
+	//private boolean writeAttributes = true;
 
 	/**
 	 * Constructor.
@@ -153,10 +153,9 @@ public class Xholon2Json extends AbstractXholon2ExternalFormat implements IXholo
 		
 		sb = new StringBuilder();
 		String jsonStr = null;
-		if (shouldPrettyPrint) {
+		if (isShouldPrettyPrint()) {
 			xholon2Writer(root, sb);
-			jsonStr = prettyPrint(sb.toString());
-			// do the actual pretty print; use regular expression(s) to replace {},
+			jsonStr = prettyPrint(sb.toString(), 2);
 			//try {
 			//	out.write(jsonStr);
 			//	out.flush();
@@ -197,6 +196,8 @@ public class Xholon2Json extends AbstractXholon2ExternalFormat implements IXholo
 	public Object xholon2Writer(IXholon xhNode, Object out) {
 		IXmlWriter xmlWriter = JsonWriterFactory.getXmlWriter(out);
 		if (xmlWriter != null) {
+		  xmlWriter.setShouldWriteVal(isShouldWriteVal());
+		  xmlWriter.setShouldWriteAllPorts(isShouldWriteAllPorts());
 			if (isWriteStartDocument()) {
 				xmlWriter.writeStartDocument();
 			}
@@ -267,16 +268,16 @@ public class Xholon2Json extends AbstractXholon2ExternalFormat implements IXholo
 	/*
 	 * @see org.primordion.xholon.io.xml.IXholon2Xml#isWriteAnnotations()
 	 */
-	public boolean isWriteAnnotations() {
-		return writeAnnotations;
-	}
+	public native boolean isWriteAnnotations() /*-{
+		return this.efParams.writeAnnotations;
+	}-*/;
 
 	/*
 	 * @see org.primordion.xholon.io.xml.IXholon2Xml#setWriteAnnotations(boolean)
 	 */
-	public void setWriteAnnotations(boolean writeAnnotations) {
-		this.writeAnnotations = writeAnnotations;
-	}
+	public native void setWriteAnnotations(boolean writeAnnotations) /*-{
+		this.efParams.writeAnnotations = writeAnnotations;
+	}-*/;
 	
 	/**
 	 * Pretty print.
@@ -291,7 +292,7 @@ public class Xholon2Json extends AbstractXholon2ExternalFormat implements IXholo
 	 * @param jsonStr a JSON string
 	 * @return pretty printed JSON string
 	 */
-	protected String prettyPrint(String jsonStr) {
+	/*protected String prettyPrint(String jsonStr) {
 		String str = jsonStr
 		.replaceAll("\",\"", "\\\",\\\n \\\"")
 		.replaceAll("\":\\{\"", "\\\":{\\\n \\\"")
@@ -300,8 +301,52 @@ public class Xholon2Json extends AbstractXholon2ExternalFormat implements IXholo
 		.replaceAll("\":\\[\\{\"", "\\\":[\\\n{\\\n \\\"")
 		.replaceAll("}]}", "}\\\n]\\\n}");
 		return str;
-	}
+	}*/
+	
+	/**
+	 * Pretty print.
+	 * @param jsonStr a JSON string
+	 * @param indent successive levels in the stringification will each be indented
+	 *   by this many space characters (up to 10).
+	 * @return pretty printed JSON string
+	 */
+	protected native String prettyPrint(String jsonStr, int indent) /*-{
+	  if (typeof JSON === 'undefined') {return jsonStr;}
+    return JSON.stringify(JSON.parse(jsonStr), null, indent);
+	}-*/;
 
+	/**
+   * Make a JavaScript object with all the parameters for this external format.
+   */
+  protected native void makeEfParams() /*-{
+    var p = {};
+    //p.shouldShowStateMachineEntities = false;
+    p.nameTemplate = "^^C^^^";
+    p.xhAttrReturnAll = true;
+    p.writeXholonId = false;
+	  p.writeXholonRoleName = true;
+	  p.writePorts = false;
+    p.writeAnnotations = true;
+    p.shouldPrettyPrint = true;
+    p.writeAttributes = true;
+    p.writeStandardAttributes = true;
+    p.shouldWriteVal = true;
+    p.shouldWriteAllPorts = true;
+    this.efParams = p;
+  }-*/;
+
+  /**
+   * Whether or not to write an attribute with the name "Val".
+   */
+  public native boolean isShouldWriteVal() /*-{return this.efParams.shouldWriteVal;}-*/;
+  //public native void setShouldWriteVal(boolean shouldWriteVal) /*-{this.efParams.shouldWriteVal = shouldWriteVal;}-*/;
+
+  /**
+   * Whether or not to write an attribute with the name "AllPorts".
+   */
+  public native boolean isShouldWriteAllPorts() /*-{return this.efParams.shouldWriteAllPorts;}-*/;
+  //public native void setShouldWriteAllPorts(boolean shouldWriteAllPorts) /*-{this.efParams.shouldWriteAllPorts = shouldWriteAllPorts;}-*/;
+  
 	public String getOutFileName() {
 		return outFileName;
 	}
@@ -335,13 +380,13 @@ public class Xholon2Json extends AbstractXholon2ExternalFormat implements IXholo
 		this.shouldShowStateMachineEntities = shouldShowStateMachineEntities;
 	}
 	
-	public String getNameTemplate() {
-		return nameTemplate;
-	}
+	public native String getNameTemplate() /*-{
+		return this.efParams.nameTemplate;
+	}-*/;
 
-	public void setNameTemplate(String nameTemplate) {
-		this.nameTemplate = nameTemplate;
-	}
+	public native void setNameTemplate(String nameTemplate) /*-{
+		this.efParams.nameTemplate = nameTemplate;
+	}-*/;
 
 	public String getOutPath() {
 		return outPath;
@@ -350,14 +395,6 @@ public class Xholon2Json extends AbstractXholon2ExternalFormat implements IXholo
 	public void setOutPath(String outPath) {
 		this.outPath = outPath;
 	}
-
-	/*public Writer getOut() {
-		return out;
-	}
-
-	public void setOut(Writer out) {
-		this.out = out;
-	}*/
 
 	public boolean isShouldQuoteLabels() {
 		return shouldQuoteLabels;
@@ -384,16 +421,16 @@ public class Xholon2Json extends AbstractXholon2ExternalFormat implements IXholo
 	/*
 	 * @see org.primordion.xholon.io.xml.IXholon2Xml#getXhAttrReturnAll()
 	 */
-	public boolean getXhAttrReturnAll() {
-		return xhAttrReturnAll;
-	}
+	public native boolean getXhAttrReturnAll() /*-{
+		return this.efParams.xhAttrReturnAll;
+	}-*/;
 	
 	/*
 	 * @see org.primordion.xholon.io.xml.IXholon2Xml#setXhAttrReturnAll(boolean)
 	 */
-	public void setXhAttrReturnAll(boolean xhAttrReturnAll) {
-		this.xhAttrReturnAll = xhAttrReturnAll;
-	}
+	public native void setXhAttrReturnAll(boolean xhAttrReturnAll) /*-{
+		this.efParams.xhAttrReturnAll = xhAttrReturnAll;
+	}-*/;
 	
 	/* 
 	 * @see org.primordion.xholon.io.xml.IXholon2Xml#isWriteStartDocument()
@@ -412,52 +449,52 @@ public class Xholon2Json extends AbstractXholon2ExternalFormat implements IXholo
 	/* 
 	 * @see org.primordion.xholon.io.xml.IXholon2Xml#isWriteXholonId()
 	 */
-	public boolean isWriteXholonId() {
-		return writeXholonId;
-	}
+	public native boolean isWriteXholonId() /*-{
+		return this.efParams.writeXholonId;
+	}-*/;
 	
 	/* 
 	 * @see org.primordion.xholon.io.xml.IXholon2Xml#setWriteXholonId(boolean)
 	 */
-	public void setWriteXholonId(boolean writeXholonId) {
-		this.writeXholonId = writeXholonId;
-	}
+	public native void setWriteXholonId(boolean writeXholonId) /*-{
+		this.efParams.writeXholonId = writeXholonId;
+	}-*/;
 	
 	/*
 	 * @see org.primordion.xholon.io.xml.IXholon2Xml#isWriteXholonRoleName()
 	 */
-	public boolean isWriteXholonRoleName() {
-		return writeXholonRoleName;
-	}
+	public native boolean isWriteXholonRoleName() /*-{
+		return this.efParams.writeXholonRoleName;
+	}-*/;
 
 	/*
 	 * @see org.primordion.xholon.io.xml.IXholon2Xml#setWriteXholonRoleName(boolean)
 	 */
-	public void setWriteXholonRoleName(boolean writeXholonRoleName) {
-		this.writeXholonRoleName = writeXholonRoleName;
-	}
+	public native void setWriteXholonRoleName(boolean writeXholonRoleName) /*-{
+		this.efParams.writeXholonRoleName = writeXholonRoleName;
+	}-*/;
 
 	/*
 	 * @see org.primordion.xholon.io.xml.IXholon2Xml#isWritePorts()
 	 */
-	public boolean isWritePorts() {
-		return writePorts;
-	}
+	public native boolean isWritePorts() /*-{
+		return this.efParams.writePorts;
+	}-*/;
 	
 	/*
 	 * @see org.primordion.xholon.io.xml.IXholon2Xml#setWritePorts(boolean)
 	 */
-	public void setWritePorts(boolean writePorts) {
-		this.writePorts = writePorts;
-	}
+	public native void setWritePorts(boolean writePorts) /*-{
+		this.efParams.writePorts = writePorts;
+	}-*/;
 
-	public boolean isShouldPrettyPrint() {
-		return shouldPrettyPrint;
-	}
+	public native boolean isShouldPrettyPrint() /*-{
+		return this.efParams.shouldPrettyPrint;
+	}-*/;
 
-	public void setShouldPrettyPrint(boolean shouldPrettyPrint) {
-		this.shouldPrettyPrint = shouldPrettyPrint;
-	}
+	public native void setShouldPrettyPrint(boolean shouldPrettyPrint) /*-{
+		this.efParams.shouldPrettyPrint = shouldPrettyPrint;
+	}-*/;
 	
 	/*
 	 * @see org.primordion.xholon.io.xml.IXholon2Xml#get2XmlRoot()
@@ -469,30 +506,30 @@ public class Xholon2Json extends AbstractXholon2ExternalFormat implements IXholo
 	/*
 	 * @see org.primordion.xholon.io.xml.IXholon2Xml#isWriteAttributes()
 	 */
-	public boolean isWriteAttributes() {
-		return writeAttributes;
-	}
+	public native boolean isWriteAttributes() /*-{
+		return this.efParams.writeAttributes;
+	}-*/;
 
 	/*
 	 * @see org.primordion.xholon.io.xml.IXholon2Xml#setWriteAttributes(boolean)
 	 */
-	public void setWriteAttributes(boolean writeAttributes) {
-		this.writeAttributes = writeAttributes;
-	}
+	public native void setWriteAttributes(boolean writeAttributes) /*-{
+		this.efParams.writeAttributes = writeAttributes;
+	}-*/;
 
 	/*
 	 * @see org.primordion.xholon.io.xml.IXholon2Xml#isWriteStandardAttributes()
 	 */
-	public boolean isWriteStandardAttributes() {
-		return writeStandardAttributes;
-	}
+	public native boolean isWriteStandardAttributes() /*-{
+		return this.efParams.writeStandardAttributes;
+	}-*/;
 
 	/*
 	 * @see org.primordion.xholon.io.xml.IXholon2Xml#setWriteStandardAttributes(boolean)
 	 */
-	public void setWriteStandardAttributes(boolean writeStandardAttributes) {
-		this.writeStandardAttributes = writeStandardAttributes;
-	}
+	public native void setWriteStandardAttributes(boolean writeStandardAttributes) /*-{
+		this.efParams.writeStandardAttributes = writeStandardAttributes;
+	}-*/;
 
 	/*
 	 * @see org.primordion.xholon.io.xml.IXholon2Xml#writeSpecial(org.primordion.xholon.base.IXholon)
