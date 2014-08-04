@@ -68,6 +68,11 @@ public class Decoration implements IDecoration, Serializable {
 	 */
 	private String format = null;
 	
+	/**
+	 * Optional annotation.
+	 */
+	private IAnnotation anno = null;
+	
 	/*
 	 * @see org.primordion.xholon.base.IDecoration#getColor()
 	 */
@@ -150,6 +155,35 @@ public class Decoration implements IDecoration, Serializable {
 	 */
 	public void setFormat(String format) {
 		this.format = format;
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.IDecoration#getAnno()
+	 */
+	public String getAnno() {
+		return anno.getVal_String();
+	}
+
+	/*
+	 * @see org.primordion.xholon.base.IDecoration#setAnno(java.lang.String)
+	 */
+	public void setAnno(String anno) {
+		this.anno = new Annotation(anno);
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.IDecoration#hasAnno()
+	 */
+	public boolean hasAnno() {
+	  if (anno == null) {return false;}
+		return true;
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.IDecoration#showAnno()
+	 */
+	public void showAnno() {
+		anno.showAnnotation();
 	}
 	
 	

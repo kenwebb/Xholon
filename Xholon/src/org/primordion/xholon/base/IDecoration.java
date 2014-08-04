@@ -49,5 +49,13 @@ public interface IDecoration {
 	public abstract String getFormat();
 	
 	public abstract void setFormat(String format);
+	
+	public abstract String getAnno();
+	
+	public abstract void setAnno(String anno);
+	
+	public abstract boolean hasAnno();
+	
+	public abstract void showAnno();
 
 }

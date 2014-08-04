@@ -151,7 +151,7 @@ public class XholonDirectoryService extends AbstractXholonService {
 			Iterator it = xholonMap.entrySet().iterator();
 			while (it.hasNext()) {
 				Entry entry = (Entry)it.next();
-				System.out.println(entry.getKey() + "=" + entry.getValue());
+				this.println(entry.getKey() + "=" + entry.getValue());
 			}
 		}
 	}

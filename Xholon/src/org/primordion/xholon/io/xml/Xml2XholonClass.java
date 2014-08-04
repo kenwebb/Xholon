@@ -158,8 +158,13 @@ public class Xml2XholonClass extends AbstractXml2Xholon_gwt implements IXml2Xhol
 							else if ("childSuperClass".equals(attrName)) {
 								currentXhClass.setChildSuperClass(attrValue);
 							}
+							// "xmlns" can safely be ignored for now
+							else if ("xmlns".equals(attrName)) {}
+							else if ("xmlns:attr".equals(attrName)) {}
+							else if ("xmlns:xi".equals(attrName)) {}
 							else {
-								logger.error("Xml2XholonClass found unknown attribute: " + attrName);
+								//logger.error("Xml2XholonClass found unknown attribute: " + attrName);
+								this.consoleLog("Xml2XholonClass found unknown attribute: " + attrName);
 							}
 						}
 						inherHier.createHashEntry(currentXhClass);
@@ -346,6 +351,7 @@ public class Xml2XholonClass extends AbstractXml2Xholon_gwt implements IXml2Xhol
 					else if ("Symbol".equals(tagName)) {}
 					else if ("Format".equals(tagName)) {}
 					else if ("DefaultContent".equals(tagName)) {}
+					else if ("Anno".equals(tagName)) {}
 					else { // must be a xholon class name
 						xhClassName = tagName;
 						
@@ -363,7 +369,8 @@ public class Xml2XholonClass extends AbstractXml2Xholon_gwt implements IXml2Xhol
 								warnMsg += prefix + ":";
 							}
 							warnMsg += "<" + tagName + "/>";
-							logger.warn(warnMsg);
+							//logger.warn(warnMsg);
+							this.consoleLog(warnMsg);
 						}
 						else {
 							idRead = existingXholonClass.getId();
@@ -378,8 +385,13 @@ public class Xml2XholonClass extends AbstractXml2Xholon_gwt implements IXml2Xhol
 								else if ("implName".equals(attrName)) {
 									implNameRead = attrValue;
 								}
+								// "xmlns" can safely be ignored for now
+								else if ("xmlns".equals(attrName)) {}
+								else if ("xmlns:attr".equals(attrName)) {}
+								else if ("xmlns:xi".equals(attrName)) {}
 								else {
-									logger.error("Xml2XholonClass found unknown attribute: " + attrName);
+									//logger.error("Xml2XholonClass found unknown attribute: " + attrName);
+									this.consoleLog("Xml2XholonClass found unknown attribute: " + attrName);
 								}
 							}
 						}
@@ -395,6 +407,7 @@ public class Xml2XholonClass extends AbstractXml2Xholon_gwt implements IXml2Xhol
 				else if ("Symbol".equals(tagName)) {}
 				else if ("Format".equals(tagName)) {}
 				else if ("DefaultContent".equals(tagName)) {}
+				else if ("Anno".equals(tagName)) {}
 				else if (tagName.equals(xhClassName)) { // end of a xholon class name
 					if (navInfoRead.length() > 0) {
 						// remove final NAVINFO_SEPARATOR
@@ -428,8 +441,9 @@ public class Xml2XholonClass extends AbstractXml2Xholon_gwt implements IXml2Xhol
 						}
 					}
 					else {
-						logger.error("Invalid XholonClass (" + tagName + " " + idRead + ") , attrXhc is null");
+						//logger.error("Invalid XholonClass (" + tagName + " " + idRead + ") , attrXhc is null");
 						//if (Msg.errorM) {System.out.println("invalid XholonClass");}
+						this.consoleLog("Invalid XholonClass (" + tagName + " " + idRead + ") , attrXhc is null");
 					}
 					idRead = 0;
 					xhTypeRead = IXholonClass.XhtypeNone;
@@ -461,6 +475,9 @@ public class Xml2XholonClass extends AbstractXml2Xholon_gwt implements IXml2Xhol
 					else if ("DefaultContent".equals(tagName)) {
 						existingXholonClass.setDefaultContent(textVal);
 					}
+					else if ("Anno".equals(tagName)) {
+					  existingXholonClass.setAnnotation(textVal);
+					}
 				}
 				break;
 			default:
@@ -469,7 +486,7 @@ public class Xml2XholonClass extends AbstractXml2Xholon_gwt implements IXml2Xhol
 			eventType = xmlReader.next();
 		} // end while
 		return null;
-	}
+	} // end xml2XhDetails()
 	
 	/**
 	 * Returns an instance of IXholonClass based on the current tag in the XmlReader.
@@ -498,7 +515,8 @@ public class Xml2XholonClass extends AbstractXml2Xholon_gwt implements IXml2Xhol
 		try {
 				newXholonClass = factory.getXholonClassNode();
 		} catch (XholonConfigurationException e) {
-			logger.error(e.getMessage(), e.getCause());
+			//logger.error(e.getMessage(), e.getCause());
+			this.consoleLog(e.getMessage() + " " + e.getCause());
 			return null; // TODO not sure what should be returned in this case
 		}
 		
@@ -554,7 +572,8 @@ public class Xml2XholonClass extends AbstractXml2Xholon_gwt implements IXml2Xhol
 					superClass = app.getClassNode(superClassName);
 					if (superClass == null) {
 						superClass = defaultSuperClass;
-						logger.warn("Xml2XholonClass unable to find superClass: " + superClassName);
+						//logger.warn("Xml2XholonClass unable to find superClass: " + superClassName);
+						this.consoleLog("Xml2XholonClass unable to find superClass: " + superClassName);
 					}
 					break;
 				}

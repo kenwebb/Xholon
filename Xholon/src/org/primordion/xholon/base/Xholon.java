@@ -2602,12 +2602,12 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 	 */
 	public void setAnnotation(String annotation)
 	{
-		IXholon ann = findFirstChildWithXhClass(CeAnnotation.AnnotationCE);
+	  IXholon ann = findFirstChildWithXhClass(CeAnnotation.AnnotationCE);
 		if (ann != null) {
-			ann.setVal(annotation);
+		  ann.setVal(annotation);
 		}
 		else {
-			// create a new annotation, or update an existing one
+		  // create a new annotation, or update an existing one
 			XholonDirectoryService xds = (XholonDirectoryService)getService(IXholonService.XHSRV_XHOLON_DIRECTORY);
 			if (xds == null) {return;}
 			ann = (IXholon)new Annotation(annotation);

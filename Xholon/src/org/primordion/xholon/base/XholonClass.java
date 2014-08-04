@@ -692,15 +692,6 @@ public class XholonClass extends Xholon implements IXholonClass, IDecoration {
 		this.childSuperClass = childSuperClass;
 	}
 	
-	/**
-	 * @return false Instances of XholonClass do not have annotations.
-	 * @see org.primordion.xholon.base.Xholon#hasAnnotation()
-	 */
-	public boolean hasAnnotation()
-	{
-		return false;
-	}
-	
 	/*
 	 * @see org.primordion.xholon.base.Xholon#getXml2Xholon()
 	 */
@@ -1101,6 +1092,44 @@ public class XholonClass extends Xholon implements IXholonClass, IDecoration {
 		}
 		decoration.setFormat(format);
 	}
+	
+	/*
+	 * @see org.primordion.xholon.base.IXholon#getAnnotation()
+	 */
+	public String getAnnotation() {
+	  if (decoration == null) {return null;}
+		return decoration.getAnno();
+	}
+	public String getAnno() {return this.getAnnotation();}
+	
+	/*
+	 * @see org.primordion.xholon.base.IXholon#setAnnotation(java.lang.String)
+	 */
+	public void setAnnotation(String annotation) {
+	  if (decoration == null) {
+			decoration = new Decoration();
+		}
+		decoration.setAnno(annotation);
+	}
+	public void setAnno(String annotation) {this.setAnnotation(annotation);}
+	
+	/*
+	 * @see org.primordion.xholon.base.IXholon#hasAnnotation()
+	 */
+	public boolean hasAnnotation() {
+	  if (decoration == null) {return false;}
+	  return decoration.hasAnno();
+	}
+	public boolean hasAnno() {return this.hasAnnotation();}
+	
+	/*
+	 * @see org.primordion.xholon.base.IXholon#showAnnotation()
+	 */
+	public void showAnnotation() {
+	  if (decoration == null) {return;}
+	  decoration.showAnno();
+	}
+	public void showAnno() {this.showAnnotation();}
 	
 	/*
 	 * @see org.primordion.xholon.base.IXholonClass#getDefaultContent()

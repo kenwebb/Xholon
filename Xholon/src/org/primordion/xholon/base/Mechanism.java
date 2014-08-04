@@ -264,13 +264,18 @@ public class Mechanism extends Xholon implements IMechanism, IDecoration, Compar
 	 */
 	public void configure()
 	{
-		
 		if (!isRootNode()) {
 			// set this node's XholonClass, to the same XholonClass as that of the Mechanism root node
 			setXhc(getRootNode().getXhc());
 		}
 		super.configure();
 	}
+	
+	// these 4 methods are not yet implemented in Mechanism
+	public String getAnno() {return null;}
+	public void setAnno(String anno) {}
+	public boolean hasAnno() {return false;}
+	public void showAnno() {}
 	
 	/*
 	 * @see org.primordion.xholon.base.IMechanism#createNewUserMechanism(java.lang.String, java.lang.String, java.lang.String, int, int, org.primordion.xholon.app.IApplication)
