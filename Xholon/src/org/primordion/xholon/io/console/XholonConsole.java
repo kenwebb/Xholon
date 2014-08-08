@@ -676,6 +676,7 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
     .append("* An XML string that will be pasted in as new content,\n")
     .append("  <World/>\n")
     .append("* \"attributes\" to see a list for this node,\n")
+    .append("* \"avatar\" to create a command-driven avatar,\n")
     //.append("* A URI preceeded by a colon\n")
     //.append("  :https://raw.github.com/gist/3374405/xholonWorkbook.xml\n")
     .append("* One of the following modes,\n");
@@ -1003,6 +1004,18 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
         sb.append(rowData[i][0]).append(": [").append(rowData[i][1]+ "]\n");
       }
       return sb.toString();
+    }
+    else if (commandOrTextString.equalsIgnoreCase("avatar")) {
+      // CSH <Avatar/>
+      context.appendChild("Avatar", null, "org.primordion.xholon.base.Avatar");
+      IXholon avatar = context.getLastChild();
+      if ((avatar != null) && ("Avatar".equals(avatar.getXhcName()))) {
+        avatar.postConfigure();
+        context = avatar;
+        context.sendMessage(ISignal.SIGNAL_XHOLON_CONSOLE_REQ, "vanish", this);
+        context.sendMessage(ISignal.SIGNAL_XHOLON_CONSOLE_REQ, "help", this);
+      }
+      return null;
     }
     else if (mode.length() > 1) {
       return doXholonConsoleCommandOrText(mode + commandOrTextString);
