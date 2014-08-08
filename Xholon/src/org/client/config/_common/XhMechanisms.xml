@@ -77,6 +77,7 @@ __________   ________   _____________________
 1014200      1014299    Rest
 
 1014300      1014399    Script
+1014400      1014499    Avatar
 
 The following XML is an alphabetical list of all Xholon Mechanisms and Viewers.
 -->
@@ -105,6 +106,13 @@ The following XML is an alphabetical list of all Xholon Mechanisms and Viewers.
 		<DefaultPrefix>attr</DefaultPrefix>
 		<RangeStart>1002200</RangeStart>
 		<RangeEnd>1002299</RangeEnd>
+	</XholonMechanism>
+	
+	<XholonMechanism roleName="Avatar">
+		<NamespaceUri>http://www.primordion.com/namespace/Avatar</NamespaceUri>
+		<DefaultPrefix>avtr</DefaultPrefix>
+		<RangeStart>1014400</RangeStart>
+		<RangeEnd>1014499</RangeEnd>
 	</XholonMechanism>
 	
 	<XholonMechanism roleName="Behavior">

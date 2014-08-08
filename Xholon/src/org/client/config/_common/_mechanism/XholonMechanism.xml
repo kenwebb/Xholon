@@ -54,6 +54,9 @@
 	
 </Attribute>
 
+<!-- Avatar -->
+<Avatar xmlns="http://www.primordion.com/namespace/Avatar" id="1014400"/>
+
 <!-- UML Behavior entities -->
 <Behavior xmlns="http://www.primordion.com/namespace/Behavior" id="1001200">
 	<OpaqueBehavior/>

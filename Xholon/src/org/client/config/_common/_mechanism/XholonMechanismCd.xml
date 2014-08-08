@@ -53,6 +53,9 @@
 	<attr:Attribute_short xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_short"/>
 	<attr:Attribute_String xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_String"/>
 	
+	<!-- Avatar -->
+	<Avatar xhType="XhtypePureContainer" implName="org.primordion.xholon.base.Avatar"/>
+	
 	<!-- Behavior -->
 	
 	<!-- Blueprints -->
