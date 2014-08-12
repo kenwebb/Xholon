@@ -25,6 +25,34 @@ package org.primordion.xholon.base;
  * At any given time it's located within, or references, one specific node in the app.
  * Typically it should be hidden from the other nodes in the app.
  * Typically it's invoked through a XholonConsole.
+ * You can create a new Avatar by submitting "avatar" from a XholonConsole.
+ * 
+ * It can also be invoked through Firebug, Google Developer Tools, or a similar tool
+ * by making use of the Xholon JavaScript API:
+var a = xh.root().xpath("StorySystem/Living_Room/Avatar");
+a.action("help");
+a.action("look");
+a.action("go north");
+
+// or
+a.action("look").action("take briefcase_41").action("i").action("go north").action("drop").action("go south").action("look");
+// which results in:
+You are in living_Room_36.
+ You see insurance_Salesman_39
+ You see briefcase_41
+  You see insurance_Paperwork_43
+Taken.
+You are carrying:
+ briefcase_41
+  insurance_Paperwork_43
+Going to kitchen_45
+All dropped.
+Going to living_Room_36
+You are in living_Room_36.
+ You see insurance_Salesman_39
+ * 
+ * You can create an avatar using Firebug, etc. For example:
+xh.root().xpath("StorySystem/Kitchen").append("<Avatar/>").last().action("look");
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @see <a href="http://en.wikipedia.org/wiki/Interactive_fiction">wikipedia Interactive fiction</a>
@@ -75,13 +103,9 @@ public class Avatar extends XholonWithPorts {
   
   @Override
   public void processReceivedMessage(IMessage msg) {
-    /*if (contextNode == null) {
-      contextNode = this.getParentNode();
-      xpath = this.getXPath();
-    }*/
     switch (msg.getSignal()) {
     case ISignal.SIGNAL_XHOLON_CONSOLE_REQ:
-      String responseStr = processMsg(msg);
+      String responseStr = processCommand((String)msg.getData());
       if ((responseStr != null) && (responseStr.length() > 0)) {
         msg.getSender().sendMessage(ISignal.SIGNAL_XHOLON_CONSOLE_RSP, "\n" + responseStr, this);
       }
@@ -91,13 +115,30 @@ public class Avatar extends XholonWithPorts {
     }
   }
   
+  @Override
+  public IMessage processReceivedSyncMessage(IMessage msg) {
+    switch (msg.getSignal()) {
+    case ISignal.SIGNAL_XHOLON_CONSOLE_REQ:
+      String responseStr = processCommand((String)msg.getData());
+      return new Message(ISignal.SIGNAL_XHOLON_CONSOLE_RSP, "\n" + responseStr, this, msg.getSender());
+    default:
+      return super.processReceivedSyncMessage(msg);
+    }
+  }
+  
+  @Override
+  public void doAction(String action) {
+    String responseStr = processCommand(action);
+    this.consoleLog(responseStr);
+  }
+  
   /**
-   * Do the detailed processing of a message.
-   * @param msg 
+   * Process a command.
+   * @param cmd 
    * @return 
    */
-  protected String processMsg(IMessage msg) {
-    String[] data = ((String)msg.getData()).trim().split(" ", 3);
+  protected String processCommand(String cmd) {
+    String[] data = cmd.trim().split(" ", 3);
     int len = data.length;
     sb = new StringBuilder();
     switch (data[0]) {
