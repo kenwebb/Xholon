@@ -24,7 +24,7 @@
     var found = [];
     var nodeName = token.state.context.tagName;
     var editor = $('div.XholonApplications').xholonWorkbook('getEditor');
-    var cshEditor = editor[3];
+    var cshEditor = editor[4];
     var cshContent = cshEditor.getValue();
     //alert("[" + nodeName + "]" + cshContent);
     // TODO gets wrong node if there's a container that also starts with nodeName
@@ -62,10 +62,11 @@
       } // end if
     } // end if
     
-    // default if no matches were found
-    if (found.length == 0) {
-      found.push('<port name="" connector=""/>');
-    }
+    // a few extra examples
+    found.push('<port name="" connector=""/>');
+    found.push('<port name="port" index="0" connector=""/>');
+    found.push('<port name="example" connector="ancestor::Abc/descendant::Def"/>');
+    found.push('<port name="example" connector="ancestor::Abc/Def/Ghi[2]"/>');
     return found;
   }
 })();
