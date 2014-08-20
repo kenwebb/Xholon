@@ -98,8 +98,15 @@ public abstract class XholonWithPorts extends Xholon {
 	public void setPort(int portNum, IXholon portRef)
 	{
 		if (port != null) {
-			if (port.length > portNum) {
+		  if (port.length > portNum) {
 				port[portNum] = portRef;
+			}
+			else {
+			  // resize the port array to the current value of app.MaxPorts
+		    IXholon[] oldPort = port;
+		    setPorts();
+		    System.arraycopy(oldPort, 0, port, 0, oldPort.length);
+		    port[portNum] = portRef;
 			}
 		}
 	}
