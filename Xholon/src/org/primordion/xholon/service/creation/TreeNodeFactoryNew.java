@@ -401,6 +401,16 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			}
 		}
 		
+		// mech.html5audio
+		else if (implName.startsWith("org.primordion.xholon.mech.html5audio")) {
+		  if (implName.endsWith("AudioContext")) {
+			  newNode = new org.primordion.xholon.mech.html5audio.AudioContext();
+			}
+			else if (implName.endsWith("AudioNode")) {
+				newNode = new org.primordion.xholon.mech.html5audio.AudioNode();
+			}
+		}
+		
 		// script
 		else if (implName.startsWith("org.primordion.xholon.script")) {
 			if (implName.endsWith("EfParamsGenerator")) {
