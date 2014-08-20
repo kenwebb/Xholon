@@ -47,7 +47,7 @@
         <pathelement location="/home/ken/JavaThirdParty/gwt-2.6.0/validation-api-1.0.0.GA-sources.jar" />
       </classpath>
       <!-- add jvmarg -Xss16M or similar if you see a StackOverflowError -->
-      <jvmarg value="-Xmx256M"/>
+      <jvmarg value="-Xmx384M"/>
       <arg line="-war"/>
       <arg value="war"/>
       <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
