@@ -59,8 +59,8 @@
 	<!-- Behavior -->
 	
 	<!-- Blueprints -->
-	<BlueprintsClient xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.blueprints.BlueprintsClient"/>
-  <GremlinClient xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.blueprints.GremlinClient"/>
+	<!--<BlueprintsClient xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.blueprints.BlueprintsClient"/>-->
+  <!--<GremlinClient xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.blueprints.GremlinClient"/>-->
 	
 	<!-- Bpmn_Entity -->
 	
@@ -115,7 +115,7 @@
 	<!--<Quantity xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.service.mathscieng.Quantity"/>-->
 	
 	<!-- Rest -->
-  <JerseyClient xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.rest.JerseyClient"/>
+  <!--<JerseyClient xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.rest.JerseyClient"/>-->
 	
 	<!-- Role -->
 	<Role xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Role"/>
@@ -156,9 +156,7 @@
 	<Mvc/>
 	<Model/>
 	<View/>
-	-->
 	<Controller xhType="XhtypePureActiveObject"/>
-	<!--
 	<Worker/>
 	<Tablemodel/>
 	<Comboboxmodel/>
@@ -293,10 +291,10 @@
 	<PcsPath xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.PcsPath"/>
 	
 	<!-- SwEntity -->
-	<SwClient xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.sw.JenaClient"/>
+	<!--<SwClient xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.sw.JenaClient"/>-->
 	
 	<!-- FileSystem etc. -->
-	<Directory implName="org.primordion.xholon.mech.filesystem.Directory"/>
-	<File implName="org.primordion.xholon.mech.filesystem.File"/>
+	<!--<Directory implName="org.primordion.xholon.mech.filesystem.Directory"/>
+	<File implName="org.primordion.xholon.mech.filesystem.File"/>-->
 	
 </xholonClassDetails>
