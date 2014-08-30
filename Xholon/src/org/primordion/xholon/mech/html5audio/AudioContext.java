@@ -20,6 +20,7 @@ package org.primordion.xholon.mech.html5audio;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import org.primordion.xholon.base.IXPath;
+import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.Xholon;
 
 /**
@@ -74,19 +75,56 @@ public class AudioContext extends Xholon {
     this.consoleLog("AudioContext postConfigure() starting ...");
     xPath = this.getXPath();
     this.consoleLog("AudioContext postConfigure() 1");
-    setContext(newContext());
+    
+    switch(this.getXhcName()) {
+    case "AudioContext":
+      setContext(newContext());
+      break;
+    case "OfflineAudioContext":
+      setContext(newOfflineContext());
+      break;
+    default:
+      break;
+    }
+    
     this.consoleLog("AudioContext postConfigure() 2");
     super.postConfigure();
   }
   
+  /**
+   * Create a new HTML5 AudioContext.
+   */
   protected native JavaScriptObject newContext() /*-{
     try {
       $wnd.AudioContext = $wnd.AudioContext || $wnd.webkitAudioContext;
-    }
-    catch(e) {
-      $wnd.alert('Web Audio API is not supported in this browser');
+    } catch(e) {
+      $wnd.alert('Web Audio API AudioContext is not supported in this browser');
     }
     return new $wnd.AudioContext();
+  }-*/;
+  
+  /**
+   * Create a new HTML5 OfflineAudioContext.
+   * [Constructor(unsigned long numberOfChannels, unsigned long length, float sampleRate)]
+   * the sample rate is in sample-frames per second
+   * new OfflineAudioContext(2, 5, 44100);
+   * This HTML5 interface may not be completely implemented in the various browsers yet,
+   * and/or I can't figure out how to use it correctly. The documentation is sparse.
+   * see:
+   *   http://stackoverflow.com/questions/16454429/web-audio-offlineaudiocontext-syntax-error-when-i-follow-the-api
+   * 
+   */
+  protected native JavaScriptObject newOfflineContext() /*-{
+    try {
+      $wnd.OfflineAudioContext = $wnd.OfflineAudioContext || $wnd.webkitOfflineAudioContext;
+    } catch(e) {
+      $wnd.alert('Web Audio API OfflineAudioContext is not supported in this browser');
+    }
+    $wnd.console.log(this.numberOfChannels);
+    $wnd.console.log(this.seconds);
+    $wnd.console.log(this.sampleRate);
+    // HTML5 length = seconds * sampleRate
+    return new $wnd.OfflineAudioContext(this.numberOfChannels, this.seconds * this.sampleRate, this.sampleRate);
   }-*/;
   
   //readonly attribute AudioDestinationNode destination;
@@ -190,6 +228,43 @@ public class AudioContext extends Xholon {
   }-*/;
   
   //PeriodicWave createPeriodicWave (Float32Array real, Float32Array imag);
+  
+  // actions
+	private static final String showHtml5AudioContext = "Show HTML5 AudioContext";
+	private static final String showHtml5AudioNodes = "Show all HTML5 AudioNodes";
+	private static final String showAll = "Show all";
+	
+	/** action list */
+	private String[] actions = {showHtml5AudioContext, showHtml5AudioNodes, showAll};
+	
+	@Override
+	public String[] getActionList()
+	{
+		return actions;
+	}
+	
+  @Override
+  public void doAction(String action) {
+    if (action == null) {return;}
+    if (showHtml5AudioContext.equals(action)) {showHtml5AudioContext();}
+    else if (showHtml5AudioNodes.equals(action)) {showHtml5AudioNodes();}
+    else if (showAll.equals(action)) {
+      showHtml5AudioContext();
+      showHtml5AudioNodes();
+    }
+  }
+  
+  protected native void showHtml5AudioContext() /*-{
+    $wnd.console.log(this.context);
+  }-*/;
+  
+  protected void showHtml5AudioNodes() {
+    IXholon node = this.getFirstChild();
+    while (node != null) {
+      node.doAction("Show HTML5 AudioNode");
+      node = node.getNextSibling();
+    }
+  }
   
 }
 
