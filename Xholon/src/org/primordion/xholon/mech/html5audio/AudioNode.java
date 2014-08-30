@@ -97,6 +97,7 @@ public class AudioNode extends XholonWithPorts {
     this.consoleLog("AudioNode postConfigure() starting ...");
     postConfigure(getXhcName());
     super.postConfigure();
+    initAudioNode();
   }
   
   /**
@@ -207,18 +208,24 @@ public class AudioNode extends XholonWithPorts {
    * Push Xholon attributes and ports down to the Web Audio API nodes.
    */
   protected void initAudioNode() {
+    this.consoleLog(this.getName() + " initAudioNode()");
     int i;
-    for (i = 0; i < attrs.length; i++) {
-      setAudioNodeAttr(attrs[i]);
+    if (attrs != null) {
+      for (i = 0; i < attrs.length; i++) {
+        setAudioNodeAttr(attrs[i]);
+      }
     }
-    for (i = 0; i < port.length; i++) {
-			if (port[i] != null) {
-				connectToAudioNode((JavaScriptObject)port[i].getVal_Object());
-			}
+    if (port != null) {
+      for (i = 0; i < port.length; i++) {
+			  if (port[i] != null) {
+				  connectToAudioNode((JavaScriptObject)port[i].getVal_Object());
+			  }
+		  }
 		}
   }
   
   protected void setAudioNodeAttr(String attr) {
+    this.consoleLog("AudioNode setAudioNodeAttr( " + attr + " )");
     if (attr.indexOf("(") == -1) {
       // this is a Web Audi API attribute (ex: "frequency.value:440" or "type:square" )
       String token[] = attr.split(":");
@@ -230,13 +237,27 @@ public class AudioNode extends XholonWithPorts {
     }
   }
   
+  /**
+   * $p["type"] = "square";
+   * var attrName = "type"; var attrVal = "sine"; $p[attrName] = attrVal;
+   */
   protected native void setAudioNodeAttr(String attrName, String attrVal) /*-{
+    $wnd.console.log("AudioNode setAudioNodeAttr( " + attrName + ", " + attrVal + " )");
     var attrNameArr = attrName.split(".");
     if (attrNameArr.length == 1) {
-      this.audioNode[attrName] = attrVal;
+      $wnd.console.log("AudioNode2 setAudioNodeAttr( " + attrName + ", " + attrVal + " )");
+      try {
+        this.audioNode[attrName] = attrVal;
+      } catch(e) {
+        $wnd.console.warn(attrVal + " is an invalid value for " + attrName);
+      }
     }
     else if (attrNameArr.length == 2) {
-      this.audioNode[attrNameArr[0]][attrNameArr[1]] = attrVal;
+      try {
+        this.audioNode[attrNameArr[0]][attrNameArr[1]] = attrVal;
+      } catch(e) {
+        $wnd.console.warn(attrVal + " is an invalid value for " + attrNameArr[0] + "." + attrNameArr[1]);
+      }
     }
   }-*/;
   
@@ -257,8 +278,33 @@ public class AudioNode extends XholonWithPorts {
     else if ("attrs".equals(attrName) && (attrVal.length() > 0)) {
       this.attrs = attrVal.split(",", MAX_ATTRS);
     }
+    else {
+      return super.setAttributeVal(attrName, attrVal);
+    }
     return 0;
   }
+  
+  // actions
+	private static final String showHtml5AudioNode = "Show HTML5 AudioNode";
+	
+	/** action list */
+	private String[] actions = {showHtml5AudioNode};
+	
+	@Override
+	public String[] getActionList()
+	{
+		return actions;
+	}
+	
+  @Override
+  public void doAction(String action) {
+    if (action == null) {return;}
+    if (showHtml5AudioNode.equals(action)) {showHtml5AudioNode();}
+  }
+  
+  protected native void showHtml5AudioNode() /*-{
+    $wnd.console.log(this.audioNode);
+  }-*/;
   
   @Override
 	public String toString() {
