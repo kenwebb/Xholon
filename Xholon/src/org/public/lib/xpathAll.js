@@ -67,9 +67,9 @@ function cException(sCode
 	this.code		= sCode;
 	this.message	=
 //->Debug
-					  sMessage ||
+						sMessage ||
 //<-Debug
-					  oException_messages[sCode];
+						oException_messages[sCode];
 };
 
 cException.prototype	= new cError;
@@ -171,27 +171,38 @@ function cDOMAdapter() {
 
 };
 
+// Static members
+//function fExpr_parse (oLexer, oStaticContext) {
+// KSW function
+function fDOMAdapter_newAttr(attrs, oNode, attrName, attrValue) {
+	if (attrValue) {
+		var attr = {};
+		attr.name = attrName;
+		attr.ownerElement = oNode;
+		attr.specified = true;
+		attr.value = attrValue;
+		attrs.push(attr);
+	}
+}
+
 // Custom members
 cDOMAdapter.prototype.isNode = function(oNode) {
 	// KSW Xholon
 	//return oNode &&!!oNode.nodeType;
-	//console.log(typeof xh.root().xhc === 'undefined'); // false
-  //console.log(typeof [1,2].xhc === 'undefined'); // true
-	console.log("isNode " + oNode);
-	console.log(oNode);
+	//console.log("isNode " + oNode);
+	//console.log(oNode);
 	if (oNode) {
-	  if (!!oNode.xhc) {return true;}
-	  // a Xholon Attr-like object is also a node
-	  if (typeof oNode.ownerElement !== 'undefined') {return true;}
+		if (!!oNode.xhc) {return true;}
+		// a Xholon Attr-like object is also a node
+		if (typeof oNode.ownerElement !== 'undefined') {return true;}
 	}
-	//return oNode &&!!oNode.xhc; // all Xholon nodes have an xhc method
 	return false;
 };
 
 cDOMAdapter.prototype.getProperty	= function(oNode, sName) {
 	// KSW Xholon
 	//return oNode[sName];
-	console.log("getProperty " + sName + " " + oNode);
+	//console.log("getProperty " + sName + " " + oNode);
 	switch (sName) {
 	case "firstChild": return oNode.first();
 	case "nextSibling": return oNode.next();
@@ -199,92 +210,81 @@ cDOMAdapter.prototype.getProperty	= function(oNode, sName) {
 	case "lastChild": return oNode.last();
 	case "previousSibling": return oNode.prev();
 	case "attributes":
-	  var attrs = [];
-	  var id = oNode.id();
-	  if (id) {
-	    var idAttr = {};
-	    idAttr.name = "id";
-	    idAttr.ownerElement = oNode;
-	    idAttr.specified = true;
-	    idAttr.value = id;
-	    attrs.push(idAttr);
-	  }
-	  var rn = oNode.role();
-	  if (rn) {
-	    var rnAttr = {};
-	    rnAttr.name = "roleName";
-	    rnAttr.ownerElement = oNode;
-	    rnAttr.specified = true;
-	    rnAttr.value = rn;
-	    attrs.push(rnAttr);
-	  }
-	  console.log(attrs);
-	  return attrs;
+		var attrs = [];
+		fDOMAdapter_newAttr(attrs, oNode, "id", oNode.id());
+		fDOMAdapter_newAttr(attrs, oNode, "roleName", oNode.role());
+		fDOMAdapter_newAttr(attrs, oNode, "val", oNode.val());
+		fDOMAdapter_newAttr(attrs, oNode, "text", oNode.text());
+		fDOMAdapter_newAttr(attrs, oNode, "name", oNode.name());
+		//fDOMAdapter_newAttr(attrs, oNode, "port", oNode.ports());
+		fDOMAdapter_newAttr(attrs, oNode, "xhc", oNode.xhc());
+		//console.log(attrs);
+		return attrs;
 	case "nodeType":
-	  // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof
-	  console.log("  " + oNode + " " + typeof oNode);
-	  if (typeof oNode === 'object') {
-	    if (Array.isArray(oNode)) {return 2;}
-	    // TODO check if it's a Date
-	    if (typeof oNode.ownerElement !== 'undefined') {return 2;} // this is a Xholon Attr-like node
-	    return 1; // assume all other object nodes are Node.ELEMENT_NODE
-	  }
-	  if (typeof oNode === 'number') {return 2;} // Node.ATTRIBUTE_NODE = 2
-	  if (typeof oNode === 'string') {return 2;}
-	  if (typeof oNode === 'boolean') {return 2;}
-	  if (typeof oNode === 'symbol') {return 2;}
-	  if (typeof oNode === 'function') {return 2;} // ???
-	  if (typeof oNode === 'undefined') {return 3;} // Node.COMMENT_NODE = 3  ???
-	  return 3; // ???
-	
+		// see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof
+		//console.log("  " + oNode + " " + typeof oNode);
+		if (typeof oNode === 'object') {
+			if (Array.isArray(oNode)) {return 2;}
+			// TODO check if it's a Date
+			if (typeof oNode.ownerElement !== 'undefined') {return 2;} // this is a Xholon Attr-like node
+			if (oNode == null) {return 3;} // ???
+			return 1; // assume all other object nodes are Node.ELEMENT_NODE
+		}
+		if (typeof oNode === 'number') {return 2;} // Node.ATTRIBUTE_NODE = 2
+		if (typeof oNode === 'string') {return 2;}
+		if (typeof oNode === 'boolean') {return 2;}
+		if (typeof oNode === 'symbol') {return 2;}
+		if (typeof oNode === 'function') {return 2;} // ???
+		if (typeof oNode === 'undefined') {return 3;} // Node.COMMENT_NODE = 3  ???
+		return 3; // ???
 	case "baseURI": return null;
 	case "data": return null;
 	case "documentElement": return null;
 	case "documentURI": return null;
 	case "localName":
-	  if (typeof oNode.xhc === 'undefined') {
-	    if (typeof oNode.ownerElement !== 'undefined') {
-	       // this is a Xholon Attr-like node
-	      return oNode.name;
-	    }
-	    // this is a number, string, or other non-Xholon object
-	    return oNode;
-	  }
-	  var xhc = oNode.xhc();
-	  var name = oNode.name();
-	  if (xhc) {
-	    name = xhc.name();
-	  }
-	  var localName = name;
-	  if (name.indexOf(":") != -1) {
-	    var arr = name.split(":");
-	    if (arr.length == 2) {
-	      localName = arr[1];
-	    }
-	    else {
-	      // there's a bug in Xholon that may duplicate the prefix
-	      localName = arr[2];
-	    }
-	  }
-	  console.log("  getProperty " + sName + "=" + localName);
-	  return localName;
+		if (typeof oNode.xhc === 'undefined') {
+			if (typeof oNode.ownerElement !== 'undefined') {
+				 // this is a Xholon Attr-like node
+				return oNode.name;
+			}
+			// this is a number, string, or other non-Xholon object
+			return oNode;
+		}
+		var xhc = oNode.xhc();
+		var name = oNode.name();
+		if (xhc) {
+			name = xhc.name();
+		}
+		var localName = name;
+		if (name.indexOf(":") != -1) {
+			var arr = name.split(":");
+			if (arr.length == 2) {
+				localName = arr[1];
+			}
+			else {
+				// there's a bug in Xholon that may duplicate the prefix
+				localName = arr[2];
+			}
+		}
+		//console.log("  getProperty " + sName + "=" + localName);
+		return localName;
 	case "namespaceURI":
-	  return null;
+		return null;
 	case "nodeName":
-	  var xhc = oNode.xhc();
-	  if (xhc) {return xhc.name();}
-	  return oNode.name();
+		var xhc = oNode.xhc();
+		if (xhc) {return xhc.name();}
+		return oNode.name();
 	case "ownerElement":
-	  //return oNode.parent(); // Xholon Attribute_ ???
-	  // ownerElement is a field in Attr
-	  return oNode.ownerElement;
+		//return oNode.parent(); // Xholon Attribute_ ???
+		// ownerElement is a field in Attr
+		return oNode.ownerElement;
 	case "prefix":
-	  return null;
+		return null;
 	case "textContent": return null;
 	case "value":
-	  // value is a field in Attr
-	  console.log("  value " + oNode.value);
-	  return oNode.value;
+		// value is a field in Attr
+		//console.log("  value " + oNode.value);
+		return oNode.value;
 	
 	default: return null;
 	}
@@ -306,7 +306,7 @@ DOCUMENT_POSITION_CONTAINED_BY 	16
 DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC 	32
 
 TODO
-  - the method may return multiple values anded together
+	- the method may return multiple values anded together
 */
 cDOMAdapter.prototype.compareDocumentPosition	= function(oNode, oNode2) {
 	// KSW Xholon
@@ -316,29 +316,29 @@ cDOMAdapter.prototype.compareDocumentPosition	= function(oNode, oNode2) {
 	// test for DOCUMENT_POSITION_PRECEDING 2
 	var node = oNode2.next();
 	while (node) {
-	  if (node == oNode) {return 2;}
-	  node = node.next();
+		if (node == oNode) {return 2;}
+		node = node.next();
 	}
 	
 	// test for DOCUMENT_POSITION_FOLLOWING 4
 	node = oNode.next();
 	while (node) {
-	  if (node == oNode2) {return 4;}
-	  node = node.next();
+		if (node == oNode2) {return 4;}
+		node = node.next();
 	}
 	
 	// test for DOCUMENT_POSITION_CONTAINS 8
 	node = oNode.parent();
 	while (node) {
-	  if (node == oNode2) {return 8;}
-	  node = node.parent();
+		if (node == oNode2) {return 8;}
+		node = node.parent();
 	}
 	
 	// test for DOCUMENT_POSITION_CONTAINED_BY 16
 	node = oNode2.parent();
 	while (node) {
-	  if (node == oNode) {return 16;}
-	  node = node.parent();
+		if (node == oNode) {return 16;}
+		node = node.parent();
 	}
 	
 	//if (oNode == oNode2.next()) {return 2;}
@@ -352,21 +352,21 @@ cDOMAdapter.prototype.compareDocumentPosition	= function(oNode, oNode2) {
 
 // KSW Xholon   TODO
 cDOMAdapter.prototype.lookupNamespaceURI	= function(oNode, sPrefix) {
-  console.log("lookupNamespaceURI", oNode.name());
+	console.log("lookupNamespaceURI", oNode.name());
 	return oNode.lookupNamespaceURI(sPrefix);
 };
 
 // KSW Xholon   TODO
 // Document object members
 cDOMAdapter.prototype.getElementById	= function(oNode, sId) {
-  console.log("getElementById", oNode.name());
+	console.log("getElementById", oNode.name());
 	return oNode.getElementById(sId);
 };
 
 // KSW Xholon   TODO
 // Element/Document object members
 cDOMAdapter.prototype.getElementsByTagNameNS	= function(oNode, sNameSpaceURI, sLocalName) {
-  console.log("getElementsByTagNameNS", oNode.name());
+	console.log("getElementsByTagNameNS", oNode.name());
 	return oNode.getElementsByTagNameNS(sNameSpaceURI, sLocalName);
 };
 
