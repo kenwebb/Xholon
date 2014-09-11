@@ -409,6 +409,17 @@ public class XholonJsApi {
       }
     });
     
+    // bool
+    api.bool = $entry(function(val) {
+      if (val === undefined) {
+        return this.@org.primordion.xholon.base.IXholon::getVal_boolean()();
+      }
+      else {
+        this.@org.primordion.xholon.base.IXholon::setVal_boolean(Z)(val);
+        return this;
+      }
+    });
+    
     // obj
     api.obj = $entry(function(val) {
       if (val === undefined) {
@@ -450,7 +461,15 @@ public class XholonJsApi {
     });
     
     // actions
-    api.actions = $entry(function() {
+    // example of an actionList:
+    //var actionList = {};
+    //actionList["test1"] = function() {alert("TESTING 123 root");};
+    //actionList["test2"] = function() {alert("TESTING 456 root");};
+    api.actions = $entry(function(actionList) {
+      if (actionList !== undefined) {
+        this.actionList = actionList;
+        return this;
+      }
       return this.@org.primordion.xholon.base.IXholon::getActionList()();
     });
     

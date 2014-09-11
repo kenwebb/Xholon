@@ -2682,14 +2682,18 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 	 */
 	public String[] getActionList()
 	{
-		/* example:
+		String[] al = getActionListNative();
+		if (al != null) {
+		  return al;
+		}
+		
+	  /* example:
 		<ActionList>
 			<ActionOne/> <!-- a sub-xholonclass of Action -->
 			<ActionTwo/>
 			<ActionThree/>
 		</ActionList>
 		*/
-		
 		IXholon actionList = findFirstChildWithXhClass(CeAction.ActionListCE);
 		if (actionList != null) {
 			return actionList.getActionList();
@@ -2698,6 +2702,21 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 			return null;
 		}
 	}
+	
+	/*
+	 * 
+	 */
+	protected native String[] getActionListNative() /*-{
+	  var alNames = null;
+	  if (this.actionList) {
+	    alNames = [];
+      for (var prop in this.actionList) {
+        var pname = prop;
+        alNames.push(pname);
+	    }
+	  }
+	  return alNames;
+	}-*/;
 	
 	/*
 	 * @see org.primordion.xholon.base.IXholon#setActionList(java.lang.String[])
@@ -2719,11 +2738,27 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 	 */
 	public void doAction(String action)
 	{
-		IXholon actionList = findFirstChildWithXhClass(CeAction.ActionListCE);
-		if (actionList != null) {
-			actionList.doAction(action);
+	  if (!doActionNative(action)) {
+		  IXholon actionList = findFirstChildWithXhClass(CeAction.ActionListCE);
+		  if (actionList != null) {
+			  actionList.doAction(action);
+		  }
 		}
 	}
+	
+	/*
+	 * 
+	 */
+	protected native boolean doActionNative(String action) /*-{
+	  if (this.actionList) {
+	    var a = this.actionList[action];
+	    if (a) {
+	      a();
+	      return true;
+	    }
+	  }
+	  return false;
+	}-*/;
 	
 	/**
 	 * Get a configured instance of Xml2Xholon.
