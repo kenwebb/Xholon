@@ -63,6 +63,7 @@ public class XhGameOfLife extends AbstractGrid {
 	 * @see org.primordion.xholon.base.IXholon#setVal(boolean)
 	 */
 	public void setVal(boolean val) {alive = val;}
+	public void setVal_boolean(boolean val) {alive = val;}
 
 	/*
 	 * @see org.primordion.xholon.base.IXholon#preAct()
