@@ -55,6 +55,22 @@ public class AppSbml extends Application {
 		chartViewer = null;
 	}
 	
+	public int getTimeStepMultiplier() {
+	  return ((XhAbstractSbml)root).getTimeStepMultiplier();
+	}
+	
+	public void setTimeStepMultiplier(int timeStepMultiplier) {
+	  ((XhAbstractSbml)root).setTimeStepMultiplier(timeStepMultiplier);
+	}
+	
+	public int getChartInterval() {
+	  return chartInterval;
+	}
+	
+	public void setChartInterval(int chartInterval) {
+	  this.chartInterval = chartInterval;
+	}
+	
 	/*
 	 * @see org.primordion.xholon.app.IApplication#initialize(java.lang.String)
 	 */
