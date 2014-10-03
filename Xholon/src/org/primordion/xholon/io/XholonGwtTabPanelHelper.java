@@ -183,9 +183,15 @@ public class XholonGwtTabPanelHelper {
   /**
    * Get the widget at a specified tab index.
    * This is used to get a XholonConsole instance.
+   * @param index Index of the requested tab.
+   *   If -1, then the Widget in the currently selected tab will be returned.
+   * @return an instance of Widget
    */
   public static Object getWidget(int index) {
     TabLayoutPanel tabPanel = (TabLayoutPanel)resizePanel.getWidget();
+    if (index == -1) {
+      index = tabPanel.getSelectedIndex();
+    }
     Widget widget = tabPanel.getWidget(index);
     return widget;
   }
