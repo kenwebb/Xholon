@@ -989,8 +989,12 @@ public abstract class Application extends AbstractApplication implements IApplic
 	/** @return Returns the gridPanelClassName. */
 	public String getGridPanelClassName() {return gridPanelClassName;}
 	
-	/** @return gridViewerParams Returns the GridViewer parameters. */
-	//public String getGridViewerParams() {return gridViewerParams;}
+	/** @return gridViewerParams Returns the GridViewer parameters, for the first GridViewer only. */
+	public String getGridViewerParams() {
+	  GridViewerDetails gvd = getGridViewer(0);
+	  if (gvd == null) {return null;}
+	  return gvd.gridViewerParams;
+	}
 
 	/** @return Returns the useDataPlotter. */
 	public boolean getUseDataPlotter() {return useDataPlotter;}

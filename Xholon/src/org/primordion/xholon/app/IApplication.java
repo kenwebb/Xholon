@@ -500,6 +500,10 @@ public interface IApplication extends IXholon {
 	/** @param gridViewerParams GridViewer parameters. */
 	public abstract void setGridViewerParams(String gridViewerParams);
 	
+	public abstract boolean getUseGridViewer();
+	public abstract String getGridPanelClassName();
+	public abstract String getGridViewerParams();
+	
 	/**
 	 * Get a grid viewer.
 	 * @param vIx The index of the grid viewer.
