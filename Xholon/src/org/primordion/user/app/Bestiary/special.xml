@@ -261,6 +261,64 @@ clearAgents(contextNode);
 ]]&gt;</script>
 ]]></Special>
 
+<Special action="Color Grid Values" xhc="XholonClass"><![CDATA[
+<script>
+// see also XholonWorkbook eb5d0d02c7efc42cbebc "Grid Value Colorizer"
+// color schemes from http://colorbrewer2.org
+// green-based color scheme
+//var colorScheme = ["#ffffe5", "#f7fcb9", "#d9f0a3", "#addd8e", "#78c679", "#41ab5d", "#238443", "#006837", "#004529"];
+// blue-based color scheme
+var colorScheme = ["#fff7fb", "#ece7f2", "#d0d1e6", "#a6bddb", "#74a9cf", "#3690c0", "#0570b0", "#045a8d", "#023858"];
+// red-based color scheme
+//var colorScheme = ["#fff5f0", "#fee0d2", "#fcbba1", "#fc9272", "#fb6a4a", "#ef3b2c", "#cb181d", "#a50f15", "#67000d"];
+
+var csLen = 1 / colorScheme.length;
+var findColor = function(nodeVal) {
+  var color = colorScheme[Math.floor(nodeVal / csLen)];
+  if (color === undefined) {color = "#000000";}
+  return color;
+}
+
+// get the grid owner node, and pixel size of each canvas node
+var gvp = $wnd.xh.param("GridViewerParams");
+var width = 1;
+var height = 1;
+var gridOwner = null;
+if (gvp) {
+  // "descendant::Row/..,4,Xholon - Bestiary - Grid Viewer,false"
+  var gvpArr = gvp.split(",");
+  gridOwner = $wnd.xh.root().xpath(gvpArr[0]);
+  width = height = Number(gvpArr[1]);
+}
+
+// get the canvas context
+var ctx = null;
+var canvasEle = $doc.getElementById("xhcanvas").firstElementChild;
+if (canvasEle) {
+  ctx = canvasEle.getContext("2d");
+}
+
+// color the grid
+ctx.globalAlpha = 0.5;
+var row = gridOwner.first();
+var y = 0;
+while (row) {
+  var col = row.first();
+  var x = 0;
+  while (col) {
+    var color = findColor(col.val());
+    ctx.fillStyle = color;
+    ctx.fillRect(x, y, width, height);
+    col = col.next();
+    x += width;
+  }
+  row = row.next();
+  y += height;
+}
+ctx.globalAlpha = 1.0;
+</script>
+]]></Special>
+
 <Special action="Dog"><![CDATA[
 <Dog roleName="Fido" implName="org.primordion.user.app.Bestiary.Beast">
 <MovingDogbehavior implName="org.primordion.xholon.base.Behavior_gwtjs">&lt;![CDATA[
