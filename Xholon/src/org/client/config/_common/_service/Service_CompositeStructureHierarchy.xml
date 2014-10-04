@@ -102,6 +102,7 @@
       <attr:Attribute_String roleName="Ecosia">http://ecosia.org/search.php?q=</attr:Attribute_String>
       <attr:Attribute_String roleName="XholonWorkbook">https://www.google.com/search?q=XholonWorkbook+</attr:Attribute_String>
       <attr:Attribute_String roleName="Azimuth Project">http://www.azimuthproject.org/azimuth/search?query=</attr:Attribute_String>
+      <attr:Attribute_String roleName="youtube">http://www.youtube.com/results?search_query=</attr:Attribute_String>
       <attr:Attribute_String roleName="EyePlorer">http://en.vionto.com/show/me/</attr:Attribute_String>
       <attr:Attribute_String roleName="hakia">http://hakia.com/web?q=</attr:Attribute_String>
       <attr:Attribute_String roleName="dogpile">http://www.dogpile.com/info.dogpl/search/web?q=</attr:Attribute_String>
@@ -119,7 +120,6 @@
       http://search.yippy.com/search?query=Solar%20System
       http://gigablast.com/search?q=Solar%20System
       http://hakia.com/search?q=Solar%20System
-      http://www.youtube.com/results?search_query=
       http://babelnet.org/search.jsp?word=Solar+System&lang=EN
       http://babelnet.org/explore.jsp?word=Solar+System&lang=EN
       -->
