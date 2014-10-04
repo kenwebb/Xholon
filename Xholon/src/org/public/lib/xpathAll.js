@@ -4,7 +4,13 @@
  * Copyright (c) 2012 Sergey Ilinsky
  * Dual licensed under the MIT and GPL licenses.
  *
- *
+ * Edited by Ken Webb 2014
+ * - added support for the Xholon DOM
+ * - both the HTML and Xholon DOM are supported at the same time
+ * - it doesn't work if I use actual tag names in the XPath expressions with the HTML DOM
+ *   - ex: "./div" does not work
+ *   - ex: "./*" does work
+ *   - I think this is the way the original code worked
  */
 
 //	Javascript objects
@@ -192,7 +198,8 @@ cDOMAdapter.prototype.isNode = function(oNode) {
 	//console.log("isNode " + oNode);
 	//console.log(oNode);
 	if (oNode) {
-		if (!!oNode.xhc) {return true;}
+	  if (!!oNode.nodeType) {return true;} // HTML/XML node
+		if (!!oNode.xhc) {return true;} // Xholon node
 		// a Xholon Attr-like object is also a node
 		if (typeof oNode.ownerElement !== 'undefined') {return true;}
 	}
@@ -200,9 +207,13 @@ cDOMAdapter.prototype.isNode = function(oNode) {
 };
 
 cDOMAdapter.prototype.getProperty	= function(oNode, sName) {
-	// KSW Xholon
 	//return oNode[sName];
 	//console.log("getProperty " + sName + " " + oNode);
+	if (typeof oNode[sName] !== 'undefined') {
+	  // HTML/XML/Xholon
+	  return oNode[sName];
+	}
+	// KSW Xholon
 	switch (sName) {
 	case "firstChild": return oNode.first();
 	case "nextSibling": return oNode.next();
@@ -309,9 +320,11 @@ TODO
 	- the method may return multiple values anded together
 */
 cDOMAdapter.prototype.compareDocumentPosition	= function(oNode, oNode2) {
-	// KSW Xholon
-	//return oNode.compareDocumentPosition(oNode2);
+	if (!!oNode.nodeType) {
+	  return oNode.compareDocumentPosition(oNode2);
+	}
 	
+	// KSW Xholon
 	console.log("compareDocumentPosition " + oNode.name() + " " + oNode2.name());
 	// test for DOCUMENT_POSITION_PRECEDING 2
 	var node = oNode2.next();
