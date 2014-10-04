@@ -194,7 +194,7 @@ public class ReflectionJavaMicro implements IReflection {
       if ("GridPanelClassName".equals(pName)) {return app.getGridPanelClassName();}
       
       // there may be multiple grid viewers
-      //if ("GridViewerParams".equals(pName)) {return app.getGridViewerParams();}
+      if ("GridViewerParams".equals(pName)) {return app.getGridViewerParams();}
       break;
     case 'H':
       if ("HistogramPlotterParams".equals(pName)) {return app.getHistogramPlotterParams();}
