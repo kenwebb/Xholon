@@ -172,7 +172,7 @@ public abstract class GridPanel extends Xholon implements IGridPanel {
   public void initGridPanel(IXholon gridOwner)
   {
     if (gridOwner == null) {
-      System.out.println("GridPanel initGridOwner: gridOwner is null");
+      consoleLog("GridPanel initGridOwner: gridOwner is null");
     }
     else {
       this.gridOwner = gridOwner;
@@ -184,7 +184,7 @@ public abstract class GridPanel extends Xholon implements IGridPanel {
       
       canvas = Canvas.createIfSupported();
       if (canvas == null) {
-        System.out.println("unable to create canvas");
+        consoleLog("unable to create canvas");
         return;
       }
       int width = cellSize * nCols;
@@ -195,7 +195,7 @@ public abstract class GridPanel extends Xholon implements IGridPanel {
       canvas.setCoordinateSpaceHeight(height);
       RootPanel.get("xhcanvas").add(canvas);
       context = canvas.getContext2d();
-
+      
       initEventHandling();
     }
     // setBackground() is a Swing Panel method ?
@@ -830,14 +830,14 @@ public abstract class GridPanel extends Xholon implements IGridPanel {
         if (Misc.isEven(j)) {
           drawPolygon(ctx, j*cellSize, (int)(i*cellSize - 0.5*cellSize), xCoorHex, yCoorHex, nPoints);
           if (useShapes) {
-            drawAgents(ctx, currentCell, j*cellSize, i*cellSize);
+            drawAgents(ctx, currentCell, (int)(j*cellSize + 0.5*cellSize), (int)i*cellSize);
           }
           currentCell = (AbstractGrid)currentCell.port[IGrid.P_HEX1]; // get next cell
         }
         else { // odd
           drawPolygon(ctx, j*cellSize, (int)(i*cellSize), xCoorHex, yCoorHex, nPoints);
           if (useShapes) {
-            drawAgents(ctx, currentCell, j*cellSize, i*cellSize);
+            drawAgents(ctx, currentCell, (int)(j*cellSize + 0.5*cellSize), (int)(i*cellSize + 0.5*cellSize));
           }
           currentCell = (AbstractGrid)currentCell.port[IGrid.P_HEX2]; // get next cell
         }
