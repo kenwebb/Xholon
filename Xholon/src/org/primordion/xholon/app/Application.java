@@ -59,12 +59,14 @@ import org.primordion.xholon.base.IControl;
 import org.primordion.xholon.base.IInheritanceHierarchy;
 import org.primordion.xholon.base.IInteraction;
 import org.primordion.xholon.base.IMechanism;
+import org.primordion.xholon.base.IMessage;
 import org.primordion.xholon.base.IQueue;
 import org.primordion.xholon.base.IReflection;
 import org.primordion.xholon.base.ISignal;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.InheritanceHierarchy;
 import org.primordion.xholon.base.Interaction;
+import org.primordion.xholon.base.Message;
 import org.primordion.xholon.base.Msg;
 import org.primordion.xholon.base.Parameters;
 import org.primordion.xholon.base.PortInformation;
@@ -1647,6 +1649,31 @@ public abstract class Application extends AbstractApplication implements IApplic
 	public IMechanism getDefaultMechanism()
 	{
 		return defaultMechanism;
+	}
+	
+	@Override
+	public IMessage processReceivedSyncMessage(IMessage msg) {
+	  switch (msg.getSignal()) {
+		case -1001:
+			String[] msgData = ((String)msg.getData()).split(",");
+			switch (msgData[0]) {
+			case "createGridViewer":
+			  // ex: "createGridViewer"
+			  return new Message(-1002, this.createGridViewer(-1), this, msg.getSender());
+			case "setGridCellColor":
+			  // ex: "setGridCellColor,1,F0F0FF"
+        GridViewerDetails gv = this.getGridViewer(Integer.parseInt(msgData[1]));
+        if (gv != null) {
+		      gv.gridPanel.setGridCellColor(Integer.parseInt(msgData[2], 16));
+		    }
+			  break;
+			default: break;
+			}
+			return new Message(-1002, null, this, msg.getSender());
+		
+		default:
+			return super.processReceivedSyncMessage(msg);
+		}
 	}
 	
 	/*
