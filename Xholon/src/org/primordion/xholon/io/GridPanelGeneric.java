@@ -24,6 +24,7 @@ import com.google.gwt.canvas.dom.client.CssColor;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.primordion.xholon.base.IDecoration;
 import org.primordion.xholon.base.IXholon;
 
 /**
@@ -91,6 +92,26 @@ public class GridPanelGeneric extends GridPanel implements IGridPanel {
 		else {
 		  return gridCellColor;
 		}
+	}
+	
+	@Override
+	public int getShape(IXholon xhNode) {
+	  int shapeId = super.getShape(xhNode); //IGridPanel.GPSHAPE_NOSHAPE;
+		String shapeName = ((IDecoration)xhNode.getXhc()).getSymbol();
+		if (shapeName != null) {
+		  switch(shapeName) {
+		  case "Circle": shapeId = IGridPanel.GPSHAPE_CIRCLE; break;
+		  case "Triangle": shapeId = IGridPanel.GPSHAPE_TRIANGLE; break;
+		  case "Rectangle": shapeId = IGridPanel.GPSHAPE_RECTANGLE; break;
+		  case "Pentagon": shapeId = IGridPanel.GPSHAPE_PENTAGON; break;
+		  case "Hexagon": shapeId = IGridPanel.GPSHAPE_HEXAGON; break;
+		  case "Octogon": shapeId = IGridPanel.GPSHAPE_OCTOGON; break;
+		  case "Star": shapeId = IGridPanel.GPSHAPE_STAR; break;
+		  case "Turtle": shapeId = IGridPanel.GPSHAPE_TURTLE; break;
+		  default: break;
+		  }
+		}
+	  return shapeId;
 	}
 
 	public String[] getSeriesColor() {
