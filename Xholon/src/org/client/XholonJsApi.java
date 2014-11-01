@@ -18,6 +18,11 @@
 
 package org.client;
 
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
+
 import org.primordion.xholon.app.IApplication;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.ReflectionFactory;
@@ -71,6 +76,31 @@ public class XholonJsApi {
   public static Object[] portSpec(IXholon node) {
     return ReflectionFactory.instance().getAllPorts(node, false).toArray();
   }
+  
+  /**
+   * Popup a panel containing user-specified HTML.
+   * @param title - Popup title.
+   * @param htmlText - HTML content of the panel.
+   * @param autoHide - true if the dialog should be automatically hidden when the user clicks outside of it
+   * @param modal - true if keyboard and mouse events for widgets not contained by the dialog should be ignored
+   * @param left - the popup's left position relative to the browser's client area (in pixels)
+   * @param top - the popup's top position relative to the browser's client area (in pixels)
+   * @return - the DialogBox's underlying DOM element
+   */
+  public static Element popup(String title, String htmlText, boolean autoHide, boolean modal, int left, int top) {
+    final DialogBox db = new DialogBox(autoHide, modal);
+    db.setText(title);
+    //String safeHtmlText = SafeHtmlUtils.fromString(htmlText).asString();
+    //db.setWidget(new HTML(safeHtmlText)); // this doesn't work  "<" becomes &lt;  etc.
+    db.setWidget(new HTML(htmlText));
+    db.setPopupPosition(left, top);
+    db.show();
+    return db.getElement();
+  }
+  
+  public static native void consoleLog(String s) /*-{
+    $wnd.console.log(s);
+  }-*/;
   
   /**
    * JUST USE JAVASCRIPT xh.test()
@@ -170,6 +200,16 @@ public class XholonJsApi {
     // html.xhElements
     $wnd.xh.html.xhElements = $entry(function() {
       return @org.client.HtmlElementCache::getTopLevelElementNames()();
+    });
+    
+    // html.popup
+    // "Title", "<div><p>Hello Popup</p></div>"
+    $wnd.xh.html.popup = $entry(function(title, htmlText, autoHide, modal, left, top) {
+      if (autoHide === undefined) {autoHide = true;}
+      if (modal === undefined) {modal = false;}
+      if (left === undefined) {left = 0;}
+      if (top === undefined) {top = 0;}
+      return @org.client.XholonJsApi::popup(Ljava/lang/String;Ljava/lang/String;ZZII)(title, htmlText, autoHide, modal, left, top);
     });
     
     // xport  "export" is a JS keyword, so use "xport" instead
