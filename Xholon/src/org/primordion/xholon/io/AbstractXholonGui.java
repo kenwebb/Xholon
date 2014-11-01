@@ -72,7 +72,7 @@ public abstract class AbstractXholonGui implements IXholonGui {
    * Text that can appear as an overlay in the GUI.
    */
   protected static final String splashText = "<div style=\"background-color: #f0f8ff\">"
-  	+ "<p><center><strong><em>Welcome to Xholon (version 0.9.0)</em></strong></center></p>"
+  	+ "<p><center><strong><em>Welcome to Xholon (version 0.9.1)</em></strong></center></p>"
   	+ "<p>The Xholon GUI allows you to execute existing Xholon applications, and observe them at run-time.</p>"
   	+ "<ul style=\"margin: 10\">"
   	+ "<li>Press the <strong>Start</strong> button. While the application is running, you can press Pause (toggle pause/unpause), Step, Stop, and Refresh. Observe the (optional) output in the out tab.</li>"
@@ -84,7 +84,7 @@ public abstract class AbstractXholonGui implements IXholonGui {
   	+ "<p>Copyright (C) 2005 - 2014 Ken Webb</p>"
   	+ "<p>Xholon library is licensed under GNU Lesser General Public License.</p>"
   	+ "<p><center><a href=\"http://www.primordion.com/Xholon/gwt/\">www.primordion.com/Xholon/gwt/</a><center></p>"
-  	+ "<center><a href=\"http://sourceforge.net/apps/mediawiki/xholon/index.php?title=Main_Page\">sourceforge.net/apps/mediawiki/xholon/</a><center>"
+  	+ "<center><a href=\"http://www.primordion.com/Xholon/wiki/index.html\">Xholon wiki</a><center>"
   	+ "</div>";
 
   /**

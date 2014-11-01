@@ -35,7 +35,7 @@ import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
  * Export a Xholon model in HTModL format.
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
- * @see <a href="https://sourceforge.net/apps/mediawiki/xholon/index.php?title=HTModL">HTModL</a>
+ * @see <a href="http://www.primordion.com/Xholon/wiki/HTModL/">HTModL</a>
  * @see <a href="http://www.primordion.com/Xholon/webEdition/HTModL/">examples of HTModL</a>
  * @since 0.8.1 (Created on November 22, 2011)
  */
