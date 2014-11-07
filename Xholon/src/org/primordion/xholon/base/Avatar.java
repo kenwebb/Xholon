@@ -25,7 +25,7 @@ package org.primordion.xholon.base;
  * At any given time it's located within, or references, one specific node in the app.
  * Typically it should be hidden from the other nodes in the app.
  * Typically it's invoked through a XholonConsole.
- * You can create a new Avatar by submitting "avatar" from a XholonConsole.
+ * You can create a new Avatar by submitting "avatar" from a XholonConsole, while the app is running.
  * 
  * It can also be invoked through Firebug, Google Developer Tools, or a similar tool
  * by making use of the Xholon JavaScript API:
@@ -60,6 +60,10 @@ xh.root().xpath("StorySystem/Kitchen").append("<Avatar/>").last().action("look")
  * @since 0.9.1 (Created on August 6, 2014)
  */
 public class Avatar extends XholonWithPorts {
+  
+  // Constants
+  protected static final String COMMENT_START = "["; // Inform 7 comment start
+  protected static final String CMD_SEPARATOR = ";"; // Inform 6 command separator
   
   // Variables
   protected String roleName = null;
@@ -105,7 +109,7 @@ public class Avatar extends XholonWithPorts {
   public void processReceivedMessage(IMessage msg) {
     switch (msg.getSignal()) {
     case ISignal.SIGNAL_XHOLON_CONSOLE_REQ:
-      String responseStr = processCommand((String)msg.getData());
+      String responseStr = processCommands((String)msg.getData());
       if ((responseStr != null) && (responseStr.length() > 0)) {
         msg.getSender().sendMessage(ISignal.SIGNAL_XHOLON_CONSOLE_RSP, "\n" + responseStr, this);
       }
@@ -119,7 +123,7 @@ public class Avatar extends XholonWithPorts {
   public IMessage processReceivedSyncMessage(IMessage msg) {
     switch (msg.getSignal()) {
     case ISignal.SIGNAL_XHOLON_CONSOLE_REQ:
-      String responseStr = processCommand((String)msg.getData());
+      String responseStr = processCommands((String)msg.getData());
       return new Message(ISignal.SIGNAL_XHOLON_CONSOLE_RSP, "\n" + responseStr, this, msg.getSender());
     default:
       return super.processReceivedSyncMessage(msg);
@@ -128,19 +132,34 @@ public class Avatar extends XholonWithPorts {
   
   @Override
   public void doAction(String action) {
-    String responseStr = processCommand(action);
+    String responseStr = processCommands(action);
     this.consoleLog(responseStr);
   }
   
   /**
-   * Process a command.
-   * @param cmd 
-   * @return 
+   * Process one or more commands.
+   * @param cmds (ex: "help" "look;go north;look")
+   * @return
    */
-  protected String processCommand(String cmd) {
-    String[] data = cmd.trim().split(" ", 3);
-    int len = data.length;
+  protected String processCommands(String cmds) {
+    String[] s = cmds.split(CMD_SEPARATOR, 100);
     sb = new StringBuilder();
+    for (int i = 0; i < s.length; i++) {
+      processCommand(s[i]);
+    }
+    return sb.toString();
+  }
+  
+  /**
+   * Process a command.
+   * @param cmd (ex: "help")
+   */
+  protected void processCommand(String cmd) {
+    cmd = cmd.trim();
+    if (cmd.length() == 0) {return;}
+    if (cmd.startsWith(COMMENT_START)) {return;}
+    String[] data = cmd.split(" ", 3);
+    int len = data.length;
     switch (data[0]) {
     case "appear":
       appear();
@@ -157,11 +176,17 @@ public class Avatar extends XholonWithPorts {
       if (len > 1) {
         enter(data[1]);
       }
+      else {
+        sb.append("Please specify which place to enter (ex: enter castle_32).");
+      }
       break;
     case "x":
     case "examine":
       if (len > 1) {
         examine(data[1]);
+      }
+      else {
+        sb.append("Please specify what to examine (ex: x book_123).");
       }
       break;
     case "exit":
@@ -170,6 +195,9 @@ public class Avatar extends XholonWithPorts {
     case "go":
       if (len > 1) {
         go(data[1]);
+      }
+      else {
+        sb.append("Please specify where to go (ex: go north).");
       }
       break;
     case "help":
@@ -186,6 +214,9 @@ public class Avatar extends XholonWithPorts {
       if (len > 1) {
         search(data[1]);
       }
+      else {
+        sb.append("Please specify what to search (ex: search box_13).");
+      }
       break;
     case "take":
       if (len > 1) {
@@ -199,10 +230,9 @@ public class Avatar extends XholonWithPorts {
       vanish();
       break;
     default:
-      sb.append("That's not a verb I recognise.");
+      sb.append(data[0]).append(" is not a verb I recognise.");
       break;
     }
-    return sb.toString();
   }
   
   /**
@@ -321,31 +351,61 @@ public class Avatar extends XholonWithPorts {
   /**
    * Move the avatar to the node located in a specified direction.
    * In practice, any valid Xholon port name can be used.
-   * TODO handle more than the first port; handle port ports
-   * @param arg The name or index of a Xholon port. ex: "north" "south" "east" "west" "0" "1"
+   * TODO handle port ports
+   * @param arg The name or index of a Xholon port (ex: "north" "south" "east" "west" "0" "1"),
+   *   or an abbreviated name (ex: "n" "so" "eas" "w").
    */
   protected void go(String portName) {
     if (portName == null) {return;}
+    if ("next".startsWith(portName)) {
+      IXholon node = contextNode.getNextSibling();
+      if (node == null) {sb.append("Can't go next.");}
+      else {moveto(node);}
+      return;
+    }
+    else if ("prev".startsWith(portName)) {
+      IXholon node = contextNode.getPreviousSibling();
+      if (node == null) {sb.append("Can't go prev.");}
+      else {moveto(node);}
+      return;
+    }
     Object[] portArr = contextNode.getAllPorts().toArray();
     if ((portArr != null) && (portArr.length > 0)) {
-      PortInformation pi = (PortInformation)portArr[0];
-      String foundPortName = pi.getFieldName();
-      if (portName.equals(foundPortName)) {
-        IXholon reffedNode = pi.getReffedNode();
-        sb.append("Going to ").append(makeNodeName(reffedNode));
-        if (this.hasParentNode()) {
-          this.removeChild();
-          this.appendChild(reffedNode);
+      String foundPortNames = "";
+      for (int i = 0; i < portArr.length; i++) {
+        PortInformation pi = (PortInformation)portArr[i];
+        String foundPortName = pi.getFieldName();
+        //if (portName.equals(foundPortName)) {
+        if (foundPortName.startsWith(portName)) {
+          /*IXholon reffedNode = pi.getReffedNode();
+          sb.append("Going to ").append(makeNodeName(reffedNode));
+          if (this.hasParentNode()) {
+            this.removeChild();
+            this.appendChild(reffedNode);
+          }
+          contextNode = reffedNode;*/
+          moveto(pi.getReffedNode());
+          return;
         }
-        contextNode = reffedNode;
+        else {
+          foundPortNames += " " + foundPortName;
+        }
       }
-      else {
-        sb.append("Can only go ").append(foundPortName);
-      }
+      sb.append("Can only go").append(foundPortNames);
     }
     else {
       sb.append("Can't go ").append(portName);
     }
+  }
+  
+  protected void moveto(IXholon node) {
+    if (node == null) {return;}
+    sb.append("Going to ").append(makeNodeName(node));
+    if (this.hasParentNode()) {
+      this.removeChild();
+      this.appendChild(node);
+    }
+    contextNode = node;
   }
   
   /**
@@ -440,7 +500,7 @@ public class Avatar extends XholonWithPorts {
       sb.append("Taken.");
     }
     else {
-      sb.append("You can't see any such thing.");
+      sb.append("You can't take any such thing.");
     }
   }
   
@@ -484,12 +544,23 @@ public class Avatar extends XholonWithPorts {
   
   /**
    * Find a node in the tree, given a node name.
-   * @param nodeName The name of the node, in nameTemplate format.
+   * @param nodeName The name of the node, in nameTemplate format (ex: "abc:def_13"),
+   *   or in abbreviated nameTemplate format (ex: "abc" "ab" "abc:def").
    * @param aRoot The node that's the root for searching.
    * @return A node, or null.
    */
   protected IXholon findNode(String nodeName, IXholon aRoot) {
     IXholon node = xpath.evaluate("descendant-or-self::*[@name='" + nodeName + "']", aRoot);
+    if (node == null) {
+      // search all immediate children for an abbreviation match
+      node = aRoot.getFirstChild();
+      while (node != null) {
+        if (makeNodeName(node).startsWith(nodeName)) {
+          break;
+        }
+        node = node.getNextSibling();
+      }
+    }
     return node;
   }
   
