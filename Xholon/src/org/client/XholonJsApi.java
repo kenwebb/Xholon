@@ -214,14 +214,17 @@ public class XholonJsApi {
     
     // xport  "export" is a JS keyword, so use "xport" instead
     // $wnd.xh.xport("Graphviz", xh.root(), '{"layout":"neato"}');
-    $wnd.xh.xport = $entry(function(formatName, node, efParams) {
+    $wnd.xh.xport = $entry(function(formatName, node, efParams, writeToTab) {
       var efs = $wnd.xh.service('ExternalFormatService');
       if (efs) {
         // IXholonService.SIG_PROCESS_REQUEST = -3998
-        var data = formatName;
+        var data = [formatName];
         if (efParams !== undefined) {
-          data = [formatName, efParams];
-        }
+          data.push(efParams);
+        } else {data.push(null);}
+        if (writeToTab !== undefined) {
+          data.push(writeToTab ? "true" : "false");
+        } else {data.push("true");};
         efs.call(-3998, data, node);
       }
     });
