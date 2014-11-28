@@ -31,6 +31,11 @@ import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
 public class Xholon2Svg extends org.primordion.xholon.io.Xholon2Svg implements IXholon2ExternalFormat {
   
   @Override
+  public boolean isWriteToTab() {return true;}
+  @Override
+	public void setWriteToTab(boolean writeToTab) { /** TODO */}
+  
+  @Override
 	public native String getEfParamsAsJsonString() /*-{
 	  if (this.efParams) {
       return $wnd.JSON.stringify(this.efParams);

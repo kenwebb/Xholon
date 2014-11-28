@@ -295,7 +295,7 @@ public IXholon2ExternalFormat initExternalFormatWriter(IXholon node, String form
       }
     }*/
     StringBuilder sb = new StringBuilder()
-    .append("public IXholon2ExternalFormat initExternalFormatWriter(IXholon node, String formatName, String efParams) {\n")
+    .append("public IXholon2ExternalFormat initExternalFormatWriter(IXholon node, String formatName, String efParams, boolean writeToTab) {\n")
     .append("  String modelName = \"\";\n")
     .append("  IApplication app = node.getApp();\n")
     .append("  if (app != null) {\n")
@@ -306,6 +306,7 @@ public IXholon2ExternalFormat initExternalFormatWriter(IXholon node, String form
     .append(sbInit.toString())
     .append("  else {return null;}\n")
     .append("  xholon2ef.setEfParamsFromJsonString(efParams);")
+    .append("  xholon2ef.setWriteToTab(writeToTab);")
     .append("  if ((app.isAllowConfigSrv()) && (xholon2ef.canAdjustOptions()) && (efParams == null)) {\n")
     .append("    xholon2ef.adjustOptions(null, modelName, node, formatName);\n")
     .append("    return null;")

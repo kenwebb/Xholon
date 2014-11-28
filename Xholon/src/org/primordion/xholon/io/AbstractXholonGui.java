@@ -559,7 +559,7 @@ public abstract class AbstractXholonGui implements IXholonGui {
                 public void execute() {
                   IXholon2ExternalFormat xholon2ef = efs.initExternalFormatWriter(node,
                       "_" + efItemSubSubMenuName + "," +
-                      efItem, null);
+                      efItem, null, true);
                   efs.writeAll(xholon2ef);
                 }
               });
@@ -572,7 +572,7 @@ public abstract class AbstractXholonGui implements IXholonGui {
           efSubMenu.addItem(efItems[i], new Command() {
             @Override
             public void execute() {
-              IXholon2ExternalFormat xholon2ef = efs.initExternalFormatWriter(node, efItem, null);
+              IXholon2ExternalFormat xholon2ef = efs.initExternalFormatWriter(node, efItem, null, true);
               efs.writeAll(xholon2ef);
             }
           });

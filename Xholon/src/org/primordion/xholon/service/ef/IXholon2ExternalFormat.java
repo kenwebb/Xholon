@@ -34,6 +34,9 @@ public interface IXholon2ExternalFormat {
 	 */
 	public static final String STRING_WRITER = "stringwriter";
 	
+	public abstract boolean isWriteToTab();
+	public abstract void setWriteToTab(boolean writeToTab);
+	
 	/**
 	 * Get the parameters for this external format, as a JSON string.
 	 * @return a JSON string, or null.

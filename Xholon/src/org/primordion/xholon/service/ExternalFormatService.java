@@ -111,16 +111,18 @@ public class ExternalFormatService extends AbstractXholonService {
 			IXholon node = msg.getSender();
 			String formatName = null;
 			String efParams = null;
+			boolean writeToTab = true;
 			if (msg.getData() instanceof String) {
 			  consoleLog("efs msg data is a String ");
 			  formatName = (String)msg.getData();
 			}
 			else if (msg.getData() instanceof JsArrayString) {
-			  consoleLog("efs msg data is a JsArrayString");
+			  //consoleLog("efs msg data is a JsArrayString");
 			  JsArrayString arr = (JsArrayString)msg.getData();
-			  consoleLog(arr.length());
+			  //consoleLog(arr.length());
 			  formatName = arr.get(0);
 			  efParams = arr.get(1);
+			  writeToTab = Boolean.parseBoolean(arr.get(2));
 			}
 			else { // it's a String array
 			  consoleLog("efs msg data is a String array");
@@ -128,9 +130,10 @@ public class ExternalFormatService extends AbstractXholonService {
 			  formatName = arr[0];
 			  efParams = arr[1];
 			}
-			consoleLog(formatName);
-		  consoleLog(efParams);
-			IXholon2ExternalFormat xholon2ef = this.initExternalFormatWriter(node, formatName, efParams);
+			//consoleLog(formatName);
+		  //consoleLog(efParams);
+		  //consoleLog(writeToTab);
+			IXholon2ExternalFormat xholon2ef = this.initExternalFormatWriter(node, formatName, efParams, writeToTab);
 			if (xholon2ef != null) {
 			  this.writeAll(xholon2ef);
 			}
@@ -220,7 +223,7 @@ public class ExternalFormatService extends AbstractXholonService {
 	 * This is used as part of the Java class name.
 	 * ex: TreeML --> org.primordion.ef.Xholon2TreeML
 	 */
-	public IXholon2ExternalFormat initExternalFormatWriter(IXholon node, String formatName, String efParams)
+	public IXholon2ExternalFormat initExternalFormatWriter(IXholon node, String formatName, String efParams, boolean writeToTab)
 	{
 		String modelName = "";
 		IApplication app = node.getApp();
