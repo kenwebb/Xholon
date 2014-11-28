@@ -10,6 +10,7 @@ import org.primordion.xholon.util.MiscIo;
 */
 
 // GWT imports
+import com.google.gwt.core.client.JavaScriptObject;
 /*import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.ui.HTML;
@@ -37,7 +38,11 @@ import org.primordion.xholon.io.XholonGwtTabPanelHelper;
 @SuppressWarnings("serial")
 public abstract class AbstractXholon2ExternalFormat extends Xholon {
   
+  /** Whether or not to write to a new tab */
   private boolean writeToTab = true;
+  
+  /** Whether or not to write to the println out tab, if writeToTab == false */
+  private boolean writeToPrintlnOut = false;
   
   /**
 	 * Constructor.
@@ -61,6 +66,14 @@ public abstract class AbstractXholon2ExternalFormat extends Xholon {
 	  this.writeToTab = writeToTab;
 	}
 	
+	public boolean isWriteToPrintlnOut() {
+	  return writeToPrintlnOut;
+	}
+	
+	public void setWriteToPrintlnOut(boolean writeToPrintlnOut) {
+	  this.writeToPrintlnOut = writeToPrintlnOut;
+	}
+	
 	/**
 	 * Get the parameters for this external format, as a JSON string.
 	 * @return a JSON string, or null.
@@ -68,6 +81,19 @@ public abstract class AbstractXholon2ExternalFormat extends Xholon {
 	public native String getEfParamsAsJsonString() /*-{
 	  if (this.efParams) {
       return $wnd.JSON.stringify(this.efParams);
+    }
+    else {
+      return null;
+    }
+	}-*/;
+	
+	/**
+	 * Get the user-configurable parameters (efParams) for this external format.
+	 * @return a JavaScriptObject, or null.
+	 */
+	public native JavaScriptObject getEfParams() /*-{
+	  if (this.efParams) {
+      return this.efParams;
     }
     else {
       return null;
@@ -161,7 +187,7 @@ public abstract class AbstractXholon2ExternalFormat extends Xholon {
       if (writeToTab) {
         XholonGwtTabPanelHelper.addTab(efText, outPath, uri, false);
       }
-      else {
+      else if (writeToPrintlnOut) {
         root.println(efText);
       }
     }
