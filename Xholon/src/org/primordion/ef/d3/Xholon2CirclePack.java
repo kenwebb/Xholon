@@ -28,7 +28,9 @@ public class Xholon2CirclePack extends Xholon2HierarchyJSON implements IXholon2E
 	 * None of the input args are used.
 	 */
 	protected void createD3(JavaScriptObject json, int width, int height, Object selection) {
-	  IXholonGui xholonGui = new XholonGuiD3CirclePack("xhgraph", this.modelName, this.root.getApp());
+	  //consoleLog("ef.d3.Xholon2CirclePack.java createD3()");
+	  //consoleLog(this.getEfParams());
+	  IXholonGui xholonGui = new XholonGuiD3CirclePack("xhgraph", this.modelName, this.root.getApp(), this.getEfParams());
 	  xholonGui.showTree(root);
 	}
 	

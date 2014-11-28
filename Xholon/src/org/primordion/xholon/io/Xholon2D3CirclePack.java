@@ -29,11 +29,31 @@ public class Xholon2D3CirclePack {
 	/**
 	 * Create a D3 Pack Layout from the JSON data.
 	 * typical values: width=600 height=600 selection:"#xhgraph"
+	 * This is called directly by io.XholonGuiD3CirclePack.showTree(), and by
+	 * ef.d3.Xholon2CirclePack.java createD3() through io.XholonGuiD3CirclePack.showTree()
+	 * @param json 
+	 * @param efParams User-specified parameters such as through dat.GUI
+	 * @param width 
+	 * @param height 
+	 * @param selection 
+	 * @param gui 
 	 */
-	protected native void createD3(JavaScriptObject json, int width, int height, Object selection, IXholonGui gui) /*-{
+	protected native void createD3(JavaScriptObject json, JavaScriptObject efParams, int width, int height, Object selection, IXholonGui gui) /*-{
+	  //$wnd.console.log("io.Xholon2D3CirclePack.java createD3()");
+	  //$wnd.console.log(efParams);
 	  var w = width,
     h = height,
-    format = $wnd.d3.format(",d");
+    format = $wnd.d3.format(",d"),
+    sort = null;
+    mode = null;
+    
+    if (efParams) {
+      sort = efParams.sort;
+      mode = efParams.mode;
+      if (efParams.width != -1) {w = efParams.width;}
+      if (efParams.height != -1) {h = efParams.height;}
+      if (efParams.selection) {selection = efParams.selection;}
+    }
     
     var pack = $wnd.d3.layout.pack()
       .size([w - 4, h - 4])
@@ -41,7 +61,37 @@ public class Xholon2D3CirclePack {
         return d.size;
       });
     
-    var svg = $wnd.d3.select(selection).append("svg:svg")
+    // TODO allow passing in a new comparator function
+    if (sort) {
+      switch(sort) {
+      case "default": break;
+      case "disable": pack.sort(null); break;
+      case "ascending": pack.sort($wnd.d3.ascending); break;
+      case "descending": pack.sort($wnd.d3.descending); break;
+      default: break;
+      }
+    }
+    
+    var selectionNode = $wnd.d3.select(selection);
+    var hidden = false;
+    
+    // selectionNode.html(null) only works if selectionNode is an HTML node; can't be a SVG node
+    if (mode) {
+      switch(mode) {
+      case "new": break;
+      case "replace": selectionNode.html(null); break;
+      case "tween":
+        // set hidden to true only if selectionNode already has an "svg" element
+        if (!selectionNode.select("svg").empty()) {
+          hidden = true;
+        }
+        break;
+      default: break;
+      }
+    }
+    
+    var svg = selectionNode.append("svg:svg")
+      .classed("hidden", hidden)
       .attr("width", w)
       .attr("height", h)
       .append("svg:g")
@@ -69,6 +119,9 @@ public class Xholon2D3CirclePack {
       .attr("r", function(d) {
         return d.r;
       })
+      //.style("stroke", function(d) {
+      //  return d.color;
+      //})
       .style("fill", function(d) {
         return d.color;
       })

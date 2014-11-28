@@ -22,16 +22,18 @@ public class XholonGuiD3CirclePack extends AbstractXholonGui {
    */
   private String xhdivId = "xhgui";
   private String xhdiv = "#" + xhdivId;
+  private JavaScriptObject efParams = null;
   
   /**
    * Constructor.
    */
 	public XholonGuiD3CirclePack() {}
 	
-	public XholonGuiD3CirclePack(String xhdivId, String modelName, IApplication app) {
+	public XholonGuiD3CirclePack(String xhdivId, String modelName, IApplication app, JavaScriptObject efParams) {
 	  this.setXhdivId(xhdivId);
 	  this.modelName = modelName;
 	  this.app = app;
+	  this.efParams = efParams;
 	}
 	
 	public Object getGuiRoot() {
@@ -62,7 +64,7 @@ public class XholonGuiD3CirclePack extends AbstractXholonGui {
 	  }
 	  JavaScriptObject json = ((JSONObject)JSONParser.parseLenient(jsonStr)).getJavaScriptObject();
 	  Xholon2D3CirclePack xholon2cp = new Xholon2D3CirclePack();
-	  xholon2cp.createD3(json, width, height, xhdiv, this);
+	  xholon2cp.createD3(json, efParams, width, height, xhdiv, this);
 	}
 	
 	@Override

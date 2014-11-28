@@ -20,6 +20,8 @@ public class Xholon2D3HierarchyJSON {
 	private String indent = "                              ";
 	private boolean shouldShowStateMachineEntities = false;
 	private boolean shouldIncludeDecorations = true;
+	private String sort = "default"; // "disable", "ascending", descending"
+	private String filter = null;
 	private boolean insertDummyData = false; // this should be false by default
 	
 	private int numNodes = 0;
@@ -193,6 +195,14 @@ public class Xholon2D3HierarchyJSON {
 	public void setShouldIncludeDecorations(boolean shouldIncludeDecorations) {
 	  this.shouldIncludeDecorations = shouldIncludeDecorations;
 	}
+	
+	// sort
+	public String getSort() {return sort;}
+	public void setSort(String sort) {this.sort = sort;}
+	
+	// filter
+	public String getFilter() {return filter;}
+	public void setFilter(String filter) {this.filter = filter;}
 	
 	// insertDummyData
 	public boolean isInsertDummyData() {

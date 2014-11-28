@@ -59,6 +59,8 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
 	  xholon2json.initialize(root);
 	  xholon2json.setShouldShowStateMachineEntities(isShouldShowStateMachineEntities());
 	  xholon2json.setShouldIncludeDecorations(isShouldIncludeDecorations());
+	  xholon2json.setSort(getSort());
+	  xholon2json.setFilter(getFilter());
 	  xholon2json.setInsertDummyData(isInsertDummyData());
 	  xholon2json.writeAll();
 	  String jsonStr = xholon2json.getJsonStr();
@@ -111,6 +113,12 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
     var p = {};
     p.shouldShowStateMachineEntities = false;
     p.shouldIncludeDecorations = true;
+    p.sort = "default"; // "disable", "ascending", descending"
+    p.filter = "--Behavior,Script";
+    p.width = -1;
+    p.height = -1;
+    p.selection = "#xhgraph"; // "#xhgraph>div[1]"
+    p.mode = "new"; // "replace", "tween"
     this.efParams = p;
   }-*/;
 
@@ -119,5 +127,23 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
 
   public native boolean isShouldIncludeDecorations() /*-{return this.efParams.shouldIncludeDecorations;}-*/;
   public native void setShouldIncludeDecorations(boolean shouldIncludeDecorations) /*-{this.efParams.shouldIncludeDecorations = shouldIncludeDecorations;}-*/;
+  
+  public native String getSort() /*-{return this.efParams.sort;}-*/;
+  //public native void setSort(String sort) /*-{this.efParams.sort = sort;}-*/;
+  
+  public native String getFilter() /*-{return this.efParams.filter;}-*/;
+  //public native void setFilter(String filter) /*-{this.efParams.filter = filter;}-*/;
+  
+  public native int getWidth() /*-{return this.efParams.width;}-*/;
+  //public native void setWidth(String width) /*-{this.efParams.width = width;}-*/;
+  
+  public native int getHeight() /*-{return this.efParams.height;}-*/;
+  //public native void setHeight(String height) /*-{this.efParams.height = height;}-*/;
+  
+  public native String getSelection() /*-{return this.efParams.selection;}-*/;
+  //public native void setSelection(String selection) /*-{this.efParams.selection = selection;}-*/;
+  
+  public native String getMode() /*-{return this.efParams.mode;}-*/;
+  //public native void setMode(String mode) /*-{this.efParams.mode = mode;}-*/;
   
 }
