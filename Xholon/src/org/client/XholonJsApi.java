@@ -121,7 +121,8 @@ public class XholonJsApi {
     
   	$wnd.xh = {};
   	//xh = $wnd.xh; // make xh available from within Xholon; GWT already has a xh function
-  	$wnd.xh.html = new Object();
+  	$wnd.xh.html = {};
+  	$wnd.xh.css = {};
   	
   	// app
     $wnd.xh.app = $entry(function() {
@@ -192,27 +193,8 @@ public class XholonJsApi {
       }
     });
     
-    // html.toggle
-    $wnd.xh.html.toggle = $entry(function(elementId) {
-      @org.client.HtmlElementCache::toggleElementDisplay(Ljava/lang/String;)(elementId);
-    });
-    
-    // html.xhElements
-    $wnd.xh.html.xhElements = $entry(function() {
-      return @org.client.HtmlElementCache::getTopLevelElementNames()();
-    });
-    
-    // html.popup
-    // "Title", "<div><p>Hello Popup</p></div>"
-    $wnd.xh.html.popup = $entry(function(title, htmlText, autoHide, modal, left, top) {
-      if (autoHide === undefined) {autoHide = true;}
-      if (modal === undefined) {modal = false;}
-      if (left === undefined) {left = 0;}
-      if (top === undefined) {top = 0;}
-      return @org.client.XholonJsApi::popup(Ljava/lang/String;Ljava/lang/String;ZZII)(title, htmlText, autoHide, modal, left, top);
-    });
-    
-    // xport  "export" is a JS keyword, so use "xport" instead
+    // xport
+    // "export" is a JS keyword, so use "xport" instead
     // $wnd.xh.xport("Graphviz", xh.root(), '{"layout":"neato"}');
     $wnd.xh.xport = $entry(function(formatName, node, efParams, writeToTab) {
       var efs = $wnd.xh.service('ExternalFormatService');
@@ -236,6 +218,34 @@ public class XholonJsApi {
         return efs.actions();
       }
       return "";
+    });
+    
+    // html.toggle
+    $wnd.xh.html.toggle = $entry(function(elementId) {
+      @org.client.HtmlElementCache::toggleElementDisplay(Ljava/lang/String;)(elementId);
+    });
+    
+    // html.xhElements
+    $wnd.xh.html.xhElements = $entry(function() {
+      return @org.client.HtmlElementCache::getTopLevelElementNames()();
+    });
+    
+    // html.popup
+    // "Title", "<div><p>Hello Popup</p></div>"
+    $wnd.xh.html.popup = $entry(function(title, htmlText, autoHide, modal, left, top) {
+      if (autoHide === undefined) {autoHide = true;}
+      if (modal === undefined) {modal = false;}
+      if (left === undefined) {left = 0;}
+      if (top === undefined) {top = 0;}
+      return @org.client.XholonJsApi::popup(Ljava/lang/String;Ljava/lang/String;ZZII)(title, htmlText, autoHide, modal, left, top);
+    });
+    
+    // css.style
+    // $wnd.xh.css.style(".d3cpnode circle {stroke-width: 0px;}");
+    $wnd.xh.css.style = $entry(function(content) {
+      var style = $doc.createElement("style");
+      style.appendChild($doc.createTextNode(content));
+      $doc.head.appendChild(style);
     });
     
   }-*/;
