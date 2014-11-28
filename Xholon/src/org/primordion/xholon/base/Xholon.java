@@ -1109,10 +1109,10 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 	public void print(Object obj) {
 		if (Msg.appM) { // && obj instanceof String) {
 		  if (obj == null) {
-		    print2Console("null");
+		    print2Console("null", false);
 		  }
 		  else {
-		    print2Console(obj.toString());
+		    print2Console(obj.toString(), true);
 		  }
 		}
 	}
@@ -1123,10 +1123,10 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 	public void println(Object obj) {
 		if (Msg.appM) { // && obj instanceof String) {
 		  if (obj == null) {
-		    print2Console("null\n");
+		    print2Console("null\n", true);
 		  }
 		  else {
-		    print2Console(obj.toString() + "\n");
+		    print2Console(obj.toString() + "\n", true);
 		  }
 		}
 	}
@@ -1136,14 +1136,17 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 	 * This can be very slow, so limit the number of calls,
 	 * for example by consolidating text using a StringBuilder before calling.
 	 * @param str A String to append to the end of the console.
+	 * @param scroll Whether or not to scroll to the bottom of the text area.
 	 */
-	protected void print2Console(String str) {
-	  Element element =
-	    //Document.get().getElementById("xhout")
-	    HtmlElementCache.xhout.getFirstChildElement();
+	protected void print2Console(String str, boolean scroll) {
+	  Element element = HtmlElementCache.xhout.getFirstChildElement();
     if (element != null) {
-        TextAreaElement textfield = element.cast();
-        textfield.setValue(textfield.getValue() + str);
+      TextAreaElement textfield = element.cast();
+      textfield.setValue(textfield.getValue() + str);
+      // optionally scroll to the bottom of the text area
+      if (scroll) {
+        textfield.setScrollTop(textfield.getScrollHeight());
+      }
     }
 	}
 	
