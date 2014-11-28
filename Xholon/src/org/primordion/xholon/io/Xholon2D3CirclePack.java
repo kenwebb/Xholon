@@ -95,7 +95,16 @@ public class Xholon2D3CirclePack {
       .attr("width", w)
       .attr("height", h)
       .append("svg:g")
-      .attr("transform", "translate(2, 2)");
+      .attr("transform", function(d) {
+        var sx = 1;
+        var sy = 1;
+        var cx = w / 2;
+        var cy = h / 2;
+        if (w > h) {sx = w/h;}
+        else if (h > w) {sy = h/w;}
+        var m = "matrix(" + sx + ", 0, 0, " + sy + ", " + (cx-sx*cx+2) + ", " + (cy-sy*cy+2) + ")";
+        return m;
+      });
     
     var node = svg
       .data([json])
