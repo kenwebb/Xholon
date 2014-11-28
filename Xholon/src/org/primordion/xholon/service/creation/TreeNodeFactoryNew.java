@@ -148,6 +148,7 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 	@Override
 	public IXholon getXholonNode(String implName)
 			throws XholonConfigurationException {
+		//this.consoleLog(implName);
 		if (implName == null || (implName.length() == 0)) {return null;}
 		IXholon newNode = null;
 		
@@ -295,7 +296,7 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 				newNode = new org.primordion.xholon.base.OrNode();
 			}
 			
-			// 
+			// Avatar
 			else if (implName.endsWith("Avatar")) {
 				newNode = new org.primordion.xholon.base.Avatar();
 			}
@@ -412,6 +413,7 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 		}
 		
 		// script
+		// remember to add the script to the isClassFindable() method as well
 		else if (implName.startsWith("org.primordion.xholon.script")) {
 			if (implName.endsWith("EfParamsGenerator")) {
 				newNode = new org.primordion.xholon.script.EfParamsGenerator();
@@ -424,6 +426,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			}
 			else if (implName.endsWith("Plot")) {
 				newNode = new org.primordion.xholon.script.Plot();
+			}
+			else if (implName.endsWith("Animate")) {
+				newNode = new org.primordion.xholon.script.Animate();
 			}
 			else if (implName.endsWith("port")) {
 				newNode = new org.primordion.xholon.script.port();
@@ -674,6 +679,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 				return true;
 			}
 			if (implName.endsWith("Plot")) {
+				return true;
+			}
+			if (implName.endsWith("Animate")) {
 				return true;
 			}
 			if (implName.endsWith("port")) {
