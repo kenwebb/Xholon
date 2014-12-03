@@ -119,6 +119,7 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
     p.height = -1;
     p.selection = "#xhgraph"; // "#xhgraph>div[1]"
     p.mode = "new"; // "replace", "tween"
+    p.labelContainers = false; // whether or not to label the container nodes
     this.efParams = p;
   }-*/;
 

@@ -39,17 +39,17 @@ public class Xholon2D3CirclePack {
 	 * @param gui 
 	 */
 	protected native void createD3(JavaScriptObject json, JavaScriptObject efParams, int width, int height, Object selection, IXholonGui gui) /*-{
-	  //$wnd.console.log("io.Xholon2D3CirclePack.java createD3()");
-	  //$wnd.console.log(efParams);
 	  var w = width,
     h = height,
     format = $wnd.d3.format(",d"),
-    sort = null;
-    mode = null;
+    sort = null,
+    mode = null,
+    labelContainers = false;
     
     if (efParams) {
       sort = efParams.sort;
       mode = efParams.mode;
+      labelContainers = efParams.labelContainers;
       if (efParams.width != -1) {w = efParams.width;}
       if (efParams.height != -1) {h = efParams.height;}
       if (efParams.selection) {selection = efParams.selection;}
@@ -153,6 +153,29 @@ public class Xholon2D3CirclePack {
         }
         return dname;
       });
+    
+    // optionally place small text at top of container nodes (nodes that have children)
+    if (labelContainers) {
+      node.filter(function(d) {
+        return d.children;
+      }).append("svg:text")
+        .attr("dy", function(d) {
+          var px = d.r - 8; // (circleRadius - (fontsize + 5 - 1))
+          if (px < 0) {px = 0;}
+          return "-" + px + "px";
+        })
+        .style("text-anchor", "middle")
+        .style("font-size", function(d) {
+          return "12px";
+        })
+        .text(function(d) {
+          var dname = d.name.substring(0, 1);
+          if ((dname == ":") && (d.name.length > 1)) {
+            dname = d.name.substring(1, 2);
+          }
+          return dname;
+        });
+    }
     
     node.on("click", function(d, i) {
       handleClick(d, i);
