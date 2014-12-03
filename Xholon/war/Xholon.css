@@ -77,8 +77,12 @@ h1 {
 svg.hidden {
   display: none;
 }
-
+.d3cpnode text {
+  fill: #808080; /** #a0a0a0 too light */
+  pointer-events: none;
+}
 .d3cpleaf text {
+  fill: #000000;
   pointer-events: none;
 }
 
@@ -112,7 +116,7 @@ svg.hidden {
 }
 
 /** D3 text */
-.d3cpleaf text, .d3bubnode text, .d3clsnode text, .d3treenode text {
+.d3cpnode text, .d3cpleaf text, .d3bubnode text, .d3clsnode text, .d3treenode text {
   font: 9px "Courier New",courier,monospace;
 }
 
