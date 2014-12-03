@@ -26,6 +26,7 @@ package org.primordion.xholon.base;
  * Typically it should be hidden from the other nodes in the app.
  * Typically it's invoked through a XholonConsole.
  * You can create a new Avatar by submitting "avatar" from a XholonConsole, while the app is running.
+ * Comments are bracketed by [], and may not contain the ";" character.
  * 
  * It can also be invoked through Firebug, Google Developer Tools, or a similar tool
  * by making use of the Xholon JavaScript API:
@@ -53,6 +54,11 @@ You are in living_Room_36.
  * 
  * You can create an avatar using Firebug, etc. For example:
 xh.root().xpath("StorySystem/Kitchen").append("<Avatar/>").last().action("look");
+ * 
+ * TODO
+ * - in my Kidz Fun Finder app, I use an Avatarbehavior node
+ * - can I do all of that stuff inside Avatar.java instead?
+ * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @see <a href="http://en.wikipedia.org/wiki/Interactive_fiction">wikipedia Interactive fiction</a>
@@ -79,6 +85,27 @@ public class Avatar extends XholonWithPorts {
   
   protected static IXPath xpath = null;
   
+  // Parameters that can be set through a user command
+  
+  // whether or not to loop with "go next" and "go prev"
+  // "param loop true|false|toggle"
+  protected boolean loop = true;
+  
+  /**
+   * A node that this avatar should follow each timestep.
+   * It's generally assumed that the leader is not an Avatar. ???
+   * ex: If this avatar is a young child, then the leader could be a cat.
+   */
+  protected IXholon leader = null;
+  
+  /**
+   * A node that should follow or accompany this avatar each timestep.
+   * It's generally assumed that the follower is not an Avatar. ???
+   * ex: If this avatar is a young child, then the follower could be a parent or other caregiver.
+   */
+  protected IXholon follower = null;
+  
+  // constructor
   public Avatar() {}
   
   // Setters and Getters
@@ -103,6 +130,30 @@ public class Avatar extends XholonWithPorts {
     contextNode = this.getParentNode();
     xpath = this.getXPath();
     super.postConfigure();
+  }
+  
+  @Override
+  public void act() {
+    if (leader != null) {
+      // I must follow the leader
+      consoleLog(this.getName() + " is following (accompanying) " + leader.getName());
+      if (contextNode != leader.getParentNode()) {
+        this.removeChild();
+        this.appendChild(leader.getParentNode());
+        //contextNode = this.getParentNode(); // handled by local appendChild(...)
+      }
+    }
+    if (follower != null) {
+      // I must pull the follower along with me
+      consoleLog(this.getName() + " is being followed (accompanied) by " + follower.getName());
+      if (contextNode != follower.getParentNode()) {
+        follower.removeChild();
+        follower.appendChild(this.getParentNode());
+        // TODO if follower is an Avatar, then change it's contextNode
+         // handled by local appendChild(...)
+      }
+    }
+    super.act();
   }
   
   @Override
@@ -136,6 +187,13 @@ public class Avatar extends XholonWithPorts {
     this.consoleLog(responseStr);
   }
   
+  @Override
+  public void appendChild(IXholon newParentNode) {
+    super.appendChild(newParentNode);
+    // make sure that any Avatar that moves has its contextNode updated
+    contextNode = this.getParentNode();
+  }
+  
   /**
    * Process one or more commands.
    * @param cmds (ex: "help" "look;go north;look")
@@ -153,6 +211,31 @@ public class Avatar extends XholonWithPorts {
   /**
    * Process a command.
    * @param cmd (ex: "help")
+   * 
+   * TODO new commands Dec 1, 2014
+   * eat X - remove X from the Xholon tree, where X is in the Avatar's inventory
+   * smash X - remove the container X, leaving the components of X (this is a flatten operation)
+   * build X - create a new node called X (which must be a valid XholonClass)
+   *   can subsequently take things from the surroundings and drop them into X
+   * exit X - equivalent to XPath "ancestor::NAME"
+   * follow leaderX - follow a sibling
+   *   if X is not an Avatar, may need to take and drop X each timestep
+   * unfollow - stop following
+   * lead followerX - cause follower to follow you
+   *   if X is not an Avatar, may need to take X
+   * unlead - stop leading
+   * read X - see my notebook for Nov 28
+   * stay duration - stay at current location for duration timesteps
+   * script
+   *   if a command string begins with "script", then treat it as a multi-timestep sequence
+   *   this should be handled by processCommands(cmds)
+   *   and handle scripts that are initially contained within the Avatar tag
+   *   and handle scripts that are initially or later inserted as a Attribute_String
+   *     this would allow drag and drop of commands and scripts
+   * 
+   * I need to add the act() function:
+   *   to handle follow, lead, command sequences (scripts), and other commands that span multiple timesteps
+   *   
    */
   protected void processCommand(String cmd) {
     cmd = cmd.trim();
@@ -170,6 +253,14 @@ public class Avatar extends XholonWithPorts {
       }
       else {
         dropAll();
+      }
+      break;
+    case "eat":
+      if (len > 1) {
+        eat(data[1]);
+      }
+      else {
+        sb.append("Please specify which thing in the inventory to eat (ex: eat carrot).");
       }
       break;
     case "enter":
@@ -190,8 +281,30 @@ public class Avatar extends XholonWithPorts {
       }
       break;
     case "exit":
-      exit();
+      if (len == 1) {
+        exit(null);
+      }
+      else {
+        exit(data[1]);
+      }
       break;
+    case "follow": // follow the leader
+    {
+      if (len > 1) {
+        IXholon node = findNode(data[1], contextNode);
+        if (node != null) {
+          leader = node;
+          sb.append("Following.");
+        }
+        else {
+          sb.append("You can't find this leader to follow.");
+        }
+      }
+      else {
+        sb.append("Please specify the leader (ex: follow Dorothy).");
+      }
+      break;
+    }
     case "go":
       if (len > 1) {
         go(data[1]);
@@ -207,8 +320,33 @@ public class Avatar extends XholonWithPorts {
     case "inventory":
       inventory();
       break;
+    case "lead": // lead a follower
+    {
+      if (len > 1) {
+        IXholon node = findNode(data[1], contextNode);
+        if (node != null) {
+          follower = node;
+          sb.append("Leading.");
+        }
+        else {
+          sb.append("You can't find this follower to lead.");
+        }
+      }
+      else {
+        sb.append("Please specify the follower (ex: lead horse).");
+      }
+      break;
+    }
     case "look":
       look();
+      break;
+    case "param":
+      if (len > 2) {
+        param(data[1], data[2]);
+      }
+      else {
+        sb.append("Please specify the name and value of the param (ex: param loop false).");
+      }
       break;
     case "search":
       if (len > 1) {
@@ -218,6 +356,14 @@ public class Avatar extends XholonWithPorts {
         sb.append("Please specify what to search (ex: search box_13).");
       }
       break;
+    case "smash":
+      if (len > 1) {
+        smash(data[1]);
+      }
+      else {
+        sb.append("Please specify which thing to smash (ex: smash tower).");
+      }
+      break;
     case "take":
       if (len > 1) {
         take(data[1]);
@@ -225,6 +371,12 @@ public class Avatar extends XholonWithPorts {
       else {
         takeAll();
       }
+      break;
+    case "unfollow": // stop following the leader
+      leader = null;
+      break;
+    case "unlead": // stop leading a follower
+      follower = null;
       break;
     case "vanish":
       vanish();
@@ -277,6 +429,24 @@ public class Avatar extends XholonWithPorts {
   }
   
   /**
+   * Eat a specified thing in the avatar's inventory.
+   * This removes the thing from the Xholon tree.
+   * @param thing The Xholon name of the thing to eat.
+   * TODO perhaps only eat it if it's a normally human-edible thing.
+   *   But, the avatar could be some sort of people-eating monster, or a rock eater, etc.
+   */
+  protected void eat(String thing) {
+    IXholon node = findNode(thing, this);
+    if (node != null) {
+      node.removeChild();
+      sb.append("Yum.");
+    }
+    else {
+      sb.append("You're not carrying any such thing. You need to take it first.");
+    }
+  }
+  
+  /**
    * Move the avatar to the specified thing, which must be located inside the current contextNode.
    * @param thing The Xholon name of the thing to move to.
    */
@@ -317,6 +487,11 @@ public class Avatar extends XholonWithPorts {
     }
   }
   
+  /**
+   * Examine one node.
+   * @param thing The Xholon name of the thing to examine.
+   * @param node The thing to examine.
+   */
   protected void examineNode(String thing, IXholon node) {
     if (node.hasAnnotation()) {
       sb.append(" ").append(node.getAnnotation());
@@ -330,11 +505,20 @@ public class Avatar extends XholonWithPorts {
   }
   
   /**
-   * Exit to the parent of the current contextNode.
+   * Exit to the parent or other ancestor of the current contextNode.
    * If the contextNode has no parent, then do nothing.
+   * @param ancestor The XholonClass name of an ancestor in the CSH tree, or null.
+   *   a value of null signifies exiting to the immediate parent
+   *   by convention, this is usually uppercase (ex: exit House)
    */
-  protected void exit() {
-    IXholon node = contextNode.getParentNode();
+  protected void exit(String ancestor) {
+    IXholon node = null;
+    if (ancestor == null) {
+      node = contextNode.getParentNode();
+    }
+    else {
+      node = xpath.evaluate("ancestor::" + ancestor, contextNode);
+    }
     if (node != null) {
       if (this.hasParentNode()) {
         this.removeChild();
@@ -352,21 +536,56 @@ public class Avatar extends XholonWithPorts {
    * Move the avatar to the node located in a specified direction.
    * In practice, any valid Xholon port name can be used.
    * TODO handle port ports
-   * @param arg The name or index of a Xholon port (ex: "north" "south" "east" "west" "0" "1"),
+   * TODO handle an XPath expression as the portName
+   *   go xpath(ancestor::X/descendant::Y)
+   *   xpath.evaluate(portName, contextNode);
+   * @param portName The name or index of a Xholon port (ex: "north" "south" "east" "west" "0" "1"),
+   *   or a pseudo port name ("next" "prev" "xpath(...)")
    *   or an abbreviated name (ex: "n" "so" "eas" "w").
    */
   protected void go(String portName) {
     if (portName == null) {return;}
-    if ("next".startsWith(portName)) {
+    if ("next".equals(portName)) {
       IXholon node = contextNode.getNextSibling();
-      if (node == null) {sb.append("Can't go next.");}
+      if (node == null) {
+        if (loop) {
+          moveto(contextNode.getFirstSibling());
+        }
+        else {
+          sb.append("Can't go next.");
+        }
+      }
       else {moveto(node);}
       return;
     }
-    else if ("prev".startsWith(portName)) {
+    else if ("prev".equals(portName)) {
       IXholon node = contextNode.getPreviousSibling();
-      if (node == null) {sb.append("Can't go prev.");}
+      if (node == null) {
+        if (loop) {
+          moveto(contextNode.getLastSibling());
+        }
+        else {
+          sb.append("Can't go prev.");
+        }
+      }
       else {moveto(node);}
+      return;
+    }
+    else if (portName.startsWith("xpath")) {
+      // go xpath(ancestor::X/descendant::Y)
+      int begin = portName.indexOf("(");
+      if (begin == -1) {return;}
+      int end = portName.lastIndexOf(")");
+      if (end == -1) {return;}
+      String xpathExpression = portName.substring(begin+1, end);
+      if (xpathExpression.length() == 0) {return;}
+      IXholon node = xpath.evaluate(xpathExpression, contextNode);
+      if (node != null) {
+        moveto(node);
+      }
+      else {
+        sb.append("Can't go " + portName + ". ");
+      }
       return;
     }
     Object[] portArr = contextNode.getAllPorts().toArray();
@@ -416,15 +635,21 @@ public class Avatar extends XholonWithPorts {
     .append("Basic commands:")
     .append("\nappear")
     .append("\ndrop [thing]")
+    .append("\neat thing")
     .append("\nenter thing")
     .append("\nexamine thing  (x thing)")
-    .append("\nexit")
+    .append("\nexit [ancestor]")
+    .append("\nfollow leader")
     .append("\ngo portName")
     .append("\nhelp")
     .append("\ninventory  (i)")
+    .append("\nlead follower")
     .append("\nlook")
     .append("\nsearch thing")
+    .append("\nsmash thing")
     .append("\ntake [thing]")
+    .append("\nunfollow")
+    .append("\nunlead")
     .append("\nvanish")
     ;
   }
@@ -483,9 +708,50 @@ public class Avatar extends XholonWithPorts {
     }
   }
   
+  /**
+   * 
+   */
   protected void searchNode(String thing, IXholon node) {
     sb.append("Searching ...");
     lookRecurse(node.getFirstChild(), " ");
+  }
+  
+  /**
+   * Remove a thing from the Xholon tree,
+   * leaving behind the components of the thing (this is a flatten operation).
+   * If the thing doesn't exist, or if it hasn't any parent or any children,
+   * then no action will be taken.
+   * @param thing The Xholon name of the thing to smash.
+   */
+  protected void smash(String thing) {
+    IXholon node = findNode(thing, contextNode);
+    consoleLog(node.getName());
+    if (node != null) {
+      IXholon parentNode = node.getParentNode();
+      consoleLog(parentNode.getName());
+      if (parentNode == null) {
+        sb.append("You can't smash a thing that has no parent node.");
+        return;
+      }
+      IXholon childNode = node.getFirstChild();
+      consoleLog(childNode.getName());
+      if (childNode == null) {
+        sb.append("You can't smash a thing that has no contents.");
+        return;
+      }
+      while (childNode != null) {
+        consoleLog(childNode.getName());
+        IXholon nextChildNode = childNode.getNextSibling();
+        childNode.removeChild();
+        childNode.appendChild(parentNode);
+        childNode = nextChildNode;
+      }
+      node.removeChild();
+      sb.append("Smashed.");
+    }
+    else {
+      sb.append("You can't smash any such thing.");
+    }
   }
   
   /**
@@ -530,6 +796,26 @@ public class Avatar extends XholonWithPorts {
   protected void vanish() {
     if (this.hasParentNode()) {
       this.removeChild();
+    }
+  }
+  
+  /**
+   * Change the value of a parameter.
+   * @param name 
+   * @param value 
+   */
+  protected void param(String name, String value) {
+    switch (name) {
+    case "loop":
+      switch (value) {
+      case "true": loop = true; break;
+      case "false": loop = false; break;
+      case "toggle": loop = !loop; break;
+      default: break;
+      }
+      break;
+    default:
+      break;
     }
   }
   
