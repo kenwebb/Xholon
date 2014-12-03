@@ -58,6 +58,14 @@ public class OrNode extends Xholon implements IOrNode {
 	public void setVal(String val)
 	{
 		this.val = val;
+		// The following allows apps to initialize the onlyChild in a Xholon-standard way.
+		// This is especially important for JavaScript apps that can't access setOnlyChild().
+		initOnlyChild(val);
+	}
+	
+	@Override
+	public void setVal_String(String val) {
+	  setVal(val);
 	}
 	
 	/*
@@ -66,6 +74,16 @@ public class OrNode extends Xholon implements IOrNode {
 	public String getVal_String()
 	{
 		return val;
+	}
+	
+	@Override
+	public void setVal_Object(Object obj) {
+	  setOnlyChild((IXholon)obj);
+	}
+	
+	@Override
+	public Object getVal_Object() {
+	  return getOnlyChild();
 	}
 	
 	/*
@@ -83,20 +101,27 @@ public class OrNode extends Xholon implements IOrNode {
 		// by default, onlyChild is the firstChild if nothing else has been specified
 		if (onlyChild == null) {
 			onlyChild = getFirstChild();
-			if (val != null) {
-				// search for child where this.val equals child.roleName
-				IXholon node = getFirstChild();
-				while (node != null) {
-					if (val.equals(node.getRoleName())) {
-						onlyChild = node;
-						break;
-					}
-					node = node.getNextSibling();
-				}
-			}
+			initOnlyChild(val);
 		}
 		super.postConfigure();
 	}
+	
+	/**
+	 * Try to initialize the value of the only child.
+	 * @param onlyChildStr The roleName of the onlyChild node.
+	 */
+	protected void initOnlyChild(String onlyChildStr) {
+	  if (onlyChildStr == null) {return;}
+		IXholon node = getFirstChild();
+		while (node != null) {
+			if (onlyChildStr.equals(node.getRoleName())) {
+				onlyChild = node;
+				break;
+			}
+			node = node.getNextSibling();
+		}
+	}
+	
 	/*
 	 * @see org.primordion.xholon.base.Xholon#preAct()
 	 */
