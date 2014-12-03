@@ -66,76 +66,77 @@ public class Animate extends XholonScript {
   private IXholon xhAnimRoot = null;
   
   /*
-	 * @see org.primordion.xholon.base.Xholon#postConfigure()
-	 */
-	public void postConfigure() {
-	  HtmlScriptHelper.requireScript("xhSvgTween", null);
-	  app = this.getApp();
-	  xhAnimRoot = app.getRoot();
-	  if (xpath.length() != 0) {
-	    xhAnimRoot = this.getXPath().evaluate(xpath, xhAnimRoot);
-	  }
-	  // align the tween duration with the Xholon TimeStepInterval
-	  app.setParam("TimeStepInterval", Integer.toString(((int)(duration * 1000.0))));
-	  if (cssStyle != null) {
-	    style(cssStyle);
-	  }
-	}
-	
+   * @see org.primordion.xholon.base.Xholon#postConfigure()
+   */
+  public void postConfigure() {
+    HtmlScriptHelper.requireScript("xhSvgTween", null);
+    app = this.getApp();
+    xhAnimRoot = app.getRoot();
+    if (xpath.length() != 0) {
+      xhAnimRoot = this.getXPath().evaluate(xpath, xhAnimRoot);
+    }
+    // align the tween duration with the Xholon TimeStepInterval
+    app.setParam("TimeStepInterval", Integer.toString(((int)(duration * 1000.0))));
+    if (cssStyle != null) {
+      style(cssStyle);
+    }
+    super.postConfigure();
+  }
+  
   /*
-	 * @see org.primordion.xholon.base.Xholon#act()
-	 */
-	public void act() {
-	  xport(formatName, xhAnimRoot, efParams, writeToTab);
-	  tween(selection, duration);
-	  super.act();
-	}
-	
-	/**
-	 * Here's what a typical call to xh.xport() with XholonJsApi.java looks like:
+   * @see org.primordion.xholon.base.Xholon#act()
+   */
+  public void act() {
+    xport(formatName, xhAnimRoot, efParams, writeToTab);
+    tween(selection, duration);
+    super.act();
+  }
+  
+  /**
+   * Here's what a typical call to xh.xport() with XholonJsApi.java looks like:
    * $wnd.xh.xport('_d3,CirclePack', root.first(),
    *  '{"shouldIncludeDecorations":true,"sort":"disable","width":600,"height":600,"mode":"tween"}',false);
-	 */
-	protected native void xport(String formatName, IXholon xhAnimRoot, String efParams, boolean writeToTab) /*-{
-	  $wnd.xh.xport(formatName, xhAnimRoot, efParams, writeToTab);
-	}-*/;
-	
-	protected native void tween(String selection, double duration) /*-{
-	  if ($wnd.xh.tween) {
+   */
+  protected native void xport(String formatName, IXholon xhAnimRoot, String efParams, boolean writeToTab) /*-{
+    $wnd.xh.xport(formatName, xhAnimRoot, efParams, writeToTab);
+  }-*/;
+  
+  protected native void tween(String selection, double duration) /*-{
+    if ($wnd.xh.tween) {
       $wnd.xh.tween(selection, duration);
     }
-	}-*/;
-	
-	protected native void style(String cssStyle) /*-{
-	  $wnd.xh.css.style(cssStyle);
-	}-*/;
-	
-	/*
-	 * @see org.primordion.xholon.base.Xholon#setAttributeVal(java.lang.String, java.lang.String)
-	 */
-	public int setAttributeVal(String attrName, String attrVal) {
-		if ("formatName".equals(attrName)) {
-			this.formatName = attrVal;
-		}
-		else if ("xpath".equals(attrName)) {
-			this.xpath = attrVal;
-		}
-		else if ("efParams".equals(attrName)) {
-			this.efParams = attrVal;
-		}
-		else if ("writeToTab".equals(attrName)) {
-			this.writeToTab = Boolean.parseBoolean(attrVal);
-		}
-		else if ("selection".equals(attrName)) {
-			this.selection = attrVal;
-		}
-		else if ("duration".equals(attrName)) {
-			this.duration = Double.parseDouble(attrVal);
-		}
-		else if ("cssStyle".equals(attrName)) {
-			this.cssStyle = attrVal;
-		}
-		return 0;
-	}
-	
+  }-*/;
+  
+  protected native void style(String cssStyle) /*-{
+    $wnd.xh.css.style(cssStyle);
+  }-*/;
+  
+  /*
+   * @see org.primordion.xholon.base.Xholon#setAttributeVal(java.lang.String, java.lang.String)
+   */
+  public int setAttributeVal(String attrName, String attrVal) {
+    if ("formatName".equals(attrName)) {
+      this.formatName = attrVal;
+    }
+    else if ("xpath".equals(attrName)) {
+      this.xpath = attrVal;
+    }
+    else if ("efParams".equals(attrName)) {
+      this.efParams = attrVal;
+    }
+    else if ("writeToTab".equals(attrName)) {
+      this.writeToTab = Boolean.parseBoolean(attrVal);
+    }
+    else if ("selection".equals(attrName)) {
+      this.selection = attrVal;
+    }
+    else if ("duration".equals(attrName)) {
+      this.duration = Double.parseDouble(attrVal);
+    }
+    else if ("cssStyle".equals(attrName)) {
+      this.cssStyle = attrVal;
+    }
+    return 0;
+  }
+  
 }
