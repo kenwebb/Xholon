@@ -53,7 +53,7 @@ public class Animate extends XholonScript {
   private boolean writeToTab = false;
   
   /** CSS selection for parent of the SVG content */
-  private String selection = "#xhgraph";
+  private String selection = "#xhanim";
   
   /** Tween duration in seconds */
   private double duration = 2;
@@ -63,6 +63,8 @@ public class Animate extends XholonScript {
   private String cssStyle = null;
   
   private IApplication app = null;
+  
+  /** The root node of the Xholon subtree that is being animated, in this anination */
   private IXholon xhAnimRoot = null;
   
   /*

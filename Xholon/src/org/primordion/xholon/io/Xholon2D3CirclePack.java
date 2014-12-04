@@ -28,7 +28,7 @@ public class Xholon2D3CirclePack {
 	
 	/**
 	 * Create a D3 Pack Layout from the JSON data.
-	 * typical values: width=600 height=600 selection:"#xhgraph"
+	 * typical values: width=600 height=600 selection:"#xhgraph"|"xhanim"
 	 * This is called directly by io.XholonGuiD3CirclePack.showTree(), and by
 	 * ef.d3.Xholon2CirclePack.java createD3() through io.XholonGuiD3CirclePack.showTree()
 	 * @param json 

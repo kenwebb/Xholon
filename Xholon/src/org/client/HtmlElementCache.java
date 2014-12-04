@@ -40,10 +40,11 @@ public class HtmlElementCache {
   public static final Element xhtabs = Document.get().getElementById("xhtabs");
   
   public static final Element xhgraph = Document.get().getElementById("xhgraph");
-  
   public static final Element networkview = Document.get().getElementById("networkview");
-  
   public static final Element treeview = Document.get().getElementById("treeview");
+  public static final Element xhtreemap = Document.get().getElementById("xhtreemap");
+  
+  public static final Element xhanim = Document.get().getElementById("xhanim");
   
   public static final Element xhsvg = Document.get().getElementById("xhsvg");
   
@@ -72,7 +73,7 @@ public class HtmlElementCache {
    * which will typically be those defined as constants in this class.
    * A top-level element is defined as a direct child of the body element.
    * @return a comma-delimited list
-   *   (ex: "xhtop,xhgui,xhappspecific,xhconsole,xhtabs,xhchart,xhcanvas,xhgraph,xhsvg,xhimg").
+   *   (ex: "xhtop,xhgui,xhappspecific,xhconsole,xhtabs,xhchart,xhcanvas,xhgraph,xhanim,xhsvg,xhimg").
    */
   public static String getTopLevelElementNames() {
     StringBuilder sb = new StringBuilder();

@@ -49,7 +49,7 @@ public abstract class AbstractXholon2ExternalFormat extends Xholon {
 	 */
   public AbstractXholon2ExternalFormat() {
     makeEfParams();
-    consoleLog(getEfParamsAsJsonString());
+    //consoleLog(getEfParamsAsJsonString());
   }
   
   /**

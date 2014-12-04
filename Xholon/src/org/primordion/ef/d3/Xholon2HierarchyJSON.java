@@ -79,7 +79,7 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
 		    height = numNodes;
 		  }
 		  JavaScriptObject json = ((JSONObject)JSONParser.parseLenient(jsonStr)).getJavaScriptObject();
-		  createD3(json, width, height, "#xhgraph");
+		  createD3(json, width, height, this.getSelection());
 		}
 	}
 	
@@ -102,7 +102,7 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
 	/**
 	 * Create a D3 construct from the JSON data.
 	 * This method should be overridden by subclasses.
-	 * typical values: width=600 height=600 selection:"#xhgraph"
+	 * typical values: width=600 height=600 selection:"#xhgraph"|"xhanim"
 	 */
 	protected void createD3(JavaScriptObject json, int width, int height, Object selection) {}
 	
@@ -117,7 +117,7 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
     p.filter = "--Behavior,Script";
     p.width = -1;
     p.height = -1;
-    p.selection = "#xhgraph"; // "#xhgraph>div[1]"
+    p.selection = "#xhgraph"; // "#xhgraph>div[1]" "xhanim"
     p.mode = "new"; // "replace", "tween"
     p.labelContainers = false; // whether or not to label the container nodes
     this.efParams = p;
