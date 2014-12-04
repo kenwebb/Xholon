@@ -136,7 +136,7 @@ public class Avatar extends XholonWithPorts {
   public void act() {
     if (leader != null) {
       // I must follow the leader
-      consoleLog(this.getName() + " is following (accompanying) " + leader.getName());
+      //consoleLog(this.getName() + " is following (accompanying) " + leader.getName());
       if (contextNode != leader.getParentNode()) {
         this.removeChild();
         this.appendChild(leader.getParentNode());
@@ -145,7 +145,7 @@ public class Avatar extends XholonWithPorts {
     }
     if (follower != null) {
       // I must pull the follower along with me
-      consoleLog(this.getName() + " is being followed (accompanied) by " + follower.getName());
+      //consoleLog(this.getName() + " is being followed (accompanied) by " + follower.getName());
       if (contextNode != follower.getParentNode()) {
         follower.removeChild();
         follower.appendChild(this.getParentNode());
@@ -725,22 +725,18 @@ public class Avatar extends XholonWithPorts {
    */
   protected void smash(String thing) {
     IXholon node = findNode(thing, contextNode);
-    consoleLog(node.getName());
     if (node != null) {
       IXholon parentNode = node.getParentNode();
-      consoleLog(parentNode.getName());
       if (parentNode == null) {
         sb.append("You can't smash a thing that has no parent node.");
         return;
       }
       IXholon childNode = node.getFirstChild();
-      consoleLog(childNode.getName());
       if (childNode == null) {
         sb.append("You can't smash a thing that has no contents.");
         return;
       }
       while (childNode != null) {
-        consoleLog(childNode.getName());
         IXholon nextChildNode = childNode.getNextSibling();
         childNode.removeChild();
         childNode.appendChild(parentNode);
