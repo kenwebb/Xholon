@@ -120,6 +120,7 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
     p.selection = "#xhgraph"; // "#xhgraph>div[1]" "xhanim"
     p.mode = "new"; // "replace", "tween"
     p.labelContainers = false; // whether or not to label the container nodes
+    p.includeId = false;
     this.efParams = p;
   }-*/;
 
@@ -146,5 +147,8 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
   
   public native String getMode() /*-{return this.efParams.mode;}-*/;
   //public native void setMode(String mode) /*-{this.efParams.mode = mode;}-*/;
+  
+  public native boolean isIncludeId() /*-{return this.efParams.includeId;}-*/;
+  //public native void setIncludeId(boolean includeId) /*-{this.efParams.includeId = includeId;}-*/;
   
 }

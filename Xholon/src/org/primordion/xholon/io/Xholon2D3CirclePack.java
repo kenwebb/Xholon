@@ -44,12 +44,14 @@ public class Xholon2D3CirclePack {
     format = $wnd.d3.format(",d"),
     sort = null,
     mode = null,
-    labelContainers = false;
+    labelContainers = false,
+    includeId = false;
     
     if (efParams) {
       sort = efParams.sort;
       mode = efParams.mode;
       labelContainers = efParams.labelContainers;
+      includeId = efParams.includeId;
       if (efParams.width != -1) {w = efParams.width;}
       if (efParams.height != -1) {h = efParams.height;}
       if (efParams.selection) {selection = efParams.selection;}
@@ -94,7 +96,7 @@ public class Xholon2D3CirclePack {
       .classed("hidden", hidden)
       .attr("width", w)
       .attr("height", h)
-      .append("svg:g")
+      .append("svg:g") // the top-level g
       .attr("transform", function(d) {
         var sx = 1;
         var sy = 1;
@@ -118,6 +120,13 @@ public class Xholon2D3CirclePack {
       .attr("transform", function(d) {
         return "translate(" + d.x + "," + d.y + ")";
       });
+    
+    // TODO I may want to include a unique prefix to ensure that the id is unique in the HTML tree
+    if (includeId) {
+      node.attr("id", function(d) {
+        return d.name;
+      });
+    }
     
     node.append("svg:title")
       .text(function(d) {
