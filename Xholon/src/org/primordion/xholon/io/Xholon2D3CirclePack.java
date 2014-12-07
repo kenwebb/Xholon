@@ -28,7 +28,7 @@ public class Xholon2D3CirclePack {
 	
 	/**
 	 * Create a D3 Pack Layout from the JSON data.
-	 * typical values: width=600 height=600 selection:"#xhgraph"|"xhanim"
+	 * typical values: width=600 height=600 selection:"#xhgraph"|"#xhanim"
 	 * This is called directly by io.XholonGuiD3CirclePack.showTree(), and by
 	 * ef.d3.Xholon2CirclePack.java createD3() through io.XholonGuiD3CirclePack.showTree()
 	 * @param json 
@@ -45,13 +45,15 @@ public class Xholon2D3CirclePack {
     sort = null,
     mode = null,
     labelContainers = false,
-    includeId = false;
+    includeId = false,
+    shape = "circle";
     
     if (efParams) {
       sort = efParams.sort;
       mode = efParams.mode;
       labelContainers = efParams.labelContainers;
       includeId = efParams.includeId;
+      shape = efParams.shape;
       if (efParams.width != -1) {w = efParams.width;}
       if (efParams.height != -1) {h = efParams.height;}
       if (efParams.selection) {selection = efParams.selection;}
@@ -92,11 +94,11 @@ public class Xholon2D3CirclePack {
       }
     }
     
-    var svg = selectionNode.append("svg:svg")
+    var svg = selectionNode.append("svg")
       .classed("hidden", hidden)
       .attr("width", w)
       .attr("height", h)
-      .append("svg:g") // the top-level g
+      .append("g") // the top-level g
       .attr("transform", function(d) {
         var sx = 1;
         var sy = 1;
@@ -113,7 +115,7 @@ public class Xholon2D3CirclePack {
       .selectAll("g.node")
       .data(pack.nodes)
       .enter()
-      .append("svg:g")
+      .append("g")
       .attr("class", function(d) {
         return d.children ? "d3cpnode" : "d3cpleaf d3cpnode";
       })
@@ -128,28 +130,44 @@ public class Xholon2D3CirclePack {
       });
     }
     
-    node.append("svg:title")
+    node.append("title")
       .text(function(d) {
         return d.name;
       });
     
-    node.append("svg:circle")
-      .attr("r", function(d) {
-        return d.r;
-      })
-      //.style("stroke", function(d) {
-      //  return d.color;
-      //})
-      .style("fill", function(d) {
-        return d.color;
-      })
-      .style("fill-opacity", function(d) {
-        return d.opacity;
-      });
+    switch (shape) {
+    case "circle":
+      node.append(shape)
+        .attr("r", function(d) {return d.r;})
+        //.style("stroke", function(d) {return d.color;})
+        .style("fill", function(d) {return d.color;})
+        .style("fill-opacity", function(d) {return d.opacity;});
+      break;
+    case "ellipse": // TODO this is just a placeholder for now
+      node.append(shape)
+        .attr("rx", function(d) {return d.r;})
+        .attr("ry", function(d) {return d.r;})
+        .style("fill", function(d) {return d.color;})
+        .style("fill-opacity", function(d) {return d.opacity;});
+      break;
+    case "rect": // TODO this is just a placeholder for now; a fully rounded square
+      node.append(shape)
+        .attr("width", function(d) {return d.r * 2;}) // Math.sqrt(2*d.r*d.r)
+        .attr("height", function(d) {return d.r * 2;})
+        .attr("rx", function(d) {return d.r;})
+        .attr("ry", function(d) {return d.r;})
+        //.attr("transform", function(d) { return "translate(-" + d.r + ",-" + d.r + ")";})
+        .attr("x", function(d) {return -d.r;})
+        .attr("y", function(d) {return -d.r;})
+        .style("fill", function(d) {return d.color;})
+        .style("fill-opacity", function(d) {return d.opacity;});
+      break;
+    default: break; // TODO handle path, g, embedded svg, etc.
+    }
     
     node.filter(function(d) {
       return !(d.children || d.dummy);
-    }).append("svg:text")
+    }).append("text")
       .attr("dy", ".3em")
       .style("text-anchor", "middle")
       .style("font-size", function(d) {
@@ -167,7 +185,7 @@ public class Xholon2D3CirclePack {
     if (labelContainers) {
       node.filter(function(d) {
         return d.children;
-      }).append("svg:text")
+      }).append("text")
         .attr("dy", function(d) {
           var px = d.r - 8; // (circleRadius - (fontsize + 5 - 1))
           if (px < 0) {px = 0;}
@@ -367,7 +385,7 @@ public class Xholon2D3CirclePack {
     function findAndStyleReferencedNode(title) {
       if (title.empty()) {return;}
       var parent = $wnd.d3.select(title.node().parentNode);
-      var circleNode = parent.select("circle");
+      var circleNode = parent.select(shape);
       if (circleNode) {
         // fill
         var styleFill = circleNode.style("fill");
@@ -405,7 +423,7 @@ public class Xholon2D3CirclePack {
     function findAndStyleReferencingNode(title) {
       if (title.empty()) {return;}
       var parent = $wnd.d3.select(title.node().parentNode);
-      var circleNode = parent.select("circle");
+      var circleNode = parent.select(shape);
       if (circleNode) {
         // stroke-width
         var styleStrokeWidth = circleNode.style("stroke-width");

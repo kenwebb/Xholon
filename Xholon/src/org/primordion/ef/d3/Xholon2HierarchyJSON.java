@@ -117,10 +117,11 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
     p.filter = "--Behavior,Script";
     p.width = -1;
     p.height = -1;
-    p.selection = "#xhgraph"; // "#xhgraph>div[1]" "xhanim"
+    p.selection = "#xhgraph"; // "#xhgraph>div[1]", "#xhanim"
     p.mode = "new"; // "replace", "tween"
     p.labelContainers = false; // whether or not to label the container nodes
     p.includeId = false;
+    p.shape = "circle"; // "ellipse", "rect"
     this.efParams = p;
   }-*/;
 
