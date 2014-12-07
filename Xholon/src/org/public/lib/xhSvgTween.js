@@ -2,8 +2,7 @@
 // xhSvgTween.js
 // Ken Webb  November 19, 2014
 // Designed to work with 2 D3-CirclePack SVG images in "The Black Geese" app.
-// TODO handle dummy nodes; they have the same name is the regular node
-// - append "DUMMY" to these names? NO don't do this
+// Only handles SVG circle; returns if finds something else (ex: ellipse).
 // for now I'm using TweenLite for tweening, rather than D3
 
 // usage: xh.tween();
@@ -35,9 +34,10 @@ xh.tween = function(selection, duration, sortedArr1) {
       var g = group[i];
       obj.group = g;
       obj.element = g.querySelector("circle");
+      if (!obj.element) {return null;}
       obj.xhname = g.querySelector("title").textContent;
       obj.transform = g.transform;
-      obj.rvalue = g.querySelector("circle").r.baseVal;
+      obj.rvalue = obj.element.r.baseVal;
       obj.className = g.className;
       //obj.text = g.querySelector("text");
       arr.push(obj);
@@ -86,6 +86,7 @@ xh.tween = function(selection, duration, sortedArr1) {
   if (sortedArr1 === undefined) {
     var g1 = svg1.querySelectorAll("g>g");
     arr1 = makeSortedArray(g1);
+    if (!arr1) {return;}
   }
   else {
     arr1 = sortedArr1;
