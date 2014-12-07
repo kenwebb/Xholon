@@ -26,6 +26,20 @@ public class Xholon2D3HierarchyJSON {
 	
 	private int numNodes = 0;
 	
+	/** Opacity of a node that has a user defined color. */
+	private double opacityUserDefinedColor = 0.1;
+	
+	/** Dummy nodes should be invisible. */
+	private double opacityDummy = 0.0;
+	
+	private double sizeDefault = 1.0;
+	
+	/** Dummy nodes should be small. */
+	private double sizeDummy = 0.2;
+	
+	/** This is an internal flag that is switched on and off within two different methods. */
+	private boolean hasUserDefinedColor = false;
+	
 	public Xholon2D3HierarchyJSON() {}
 	
 	public boolean initialize(IXholon root) {
@@ -67,6 +81,7 @@ public class Xholon2D3HierarchyJSON {
 		.append(node.getName())
 		.append("\", ");
 		
+		hasUserDefinedColor = false;
 		if (isShouldIncludeDecorations()) {
 		  sb.append(getDecorationStr(node));
 		}
@@ -75,23 +90,27 @@ public class Xholon2D3HierarchyJSON {
 		if ((node.getXhcId() == CeStateMachineEntity.StateMachineCE)
 				&& (isShouldShowStateMachineEntities() == false)
 				&& (level > 0)) {
-			sb.append("\"size\": 1");
+			sb.append("\"size\": ").append(sizeDefault);
 		}
 		else if (node.hasChildNodes()) {
 			IXholon childNode = node.getFirstChild();
-			String dummy = "";
+			StringBuilder dummy = new StringBuilder();
 			if (isInsertDummyData() && childNode.getNextSibling() == null) {
 			  // this is a container with only one child
-			  sb
-			  // prevent it from accumulating a darker color
-			  .append("\"opacity\": \"0\", ");
-			  dummy = tab
-			   + " {\"name\": \""
-			   + node.getName()
-			   + "\", \"size\": 0.2, \"opacity\": \"0\", \"dummy\": 1},\n";
+			  if (!hasUserDefinedColor) {
+			    sb
+			    // prevent it from accumulating a darker color
+			    .append("\"opacity\": ").append(opacityDummy).append(", ");
+			  }
+			  dummy.append(tab)
+			   .append(" {\"name\": \"")
+			   .append(node.getName())
+			   .append("\", \"size\": ").append(sizeDummy)
+  	     .append(", \"opacity\": ").append(opacityDummy)
+			   .append(", \"dummy\": ").append(1).append("},\n");
 			}
 			sb.append("\"children\": [\n")
-			.append(dummy);
+			.append(dummy.toString());
 			while (childNode != null) {
 				writeNode(childNode, level+1);
 				childNode = childNode.getNextSibling();
@@ -105,7 +124,7 @@ public class Xholon2D3HierarchyJSON {
 			.append("]");
 		}
 		else {
-		  sb.append("\"size\": 1");
+		  sb.append("\"size\": ").append(sizeDefault);
 		}
 		sb.append("}");
 	}
@@ -145,13 +164,30 @@ public class Xholon2D3HierarchyJSON {
 		  }
 	  }
     if (color != null) {
+      hasUserDefinedColor = true;
       sbd
       .append("\"color\": \"")
       .append(color)
-      .append("\", ")
-      .append("\"opacity\": \".10\", ");
+      .append("\", ");
+      if (isRGBA(color)) {
+        // allow the rgba alpha value to have its full effect (result is rgba alpha * opacity)
+        sbd.append("\"opacity\": ").append(1.0).append(", ");
+      } else {
+        sbd.append("\"opacity\": ").append(opacityUserDefinedColor).append(", ");
+      }
     }
 	  return sbd.toString();
+	}
+	
+	/**
+	 * Does this color specify an alpha channel?
+	 * @param color without alpha: "#123456" "#123" "red" "rgb(1,2,3)"   with alpha: "rgba(1,2,3,0.5)"
+	 *   Note that SVG does NOT support hex notation with an alpha channel (ex: "#12345678").
+	 * @return true or false
+	 */
+	protected boolean isRGBA(String color) {
+	  if (color.startsWith("rgba(")) {return true;}
+	  return false;
 	}
 	
 	/**
