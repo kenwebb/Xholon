@@ -122,6 +122,7 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
     p.labelContainers = false; // whether or not to label the container nodes
     p.includeId = false;
     p.shape = "circle"; // "ellipse", "rect"
+    p.maxSvg = 50; // max allowable number of SVG subtrees, to prevent running out of memory
     this.efParams = p;
   }-*/;
 
