@@ -30,8 +30,9 @@ xh.tween = function(selection, duration, sortedArr1) {
   var makeSortedArray = function(group) {
     var arr = [];
     for (var i = 0; i < group.length; i++) {
-      var obj = {};
       var g = group[i];
+      if (g.className.baseVal == "d3cpdummy") {continue;}
+      var obj = {};
       obj.group = g;
       obj.element = g.querySelector("circle");
       if (!obj.element) {return null;}
