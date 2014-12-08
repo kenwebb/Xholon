@@ -46,7 +46,8 @@ public class Xholon2D3CirclePack {
     mode = null,
     labelContainers = false,
     includeId = false,
-    shape = "circle";
+    shape = "circle",
+    maxSvg = 50; // max allowable number of SVG subtrees, to prevent running out of memory
     
     if (efParams) {
       sort = efParams.sort;
@@ -54,6 +55,7 @@ public class Xholon2D3CirclePack {
       labelContainers = efParams.labelContainers;
       includeId = efParams.includeId;
       shape = efParams.shape;
+      maxSvg = efParams.maxSvg;
       if (efParams.width != -1) {w = efParams.width;}
       if (efParams.height != -1) {h = efParams.height;}
       if (efParams.selection) {selection = efParams.selection;}
@@ -77,6 +79,12 @@ public class Xholon2D3CirclePack {
     }
     
     var selectionNode = $wnd.d3.select(selection);
+    if ((maxSvg < 1)
+      || ((!selectionNode.empty())
+        && (selectionNode.node().childNodes.length > maxSvg))) {
+          // prevent number of SVG subtrees from becoming arbitrarily large
+          return;
+        }
     var hidden = false;
     
     // selectionNode.html(null) only works if selectionNode is an HTML node; can't be a SVG node
@@ -117,6 +125,7 @@ public class Xholon2D3CirclePack {
       .enter()
       .append("g")
       .attr("class", function(d) {
+        if (d.dummy) {return "d3cpdummy";}
         return d.children ? "d3cpnode" : "d3cpleaf d3cpnode";
       })
       .attr("transform", function(d) {
