@@ -18,6 +18,8 @@
 
 package org.primordion.xholon.base;
 
+import org.primordion.xholon.app.IApplication;
+
 /**
  * Avatar is based on the requirements for actors in Interactive Fiction (IF), especially Inform 7.
  * This basic avatar can be inserted as a node in any Xholon app.
@@ -105,6 +107,40 @@ public class Avatar extends XholonWithPorts {
    */
   protected IXholon follower = null;
   
+  /**
+   * An optional array of actions to automatically perform, during successive timesteps.
+   */
+  protected String[] actions = new String[0];
+  
+  /**
+   * Index into the actions array.
+   */
+  protected int actionIx = -1;
+  
+  /**
+   * Whether or not act() should call println() for each action.
+   */
+  protected boolean printlnAction = true;
+  
+  /**
+   * An optional caption that act() should write to for each action.
+   * TODO this should be an HTML or SVG element.
+   */
+  protected Object caption = null;
+  
+  /**
+   * An optional prefix if call println() or caption for each action.
+   */
+  protected String outPrefix = "";
+  
+  /**
+   * If this avatar moves within the Xholon tree, it might be executed multiple times in the same timestep.
+   * This variable helps to prevent that.
+   */
+  protected int actTimeStep = -1;
+  
+  protected IApplication app = null;
+  
   // constructor
   public Avatar() {}
   
@@ -126,33 +162,83 @@ public class Avatar extends XholonWithPorts {
   public void decVal(double decAmount) {val -= decAmount;}
   
   @Override
+  public void setVal(String actionsStr) {
+    this.setVal_String(actionsStr);
+  }
+  
+  @Override
+  public void setVal_String(String actionsStr) {
+    // set the contents of the actions array
+    if ((actionsStr != null) && (actionsStr.length() > 0)) {
+      actions = actionsStr.split("\n");
+      actionIx = -1;
+    }
+  }
+  
+  @Override
+  public String getVal_String() {
+    // get the value of the current item in the actions array, or null
+    if ((actionIx > -1) && (actionIx < actions.length)) {
+      return actions[actionIx];
+    }
+    return null;
+  }
+  
+  @Override
   public void postConfigure() {
     contextNode = this.getParentNode();
+    app = this.getApp();
     xpath = this.getXPath();
+    if (this.getFirstChild() != null) {
+      this.setVal_String(this.getFirstChild().getVal_String());
+      this.outPrefix = this.getName(IXholon.GETNAME_ROLENAME_OR_CLASSNAME) + ": ";
+      this.getFirstChild().removeChild();
+    }
     super.postConfigure();
   }
   
   @Override
   public void act() {
-    if (leader != null) {
-      // I must follow the leader
-      //consoleLog(this.getName() + " is following (accompanying) " + leader.getName());
-      if (contextNode != leader.getParentNode()) {
-        this.removeChild();
-        this.appendChild(leader.getParentNode());
-        //contextNode = this.getParentNode(); // handled by local appendChild(...)
+    // check to see if this node has already been called this timestep
+    int ts = app.getTimeStep();
+    
+    if (actTimeStep < ts) {
+      actTimeStep = ts;
+      if (leader != null) {
+        // I must follow the leader
+        //consoleLog(this.getName() + " is following (accompanying) " + leader.getName());
+        if (contextNode != leader.getParentNode()) {
+          this.removeChild();
+          this.appendChild(leader.getParentNode());
+          //contextNode = this.getParentNode(); // handled by local appendChild(...)
+        }
+      }
+      
+      if (++actionIx < actions.length) {
+        String a = actions[actionIx].trim();
+        if (a.length() > 0) {
+          if (caption != null) {
+            // TODO
+          }
+          if (printlnAction) {
+            this.println(outPrefix + a);
+          }
+          this.doAction(a);
+        }
+      }
+      
+      if (follower != null) {
+        // I must pull the follower along with me
+        //consoleLog(this.getName() + " is being followed (accompanied) by " + follower.getName());
+        if (contextNode != follower.getParentNode()) {
+          follower.removeChild();
+          follower.appendChild(this.getParentNode());
+          // TODO if follower is an Avatar, then change it's contextNode
+           // handled by local appendChild(...)
+        }
       }
     }
-    if (follower != null) {
-      // I must pull the follower along with me
-      //consoleLog(this.getName() + " is being followed (accompanied) by " + follower.getName());
-      if (contextNode != follower.getParentNode()) {
-        follower.removeChild();
-        follower.appendChild(this.getParentNode());
-        // TODO if follower is an Avatar, then change it's contextNode
-         // handled by local appendChild(...)
-      }
-    }
+    
     super.act();
   }
   
