@@ -19,6 +19,8 @@
 package org.primordion.xholon.base;
 
 import org.primordion.xholon.app.IApplication;
+import org.primordion.xholon.service.IXholonService;
+import org.primordion.xholon.service.XholonHelperService;
 
 /**
  * Avatar is based on the requirements for actors in Interactive Fiction (IF), especially Inform 7.
@@ -72,6 +74,8 @@ public class Avatar extends XholonWithPorts {
   // Constants
   protected static final String COMMENT_START = "["; // Inform 7 comment start
   protected static final String CMD_SEPARATOR = ";"; // Inform 6 command separator
+  protected static final int ACTIONIX_INITIAL = -1; // initial value of actionIx
+  protected static final int WAITCOUNT_HIGH = Integer.MAX_VALUE; // waitCount max value
   
   // Variables
   protected String roleName = null;
@@ -89,9 +93,17 @@ public class Avatar extends XholonWithPorts {
   
   // Parameters that can be set through a user command
   
-  // whether or not to loop with "go next" and "go prev"
-  // "param loop true|false|toggle"
+  /**
+   * Whether or not to loop with "go next" and "go prev".
+   * "param loop true|false|toggle"
+   */
   protected boolean loop = true;
+  
+  /**
+   * Whether or not to repeat the current command sequence when it's finished.
+   * "param repeat true|false|toggle"
+   */
+  protected boolean repeat = false;
   
   /**
    * A node that this avatar should follow each timestep.
@@ -115,7 +127,7 @@ public class Avatar extends XholonWithPorts {
   /**
    * Index into the actions array.
    */
-  protected int actionIx = -1;
+  protected int actionIx = ACTIONIX_INITIAL;
   
   /**
    * Whether or not act() should call println() for each action.
@@ -138,6 +150,12 @@ public class Avatar extends XholonWithPorts {
    * This variable helps to prevent that.
    */
   protected int actTimeStep = -1;
+  
+  /**
+   * The number of timesteps that the avatar should wait
+   * before starting to process commands in the current script.
+   */
+  protected int waitCount = 0;
   
   protected IApplication app = null;
   
@@ -171,14 +189,14 @@ public class Avatar extends XholonWithPorts {
     // set the contents of the actions array
     if ((actionsStr != null) && (actionsStr.length() > 0)) {
       actions = actionsStr.split("\n");
-      actionIx = -1;
+      actionIx = ACTIONIX_INITIAL;
     }
   }
   
   @Override
   public String getVal_String() {
     // get the value of the current item in the actions array, or null
-    if ((actionIx > -1) && (actionIx < actions.length)) {
+    if ((actionIx > ACTIONIX_INITIAL) && (actionIx < actions.length)) {
       return actions[actionIx];
     }
     return null;
@@ -214,17 +232,25 @@ public class Avatar extends XholonWithPorts {
         }
       }
       
-      if (++actionIx < actions.length) {
-        String a = actions[actionIx].trim();
-        if (a.length() > 0) {
-          if (caption != null) {
-            // TODO
+      if (waitCount == 0) {
+        if (++actionIx < actions.length) {
+          String a = actions[actionIx].trim();
+          if (a.length() > 0) {
+            if (caption != null) {
+              // TODO
+            }
+            if (printlnAction) {
+              this.println(outPrefix + a);
+            }
+            this.doAction(a);
           }
-          if (printlnAction) {
-            this.println(outPrefix + a);
-          }
-          this.doAction(a);
         }
+        else if (repeat) {
+          actionIx = ACTIONIX_INITIAL;
+        }
+      }
+      else {
+        waitCount--;
       }
       
       if (follower != null) {
@@ -283,9 +309,14 @@ public class Avatar extends XholonWithPorts {
   /**
    * Process one or more commands.
    * @param cmds (ex: "help" "look;go north;look")
-   * @return
+   * @return a response
    */
   protected String processCommands(String cmds) {
+    if (cmds.startsWith("script;")) {
+      // strip "script;" from the start of the string
+      this.setVal_String(cmds.substring(7));
+      return "Script initialized.";
+    }
     String[] s = cmds.split(CMD_SEPARATOR, 100);
     sb = new StringBuilder();
     for (int i = 0; i < s.length; i++) {
@@ -311,7 +342,8 @@ public class Avatar extends XholonWithPorts {
    *   if X is not an Avatar, may need to take X
    * unlead - stop leading
    * read X - see my notebook for Nov 28
-   * stay duration - stay at current location for duration timesteps
+   * wait [duration] - wait at current location for duration timesteps
+   * put X on|in Y - ex: "put dino in museum"
    * script
    *   if a command string begins with "script", then treat it as a multi-timestep sequence
    *   this should be handled by processCommands(cmds)
@@ -327,11 +359,19 @@ public class Avatar extends XholonWithPorts {
     cmd = cmd.trim();
     if (cmd.length() == 0) {return;}
     if (cmd.startsWith(COMMENT_START)) {return;}
-    String[] data = cmd.split(" ", 3);
+    String[] data = cmd.split(" ", 4);
     int len = data.length;
     switch (data[0]) {
     case "appear":
       appear();
+      break;
+    case "build":
+      if (len > 1) {
+        build(data[1]);
+      }
+      else {
+        sb.append("Please specify something to build (ex: build Car).");
+      }
       break;
     case "drop":
       if (len > 1) {
@@ -434,6 +474,14 @@ public class Avatar extends XholonWithPorts {
         sb.append("Please specify the name and value of the param (ex: param loop false).");
       }
       break;
+    case "put":
+      if (len > 3) {
+        put(data[1], data[2], data[3]);
+      }
+      else {
+        sb.append("Please specify the correct number of parameters (ex: put dino in museum).");
+      }
+      break;
     case "search":
       if (len > 1) {
         search(data[1]);
@@ -467,6 +515,19 @@ public class Avatar extends XholonWithPorts {
     case "vanish":
       vanish();
       break;
+    case "wait":
+      // TODO wait random(low,high)
+      if (len > 1) {
+        try {
+          waitCount = Integer.parseInt(data[1]);
+        } catch(NumberFormatException e) {
+          sb.append("The wait time must be specified as an integer (ex: wait 10)");
+        }
+      }
+      else {
+        waitCount = WAITCOUNT_HIGH;
+      }
+      break;
     default:
       sb.append(data[0]).append(" is not a verb I recognise.");
       break;
@@ -482,6 +543,23 @@ public class Avatar extends XholonWithPorts {
     if (!this.hasParentNode()) {
       this.appendChild(contextNode);
     }
+  }
+  
+  /**
+   * Build something, and append it as a child of the contextNode.
+   * There may already be a XholonClass for the thing(s), but this isn't necessary.
+   *  ex: "build <GasTank><IceCream/><HomePlate/></GasTank>"
+   * @param thing The name of something (ex: "Car"), or an XML string (ex "<Car><Driver/></Car>");
+   */
+  protected void build(String thing) {
+    thing = thing.trim();
+    if (!thing.startsWith("<")) {
+      thing = "<" + thing + "/>";
+    }
+    //rememberButton3Selection(context); // XholonConsole.java has this
+    ((XholonHelperService)app
+      .getService(IXholonService.XHSRV_XHOLON_HELPER))
+        .pasteLastChild(contextNode, thing);
   }
   
   /**
@@ -622,7 +700,7 @@ public class Avatar extends XholonWithPorts {
    * Move the avatar to the node located in a specified direction.
    * In practice, any valid Xholon port name can be used.
    * TODO handle port ports
-   * TODO handle an XPath expression as the portName
+   * handle an XPath expression as the portName
    *   go xpath(ancestor::X/descendant::Y)
    *   xpath.evaluate(portName, contextNode);
    * @param portName The name or index of a Xholon port (ex: "north" "south" "east" "west" "0" "1"),
@@ -659,13 +737,18 @@ public class Avatar extends XholonWithPorts {
     }
     else if (portName.startsWith("xpath")) {
       // go xpath(ancestor::X/descendant::Y)
-      int begin = portName.indexOf("(");
+      
+      // replace the following with call to evalXPath()
+      /*int begin = portName.indexOf("(");
       if (begin == -1) {return;}
       int end = portName.lastIndexOf(")");
       if (end == -1) {return;}
       String xpathExpression = portName.substring(begin+1, end);
       if (xpathExpression.length() == 0) {return;}
-      IXholon node = xpath.evaluate(xpathExpression, contextNode);
+      IXholon node = xpath.evaluate(xpathExpression, contextNode);*/
+      
+      IXholon node = evalXPathCmdArg(portName, contextNode);
+      
       if (node != null) {
         moveto(node);
       }
@@ -720,6 +803,7 @@ public class Avatar extends XholonWithPorts {
     sb
     .append("Basic commands:")
     .append("\nappear")
+    .append("\nbuild thing")
     .append("\ndrop [thing]")
     .append("\neat thing")
     .append("\nenter thing")
@@ -731,12 +815,15 @@ public class Avatar extends XholonWithPorts {
     .append("\ninventory  (i)")
     .append("\nlead follower")
     .append("\nlook")
+    .append("\nparam name value")
+    .append("\nput thing1 in thing2")
     .append("\nsearch thing")
     .append("\nsmash thing")
     .append("\ntake [thing]")
     .append("\nunfollow")
     .append("\nunlead")
     .append("\nvanish")
+    .append("\nwait [n]")
     ;
   }
   
@@ -772,6 +859,42 @@ public class Avatar extends XholonWithPorts {
       }
       node = node.getNextSibling();
     }
+  }
+  
+  /**
+   * Put thing1 into thing2, where:
+   *  thing1 is in this avatar's inventory
+   *  thing2 is the name of one of the avatar's siblings,
+   *    or an XPath expression.
+   * ex: "put dino in museum"
+   *     "put dino in xpath(../Museum)"
+   *     "take dino;put dino in museum"
+   * @param thing1 - 
+   * @param in - the word "in"
+   * @param thing2 - 
+   */
+  protected void put(String thing1, String in, String thing2) {
+    // TODO
+    IXholon node1 = findNode(thing1, this);
+    if (node1 == null) {
+      sb.append("Can't find ").append(thing1).append(". You need to take it first.");
+      return;
+    }
+    IXholon node2 = null;
+    if (thing2.startsWith("xpath")) {
+      node2 = evalXPathCmdArg(thing2, contextNode);
+    }
+    else {
+      node2 = findNode(thing2, contextNode);
+    }
+    if (node2 == null) {
+      sb.append("Can't find ").append(thing2);
+      return;
+    }
+    
+    node1.removeChild();
+    node1.appendChild(node2);
+    sb.append("Put.");
   }
   
   /**
@@ -896,6 +1019,14 @@ public class Avatar extends XholonWithPorts {
       default: break;
       }
       break;
+    case "repeat":
+      switch (value) {
+      case "true": repeat = true; break;
+      case "false": repeat = false; break;
+      case "toggle": repeat = !repeat; break;
+      default: break;
+      }
+      break;
     default:
       break;
     }
@@ -947,6 +1078,21 @@ public class Avatar extends XholonWithPorts {
     if (node.getXhc().hasAncestor("container")) {return true;}
     if (node.getXhc().hasAncestor("supporter")) {return true;}
     return false;*/
+  }
+  
+  /**
+   * Evaluate a command argument that's specified as an XPath expression.
+   * @param cmdArg - ex: "xpath()"
+   * @param aRoot - the context node for the XPath evaluation
+   */
+  protected IXholon evalXPathCmdArg(String cmdArg, IXholon aRoot) {
+    int begin = cmdArg.indexOf("(");
+    if (begin == -1) {return null;}
+    int end = cmdArg.lastIndexOf(")");
+    if (end == -1) {return null;}
+    String xpathExpression = cmdArg.substring(begin+1, end);
+    if (xpathExpression.length() == 0) {return null;}
+    return xpath.evaluate(xpathExpression, aRoot);
   }
   
 }
