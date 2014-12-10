@@ -18,6 +18,8 @@
 
 package org.primordion.xholon.base;
 
+import com.google.gwt.dom.client.Element;
+
 import org.primordion.xholon.app.IApplication;
 import org.primordion.xholon.service.IXholonService;
 import org.primordion.xholon.service.XholonHelperService;
@@ -132,13 +134,19 @@ public class Avatar extends XholonWithPorts {
   /**
    * Whether or not act() should call println() for each action.
    */
-  protected boolean printlnAction = true;
+  protected boolean transcript = true;
+  
+  /**
+   * Whether or not to write informative debug messages.
+   */
+  protected boolean debug = false;
   
   /**
    * An optional caption that act() should write to for each action.
-   * TODO this should be an HTML or SVG element.
+   * Use "param caption SELECTOR" to set a value, and "param caption null" to disable it.
+   * ex: "param caption #xhanim>#one>p"
    */
-  protected Object caption = null;
+  protected Element caption = null;
   
   /**
    * An optional prefix if call println() or caption for each action.
@@ -237,9 +245,9 @@ public class Avatar extends XholonWithPorts {
           String a = actions[actionIx].trim();
           if (a.length() > 0) {
             if (caption != null) {
-              // TODO
+              caption.setInnerText(outPrefix + a);
             }
-            if (printlnAction) {
+            if (transcript) {
               this.println(outPrefix + a);
             }
             this.doAction(a);
@@ -296,7 +304,12 @@ public class Avatar extends XholonWithPorts {
   @Override
   public void doAction(String action) {
     String responseStr = processCommands(action);
-    this.consoleLog(responseStr);
+    if (transcript && (responseStr != null) && (responseStr.length() > 0)) {
+      this.println(" " + responseStr);
+    }
+    if (debug) {
+      this.consoleLog(responseStr);
+    }
   }
   
   @Override
@@ -432,8 +445,11 @@ public class Avatar extends XholonWithPorts {
       break;
     }
     case "go":
-      if (len > 1) {
-        go(data[1]);
+      if (len == 2) {
+        go(data[1], null);
+      }
+      else if (len > 2) {
+        go(data[1], data[2]);
       }
       else {
         sb.append("Please specify where to go (ex: go north).");
@@ -466,6 +482,14 @@ public class Avatar extends XholonWithPorts {
     case "look":
       look();
       break;
+    case "next":
+      if (len > 1) {
+        next(data[1]);
+      }
+      else {
+        next();
+      }
+      break;
     case "param":
       if (len > 2) {
         param(data[1], data[2]);
@@ -473,6 +497,9 @@ public class Avatar extends XholonWithPorts {
       else {
         sb.append("Please specify the name and value of the param (ex: param loop false).");
       }
+      break;
+    case "prev":
+      prev();
       break;
     case "put":
       if (len > 3) {
@@ -703,14 +730,15 @@ public class Avatar extends XholonWithPorts {
    * handle an XPath expression as the portName
    *   go xpath(ancestor::X/descendant::Y)
    *   xpath.evaluate(portName, contextNode);
-   * @param portName The name or index of a Xholon port (ex: "north" "south" "east" "west" "0" "1"),
+   * @param portName - The name or index of a Xholon port (ex: "north" "south" "east" "west" "0" "1"),
    *   or a pseudo port name ("next" "prev" "xpath(...)")
    *   or an abbreviated name (ex: "n" "so" "eas" "w").
+   * @param nextTarget - Optional target for "next"
    */
-  protected void go(String portName) {
+  protected void go(String portName, String nextTarget) {
     if (portName == null) {return;}
     if ("next".equals(portName)) {
-      IXholon node = contextNode.getNextSibling();
+      /*IXholon node = contextNode.getNextSibling();
       if (node == null) {
         if (loop) {
           moveto(contextNode.getFirstSibling());
@@ -719,11 +747,13 @@ public class Avatar extends XholonWithPorts {
           sb.append("Can't go next.");
         }
       }
-      else {moveto(node);}
+      else {moveto(node);}*/
+      if (nextTarget == null) {next();}
+      else {next(nextTarget);}
       return;
     }
     else if ("prev".equals(portName)) {
-      IXholon node = contextNode.getPreviousSibling();
+      /*IXholon node = contextNode.getPreviousSibling();
       if (node == null) {
         if (loop) {
           moveto(contextNode.getLastSibling());
@@ -732,23 +762,12 @@ public class Avatar extends XholonWithPorts {
           sb.append("Can't go prev.");
         }
       }
-      else {moveto(node);}
+      else {moveto(node);}*/
+      prev();
       return;
     }
     else if (portName.startsWith("xpath")) {
-      // go xpath(ancestor::X/descendant::Y)
-      
-      // replace the following with call to evalXPath()
-      /*int begin = portName.indexOf("(");
-      if (begin == -1) {return;}
-      int end = portName.lastIndexOf(")");
-      if (end == -1) {return;}
-      String xpathExpression = portName.substring(begin+1, end);
-      if (xpathExpression.length() == 0) {return;}
-      IXholon node = xpath.evaluate(xpathExpression, contextNode);*/
-      
       IXholon node = evalXPathCmdArg(portName, contextNode);
-      
       if (node != null) {
         moveto(node);
       }
@@ -763,15 +782,7 @@ public class Avatar extends XholonWithPorts {
       for (int i = 0; i < portArr.length; i++) {
         PortInformation pi = (PortInformation)portArr[i];
         String foundPortName = pi.getFieldName();
-        //if (portName.equals(foundPortName)) {
         if (foundPortName.startsWith(portName)) {
-          /*IXholon reffedNode = pi.getReffedNode();
-          sb.append("Going to ").append(makeNodeName(reffedNode));
-          if (this.hasParentNode()) {
-            this.removeChild();
-            this.appendChild(reffedNode);
-          }
-          contextNode = reffedNode;*/
           moveto(pi.getReffedNode());
           return;
         }
@@ -786,6 +797,62 @@ public class Avatar extends XholonWithPorts {
     }
   }
   
+  /**
+   * next
+   */
+  protected void next() {
+    IXholon node = contextNode.getNextSibling();
+    if (node == null) {
+      if (loop) {
+        moveto(contextNode.getFirstSibling());
+      }
+      else {
+        sb.append("Can't go next.");
+      }
+    }
+    else {moveto(node);}
+  }
+  
+  /**
+   * next
+   * @param nextTarget
+   */
+  protected void next(String nextTarget) {
+    IXholon node = contextNode.getNextSibling();
+    while (node != null) {
+      if (makeNodeName(node).startsWith(nextTarget)) {
+        break;
+      }
+      node = node.getNextSibling();
+    }
+    if (node != null) {
+      moveto(node);
+    }
+    else {
+      sb.append("Can't find next " + nextTarget);
+    }
+  }
+  
+  /**
+   * prev
+   */
+  protected void prev() {
+    IXholon node = contextNode.getPreviousSibling();
+    if (node == null) {
+      if (loop) {
+        moveto(contextNode.getLastSibling());
+      }
+      else {
+        sb.append("Can't go prev.");
+      }
+    }
+    else {moveto(node);}
+  }
+  
+  /**
+   * Move to a specified node.
+   * @param node 
+   */
   protected void moveto(IXholon node) {
     if (node == null) {return;}
     sb.append("Going to ").append(makeNodeName(node));
@@ -815,7 +882,9 @@ public class Avatar extends XholonWithPorts {
     .append("\ninventory  (i)")
     .append("\nlead follower")
     .append("\nlook")
+    .append("\nnext [target]")
     .append("\nparam name value")
+    .append("\nprev")
     .append("\nput thing1 in thing2")
     .append("\nsearch thing")
     .append("\nsmash thing")
@@ -874,7 +943,6 @@ public class Avatar extends XholonWithPorts {
    * @param thing2 - 
    */
   protected void put(String thing1, String in, String thing2) {
-    // TODO
     IXholon node1 = findNode(thing1, this);
     if (node1 == null) {
       sb.append("Can't find ").append(thing1).append(". You need to take it first.");
@@ -891,7 +959,6 @@ public class Avatar extends XholonWithPorts {
       sb.append("Can't find ").append(thing2);
       return;
     }
-    
     node1.removeChild();
     node1.appendChild(node2);
     sb.append("Put.");
@@ -1011,6 +1078,18 @@ public class Avatar extends XholonWithPorts {
    */
   protected void param(String name, String value) {
     switch (name) {
+    case "caption":
+      if ("null".equals(value)) {caption = null;}
+      else {caption = querySelector(value);}
+      break;
+    case "debug":
+      switch (value) {
+      case "true": debug = true; break;
+      case "false": debug = false; break;
+      case "toggle": debug = !debug; break;
+      default: break;
+      }
+      break;
     case "loop":
       switch (value) {
       case "true": loop = true; break;
@@ -1027,10 +1106,27 @@ public class Avatar extends XholonWithPorts {
       default: break;
       }
       break;
+    case "transcript":
+      switch (value) {
+      case "true": transcript = true; break;
+      case "false": transcript = false; break;
+      case "toggle": transcript = !transcript; break;
+      default: break;
+      }
+      break;
     default:
       break;
     }
   }
+  
+  /**
+   * Query for a DOM Element, given a selector.
+   * ex: var caption = document.querySelector("#xhanim>#one>p");
+   * @param selector - a CSS selector (ex: "#xhanim>#one>p")
+   */
+  protected native Element querySelector(String selector) /*-{
+    return $doc.querySelector(selector);
+  }-*/;
   
   /**
    * Make a node name.
