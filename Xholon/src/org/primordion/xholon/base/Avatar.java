@@ -347,6 +347,7 @@ public class Avatar extends XholonWithPorts {
    * smash X - remove the container X, leaving the components of X (this is a flatten operation)
    * build X - create a new node called X (which must be a valid XholonClass)
    *   can subsequently take things from the surroundings and drop them into X
+   *   optionally include roleName  ex: "build Snowman [role Frosty]"
    * exit X - equivalent to XPath "ancestor::NAME"
    * follow leaderX - follow a sibling
    *   if X is not an Avatar, may need to take and drop X each timestep
@@ -357,6 +358,8 @@ public class Avatar extends XholonWithPorts {
    * read X - see my notebook for Nov 28
    * wait [duration] - wait at current location for duration timesteps
    * put X on|in Y - ex: "put dino in museum"
+   * become thing role|type newRoleOrTypeName
+   * 
    * script
    *   if a command string begins with "script", then treat it as a multi-timestep sequence
    *   this should be handled by processCommands(cmds)
@@ -378,9 +381,20 @@ public class Avatar extends XholonWithPorts {
     case "appear":
       appear();
       break;
+    case "become":
+      if (len == 4) {
+        become(data[1], data[2], data[3]);
+      }
+      else {
+        sb.append("Please specify the correct number of parameters (ex: become Peter role Pete).");
+      }
+      break;
     case "build":
-      if (len > 1) {
-        build(data[1]);
+      if (len == 2) {
+        build(data[1], null, null);
+      }
+      else if (len == 4) {
+        build(data[1], data[2], data[3]);
       }
       else {
         sb.append("Please specify something to build (ex: build Car).");
@@ -556,6 +570,7 @@ public class Avatar extends XholonWithPorts {
       }
       break;
     default:
+      // TODO check for app-specified commands
       sb.append(data[0]).append(" is not a verb I recognise.");
       break;
     }
@@ -573,15 +588,60 @@ public class Avatar extends XholonWithPorts {
   }
   
   /**
+   * Become something different by changing the roleName (or the XholonClass?).
+   * become thing role|type newRoleOrTypeName
+   *  - ex: "become Peter role Pete" "become Peter type Wolf" "become *rabbit type Wolf"
+   *  - ex: "become this role Abc" "become this type Def"
+   *    "this" signifies the avatar itself
+   *  - it's difficult to change the XholonClass; I need to find the new XholonClass object
+   *  - just do role for now
+   * @param thing - The name of something (ex: "car"), or "this" to specify this avatar.
+   * @param whatChanges - "role" or "type" (only "role" is currently implemented.
+   * @param newRoleOrType - The new roleName for the thing.
+   */
+  protected void become(String thing, String whatChanges, String newRoleOrType) {
+    IXholon node = null;
+    if ("this".equals(thing)) {
+      node = this;
+    }
+    else {
+      node = findNode(thing, contextNode);
+      if (node == null) {
+        node = findNode(thing, this);
+      }
+    }
+    if (node != null) {
+      if ("role".equals(whatChanges)) {
+        node.setRoleName(newRoleOrType);
+      }
+      else if ("type".equals(whatChanges)) {
+        sb.append("become X type Y  is not yet implemented");
+      }
+      else {
+        sb.append("Please specify either role or type (ex: become Robert role Bob)");
+      }
+    }
+  }
+  
+  /**
    * Build something, and append it as a child of the contextNode.
    * There may already be a XholonClass for the thing(s), but this isn't necessary.
+   *  ex: "build GasTank"
    *  ex: "build <GasTank><IceCream/><HomePlate/></GasTank>"
+   * TODO should be able to include roleName  ex: "build Snowman [role Frosty]"
    * @param thing The name of something (ex: "Car"), or an XML string (ex "<Car><Driver/></Car>");
+   * @param ignore Optional string "role"
+   * @param roleName Optional roleName for the thing
    */
-  protected void build(String thing) {
+  protected void build(String thing, String ignore, String roleName) {
     thing = thing.trim();
     if (!thing.startsWith("<")) {
-      thing = "<" + thing + "/>";
+      if (roleName == null) {
+        thing = "<" + thing + "/>";
+      }
+      else {
+        thing = "<" + thing + " roleName=\"" + roleName + "\"/>";
+      }
     }
     //rememberButton3Selection(context); // XholonConsole.java has this
     ((XholonHelperService)app
@@ -870,7 +930,8 @@ public class Avatar extends XholonWithPorts {
     sb
     .append("Basic commands:")
     .append("\nappear")
-    .append("\nbuild thing")
+    .append("\nbecome thing role|type newRoleOrTypeName")
+    .append("\nbuild thing [role roleName]")
     .append("\ndrop [thing]")
     .append("\neat thing")
     .append("\nenter thing")
@@ -1141,11 +1202,25 @@ public class Avatar extends XholonWithPorts {
    * Find a node in the tree, given a node name.
    * @param nodeName The name of the node, in nameTemplate format (ex: "abc:def_13"),
    *   or in abbreviated nameTemplate format (ex: "abc" "ab" "abc:def").
+   *   If the first character is "*", then do a wildcard search (ex: "*def").
+   *   TODO "*:def" incorrectly returns a non-existent script node ?
    * @param aRoot The node that's the root for searching.
    * @return A node, or null.
    */
   protected IXholon findNode(String nodeName, IXholon aRoot) {
-    IXholon node = xpath.evaluate("descendant-or-self::*[@name='" + nodeName + "']", aRoot);
+    IXholon node = null;
+    if (nodeName.startsWith("*")) {
+      if (nodeName.length() < 2) {return null;}
+      node = aRoot.getFirstChild();
+      while (node != null) {
+        if (makeNodeName(node).indexOf(nodeName.substring(1)) > -1) {
+          break;
+        }
+        node = node.getNextSibling();
+      }
+      return node;
+    }
+    node = xpath.evaluate("descendant-or-self::*[@name='" + nodeName + "']", aRoot);
     if (node == null) {
       // search all immediate children for an abbreviation match
       node = aRoot.getFirstChild();
