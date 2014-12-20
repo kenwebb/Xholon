@@ -125,8 +125,12 @@ public class Xholon2D3CirclePack {
       .enter()
       .append("g")
       .attr("class", function(d) {
-        if (d.dummy) {return "d3cpdummy";}
-        return d.children ? "d3cpnode" : "d3cpleaf d3cpnode";
+        var xhclass = "";
+        if (d.xhclass) {
+          xhclass = " " + d.xhclass;
+        }
+        if (d.dummy) {return "d3cpdummy" + xhclass;}
+        return d.children ? "d3cpnode" + xhclass : "d3cpleaf d3cpnode" + xhclass;
       })
       .attr("transform", function(d) {
         return "translate(" + d.x + "," + d.y + ")";
@@ -183,6 +187,7 @@ public class Xholon2D3CirclePack {
         return (d.r * 1.75) + "px";
       })
       .text(function(d) {
+        if (d.symbol) {return d.symbol;}
         var dname = d.name.substring(0, 1);
         if ((dname == ":") && (d.name.length > 1)) {
           dname = d.name.substring(1, 2);
@@ -205,6 +210,7 @@ public class Xholon2D3CirclePack {
           return "12px";
         })
         .text(function(d) {
+          if (d.symbol) {return d.symbol;}
           var dname = d.name.substring(0, 1);
           if ((dname == ":") && (d.name.length > 1)) {
             dname = d.name.substring(1, 2);

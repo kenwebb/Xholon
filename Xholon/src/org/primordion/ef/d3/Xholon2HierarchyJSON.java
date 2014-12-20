@@ -24,9 +24,6 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
 	protected String modelName;
 	protected IXholon root;
 	
-	//private boolean shouldShowStateMachineEntities = false;
-	//private boolean shouldIncludeDecorations = true;
-	
 	/**
 	 * This should be false by default.
 	 * DO NOT include this in efParams.
@@ -54,7 +51,9 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
 	 * @see org.primordion.ef.IXholon2ExternalFormat#writeAll()
 	 */
 	public void writeAll() {
-		// use the class in io to do much of the work
+		// use the class in primordion.xholon.io to do much of the work
+		// TODO the code in this method is partly redundant for some D3 layouts including CirclePack
+		
 		Xholon2D3HierarchyJSON xholon2json = new Xholon2D3HierarchyJSON();
 	  xholon2json.initialize(root);
 	  xholon2json.setShouldShowStateMachineEntities(isShouldShowStateMachineEntities());
@@ -62,6 +61,8 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
 	  xholon2json.setSort(getSort());
 	  xholon2json.setFilter(getFilter());
 	  xholon2json.setInsertDummyData(isInsertDummyData());
+	  xholon2json.setIncludeClass(isIncludeClass());
+	  xholon2json.setUseSymbols(isUseSymbols());
 	  xholon2json.writeAll();
 	  String jsonStr = xholon2json.getJsonStr();
 	  int numNodes = xholon2json.getNumNodes();
@@ -121,8 +122,10 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
     p.mode = "new"; // "replace", "tween"
     p.labelContainers = false; // whether or not to label the container nodes
     p.includeId = false;
+    p.includeClass = false;
     p.shape = "circle"; // "ellipse", "rect"
     p.maxSvg = 50; // max allowable number of SVG subtrees, to prevent running out of memory
+    p.useSymbols = false;
     this.efParams = p;
   }-*/;
 
@@ -152,5 +155,11 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
   
   public native boolean isIncludeId() /*-{return this.efParams.includeId;}-*/;
   //public native void setIncludeId(boolean includeId) /*-{this.efParams.includeId = includeId;}-*/;
+  
+  public native boolean isIncludeClass() /*-{return this.efParams.includeClass;}-*/;
+  //public native void setIncludeClass(boolean includeClass) /*-{this.efParams.includeClass = includeClass;}-*/;
+  
+  public native boolean isUseSymbols() /*-{return this.efParams.useSymbols;}-*/;
+  //public native void setUseSymbols(boolean useSymbols) /*-{this.efParams.useSymbols = useSymbols;}-*/;
   
 }

@@ -49,10 +49,18 @@ public class XholonGuiD3CirclePack extends AbstractXholonGui {
 	  Xholon2D3HierarchyJSON xholon2json = new Xholon2D3HierarchyJSON();
 	  xholon2json.initialize(node);
 	  xholon2json.setInsertDummyData(true);
+	  if (efParams != null) {
+	    xholon2json.setShouldShowStateMachineEntities(isShouldShowStateMachineEntities(efParams));
+	    xholon2json.setShouldIncludeDecorations(isShouldIncludeDecorations(efParams));
+	    xholon2json.setSort(getSort(efParams));
+	    xholon2json.setFilter(getFilter(efParams));
+	    xholon2json.setIncludeClass(isIncludeClass(efParams));
+	    xholon2json.setUseSymbols(isUseSymbols(efParams));
+	  }
 	  xholon2json.writeAll();
 	  String jsonStr = xholon2json.getJsonStr();
 	  int numNodes = xholon2json.getNumNodes();
-    int width = 100;
+	  int width = 100;
 	  int height = 100;
 	  if (numNodes > 1000) {
 	    width = 1000;
@@ -156,5 +164,17 @@ public class XholonGuiD3CirclePack extends AbstractXholonGui {
 	  this.xhdivId = xhdivId;
 	  this.xhdiv = "#" + xhdivId;
 	}
+	
+	protected native boolean isShouldShowStateMachineEntities(JavaScriptObject efParams) /*-{return efParams.shouldShowStateMachineEntities;}-*/;
+  
+  protected native boolean isShouldIncludeDecorations(JavaScriptObject efParams) /*-{return efParams.shouldIncludeDecorations;}-*/;
+  
+  protected native String getSort(JavaScriptObject efParams) /*-{return efParams.sort;}-*/;
+  
+  protected native String getFilter(JavaScriptObject efParams) /*-{return efParams.filter;}-*/;
+  
+  protected native boolean isIncludeClass(JavaScriptObject efParams) /*-{return efParams.includeClass;}-*/;
+  
+  protected native boolean isUseSymbols(JavaScriptObject efParams) /*-{return efParams.useSymbols;}-*/;
 	
 }

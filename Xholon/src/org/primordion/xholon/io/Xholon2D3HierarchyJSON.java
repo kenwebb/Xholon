@@ -40,6 +40,16 @@ public class Xholon2D3HierarchyJSON {
 	/** This is an internal flag that is switched on and off within two different methods. */
 	private boolean hasUserDefinedColor = false;
 	
+	/**
+	 * Whether or not to check for and use symbols.
+	 * Checking for symbols when none have been specified is an expensive operation.
+	 * Also, sometimes symbols may have been specified, but they shouldn't be used.
+	 */
+	private boolean useSymbols = false;
+	
+	/** Whether to include "xhclass" in JSON output. */
+	private boolean includeClass = false;
+	
 	public Xholon2D3HierarchyJSON() {}
 	
 	public boolean initialize(IXholon root) {
@@ -81,6 +91,13 @@ public class Xholon2D3HierarchyJSON {
 		.append(node.getName())
 		.append("\", ");
 		
+		if (includeClass) {
+		  sb
+		  .append("\"xhclass\": \"")
+		  .append(node.getXhcName())
+		  .append("\", ");
+		}
+		
 		hasUserDefinedColor = false;
 		if (isShouldIncludeDecorations()) {
 		  sb.append(getDecorationStr(node));
@@ -104,8 +121,14 @@ public class Xholon2D3HierarchyJSON {
 			  }
 			  dummy.append(tab)
 			   .append(" {\"name\": \"")
-			   .append(node.getName())
-			   .append("\", \"size\": ").append(sizeDummy)
+			   .append(node.getName());
+			  if (includeClass) {
+		      dummy
+		      .append("\", ")
+		      .append("\"xhclass\": \"")
+		      .append(node.getXhcName());
+		    }
+			  dummy.append("\", \"size\": ").append(sizeDummy)
   	     .append(", \"opacity\": ").append(opacityDummy)
 			   .append(", \"dummy\": ").append(1).append("},\n");
 			}
@@ -138,6 +161,7 @@ public class Xholon2D3HierarchyJSON {
 	  StringBuilder sbd = new StringBuilder();
 	  IXholonClass xhc = node.getXhc();
 	  String color = null;
+	  String symbol = null;
 	  if (xhc == null) {
 	    // this is a IH node, or the app node
 	    if ("Application".equals(node.getName())) {
@@ -148,18 +172,33 @@ public class Xholon2D3HierarchyJSON {
 	      if (color == null) {
 		      color = getColor((IDecoration)((IXholonClass)node).getMechanism());
 		    }
+		    if (useSymbols) {
+		      symbol = getSymbol((IDecoration)node);
+	        if (symbol == null) {
+		        symbol = getSymbol((IDecoration)((IXholonClass)node).getMechanism());
+		      }
+		    }
 		  }
 	  }
 	  else {
 	    if ("XholonMechanism".equals(xhc.getName())) {
 	      // this is a Mechanism node
 	      color = getColor((IDecoration)node);
+	      if (useSymbols) {
+	        symbol = getSymbol((IDecoration)node);
+	      }
 	    }
 	    else {
 	      // this is a CSH node or a Control node
 	      color = getColor((IDecoration)xhc);
 		    if (color == null) {
 		      color = getColor((IDecoration)xhc.getMechanism());
+		    }
+		    if (useSymbols) {
+		      symbol = getSymbol((IDecoration)xhc);
+	        if (symbol == null) {
+		        symbol = getSymbol((IDecoration)xhc.getMechanism());
+		      }
 		    }
 		  }
 	  }
@@ -175,6 +214,12 @@ public class Xholon2D3HierarchyJSON {
       } else {
         sbd.append("\"opacity\": ").append(opacityUserDefinedColor).append(", ");
       }
+    }
+    if (symbol != null) {
+      sbd
+      .append("\"symbol\": \"")
+      .append(symbol)
+      .append("\", ");
     }
 	  return sbd.toString();
 	}
@@ -214,6 +259,25 @@ public class Xholon2D3HierarchyJSON {
 		return color;
 	}
 	
+	/**
+	 * Get the optional symbol for a node.
+	 * @param node
+	 * @return A symbol String (ex: "&#33865;" "ß"), or null.
+	 */
+	protected String getSymbol(IDecoration node) {
+	  String symbol = ((IDecoration)node).getSymbol();
+		if (symbol == null) {
+			if (node instanceof IXholonClass) {
+				IXholon p = ((IXholonClass)node).getParentNode();
+				if ((p != null) && (p instanceof IXholonClass)) {
+					// try to get a color from the parent class
+					return getSymbol((IDecoration)p);
+				}
+			}
+		}
+		return symbol;
+	}
+	
 	// shouldShowStateMachineEntities
 	public boolean isShouldShowStateMachineEntities() {
 	  return shouldShowStateMachineEntities;
@@ -248,5 +312,13 @@ public class Xholon2D3HierarchyJSON {
 	public void setInsertDummyData(boolean insertDummyData) {
 	  this.insertDummyData = insertDummyData;
 	}
+	
+	// useSymbols
+	public boolean isUseSymbols() {return useSymbols;}
+	public void setUseSymbols(boolean useSymbols) {this.useSymbols = useSymbols;}
+	
+	// includeClass
+	public boolean isIncludeClass() {return includeClass;}
+	public void setIncludeClass(boolean includeClass) {this.includeClass = includeClass;}
 	
 }
