@@ -78,6 +78,7 @@ public class Avatar extends XholonWithPorts {
   protected static final String CMD_SEPARATOR = ";"; // Inform 6 command separator
   protected static final int ACTIONIX_INITIAL = -1; // initial value of actionIx
   protected static final int WAITCOUNT_HIGH = Integer.MAX_VALUE; // waitCount max value
+  protected static final String THIS_AVATAR = "this";
   
   // Variables
   protected String roleName = null;
@@ -330,8 +331,8 @@ public class Avatar extends XholonWithPorts {
       this.setVal_String(cmds.substring(7));
       return "Script initialized.";
     }
-    String[] s = cmds.split(CMD_SEPARATOR, 100);
     sb = new StringBuilder();
+    String[] s = cmds.split(CMD_SEPARATOR, 100);
     for (int i = 0; i < s.length; i++) {
       processCommand(s[i]);
     }
@@ -357,8 +358,34 @@ public class Avatar extends XholonWithPorts {
    * unlead - stop leading
    * read X - see my notebook for Nov 28
    * wait [duration] - wait at current location for duration timesteps
+   *   TODO wait [until absolute timestep]
    * put X on|in Y - ex: "put dino in museum"
    * become thing role|type newRoleOrTypeName
+   * 
+   * if thing|xpath(expr) {action1} else {action2};
+   * if thing|xpath(expr) then action1 else action2;
+   * OR
+   * if thing|xpath(expr)
+   * then action1;...;actionM
+   * else action2;...;actionN
+   * examples:
+   *   if xpath(Can/descendant::Rabbit) then follow it;   TODO handle "it"
+   * OR
+   * i/drop? inventory? look? exit? next? xpath?
+   * i? thing [then] action1 [else action2]
+   * look/next/take? thing [then] action1 [else action2]
+   * exit? thing [then] action1 [else action2]
+   * xpath? expr [then] action1 [else action2]
+   * attr/val? expr [then] action1 [else action2]
+   * 
+   * TODO in general, should be able to replace a thing with an xpath(expr)
+   *   or even more generally, be able to replace with an expression in ANY known path language
+   *     css(selector)
+   *     pcs(expr)
+   * 
+   * TODO write generic IXholon.java methods for testing existence of children, parent, siblings
+   *   I already have find() methods
+   *   look at latest XPath/XSLT/XQuery and CSS standards, and other path languages
    * 
    * script
    *   if a command string begins with "script", then treat it as a multi-timestep sequence
@@ -601,7 +628,7 @@ public class Avatar extends XholonWithPorts {
    */
   protected void become(String thing, String whatChanges, String newRoleOrType) {
     IXholon node = null;
-    if ("this".equals(thing)) {
+    if (THIS_AVATAR.equals(thing)) {
       node = this;
     }
     else {
