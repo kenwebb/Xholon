@@ -1,9 +1,18 @@
 package org.primordion.xholon.io;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.EventListener;
 
-//import org.primordion.xholon.io.ef.IXholon2ExternalFormat;
+import org.primordion.xholon.app.Application;
+import org.primordion.xholon.app.IApplication;
+import org.primordion.xholon.base.IMessage;
+import org.primordion.xholon.base.ISignal;
 import org.primordion.xholon.base.IXholon;
+import org.primordion.xholon.base.Xholon;
+import org.primordion.xholon.service.IXholonService;
 
 /**
  * Display the structure of a Xholon model using D3 circle packing.
@@ -13,9 +22,130 @@ import org.primordion.xholon.base.IXholon;
  * @since 0.9.0 (Created on October 4, 2013)
  * @see <a href="http://d3js.org/">D3 website</a>
  */
-public class Xholon2D3CirclePack {
+public class Xholon2D3CirclePack implements EventListener {
 	
+	/** A service that provides additional methods for IXholon instances. */
+  protected IXholon xholonHelperService = null;
+  
+  /** The current application. */
+  protected IApplication app = Application.getApplication();
+  
+  /** constructor */
 	public Xholon2D3CirclePack() {}
+	
+	@Override
+  public void onBrowserEvent(Event event) {
+    //System.out.println("Received event: " + event.getType());
+    if (event.getTypeInt() == Event.ONMOUSEDOWN) {
+      // createD3(...) already handles this event
+      consoleLog("ONMOUSEDOWN Xholon2D3CirclePack");
+    }
+    else if (event.getTypeInt() == Event.ONMOUSEUP) {
+      // createD3(...) already handles this event
+      consoleLog("ONMOUSEUP Xholon2D3CirclePack");
+    }
+    else if (event.getTypeInt() == Event.ONCONTEXTMENU) {
+      // createD3(...) already handles this event
+      consoleLog("ONCONTEXTMENU Xholon2D3CirclePack");
+    }
+    else if ("dragover".equals(event.getType())) {
+      handleDragOverEvent(event);
+    }
+    else if ("drop".equals(event.getType())) {
+      handleDropEvent(event);
+    }
+    else {
+      consoleLog(event.getType());
+      consoleLog(event.getEventTarget());
+      consoleLog(event.getDataTransfer());
+    }
+  }
+  
+  /**
+   * in SvgViewBrowser, this is necessary; drop fails to do anything without this ???
+   */
+  public void handleDragOverEvent(Event doe) {
+    doe.preventDefault();
+  }
+  
+  /**
+	 * 
+	 */
+  public void handleDropEvent(Event de) {
+    // Event is a wrapper for (subclass of) NativeEvent
+    String data = de.getDataTransfer().getData("text");
+    Element ele = Element.as(de.getEventTarget());
+    if (!"g".equals(ele.getNodeName())) {
+      // try to get the <g> parent of a SVG shape (circle, ellipse, rect, etc.) or text element
+      ele = ele.getParentElement();
+    }
+    de.stopPropagation();
+    de.preventDefault();
+    if (data == null) {return;}
+    
+    // handleDrop; paste data into node
+    String svgNodeName = ele.getNodeName();
+    String svgElementId = ele.getId();
+    if (svgElementId == null) {return;}
+    // the svgElementId is an XPath expression; use it to find the IXholon
+    IXholon node = findXholonNode(svgElementId);
+    if (node != null) {
+      // assume this is XML content
+      sendXholonHelperService(ISignal.ACTION_PASTE_LASTCHILD_FROMDROP, data, node);
+      // do not refresh the SVG content
+    }
+  }
+  
+  /**
+   * Find an IXholon node.
+   * @param svgElementId (ex: "helloWorldSystem_0")
+   * @return An IXholon node, or null.
+   */
+  protected IXholon findXholonNode(String svgElementId) {
+    IXholon theRootNode = app.getRoot();
+    IXholon node = ((Xholon)theRootNode).getXPath()
+      .evaluate("descendant-or-self::*[@name='" + svgElementId + "']", theRootNode);
+    if (node == null) {
+      if (theRootNode.getXhcName().equals(svgElementId)) {
+        node = theRootNode;
+      }
+    }
+    return node;
+  }
+  
+  /**
+   * Send a synchronous message to the XholonHelperService.
+   * @param signal
+   * @param data
+   * @param sender
+   * @return
+   */
+  protected IMessage sendXholonHelperService(int signal, Object data, IXholon sender)
+  {
+    // send the request to the XholonHelperService by sending it a sync message
+    if (xholonHelperService == null) {
+      xholonHelperService = app.getService(IXholonService.XHSRV_XHOLON_HELPER);
+    }
+    if (xholonHelperService == null) {
+      return null;
+    }
+    else {
+      if (sender == null) {sender = app;}
+      return xholonHelperService.sendSyncMessage(signal, data, sender);
+    }
+  }
+  
+  protected native void consoleLog(Object obj) /*-{
+    $wnd.console.log(obj);
+  }-*/;
+	
+	protected void enableEvents(Element svg) {
+	  // enable events
+    //DOM.sinkEvents(svg, Event.ONCLICK | Event.ONMOUSEDOWN | Event.ONMOUSEUP | Event.ONCONTEXTMENU);
+    DOM.sinkBitlessEvent(svg, "dragover");
+    DOM.sinkBitlessEvent(svg, "drop");
+    DOM.setEventListener(svg, this);
+	}
 	
 	/**
    * Get all referencing nodes as an array.
@@ -117,6 +247,8 @@ public class Xholon2D3CirclePack {
         var m = "matrix(" + sx + ", 0, 0, " + sy + ", " + (cx-sx*cx+2) + ", " + (cy-sy*cy+2) + ")";
         return m;
       });
+    
+    this.@org.primordion.xholon.io.Xholon2D3CirclePack::enableEvents(Lcom/google/gwt/dom/client/Element;)(svg.node().parentNode);
     
     var node = svg
       .data([json])
@@ -285,24 +417,36 @@ public class Xholon2D3CirclePack {
     };
     
     // nothing happens
-    //function handleDragStart(d, i) {
+    function handleDragStart(d, i) {
     //  $wnd.d3.event.sourceEvent.preventDefault();
 	  //  $wnd.d3.event.sourceEvent.stopPropagation();
-    //}
+	    $wnd.console.log("handleDragStart");
+      $wnd.console.log(d);
+      $wnd.console.log(i);
+    }
     // nothing happens
-    //function handleDrag(d, i) {
+    function handleDrag(d, i) {
     //  $wnd.d3.event.sourceEvent.preventDefault();
 	  //  $wnd.d3.event.sourceEvent.stopPropagation();
-    //}
-    //function handleDragEnd(d, i) {
-    //  $wnd.d3.event.sourceEvent.preventDefault();
+	    $wnd.console.log("handleDrag");
+      $wnd.console.log(d);
+      $wnd.console.log(i);
+    }
+    function handleDragEnd(d, i) {
+      // Dec 21 2014 this only sort-of works sporadically
+      //   can't get the dataTransfer
+      //   will need to work to get the destination node
+      $wnd.d3.event.sourceEvent.preventDefault();
 	  //  $wnd.d3.event.sourceEvent.stopPropagation();
-	  //  if (d.name == "Application") {
-        // TODO
-        // public void handleDrop(String nodeName, Object data) {
-        // there's no easy way to get the dropped data; nodeName = d.name
-    //  }
-    //}
+      $wnd.console.log("handleDragEnd");
+      $wnd.console.log(d);
+      $wnd.console.log(i);
+      $wnd.console.log($wnd.d3.event);
+      $wnd.console.log($wnd.d3.event.sourceEvent);
+      $wnd.console.log($wnd.d3.event.sourceEvent.dataTransfer); // null
+      //$wnd.console.log($wnd.d3.event.sourceEvent.dataTransfer.getData("text"));
+      //$wnd.alert("handleDragEnd");
+    }
     
     function getXholonNode(d) {
       if (d.dummy) {d = d.parent;}
