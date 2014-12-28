@@ -34,6 +34,8 @@ import org.primordion.xholon.io.gwt.HtmlScriptHelper;
  * <p><pre>&lt;Animate xpath="" selection="div#xhsvg" writeToTab="true" duration="2" efParams='{"selection":"div#xhsvg","sort":"disable","width":200,"height":200,"mode":"new"}'/></pre></p>
  * <p><pre>&lt;Animate cssStyle=".d3cpnode circle {stroke-width: 0px;}" xpath="" selection="div#xhsvg" writeToTab="false" duration="5" efParams='{"selection":"div#xhsvg","sort":"disable","width":200,"height":200,"mode":"tween"}'/></pre></p>
  * 
+ * TODO the Animate instance should move itself to Xholon View; but it needs to run every timestep
+ * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.9.1 (Created on November 22, 2014)
@@ -67,6 +69,9 @@ public class Animate extends XholonScript {
   /** The root node of the Xholon subtree that is being animated, in this anination */
   private IXholon xhAnimRoot = null;
   
+  /** Hash value from the previous call to xhAnimRoot.hashify() */
+  private String hash = "";
+  
   /*
    * @see org.primordion.xholon.base.Xholon#postConfigure()
    */
@@ -89,8 +94,12 @@ public class Animate extends XholonScript {
    * @see org.primordion.xholon.base.Xholon#act()
    */
   public void act() {
-    xport(formatName, xhAnimRoot, efParams, writeToTab);
-    tween(selection, duration);
+    String newHash = xhAnimRoot.hashify(null); // use default hash type
+    if (!hash.equals(newHash)) {
+      xport(formatName, xhAnimRoot, efParams, writeToTab);
+      tween(selection, duration);
+      hash = newHash;
+    }
     super.act();
   }
   
