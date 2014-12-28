@@ -157,6 +157,7 @@ public class Avatar extends XholonWithPorts {
   /**
    * If this avatar moves within the Xholon tree, it might be executed multiple times in the same timestep.
    * This variable helps to prevent that.
+   * This variable is also used by the "wait" command.
    */
   protected int actTimeStep = -1;
   
@@ -358,9 +359,13 @@ public class Avatar extends XholonWithPorts {
    * unlead - stop leading
    * read X - see my notebook for Nov 28
    * wait [duration] - wait at current location for duration timesteps
-   *   TODO wait [until absolute timestep]
-   * put X on|in Y - ex: "put dino in museum"
+   *   wait [til absolute_timestep]
+   * put X in|on|under|ANY Y
+   *   ex: "put dino in museum" "put glassSlipper on Cinderella" "put treasure under ground"
+   *   see my notes on close siblings (notebook Dec 17,18,19 2014)
    * become thing role|type newRoleOrTypeName
+   * walk [clockwise|counterclockwise] - continuously walk among siblings
+   * unwalk
    * 
    * if thing|xpath(expr) {action1} else {action2};
    * if thing|xpath(expr) then action1 else action2;
@@ -416,7 +421,7 @@ public class Avatar extends XholonWithPorts {
         sb.append("Please specify the correct number of parameters (ex: become Peter role Pete).");
       }
       break;
-    case "build":
+    case "build": // make
       if (len == 2) {
         build(data[1], null, null);
       }
@@ -427,7 +432,7 @@ public class Avatar extends XholonWithPorts {
         sb.append("Please specify something to build (ex: build Car).");
       }
       break;
-    case "drop":
+    case "drop": // leave discard
       if (len > 1) {
         drop(data[1]);
       }
@@ -436,11 +441,13 @@ public class Avatar extends XholonWithPorts {
       }
       break;
     case "eat":
+    case "unbuild": // unmake null void unbuild annihilate remove destroy obliterate undo erase delete
       if (len > 1) {
-        eat(data[1]);
+        eat(data[1], "eat".equals(data[0]) ? "Yum." : "Unbuilt.");
       }
       else {
-        sb.append("Please specify which thing in the inventory to eat (ex: eat carrot).");
+        sb.append("Please specify which thing in the inventory to ")
+        .append(data[0]).append(" (ex: ").append(data[0]).append(" carrot).");
       }
       break;
     case "enter":
@@ -550,6 +557,9 @@ public class Avatar extends XholonWithPorts {
         sb.append("Please specify the correct number of parameters (ex: put dino in museum).");
       }
       break;
+    case "script":
+      sb.append("The script command can only be used as the first in a sequence of commands.");
+      break;
     case "search":
       if (len > 1) {
         search(data[1]);
@@ -558,7 +568,7 @@ public class Avatar extends XholonWithPorts {
         sb.append("Please specify what to search (ex: search box_13).");
       }
       break;
-    case "smash":
+    case "smash": // flatten
       if (len > 1) {
         smash(data[1]);
       }
@@ -587,9 +597,17 @@ public class Avatar extends XholonWithPorts {
       // TODO wait random(low,high)
       if (len > 1) {
         try {
-          waitCount = Integer.parseInt(data[1]);
+          if (len == 2) { // wait relative
+            waitCount = Integer.parseInt(data[1]);
+          }
+          else { // wait til absolute
+            waitCount = Integer.parseInt(data[2]) - actTimeStep;
+          }
+          if (waitCount < 0) {
+            waitCount = 0;
+          }
         } catch(NumberFormatException e) {
-          sb.append("The wait time must be specified as an integer (ex: wait 10)");
+          sb.append("The wait time must be specified as an integer (ex: wait 10 OR wait til 123)");
         }
       }
       else {
@@ -707,17 +725,18 @@ public class Avatar extends XholonWithPorts {
   }
   
   /**
-   * Eat a specified thing in the avatar's inventory.
+   * Eat or unbuild a specified thing in the avatar's inventory.
    * This removes the thing from the Xholon tree.
-   * @param thing The Xholon name of the thing to eat.
+   * @param thing The Xholon name of the thing to eat or unbuild.
+   * @param response The response string.
    * TODO perhaps only eat it if it's a normally human-edible thing.
    *   But, the avatar could be some sort of people-eating monster, or a rock eater, etc.
    */
-  protected void eat(String thing) {
+  protected void eat(String thing, String response) {
     IXholon node = findNode(thing, this);
     if (node != null) {
       node.removeChild();
-      sb.append("Yum.");
+      sb.append(response);
     }
     else {
       sb.append("You're not carrying any such thing. You need to take it first.");
@@ -960,27 +979,27 @@ public class Avatar extends XholonWithPorts {
     .append("\nbecome thing role|type newRoleOrTypeName")
     .append("\nbuild thing [role roleName]")
     .append("\ndrop [thing]")
-    .append("\neat thing")
+    .append("\neat|unbuild thing")
     .append("\nenter thing")
-    .append("\nexamine thing  (x thing)")
+    .append("\nexamine|x thing")
     .append("\nexit [ancestor]")
     .append("\nfollow leader")
     .append("\ngo portName")
     .append("\nhelp")
-    .append("\ninventory  (i)")
+    .append("\ninventory|i")
     .append("\nlead follower")
     .append("\nlook")
     .append("\nnext [target]")
     .append("\nparam name value")
     .append("\nprev")
-    .append("\nput thing1 in thing2")
+    .append("\nput thing1 in|on|under|ANY thing2")
     .append("\nsearch thing")
     .append("\nsmash thing")
     .append("\ntake [thing]")
     .append("\nunfollow")
     .append("\nunlead")
     .append("\nvanish")
-    .append("\nwait [n]")
+    .append("\nwait [duration]|[til timestep]")
     ;
   }
   
