@@ -1345,6 +1345,25 @@ public IXholon2Xml getXholon2Xml();
 public abstract void toXml(IXholon2Xml xholon2xml, IXmlWriter xmlWriter);
 
 /**
+	 * Hashify this Xholon subtree.
+	 * This is intended to be used as a hash, to differentiate two trees, typically at two points in time.
+	 * The string is unique, while being as short as possible.
+	 * Note that there are many possibilities for what a stringify/hashify method might return.
+	 * TODO possibly have one method that returns a short hash-like value (hashify),
+	 *   and another that returns a more human-readable value (stringify).
+	 * @param type "sxpres" (default) or "newick" or null (for default)
+	 * @return a simple Newick-like string.
+	 *   ((Height)Block,Brick,Brick)BlocksAndBricks;  NO - can't tell the difference between the 2 Brick nodes
+	 *   ((Height_3)Block_2,Brick_4,Brick_5)BlocksAndBricks_1;  NO - too long, but OK for stringify
+	 *   ((3)2,4,5)1;
+	 *   ((),,);  NO - need to differentiate between trees where siblings have moved
+	 *  OR S-expression
+	 *   (BlocksAndBricks(Block(Height) Brick Brick))
+	 *   (1 (2 (3) 4 5))
+	 */
+public abstract String hashify(String type);
+
+/**
  * Write a set of attributes formatted as XML.
  * @param xholon2xml 
  * @param xmlWriter The XML writer.

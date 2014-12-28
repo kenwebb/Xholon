@@ -3066,6 +3066,84 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 	//	return super.hashCode();
 	//}
 	
+	/**
+	 * Hashify this Xholon subtree.
+	 * This is intended to be used as a hash, to differentiate two trees, typically at two points in time.
+	 * The string is unique, while being as short as possible.
+	 * Note that there are many possibilities for what a stringify/hashify method might return.
+	 * TODO possibly have one method that returns a short hash-like value (hashify),
+	 *   and another that returns a more human-readable value (stringify).
+	 * TODO for more hash possibilities, see:
+	 *   http://stackoverflow.com/questions/1988665/hashing-a-tree-structure
+	 * @param type "sxpres" (default) or "newick" or null (for default)
+	 * @return a simple Newick-like string.
+	 *   ((Height)Block,Brick,Brick)BlocksAndBricks;  NO - can't tell the difference between the 2 Brick nodes
+	 *   ((Height_3)Block_2,Brick_4,Brick_5)BlocksAndBricks_1;  NO - too long, but OK for stringify
+	 *   ((3)2,4,5)1;
+	 *   ((),,);  NO - need to differentiate between trees where siblings have moved
+	 *  OR S-expression
+	 *   (BlocksAndBricks(Block(Height) Brick Brick))
+	 *   (1 (2 (3) 4 5))
+	 */
+	public String hashify(String type) {
+		StringBuilder sb = new StringBuilder();
+		switch (type) {
+		case "newick":
+			hashifyNewick(this, sb);
+			sb.append(";");
+			break;
+		case "sxpres":
+		default:
+			sb.append("(");
+			hashifySXpres(this, sb);
+			sb.append(")");
+			break;
+		}
+		return sb.toString();
+	}
+	
+	/**
+	 * Recursively hashify a Xholon subtree, with output in a simple Newick format.
+	 * @param node A node in the Xholon hierarchy.
+	 * @param sb A StringBuilder instance.
+	 */
+	protected void hashifyNewick(IXholon node, StringBuilder sb) {
+		if (node.hasChildNodes()) {
+			sb.append("(");
+			IXholon childNode = node.getFirstChild();
+			while (childNode != null) {
+				hashifyNewick(childNode, sb);
+				childNode = childNode.getNextSibling();
+				if (childNode != null) {
+					sb.append(",");
+				}
+			}
+			sb.append(")");
+		}
+		sb.append(node.getId());
+	}
+	
+	/**
+	 * Recursively hashify a Xholon subtree, with output in a Lisp S-expression format.
+	 * @param node A node in the Xholon hierarchy.
+	 * @param sb A StringBuilder instance.
+	 */
+	protected void hashifySXpres(IXholon node, StringBuilder sb) {
+		sb.append(node.getId());
+    if (node.hasChildNodes()) {
+      sb.append(" (");
+      IXholon childNode = node.getFirstChild();
+      while (childNode != null) {
+        hashifySXpres(childNode, sb);
+        childNode = childNode.getNextSibling();
+        if (childNode != null) {
+          sb.append(" ");
+        }
+      }
+      sb.append(")");
+    }
+	}
+	
 	/*
 	 * @see java.lang.Object#toString()
 	 */

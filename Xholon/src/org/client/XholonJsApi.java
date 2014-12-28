@@ -624,6 +624,16 @@ public class XholonJsApi {
       return xhc.@org.primordion.xholon.base.IXholonClass::hasAncestor(Ljava/lang/String;)(className);
     });
     
+    // hashify
+    api.hashify = $entry(function(type) {
+      if (type === undefined) {
+        return this.@org.primordion.xholon.base.IXholon::hashify(Ljava/lang/String;)(null);
+      }
+      else {
+        return this.@org.primordion.xholon.base.IXholon::hashify(Ljava/lang/String;)(type);
+      }
+    });
+    
     // TODO pcs(expression) and select(expression)
     
   }-*/;
