@@ -390,7 +390,6 @@ public class Xholon2D3CirclePack implements EventListener {
       gui.@org.primordion.xholon.io.IXholonGui::handleNodeSelection(Ljava/lang/String;Ljava/lang/Object;Z)(d.name, d, isCtrlPressed);
     }
     
-    // public abstract void makeContextMenu(Object guiItem, int posX, int posY);
     function handleContextmenu(d, i) {
       if ($wnd.d3.event.shiftKey) {return;} // allow browser default contextMenu
       if (d.dummy) {d = d.parent;}
@@ -403,10 +402,11 @@ public class Xholon2D3CirclePack implements EventListener {
     
     function handleDblclick(d, i) {
       // TODO detect single vs double click
-      var node = getXholonNode(d);
-      if (node) {
-        $wnd.alert("Double click for " + node.toString());
-      }
+      //var node = getXholonNode(d);
+      //if (node) {
+      //  $wnd.alert("Double click for " + node.toString());
+      //}
+      handleContextmenu(d, i);
     };
     
     function handleMouseOverOut(d, i) {
