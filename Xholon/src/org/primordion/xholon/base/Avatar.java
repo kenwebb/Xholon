@@ -21,8 +21,10 @@ package org.primordion.xholon.base;
 import com.google.gwt.dom.client.Element;
 
 import org.primordion.xholon.app.IApplication;
+import org.primordion.xholon.base.IGrid;
 import org.primordion.xholon.service.IXholonService;
 import org.primordion.xholon.service.XholonHelperService;
+import org.primordion.xholon.util.Misc;
 
 /**
  * Avatar is based on the requirements for actors in Interactive Fiction (IF), especially Inform 7.
@@ -75,6 +77,7 @@ public class Avatar extends XholonWithPorts {
   
   // Constants
   protected static final String COMMENT_START = "["; // Inform 7 comment start
+  protected static final String COMMENT_END = "]"; // Inform 7 comment end
   protected static final String CMD_SEPARATOR = ";"; // Inform 6 command separator
   protected static final int ACTIONIX_INITIAL = -1; // initial value of actionIx
   protected static final int WAITCOUNT_HIGH = Integer.MAX_VALUE; // waitCount max value
@@ -284,6 +287,7 @@ public class Avatar extends XholonWithPorts {
     case ISignal.SIGNAL_XHOLON_CONSOLE_REQ:
       String responseStr = processCommands((String)msg.getData());
       if ((responseStr != null) && (responseStr.length() > 0)) {
+        responseStr = COMMENT_START + responseStr + COMMENT_END + CMD_SEPARATOR;
         msg.getSender().sendMessage(ISignal.SIGNAL_XHOLON_CONSOLE_RSP, "\n" + responseStr, this);
       }
       break;
@@ -297,6 +301,9 @@ public class Avatar extends XholonWithPorts {
     switch (msg.getSignal()) {
     case ISignal.SIGNAL_XHOLON_CONSOLE_REQ:
       String responseStr = processCommands((String)msg.getData());
+      if ((responseStr != null) && (responseStr.length() > 0)) {
+        responseStr = COMMENT_START + responseStr + COMMENT_END + CMD_SEPARATOR;
+      }
       return new Message(ISignal.SIGNAL_XHOLON_CONSOLE_RSP, "\n" + responseStr, this, msg.getSender());
     default:
       return super.processReceivedSyncMessage(msg);
@@ -328,6 +335,10 @@ public class Avatar extends XholonWithPorts {
    */
   protected String processCommands(String cmds) {
     if (cmds.startsWith("script;")) {
+      if (cmds.length() == 7) {
+        // return the script as a newline-separated string
+        return join(actions, "\n");
+      }
       // strip "script;" from the start of the string
       this.setVal_String(cmds.substring(7));
       return "Script initialized.";
@@ -336,6 +347,17 @@ public class Avatar extends XholonWithPorts {
     String[] s = cmds.split(CMD_SEPARATOR, 100);
     for (int i = 0; i < s.length; i++) {
       processCommand(s[i]);
+    }
+    return sb.toString();
+  }
+  
+  protected String join(String[] arr, String sep) {
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < arr.length; i++) {
+      if (i > 0) {
+        sb.append(sep);
+      }
+      sb.append(arr[i]);
     }
     return sb.toString();
   }
@@ -593,7 +615,7 @@ public class Avatar extends XholonWithPorts {
     case "vanish":
       vanish();
       break;
-    case "wait":
+    case "wait": // Z
       // TODO wait random(low,high)
       if (len > 1) {
         try {
@@ -843,35 +865,43 @@ public class Avatar extends XholonWithPorts {
    */
   protected void go(String portName, String nextTarget) {
     if (portName == null) {return;}
-    if ("next".equals(portName)) {
-      /*IXholon node = contextNode.getNextSibling();
-      if (node == null) {
-        if (loop) {
-          moveto(contextNode.getFirstSibling());
-        }
-        else {
-          sb.append("Can't go next.");
-        }
-      }
-      else {moveto(node);}*/
+    
+    /*if ("next".equals(portName)) {
       if (nextTarget == null) {next();}
       else {next(nextTarget);}
       return;
     }
     else if ("prev".equals(portName)) {
-      /*IXholon node = contextNode.getPreviousSibling();
-      if (node == null) {
-        if (loop) {
-          moveto(contextNode.getLastSibling());
-        }
-        else {
-          sb.append("Can't go prev.");
-        }
-      }
-      else {moveto(node);}*/
       prev();
       return;
+    }*/
+    
+    switch (portName) {
+    case "next":
+      if (nextTarget == null) {next();}
+      else {next(nextTarget);}
+      return;
+    case "prev":
+      prev();
+      return;
+    case "N": goPort(IGrid.P_NORTH); return;
+    case "E": goPort(IGrid.P_EAST); return;
+    case "S": goPort(IGrid.P_SOUTH); return;
+    case "W": goPort(IGrid.P_WEST); return;
+    case "NE": goPort(IGrid.P_NORTHEAST); return;
+    case "SE": goPort(IGrid.P_SOUTHEAST); return;
+    case "SW": goPort(IGrid.P_SOUTHWEST); return;
+    case "NW": goPort(IGrid.P_NORTHWEST); return;
+    default: break;
     }
+    
+    if (portName.startsWith("port")) {
+      // port0 port1 etc.
+      int portNum = Misc.atoi(portName, 4);
+      goPort(portNum);
+      return;
+    }
+    
     else if (portName.startsWith("xpath")) {
       IXholon node = evalXPathCmdArg(portName, contextNode);
       if (node != null) {
@@ -901,6 +931,13 @@ public class Avatar extends XholonWithPorts {
     else {
       sb.append("Can't go ").append(portName);
     }
+  }
+  
+  /**
+   * go port
+   */
+  protected void goPort(int index) {
+    moveto(contextNode.getPort(index));
   }
   
   /**
@@ -984,7 +1021,7 @@ public class Avatar extends XholonWithPorts {
     .append("\nexamine|x thing")
     .append("\nexit [ancestor]")
     .append("\nfollow leader")
-    .append("\ngo portName")
+    .append("\ngo portName|next|prev|N|E|S|W|NE|SE|SW|NW|port0|portN|xpath")
     .append("\nhelp")
     .append("\ninventory|i")
     .append("\nlead follower")
