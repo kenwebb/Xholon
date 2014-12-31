@@ -89,6 +89,20 @@ svg.hidden {
   fill: #000000;
   pointer-events: none;
 }
+.d3cpleaf text.marblesymbol {
+  font-family:"Courier New",courier,monospace;
+  font-weight:bold;
+  fill:#008000;
+  fill-opacity:0.4;
+  stroke:#008000;
+  stroke-opacity:0.2;
+  pointer-events: none;
+}
+.d3cpleaf text.marbletext1, .d3cpleaf text.marbletext2 {
+  font-family:"Courier New",courier,monospace;
+  font-size:16;
+  pointer-events: none;
+}
 
 /** D3 SVG Bubble Chart */
 .d3bubnode circle {

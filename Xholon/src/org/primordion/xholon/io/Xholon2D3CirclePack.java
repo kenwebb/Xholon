@@ -177,7 +177,9 @@ public class Xholon2D3CirclePack implements EventListener {
     labelContainers = false,
     includeId = false,
     shape = "circle",
-    maxSvg = 50; // max allowable number of SVG subtrees, to prevent running out of memory
+    maxSvg = 50, // max allowable number of SVG subtrees, to prevent running out of memory
+    maxChars = 1, // max allowable number of chars in the standard text
+    marble = ""; // alternative content, in place of the standard text
     
     if (efParams) {
       sort = efParams.sort;
@@ -186,6 +188,11 @@ public class Xholon2D3CirclePack implements EventListener {
       includeId = efParams.includeId;
       shape = efParams.shape;
       maxSvg = efParams.maxSvg;
+      maxChars = efParams.maxChars;
+      marble = efParams.marble;
+      if (marble) {
+        marble = $wnd.JSON.parse(marble);
+      }
       if (efParams.width != -1) {w = efParams.width;}
       if (efParams.height != -1) {h = efParams.height;}
       if (efParams.selection) {selection = efParams.selection;}
@@ -316,16 +323,73 @@ public class Xholon2D3CirclePack implements EventListener {
       .attr("dy", ".3em")
       .style("text-anchor", "middle")
       .style("font-size", function(d) {
-        return (d.r * 1.75) + "px";
+        return (d.r * 1.75 / maxChars) + "px";
+      })
+      .classed("marblesymbol", function() {
+        if (marble) {return true;}
+        else {return false;}
       })
       .text(function(d) {
         if (d.symbol) {return d.symbol;}
-        var dname = d.name.substring(0, 1);
-        if ((dname == ":") && (d.name.length > 1)) {
-          dname = d.name.substring(1, 2);
+        var dname = d.name.substring(0, maxChars);
+        if ((dname.charAt(0) == ":") && (d.name.length > maxChars)) {
+          dname = d.name.substring(1, maxChars+1);
         }
         return dname;
       });
+    
+    if (marble) {
+      // this is for marble.type == "default"; there may also be other marble types
+      // ex: brick_46  Quail:blocksAndBricks_37
+      // TODO optionally add a small red circle whose radius is proportional to a value
+      var mnode = node.filter(function(d) {
+        return !(d.children || d.dummy);
+      });
+      mnode.append("text") // roleName
+        .attr("dy", "0.0em")
+        .style("text-anchor", "middle")
+        .style("font-size", function(d) {
+          var dr = d.r > 22 ? 11 : d.r * 0.5;
+          return dr + "px";
+        })
+        .classed("marbletext1", true)
+        .text(function(d) {
+          var ix = d.name.indexOf(":");
+          if (ix == -1) {
+            return "";
+          }
+          else {
+            var roleName = d.name.substring(0, ix);
+            return roleName.substring(0, marble.maxChars);
+          }
+        });
+      mnode.append("text") // XholonClass name
+        .attr("dy", "1.2em")
+        .style("text-anchor", "middle")
+        .style("font-size", function(d) {
+          var dr = d.r > 22 ? 11 : d.r * 0.5;
+          return dr + "px";
+        })
+        .classed("marbletext2", true)
+        .text(function(d) {
+          var xholonClassName = "";
+          var ix = d.name.indexOf(":");
+          if (ix == -1) {
+            xholonClassName = d.name;
+          }
+          else {
+            xholonClassName = d.name.substring(ix+1);
+          }
+          ix = xholonClassName.lastIndexOf("_");
+          if (ix == -1) {
+            return xholonClassName;
+          }
+          else {
+            xholonClassName = xholonClassName.substring(0, ix);
+            return xholonClassName.substring(0, marble.maxChars);
+          }
+        });
+    } // end if(marble) 
     
     // optionally place small text at top of container nodes (nodes that have children)
     if (labelContainers) {
@@ -339,13 +403,14 @@ public class Xholon2D3CirclePack implements EventListener {
         })
         .style("text-anchor", "middle")
         .style("font-size", function(d) {
+          // TODO this should vary in size
           return "12px";
         })
         .text(function(d) {
           if (d.symbol) {return d.symbol;}
-          var dname = d.name.substring(0, 1);
-          if ((dname == ":") && (d.name.length > 1)) {
-            dname = d.name.substring(1, 2);
+          var dname = d.name.substring(0, maxChars);
+          if ((dname.charAt(0) == ":") && (d.name.length > maxChars)) {
+            dname = d.name.substring(1, maxChars+1);
           }
           return dname;
         });
@@ -402,6 +467,8 @@ public class Xholon2D3CirclePack implements EventListener {
     
     function handleDblclick(d, i) {
       // TODO detect single vs double click
+      // see http://stackoverflow.com/questions/21020564/how-to-distinguish-between-single-mouse-click-and-double-click-on-same-node-elem
+      // see https://gist.github.com/tmcw/4067674 and http://bl.ocks.org/tmcw/4067674
       //var node = getXholonNode(d);
       //if (node) {
       //  $wnd.alert("Double click for " + node.toString());

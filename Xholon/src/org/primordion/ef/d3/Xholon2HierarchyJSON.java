@@ -126,6 +126,8 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
     p.shape = "circle"; // "ellipse", "rect"
     p.maxSvg = 50; // max allowable number of SVG subtrees, to prevent running out of memory
     p.useSymbols = false;
+    p.maxChars = 1;
+    p.marble = ''; // '{"type":"default","maxChars":4}'
     this.efParams = p;
   }-*/;
 
