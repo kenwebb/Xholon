@@ -63,7 +63,13 @@ xh.tween = function(selection, duration, sortedArr1) {
     if (svg1.parentNode) {
       svg1.parentNode.removeChild(svg1);
       // remove "hidden" from list of classes for svg2, if it exists
-      svg2.classList.remove("hidden");
+      if (svg2.classList) {
+        // IE11 Unable to get property 'remove' of undefined or null reference
+        svg2.classList.remove("hidden");
+      }
+      else {
+        svg2.setAttribute("class", "");
+      }
     }
     
     // is this a video rather than a Xholon app
@@ -120,8 +126,8 @@ xh.tween = function(selection, duration, sortedArr1) {
         //TweenLite.to("#rect", 1, {attr:{x:100, y:50, width:100, height:100}, ease:Linear.easeNone});
         tlInstanceArr.push(TweenLite.to(one.element, duration, {attr:{r:two.rvalue.value}}));
       }
-      var matrix1 = one.transform.baseVal[0].matrix;
-      var matrix2 = two.transform.baseVal[0].matrix;
+      var matrix1 = one.transform.baseVal.getItem(0).matrix; //baseVal[0].matrix;
+      var matrix2 = two.transform.baseVal.getItem(0).matrix; //baseVal[0].matrix;
       if ((Math.abs(matrix1.e - matrix2.e) > 1) || (Math.abs(matrix1.f - matrix2.f) > 1)) {
         // the following line works on Chrome Firefox
         tlInstanceArr.push(TweenLite.to(matrix1, duration, {e:matrix2.e, f:matrix2.f})); // 3 commenting-out this doesn't fix crash
