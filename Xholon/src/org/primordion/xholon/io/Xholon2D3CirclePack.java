@@ -235,6 +235,13 @@ public class Xholon2D3CirclePack implements EventListener {
           hidden = true;
         }
         break;
+      case "video":
+        // TODO
+        selectionNode = $wnd.d3.select($doc.createElement("div"));
+        //.attr("id", function(d) {
+        //  return "frame_" + $wnd.xh.param("TimeStep");
+        //});
+        break;
       default: break;
       }
     }
@@ -340,6 +347,9 @@ public class Xholon2D3CirclePack implements EventListener {
     
     if (marble) {
       // this is for marble.type == "default"; there may also be other marble types
+      // another marble type could be "gear"
+      //   see bl.ocks.org/1353700
+      //   see https://github.com/liabru/gears-d3-js
       // ex: brick_46  Quail:blocksAndBricks_37
       // TODO optionally add a small red circle whose radius is proportional to a value
       var mnode = node.filter(function(d) {
@@ -446,6 +456,21 @@ public class Xholon2D3CirclePack implements EventListener {
     //svg.call($wnd.d3.behavior.drag().on("dragstart", handleDragStart));
     //svg.call($wnd.d3.behavior.drag().on("drag", handleDrag));
     //svg.call($wnd.d3.behavior.drag().on("dragend", handleDragEnd)); // drop
+    
+    if (mode == "video") {
+      // TODO write to file system ?
+      var frameSvg = selectionNode.node().firstElementChild;
+      var ts = $wnd.xh.param("TimeStep");
+      frameSvg.setAttribute("id", "frame_" + ts);
+      if (ts != "0") {
+        frameSvg.setAttribute("class", "hidden");
+      }
+      var frameStr = new $wnd.XMLSerializer().serializeToString(frameSvg);
+      //$wnd.console.log(frameStr);
+      var p = $doc.createElement("p");
+      p.textContent = frameStr;
+      $doc.querySelector("body").appendChild(p);
+    }
     
     function handleClick(d, i) {
       if (d.dummy) {d = d.parent;}
