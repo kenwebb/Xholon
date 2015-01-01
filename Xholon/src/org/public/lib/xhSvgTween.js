@@ -9,8 +9,10 @@
 //        xh.tween("#xhgraph", 5);
 //        xh.tween(null,2);
 
-xh.require("TweenLite.min");
-xh.require("AttrPlugin.min");
+if (xh.require) {
+  xh.require("TweenLite.min");
+  xh.require("AttrPlugin.min");
+}
 
 xh.tween = function(selection, duration, sortedArr1) {
   
@@ -56,12 +58,17 @@ xh.tween = function(selection, duration, sortedArr1) {
         tli.kill();
       }
     }
+    
     // delete svg1, effectively making svg2 the new svg1 for the next cycle
     if (svg1.parentNode) {
       svg1.parentNode.removeChild(svg1);
       // remove "hidden" from list of classes for svg2, if it exists
       svg2.classList.remove("hidden");
     }
+    
+    // is this a video rather than a Xholon app
+    if (selection == "div#video") {return;}
+    
     xh.tween(selection, duration, arr2);
   };
   
@@ -100,32 +107,49 @@ xh.tween = function(selection, duration, sortedArr1) {
   var ix1 = 0;
   var ix2 = 0;
   while ((ix1 < arr1.length) && (ix2 < arr2.length)) {
-    // TODO crash is probably caused by something here; comment things out one at a time
-    var one = arr1[ix1];
-    var two = arr2[ix2];
-    if (one.xhname < two.xhname) {ix1++; continue;}
-    if (two.xhname < one.xhname) {ix2++; continue;}
-    if (Math.abs(one.rvalue.value - two.rvalue.value) > 1) {
-      //tlInstanceArr.push(TweenLite.to(one.rvalue, duration, {value:two.rvalue.value})); // 2 no crash when commented out; crashes when this line is active; THIS IS THE PROBLEM
-      // try attr plugin
-      //TweenLite.to("#rect", 1, {attr:{x:100, y:50, width:100, height:100}, ease:Linear.easeNone});
-      tlInstanceArr.push(TweenLite.to(one.element, duration, {attr:{r:two.rvalue.value}}));
-    }
-    var matrix1 = one.transform.baseVal[0].matrix;
-    var matrix2 = two.transform.baseVal[0].matrix;
-    if ((Math.abs(matrix1.e - matrix2.e) > 1) || (Math.abs(matrix1.f - matrix2.f) > 1)) {
-      // the following line works on Chrome Firefox
-      tlInstanceArr.push(TweenLite.to(matrix1, duration, {e:matrix2.e, f:matrix2.f})); // 3 commenting-out this doesn't fix crash
+    try {
+      //throw new Error("This is an error TESTING");
+      // TODO crash is probably caused by something here; comment things out one at a time
+      var one = arr1[ix1];
+      var two = arr2[ix2];
+      if (one.xhname < two.xhname) {ix1++; continue;}
+      if (two.xhname < one.xhname) {ix2++; continue;}
+      if (Math.abs(one.rvalue.value - two.rvalue.value) > 1) {
+        //tlInstanceArr.push(TweenLite.to(one.rvalue, duration, {value:two.rvalue.value})); // 2 no crash when commented out; crashes when this line is active; THIS IS THE PROBLEM
+        // try attr plugin
+        //TweenLite.to("#rect", 1, {attr:{x:100, y:50, width:100, height:100}, ease:Linear.easeNone});
+        tlInstanceArr.push(TweenLite.to(one.element, duration, {attr:{r:two.rvalue.value}}));
+      }
+      var matrix1 = one.transform.baseVal[0].matrix;
+      var matrix2 = two.transform.baseVal[0].matrix;
+      if ((Math.abs(matrix1.e - matrix2.e) > 1) || (Math.abs(matrix1.f - matrix2.f) > 1)) {
+        // the following line works on Chrome Firefox
+        tlInstanceArr.push(TweenLite.to(matrix1, duration, {e:matrix2.e, f:matrix2.f})); // 3 commenting-out this doesn't fix crash
+        
+        //TweenLite.to("#element", 1.5, {attr:{transform:"translate(40, 60)"}});
+        // there's a bug in TweenLite that prevents this from working; fixed in GSAP 1.14.0 ?
+        //var tr = 'translate(' + matrix2.e + ', ' + matrix2.f + ')';
+        //console.log(tr);
+        //console.log(one.group);
+        //tlInstanceArr.push(TweenLite.to(one.group, duration, {attr:{transform:tr}}));
+      }
+      one.className.baseVal = two.className.baseVal; // 1 commenting-out this doesn't fix crash
+      ix1++; ix2++;
+    } catch (e) {
+      var str = e.name + ": " + e.message;
+      if (xh.root) {
+        xh.root().println(str);
+      }
+      if (console && console.log) {
+        console.log(str);
+      }
+      //alert(str);
       
-      //TweenLite.to("#element", 1.5, {attr:{transform:"translate(40, 60)"}});
-      // there's a bug in TweenLite that prevents this from working; fixed in GSAP 1.14.0 ?
-      //var tr = 'translate(' + matrix2.e + ', ' + matrix2.f + ')';
-      //console.log(tr);
-      //console.log(one.group);
-      //tlInstanceArr.push(TweenLite.to(one.group, duration, {attr:{transform:tr}}));
+      var p = document.createElement("p");
+      p.textContent = str;
+      document.querySelector("body").appendChild(p);
+      return;
     }
-    one.className.baseVal = two.className.baseVal; // 1 commenting-out this doesn't fix crash
-    ix1++; ix2++;
   }
 
   TweenLite.to(one, duration, {onComplete:complete});
