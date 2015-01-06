@@ -179,7 +179,8 @@ public class Xholon2D3CirclePack implements EventListener {
     shape = "circle",
     maxSvg = 50, // max allowable number of SVG subtrees, to prevent running out of memory
     maxChars = 1, // max allowable number of chars in the standard text
-    marble = ""; // alternative content, in place of the standard text
+    marble = "", // alternative content, in place of the standard text
+    supportTouch = false;
     
     if (efParams) {
       sort = efParams.sort;
@@ -196,6 +197,7 @@ public class Xholon2D3CirclePack implements EventListener {
       if (efParams.width != -1) {w = efParams.width;}
       if (efParams.height != -1) {h = efParams.height;}
       if (efParams.selection) {selection = efParams.selection;}
+      supportTouch = efParams.supportTouch;
     }
     
     var pack = $wnd.d3.layout.pack()
@@ -426,17 +428,69 @@ public class Xholon2D3CirclePack implements EventListener {
         });
     }
     
-    node.on("click", function(d, i) {
-      handleClick(d, i);
-    });
-    
-    node.on("contextmenu", function(d, i) {
-      handleContextmenu(d, i);
-    });
-    
-    node.on("dblclick", function(d, i) {
-      handleDblclick(d, i);
-    });
+    if (supportTouch && $wnd.Hammer) {
+      //$wnd.console.log("starting Hammer ...");
+      //$wnd.console.log(svg); //selection);
+      //$wnd.console.log(svg.node());
+      // svg is a d3 array, and is in fact the outermost g
+      var hammer = new $wnd.Hammer.Manager(svg.node()); //, {
+        //recognizers: [[$wnd.Hammer.Press]]
+      //});
+      //$wnd.console.log(hammer);
+      
+      // be able to distinguish single from double tap
+      // see http://hammerjs.github.io/require-failure/
+      var singleTap = new $wnd.Hammer.Tap({event: 'singletap', taps: 1});
+      var doubleTap = new $wnd.Hammer.Tap({event: 'doubletap', taps: 2});
+      var press = new $wnd.Hammer.Press();
+      hammer.add([doubleTap, singleTap, press]); // the order of these is important
+      doubleTap.recognizeWith(singleTap);
+      singleTap.requireFailure(doubleTap);
+      
+      hammer.on('singletap doubletap press', function(ev) {
+        //$wnd.console.log(ev);
+        //$wnd.console.log(ev.target);
+        //$wnd.console.log(ev.target.__data__);
+        //$wnd.console.log(ev.type + " " + ev.pointerType + " " + ev.tapCount + " "
+        // + ev.target.parentNode.getAttribute("id")); // shows the g that the circle is contained in
+        switch (ev.type) {
+        case "singletap":
+          if (ev.tapCount == 1) {
+            ev.preventDefault();
+            handleTap(ev.target.__data__);
+          }
+          //else { // assume tapCount == 2
+            // should use "doubletap" event instead, but this can happen
+            //ev.preventDefault();
+            //handleDbltap(ev.target.__data__, ev.srcEvent.pageX, ev.srcEvent.pageY);
+          //}
+          break;
+        case "doubletap":
+          ev.preventDefault();
+          handleDbltap(ev.target.__data__, ev.srcEvent.pageX, ev.srcEvent.pageY);
+          break;
+        case "press": // Contextmenu
+          ev.preventDefault();
+          handlePress(ev.target.__data__, ev.srcEvent.pageX, ev.srcEvent.pageY);
+          break;
+        default: break;
+        }
+      });
+      //$wnd.console.log("... end Hammer");
+    }
+    else {
+      node.on("click", function(d, i) {
+        handleClick(d, i);
+      });
+      
+      node.on("contextmenu", function(d, i) {
+        handleContextmenu(d, i);
+      });
+      
+      node.on("dblclick", function(d, i) {
+        handleDblclick(d, i);
+      });
+    }
     
     node.on("mouseover", function(d, i) {
       handleMouseOverOut(d, i);
@@ -470,6 +524,29 @@ public class Xholon2D3CirclePack implements EventListener {
       var p = $doc.createElement("p");
       p.textContent = frameStr;
       $doc.querySelector("body").appendChild(p);
+    }
+    
+    // Hammer.js single tap
+    function handleTap(d) {
+      if (d === undefined) {return;}
+      if (d.dummy) {d = d.parent;}
+      var isCtrlPressed = false;
+      gui.@org.primordion.xholon.io.IXholonGui::handleNodeSelection(Ljava/lang/String;Ljava/lang/Object;Z)(d.name, d, isCtrlPressed);
+    }
+    
+    // Hammer.js press
+    function handlePress(d, x, y) {
+      if (d === undefined) {return;}
+      if (d.dummy) {d = d.parent;}
+      var posX = 0;
+      var posY = y;
+      gui.@org.primordion.xholon.io.IXholonGui::makeContextMenu(Ljava/lang/Object;II)(d, posX, posY);
+    }
+    
+    // Hammer.js double tap
+    function handleDbltap(d, x, y) {
+      //if (d === undefined) {return;}
+      handlePress(d, x, y);
     }
     
     function handleClick(d, i) {

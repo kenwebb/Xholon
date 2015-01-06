@@ -128,6 +128,7 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
     p.useSymbols = false;
     p.maxChars = 1;
     p.marble = ''; // '{"type":"default","maxChars":4}'
+    p.supportTouch = false; // Hammer.js
     this.efParams = p;
   }-*/;
 
