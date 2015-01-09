@@ -433,9 +433,7 @@ public class Xholon2D3CirclePack implements EventListener {
       //$wnd.console.log(svg); //selection);
       //$wnd.console.log(svg.node());
       // svg is a d3 array, and is in fact the outermost g
-      var hammer = new $wnd.Hammer.Manager(svg.node()); //, {
-        //recognizers: [[$wnd.Hammer.Press]]
-      //});
+      var hammer = new $wnd.Hammer.Manager(svg.node());
       //$wnd.console.log(hammer);
       
       // be able to distinguish single from double tap
@@ -443,11 +441,17 @@ public class Xholon2D3CirclePack implements EventListener {
       var singleTap = new $wnd.Hammer.Tap({event: 'singletap', taps: 1});
       var doubleTap = new $wnd.Hammer.Tap({event: 'doubletap', taps: 2});
       var press = new $wnd.Hammer.Press();
-      hammer.add([doubleTap, singleTap, press]); // the order of these is important
+      var pan = new $wnd.Hammer.Pan();
+      hammer.add([doubleTap, singleTap, press, pan]); // the order of these is important
       doubleTap.recognizeWith(singleTap);
       singleTap.requireFailure(doubleTap);
       
-      hammer.on('singletap doubletap press', function(ev) {
+      var panStartTarget = null;
+      var panStartTargetMatrix = null;
+      var panStartTargetMatrixE = 0;
+      var panStartTargetMatrixF = 0;
+      
+      hammer.on('singletap doubletap press panstart panmove panend', function(ev) {
         //$wnd.console.log(ev);
         //$wnd.console.log(ev.target);
         //$wnd.console.log(ev.target.__data__);
@@ -460,7 +464,7 @@ public class Xholon2D3CirclePack implements EventListener {
             handleTap(ev.target.__data__);
           }
           //else { // assume tapCount == 2
-            // should use "doubletap" event instead, but this can happen
+            // use "doubletap" event instead
             //ev.preventDefault();
             //handleDbltap(ev.target.__data__, ev.srcEvent.pageX, ev.srcEvent.pageY);
           //}
@@ -472,6 +476,64 @@ public class Xholon2D3CirclePack implements EventListener {
         case "press": // Contextmenu
           ev.preventDefault();
           handlePress(ev.target.__data__, ev.srcEvent.pageX, ev.srcEvent.pageY);
+          break;
+        case "panstart":
+          ev.preventDefault();
+          panStartTarget = ev.target.parentElement;
+          panStartTargetMatrix = panStartTarget.transform.baseVal.getItem(0).matrix;
+          panStartTargetMatrixE = panStartTargetMatrix.e;
+          panStartTargetMatrixF = panStartTargetMatrix.f;
+          //$wnd.console.log("panstart");
+          //$wnd.console.log(ev);
+          panStartTargetMatrix.e = panStartTargetMatrixE + ev.deltaX;
+          panStartTargetMatrix.f = panStartTargetMatrixF + ev.deltaY;
+          break;
+        case "panmove":
+          ev.preventDefault();
+          //$wnd.console.log("panmove");
+          //$wnd.console.log(ev.target);
+          panStartTargetMatrix.e = panStartTargetMatrixE + ev.deltaX;
+          panStartTargetMatrix.f = panStartTargetMatrixF + ev.deltaY;
+          break;
+        case "panend":
+          ev.preventDefault();
+          //$wnd.console.log("panend");
+          //$wnd.console.log(ev);
+          //$wnd.console.log(ev.target);
+          var xhroot = $wnd.xh.root();
+          var svgchld = panStartTarget;
+          var svgprnt = ev.target.parentElement;
+          //$wnd.console.log(svgchld);
+          //$wnd.console.log(svgprnt);
+          var xhchld = xhroot.xpath("descendant-or-self::*[@name='" + svgchld.id + "']");
+          var xhprnt = xhroot.xpath("descendant-or-self::*[@name='" + svgprnt.id + "']");
+          //$wnd.console.log(xhchld);
+          //$wnd.console.log(xhprnt);
+          // TODO prevent dangerous moves; fix z-order of moved nodes?
+          if (xhchld && xhprnt) {
+            if (xhchld == xhprnt) {
+              xhroot.println(xhchld.name() + " has stayed inside its original parent");
+            }
+            else if (xhchld.parent() != xhprnt) {
+              // prevent a node from appending it's parent or one of it's ancestors
+              var xhnode = xhprnt;
+              while (xhnode != null) {
+                if (xhnode == xhchld) {
+                  xhroot.println(xhchld.name() + " can't be moved to a child or descendant " + xhprnt.name());
+                  return;
+                }
+                xhnode = xhnode.parent();
+              }
+              xhprnt.append(xhchld.remove());
+              xhroot.println(xhchld.name() + " has moved to " + xhprnt.name());
+            }
+            else {
+              xhroot.println(xhchld.name() + " has stayed inside " + xhprnt.name());
+            }
+          }
+          else {
+            xhroot.println(svgchld.id + " has unknown location");
+          }
           break;
         default: break;
         }
