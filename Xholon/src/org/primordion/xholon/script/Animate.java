@@ -72,11 +72,14 @@ public class Animate extends XholonScript {
   /** Hash value from the previous call to xhAnimRoot.hashify() */
   private String hash = "";
   
+  /** Name of the JavaScript .js file that does the tweening */
+  private String tweenScript = "xhSvgTween";
+  
   /*
    * @see org.primordion.xholon.base.Xholon#postConfigure()
    */
   public void postConfigure() {
-    HtmlScriptHelper.requireScript("xhSvgTween", null);
+    HtmlScriptHelper.requireScript(tweenScript, null);
     app = this.getApp();
     xhAnimRoot = app.getRoot();
     if (xpath.length() != 0) {
@@ -146,6 +149,9 @@ public class Animate extends XholonScript {
     }
     else if ("cssStyle".equals(attrName)) {
       this.cssStyle = attrVal;
+    }
+    else if ("tweenScript".equals(attrName)) {
+      this.tweenScript = attrVal;
     }
     return 0;
   }
