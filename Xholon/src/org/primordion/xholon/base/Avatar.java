@@ -153,6 +153,11 @@ public class Avatar extends XholonWithPorts {
   protected Element caption = null;
   
   /**
+   * Whether or not act() should speak each action.
+   */
+  protected boolean speech = false;
+  
+  /**
    * An optional prefix if call println() or caption for each action.
    */
   protected String outPrefix = "";
@@ -255,6 +260,9 @@ public class Avatar extends XholonWithPorts {
             if (transcript) {
               this.println(outPrefix + a);
             }
+            if (speech) {
+              this.speak(outPrefix + a);
+            }
             this.doAction(a);
           }
         }
@@ -315,6 +323,9 @@ public class Avatar extends XholonWithPorts {
     String responseStr = processCommands(action);
     if (transcript && (responseStr != null) && (responseStr.length() > 0)) {
       this.println(" " + responseStr);
+    }
+    if (speech && (responseStr != null) && (responseStr.length() > 0)) {
+      this.speak(" " + responseStr);
     }
     if (debug) {
       this.consoleLog(responseStr);
@@ -1258,6 +1269,21 @@ public class Avatar extends XholonWithPorts {
       default: break;
       }
       break;
+    case "speech":
+      switch (value) {
+      case "true": speech = true; break;
+      case "false": speech = false; break;
+      case "toggle": speech = !speech; break;
+      default: break;
+      }
+      if (speech) {
+        if (!isSpeechSupported()) {
+          // this browser does not support speech, so disable it
+          consoleLog("this browser does not support speech");
+          speech = false;
+        }
+      }
+      break;
     default:
       break;
     }
@@ -1348,5 +1374,24 @@ public class Avatar extends XholonWithPorts {
     if (xpathExpression.length() == 0) {return null;}
     return xpath.evaluate(xpathExpression, aRoot);
   }
+  
+  /**
+   * Speak the text.
+   * @param text 
+   */
+  protected native void speak(String textToSpeak) /*-{
+    if ($wnd.speechSynthesis == undefined) {return;}
+    var newUtterance = new $wnd.SpeechSynthesisUtterance();
+    newUtterance.text = textToSpeak;
+    $wnd.speechSynthesis.speak(newUtterance); // add text to the utterance queue
+  }-*/;
+  
+  /**
+   * Determine whether or not speech synthesis is supported for this browser.
+   * @return true or false
+   */
+  protected native boolean isSpeechSupported() /*-{
+    return $wnd.speechSynthesis;
+  }-*/;
   
 }
