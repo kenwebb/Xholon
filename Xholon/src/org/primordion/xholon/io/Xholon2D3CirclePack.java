@@ -438,41 +438,47 @@ public class Xholon2D3CirclePack implements EventListener {
       
       // be able to distinguish single from double tap
       // see http://hammerjs.github.io/require-failure/
-      var singleTap = new $wnd.Hammer.Tap({event: 'singletap', taps: 1});
-      var doubleTap = new $wnd.Hammer.Tap({event: 'doubletap', taps: 2});
+      //var singleTap = new $wnd.Hammer.Tap({event: 'singletap', taps: 1});
+      //var doubleTap = new $wnd.Hammer.Tap({event: 'doubletap', taps: 2});
+      var tap = new $wnd.Hammer.Tap();
       var press = new $wnd.Hammer.Press();
       var pan = new $wnd.Hammer.Pan();
-      hammer.add([doubleTap, singleTap, press, pan]); // the order of these is important
-      doubleTap.recognizeWith(singleTap);
-      singleTap.requireFailure(doubleTap);
+      //hammer.add([tap, press, pan]); // the order of these may be important
+      hammer.add([pan, press, tap]);
+      //hammer.add([doubleTap, singleTap, press, pan]); // the order of these is important
+      //doubleTap.recognizeWith(singleTap);
+      //singleTap.requireFailure(doubleTap);
       
       var panStartTarget = null;
       var panStartTargetMatrix = null;
       var panStartTargetMatrixE = 0;
       var panStartTargetMatrixF = 0;
+      var panMoveTarget = null; // ev.target.parentElement found during panmove
       
-      hammer.on('singletap doubletap press panstart panmove panend', function(ev) {
+      //hammer.on('singletap doubletap press panstart panmove panend', function(ev) {
+      hammer.on('tap press panstart panmove panend', function(ev) {
         //$wnd.console.log(ev);
         //$wnd.console.log(ev.target);
         //$wnd.console.log(ev.target.__data__);
         //$wnd.console.log(ev.type + " " + ev.pointerType + " " + ev.tapCount + " "
         // + ev.target.parentNode.getAttribute("id")); // shows the g that the circle is contained in
         switch (ev.type) {
-        case "singletap":
-          if (ev.tapCount == 1) {
+        //case "singletap":
+        case "tap":
+          //if (ev.tapCount == 1) {
             ev.preventDefault();
             handleTap(ev.target.__data__);
-          }
+          //}
           //else { // assume tapCount == 2
             // use "doubletap" event instead
             //ev.preventDefault();
             //handleDbltap(ev.target.__data__, ev.srcEvent.pageX, ev.srcEvent.pageY);
           //}
           break;
-        case "doubletap":
-          ev.preventDefault();
-          handleDbltap(ev.target.__data__, ev.srcEvent.pageX, ev.srcEvent.pageY);
-          break;
+        //case "doubletap":
+        //  ev.preventDefault();
+        //  handleDbltap(ev.target.__data__, ev.srcEvent.pageX, ev.srcEvent.pageY);
+        //  break;
         case "press": // Contextmenu
           ev.preventDefault();
           handlePress(ev.target.__data__, ev.srcEvent.pageX, ev.srcEvent.pageY);
@@ -487,6 +493,7 @@ public class Xholon2D3CirclePack implements EventListener {
           //$wnd.console.log(ev);
           panStartTargetMatrix.e = panStartTargetMatrixE + ev.deltaX;
           panStartTargetMatrix.f = panStartTargetMatrixF + ev.deltaY;
+          panMoveTarget = panStartTarget; // ensure that it has a non-null value
           break;
         case "panmove":
           ev.preventDefault();
@@ -494,6 +501,10 @@ public class Xholon2D3CirclePack implements EventListener {
           //$wnd.console.log(ev.target);
           panStartTargetMatrix.e = panStartTargetMatrixE + ev.deltaX;
           panStartTargetMatrix.f = panStartTargetMatrixF + ev.deltaY;
+          // keep track of last event target != the node that's being dragged
+          if (ev.target.parentElement && (panStartTarget != ev.target.parentElement)) {
+            panMoveTarget = ev.target.parentElement;
+          }
           break;
         case "panend":
           ev.preventDefault();
@@ -503,6 +514,9 @@ public class Xholon2D3CirclePack implements EventListener {
           var xhroot = $wnd.xh.root();
           var svgchld = panStartTarget;
           var svgprnt = ev.target.parentElement;
+          if (panStartTarget == svgprnt) {
+            svgprnt = panMoveTarget; // use last event target != the node that's being dragged
+          }
           //$wnd.console.log(svgchld);
           //$wnd.console.log(svgprnt);
           var xhchld = xhroot.xpath("descendant-or-self::*[@name='" + svgchld.id + "']");
