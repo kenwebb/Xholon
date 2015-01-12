@@ -452,8 +452,8 @@ public abstract class Application extends AbstractApplication implements IApplic
 	/** Text about Xholon. */
 	protected transient String aboutText =
 		  "    Xholon library\n"
-		+ "    version 0.9.0\n"
-		+ "    Copyright (C) 2005 - 2014 Ken Webb\n"
+		+ "    version 0.9.1\n"
+		+ "    Copyright (C) 2005 - 2015 Ken Webb\n"
 		+ "    Licensed under GNU Lesser General Public License\n"
 		+ "    www.primordion.com/Xholon";
 	
