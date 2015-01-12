@@ -1,16 +1,25 @@
 // Transition between 2 or more adjacent SVG images.
 // xhSvgTween.js
-// Ken Webb  January 8, 2015
-// Designed to tween between 2 D3-CirclePack SVG images.
+// Ken Webb  November 19, 2014
+// Designed to work with 2 D3-CirclePack SVG images in "The Black Geese" app.
 // Only handles SVG circle; returns if finds something else (ex: ellipse).
+// for now I'm using TweenLite for tweening, rather than D3
 
 // usage: xh.tween();
 //        xh.tween("#xhgraph", 5);
 //        xh.tween(null,2);
 
+if (xh.require) {
+  xh.require("TweenLite.min");
+  xh.require("AttrPlugin.min");
+}
+
 xh.tween = function(selection, duration, sortedArr1) {
   
-  if (typeof d3 == "undefined") {return;}
+  if (typeof TweenLite == "undefined") {return;}
+  
+  // array of active TweenLite instances
+  var tlInstanceArr = [];
   
   // for use with Array.sort
   var compare = function(a, b) {
@@ -33,13 +42,23 @@ xh.tween = function(selection, duration, sortedArr1) {
       obj.transform = g.transform;
       obj.rvalue = obj.element.r.baseVal;
       obj.className = g.className;
+      //obj.text = g.querySelector("text");
       arr.push(obj);
     }
     arr.sort(compare);
     return arr;
   };
   
-  xh.tween.complete = function() {
+  var complete = function() {
+    // kill any TweenLite animations that are still running, before removing their SVG target
+    for (var i = 0; i < tlInstanceArr.length; i++) {
+      var tli = tlInstanceArr[i];
+      if (tli.isActive()) {
+        console.log(tli);
+        tli.kill();
+      }
+    }
+    
     // delete svg1, effectively making svg2 the new svg1 for the next cycle
     if (svg1.parentNode) {
       svg1.parentNode.removeChild(svg1);
@@ -65,8 +84,8 @@ xh.tween = function(selection, duration, sortedArr1) {
   if ((duration === undefined) || (duration === null)) {
     duration = 5;
   }
-  var durationMs = duration * 1000; // convert seconds to ms
   
+  //var svg1 = document.querySelector(selection + ">svg");
   var svg1 = null;
   try {
     svg1 = document.querySelector(selection + ">svg");
@@ -95,23 +114,32 @@ xh.tween = function(selection, duration, sortedArr1) {
   var ix2 = 0;
   while ((ix1 < arr1.length) && (ix2 < arr2.length)) {
     try {
+      //throw new Error("This is an error TESTING");
+      // TODO crash is probably caused by something here; comment things out one at a time
       var one = arr1[ix1];
       var two = arr2[ix2];
       if (one.xhname < two.xhname) {ix1++; continue;}
       if (two.xhname < one.xhname) {ix2++; continue;}
       if (Math.abs(one.rvalue.value - two.rvalue.value) > 1) {
-        d3.select(one.element).transition()
-        .attr("r", two.rvalue.value)
-        .duration(durationMs);
+        //tlInstanceArr.push(TweenLite.to(one.rvalue, duration, {value:two.rvalue.value})); // 2 no crash when commented out; crashes when this line is active; THIS IS THE PROBLEM
+        // try attr plugin
+        //TweenLite.to("#rect", 1, {attr:{x:100, y:50, width:100, height:100}, ease:Linear.easeNone});
+        tlInstanceArr.push(TweenLite.to(one.element, duration, {attr:{r:two.rvalue.value}}));
       }
-      var matrix1 = one.transform.baseVal.getItem(0).matrix;
-      var matrix2 = two.transform.baseVal.getItem(0).matrix;
+      var matrix1 = one.transform.baseVal.getItem(0).matrix; //baseVal[0].matrix;
+      var matrix2 = two.transform.baseVal.getItem(0).matrix; //baseVal[0].matrix;
       if ((Math.abs(matrix1.e - matrix2.e) > 1) || (Math.abs(matrix1.f - matrix2.f) > 1)) {
-        d3.select(one.group).transition()
-        .attr("transform", "translate(" + matrix2.e + "," + matrix2.f + ")")
-        .duration(durationMs);
+        // the following line works on Chrome Firefox
+        tlInstanceArr.push(TweenLite.to(matrix1, duration, {e:matrix2.e, f:matrix2.f})); // 3 commenting-out this doesn't fix crash
+        
+        //TweenLite.to("#element", 1.5, {attr:{transform:"translate(40, 60)"}});
+        // there's a bug in TweenLite that prevents this from working; fixed in GSAP 1.14.0 ?
+        //var tr = 'translate(' + matrix2.e + ', ' + matrix2.f + ')';
+        //console.log(tr);
+        //console.log(one.group);
+        //tlInstanceArr.push(TweenLite.to(one.group, duration, {attr:{transform:tr}}));
       }
-      one.className.baseVal = two.className.baseVal;
+      one.className.baseVal = two.className.baseVal; // 1 commenting-out this doesn't fix crash
       ix1++; ix2++;
     } catch (e) {
       var str = e.name + ": " + e.message;
@@ -121,6 +149,7 @@ xh.tween = function(selection, duration, sortedArr1) {
       if (console && console.log) {
         console.log(str);
       }
+      //alert(str);
       
       var p = document.createElement("p");
       p.textContent = str;
@@ -129,6 +158,6 @@ xh.tween = function(selection, duration, sortedArr1) {
     }
   }
 
-  setTimeout(xh.tween.complete, durationMs);
+  TweenLite.to(one, duration, {onComplete:complete});
 }
 
