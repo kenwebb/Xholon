@@ -19,6 +19,11 @@
 package org.primordion.xholon.base;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.json.client.JSONException;
+import com.google.gwt.json.client.JSONNumber;
+import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONParser;
+import com.google.gwt.json.client.JSONString;
 
 import org.primordion.xholon.app.IApplication;
 import org.primordion.xholon.base.IGrid;
@@ -82,6 +87,7 @@ public class Avatar extends XholonWithPorts {
   protected static final int ACTIONIX_INITIAL = -1; // initial value of actionIx
   protected static final int WAITCOUNT_HIGH = Integer.MAX_VALUE; // waitCount max value
   protected static final String THIS_AVATAR = "this";
+  protected static final float SSU_FLOAT_DEFAULT = -1.0f;
   
   // Variables
   protected String roleName = null;
@@ -156,6 +162,18 @@ public class Avatar extends XholonWithPorts {
    * Whether or not act() should speak each action.
    */
   protected boolean speech = false;
+  
+  /**
+   * Parameters for the SpeechSynthesisUtterance class in the Web Speech API.
+   * This is a JSON string with parameter name/value pairs, or null.
+   * ex: {"lang":"en-US", "voice":"Google UK English Female", "volume":1.0, "rate":1.2, "pitch":1.0}
+   */
+  //protected String speechParams = null; // ???
+  protected String ssuLang = null; // ex: "en-US"
+  protected Object ssuVoice = null; // ex: new SpeechSynthesisVoice("Google UK English Female")
+  protected float ssuVolume = SSU_FLOAT_DEFAULT;
+  protected float ssuRate = SSU_FLOAT_DEFAULT;
+  protected float ssuPitch = SSU_FLOAT_DEFAULT;
   
   /**
    * An optional prefix if call println() or caption for each action.
@@ -261,7 +279,7 @@ public class Avatar extends XholonWithPorts {
               this.println(outPrefix + a);
             }
             if (speech) {
-              this.speak(outPrefix + a);
+              this.speak(outPrefix + a, ssuLang, ssuVoice, ssuVolume, ssuRate, ssuPitch);
             }
             this.doAction(a);
           }
@@ -325,7 +343,7 @@ public class Avatar extends XholonWithPorts {
       this.println(" " + responseStr);
     }
     if (speech && (responseStr != null) && (responseStr.length() > 0)) {
-      this.speak(" " + responseStr);
+      this.speak(" " + responseStr, ssuLang, ssuVoice, ssuVolume, ssuRate, ssuPitch);
     }
     if (debug) {
       this.consoleLog(responseStr);
@@ -573,7 +591,7 @@ public class Avatar extends XholonWithPorts {
       break;
     case "param":
       if (len > 2) {
-        param(data[1], data[2]);
+        param(data[1], data[2], data[3]);
       }
       else {
         sb.append("Please specify the name and value of the param (ex: param loop false).");
@@ -1230,8 +1248,10 @@ public class Avatar extends XholonWithPorts {
    * Change the value of a parameter.
    * @param name 
    * @param value 
+   * @param valueRest The rest of the value, in case it contains one or more spaces.
    */
-  protected void param(String name, String value) {
+  protected void param(String name, String value, String valueRest) {
+    //consoleLog(name + " " + value + " " + valueRest);
     switch (name) {
     case "caption":
       if ("null".equals(value)) {caption = null;}
@@ -1274,7 +1294,50 @@ public class Avatar extends XholonWithPorts {
       case "true": speech = true; break;
       case "false": speech = false; break;
       case "toggle": speech = !speech; break;
-      default: break;
+      default:
+        if (value.charAt(0) == '{') {
+          // parse this JSON string, and extract the values
+          // ex: {"lang":"en-US", "voice":"Google UK English Female", "volume":1.0, "rate":1.2, "pitch":1.0}
+          speech = true;
+          try {
+            JSONObject json = JSONParser.parseStrict(value + valueRest).isObject();
+            if (json != null) {
+              if (json.containsKey("lang")) {
+                JSONString str = json.get("lang").isString();
+                if (str != null) {
+                  this.ssuLang = str.stringValue();
+                }
+              }
+              if (json.containsKey("voice")) {
+                JSONString str = json.get("voice").isString();
+                if (str != null) {
+                  this.ssuVoice = findVoice(str.stringValue());
+                }
+              }
+              if (json.containsKey("volume")) {
+                JSONNumber num = json.get("volume").isNumber();
+                if (num != null) {
+                  this.ssuVolume = (float)num.doubleValue();
+                }
+              }
+              if (json.containsKey("rate")) {
+                JSONNumber num = json.get("rate").isNumber();
+                if (num != null) {
+                  this.ssuRate = (float)num.doubleValue();
+                }
+              }
+              if (json.containsKey("pitch")) {
+                JSONNumber num = json.get("pitch").isNumber();
+                if (num != null) {
+                  this.ssuPitch = (float)num.doubleValue();
+                }
+              }
+            }
+          } catch(JSONException e) {
+            consoleLog(e);
+          }
+        }
+        break;
       }
       if (speech) {
         if (!isSpeechSupported()) {
@@ -1377,13 +1440,34 @@ public class Avatar extends XholonWithPorts {
   
   /**
    * Speak the text.
+   * ex: speak("The silly white rabbit jumped over the lion.");
+   * TODO can I repeatedly reuse a single SpeechSynthesisUtterance instance?
    * @param text 
    */
-  protected native void speak(String textToSpeak) /*-{
-    if ($wnd.speechSynthesis == undefined) {return;}
+  protected native void speak(String textToSpeak, String ssuLang, Object ssuVoice, float ssuVolume, float ssuRate, float ssuPitch) /*-{
+    //$wnd.console.log("speak() " + typeof $wnd.speechSynthesis != "undefined");
+    //$wnd.console.log(textToSpeak);
+    // Firefox defines speechSynthesis but not SpeechSynthesisUtterance
+    //if (typeof $wnd.speechSynthesis == "undefined") {return;}
+    if (typeof $wnd.SpeechSynthesisUtterance == "undefined") {return;}
     var newUtterance = new $wnd.SpeechSynthesisUtterance();
     newUtterance.text = textToSpeak;
-    $wnd.speechSynthesis.speak(newUtterance); // add text to the utterance queue
+    if (ssuLang != null) {
+      newUtterance.lang = ssuLang;
+    }
+    if (ssuVoice != null) {
+      newUtterance.voice = ssuVoice;
+    }
+    if (ssuVolume != -1.0) {
+      newUtterance.volume = ssuVolume;
+    }
+    if (ssuRate != -1.0) {
+      newUtterance.rate = ssuRate;
+    }
+    if (ssuPitch != -1.0) {
+      newUtterance.pitch = ssuPitch;
+    }
+    $wnd.speechSynthesis.speak(newUtterance); // add to the utterance queue
   }-*/;
   
   /**
@@ -1391,7 +1475,31 @@ public class Avatar extends XholonWithPorts {
    * @return true or false
    */
   protected native boolean isSpeechSupported() /*-{
-    return $wnd.speechSynthesis;
+    //$wnd.console.log("isSpeechSupported() " + typeof $wnd.speechSynthesis != "undefined");
+    //return typeof $wnd.speechSynthesis != "undefined";
+    return typeof $wnd.SpeechSynthesisUtterance != "undefined";
+  }-*/;
+  
+  /**
+   * Find a SpeechSynthesisVoice.
+   * @param name
+   * @return A SpeechSynthesisVoice object, or null.
+   * ex: Object voice = findVoice("Google UK English Female");
+   * 
+   * TODO voices are loaded asynchronously, so need to wait for an event
+window.speechSynthesis.onvoiceschanged = function() {
+  var voices = $wnd.speechSynthesis.getVoices();
+  
+};
+   */
+  protected native Object findVoice(String name) /*-{
+    var voices = $wnd.speechSynthesis.getVoices();
+    for (var i = 0; i < voices.length; i++) {
+      if (voices[i].name == name) {
+        return voices[i];
+      }
+    }
+    return null;
   }-*/;
   
 }
