@@ -449,7 +449,8 @@ public class Xholon2D3CirclePack implements EventListener {
       //doubleTap.recognizeWith(singleTap);
       //singleTap.requireFailure(doubleTap);
       
-      var panStartTarget = null;
+      var shapeTarget = null; // circle ellipse rect etc.
+      var panStartTarget = null; // g
       var panStartTargetMatrix = null;
       var panStartTargetMatrixE = 0;
       var panStartTargetMatrixF = 0;
@@ -485,8 +486,14 @@ public class Xholon2D3CirclePack implements EventListener {
           break;
         case "panstart":
           ev.preventDefault();
-          panStartTarget = ev.target.parentElement;
-          panStartTargetMatrix = panStartTarget.transform.baseVal.getItem(0).matrix;
+          shapeTarget = ev.target; // circle etc.
+          panStartTarget = shapeTarget.parentElement; // g
+          // http://stackoverflow.com/questions/24202104/svg-drag-and-drop
+          // following statement allows us to find out where the dragged element is dropped (see panend)
+          shapeTarget.setAttribute("pointer-events", "none");
+          // make the moved SVG g element the top element so it can be clicked or touched again
+          panStartTarget.parentNode.appendChild(panStartTarget);
+          panStartTargetMatrix = panStartTarget.transform.baseVal.getItem(0).matrix; // getCTM() doesn't work
           panStartTargetMatrixE = panStartTargetMatrix.e;
           panStartTargetMatrixF = panStartTargetMatrix.f;
           //$wnd.console.log("panstart");
@@ -508,6 +515,7 @@ public class Xholon2D3CirclePack implements EventListener {
           break;
         case "panend":
           ev.preventDefault();
+          shapeTarget.setAttribute("pointer-events", "");
           //$wnd.console.log("panend");
           //$wnd.console.log(ev);
           //$wnd.console.log(ev.target);
