@@ -174,7 +174,8 @@ public class Xholon2D3CirclePack implements EventListener {
     format = $wnd.d3.format(",d"),
     sort = null,
     mode = null,
-    labelContainers = false,
+    labelContainers = false, // true false
+    labelContainersOptions = "top", // "top" "bottom" "center"
     includeId = false,
     shape = "circle",
     maxSvg = 50, // max allowable number of SVG subtrees, to prevent running out of memory
@@ -186,6 +187,7 @@ public class Xholon2D3CirclePack implements EventListener {
       sort = efParams.sort;
       mode = efParams.mode;
       labelContainers = efParams.labelContainers;
+      labelContainersOptions = efParams.labelContainersOptions;
       includeId = efParams.includeId;
       shape = efParams.shape;
       maxSvg = efParams.maxSvg;
@@ -327,7 +329,10 @@ public class Xholon2D3CirclePack implements EventListener {
     }
     
     node.filter(function(d) {
-      return !(d.children || d.dummy);
+      if (d.dummy) {return false;}
+      // display centered containers, only when they are symbols
+      if (labelContainersOptions == "center" && d.symbol) {return true;}
+      return !d.children; // || (labelContainersOptions == "center");
     }).append("text")
       .attr("dy", ".3em")
       .style("text-anchor", "middle")
@@ -403,15 +408,20 @@ public class Xholon2D3CirclePack implements EventListener {
         });
     } // end if(marble) 
     
-    // optionally place small text at top of container nodes (nodes that have children)
+    // optionally place small text at top or bottom of container nodes (nodes that have children)
     if (labelContainers) {
       node.filter(function(d) {
         return d.children;
       }).append("text")
         .attr("dy", function(d) {
-          var px = d.r - 8; // (circleRadius - (fontsize + 5 - 1))
-          if (px < 0) {px = 0;}
-          return "-" + px + "px";
+          if (labelContainersOptions == "bottom") {
+            return d.r + "px";
+          }
+          else { // "top"
+            var px = d.r - 8; // (circleRadius - (fontsize + 5 - 1))
+            if (px < 0) {px = 0;}
+            return "-" + px + "px";
+          }
         })
         .style("text-anchor", "middle")
         .style("font-size", function(d) {
@@ -488,6 +498,13 @@ public class Xholon2D3CirclePack implements EventListener {
           ev.preventDefault();
           shapeTarget = ev.target; // circle etc.
           panStartTarget = shapeTarget.parentElement; // g
+          if (panStartTarget == panStartTarget.parentElement.firstElementChild) {
+            // TODO don't allow dragging first (root) g node
+            // cancel the pan/drag
+            console.log("should not be allowed to drag first (root) g node");
+            //hammer.stop(); // maybe use stop(true); ???
+            //return;
+          }
           // http://stackoverflow.com/questions/24202104/svg-drag-and-drop
           // following statement allows us to find out where the dragged element is dropped (see panend)
           shapeTarget.setAttribute("pointer-events", "none");
@@ -534,27 +551,27 @@ public class Xholon2D3CirclePack implements EventListener {
           // TODO prevent dangerous moves; fix z-order of moved nodes?
           if (xhchld && xhprnt) {
             if (xhchld == xhprnt) {
-              xhroot.println(xhchld.name() + " has stayed inside its original parent");
+              //xhroot.println(xhchld.name() + " has stayed inside its original parent");
             }
             else if (xhchld.parent() != xhprnt) {
               // prevent a node from appending it's parent or one of it's ancestors
               var xhnode = xhprnt;
               while (xhnode != null) {
                 if (xhnode == xhchld) {
-                  xhroot.println(xhchld.name() + " can't be moved to a child or descendant " + xhprnt.name());
+                  //xhroot.println(xhchld.name() + " can't be moved to a child or descendant " + xhprnt.name());
                   return;
                 }
                 xhnode = xhnode.parent();
               }
               xhprnt.append(xhchld.remove());
-              xhroot.println(xhchld.name() + " has moved to " + xhprnt.name());
+              //xhroot.println(xhchld.name() + " has moved to " + xhprnt.name());
             }
             else {
-              xhroot.println(xhchld.name() + " has stayed inside " + xhprnt.name());
+              //xhroot.println(xhchld.name() + " has stayed inside " + xhprnt.name());
             }
           }
           else {
-            xhroot.println(svgchld.id + " has unknown location");
+            //xhroot.println(svgchld.id + " has unknown location");
           }
           break;
         default: break;
