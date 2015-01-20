@@ -45,9 +45,6 @@ public class Animate extends XholonScript {
   /** The name of the external format (ef) */
   private String formatName = "_d3,CirclePack";
   
-  /** An XPath expression to get from the app's CSH root node to the animation root node */
-  private String xpath = ".";
-  
   /** Parameters that will be passed to the ef exporter */
   private String efParams = "{\"shouldIncludeDecorations\":true,\"sort\":\"disable\",\"width\":600,\"height\":600,\"mode\":\"tween\"}";
   
@@ -66,6 +63,9 @@ public class Animate extends XholonScript {
   
   private IApplication app = null;
   
+  /** An XPath expression to get from the app's CSH root node to the animation root node (xhAnimRoot) */
+  private String xpath = ".";
+  
   /** The root node of the Xholon subtree that is being animated, in this anination */
   private IXholon xhAnimRoot = null;
   
@@ -81,10 +81,8 @@ public class Animate extends XholonScript {
   public void postConfigure() {
     HtmlScriptHelper.requireScript(tweenScript, null);
     app = this.getApp();
-    xhAnimRoot = app.getRoot();
-    if (xpath.length() != 0) {
-      xhAnimRoot = this.getXPath().evaluate(xpath, xhAnimRoot);
-    }
+    xhAnimRoot = app.getRoot(); // default
+    setAnimRoot(xpath);
     // align the tween duration with the Xholon TimeStepInterval
     app.setParam("TimeStepInterval", Integer.toString(((int)(duration * 1000.0))));
     if (cssStyle != null) {
@@ -154,6 +152,18 @@ public class Animate extends XholonScript {
       this.tweenScript = attrVal;
     }
     return 0;
+  }
+  
+  public void setAnimRoot(String xpath) {
+    if (xpath == null) {return;}
+    this.xpath = xpath;
+    if (xpath.length() != 0) {
+      this.xhAnimRoot = this.getXPath().evaluate(xpath, app.getRoot());
+    }
+  }
+  
+  public String getAnimRoot() {
+    return xpath;
   }
   
 }

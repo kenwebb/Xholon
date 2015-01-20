@@ -22,6 +22,7 @@ import org.primordion.xholon.mech.petrinet.PetriNet;
 import org.primordion.xholon.mech.petrinet.Place;
 import org.primordion.xholon.mech.petrinet.QueueTransitions;
 import org.primordion.xholon.mech.petrinet.Transition;
+import org.primordion.xholon.script.Animate;
 import org.primordion.xholon.service.mathscieng.Quantity;
 import org.primordion.xholon.service.svg.SvgClient;
 
@@ -379,6 +380,9 @@ public String getAppSpecificObjectValNames(IXholon node, Class<IXholon> clazz) {
       if ("Setup".equalsIgnoreCase(attrName)) {return ((SvgClient)node).getSetup();}
       if ("ViewBehavior".equalsIgnoreCase(attrName)) {return ((SvgClient)node).getViewBehavior();}
     }
+    else if ("org.primordion.xholon.script.Animate".equals(clazz.getName())) {
+      if ("AnimRoot".equalsIgnoreCase(attrName)) {return ((Animate)node).getAnimRoot();}
+    }
     Class<?> superclass = (Class<?>)clazz.getSuperclass();
     if ((superclass != null) && superclass.getName().startsWith("org.primordion.xholon")) {
       return getAppSpecificAttribute(node, (Class<IXholon>)superclass, attrName);
@@ -434,6 +438,10 @@ public void setAppSpecificAttribute(IXholon node, Class<IXholon> clazz, String a
         if ("K".equalsIgnoreCase(attrName)) {((PetriNet)node).setK(Double.parseDouble((String)attrVal));return;}
         if ("TimeStepMultiplier".equalsIgnoreCase(attrName)) {((PetriNet)node).setTimeStepMultiplier(Integer.parseInt((String)attrVal));return;}
         if ("ChartInterval".equalsIgnoreCase(attrName)) {((PetriNet)node).setChartInterval(Integer.parseInt((String)attrVal));return;}
+      }
+      else if ("org.primordion.xholon.script.Animate".equals(clazz.getName())) {
+        //if ("AnimRoot".equalsIgnoreCase(attrName)) {return ((Animate)node).getAnimRoot();}
+        if ("AnimRoot".equalsIgnoreCase(attrName)) {((Animate)node).setAnimRoot((String)attrVal);return;};
       }
     } catch(java.lang.NumberFormatException e) {return;}
     Class<?> superclass = (Class<?>)clazz.getSuperclass();
@@ -606,6 +614,9 @@ public void setAppSpecificAttribute(IXholon node, Class<IXholon> clazz, String a
     else if ("org.primordion.xholon.service.svg.SvgClient".equals(clazz.getName())) {
       names.add("Setup");values.add(((SvgClient)node).getSetup());types.add(java.lang.String.class);
       names.add("ViewBehavior");values.add(((SvgClient)node).getViewBehavior());types.add(java.util.List.class);
+    }
+    else if ("org.primordion.xholon.script.Animate".equals(clazz.getName())) {
+      names.add("AnimRoot");values.add(((Animate)node).getAnimRoot());types.add(java.lang.String.class);
     }
     if (returnAll) {
       Class<?> superclass = (Class<?>)clazz.getSuperclass();
