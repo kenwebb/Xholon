@@ -88,6 +88,7 @@ public class Avatar extends XholonWithPorts {
   protected static final int WAITCOUNT_HIGH = Integer.MAX_VALUE; // waitCount max value
   protected static final String THIS_AVATAR = "this";
   protected static final float SSU_FLOAT_DEFAULT = -1.0f;
+  protected static final String WILDCARD = "*";
   
   // Variables
   protected String roleName = null;
@@ -598,7 +599,12 @@ public class Avatar extends XholonWithPorts {
       }
       break;
     case "prev":
-      prev();
+      if (len > 1) {
+        prev(data[1]);
+      }
+      else {
+        prev();
+      }
       break;
     case "put":
       if (len > 3) {
@@ -911,7 +917,8 @@ public class Avatar extends XholonWithPorts {
       else {next(nextTarget);}
       return;
     case "prev":
-      prev();
+      if (nextTarget == null) {prev();}
+      else {prev(nextTarget);}
       return;
     case "N": goPort(IGrid.P_NORTH); return;
     case "E": goPort(IGrid.P_EAST); return;
@@ -991,11 +998,25 @@ public class Avatar extends XholonWithPorts {
    */
   protected void next(String nextTarget) {
     IXholon node = contextNode.getNextSibling();
-    while (node != null) {
-      if (makeNodeName(node).startsWith(nextTarget)) {
-        break;
+    if (nextTarget.startsWith(WILDCARD)) {
+      if (nextTarget.length() < 2) {
+        next();
+        return;
       }
-      node = node.getNextSibling();
+      while (node != null) {
+        if (makeNodeName(node).indexOf(nextTarget.substring(1)) > -1) {
+          break;
+        }
+        node = node.getNextSibling();
+      }
+    }
+    else {
+      while (node != null) {
+        if (makeNodeName(node).startsWith(nextTarget)) {
+          break;
+        }
+        node = node.getNextSibling();
+      }
     }
     if (node != null) {
       moveto(node);
@@ -1019,6 +1040,40 @@ public class Avatar extends XholonWithPorts {
       }
     }
     else {moveto(node);}
+  }
+  
+  /**
+   * prev
+   * @param prevTarget
+   */
+  protected void prev(String prevTarget) {
+    IXholon node = contextNode.getPreviousSibling();
+    if (prevTarget.startsWith(WILDCARD)) {
+      if (prevTarget.length() < 2) {
+        prev();
+        return;
+      }
+      while (node != null) {
+        if (makeNodeName(node).indexOf(prevTarget.substring(1)) > -1) {
+          break;
+        }
+        node = node.getPreviousSibling();
+      }
+    }
+    else {
+      while (node != null) {
+        if (makeNodeName(node).startsWith(prevTarget)) {
+          break;
+        }
+        node = node.getPreviousSibling();
+      }
+    }
+    if (node != null) {
+      moveto(node);
+    }
+    else {
+      sb.append("Can't find prev " + prevTarget);
+    }
   }
   
   /**
@@ -1046,7 +1101,7 @@ public class Avatar extends XholonWithPorts {
     .append("\nbuild thing [role roleName]")
     .append("\ndrop [thing]")
     .append("\neat|unbuild thing")
-    .append("\nenter thing")
+    .append("\nenter [*]thing")
     .append("\nexamine|x thing")
     .append("\nexit [ancestor]")
     .append("\nfollow leader")
@@ -1055,9 +1110,9 @@ public class Avatar extends XholonWithPorts {
     .append("\ninventory|i")
     .append("\nlead follower")
     .append("\nlook")
-    .append("\nnext [target]")
+    .append("\nnext [[*]target]")
     .append("\nparam name value")
-    .append("\nprev")
+    .append("\nprev [[*]target]")
     .append("\nput thing1 in|on|under|ANY thing2")
     .append("\nsearch thing")
     .append("\nsmash thing")
@@ -1381,7 +1436,7 @@ public class Avatar extends XholonWithPorts {
    */
   protected IXholon findNode(String nodeName, IXholon aRoot) {
     IXholon node = null;
-    if (nodeName.startsWith("*")) {
+    if (nodeName.startsWith(WILDCARD)) {
       if (nodeName.length() < 2) {return null;}
       node = aRoot.getFirstChild();
       while (node != null) {
