@@ -97,6 +97,12 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 	//protected static final Log logger = new Log(); // gwt
 	//protected static final Logger logger = Logger.getLogger("Xholon"); // GWT 2.5.1
 	
+	/**
+	 * print2Console() will ignore any string that starts with this character.
+	 * ASCII \cQ or \cq U+0011 DEVICE CONTROL ONE
+	 */
+	protected static final String PRINT2CONSOLE_IGNORE_ME = "\u0011";
+	
 	/** Constructor. */
 	public Xholon()	{}
 	
@@ -1139,6 +1145,7 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 	 * @param scroll Whether or not to scroll to the bottom of the text area.
 	 */
 	protected void print2Console(String str, boolean scroll) {
+	  if (str.startsWith(PRINT2CONSOLE_IGNORE_ME)) {return;}
 	  Element element = HtmlElementCache.xhout.getFirstChildElement();
     if (element != null) {
       TextAreaElement textfield = element.cast();
