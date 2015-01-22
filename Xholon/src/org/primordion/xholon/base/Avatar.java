@@ -590,6 +590,18 @@ public class Avatar extends XholonWithPorts {
         next();
       }
       break;
+    case "out":
+      if (len == 3) {
+        out(data[1], data[2]);
+      }
+      else if (len > 3) {
+        out(data[1], data[2] + " " + data[3]);
+      }
+      else {
+        sb.append("Please specify a list of destinations and some text")
+        .append(" (ex: out caption,speech One two three).");
+      }
+      break;
     case "param":
       if (len > 2) {
         param(data[1], data[2], data[3]);
@@ -1111,6 +1123,7 @@ public class Avatar extends XholonWithPorts {
     .append("\nlead follower")
     .append("\nlook")
     .append("\nnext [[*]target]")
+    .append("\nout speech,caption,transcript,debug,all text")
     .append("\nparam name value")
     .append("\nprev [[*]target]")
     .append("\nput thing1 in|on|under|ANY thing2")
@@ -1157,6 +1170,81 @@ public class Avatar extends XholonWithPorts {
       node = node.getNextSibling();
     }
   }
+  
+  /**
+   * Write out text to one or more destinations.
+   * This is independent of whether or not a param for that destination is true or false.
+   * Examples:
+out speech Flopsy, Mopsy, and Cottontail, who were good little bunnies, went down the lane to gather bananas
+out all Two plus two equals five.
+out speech,caption And they lived happily never after.
+out canvas http://www.primordion.com/Xholon/abc/def.png
+out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
+   * @param destinations A comma-separated list of output destinations, with no spaces between them.
+   *   "speech" "caption" "transcript" "debug" "all" "caption,speech" and other combinations
+   * @param text The text that should be written out.
+   */
+  protected void out(String destinations, String text) {
+    String[] dests = destinations.split(",");
+    for (int i = 0; i < dests.length; i++) {
+      switch (dests[i]) {
+      case "speech":
+        this.speak(outPrefix + text, ssuLang, ssuVoice, ssuVolume, ssuRate, ssuPitch);
+        break;
+      case "caption":
+        if (caption != null) {
+          caption.setInnerText(outPrefix + text);
+        }
+        break;
+      case "transcript":
+        this.println(outPrefix + text);
+        break;
+      case "debug":
+        this.consoleLog(outPrefix + text);
+        break;
+      case "all":
+        // TODO do I really want this ?
+        break;
+      case "canvas":
+        out2Canvas(text, "testing", "replace");
+        break;
+      default:
+        break;
+      }
+    }
+  }
+  
+  /**
+   * Write a PNG or other image to the Xholon canvas.
+   * @param url (ex: "http://www.primordion.com/Xholon/gwtimages/Middle-earth.jpg")
+   *   (ex: "http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg")
+   * @param canvasId 
+   * @param mode "new" "replace" "fade|tween"
+   */
+  protected native void out2Canvas(String url, String canvasId, String mode) /*-{
+    var xhcanvas = $doc.querySelector("div#xhcanvas");
+    var canvas = null;
+    if (mode == "new") {
+      canvas = $doc.createElement("canvas");
+      xhcanvas.appendChild(canvas);
+    }
+    else { // "replace"
+      canvas = $doc.querySelector("div#xhcanvas>canvas");
+      if (canvas == null) {
+        canvas = $doc.createElement("canvas");
+        xhcanvas.appendChild(canvas);
+      }
+    }
+    canvas.id = canvasId;
+    var ctx = canvas.getContext("2d");
+    var image = new Image();
+    image.onload = function() {
+      canvas.width = image.width;
+      canvas.height = image.height;
+      ctx.drawImage(image, 0, 0);
+    };
+    image.src = url;
+  }-*/;
   
   /**
    * Put thing1 into thing2, where:
