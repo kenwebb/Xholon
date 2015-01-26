@@ -1,9 +1,9 @@
 // Transition between 2 or more adjacent SVG images.
 // xhSvgTween.js
 // Ken Webb  November 19, 2014
+// MIT License, Copyright (C) 2014, 2015 Ken Webb
 // Designed to work with 2 D3-CirclePack SVG images in "The Black Geese" app.
 // Only handles SVG circle; returns if finds something else (ex: ellipse).
-// for now I'm using TweenLite for tweening, rather than D3
 
 // usage: xh.tween();
 //        xh.tween("#xhgraph", 5);
