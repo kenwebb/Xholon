@@ -5,7 +5,7 @@ Xholon is an open-source library for making open-ended HTML5 client-side applica
 The technology focus is on hierarchical and graph structure, building complex worlds,
 dynamic interactions, visualization, dynamic content updates, ...
 
-Xholon uses [Google Web Toolkit] [6] (GWT 2.5.1) to compile this repository's Java source code
+Xholon uses [Google Web Toolkit] [6] (GWT 2.6.0) to compile this repository's Java source code
 (documented [here] [7]) into a 100%-JavaScript library.
 The [JavaScript API] [1] (with a [jQuery] [13]-like syntax) enables writing web applications
 that run entirely in the browser.
@@ -41,6 +41,10 @@ View the source code and run it, and then make a small edit in the source code a
 
 [Primordion site] [12]
 
+[Some apps where graphics are especially important] [14]
+
+[Interactive animations using d3 circle packing] [15]
+
   [1]: http://www.primordion.com/Xholon/gwt/jsapidoc/    "JavaScript API"
   [2]: http://www.primordion.com/Xholon/gwt/    "sample apps"
   [3]: https://gist.github.com/kenwebb    "gist files"
@@ -54,4 +58,6 @@ View the source code and run it, and then make a small edit in the source code a
   [11]: http://primordion.com/collabapp/    "Collaborative apps"
   [12]: http://www.primordion.com/    "Primordion site"
   [13]: http://api.jquery.com/    "jQuery API"
+  [14]: http://www.primordion.com/Xholon/gwt/XholonGraphics.html    "Xholon graphics"
+  [15]: http://www.primordion.com/Xholon/gwt/XholonCirclePacking.html    "Xholon animations"
   
