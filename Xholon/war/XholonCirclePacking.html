@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="author" content="Ken Webb" />
+    <meta name="copyright" content="MIT License, Copyright (C) 2015 Ken Webb" />
+    <title>D3 Circle Packing - Stories and other Interactive Animations</title>
+  </head>
+  
+  <body>
+    <h3>D3 Circle Packing - Stories and other Interactive Animations</h3>
+    <p>I'm the developer of <a href="index.html">Xholon</a>, which focuses on inner models and structures. Many Xholon apps also include some graphics.
+    This page links to some apps where <a href="http://d3js.org/">d3</a> circle packing graphics are especially important.
+    The children's stories are ones that I've read to my grandson. They're a good initial testing ground, because they are short and simple. I've started calling them videos, because that's a word my grandson already perks up to.
+    </p>
+    
+    <p>The <a href="Xholon.html?app=f361d210093d4a5943d9&src=gist&gui=none">Black Geese</a> app displays a sequence of SVG-based D3 Circle Packing diagrams as the children's story evolves. It's also available as an experimental stand-alone <a href="svgvideos/videoBlackGeese_d3.html">SVG video</a>.</p>
+    
+    <p><a href="Xholon.html?app=fa997af189e6e9c343fe&src=gist&gui=none">Danny and the Dinosaur</a> is another children's story.</p>
+    
+    <p>A <a href="Xholon.html?app=ca00b929901de66fc721&src=gist&gui=none">day in the life</a> of a preschooler, presented as an animated children's story. There's a different routine each day of the week.</p>
+    
+    <p><a href="Xholon.html?app=8c88612f5c7b9ec9af80&src=gist&gui=none">Harold and the Purple Crayon</a> is another children's story. Another version <a href="Xholon.html?app=1c39da6c295c64f866a5&src=gist&gui=none">uses graphic symbols</a> (icons, an <a href="https://icomoon.io/">IcoMoon</a> font) rather than letters.</p>
+    
+    <p><a href="Xholon.html?app=04bef197a0cc61a5a31d&src=gist&gui=none">The Tale of Peter Rabbit</a> is another children's story. Peter Rabbit <a href="Xholon.html?app=705bfd45ae8e0a71a8c7&src=gist&gui=none">with speech</a> (experimental, Chrome only), and Peter Rabbit with <a href="Xholon.html?app=d2ad8585e271c3d74e6d&src=gist&gui=none">full text from the original Beatrix Potter book</a>, and just the <a href="Xholon.html?app=2eb349a97c54135fec6b&src=gist&gui=none">full text and original pictures</a> with speech (experimental, Chrome only).</p>
+    
+    <p>And of course there's <a href="Xholon.html?app=f1cbb16e2ba269233c47&src=gist&gui=none">Cinderella</a>. This is a very simple version for young children. It's also available as an experimental stand-alone <a href="svgvideos/videoCinderella_d3.html">SVG video</a>.</p>
+    
+    <p>In <a href="Xholon.html?app=f32bc38f9d7326fa6ad9&src=gist&gui=none">Do Re Mi</a>, a xylophone repeatedly moves up and down through a color-coordinated scale. There is no sound yet.</p>
+    
+    <p><a href="Xholon.html?app=07d99d4a5583b4802df6&src=gist&gui=none">The Snowman</a> is another popular children's story.</p>
+
+    <p>You can <a href="Xholon.html?app=c455c95cc513e7f88cb1&src=gist&gui=none">build your own story</a> using the <a href="wb/editwb.html?app=c455c95cc513e7f88cb1&src=gist">story template</a>.</p>
+    
+    <p>Social stories are simple stories that preview some new activity that will happen in the near future. They are primarily intended for children (and others) on the autistic spectrum. To experiment with how I might use Xholon as a tool for implementing social stories, I have written <a href="Xholon.html?app=af8ab3b721bba42ff542&src=gist&gui=none">this</a> and <a href="Xholon.html?app=c29affadd36671ad3215&src=gist&gui=none">this</a> about Going to School. The second is scene-based, where the child moves from scene to scene; use the Click button to step things along.</p>
+    
+    <p>This is a first test of <a href="XholonInteract.html?app=6901ef51d5fcb2d86a21&src=gist&gui=none">moving nodes around</a> on the graphic, using a mouse with interact.js .</p>
+    
+    <p>IcoMoon makes it easy to build symbol fonts. Some early experiments are <a href="Xholon.html?app=a26813678cd0090a800e&src=gist&gui=none">here</a>, <a href="Xholon.html?app=5199907b899fecbed583&src=gist&gui=none">here</a>, and <a href="Xholon.html?app=46cabf3ff05faa32e41e&src=gist&gui=none">here</a>.</p>
+    
+    <p>For Xholon apps, which almost always include hierarchical structures, d3 circle packing provides a <a href="https://gist.github.com/kenwebb/bf9f46947af55015be4a">universal visualization</a>. Any hierarchical structure can be represented this way, so it automatically works with every Xholon app. In theory, the hierarchical structure can be arbitrarily large and it will still all fit on one page. In practice of course, performance decreases as the structure grows in size.</p>
+    
+    <p>The <a href="Xholon.html?app=Life&gui=d3cp">Life - cells, organism, ecology</a> app is a complex biology simulation with 20,000+ nodes. The page displays a single SVG image that includes all nodes. It use d3 circle packing. Hover above a node to see its full name, and to highlight which other nodes it references and which nodes reference it. Right-click a node to learn more about it. Nodes are nested up to 25 levels deep. Right-click a container node and select Export &gt; d3 &gt; CirclePack to see more detail. I haven't tried animating this app.</p>
+    
+    <p>Some quick getting-started help, and other info:</p>
+    <ol>
+    <li>The Xholon framework, based on <a href="http://www.gwtproject.org/">GWT</a>, may take some seconds to start up the first time.</li>
+    <li>Read about each app in the "notes" tab (often just notes to myself).</li>
+    <li>Read a transcript of the app's progress by clicking/tapping on the "out" tab. The content is mostly commands and responses in the Avatar interactive-fiction language.</li>
+    <li>Many apps include a one-line caption above the graphics. Read this to get a rough idea of what's going on in the graphics.</li>
+    <li>If you hover over a node with a mouse, you will see a tooltip with the name of the node. Each name has a human-readable part and an internal numeric id.</li>
+    <li>Each node includes a context menu. Some apps support the mouse right click, while others recognize a mouse or touch press. I'm starting to use <a href="http://hammerjs.github.io/">Hammer.js</a> to support tap and press for mouse and touch devices.</li>
+    <li>You can also click or tap each node to see the node's name in the "out" tab.</li>
+    <li>All apps are loaded from <a href="https://gist.github.com/kenwebb/">gists at github.com</a>.</li>
+    <li>The Xholon framework source code is available at <a href="https://github.com/kenwebb/Xholon/">github</a>.</li>
+    <li>"Pause" (and unpause) and "Step" each app from "Control" in the context menu.</li>
+    <li>Most stories have one or more Avatar nodes (for example Peter, the other rabbits, Mr. McGregor, and the mouse in The Tale of Peter Rabbit). Avatars typically follow a script written in an <a href="http://en.wikipedia.org/wiki/Interactive_fiction">interactive fiction</a> language similar to those used in <a href="http://en.wikipedia.org/wiki/Inform">Inform6 and Inform7</a>. Avatars and other active objects may also have JavaScript behaviors.</li>
+    <li>You can open a console on any node. Click or tap "Xholon Console" in the context menu. It it's an Avatar node, type "help" and click or tap "Submit".</li>
+    <li>You can paste new nodes and node subtrees (including new JavaScript and interactive-fiction behaviors) into the app while its running. You can do this through the Xholon Console, or using drag-and-drop from a separate browser or text editor window, or in several other ways.</li>
+    <li>If you run the app on Chrome, you may be able to use Google's experimental Web Speech API. Some of the apps are already enabled for speech. To turn on speech for an Avatar, open a Xholon Console for it, type "param speech true;", and click or tap Submit. To turn off speech, use "param speech false;". Speech is not yet synchronized with the internal model and graphics. If you set speech to false, it will continue speaking until the speech queue is empty.</li>
+    <li>Apps use the d3 circle packing layout to create individual SVG images at each timestep of the underlying Xholon model. They use d3 transitions to tween from one SVG image to the next.</li>
+    <li>The standalone SVG videos include all the d3-generated SVG images, and use d3 for tweening. They do not include the Xholon framework. It's also possible to use TweenLite to do the tweening instead of d3.</li>
+    <li>My email is hidden in the rectangle of letters at the bottom of this page.</li>
+    <li>Apps I hope to do in the near future using d3 circle-packing animations include: a full-length novel, a movie script, a baseball game, etc.</li>
+    <li>Does anyone have a set of SVG images that could be turned into an IcoMoon font for Peter Rabbit (or for another story)? It would be great for the characters to tween through a rich outdoor environment.</li>
+    <li>Any app whose URL ends with "gui=none" can also be run with a d3 circle-packing GUI. Just change "gui=none" to "gui=d3cp". Or change it to "gui=clsc" for the classic tree GUI. With either of these GUIs, you'll need to find and click/tap the Start button.</li>
+    <li>You can create your own version of any app using the Xholon workbook editor. See the story template link above, for an example. It uses <a href="http://codemirror.net/">CodeMirror</a> for editing.</li>
+    <li>Many Xholon apps, such as The Black Geese on this page, use ports to connect nodes. Instead of drawing lines between nodes, circle-packing visualizations represent port connections by temporarily highlighting the referenced node(s), usually by inverting the fill color. For example, if node A has ports that connect to node B and node C, and if you are hovering over node A, then nodes B and C will be highlighted. Referencing nodes may also be highlighted by inverting the stroke color. This doesn't work very well with The Black Geese, so I'll be implementing some different options, including the option to disable highlighting.</li>
+    <li>In a Xholon d3-circle-packing visualization, all leaf nodes are the same size. By default, leaf nodes include just one character of text, and non-leaf (container) nodes contain no text. You can optionally specify to show more than one character on leaf nodes (maxChars option), with a reduced font-size. You can also optionally specify to show small text at the top or bottom of containers, or large background text in the center (typically a graphic symbol).</li>
+    <li>I feel that uniformity of node size when visualizing large hierarchical structures is crucial, if what is most important is the structure and not the values associated with the nodes. This way, you will always see the same graphical layout no matter what you name your nodes, and no matter what language you use. It's a bit like the difference between using variable-length <a href="http://en.wikipedia.org/wiki/Roman_numerals">Roman numerals</a>, and modern more-convenient uniform-length <a href="http://en.wikipedia.org/wiki/Hindu-Arabic_numerals">Hindu-Arabic numerals</a>.</li>
+    </ol>
+    <p>Ken Webb</p>
+    <hr/>
+    <div class="license"  style="font-size: 9px;"><p>Xholon GWT is a <a href="index.html">Xholon</a> project. Copyright (C) 2013 - 2015 Ken Webb</p></div>
+    <div class="aatt" style="font-size: 9px;"><pre style="font-size: 9px;">
+  @QWERTYUIk
+  OPASmDFGHe
+  primordion
+  JKLZcXCVB.
+    </pre></div>
+
+  </body>
+  
+</html>
