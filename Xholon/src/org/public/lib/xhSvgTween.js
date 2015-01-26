@@ -1,6 +1,7 @@
 // Transition between 2 or more adjacent SVG images.
 // xhSvgTween.js
 // Ken Webb  January 8, 2015
+// MIT License, Copyright (C) 2015 Ken Webb
 // Designed to tween between 2 D3-CirclePack SVG images.
 // Only handles SVG circle; returns if finds something else (ex: ellipse).
 
@@ -67,6 +68,19 @@ xh.tween = function(selection, duration, sortedArr1) {
   }
   var durationMs = duration * 1000; // convert seconds to ms
   
+  // advanced options (under construction)
+  var tweenFontSize = false;
+  var tweenTextDy = false;
+  var fadeIn = false;
+  var fadeOut = false;
+  
+  // d3 easings
+  //var easingTypes = ["linear", "poly", "quad", "cubic", "sin", "exp", "circle", "elastic", "back", "bounce"];
+  //var easingModes = ["in", "out", "in-out", "out-in"];
+  //var easingType = "cubic"; // default is cubic
+  //var easingMode = "in-out"; // default is in-out
+  //var easing = "cubic-in-out"; // default is cubic-in-out
+  
   var svg1 = null;
   try {
     svg1 = document.querySelector(selection + ">svg");
@@ -97,12 +111,83 @@ xh.tween = function(selection, duration, sortedArr1) {
     try {
       var one = arr1[ix1];
       var two = arr2[ix2];
-      if (one.xhname < two.xhname) {ix1++; continue;}
-      if (two.xhname < one.xhname) {ix2++; continue;}
+      if (one.xhname < two.xhname) {
+        if (fadeOut) {
+          // optionally fade "one" out of existence; opacity or alpha
+          d3.select(one.group).transition()
+          .style("opacity", 0) // and/or .attr() ?   .style() works in Harold
+          .duration(durationMs)
+          .remove();
+          // OR fade-out the whole group using transform scale to 0; this also translates group to upper left
+          /*d3.select(one.group).transition()
+          .attr("transform", "scale(0,0)")
+          .duration(durationMs);*/
+        }
+        ix1++;
+        continue;
+      }
+      if (two.xhname < one.xhname) {
+        if (fadeIn) {
+          // optionally fade "two" into existence
+          var twoNode = two.group;
+          var newG = d3.select(twoNode.cloneNode(true))
+          .style("opacity", 0);
+          var topG = d3.select(svg1).select("g");
+          topG.append(function() {return newG.node();});
+          // where do I get the svg2 opacity from ?
+          // make it a relatively high value in g; at end of transition, set it to none
+          newG.transition()
+          .style("opacity", 1)
+          .duration(durationMs);
+        }
+        ix2++;
+        continue;
+      }
       if (Math.abs(one.rvalue.value - two.rvalue.value) > 1) {
         d3.select(one.element).transition()
         .attr("r", two.rvalue.value)
         .duration(durationMs);
+        //.ease(easing);
+        if (tweenFontSize) {
+          var text1 = one.group.querySelector("text");
+          if (text1) {
+            var text2 = two.group.querySelector("text");
+            if (text2) {
+              d3.select(text1).transition()
+              .style("font-size", function() {
+                return d3.select(text2).style("font-size");
+              })
+              .duration(durationMs);
+              if (tweenTextDy) {
+                // if dy is in "em" units in one, and "px" units in other, d3 may not be able to do this
+                // TODO it would be best if "em" units are not used at all
+                // google: convert em to px javascript d3
+                // http://stackoverflow.com/questions/10463518/converting-em-to-px-in-javascript-and-getting-default-font-size
+                var oneVal = d3.select(text1).attr("dy");
+                var twoVal = d3.select(text2).attr("dy");
+                //console.log(oneVal + " " + twoVal);
+                //if (oneVal == ".3em") {console.log(".3em" + d3.select(text1).style("font-size"));}
+                //if (twoVal == ".3em") {console.log(".3em" + d3.select(text2).style("font-size"));}
+                if (oneVal != twoVal) {
+                  if (oneVal == ".3em") {
+                    console.log(d3.select(text1).style("font-size").substring(0,2));
+                    console.log(0.3 * d3.select(text1).style("font-size").substring(0,2));
+                    d3.select(text1).attr("dy", "" + Math.round(0.3 * d3.select(text1).style("font-size").substring(0,2)) + "px");
+                    console.log(d3.select(text1).attr("dy"));
+                  }
+                  d3.select(text1).transition()
+                  .attr("dy", function() {
+                    if (twoVal == ".3em") {
+                      return "" + Math.round(0.3 * d3.select(text2).style("font-size").substring(0,2)) + "px";
+                    }
+                    return twoVal;
+                  })
+                  .duration(durationMs);
+                }
+              }
+            }
+          }
+        }
       }
       var matrix1 = one.transform.baseVal.getItem(0).matrix;
       var matrix2 = two.transform.baseVal.getItem(0).matrix;
@@ -110,6 +195,7 @@ xh.tween = function(selection, duration, sortedArr1) {
         d3.select(one.group).transition()
         .attr("transform", "translate(" + matrix2.e + "," + matrix2.f + ")")
         .duration(durationMs);
+        //.ease(easing);
       }
       one.className.baseVal = two.className.baseVal;
       ix1++; ix2++;
