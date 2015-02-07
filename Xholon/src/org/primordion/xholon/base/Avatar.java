@@ -25,6 +25,10 @@ import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.primordion.xholon.app.IApplication;
 import org.primordion.xholon.base.IGrid;
 import org.primordion.xholon.service.IXholonService;
@@ -91,7 +95,7 @@ public class Avatar extends XholonWithPorts {
   protected static final String WILDCARD = "*";
   
   // Variables
-  protected String roleName = null;
+  public String roleName = null;
   protected double val;
   
   // the current location of the avatar; it's parent or the node it references
@@ -238,6 +242,31 @@ public class Avatar extends XholonWithPorts {
     }
     return null;
   }
+  
+  @Override
+	@SuppressWarnings("unchecked")
+	public List getAllPorts() {
+		List<PortInformation> xhcPortList = this.getXhc().getPortInformation();
+		if ((xhcPortList == null) || (xhcPortList.size() == 0)) {
+		  //return xhcPortList;
+		  return super.getAllPorts(); // calls Xholon.getAllPorts()
+		}
+		List<PortInformation> realPortList = new ArrayList<PortInformation>();
+		// eval the XPath expressions to determine the reffed nodes
+		Iterator<PortInformation> portIt = xhcPortList.iterator();
+		while (portIt.hasNext()) {
+			PortInformation pi = (PortInformation)portIt.next();
+			IXholon reffedNode = this.getXPath().evaluate(pi.getXpathExpression().trim(), this);
+			if (reffedNode == null) {
+				//xhcPortList.remove(pi); // causes java.util.ConcurrentModificationException
+			}
+			else {
+				pi.setReffedNode(reffedNode);
+				realPortList.add(pi);
+			}
+		}
+		return realPortList;
+	}
   
   @Override
   public void postConfigure() {
@@ -453,7 +482,12 @@ public class Avatar extends XholonWithPorts {
    * 
    * I need to add the act() function:
    *   to handle follow, lead, command sequences (scripts), and other commands that span multiple timesteps
-   *   
+   * 
+   * Async and sync messaging:
+   * msg portName|etc [signal [data]]
+   * call portName|etc [signal [data]]
+   * ex: msg next 101 I am right behind you
+   *     call xpath(ancesto::TheSystem/descendant::SomeNode) 1234 Do your thing
    */
   protected void processCommand(String cmd) {
     cmd = cmd.trim();
@@ -498,8 +532,7 @@ public class Avatar extends XholonWithPorts {
         eat(data[1], "eat".equals(data[0]) ? "Yum." : "Unbuilt.");
       }
       else {
-        sb.append("Please specify which thing in the inventory to ")
-        .append(data[0]).append(" (ex: ").append(data[0]).append(" carrot).");
+        eatAll("eat".equals(data[0]) ? "Yummy." : "Unbuilt all.");
       }
       break;
     case "enter":
@@ -810,6 +843,19 @@ public class Avatar extends XholonWithPorts {
     else {
       sb.append("You're not carrying any such thing. You need to take it first.");
     }
+  }
+  
+  /**
+   * Eat or unbuild everything in the avatar's inventory.
+   */
+  protected void eatAll(String response) {
+    IXholon node = this.getFirstChild();
+    while (node != null) {
+      IXholon sib = node.getNextSibling();
+      node.removeChild();
+      node = sib;
+    }
+    sb.append(response);
   }
   
   /**
