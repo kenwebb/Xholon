@@ -2193,6 +2193,14 @@ public abstract class Application extends AbstractApplication implements IApplic
 	// TODO
 	public void process()
 	{
+	  // (0) set the initial control state from a URL param (ex: &state=4 or 5  IControl.CS_PAUSED or CS_STEPPING)
+		String stateStr = Location.getParameter("state");
+		if (stateStr != null) {
+		  try {
+		    setControllerState(Integer.parseInt(stateStr));
+		  } catch (NumberFormatException e) {consoleLog(e.toString());}
+		}
+	  
 	  // (1) do app-specific stuff
     processOnce();
     
