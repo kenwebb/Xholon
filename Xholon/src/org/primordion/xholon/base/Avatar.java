@@ -422,6 +422,35 @@ public class Avatar extends XholonWithPorts {
   }
   
   /**
+   * Split a String into an array of substrings.
+   * Split on spaces, unless between quotes.
+   * ex: put "Sir William" in Coach  ->  ["put","Sir William","in","Coach"]
+   * ex: one two "three four five" six  >  ["one", "two", "three four five", "six"]
+   * @param str The string that will be split.
+   * @param limit The maximum length of the resulting array.
+   * @return An array of strings
+   */
+  protected native String[] split(String str, int limit) /*-{
+    var result = str.match(/("[^"]+"|[^"\s]+)/g);
+    // remove starting and end quotes in result
+    for (var i = 0; i < result.length; i++) {
+      if (result[i].charAt(0) == '"') {
+        result[i] = result[i].substring(1, result[i].length-1);
+      }
+    }
+    if (result.length > limit) {
+      // limit number of entries in the result
+      var last = result[limit-1];
+      for (var j = limit; j < result.length; j++) {
+        last += " " + result[j];
+      }
+      result[limit-1] = last;
+      result.length = limit;
+    }
+    return result;
+  }-*/;
+  
+  /**
    * Process a command.
    * @param cmd (ex: "help")
    * 
@@ -493,7 +522,14 @@ public class Avatar extends XholonWithPorts {
     cmd = cmd.trim();
     if (cmd.length() == 0) {return;}
     if (cmd.startsWith(COMMENT_START)) {return;}
-    String[] data = cmd.split(" ", 4);
+    String[] data = null;
+    if (cmd.indexOf('"') == -1) {
+      data = cmd.split(" ", 4);
+    }
+    else {
+      data = this.split(cmd, 4);
+      consoleLog(data);
+    }
     int len = data.length;
     switch (data[0]) {
     case "appear":
