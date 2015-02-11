@@ -1251,6 +1251,9 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 						nameBuffer += getRoleName();
 					}
 					break;
+				case 'S': // toString()
+					nameBuffer += toString();
+					break;
 				case '^': break;
 				default: rn = "" + ch; nameBuffer += ch; break;
 				}

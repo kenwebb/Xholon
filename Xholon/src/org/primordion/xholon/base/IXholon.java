@@ -89,6 +89,7 @@ public static final String GETNAME_NOROLENAME   = "^^c_i^";
 public static final String GETNAME_ROLENAMESEP_ = "r_c_i^";
 public static final String GETNAME_LOCALPART_ID = "^^l_i^";
 public static final String GETNAME_ROLENAME_OR_CLASSNAME = "R^^^^^"; // but not both
+public static final String GETNAME_TOSTRING      = "S^^^^^";
 public static final int GETNAME_SIZE_TEMPLATE = 6; // number of characters in a template string
 
 /** Default authority of the base Uniform Resource Identifier (URI), for use with getUri() setUri(String). */
