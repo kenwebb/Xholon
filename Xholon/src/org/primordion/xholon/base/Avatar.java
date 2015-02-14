@@ -517,6 +517,14 @@ public class Avatar extends XholonWithPorts {
    * call portName|etc [signal [data]]
    * ex: msg next 101 I am right behind you
    *     call xpath(ancesto::TheSystem/descendant::SomeNode) 1234 Do your thing
+   *
+   * appendto prependto insertBefore insertAfter
+   * enter    
+   *
+   * append prepend before after
+   * take   
+   *
+   * put X append/prepend/before/after Y
    */
   protected void processCommand(String cmd) {
     cmd = cmd.trim();
@@ -528,7 +536,7 @@ public class Avatar extends XholonWithPorts {
     }
     else {
       data = this.split(cmd, 4);
-      consoleLog(data);
+      //consoleLog(data);
     }
     int len = data.length;
     switch (data[0]) {
@@ -622,6 +630,14 @@ public class Avatar extends XholonWithPorts {
       }
       else {
         sb.append("Please specify where to go (ex: go north).");
+      }
+      break;
+    case "group":
+      if (len > 3) {
+        group(data[1], data[2], data[3]);
+      }
+      else {
+        sb.append("Please specify the correct number of parameters (ex: group Ja,El,Ma,Ca,Ly in Coach).");
       }
       break;
     case "help":
@@ -1200,6 +1216,7 @@ public class Avatar extends XholonWithPorts {
     .append("\nexit [ancestor]")
     .append("\nfollow leader")
     .append("\ngo portName|next|prev|N|E|S|W|NE|SE|SW|NW|port0|portN|xpath")
+    .append("\ngroup thing1[,thingI,...,thingN] in|on|under|ANY thing2")
     .append("\nhelp")
     .append("\ninventory|i")
     .append("\nlead follower")
@@ -1360,6 +1377,46 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
     node1.removeChild();
     node1.appendChild(node2);
     sb.append("Put.");
+  }
+  
+    /**
+   * Group things1 into thing2, where:
+   *  things1 is a list of one or more of the avatar's siblings
+   *  thing2 is the name of one of the avatar's siblings,
+   *    or an XPath expression.
+   * It combines take and put.
+   * ex: "group Ja,El,Ma,Ca,Ly in Coach"
+   * @param thing1 - 
+   * @param in - the word "in"
+   * @param thing2 - 
+   */
+  protected void group(String things1, String in, String thing2) {
+    IXholon node2 = null;
+    if (thing2.startsWith("xpath")) {
+      node2 = evalXPathCmdArg(thing2, contextNode);
+    }
+    else {
+      node2 = findNode(thing2, contextNode);
+    }
+    if (node2 == null) {
+      sb.append("Can't find ").append(thing2);
+      return;
+    }
+    
+    String[] arr1 = things1.split(",");
+    for (int i = 0; i < arr1.length; i++) {
+      IXholon node1 = findNode(arr1[i], contextNode);
+      if (node1 == null) {
+        sb.append("Can't find ").append(arr1[i]);
+        //return;
+      }
+      else {
+        node1.removeChild();
+        node1.appendChild(node2);
+      }
+    }
+    
+    sb.append("Grouped.");
   }
   
   /**
