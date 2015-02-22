@@ -764,7 +764,9 @@ public class Avatar extends XholonWithPorts {
       if (len > 1) {
         try {
           if (len == 2) { // wait relative
-            waitCount = Integer.parseInt(data[1]);
+            // subtract 1 to account for "wait N" already taking up 1 timestep
+            // "wait 1" is equivalent to a single blank line in the script
+            waitCount = Integer.parseInt(data[1]) - 1;
           }
           else { // wait til absolute
             waitCount = Integer.parseInt(data[2]) - actTimeStep;
