@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.primordion.xholon.app.IApplication;
+import org.primordion.xholon.base.IControl;
 import org.primordion.xholon.base.IGrid;
 import org.primordion.xholon.service.IXholonService;
 import org.primordion.xholon.service.XholonHelperService;
@@ -229,6 +230,11 @@ public class Avatar extends XholonWithPorts {
   public void setVal_String(String actionsStr) {
     // set the contents of the actions array
     if ((actionsStr != null) && (actionsStr.length() > 0)) {
+      if (transcript && ((actionIx > ACTIONIX_INITIAL) && (actionIx < actions.length))) {
+        // show a warning message if a new script overlays an existing uncompleted one
+        String msg = "overwriting script with " + (actions.length - actionIx) + " actions left.";
+        this.println(this.getName(IXholon.GETNAME_ROLENAME_OR_CLASSNAME) + ": " + msg);
+      }
       actions = actionsStr.split("\n");
       actionIx = ACTIONIX_INITIAL;
     }
@@ -520,11 +526,14 @@ public class Avatar extends XholonWithPorts {
    *
    * appendto prependto insertBefore insertAfter
    * enter    
-   *
    * append prepend before after
    * take   
-   *
    * put X append/prepend/before/after Y
+   *
+   * avatar should be able to lead the container that it's in (ex: lead Coach)
+   *
+   * be able to use a list of things wherever appropriate (ex: take one,two,three)
+   * be able to use ALL wherever appropriate (ex: put * in Car)
    */
   protected void processCommand(String cmd) {
     cmd = cmd.trim();
@@ -550,6 +559,9 @@ public class Avatar extends XholonWithPorts {
       else {
         sb.append("Please specify the correct number of parameters (ex: become Peter role Pete).");
       }
+      break;
+    case "breakpoint":
+      breakpoint();
       break;
     case "build": // make
       if (len == 2) {
@@ -1632,6 +1644,18 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
     default:
       break;
     }
+  }
+  
+  /**
+   * Pause the app at the current Xholon timestep.
+   * It's similar to a software breakpoint, but not as immediate.
+   * Any actions remaining in this timestep will first be completed.
+   * A timestep is equivalent to one line in a Avatar script,
+   * possibly one line in each of the scripts of two or more simultaneously-active Avatars,
+   * or other nodes with simultaneously-active Xholon.act() methods.
+   */
+  protected void breakpoint() {
+    app.setControllerState(IControl.CS_PAUSED); // 4
   }
   
   /**
