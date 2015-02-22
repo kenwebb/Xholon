@@ -143,6 +143,18 @@ public class Behavior_gwtjs extends Xholon {
 	 */
 	private boolean hasProcessReceivedSyncMessage = false;
 	
+	private String roleName = null;
+	
+	@Override
+	public void setRoleName(String roleName) {
+	  this.roleName = roleName;
+	}
+	
+	@Override
+	public String getRoleName() {
+	  return this.roleName;
+	}
+	
 	/*
 	 * @see org.primordion.xholon.base.Xholon#getAllPorts()
 	 */
@@ -553,6 +565,9 @@ public class Behavior_gwtjs extends Xholon {
 		else if ("val".equals(attrName)) {
 			// is this good/necessary?
 			setVal(attrVal);
+		}
+		else {
+		  return super.setAttributeVal(attrName, attrVal);
 		}
 		return 0;
 	}
