@@ -94,12 +94,13 @@ public class Avatar extends XholonWithPorts {
   protected static final String THIS_AVATAR = "this";
   protected static final float SSU_FLOAT_DEFAULT = -1.0f;
   protected static final String WILDCARD = "*";
+  protected static final String DOLLAR_CHILD_SEPARATOR = ">"; // ex: $One>Two>three
   
   // Variables
   public String roleName = null;
   protected double val;
   
-  // the current location of the avatar; it's parent or the node it references
+  // the current location of the avatar; its parent or the node it references
   protected IXholon contextNode = null;
   
   protected StringBuilder sb = null;
@@ -1025,16 +1026,6 @@ public class Avatar extends XholonWithPorts {
   protected void go(String portName, String nextTarget) {
     if (portName == null) {return;}
     
-    /*if ("next".equals(portName)) {
-      if (nextTarget == null) {next();}
-      else {next(nextTarget);}
-      return;
-    }
-    else if ("prev".equals(portName)) {
-      prev();
-      return;
-    }*/
-    
     switch (portName) {
     case "next":
       if (nextTarget == null) {next();}
@@ -1070,6 +1061,10 @@ public class Avatar extends XholonWithPorts {
       else {
         sb.append("Can't go " + portName + ". ");
       }
+      return;
+    }
+    else if (portName.startsWith("$")) {
+      evalDollarCmdArg(portName);
       return;
     }
     Object[] portArr = contextNode.getAllPorts().toArray();
@@ -1744,6 +1739,44 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
     String xpathExpression = cmdArg.substring(begin+1, end);
     if (xpathExpression.length() == 0) {return null;}
     return xpath.evaluate(xpathExpression, aRoot);
+  }
+  
+  /**
+   * Evaluate a command argument that starts with $ .
+   * This is shorthand for a sequence of exit and enter commands.
+   * Optionally, include one or more wait times.
+   *   TODO don't handle these for now
+   * @param cmdArg - $[ANCESTOR]>DESCENDANT
+   * ex: "$Hert>Meryton>assembly"
+   * ex: "$..>Meryton"
+   * ex: "$>Meryton>house"  or  "$.>Meryton>house"
+   * ex: "$Hert>1>Meryton>assembly"  ??? with wait times
+   */
+  protected void evalDollarCmdArg(String cmdArg) {
+    String[] exitEnterArr = cmdArg.substring(1).split(DOLLAR_CHILD_SEPARATOR);
+    if (exitEnterArr.length == 0) {return;}
+    String expr = "";
+    if (exitEnterArr[0].equals("..")) {
+      expr += "exit;";
+      exit(null);
+    }
+    else if (exitEnterArr[0].equals("")) {
+      // there is no initial ancestor
+    }
+    else if (exitEnterArr[0].equals(".")) {
+      // the initial ancestor is just the current contextNode
+    }
+    else {
+      expr += "exit " + exitEnterArr[0] + ";";
+      exit(exitEnterArr[0]);
+    }
+    for (int i = 1; i < exitEnterArr.length; i++) {
+      expr += "enter " + exitEnterArr[i] + ";";
+      enter(exitEnterArr[i]);
+    }
+    // TODO get this working correctly
+    //doAction(expr); // NO ???
+    consoleLog(expr);
   }
   
   /**
