@@ -35,7 +35,23 @@ import org.primordion.xholon.base.IXholon;
  * [1] moving to first child
  * [2] moving to next sibling
  * [3] moving to previous sibling
- * TODO also prob of staying in same place
+ * 
+ * TreeWanderer does nothing but wander.
+ * To make it do something useful, you can add one or more behavior nodes, such as the following:
+<TreeWandererbehavior implName="org.primordion.xholon.base.Behavior_gwtjs"><![CDATA[
+var me, mename, beh = {
+postConfigure: function() {
+  me = this.cnode.parent();
+  mename = me.role().substring(0,4);
+  $wnd.xh.root().append(this.cnode.remove());
+},
+
+act: function() {
+  me.println(mename + " is visiting " + me.parent().name("R^^^^^") + ".");
+}
+}
+]]></TreeWandererbehavior>
+ *
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.9.1 (Created on February 20, 2015)
@@ -66,22 +82,30 @@ public class TreeWanderer extends XholonScript {
 	
   @Override
   public void postConfigure() {
+    //consoleLog("TreeWanderer postConfigure() start");
     wcontextNode = this.getParentNode();
     wroot = wcontextNode;
     app = this.getApp();
     initProb();
     initExclude();
+    super.postConfigure();
+    //consoleLog(" TreeWanderer postConfigure() end");
   }
   
   @Override
   public void act() {
+    //consoleLog("TreeWanderer act() start");
     // check to see if this node has already been called this timestep
     int ts = app.getTimeStep();
+    //consoleLog(" " + actTimeStep + " " + ts);
     
     if (actTimeStep < ts) { // parent
+      //consoleLog(" actTimeStep < ts");
       actTimeStep = ts;
       double r = Math.random();
+      //consoleLog(" " + r);
       if (r < prob[0]) {
+        //consoleLog(" 0");
         if (wcontextNode != wroot) {
           //consoleLog("0 " + ts + " " + wcontextNode.getParentNode());
           this.removeChild();
@@ -90,8 +114,12 @@ public class TreeWanderer extends XholonScript {
         }
       }
       else if (r < prob[1]) { // first
+        //consoleLog(" 1");
         IXholon newParent = wcontextNode.getFirstChild();
-        if ((newParent != null) && (newParent != this) && (!exclude(newParent))) {
+        if (newParent == this) {
+          newParent = this.getNextSibling();
+        }
+        if ((newParent != null) && (!exclude(newParent))) {
           //consoleLog("1 " + ts + " " + newParent);
           this.removeChild();
           this.appendChild(newParent);
@@ -99,6 +127,7 @@ public class TreeWanderer extends XholonScript {
         }
       }
       else if (r < prob[2]) { // next
+        //consoleLog(" 2");
         IXholon newParent = wcontextNode.getNextSibling();
         // the wanderer must remain within the scope of wroot; wroot must always be an ancestor node
         if ((newParent != null) && (newParent.hasAncestor(wroot.getName())) && (!exclude(newParent))) {
@@ -109,6 +138,7 @@ public class TreeWanderer extends XholonScript {
         }
       }
       else if (r < prob[3]) { // prev
+        //consoleLog(" 3");
         IXholon newParent = wcontextNode.getPreviousSibling();
         // the wanderer must remain within the scope of wroot; wroot must always be an ancestor node
         if ((newParent != null) && (newParent.hasAncestor(wroot.getName())) && (!exclude(newParent))) {
@@ -125,6 +155,7 @@ public class TreeWanderer extends XholonScript {
     }
     
     super.act();
+    //consoleLog(" TreeWanderer act() end");
   }
   
   @Override
