@@ -1079,6 +1079,9 @@ public class Avatar extends XholonWithPorts {
         }
         else {
           foundPortNames += " " + foundPortName;
+          if ("port".equals(foundPortName)) {
+            foundPortNames += pi.getFieldNameIndexStr();
+          }
         }
       }
       sb.append("Can only go").append(foundPortNames);
