@@ -634,6 +634,18 @@ public class XholonJsApi {
       }
     });
     
+    // xhconsole
+    api.xhconsole = $entry(function() {
+      var msg = $wnd.xh.service('XholonHelperService').call(-2011, this, null);
+      if (msg) {
+        return msg.data[1];
+      }
+      else {
+        return null;
+      }
+    });
+
+    
     // TODO pcs(expression) and select(expression)
     
   }-*/;

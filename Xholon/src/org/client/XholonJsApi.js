@@ -987,5 +987,22 @@ api.hasClass = $entry(function(className) {
   return xhc.@org.primordion.xholon.base.IXholonClass::hasAncestor(Ljava/lang/String;)(className);
 });
 
+/**
+ * Open a XholonConsole on a node.
+ * @method xhconsole
+ * @return {IXholon} an instance of XholonConsole, or null.
+ * @example
+ *     var cons = $wnd.xh.root().xhconsole();
+ */
+api.xhconsole = $entry(function() {
+  var msg = $wnd.xh.service('XholonHelperService').call(-2011, this, null);
+  if (msg) {
+    return msg.data[1];
+  }
+  else {
+    return null;
+  }
+});
+
 // TODO pcs(expression) and select(expression)
 
