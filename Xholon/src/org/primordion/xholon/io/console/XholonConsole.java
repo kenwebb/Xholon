@@ -199,6 +199,15 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
    */
   protected Widget widget = null;
   
+  protected static final int SENDMESSAGE_ASYNC = 1;
+  protected static final int SENDMESSAGE_SYNC  = 2;
+  /**
+   * Whether to call sendMessage() or sendSyncMessage().
+   * 1 async (the default)
+   * 2 sync  (used with Avatar)
+   */
+  protected int sendMsgAsyncOrSync = SENDMESSAGE_ASYNC;
+  
   /**
    * constructor
    */
@@ -324,6 +333,14 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
   //public void setLatestOpenedFile(File latestOpenedFile) {
   //  this.latestOpenedFile = latestOpenedFile;
   //}
+  
+  public int getSendMsgAsyncOrSync() {
+    return sendMsgAsyncOrSync;
+  }
+  
+  public void setSendMsgAsyncOrSync(int sendMsgAsyncOrSync) {
+    this.sendMsgAsyncOrSync = sendMsgAsyncOrSync;
+  }
 
   /*
    * @see org.primordion.xholon.base.Xholon#getApp()
@@ -377,6 +394,10 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
     }
     setId(app.getNextId());
     setRoleName(context.getName());
+    
+    if (context.getXhc().hasAncestor("Avatar")) {
+      sendMsgAsyncOrSync = SENDMESSAGE_SYNC;
+    }
     
     // append this new node to the View
     /*
@@ -661,6 +682,21 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
     default:
       //System.out.println(msg.getSignal());
       break;
+    }
+  }
+  
+  @Override
+  public void doAction(String action) {
+    // clear the console, write action to the console
+    setCommand(action, true);
+    // submit
+    String result = doXholonConsoleCommandOrText(getCommand());
+    // write result to the console
+    if (result == null) {
+      result = "";
+    }
+    else {
+      setResult(result, false);
     }
   }
 
@@ -1012,8 +1048,15 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
       if ((avatar != null) && ("Avatar".equals(avatar.getXhcName()))) {
         avatar.postConfigure();
         context = avatar;
-        context.sendMessage(ISignal.SIGNAL_XHOLON_CONSOLE_REQ, "vanish", this);
-        context.sendMessage(ISignal.SIGNAL_XHOLON_CONSOLE_REQ, "help", this);
+        rememberButton3Selection(context);
+        setTabHeader();
+        sendMsgAsyncOrSync = SENDMESSAGE_SYNC;
+        context.sendSyncMessage(ISignal.SIGNAL_XHOLON_CONSOLE_REQ, "vanish", this);
+        IMessage rmsg = context.sendSyncMessage(ISignal.SIGNAL_XHOLON_CONSOLE_REQ, "help", this);
+        Object dataObj = rmsg.getData();
+        if (dataObj != null) {
+          setResult(dataObj.toString(), false);
+        }
       }
       return null;
     }
@@ -1021,7 +1064,23 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
       return doXholonConsoleCommandOrText(mode + commandOrTextString);
     }
     else {
-      context.sendMessage(ISignal.SIGNAL_XHOLON_CONSOLE_REQ, commandOrTextString, this);
+      if (sendMsgAsyncOrSync == SENDMESSAGE_ASYNC) {
+        context.sendMessage(ISignal.SIGNAL_XHOLON_CONSOLE_REQ, commandOrTextString, this);
+      }
+      else {
+        // this is used for Avatars
+        IXholon contextParent = context.getParentNode(); // cache the parent
+        IMessage rmsg = context.sendSyncMessage(ISignal.SIGNAL_XHOLON_CONSOLE_REQ, commandOrTextString, this);
+        Object dataObj = rmsg.getData();
+        if (dataObj != null) {
+          setResult(dataObj.toString(), false);
+        }
+        if (context.getParentNode() != contextParent) {
+          // the context node has moved and has a new parent, so update the XholonConsole header with tooltip
+          // note that the context node itself has NOT changed
+          setTabHeader();
+        }
+      }
       return null;
     }
   }
@@ -1055,6 +1114,14 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
     if (obj instanceof String) {
       setResult((String)obj, false);
     }
+  }
+  
+  /**
+   * For now, the command and the result are in the same window,
+   * so just call the existing setResult() method.
+   */
+  public void setCommand(String result, boolean replace) {
+    setResult(result, replace);
   }
   
   /**
