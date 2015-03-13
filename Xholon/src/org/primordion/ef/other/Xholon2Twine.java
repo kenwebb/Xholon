@@ -19,6 +19,7 @@
 package org.primordion.ef.other;
 
 import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.primordion.xholon.base.Annotation;
@@ -33,13 +34,13 @@ import org.primordion.xholon.service.ef.IXholon2GraphFormat;
 /**
  * Export a Xholon model in Twine Archive format.
  * "Twine is an open-source tool for telling interactive, nonlinear stories."
- * Twine doesn't have a concept of hierarchy, so I can only export leaf nodes.
+ * Twine doesn't have a concept of hierarchy.
  * But have options to show hierarchy using links.
- *   optional link from node to its firstChild
- *   optional link from node to its nextSibling
- *   maybe also links to parentNode, previousSibling
  *   maybe also direct links to all children
  *   maybe reverse links from reffed nodes back to nodes that ref them
+ * TODO
+ *  use [[viewableText | link]] syntax
+ *
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.9.1 (Created on March 10, 2015)
@@ -111,11 +112,13 @@ public class Xholon2Twine extends AbstractXholon2ExternalFormat implements IXhol
     
     .append("<").append(TW_STORYDATA)
     .append(" name=\"").append(modelName)
-    .append("\" startnode=\"").append(this.root.getId()) // this can be changed later in the file or with Twine
-    .append("\" creator=\"").append("Twine") // could I write "Xholon" here ?
-    .append("\" creator-version=\"2.0.3") // let users specify this in ef ?
-    .append("\" format=\"").append(this.getFormat()) // let users specify this in ef
-    .append("\" options=\"").append(this.getOptions()) // let users specify this in ef
+    .append("\" startnode=\"").append(this.root.getId()) // this can be changed later, in the file or with Twine
+    .append("\" creator=\"").append("Twine")
+    .append("\" creator-version=\"").append(this.getTwineVersion());
+    if (this.getFormat().length() > 0) {
+      startSb.append("\" format=\"").append(this.getFormat());
+    }
+    startSb.append("\" options=\"").append(this.getOptions())
     .append("\">\n")
     .append("<style role=\"stylesheet\" id=\"twine-user-stylesheet\" type=\"text/twine-css\"></style>\n")
     .append("<script role=\"script\" id=\"twine-user-script\" type=\"text/twine-javascript\"></script>\n")
@@ -156,6 +159,7 @@ public class Xholon2Twine extends AbstractXholon2ExternalFormat implements IXhol
   }
   
   /**
+   * Write details for one node.
    * <tw-passagedata pid="1" name="Helloo" tags="" position="1,1">Helloo iz the first word in the phrase Helloo [[Worldd]].</tw-passagedata>
    */
   protected void writeNodeDetails(IXholon xhNode) {
@@ -186,8 +190,19 @@ public class Xholon2Twine extends AbstractXholon2ExternalFormat implements IXhol
   @Override
   public void writeEdges(IXholon xhNode) {
     // write Xholon ports
-    List<PortInformation> portList =
-        new org.primordion.xholon.base.ReflectionJavaMicro().getAllPorts(xhNode, false);
+    List<PortInformation> portList = null;
+    switch (getShowPorts()) {
+    case 1:
+      portList = new org.primordion.xholon.base.ReflectionJavaMicro().getAllPorts(xhNode, false);
+      break;
+    case 2:
+      portList = xhNode.getAllPorts(); // used in Xholon2MindMap
+      break;
+    case 0:
+    default:
+      portList = new ArrayList<PortInformation>(); // zero-length list
+      break;
+    }
     for (int i = 0; i < portList.size(); i++) {
       PortInformation pi = (PortInformation)portList.get(i);
       IXholon reffedNode = pi.getReffedNode();
@@ -204,7 +219,6 @@ public class Xholon2Twine extends AbstractXholon2ExternalFormat implements IXhol
         String fieldName = pi.getFieldName();
         nodeSb.append(fieldName);
         if ("port".equals(fieldName)) {
-          // TODO replace underline with underlineReplacement, it the index is a String (and not an int)
           nodeSb.append(pi.getFieldNameIndexStr());
         }
         nodeSb.append(" ");
@@ -268,6 +282,11 @@ public class Xholon2Twine extends AbstractXholon2ExternalFormat implements IXhol
     // TODO
   }
   
+  /**
+   * Make a standard name for a node.
+   * @param xhNode 
+   * @return a standard name
+   */
   protected String makeNodeName(IXholon xhNode) {
     // optionally convert underlines to another character(s)
     String nodeName = xhNode.getName(getNameTemplate());
@@ -277,6 +296,11 @@ public class Xholon2Twine extends AbstractXholon2ExternalFormat implements IXhol
     return nodeName;
   }
   
+  /**
+   * Try to find a Xholon annotation for a node.
+   * @param xhNode 
+   * @return an annotation, or null
+   */
   protected String findAnnotation(IXholon xhNode) {
     if (annService == null) {
       annService = xhNode.getService(IXholonService.XHSRV_XHOLON_DIRECTORY);
@@ -296,22 +320,26 @@ public class Xholon2Twine extends AbstractXholon2ExternalFormat implements IXhol
    */
   protected native void makeEfParams() /*-{
     var p = {};
-    p.format = "Harlowe";
+    p.twineVersion = "2.0.3";
+    p.format = "Harlowe"; // Snowman
     p.options = "";
     p.showNodeName = true;
     p.showAnnotations = true;
     p.showAttributes = false;
-    p.showPortName = false;
-    p.showFirstChildLink = true;
-    p.showNextSiblingLink = true;
-    p.showPrevSiblingLink = false;
+    p.showPorts = 2; // 0=don't show  1=getPorts1  2=getPorts2
+    p.showPortName = true;
     p.showParentLink = true;
+    p.showPrevSiblingLink = false;
+    p.showNextSiblingLink = true;
+    p.showFirstChildLink = true;
     p.nameTemplate = "R^^_i^"; // "R^^^^^"
     p.underlineReplacement = "‗"; // "--" or "-" or " " or other (escapes don't work)
     p.scopeToRoot = true;
     this.efParams = p;
   }-*/;
 
+  public native String getTwineVersion() /*-{return this.efParams.twineVersion;}-*/;
+  //public native void setTwineVersion(String twineVersion) /*-{this.efParams.twineVersion = twineVersion;}-*/;
 
   public native String getFormat() /*-{return this.efParams.format;}-*/;
   //public native void setFormat(String format) /*-{this.efParams.format = format;}-*/;
@@ -327,6 +355,9 @@ public class Xholon2Twine extends AbstractXholon2ExternalFormat implements IXhol
   
   public native boolean isShowAttributes() /*-{return this.efParams.showAttributes;}-*/;
   //public native void setShowAttributes(boolean showAttributes) /*-{this.efParams.showAttributes = showAttributes;}-*/;
+  
+  public native int getShowPorts() /*-{return this.efParams.showPorts;}-*/;
+  //public native void setShowPorts(int showPorts) /*-{this.efParams.showPorts = showPorts;}-*/;
   
   /**
    * Whether or not a link should show the name of the port.
