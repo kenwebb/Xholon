@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.primordion.xholon.base.Annotation;
+import org.primordion.xholon.base.IDecoration;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.PortInformation;
 import org.primordion.ef.AbstractXholon2ExternalFormat;
@@ -36,6 +37,7 @@ import org.primordion.xholon.service.ef.IXholon2GraphFormat;
  * Springy is "a force directed graph layout algorithm in JavaScript".
  * A separate renderer is required, such as springyui.js.
  * The renderer handles node and edge data, such as color: label: etc.
+ * TODO allow images instead of text for nodes
  *
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
@@ -75,7 +77,7 @@ public class Xholon2Springy extends AbstractXholon2ExternalFormat implements IXh
   /**
    * End
    */
-  //protected StringBuilder endSb = null;
+  protected StringBuilder endSb = null;
   
   /** Annotation service. */
   protected IXholon annService = null;
@@ -87,7 +89,7 @@ public class Xholon2Springy extends AbstractXholon2ExternalFormat implements IXh
   
   @Override
   public boolean initialize(String outFileName, String modelName, IXholon root) {
-    require();
+    //require();
     
     timeNow = new Date();
     timeStamp = timeNow.getTime();
@@ -109,16 +111,32 @@ public class Xholon2Springy extends AbstractXholon2ExternalFormat implements IXh
     .append(" * www.primordion.com/Xholon/gwt/\n")
     .append(" * Use this file with Springy.js, at http://getspringy.com\n")
     .append(" */\n\n")
-    .append("var graph = new Springy.Graph();\n")
-    ;
+    .append("var graph = new Springy.Graph();\n");
     
     this.nodeSb = new StringBuilder(SB_INITIAL_CAPACITY);
     this.linkSb = new StringBuilder(SB_INITIAL_CAPACITY);
     
-    // not needed with Springy ?
-    //this.endSb = new StringBuilder(128)
-    //.append("</").append(TW_STORYDATA).append(">")
-    //.append("\n");
+    this.endSb = new StringBuilder(128);
+    if (isSpringyUiReady()) {
+      endSb
+      .append("jQuery(function(){\n")
+      .append("  var springy = jQuery('#xhspringy').springy({\n")
+      .append("    graph: graph,\n")
+      .append("    nodeSelected: function(node){\n")
+      //.append("      console.log(node);\n")
+      //.append("      console.log(node.getWidth());\n")
+      //.append("      console.log(node.getHeight());\n")
+      //.append("      console.log('Node selected: ' + JSON.stringify(node.data));\n")
+      .append("      var root = xh.root();\n")
+      .append("      var xhn = node.data.xhname;\n")
+      .append("      var xhnode = xh.xpath(\"descendant-or-self::*[@name='\" + xhn + \"']\", root);\n")
+      .append("      if (xhnode) {\n")
+      .append("        xhnode.println(xhnode.name());\n")
+      .append("      }\n")
+      .append("    }\n")
+      .append("  });\n")
+      .append("});\n");
+    }
     
     return true;
   }
@@ -132,15 +150,17 @@ public class Xholon2Springy extends AbstractXholon2ExternalFormat implements IXh
     .append(nodeSb.toString())
     .append("\n")
     .append(linkSb.toString())
-    //.append(endSb.toString())
-    ;
+    .append(endSb.toString());
     writeToTarget(sb.toString(), outFileName, outPath, root);
+    if (root.getApp().isUseGwt() && isSpringyUiReady()) {
+			pasteScript("springyScript", sb.toString());
+		}
   }
 
   @Override
   public void writeNode(IXholon xhNode) {
     // xhNode details
-    writeNodeDetails(xhNode);
+    writeNodeDetails(xhNode, getNodeFont());
     // xhNode children
     IXholon childNode = xhNode.getFirstChild();
     while (childNode != null) {
@@ -156,26 +176,30 @@ public class Xholon2Springy extends AbstractXholon2ExternalFormat implements IXh
    * var cards = graph.newNode({image: {src: 'http://upload.wikimedia.org/wikipedia/commons/1/1a/5_Zener_cards_%28icon%29.jpg'}});
    * @param xhNode 
    */
-  protected void writeNodeDetails(IXholon xhNode) {
+  protected void writeNodeDetails(IXholon xhNode, String font) {
     nodeSb.append("var ")
     .append(makeNodeName(xhNode))
     .append(" = graph.newNode({label: '").append(makeNodeLabel(xhNode))
-    .append("'});\n")
-    ;
-    /*if (isShowNodeName()) {
-      nodeSb.append("\n").append(makeNodeName(xhNode));
+    .append("', xhname: '").append(xhNode.getName());
+    if (isShouldColorNodes()) {
+      nodeSb.append("', color: '")
+      .append(makeNodeColor(xhNode));
+    }
+    if ((font != null) && (font.length() > 0)) {
+      nodeSb.append("', font: '")
+      .append(font);
     }
     String anno = findAnnotation(xhNode);
     if ((anno != null) && isShowAnnotations()) {
       // add Xholon annotations
-      nodeSb.append("\n").append(anno);
+      nodeSb.append("', anno: '").append(anno);
     }
-    if (isShowAttributes()) {
+    /*if (isShowAttributes()) {
       writeNodeAttributes(xhNode);
     }*/
     // xhNode outgoing links
+    nodeSb.append("'});\n");
     writeEdges(xhNode);
-    ;
   }
   
   @SuppressWarnings("unchecked")
@@ -215,7 +239,7 @@ public class Xholon2Springy extends AbstractXholon2ExternalFormat implements IXh
           label += pi.getFieldNameIndexStr();
         }
       }
-      writeEdge(nodeName, makeNodeName(reffedNode), label);
+      writeEdge(nodeName, makeNodeName(reffedNode), label, makeLinkColor(), getEdgeFont());
     }
     
     // optionally write parentNode  up
@@ -224,7 +248,7 @@ public class Xholon2Springy extends AbstractXholon2ExternalFormat implements IXh
       if (parent != null) {
         // graph.newEdge(spruce, fir);
         String label = isShowPortName() ? "parent" : null;
-        writeEdge(nodeName, makeNodeName(parent), label);
+        writeEdge(nodeName, makeNodeName(parent), label, makeLinkColor(), getEdgeFont());
       }
     }
     
@@ -233,7 +257,7 @@ public class Xholon2Springy extends AbstractXholon2ExternalFormat implements IXh
       IXholon prev = xhNode.getPreviousSibling();
       if (prev != null) {
         String label = isShowPortName() ? "prev" : null;
-        writeEdge(nodeName, makeNodeName(prev), label);
+        writeEdge(nodeName, makeNodeName(prev), label, makeLinkColor(), getEdgeFont());
       }
     }
     
@@ -242,7 +266,7 @@ public class Xholon2Springy extends AbstractXholon2ExternalFormat implements IXh
       IXholon next = xhNode.getNextSibling();
       if (next != null) {
         String label = isShowPortName() ? "next" : null;
-        writeEdge(nodeName, makeNodeName(next), label);
+        writeEdge(nodeName, makeNodeName(next), label, makeLinkColor(), getEdgeFont());
       }
     }
     
@@ -251,7 +275,7 @@ public class Xholon2Springy extends AbstractXholon2ExternalFormat implements IXh
       IXholon first = xhNode.getFirstChild();
       if (first != null) {
         String label = isShowPortName() ? "first" : null;
-        writeEdge(nodeName, makeNodeName(first), label);
+        writeEdge(nodeName, makeNodeName(first), label, makeLinkColor(), getEdgeFont());
       }
     }
     
@@ -259,11 +283,10 @@ public class Xholon2Springy extends AbstractXholon2ExternalFormat implements IXh
   
   /**
    * Write one edge in Springy format.
-   * TODO handle optional color, and other options?
    * graph.newEdge(dennis, michael, {color: '#00A0B0'});
    *   {color: '#00A0B0', label: 'Foo bar'}
    */
-  protected void writeEdge(String sourceNodeName, String targetNodeName, String label) {
+  protected void writeEdge(String sourceNodeName, String targetNodeName, String label, String color, String font) {
     linkSb.append("graph.newEdge(")
     .append(sourceNodeName)
     .append(", ")
@@ -272,6 +295,16 @@ public class Xholon2Springy extends AbstractXholon2ExternalFormat implements IXh
     if (label != null) {
       linkSb.append("label: '")
       .append(label)
+      .append("'");
+    }
+    if (color != null) {
+      linkSb.append(", color: '")
+      .append(color)
+      .append("'");
+    }
+    if ((font != null) && (font.length() > 0)) {
+      linkSb.append(", font: '")
+      .append(font)
       .append("'");
     }
     linkSb.append("});\n");
@@ -316,6 +349,34 @@ public class Xholon2Springy extends AbstractXholon2ExternalFormat implements IXh
   }
   
   /**
+   * Make a node color string.
+   * @param xhNode 
+   * @return a color (ex: "#CC333F"), or null
+   */
+  protected String makeNodeColor(IXholon xhNode) {
+    String color = ((IDecoration)xhNode.getXhc()).getColor();
+    if (color != null) {
+      return color;
+    }
+    return makeRandomColor();
+  }
+  
+  /**
+   * Make a link color string.
+   * @return a color (ex: "#CC333F"), or null
+   */
+  protected String makeLinkColor() {
+    if (isShouldColorLinks()) {
+     return makeRandomColor();
+    }
+    return null;
+  }
+  
+  protected native String makeRandomColor() /*-{
+    return "#" + Math.floor(Math.random()*16777215).toString(16);
+  }-*/;
+  
+  /**
    * Try to find a Xholon annotation for a node.
    * @param xhNode 
    * @return an annotation, or null
@@ -345,16 +406,30 @@ public class Xholon2Springy extends AbstractXholon2ExternalFormat implements IXh
 	}-*/;
   
   protected native void require() /*-{
-    $wnd.xh.require("springy");
+    //$wnd.xh.require("springy");
     //$wnd.xh.require("springyui");
   }-*/;
+  
+  /**
+   * Paste the script into the HTML DOM.
+   */
+  protected void pasteScript(String scriptId, String scriptContent) {
+	  HtmlScriptHelper.fromString(scriptContent, true);
+	}
+	
+	/**
+	 * Is the Springy UI installed and ready to be used.
+	 */
+	protected native boolean isSpringyUiReady() /*-{
+	  return (typeof $wnd.Springy != "undefined") && (typeof $wnd.jQuery != "undefined");
+	}-*/;
   
   /**
    * Make a JavaScript object with all the parameters for this external format.
    */
   protected native void makeEfParams() /*-{
     var p = {};
-    //p.showAnnotations = true;
+    p.showAnnotations = true;
     //p.showAttributes = false;
     p.showPorts = 2; // 0=don't show  1=getPorts1  2=getPorts2
     p.showPortName = true;
@@ -368,10 +443,14 @@ public class Xholon2Springy extends AbstractXholon2ExternalFormat implements IXh
     p.shouldSplitCamelCase = true;
     p.shouldBeLowerCase = false;
     p.shouldBeCapitalized = true;
+    p.shouldColorNodes = false;
+    p.shouldColorLinks = false;
+    p.nodeFont = "12px Arial, sans-serif";
+    p.edgeFont = "8px Arial, sans-serif";
     this.efParams = p;
   }-*/;
 
-  //public native boolean isShowAnnotations() /*-{return this.efParams.showAnnotations;}-*/;
+  public native boolean isShowAnnotations() /*-{return this.efParams.showAnnotations;}-*/;
   //public native void setShowAnnotations(boolean showAnnotations) /*-{this.efParams.showAnnotations = showAnnotations;}-*/;
   
   //public native boolean isShowAttributes() /*-{return this.efParams.showAttributes;}-*/;
@@ -419,4 +498,16 @@ public class Xholon2Springy extends AbstractXholon2ExternalFormat implements IXh
   public native boolean isShouldBeCapitalized() /*-{return this.efParams.shouldBeCapitalized;}-*/;
   //public native void setShouldBeCapitalized(boolean shouldBeCapitalized) /*-{this.efParams.shouldBeCapitalized = shouldBeCapitalized;}-*/;
 
+  public native boolean isShouldColorNodes() /*-{return this.efParams.shouldColorNodes;}-*/;
+  //public native void setShouldColorNodes(boolean shouldColorNodes) /*-{this.efParams.shouldColorNodes = shouldColorNodes;}-*/;
+
+  public native boolean isShouldColorLinks() /*-{return this.efParams.shouldColorLinks;}-*/;
+  //public native void setShouldColorLinks(boolean shouldColorLinks) /*-{this.efParams.shouldColorLinks = shouldColorLinks;}-*/;
+
+  public native String getNodeFont() /*-{return this.efParams.nodeFont;}-*/;
+  //public native void setNodeFont(String nodeFont) /*-{this.efParams.nodeFont = nodeFont;}-*/;
+  
+  public native String getEdgeFont() /*-{return this.efParams.edgeFont;}-*/;
+  //public native void setEdgeFont(String edgeFont) /*-{this.efParams.edgeFont = edgeFont;}-*/;
+  
 }
