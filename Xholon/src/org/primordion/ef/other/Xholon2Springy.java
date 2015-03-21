@@ -122,6 +122,10 @@ public class Xholon2Springy extends AbstractXholon2ExternalFormat implements IXh
       .append("jQuery(function(){\n")
       .append("  var springy = jQuery('#xhspringy').springy({\n")
       .append("    graph: graph,\n")
+      .append("    stiffness: ").append(getStiffness()).append(",\n")
+      .append("    repulsion: ").append(getRepulsion()).append(",\n")
+      .append("    damping: ").append(getDamping()).append(",\n")
+      .append("    inEnergyThreshold: ").append(getInEnergyThreshold()).append(",\n")
       .append("    nodeSelected: function(node){\n")
       //.append("      console.log(node);\n")
       //.append("      console.log(node.getWidth());\n")
@@ -447,6 +451,10 @@ public class Xholon2Springy extends AbstractXholon2ExternalFormat implements IXh
     p.shouldColorLinks = false;
     p.nodeFont = "12px Arial, sans-serif";
     p.edgeFont = "8px Arial, sans-serif";
+    p.stiffness = 400;
+    p.repulsion = 400;
+    p.damping = 0.5;
+    p.inEnergyThreshold = 0.01; //0.00001;
     this.efParams = p;
   }-*/;
 
@@ -509,5 +517,17 @@ public class Xholon2Springy extends AbstractXholon2ExternalFormat implements IXh
   
   public native String getEdgeFont() /*-{return this.efParams.edgeFont;}-*/;
   //public native void setEdgeFont(String edgeFont) /*-{this.efParams.edgeFont = edgeFont;}-*/;
+  
+  public native double getStiffness() /*-{return this.efParams.stiffness;}-*/;
+  //public native void setStiffness(double stiffness) /*-{this.efParams.stiffness = stiffness;}-*/;
+  
+  public native double getRepulsion() /*-{return this.efParams.repulsion;}-*/;
+  //public native void setRepulsion(double repulsion) /*-{this.efParams.repulsion = repulsion;}-*/;
+  
+  public native double getDamping() /*-{return this.efParams.damping;}-*/;
+  //public native void setDamping(double damping) /*-{this.efParams.damping = damping;}-*/;
+  
+  public native double getInEnergyThreshold() /*-{return this.efParams.inEnergyThreshold;}-*/;
+  //public native void setInEnergyThreshold(double inEnergyThreshold) /*-{this.efParams.inEnergyThreshold = inEnergyThreshold;}-*/;
   
 }
