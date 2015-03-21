@@ -167,7 +167,7 @@ public class Xholon2Twine extends AbstractXholon2ExternalFormat implements IXhol
     .append(" pid=\"").append(xhNode.getId())
     .append("\" name=\"").append(makeNodeName(xhNode))
     .append("\" tags=\"").append("")
-    .append("\" position=\"").append(xhNode.getId()).append(",").append(xhNode.getId()).append("\">")
+    .append("\" position=\"").append(makePosX(xhNode)).append(",").append(makePosY(xhNode)).append("\">")
     ;
     if (isShowNodeName()) {
       nodeSb.append("\n").append(makeNodeName(xhNode));
@@ -315,6 +315,22 @@ public class Xholon2Twine extends AbstractXholon2ExternalFormat implements IXhol
     return null;
   }
   
+  // _jsdata.posx
+  protected native double makePosX(IXholon xhNode) /*-{
+    if ((typeof xhNode._jsdata == "undefined") || (typeof xhNode._jsdata.posx == "undefined")) {
+      return xhNode.id();
+    }
+    return xhNode._jsdata.posx * this.efParams.posMultiplier;
+  }-*/;
+  
+  // _jsdata.posy
+  protected native double makePosY(IXholon xhNode) /*-{
+    if ((typeof xhNode._jsdata == "undefined") || (typeof xhNode._jsdata.posy == "undefined")) {
+      return xhNode.id();
+    }
+    return xhNode._jsdata.posy * this.efParams.posMultiplier;
+  }-*/;
+  
   /**
    * Make a JavaScript object with all the parameters for this external format.
    */
@@ -335,6 +351,7 @@ public class Xholon2Twine extends AbstractXholon2ExternalFormat implements IXhol
     p.nameTemplate = "R^^_i^"; // "R^^^^^"
     p.underlineReplacement = "‗"; // "--" or "-" or " " or other (escapes don't work)
     p.scopeToRoot = true;
+    p.posMultiplier = 2.0;
     this.efParams = p;
   }-*/;
 
@@ -386,4 +403,7 @@ public class Xholon2Twine extends AbstractXholon2ExternalFormat implements IXhol
   public native boolean isScopeToRoot() /*-{return this.efParams.scopeToRoot;}-*/;
   //public native void setScopeToRoot(boolean scopeToRoot) /*-{this.efParams.scopeToRoot = scopeToRoot;}-*/;
 
+  public native double getPosMultiplier() /*-{return this.efParams.posMultiplier;}-*/;
+  //public native void setPosMultiplier(double posMultiplier) /*-{this.efParams.posMultiplier = posMultiplier;}-*/;
+  
 }
