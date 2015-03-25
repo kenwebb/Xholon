@@ -251,29 +251,29 @@ public class Avatar extends XholonWithPorts {
   }
   
   @Override
-	@SuppressWarnings("unchecked")
-	public List getAllPorts() {
-		List<PortInformation> xhcPortList = this.getXhc().getPortInformation();
-		if ((xhcPortList == null) || (xhcPortList.size() == 0)) {
-		  //return xhcPortList;
-		  return super.getAllPorts(); // calls Xholon.getAllPorts()
-		}
-		List<PortInformation> realPortList = new ArrayList<PortInformation>();
-		// eval the XPath expressions to determine the reffed nodes
-		Iterator<PortInformation> portIt = xhcPortList.iterator();
-		while (portIt.hasNext()) {
-			PortInformation pi = (PortInformation)portIt.next();
-			IXholon reffedNode = this.getXPath().evaluate(pi.getXpathExpression().trim(), this);
-			if (reffedNode == null) {
-				//xhcPortList.remove(pi); // causes java.util.ConcurrentModificationException
-			}
-			else {
-				pi.setReffedNode(reffedNode);
-				realPortList.add(pi);
-			}
-		}
-		return realPortList;
-	}
+  @SuppressWarnings("unchecked")
+  public List getAllPorts() {
+    List<PortInformation> xhcPortList = this.getXhc().getPortInformation();
+    if ((xhcPortList == null) || (xhcPortList.size() == 0)) {
+      //return xhcPortList;
+      return super.getAllPorts(); // calls Xholon.getAllPorts()
+    }
+    List<PortInformation> realPortList = new ArrayList<PortInformation>();
+    // eval the XPath expressions to determine the reffed nodes
+    Iterator<PortInformation> portIt = xhcPortList.iterator();
+    while (portIt.hasNext()) {
+      PortInformation pi = (PortInformation)portIt.next();
+      IXholon reffedNode = this.getXPath().evaluate(pi.getXpathExpression().trim(), this);
+      if (reffedNode == null) {
+        //xhcPortList.remove(pi); // causes java.util.ConcurrentModificationException
+      }
+      else {
+        pi.setReffedNode(reffedNode);
+        realPortList.add(pi);
+      }
+    }
+    return realPortList;
+  }
   
   @Override
   public void postConfigure() {
@@ -500,6 +500,20 @@ public class Avatar extends XholonWithPorts {
    * xpath? expr [then] action1 [else action2]
    * attr/val? expr [then] action1 [else action2]
    * 
+   * OR March 22, 2015
+   * if xpath(expr)|otherExpr
+   *   ...
+   * elseif xpath(expr)|otherExpr
+   *   ...
+   * else
+   *   ...
+   * endif
+   * where ... means one or more lines with commands, with one line executed each time step
+   * OR
+   * ifeq|ifne|iflt|ifgt|ifle|ifge xpath(expr)|otherExpr [attrname [attrvalue]]
+   * 
+   * if xpath(expr) action [elseif xpath(expr) action else action [endif]]
+   * 
    * TODO in general, should be able to replace a thing with an xpath(expr)
    *   or even more generally, be able to replace with an expression in ANY known path language
    *     css(selector)
@@ -523,7 +537,7 @@ public class Avatar extends XholonWithPorts {
    * msg portName|etc [signal [data]]
    * call portName|etc [signal [data]]
    * ex: msg next 101 I am right behind you
-   *     call xpath(ancesto::TheSystem/descendant::SomeNode) 1234 Do your thing
+   *     call xpath(ancestor::TheSystem/descendant::SomeNode) 1234 Do your thing
    *
    * appendto prependto insertBefore insertAfter
    * enter    
@@ -532,6 +546,8 @@ public class Avatar extends XholonWithPorts {
    * put X append/prepend/before/after Y
    *
    * avatar should be able to lead the container that it's in (ex: lead Coach)
+   *   or maybe use a new command "drive", meaning "lead/move the thing that you are inside of"
+   *   synonymns: ride pilot fly 
    *
    * be able to use a list of things wherever appropriate (ex: take one,two,three)
    * be able to use ALL wherever appropriate (ex: put * in Car)
@@ -660,6 +676,30 @@ public class Avatar extends XholonWithPorts {
     case "inventory":
       inventory();
       break;
+    case "if":
+      if (len == 3) {
+        iiff(data[1], data[2]);
+      }
+      else if (len > 3) {
+        iiff(data[1], data[2] + " " + data[3]);
+      }
+      else {
+        sb.append("Please specify the correct number of parameters (ex: if xpath(expr) command).");
+      }
+      break;
+    case "ifeq":
+    case "ifne":
+    case "iflt":
+    case "ifgt":
+    case "ifle":
+    case "ifge":
+      if (len > 3) {
+        iiff(data[0].substring(2), data[1], data[2] + " " + data[3]);
+      }
+      else {
+        sb.append("Please specify the correct number of parameters (ex: ifeq xpath(expr) attrName attrValue command).");
+      }
+      break;
     case "lead": // lead a follower
     {
       if (len > 1) {
@@ -784,7 +824,7 @@ public class Avatar extends XholonWithPorts {
       }
       break;
     default:
-      // TODO check for app-specified commands
+      // TODO check for app-specific commands
       sb.append(data[0]).append(" is not a verb I recognise.");
       break;
     }
@@ -1230,6 +1270,7 @@ public class Avatar extends XholonWithPorts {
     .append("\ngo portName|next|prev|N|E|S|W|NE|SE|SW|NW|port0|portN|xpath")
     .append("\ngroup thing1[,thingI,...,thingN] in|on|under|ANY thing2")
     .append("\nhelp")
+    .append("\nif xpath command [elseif xpath command] [else command]")
     .append("\ninventory|i")
     .append("\nlead follower")
     .append("\nlook")
@@ -1263,6 +1304,144 @@ public class Avatar extends XholonWithPorts {
       node = node.getNextSibling();
     }
   }
+  
+  /**
+   * If some other node exists (as specified by an XPath expression relative to this),
+   * then do the specified command.
+   * The entire if statement including the command must all be on the same line (for now).
+   * if xpath(expr) command [elseif xpath(expr) command else command [endif]]
+   * Examples:
+   *  if xpath(parent::House) next garage;
+   *  if xpath(Book) take *book;
+   *  if xpath(Avatar/Book) drop *book;
+   *  if xpath(Book) take *book else [no books left in library];
+   *  if xpath(Avatar/Book) drop *book else [not carrying a book];
+   * @param xpathExpr  ex: xpath(parent::House)
+   * @param command  ex: become Robert role Bob
+   */
+  protected void iiff(String xpathExpr, String command) {
+    IXholon node = evalXPathCmdArg(xpathExpr, contextNode);
+    //consoleLog("if " + xpathExpr + " " + command);
+    int elseifStart = command.indexOf(" elseif ");
+    int elseStart = command.indexOf(" else ");
+    if (node == null) {
+      //consoleLog("search for elseif or else");
+      if (elseifStart != -1) {
+        //consoleLog(" elseif " + elseifStart);
+        command = "if " + command.substring(elseifStart + 8);
+        //consoleLog(command);
+        processCommand(command);
+      }
+      else if (elseStart != -1) {
+        //consoleLog(" else " + elseStart);
+        command = command.substring(elseStart + 6);
+        //consoleLog(command);
+        processCommand(command);
+      }
+    }
+    else {
+      // remove any elseif or else clauses from the command
+      //consoleLog("node was found");
+      //consoleLog(node.getName(nameTemplate));
+      if (elseifStart != -1) {command = command.substring(0, elseifStart);}
+      else if (elseStart != -1) {command = command.substring(0, elseStart);}
+      //consoleLog(command);
+      processCommand(command);
+    }
+  }
+  
+  /**
+   * If some other node exists (as specified by an XPath expression relative to this),
+   * then do the specified command.
+   * The entire if statement including the command must all be on the same line (for now).
+   * ifeq xpath(expr) attrName attrValue command
+   * Examples:
+   * 
+   * @param operation one of "eq ne lt gt le ge"
+   * @param xpathExpr  ex: xpath(parent::House)
+   * @param attrAndCommand  ex: val 123 become Robert role Bob
+   */
+  protected void iiff(String operation, String xpathExpr, String attrAndCommand) {
+    consoleLog(operation);
+    consoleLog(xpathExpr);
+    consoleLog(attrAndCommand);
+    IXholon node = evalXPathCmdArg(xpathExpr, contextNode);
+    int elseifStart = attrAndCommand.indexOf(" elseif ");
+    int elseStart = attrAndCommand.indexOf(" else ");
+    if (node == null) {
+      if (elseifStart != -1) {
+        attrAndCommand = "if " + attrAndCommand.substring(elseifStart + 8);
+        processCommand(attrAndCommand);
+      }
+      else if (elseStart != -1) {
+        attrAndCommand = attrAndCommand.substring(elseStart + 6);
+        processCommand(attrAndCommand);
+      }
+    }
+    else {
+      if (elseifStart != -1) {attrAndCommand = attrAndCommand.substring(0, elseifStart);}
+      else if (elseStart != -1) {attrAndCommand = attrAndCommand.substring(0, elseStart);}
+      String[] attrAndCommandArr = attrAndCommand.split(" ", 3);
+      if (attrAndCommandArr.length == 3) {
+        String attrName = attrAndCommandArr[0];
+        String attrValue = attrAndCommandArr[1];
+        String command = attrAndCommandArr[2];
+        consoleLog(operation + " " + attrName + " " + attrValue + " " + command);
+        switch (attrName) {
+        case "val":
+          try {
+            double av = Double.parseDouble(attrValue);
+            switch (operation) {
+            // ifgt xpath(Book) val 5 next;
+            case "eq": if (node.getVal() == av) {processCommand(command);} break;
+            case "ne": if (node.getVal() != av) {processCommand(command);} break;
+            case "lt": if (node.getVal() < av)  {processCommand(command);} break;
+            case "gt": if (node.getVal() > av)  {processCommand(command);} break;
+            case "le": if (node.getVal() <= av) {processCommand(command);} break;
+            case "ge": if (node.getVal() >= av) {processCommand(command);} break;
+            default: break;
+            }
+          } catch(NumberFormatException e) {
+            sb.append("The attribute value must be a number (ex: 123  or  123.456)");
+          }
+          break;
+        case "str":
+          switch (operation) {
+          // ifeq xpath(Book) str abc next;
+          case "eq":
+            if (attrValue.equals(node.getVal_String())) {processCommand(command);}
+            break;
+          case "ne":
+            if (!attrValue.equals(node.getVal_String())) {processCommand(command);}
+            break;
+          default: break;
+          }
+          break;
+        default:
+          try {
+            String av = (String)getAttributeValNative(node, attrName);
+            switch (operation) {
+            // ifeq xpath(Book) jsattr jsvalue next;
+            case "eq":
+              if (attrValue.equals(av)) {processCommand(command);}
+              break;
+            case "ne":
+              if (!attrValue.equals(av)) {processCommand(command);}
+              break;
+            default: break;
+            }
+          } catch(Exception e) {
+            sb.append("The attribute value must be a String");
+          }
+          break;
+        }
+      }
+    }
+  }
+  
+  protected native Object getAttributeValNative(IXholon node, String attrName) /*-{
+	  return node[attrName];
+	}-*/;
   
   /**
    * Look at the avatar's current location, and at the items in that location.
