@@ -750,7 +750,14 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
     float rectHeight = 50.0f;
     // set rectangle values from Properties if they exist
     String prop = getSvgProperty(node, ".rect");
-    if (prop != null) {
+    if (prop == null) {
+      // use _jsdata.xpos .ypos if available
+      rectX = makePosX(node, rectX);
+      rectY = makePosY(node, rectY);
+      rectWidth = makePosW(node, rectWidth);
+      rectHeight = makePosH(node, rectHeight);
+    }
+    else {
       StringTokenizer st = new StringTokenizer(prop, ",");
       if (st.countTokens() == 4) { // x,y,width,height
         rectX = Integer.parseInt(st.nextToken());
@@ -887,7 +894,12 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
     float rectHeight = 20.0f;
     // set rectangle values from Properties if they exist
     String prop = getSvgProperty(node, ".rect");
-    if (prop != null) {
+    if (prop == null) {
+      // use _jsdata.xpos .ypos if available
+      rectX = makePosX(node, rectX);
+      rectY = makePosY(node, rectY);
+    }
+    else {
       StringTokenizer st = new StringTokenizer(prop, ",");
       if (st.countTokens() == 4) { // x,y,width,height
         rectX = Integer.parseInt(st.nextToken());
@@ -1544,6 +1556,38 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
     svgSb.append(sbStyle.toString());
   }
   
+  // _jsdata.posx
+  protected native float makePosX(IXholon xhNode, float rectX) /*-{
+    if ((typeof xhNode._jsdata == "undefined") || (typeof xhNode._jsdata.posx == "undefined")) {
+      return rectX;
+    }
+    return xhNode._jsdata.posx * this.efParams.posMultiplier;
+  }-*/;
+  
+  // _jsdata.posy
+  protected native float makePosY(IXholon xhNode, float rectY) /*-{
+    if ((typeof xhNode._jsdata == "undefined") || (typeof xhNode._jsdata.posy == "undefined")) {
+      return rectY;
+    }
+    return xhNode._jsdata.posy * this.efParams.posMultiplier;
+  }-*/;
+  
+  // _jsdata.posw
+  protected native float makePosW(IXholon xhNode, float rectWidth) /*-{
+    if ((typeof xhNode._jsdata == "undefined") || (typeof xhNode._jsdata.posw == "undefined")) {
+      return rectWidth;
+    }
+    return xhNode._jsdata.posw * this.efParams.posMultiplier;
+  }-*/;
+  
+  // _jsdata.posh
+  protected native float makePosH(IXholon xhNode, float rectHeight) /*-{
+    if ((typeof xhNode._jsdata == "undefined") || (typeof xhNode._jsdata.posh == "undefined")) {
+      return rectHeight;
+    }
+    return xhNode._jsdata.posh * this.efParams.posMultiplier;
+  }-*/;
+  
   /**
    * Make a JavaScript object with all the parameters for this external format.
    */
@@ -1582,6 +1626,7 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
     p.levelTranslateY = 20;
     p.siblingTranslateX = 2;
     p.siblingTranslateY = 0;
+    p.posMultiplier = 2.0; // for use with _jsdata
     this.efParams = p;
   }-*/;
   
@@ -1830,4 +1875,8 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
   public native int getSiblingTranslateY() /*-{return this.efParams.siblingTranslateY;}-*/;
   //public native void setSiblingTranslateY(int siblingTranslateY) /*-{this.efParams.siblingTranslateY = siblingTranslateY;}-*/;
 
+  /** For use with _jsdata */
+  public native double getPosMultiplier() /*-{return this.efParams.posMultiplier;}-*/;
+  //public native void setPosMultiplier(double posMultiplier) /*-{this.efParams.posMultiplier = posMultiplier;}-*/;
+  
 }
