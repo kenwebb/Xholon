@@ -95,6 +95,7 @@ public class Avatar extends XholonWithPorts {
   protected static final float SSU_FLOAT_DEFAULT = -1.0f;
   protected static final String WILDCARD = "*";
   protected static final String DOLLAR_CHILD_SEPARATOR = ">"; // ex: $One>Two>three
+  protected static final String LEAD_PARENT_NODE = ".."; // ex: lead ..;
   
   // Variables
   public String roleName = null;
@@ -332,7 +333,11 @@ public class Avatar extends XholonWithPorts {
       if (follower != null) {
         // I must pull the follower along with me
         //consoleLog(this.getName() + " is being followed (accompanied) by " + follower.getName());
-        if (contextNode != follower.getParentNode()) {
+        if (contextNode == follower) {
+          // TODO
+          consoleLog("contextNode == follower " + follower.getName());
+        }
+        else if (contextNode != follower.getParentNode()) {
           follower.removeChild();
           follower.appendChild(this.getParentNode());
           // TODO if follower is an Avatar, then change it's contextNode
@@ -570,11 +575,14 @@ public class Avatar extends XholonWithPorts {
       appear();
       break;
     case "become":
+    case "set":
       if (len == 4) {
         become(data[1], data[2], data[3]);
       }
       else {
-        sb.append("Please specify the correct number of parameters (ex: become Peter role Pete).");
+        sb.append("Please specify the correct number of parameters (ex: ")
+        .append(data[0])
+        .append(" Peter role Pete).");
       }
       break;
     case "breakpoint":
@@ -650,6 +658,14 @@ public class Avatar extends XholonWithPorts {
       }
       break;
     }
+    case "get":
+      if (len == 3) {
+        sb.append(getAttributeVal(data[1], data[2]));
+      }
+      else {
+        sb.append("Please specify the correct number of parameters (ex: get Peter role).");
+      }
+      break;
     case "go":
       if (len == 2) {
         go(data[1], null);
@@ -703,7 +719,14 @@ public class Avatar extends XholonWithPorts {
     case "lead": // lead a follower
     {
       if (len > 1) {
-        IXholon node = findNode(data[1], contextNode);
+        IXholon node = null;
+        if (LEAD_PARENT_NODE.equals(data[1])) {
+          // this Avatar will lead its centext node (the node that it's inside of)
+          node = contextNode;
+        }
+        else {
+          node = findNode(data[1], contextNode);
+        }
         if (node != null) {
           follower = node;
           sb.append("Leading.");
@@ -853,7 +876,7 @@ public class Avatar extends XholonWithPorts {
    * @param whatChanges - "role" or "type" (only "role" is currently implemented.
    * @param newRoleOrType - The new roleName for the thing.
    */
-  protected void become(String thing, String whatChanges, String newRoleOrType) {
+  protected void become(String thing, String whatChanges, String newValue) {
     IXholon node = null;
     if (THIS_AVATAR.equals(thing)) {
       node = this;
@@ -866,13 +889,23 @@ public class Avatar extends XholonWithPorts {
     }
     if (node != null) {
       if ("role".equals(whatChanges)) {
-        node.setRoleName(newRoleOrType);
+        node.setRoleName(newValue);
+      }
+      else if ("val".equals(whatChanges)) {
+        node.setVal(Double.parseDouble(newValue));
+      }
+      else if ("str".equals(whatChanges)) {
+        node.setVal_String(newValue);
       }
       else if ("type".equals(whatChanges)) {
         sb.append("become X type Y  is not yet implemented");
       }
       else {
-        sb.append("Please specify either role or type (ex: become Robert role Bob)");
+        //boolean rc = 
+        setAttributeValNative(node, whatChanges, newValue);
+        //if (!rc) {
+        //  sb.append("Please specify either role or type (ex: become Robert role Bob)");
+        //}
       }
     }
   }
@@ -1362,9 +1395,9 @@ public class Avatar extends XholonWithPorts {
    * @param attrAndCommand  ex: val 123 become Robert role Bob
    */
   protected void iiff(String operation, String xpathExpr, String attrAndCommand) {
-    consoleLog(operation);
-    consoleLog(xpathExpr);
-    consoleLog(attrAndCommand);
+    //consoleLog(operation);
+    //consoleLog(xpathExpr);
+    //consoleLog(attrAndCommand);
     IXholon node = evalXPathCmdArg(xpathExpr, contextNode);
     int elseifStart = attrAndCommand.indexOf(" elseif ");
     int elseStart = attrAndCommand.indexOf(" else ");
@@ -1386,7 +1419,7 @@ public class Avatar extends XholonWithPorts {
         String attrName = attrAndCommandArr[0];
         String attrValue = attrAndCommandArr[1];
         String command = attrAndCommandArr[2];
-        consoleLog(operation + " " + attrName + " " + attrValue + " " + command);
+        //consoleLog(operation + " " + attrName + " " + attrValue + " " + command);
         switch (attrName) {
         case "val":
           try {
@@ -1439,8 +1472,50 @@ public class Avatar extends XholonWithPorts {
     }
   }
   
+  /**
+   * Get the value of a named attribute for a specified thing.
+   */
+  protected Object getAttributeVal(String thing, String attrName) {
+    IXholon node = null;
+    if (THIS_AVATAR.equals(thing)) {
+      node = this;
+    }
+    else {
+      node = findNode(thing, contextNode);
+      if (node == null) {
+        node = findNode(thing, this);
+      }
+    }
+    if (node != null) {
+      if ("role".equals(attrName)) {
+        return node.getRoleName();
+      }
+      else if ("val".equals(attrName)) {
+        return node.getVal();
+      }
+      else if ("str".equals(attrName)) {
+        return node.getVal_String();
+      }
+      else if ("type".equals(attrName)) {
+        return node.getXhcName();
+      }
+      else {
+        return getAttributeValNative(node, attrName);
+      }
+    }
+    return null;
+  }
+  
   protected native Object getAttributeValNative(IXholon node, String attrName) /*-{
 	  return node[attrName];
+	}-*/;
+	
+	protected native void setAttributeValNative(IXholon node, String attrName, Object attrValue) /*-{
+	  //if (node[attrName]) {
+	    node[attrName] = attrValue;
+	    //return true;
+	  //}
+	  //return false;
 	}-*/;
   
   /**
@@ -1876,6 +1951,12 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
         node = node.getNextSibling();
       }
       return node;
+    }
+    if (nodeName.startsWith("xpath")) {
+      node = evalXPathCmdArg(nodeName, aRoot);
+      if (node != null) {
+        return node;
+      }
     }
     node = xpath.evaluate("descendant-or-self::*[@name='" + nodeName + "']", aRoot);
     if (node == null) {
