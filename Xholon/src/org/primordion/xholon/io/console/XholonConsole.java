@@ -38,15 +38,19 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.TextAreaElement;
 //import com.google.gwt.user.client.Element;
 
+import java.util.List;
+
 //import org.primordion.xholon.app.Application;
 import org.primordion.xholon.app.IApplication;
 //import org.primordion.xholon.base.Control;
 //import org.primordion.xholon.base.IControl;
 import org.primordion.xholon.base.IMessage;
+import org.primordion.xholon.base.IQueue;
 import org.primordion.xholon.base.IReflection;
 import org.primordion.xholon.base.ISignal;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
+import org.primordion.xholon.base.Queue;
 import org.primordion.xholon.base.ReflectionFactory;
 import org.primordion.xholon.base.XholonWithPorts;
 import org.primordion.xholon.io.Specials;
@@ -75,6 +79,9 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
   // Special menu
   @UiField MenuItem special;
   
+  // History menu
+  @UiField MenuItem history;
+  
   // File menu
   @UiField MenuItem fileopen;
   @UiField MenuItem filesave;
@@ -91,6 +98,7 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
   @UiField MenuItem modexpath;
   @UiField MenuItem modejs;
   @UiField MenuItem modeattr;
+  @UiField MenuItem terminal;
   
   // Help menu
   @UiField MenuItem help;
@@ -207,6 +215,21 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
    * 2 sync  (used with Avatar)
    */
   protected int sendMsgAsyncOrSync = SENDMESSAGE_ASYNC;
+  
+  /**
+   * Whether or not the console is acting as a terminal.
+   */
+  protected boolean terminalEnabled = false;
+  
+  /**
+   * History circular queue.
+   */
+  protected IQueue historyQ = null;
+  
+  /**
+   * Maximum size of the history circular queue.
+   */
+  protected int historyQSize = 20;
   
   /**
    * constructor
@@ -382,6 +405,14 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
     return widget;
   }
 
+  public boolean isTerminalEnabled() {
+    return terminalEnabled;
+  }
+  
+  public void setTerminalEnabled(boolean terminalEnabled) {
+    this.terminalEnabled = terminalEnabled;
+  }
+  
   /*
    * @see org.primordion.xholon.base.XholonWithPorts#postConfigure()
    */
@@ -398,6 +429,8 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
     if (context.getXhc().hasAncestor("Avatar")) {
       sendMsgAsyncOrSync = SENDMESSAGE_SYNC;
     }
+    
+    historyQ = new Queue(historyQSize);
     
     // append this new node to the View
     /*
@@ -453,6 +486,41 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
       //special.setEnabled(false);
       special.getParentMenu().removeItem(special);
     }
+    
+    // History menu
+    history.setScheduledCommand(new Command() {
+	    @Override
+      public void execute() {
+        if (historyQ.getSize() > 0) {
+          MenuBar historySubMenu = new MenuBar(true);
+          List<String> hitems = (List<String>)historyQ.getItems();
+          for (int i = 0; i < hitems.size(); i++) {
+            final String hitem = hitems.get(i);
+            historySubMenu.addItem(limitLength(hitem, 80), new Command() {
+              @Override
+              public void execute() {
+                if (isTerminalEnabled()) {
+                  // replace the content of the last line with hitem
+                  String taval = getCommand();
+                  int lastNewlinePos = taval.lastIndexOf("\n");
+                  if (lastNewlinePos == -1) {
+                    setResult(hitem, true);
+                  }
+                  else {
+                    setResult(taval.substring(0, lastNewlinePos+1) + hitem, true);
+                  }
+                }
+                else {
+                  // replace entire console contents with hitem
+                  setResult(hitem, true);
+                }
+              }
+            });
+          }
+          history.setSubMenu(historySubMenu);
+        }
+      }
+    });
     
     // File menu
     fileopen.setEnabled(false);
@@ -514,6 +582,13 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
 	    @Override
       public void execute() {
         setMode("attr:");
+      }
+    });
+    
+    terminal.setScheduledCommand(new Command() {
+	    @Override
+      public void execute() {
+        terminalEnabled = !terminalEnabled;
       }
     });
     
@@ -935,6 +1010,16 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
     commandOrTextString = commandOrTextString.trim();
     //context.println(commandOrTextString);
     if (commandOrTextString.length() == 0) {return "";}
+    
+    if (isTerminalEnabled()) {
+      // the last line is the command
+      int lastNewlinePos = commandOrTextString.lastIndexOf("\n");
+      if (lastNewlinePos != -1) {
+        commandOrTextString = commandOrTextString.substring(lastNewlinePos);
+      }
+      commandOrTextString += "\n";
+    }
+    
     if (commandOrTextString.endsWith(":")) {
       // this is probably a request to change the mode
       for (int i = 0; i < modes.length; i++) {
@@ -953,6 +1038,7 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
       rememberButton3Selection(context);
       // this is an XML String, either normal XML content or an XML script
       xholonHelperService.pasteLastChild(context, commandOrTextString);
+      addToHistory(commandOrTextString);
       return null;
     }
     else if (commandOrTextString.charAt(0) == MODE_ESCAPE) {
@@ -976,6 +1062,7 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
         setTabHeader();
         //((JLabel)commandPaneLabel.getVal_Object()).setText(getXPath()
         //    .getExpression(context, app.getRoot(), false));
+        addToHistory(commandOrTextString);
       }
       return null;
     }
@@ -1064,6 +1151,7 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
       return doXholonConsoleCommandOrText(mode + commandOrTextString);
     }
     else {
+      addToHistory(commandOrTextString);
       if (sendMsgAsyncOrSync == SENDMESSAGE_ASYNC) {
         context.sendMessage(ISignal.SIGNAL_XHOLON_CONSOLE_REQ, commandOrTextString, this);
       }
@@ -1349,6 +1437,24 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
       nodeSelectionService
         .sendSyncMessage(NodeSelectionService.SIG_REMEMBER_BUTTON3_NODE_REQ, node, app);
     }
+  }
+  
+  /**
+   * Add an item to history.
+   * @param historyItem 
+   */
+  protected void addToHistory(String historyItem) {
+    if (historyQ.getSize() == historyQ.getMaxSize()) {
+      historyQ.dequeue();
+    }
+    historyQ.enqueue(historyItem);
+  }
+  
+  /**
+   * Limit the length of a string.
+   */
+  protected String limitLength(String str, int maxLen) {
+    return str.length() > 80 ? str.substring(0, 80) : str;
   }
   
 }

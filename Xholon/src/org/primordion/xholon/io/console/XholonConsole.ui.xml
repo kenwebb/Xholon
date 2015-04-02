@@ -31,6 +31,9 @@
        title="Replace console text with menu item text. Edit, and click Submit.">Special
         <!-- optionally add MenuBar and MenuItems at runtime -->
       </g:MenuItem>
+      <g:MenuItem ui:field="history">History
+        <!-- optionally add MenuBar and MenuItems at runtime -->
+      </g:MenuItem>
       <g:MenuItem>File
         <g:MenuBar vertical="true">
           <g:MenuItem ui:field="fileopen">Open</g:MenuItem>
@@ -52,6 +55,7 @@
           <g:MenuItem ui:field="modexpath">XPath</g:MenuItem>
           <g:MenuItem ui:field="modejs">JavaScript</g:MenuItem>
           <g:MenuItem ui:field="modeattr">Attribute</g:MenuItem>
+          <g:MenuItem ui:field="terminal">Toggle Terminal</g:MenuItem>
         </g:MenuBar>
       </g:MenuItem>
       <g:MenuItem>Help
