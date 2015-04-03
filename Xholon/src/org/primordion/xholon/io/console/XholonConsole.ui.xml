@@ -78,8 +78,7 @@
     <g:VerticalPanel>
       <g:ScrollPanel>
         <g:HTML ui:field="commandPane" styleName="{style.XhCons_commandPane}">
-          <!--<pre contentEditable="true" style="font-size:12px;"> </pre>-->
-          <textarea rows="4" style="width: 100%; height: 100%; border: 1px; font-size: 12px;"> </textarea>
+          <textarea ui:field="commandPaneTAE" rows="4" style="width: 100%; height: 100%; border: 1px; font-size: 12px;"> </textarea>
         </g:HTML>
       </g:ScrollPanel>
     </g:VerticalPanel>

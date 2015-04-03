@@ -19,10 +19,15 @@
 package org.primordion.xholon.io.console;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.TextAreaElement;
 //import com.google.gwt.event.dom.client.ClickEvent;
 //import com.google.gwt.event.dom.client.ClickHandler;
 //import com.google.gwt.safehtml.shared.SafeHtmlUtils;
+import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 //import com.google.gwt.uibinder.client.UiHandler;
@@ -33,9 +38,8 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 //import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.TextAreaElement;
 //import com.google.gwt.user.client.Element;
 
 import java.util.List;
@@ -115,6 +119,7 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
   //@UiField Button closeguiB;
   
   @UiField HTML commandPane;
+  @UiField TextAreaElement commandPaneTAE;
   
   /** Path and name of the Inheritance Hierarchy XML file. */
   //private String xmlIhFilePathAndName = "./config/console/XholonConsole_InheritanceHierarchy.xml";
@@ -427,6 +432,7 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
     setRoleName(context.getName());
     
     if (context.getXhc().hasAncestor("Avatar")) {
+      setTerminalEnabled(true);
       sendMsgAsyncOrSync = SENDMESSAGE_SYNC;
     }
     
@@ -488,6 +494,8 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
     }
     
     // History menu
+    // TODO History menu is only updated if I click on "History"
+    // TODO don't add duplicates to the historyQ
     history.setScheduledCommand(new Command() {
 	    @Override
       public void execute() {
@@ -636,34 +644,42 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
       }
     });
     
-    //submit.addClickHandler(new ClickHandler() {
+    // handle the submit MenuItem
     submit.setScheduledCommand(new Command() {
 	    @Override
-      //public void onClick(ClickEvent event) {
       public void execute() {
-        if (xholonHelperService == null) {
-          xholonHelperService = (XholonHelperService)app
-            .getService(IXholonService.XHSRV_XHOLON_HELPER);
-        }
-        String result = doXholonConsoleCommandOrText(getCommand());
-        if (result == null) {
-          result = "";
-        }
-        else {
-          setResult(result, false);
-        }
+        submit();
       }
     });
     
-    /*closeguiB.addClickHandler(new ClickHandler() {
-	    @Override
-      public void onClick(ClickEvent event) {
-        closeGui();
+    // TextArea  handle ENTER key
+    TextArea.wrap(commandPaneTAE).addKeyDownHandler(new KeyDownHandler() {
+      @Override
+      public void onKeyDown(KeyDownEvent event) {
+         if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
+            if (isTerminalEnabled()) {
+              submit();
+            }
+         }
       }
-    });*/
-    //closeguiB.setEnabled(false);
-    
-    //console = this;
+    });
+  }
+  
+  /**
+   * Submit a command for processing, and write out the result.
+   */
+  protected void submit() {
+    if (xholonHelperService == null) {
+      xholonHelperService = (XholonHelperService)app
+        .getService(IXholonService.XHSRV_XHOLON_HELPER);
+    }
+    String result = doXholonConsoleCommandOrText(getCommand());
+    if (result == null) {
+      result = "";
+    }
+    else {
+      setResult(result, false);
+    }
   }
   
   /*
@@ -678,17 +694,7 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
       
       // Submit Command or Text
       if ("submit".equals(msg.getData())) {
-        if (xholonHelperService == null) {
-          xholonHelperService = (XholonHelperService)app
-            .getService(IXholonService.XHSRV_XHOLON_HELPER);
-        }
-        String result = doXholonConsoleCommandOrText(getCommand());
-        if (result == null) {
-          result = "";
-        }
-        else {
-          setResult(result, false);
-        }
+        submit();
       }
       
       // Edit
@@ -1144,6 +1150,7 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
         if (dataObj != null) {
           setResult(dataObj.toString(), false);
         }
+        setTerminalEnabled(true);
       }
       return null;
     }
@@ -1161,7 +1168,11 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
         IMessage rmsg = context.sendSyncMessage(ISignal.SIGNAL_XHOLON_CONSOLE_REQ, commandOrTextString, this);
         Object dataObj = rmsg.getData();
         if (dataObj != null) {
-          setResult(dataObj.toString(), false);
+          String dataStr = dataObj.toString();
+          if (isTerminalEnabled() && (!dataStr.endsWith("\n"))) {
+            dataStr += "\n";
+          }
+          setResult(dataStr, false);
         }
         if (context.getParentNode() != contextParent) {
           // the context node has moved and has a new parent, so update the XholonConsole header with tooltip
@@ -1240,6 +1251,10 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
     }
     else {
       ta.setValue(ta.getValue() + result);
+    }
+    // optionally scroll to the bottom of the text area
+    if (isTerminalEnabled()) {
+      ta.setScrollTop(ta.getScrollHeight());
     }
   }
   
