@@ -1121,8 +1121,14 @@ public class Avatar extends XholonWithPorts {
     
     if (portName.startsWith("port")) {
       // port0 port1 etc.
-      int portNum = Misc.atoi(portName, 4);
-      goPort(portNum);
+      if ((portName.length() > 4) && (Misc.getNumericValue(portName.charAt(4)) != -1)) {
+        int portNum = Misc.atoi(portName, 4);
+        goPort(portNum);
+      }
+      else {
+        // ex: portx
+        sb.append("Can't go ").append(portName);
+      }
       return;
     }
     
@@ -1276,8 +1282,11 @@ public class Avatar extends XholonWithPorts {
    * @param node 
    */
   protected void moveto(IXholon node) {
-    if (node == null) {return;}
-    sb.append("Going to ").append(makeNodeName(node));
+    if (node == null) {
+      sb.append("Can't move to node null.");
+      return;
+    }
+    sb.append("Moving to ").append(makeNodeName(node));
     if (this.hasParentNode()) {
       this.removeChild();
       this.appendChild(node);
