@@ -19,6 +19,7 @@
 package org.primordion.xholon.base;
 
 import org.primordion.xholon.app.IApplication;
+import org.primordion.xholon.util.MiscRandom;
 
 /**
  * A chatbot (or chatterbot) can chat with a node in the Xholon tree.
@@ -27,10 +28,14 @@ import org.primordion.xholon.app.IApplication;
  * Typically it's invoked through a XholonConsole.
  * You can create a new Avatar by submitting "avatar" from a XholonConsole, while the app is running.
  * 
+ * TODO
+ * - handle eliza.getInitial(); at start of the chat
+ * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @see <a href="http://en.wikipedia.org/wiki/Chatterbot">wikipedia Chatterbot</a>
  * @see <a href="http://www.masswerk.at/elizabot/">elizabot</a>
+ * @see XholonWorkbook Chatterbots d47cc95ddbcbe4e0e7d6
  * @since 0.9.1 (Created on April 4, 2015)
  */
 public class Chatbot extends Xholon {
@@ -60,6 +65,42 @@ public class Chatbot extends Xholon {
    * A JavaScript object.
    */
   protected Object eliza = null;
+  
+  /**
+   * Probability of returning an app-specific response.
+   */
+  protected double appSpecificResponseProb = 0.2;
+  
+  /**
+   * Random app-specific responses to the user.
+   */
+  protected String[] rspnsList = {
+  "Would you like to discuss _ ?",
+  "Are you afraid of _ ?",
+  "Have you heard the latest rumors about _ ?",
+  "Is it true what they say about _ ?",
+  "Does _ make you queasy ?",
+  "Down at the pub they're whispering some surprising things about _.",
+  "There's information about _ at the museum.",
+  "I heard a song about _ on the radio.",
+  "There was a story about _ on the evening news.",
+  "The fortune teller says _ is in for hard times.",
+  "Have you told your friends about _ ?",
+  "There was an article about _ in the National Geographic.",
+  "There was an expose about _ in the National Enquirer.",
+  "I overheard someone talking about _.",
+  "Have you googled for _ ?",
+  "There was something online about _.",
+  "Are you writing a story about _ ?",
+  "Do you have a picture of _ ?",
+  "What does \"_\" rhyme with ?",
+  "What's the first letter in \"_\" ?",
+  "What or who or where is _ ?",
+  "Is _ a person, place, or thing ?",
+  "Why is _ important ?",
+  "Does talking about _ bother you ?",
+  "What's your opinion on _ ?"
+  };
   
   // constructor
   public Chatbot() {
@@ -183,13 +224,18 @@ public class Chatbot extends Xholon {
       break;
     default:
       if (eliza != null) {
-        sb.append(chat(eliza, cmd));
+        if (Math.random() < appSpecificResponseProb) {
+          sb.append(doAppSpecificResponse(cmd));
+        }
+        else {
+          sb.append(chat(eliza, cmd));
+        }
       }
       break;
     }
   }
   
-    /**
+  /**
    * Provide some minimal help to users.
    */
   protected void help() {
@@ -208,6 +254,29 @@ public class Chatbot extends Xholon {
     if (this.hasParentNode()) {
       this.removeChild();
     }
+  }
+  
+  /**
+   * Create a random app-specific response.
+   * Examples:
+   *  Have you been to Pemberley before?
+   *  Does that have anything to do with the X that you are carrying?
+   *  Are you afraid of going to X?
+   *  Have you heard the latest rumors about X?
+   * 
+   * @param cmd The user's command/comment/question.
+   */
+  protected String doAppSpecificResponse(String cmd) {
+    String cnName = contextNode.getRoleName();
+    if (cnName == null) {
+      cnName = "the " + contextNode.getXhcName();
+    }
+    //String rspns = "Would you like to discuss " + cnName + "?";
+    int r = MiscRandom.getRandomInt(0, rspnsList.length);
+    String str = rspnsList[r];
+    int pos = str.indexOf("_");
+    String rspns = str.substring(0, pos) + cnName + str.substring(pos+1);
+    return rspns;
   }
   
   /**
