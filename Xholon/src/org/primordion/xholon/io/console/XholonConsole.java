@@ -1154,6 +1154,25 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
       }
       return null;
     }
+    else if (commandOrTextString.equalsIgnoreCase("chatbot")) {
+      context.appendChild("Chatbot", null, "org.primordion.xholon.base.Chatbot");
+      IXholon chatbot = context.getLastChild();
+      if ((chatbot != null) && ("Chatbot".equals(chatbot.getXhcName()))) {
+        chatbot.postConfigure();
+        context = chatbot;
+        rememberButton3Selection(context);
+        setTabHeader();
+        sendMsgAsyncOrSync = SENDMESSAGE_SYNC;
+        context.sendSyncMessage(ISignal.SIGNAL_XHOLON_CONSOLE_REQ, "vanish", this);
+        IMessage rmsg = context.sendSyncMessage(ISignal.SIGNAL_XHOLON_CONSOLE_REQ, "help", this);
+        Object dataObj = rmsg.getData();
+        if (dataObj != null) {
+          setResult(dataObj.toString(), false);
+        }
+        setTerminalEnabled(true);
+      }
+      return null;
+    }
     else if (mode.length() > 1) {
       return doXholonConsoleCommandOrText(mode + commandOrTextString);
     }
