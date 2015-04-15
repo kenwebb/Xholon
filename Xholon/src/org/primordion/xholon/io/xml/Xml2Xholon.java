@@ -192,6 +192,8 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 									}
 									if (multiplicity == 0) {
 										// TODO should completely ignore this element and its entire subtree
+										// currently I remove this node and its subtree in case END_TAG
+										//consoleLog("multiplicity 0");
 									}
 								}
 								else {
@@ -220,6 +222,11 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 				if (multiplicity > 1) {
 					multiply(currentXholon, multiplicity - 1); // GWT
 					multiplicity = 1; // reset to its default value
+				}
+				else if (multiplicity == 0) {
+				  //consoleLog("removing " + currentXholon);
+				  currentXholon.removeChild();
+				  multiplicity = 1; // reset to its default value
 				}
 				
 				state = IXmlReader.END_TAG;
