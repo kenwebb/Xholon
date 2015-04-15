@@ -35,6 +35,7 @@ import org.primordion.xholon.common.mechanism.CeAttribute;
 import org.primordion.xholon.exception.XholonConfigurationException;
 import org.primordion.xholon.io.XholonWorkbook;
 //import org.primordion.xholon.proxy.AsmXholonBeanBuilder; // GWT
+import org.primordion.xholon.util.MiscRandom;
 
 /**
  * Transform XML into a Xholon sub-tree.
@@ -177,7 +178,18 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 									currentXholon.setUid(attrValue);
 								}
 								else if ("multiplicity".equals(attrName)) {
-									multiplicity = Integer.parseInt(attrValue);
+								  // handle multiplicity ranges m,n (0,1 0,13 2,3 1,5)
+								  String[] range = attrValue.split(",");
+								  if (range.length == 2) {
+  						      multiplicity = MiscRandom.getRandomInt(
+								      Integer.parseInt(range[0]),
+								      Integer.parseInt(range[1])+1
+								    );
+								    attrValue = String.valueOf(multiplicity);
+								  }
+								  else {
+									  multiplicity = Integer.parseInt(range[0]);
+									}
 									if (multiplicity == 0) {
 										// TODO should completely ignore this element and its entire subtree
 									}
