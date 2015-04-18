@@ -23,6 +23,7 @@ package org.primordion.xholon.io.xml;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import org.client.GwtEnvironment;
 
@@ -186,6 +187,13 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 								      Integer.parseInt(range[1])+1
 								    );
 								    attrValue = String.valueOf(multiplicity);
+								  }
+								  else if (range[0].startsWith(".") || range[0].startsWith("0.")) {
+								    // range[0] is the probability that this node will be created
+								    multiplicity = 0;
+								    if (MiscRandom.getRandomDouble(0.0, 1.0) < Double.parseDouble(range[0])) {
+								      multiplicity = 1;
+								    }
 								  }
 								  else {
 									  multiplicity = Integer.parseInt(range[0]);
