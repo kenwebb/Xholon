@@ -617,12 +617,15 @@ public class Avatar extends XholonWithPorts {
       }
       break;
     case "enter":
-      if (len > 1) {
-        enter(data[1]);
+      if (len == 1) {
+        enter(null);
       }
       else {
-        sb.append("Please specify which place to enter (ex: enter castle_32).");
+        enter(data[1]);
       }
+      //else {
+      //  sb.append("Please specify which place to enter (ex: enter castle_32).");
+      //}
       break;
     case "x":
     case "examine":
@@ -1003,7 +1006,13 @@ public class Avatar extends XholonWithPorts {
    * @param thing The Xholon name of the thing to move to.
    */
   protected void enter(String thing) {
-    IXholon node = findNode(thing, contextNode);
+    IXholon node = null;
+    if (thing == null) {
+      node = contextNode.getFirstChild();
+    }
+    else {
+      node = findNode(thing, contextNode);
+    }
     if (node != null) {
       if (isContainerOrSupporter(node)) {
         if (this.hasParentNode()) {
