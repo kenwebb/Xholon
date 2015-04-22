@@ -203,6 +203,14 @@ public class Avatar extends XholonWithPorts {
   
   protected IApplication app = null;
   
+  /**
+   * Whether or not to write changes to Meteor.
+   * "param meteor true|false"
+   */
+  protected boolean meteor = false;
+  
+  protected IXholon meteorService = null;
+  
   // constructor
   public Avatar() {}
   
@@ -281,6 +289,7 @@ public class Avatar extends XholonWithPorts {
     contextNode = this.getParentNode();
     app = this.getApp();
     xpath = this.getXPath();
+    meteorService = app.getService(IXholonService.XHSRV_METEOR_PLATFORM);
     if (this.getFirstChild() != null) {
       this.setVal_String(this.getFirstChild().getVal_String());
       this.outPrefix = this.getName(IXholon.GETNAME_ROLENAME_OR_CLASSNAME) + ": ";
@@ -875,6 +884,7 @@ public class Avatar extends XholonWithPorts {
    *    "this" signifies the avatar itself
    *  - it's difficult to change the XholonClass; I need to find the new XholonClass object
    *  - just do role for now
+   * TODO optionally write this change to Meteor
    * @param thing - The name of something (ex: "car"), or "this" to specify this avatar.
    * @param whatChanges - "role" or "type" (only "role" is currently implemented.
    * @param newRoleOrType - The new roleName for the thing.
@@ -939,11 +949,11 @@ public class Avatar extends XholonWithPorts {
         .pasteLastChild(contextNode, thing);
     
     // Meteor
-    IXholon meteorService = app.getService(IXholonService.XHSRV_METEOR_PLATFORM);
-    if (meteorService != null) {
-      consoleLog("Avatar found the meteor service");
+    //IXholon meteorService = app.getService(IXholonService.XHSRV_METEOR_PLATFORM);
+    if (meteor && (meteorService != null)) {
+      consoleLog("Avatar found the meteor service, and it's enabled");
       // send a SIG_SHOULD_WRITE_REQ message
-      meteorService.sendSyncMessage(-3896, true, this);
+      //meteorService.sendSyncMessage(-3896, true, this);
       // send a SIG_COLL_INSERT_REQ message
       meteorService.sendSyncMessage(-3897, thing, contextNode);
     }
@@ -996,6 +1006,7 @@ public class Avatar extends XholonWithPorts {
     else {
       sb.append("You're not carrying any such thing. You need to take it first.");
     }
+    // TODO optionally write this change to Meteor
   }
   
   /**
@@ -1007,6 +1018,7 @@ public class Avatar extends XholonWithPorts {
       IXholon sib = node.getNextSibling();
       node.removeChild();
       node = sib;
+      // TODO optionally write this change to Meteor
     }
     sb.append(response);
   }
@@ -1746,6 +1758,7 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
    * leaving behind the components of the thing (this is a flatten operation).
    * If the thing doesn't exist, or if it hasn't any parent or any children,
    * then no action will be taken.
+   * TODO optionally write this change to Meteor
    * @param thing The Xholon name of the thing to smash.
    */
   protected void smash(String thing) {
@@ -1921,6 +1934,13 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
           consoleLog("this browser does not support speech");
           speech = false;
         }
+      }
+      break;
+    case "meteor":
+      switch (value) {
+      case "true": meteor = true; break;
+      case "false": meteor = false; break;
+      default: break;
       }
       break;
     default:

@@ -162,6 +162,9 @@ public class XhChameleon extends XholonWithPorts implements CeChameleon {
 		switch(xhc.getId()) {
 		case ChameleonCE:
 			processMessageQ();
+			if (isExistsMeteor()) {
+			  processMeteorQ(null);
+			}
 			break;
 		default:
 			break;

@@ -1388,6 +1388,20 @@ public abstract void toXmlAttribute(IXholon2Xml xholon2xml, IXmlWriter xmlWriter
  */
 public abstract void toXmlText(IXholon2Xml xholon2xml, IXmlWriter xmlWriter);
 
+// Meteor
+
+/**
+ * Process new items from a Meteor collection.
+ * The Meteor collection acts like a queue.
+ * @param collName
+ */
+public abstract void processMeteorQ(String collName);
+
+/**
+ * Has the Meteor platform been loaded into the DOM?
+ */
+public abstract boolean isExistsMeteor();
+
 // the following are based on methods in the DOM Element class
 // designed primarily to handle dynamic/untyped attributes
 public abstract Object getAttributeXh(String name);

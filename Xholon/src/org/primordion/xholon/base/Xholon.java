@@ -3154,6 +3154,34 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
     }
 	}
 	
+	/**
+	 * Process new items from a Meteor collection.
+	 * The Meteor collection acts like a queue.
+	 * @param collName
+	 */
+	@Override
+	public void processMeteorQ(String collName) {
+	  IXholon meteorService = getService(IXholonService.XHSRV_METEOR_PLATFORM);
+	  if (meteorService != null) {
+      consoleLog("Xholon: processMeteorQ( " + collName);
+      //meteorService.sendSyncMessage(-3897, thing, contextNode);
+      meteorService.processMeteorQ(collName);
+    }
+	}
+	
+	/**
+   * Has the Meteor platform been loaded into the DOM?
+   */
+  @Override
+  public native boolean isExistsMeteor() /*-{
+    if ($wnd.Meteor) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }-*/;
+  
 	/*
 	 * @see java.lang.Object#toString()
 	 */
