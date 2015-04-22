@@ -284,6 +284,8 @@
 		implName="org.primordion.xholon.service.DefaultXholonService"/> <!--org.primordion.xholon.io.xquerygui.XQueryGui-->
 	<XholonInternalService xhType="XhtypePurePassiveObject"
     implName="org.primordion.xholon.service.DefaultXholonService"/> <!-- default if not otherwise specified -->
+	<MeteorPlatformService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.MeteorPlatformService"/>
 	<Xholon2Svg xhType="XhtypePurePassiveObject"
 		implName="org.primordion.xholon.io.Xholon2Svg"/>
 	

@@ -369,6 +369,7 @@ A typical service has:
 		<Xml2XholonService/>
 		<XPathService/>
 		<XQueryService/>
+		<MeteorPlatformService/>
 		
 		<!-- others, plus anything else in Xholon that can be a service -->
 		<Xholon2Svg/>

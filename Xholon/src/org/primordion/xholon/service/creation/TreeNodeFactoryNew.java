@@ -580,6 +580,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			else if (implName.endsWith("NoSqlService")) {
 				newNode = new org.primordion.xholon.service.NoSqlService();
 			}
+			else if (implName.endsWith("MeteorPlatformService")) {
+				newNode = new org.primordion.xholon.service.MeteorPlatformService();
+			}
 			else if (implName.endsWith("RestService")) {
 				//newNode = new org.primordion.xholon.service.RestService();
 			}

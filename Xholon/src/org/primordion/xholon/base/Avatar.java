@@ -937,6 +937,16 @@ public class Avatar extends XholonWithPorts {
     ((XholonHelperService)app
       .getService(IXholonService.XHSRV_XHOLON_HELPER))
         .pasteLastChild(contextNode, thing);
+    
+    // Meteor
+    IXholon meteorService = app.getService(IXholonService.XHSRV_METEOR_PLATFORM);
+    if (meteorService != null) {
+      consoleLog("Avatar found the meteor service");
+      // send a SIG_SHOULD_WRITE_REQ message
+      meteorService.sendSyncMessage(-3896, true, this);
+      // send a SIG_COLL_INSERT_REQ message
+      meteorService.sendSyncMessage(-3897, thing, contextNode);
+    }
   }
   
   /**

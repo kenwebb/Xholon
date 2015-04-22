@@ -151,6 +151,8 @@
     </XholonMap>
   </NoSqlService>
   
+  <MeteorPlatformService/>
+  
   <!--<RestService>
     <XholonMap>
       <attr:Attribute_String roleName="RestService-Jersey">org.primordion.xholon.service.rest.Jersey</attr:Attribute_String>
