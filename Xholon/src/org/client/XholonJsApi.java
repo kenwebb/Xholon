@@ -119,7 +119,9 @@ public class XholonJsApi {
    */
   public static native void exportTopLevelApi(IApplication app) /*-{
     
-  	$wnd.xh = {};
+    if (typeof $wnd.xh == "undefined") {
+  	  $wnd.xh = {};
+  	}
   	//xh = $wnd.xh; // make xh available from within Xholon; GWT already has a xh function
   	$wnd.xh.html = {};
   	$wnd.xh.css = {};

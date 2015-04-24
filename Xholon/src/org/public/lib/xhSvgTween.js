@@ -9,6 +9,10 @@
 //        xh.tween("#xhgraph", 5);
 //        xh.tween(null,2);
 
+if (typeof xh == "undefined") {
+  xh = {};
+}
+
 xh.tween = function(selection, duration, sortedArr1) {
   
   if (typeof d3 == "undefined") {return;}
