@@ -87,7 +87,7 @@ public class MeteorPlatformService extends AbstractXholonService {
   public IXholon getService(String serviceName)
   {
     if (serviceName.equals(getXhcName())) {
-      consoleLog("MeteorPlatformService");
+      //consoleLog("MeteorPlatformService");
       if (app == null) {
         app = this.getApp();
       }
@@ -213,14 +213,10 @@ public class MeteorPlatformService extends AbstractXholonService {
 	  if (collName == null) {collName = this.collName;}
 	  if (isShouldRead() && isExistsMeteor()) {
 	    int collLength = collLength(collName);
-	    consoleLog("MeteorPlatformService.processMeteorQ " + collLength);
-	    /*for (int i = indexNextRead; i < collLength; i++) {
-	      Object item = fetchItem(collName, i);
-	      consoleLog(item);
-	    }*/
+	    //consoleLog("MeteorPlatformService.processMeteorQ " + collLength);
 	    
 	    JsArray items = fetch(collName);
-	    consoleLog(items);
+	    //consoleLog(items);
 	    for (int i = indexNextRead; i < items.length(); i++) {
 	      JavaScriptObject item = items.get(i);
 	      // TODO check if item.sessionId == this.sessionId

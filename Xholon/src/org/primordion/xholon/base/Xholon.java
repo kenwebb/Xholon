@@ -3163,8 +3163,7 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 	public void processMeteorQ(String collName) {
 	  IXholon meteorService = getService(IXholonService.XHSRV_METEOR_PLATFORM);
 	  if (meteorService != null) {
-      consoleLog("Xholon: processMeteorQ( " + collName);
-      //meteorService.sendSyncMessage(-3897, thing, contextNode);
+      //consoleLog("Xholon: processMeteorQ( " + collName);
       meteorService.processMeteorQ(collName);
     }
 	}
