@@ -29,6 +29,8 @@ import org.primordion.xholon.base.ISignal;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXPath;
 import org.primordion.xholon.base.Message;
+import org.primordion.xholon.base.transferobject.IXholonPatch;
+import org.primordion.xholon.base.transferobject.XholonPatch;
 import org.primordion.xholon.service.XholonHelperService;
 
 /**
@@ -137,7 +139,7 @@ public class MeteorPlatformService extends AbstractXholonService {
       return new Message(SIG_METEOR_RESP, isShouldRead(), this, msg.getSender());
     case SIG_COLL_INSERT_REQ:
       if (isShouldWrite() && isExistsMeteor()) {
-        collInsert(msg.getSender(), (String)msg.getData());
+        collInsert(msg.getSender(), (String[])msg.getData());
       }
       return new Message(SIG_METEOR_RESP, null, this, msg.getSender());
     default:
@@ -150,10 +152,10 @@ public class MeteorPlatformService extends AbstractXholonService {
    * Insert something in a local Meteor collection (database).
    * Specify "add" "replace" "remove" as per RFC 5261
    * @param contextNode 
-   * @param data XML that should be inserted at contextNode, and edit action (ex: "pasteLastChild").
+   * @param data XML that should be inserted at contextNode, patch op (ex: "add"), edit action (ex: "append").
    */
-  protected void collInsert(IXholon contextNode, String data) {
-    consoleLog("starting collInsert " + data);
+  protected void collInsert(IXholon contextNode, String[] data) {
+    consoleLog("starting collInsert " + data.length);
     //consoleLog("contextNode " + contextNode);
     String xpathExpr = ".";
     if (contextNode != app.getRoot()) {
@@ -162,41 +164,89 @@ public class MeteorPlatformService extends AbstractXholonService {
     consoleLog("xpathExpr " + xpathExpr);
     if ((xpathExpr == null) || xpathExpr.length() == 0) {xpathExpr = ".";}
     //consoleLog("xpathExpr " + xpathExpr);
-    String[] str = data.split(",");
-    consoleLog(str);
+    //String[] str = data.split(",");
+    //consoleLog(str);
     String xmlStr = null;
-    String editAction = "pasteLastChild"; // default
-    String patchOp = "add"; // default
-    switch (str.length) {
+    String patchOp = IXholonPatch.PATCHOP_ADD; //"add"; // default
+    String editAction = IXholonPatch.POS_APPEND; //"append"; // default
+    switch (data.length) {
     case 1:
-      xmlStr = str[0];
+      xmlStr = data[0];
       break;
     case 2:
-      xmlStr = str[0];
-      patchOp = str[1];
+      xmlStr = data[0];
+      patchOp = data[1];
       break;
     case 3:
-      xmlStr = str[0];
-      patchOp = str[1];
-      editAction = str[2];
+      xmlStr = data[0];
+      patchOp = data[1];
+      editAction = data[2]; // this might be an attribute name if it's a addAttribute
       break;
     default:
       return;
     }
     
-    collInsert(patchOp, collName, xpathExpr, editAction, xmlStr, sessionId);
+    //collInsert(patchOp, collName, xpathExpr, editAction, xmlStr, sessionId);
+    // TODO handle attributes and text
+    XholonPatch xhp = new XholonPatch();
+    switch (patchOp) {
+    case IXholonPatch.PATCHOP_ADD:
+      switch (editAction) {
+      case IXholonPatch.POS_APPEND:
+        xhp.addElementAppend(xpathExpr, xmlStr);
+        break;
+      case IXholonPatch.POS_PREPEND:
+        xhp.addElementPrepend(xpathExpr, xmlStr);
+        break;
+      case IXholonPatch.POS_BEFORE:
+        xhp.addElementBefore(xpathExpr, xmlStr);
+        break;
+      case IXholonPatch.POS_AFTER:
+        xhp.addElementAfter(xpathExpr, xmlStr);
+        break;
+      default:
+        if (editAction.startsWith("@")) {
+          // editAction contains the type, which is the name of an attribute (ex: "@val")
+          xhp.addAttribute(xpathExpr, editAction, xmlStr);
+          break;
+        }
+        else {
+          return;
+        }
+      }
+      break;
+    case IXholonPatch.PATCHOP_REPLACE:
+      xhp.replaceElement(xpathExpr, xmlStr);
+      break;
+    case IXholonPatch.PATCHOP_REMOVE:
+      xhp.removeElement(xpathExpr);
+      break;
+    default:
+      break;
+    }
+    collInsert(xhp.getVal_Object(), collName, sessionId);
   }
   
   /**
    * Insert an item into a Meteor collection.
-   * Object {_id: "Z32o6Siws4h3u3Nik", op: "add", sel: "descendant::Hello", pos: "pasteLastChild", content: "<World roleName="Universe"/>"}
+   * Object {_id: "Z32o6Siws4h3u3Nik", op: "add", sel: "descendant::Hello", pos: "append", content: "<World roleName="Universe"/>"}
    */
-  protected native void collInsert(String patchOp, String collName, String sel, String pos, String xmlStr, String sessionId) /*-{
-    var obj = {};
-    obj.op = patchOp;
-    obj.sel = sel;
-    obj.pos = pos;
-    obj.content = xmlStr;
+//  protected native void collInsert(String patchOp, String collName, String sel, String pos, String xmlStr, String sessionId) /*-{
+//    var obj = {};
+//    obj.op = patchOp;
+//    obj.sel = sel;
+//    obj.pos = pos;
+//    obj.content = xmlStr;
+//    obj.sessionId = sessionId;
+//    $wnd.console.log(obj);
+//    $wnd[collName].insert(obj);
+//  }-*/;
+  
+  /**
+   * Insert an item into a Meteor collection.
+   * Object {_id: "Z32o6Siws4h3u3Nik", op: "add", sel: "descendant::Hello", pos: "append", content: "<World roleName="Universe"/>"}
+   */
+  protected native void collInsert(Object obj, String collName, String sessionId) /*-{
     obj.sessionId = sessionId;
     $wnd.console.log(obj);
     $wnd[collName].insert(obj);
@@ -205,77 +255,137 @@ public class MeteorPlatformService extends AbstractXholonService {
   /**
 	 * Process new items from a Meteor collection.
 	 * The Meteor collection acts like a queue.
-	 * TODO Don't process items that were already inserted by this app locally.
+	 * Don't process items that were already inserted by this app locally.
 	 * @param collName Name of the Meteor collection, or null (will use default name).
 	 */
 	@Override
 	public void processMeteorQ(String collName) {
 	  if (collName == null) {collName = this.collName;}
 	  if (isShouldRead() && isExistsMeteor()) {
-	    int collLength = collLength(collName);
-	    //consoleLog("MeteorPlatformService.processMeteorQ " + collLength);
-	    
 	    JsArray items = fetch(collName);
 	    //consoleLog(items);
 	    for (int i = indexNextRead; i < items.length(); i++) {
 	      JavaScriptObject item = items.get(i);
-	      // TODO check if item.sessionId == this.sessionId
 	      consoleLog(item);
-	      if (this.sessionId.equals(sessionId(item))) {
+	      XholonPatch xhp = new XholonPatch(item);
+	      if (this.sessionId.equals(xhp.getSessionId())) {
 	        consoleLog("this is a locally inserted item");
 	      }
 	      else {
 	        consoleLog("this is a remotely inserted item");
 	        
-	        // test
-	        String xmlStr = content(item);
-	        consoleLog(xmlStr);
-	        String sel = sel(item);
-	        consoleLog(sel);
+	        String op = xhp.getOp();
+	        consoleLog("op " + op);
+	        String xmlStr = xhp.getContent();
+	        consoleLog("xmlStr " + xmlStr);
+	        String sel = xhp.getSel();
+	        consoleLog("sel " + sel);
+	        String pos = xhp.getPos();
+	        consoleLog("pos " + pos);
+	        String type = xhp.getType();
+	        consoleLog("type " + type);
+	        /*if (!IXholonPatch.PATCHOP_ADD.equals(op)) {
+	          consoleLog("for now it has to be an add op");
+	          break;
+	        }*/
 	        IXholon cnode = xpath.evaluate(sel, app.getRoot());
-	        if ((xmlStr != null) && (cnode != null)) {
-	          consoleLog(cnode.getName());
-	          xholonHelperService.pasteLastChild(cnode, xmlStr);
-	        }
-	      }
-	    }
+	        
+	        switch (op) {
+          case IXholonPatch.PATCHOP_ADD:
+	          if ((xmlStr != null) && (cnode != null)) {
+	            consoleLog(cnode.getName());
+	            switch (pos) {
+              case "prepend":
+                xholonHelperService.pasteFirstChild(cnode, xmlStr);
+                break;
+              case "before":
+                xholonHelperService.pasteBefore(cnode, xmlStr);
+                break;
+              case "after":
+                xholonHelperService.pasteAfter(cnode, xmlStr);
+                break;
+              case "append":
+                xholonHelperService.pasteLastChild(cnode, xmlStr);
+                break;
+              default:
+                if ((type != null) && (type.startsWith("@"))) {
+                  if ("@role".equals(type)) {
+                    cnode.setRoleName(xmlStr);
+                  }
+                  else if ("@val".equals(type)) {
+                    cnode.setVal(Double.parseDouble(xmlStr));
+                  }
+                  else if ("@str".equals(type)) {
+                    cnode.setVal_String(xmlStr);
+                  }
+                  else {
+                    setAttributeValNative(cnode, type.substring(1), xmlStr);
+                  }
+                }
+                else {
+                  xholonHelperService.pasteLastChild(cnode, xmlStr);
+                }
+                break;
+              } // end switch(pos)
+	          } // end if
+	          break;
+	        case IXholonPatch.PATCHOP_REPLACE:
+	          
+	          break;
+	        case IXholonPatch.PATCHOP_REMOVE:
+	          if (cnode != null) {
+	            cnode.removeChild();
+	          }
+	          break;
+	        default:
+	          break;
+	        } // end switch(patchOp)
+	      } // end else
+	    } // end for
 	    
-	    indexNextRead = collLength;
-	  }
-	}
+	    indexNextRead = items.length();
+	  } // end if
+	} // end processMeteorQ()
 	
-	protected native int collLength(String collName) /*-{
-	  return $wnd[collName].find().fetch().length;
+	protected native void setAttributeValNative(IXholon node, String attrName, Object attrValue) /*-{
+	  node[attrName] = attrValue;
 	}-*/;
+	
+	//protected native int collLength(String collName) /*-{
+	//  return $wnd[collName].find().fetch().length;
+	//}-*/;
 	
 	protected native JsArray fetch(String collName) /*-{
 	  return $wnd[collName].find().fetch();
 	}-*/;
 	
-	protected native Object fetchItem(String collName, int itemIndex) /*-{
-	  return $wnd[collName].find().fetch()[itemIndex];
-	}-*/;
+	//protected native Object fetchItem(String collName, int itemIndex) /*-{
+	//  return $wnd[collName].find().fetch()[itemIndex];
+	//}-*/;
 	
-	protected native String op(JavaScriptObject item) /*-{
-	  return item.op;
-	}-*/;
+	//protected native String op(JavaScriptObject item) /*-{
+	//  return item.op;
+	//}-*/;
 	
-	protected native String sel(JavaScriptObject item) /*-{
-	  return item.sel;
-	}-*/;
+	//protected native String sel(JavaScriptObject item) /*-{
+	//  return item.sel;
+	//}-*/;
 	
-	protected native String pos(JavaScriptObject item) /*-{
-	  return item.pos;
-	}-*/;
+	//protected native String pos(JavaScriptObject item) /*-{
+	//  return item.pos;
+	//}-*/;
 	
-	protected native String content(JavaScriptObject item) /*-{
-	  return item.content;
-	}-*/;
+	//protected native String content(JavaScriptObject item) /*-{
+	//  return item.content;
+	//}-*/;
 	
-	protected native String sessionId(JavaScriptObject item) /*-{
-	  return item.sessionId;
-	}-*/;
+	//protected native String sessionId(JavaScriptObject item) /*-{
+	//  return item.sessionId;
+	//}-*/;
 	
+	/**
+	 * Make and return a session ID.
+	 */
 	protected native String makeSessionId() /*-{
 	  if ($wnd.Meteor) {
 	    return $wnd.Meteor.uuid();

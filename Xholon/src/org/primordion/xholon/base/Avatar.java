@@ -598,14 +598,22 @@ public class Avatar extends XholonWithPorts {
       breakpoint();
       break;
     case "build": // make
+    case "append": // = build
+    case "prepend":
+    case "before":
+    case "after":
       if (len == 2) {
-        build(data[1], null, null);
+        build(data[1], null, null, data[0]);
       }
       else if (len == 4) {
-        build(data[1], data[2], data[3]);
+        build(data[1], data[2], data[3], data[0]);
       }
       else {
-        sb.append("Please specify something to build (ex: build Car).");
+        sb.append("Please specify something to ")
+        .append(data[0])
+        .append(" (ex: ")
+        .append(data[0])
+        .append(" Car).");
       }
       break;
     case "drop": // leave discard
@@ -912,6 +920,7 @@ public class Avatar extends XholonWithPorts {
       }
       else if ("type".equals(whatChanges)) {
         sb.append("become X type Y  is not yet implemented");
+        return;
       }
       else {
         //boolean rc = 
@@ -919,6 +928,10 @@ public class Avatar extends XholonWithPorts {
         //if (!rc) {
         //  sb.append("Please specify either role or type (ex: become Robert role Bob)");
         //}
+      }
+      if (meteor && (meteorService != null)) {
+        String[] data = {newValue, "add", "@" + whatChanges};
+        meteorService.sendSyncMessage(-3897, data, node);
       }
     }
   }
@@ -932,8 +945,10 @@ public class Avatar extends XholonWithPorts {
    * @param thing The name of something (ex: "Car"), or an XML string (ex "<Car><Driver/></Car>");
    * @param ignore Optional string "role"
    * @param roleName Optional roleName for the thing
+   * @param pos Desired position of the new thing relative to the context node
+   *   ("append" "prepend" "before" "after")
    */
-  protected void build(String thing, String ignore, String roleName) {
+  protected void build(String thing, String ignore, String roleName, String pos) {
     thing = thing.trim();
     if (!thing.startsWith("<")) {
       if (roleName == null) {
@@ -944,9 +959,27 @@ public class Avatar extends XholonWithPorts {
       }
     }
     //rememberButton3Selection(context); // XholonConsole.java has this
-    ((XholonHelperService)app
+    XholonHelperService xhs = (XholonHelperService)app.getService(IXholonService.XHSRV_XHOLON_HELPER);
+    switch (pos) {
+    case "prepend":
+      xhs.pasteFirstChild(contextNode, thing);
+      break;
+    case "before":
+      xhs.pasteBefore(contextNode, thing);
+      break;
+    case "after":
+      xhs.pasteAfter(contextNode, thing);
+      break;
+    case "append":
+    case "build":
+    default:
+      xhs.pasteLastChild(contextNode, thing);
+      pos = "append"; // meteor doesn't know about "build"
+      break;
+    }
+    /*((XholonHelperService)app
       .getService(IXholonService.XHSRV_XHOLON_HELPER))
-        .pasteLastChild(contextNode, thing);
+        .pasteLastChild(contextNode, thing);*/
     
     // Meteor
     //IXholon meteorService = app.getService(IXholonService.XHSRV_METEOR_PLATFORM);
@@ -955,7 +988,9 @@ public class Avatar extends XholonWithPorts {
       // send a SIG_SHOULD_WRITE_REQ message
       //meteorService.sendSyncMessage(-3896, true, this);
       // send a SIG_COLL_INSERT_REQ message
-      meteorService.sendSyncMessage(-3897, thing, contextNode);
+      // TODO pass the pos
+      String[] data = {thing, "add", pos};
+      meteorService.sendSyncMessage(-3897, data, contextNode);
     }
   }
   
@@ -1000,13 +1035,17 @@ public class Avatar extends XholonWithPorts {
   protected void eat(String thing, String response) {
     IXholon node = findNode(thing, this);
     if (node != null) {
+      // optionally write this change to Meteor
+      if (meteor && (meteorService != null)) {
+        String[] data = {null, "remove"};
+        meteorService.sendSyncMessage(-3897, data, node);
+      }
       node.removeChild();
       sb.append(response);
     }
     else {
       sb.append("You're not carrying any such thing. You need to take it first.");
     }
-    // TODO optionally write this change to Meteor
   }
   
   /**
@@ -1015,10 +1054,14 @@ public class Avatar extends XholonWithPorts {
   protected void eatAll(String response) {
     IXholon node = this.getFirstChild();
     while (node != null) {
+      // optionally write this change to Meteor
+      if (meteor && (meteorService != null)) {
+        String[] data = {null, "remove"};
+        meteorService.sendSyncMessage(-3897, data, node);
+      }
       IXholon sib = node.getNextSibling();
       node.removeChild();
       node = sib;
-      // TODO optionally write this change to Meteor
     }
     sb.append(response);
   }
@@ -1333,7 +1376,7 @@ public class Avatar extends XholonWithPorts {
     .append("Basic commands:")
     .append("\nappear")
     .append("\nbecome thing role|type newRoleOrTypeName")
-    .append("\nbuild thing [role roleName]")
+    .append("\nbuild|append|prepend|before|after thing [role roleName]")
     .append("\ndrop [thing]")
     .append("\neat|unbuild thing")
     .append("\nenter [*]thing")
