@@ -221,6 +221,26 @@ public class MeteorPlatformService extends AbstractXholonService {
     case IXholonPatch.PATCHOP_REMOVE:
       xhp.removeElement(xpathExpr);
       break;
+    case IXholonPatch.PATCHOP_MOVE:
+      // source target
+      consoleLog("meteor move " + editAction + " " + xpathExpr + " " + xmlStr);
+      switch (editAction) {
+      case IXholonPatch.POS_APPEND:
+        xhp.moveElementAppend(xpathExpr, xmlStr);
+        break;
+      case IXholonPatch.POS_PREPEND:
+        xhp.moveElementPrepend(xpathExpr, xmlStr);
+        break;
+      case IXholonPatch.POS_BEFORE:
+        xhp.moveElementBefore(xpathExpr, xmlStr);
+        break;
+      case IXholonPatch.POS_AFTER:
+        xhp.moveElementAfter(xpathExpr, xmlStr);
+        break;
+      default:
+        break;
+      }
+      break;
     default:
       break;
     }
@@ -284,14 +304,15 @@ public class MeteorPlatformService extends AbstractXholonService {
 	        consoleLog("pos " + pos);
 	        String type = xhp.getType();
 	        consoleLog("type " + type);
-	        /*if (!IXholonPatch.PATCHOP_ADD.equals(op)) {
-	          consoleLog("for now it has to be an add op");
-	          break;
-	        }*/
-	        IXholon cnode = xpath.evaluate(sel, app.getRoot());
+	        String source = xhp.getSource();
+	        consoleLog("source " + source);
+	        String target = xhp.getTarget();
+	        consoleLog("target " + target);
+	        IXholon cnode = null; //xpath.evaluate(sel, app.getRoot());
 	        
 	        switch (op) {
           case IXholonPatch.PATCHOP_ADD:
+            cnode = xpath.evaluate(sel, app.getRoot());
 	          if ((xmlStr != null) && (cnode != null)) {
 	            consoleLog(cnode.getName());
 	            switch (pos) {
@@ -330,11 +351,27 @@ public class MeteorPlatformService extends AbstractXholonService {
 	          } // end if
 	          break;
 	        case IXholonPatch.PATCHOP_REPLACE:
-	          
+	          // TODO
+	          //cnode = xpath.evaluate(sel, app.getRoot());
 	          break;
 	        case IXholonPatch.PATCHOP_REMOVE:
+	          cnode = xpath.evaluate(sel, app.getRoot());
 	          if (cnode != null) {
 	            cnode.removeChild();
+	          }
+	          break;
+	        case IXholonPatch.PATCHOP_MOVE:
+	          consoleLog("TODO move");
+	          cnode = xpath.evaluate(source, app.getRoot());
+	          if (cnode != null) {
+	            consoleLog("TODO move " + cnode.getName());
+	            IXholon tnode = xpath.evaluate(target, app.getRoot());
+  	          // TODO
+  	          if (tnode != null) {
+  	            consoleLog("TODO move " + tnode.getName());
+	              cnode.removeChild();
+	              cnode.appendChild(tnode);
+	            }
 	          }
 	          break;
 	        default:

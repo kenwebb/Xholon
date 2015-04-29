@@ -32,6 +32,7 @@ public interface IXholonPatch extends IXholon {
   
   // Patch Operations (op)
   public static final String PATCHOP_ADD     = "add";
+  public static final String PATCHOP_MOVE    = "move"; // not part of RFC 5261
   public static final String PATCHOP_REPLACE = "replace";
   public static final String PATCHOP_REMOVE  = "remove";
   

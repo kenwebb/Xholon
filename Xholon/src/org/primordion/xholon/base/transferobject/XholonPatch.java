@@ -208,6 +208,33 @@ public class XholonPatch extends Xholon implements IXholonPatch {
     setSel(sel);
   }
   
+  public void moveElementAppend(String source, String target) {
+    moveElement(source, target, POS_APPEND);
+  }
+  
+  public void moveElementPrepend(String source, String target) {
+    moveElement(source, target, POS_PREPEND);
+  }
+  
+  public void moveElementBefore(String source, String target) {
+    moveElement(source, target, POS_BEFORE);
+  }
+  
+  public void moveElementAfter(String source, String target) {
+    moveElement(source, target, POS_AFTER);
+  }
+  
+  /**
+   * Move an element, from a source to a target.
+   */
+  protected void moveElement(String source, String target, String pos) {
+    makePatch();
+    setOp(PATCHOP_MOVE);
+    setSource(source);
+    setTarget(target);
+    setPos(pos);
+  }
+  
   /** op */
   public native String getOp() /*-{return this.patch.op;}-*/;
   public native void setOp(String op) /*-{this.patch.op = op;}-*/;
@@ -224,9 +251,17 @@ public class XholonPatch extends Xholon implements IXholonPatch {
   public native String getContent() /*-{return this.patch.content;}-*/;
   public native void setContent(String content) /*-{this.patch.content = content;}-*/;
   
-  /** type */
+  /** type (used with addAttribute) */
   public native String getType() /*-{return this.patch.type;}-*/;
   public native void setType(String type) /*-{this.patch.type = type;}-*/;
+  
+  /** source (used with moveElement) */
+  public native String getSource() /*-{return this.patch.source;}-*/;
+  public native void setSource(String source) /*-{this.patch.source = source;}-*/;
+  
+  /** target (used with moveElement) */
+  public native String getTarget() /*-{return this.patch.target;}-*/;
+  public native void setTarget(String target) /*-{this.patch.target = target;}-*/;
   
   /** _id  the Meteor platform adds an internal id to each item in a Meteor collection */
   public native String get_id() /*-{return this.patch._id;}-*/;

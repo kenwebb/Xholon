@@ -209,6 +209,12 @@ public class Avatar extends XholonWithPorts {
    */
   protected boolean meteor = false;
   
+  /**
+   * Whether or not to write "move" changes to Meteor.
+   * "param meteormove true|false"
+   */
+  protected boolean meteormove = false;
+  
   protected IXholon meteorService = null;
   
   // constructor
@@ -1080,12 +1086,13 @@ public class Avatar extends XholonWithPorts {
     }
     if (node != null) {
       if (isContainerOrSupporter(node)) {
-        if (this.hasParentNode()) {
+        /*if (this.hasParentNode()) {
           this.removeChild();
           this.appendChild(node);
         }
         contextNode = node;
-        sb.append("Entered ").append(makeNodeName(node));
+        sb.append("Entered ").append(makeNodeName(node));*/
+        moveto(node, "Entered");
       }
     }
     else {
@@ -1146,12 +1153,13 @@ public class Avatar extends XholonWithPorts {
       node = xpath.evaluate("ancestor::" + ancestor, contextNode);
     }
     if (node != null) {
-      if (this.hasParentNode()) {
+      /*if (this.hasParentNode()) {
         this.removeChild();
         this.appendChild(node);
       }
       contextNode = node;
-      sb.append("Exited to ").append(makeNodeName(node));
+      sb.append("Exited to ").append(makeNodeName(node));*/
+      moveto(node, "Exited to");
     }
     else {
       sb.append("Can't exit from ").append(makeNodeName(contextNode));
@@ -1209,7 +1217,7 @@ public class Avatar extends XholonWithPorts {
     else if (portName.startsWith("xpath")) {
       IXholon node = evalXPathCmdArg(portName, contextNode);
       if (node != null) {
-        moveto(node);
+        moveto(node, null);
       }
       else {
         sb.append("Can't go " + portName + ". ");
@@ -1227,7 +1235,7 @@ public class Avatar extends XholonWithPorts {
         PortInformation pi = (PortInformation)portArr[i];
         String foundPortName = pi.getFieldName();
         if (foundPortName.startsWith(portName)) {
-          moveto(pi.getReffedNode());
+          moveto(pi.getReffedNode(), null);
           return;
         }
         else {
@@ -1248,7 +1256,7 @@ public class Avatar extends XholonWithPorts {
    * go port
    */
   protected void goPort(int index) {
-    moveto(contextNode.getPort(index));
+    moveto(contextNode.getPort(index), null);
   }
   
   /**
@@ -1258,13 +1266,13 @@ public class Avatar extends XholonWithPorts {
     IXholon node = contextNode.getNextSibling();
     if (node == null) {
       if (loop) {
-        moveto(contextNode.getFirstSibling());
+        moveto(contextNode.getFirstSibling(), null);
       }
       else {
         sb.append("Can't go next.");
       }
     }
-    else {moveto(node);}
+    else {moveto(node, null);}
   }
   
   /**
@@ -1294,7 +1302,7 @@ public class Avatar extends XholonWithPorts {
       }
     }
     if (node != null) {
-      moveto(node);
+      moveto(node, null);
     }
     else {
       sb.append("Can't find next " + nextTarget);
@@ -1308,13 +1316,13 @@ public class Avatar extends XholonWithPorts {
     IXholon node = contextNode.getPreviousSibling();
     if (node == null) {
       if (loop) {
-        moveto(contextNode.getLastSibling());
+        moveto(contextNode.getLastSibling(), null);
       }
       else {
         sb.append("Can't go prev.");
       }
     }
-    else {moveto(node);}
+    else {moveto(node, null);}
   }
   
   /**
@@ -1344,7 +1352,7 @@ public class Avatar extends XholonWithPorts {
       }
     }
     if (node != null) {
-      moveto(node);
+      moveto(node, null);
     }
     else {
       sb.append("Can't find prev " + prevTarget);
@@ -1353,15 +1361,33 @@ public class Avatar extends XholonWithPorts {
   
   /**
    * Move to a specified node.
+   * TODO add a new input arg: absRel
    * @param node 
+   * @param sbText The first part of the text to write out if the move is successful.
+   *   if this is null, then use the default
+   *   ex: "Moving to" (default) "Exited to" "Entered"
+   * @param absRel whether target xpath is absolute or relative
+   *   if this is null, then use the default which is "absolute"
+   *   ex: null "exit" "enter" "next" "prev"
+   *   "exit"  ".." "./ancestor::NODENAME"
+   *   "enter" "./NODENAME"
+   *   "next"  "./following-sibling::*" "./following-sibling::NODENAME"
+   *   "prev"  "./preceding-sibling::*" "./preceding-sibling::NODENAME"
    */
-  protected void moveto(IXholon node) {
+  protected void moveto(IXholon node, String sbText) {
     if (node == null) {
       sb.append("Can't move to node null.");
       return;
     }
-    sb.append("Moving to ").append(makeNodeName(node));
+    sb.append(sbText == null ? "Moving to " : sbText + " ").append(makeNodeName(node));
     if (this.hasParentNode()) {
+      if (meteormove && (meteorService != null)) {
+        String targetXpathExpr = xpath.getExpression(app.getRoot(), node);
+        if (targetXpathExpr != null) {
+          String[] data = {targetXpathExpr, "move", "append"};
+          meteorService.sendSyncMessage(-3897, data, this);
+        }
+      }
       this.removeChild();
       this.appendChild(node);
     }
@@ -1983,6 +2009,20 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
       switch (value) {
       case "true": meteor = true; break;
       case "false": meteor = false; break;
+      default: break;
+      }
+      break;
+    case "meteormove":
+      switch (value) {
+      case "true": meteormove = true; break;
+      case "false": meteormove = false; break;
+      default: break;
+      }
+      break;
+    case "meteor+move": // this is a shortcut
+      switch (value) {
+      case "true": meteor = true; meteormove = true; break;
+      case "false": meteor = false; meteormove = false; break;
       default: break;
       }
       break;
