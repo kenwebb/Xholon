@@ -47,6 +47,13 @@ public class Xholon2D3HierarchyJSON {
 	 */
 	private boolean useSymbols = false;
 	
+	/**
+	 * Whether or not to check for and use icons.
+	 * Checking for icons when none have been specified is an expensive operation.
+	 * Also, sometimes icons may have been specified, but they shouldn't be used.
+	 */
+	private boolean useIcons = false;
+	
 	/** Whether to include "xhclass" in JSON output. */
 	private boolean includeClass = false;
 	
@@ -162,6 +169,7 @@ public class Xholon2D3HierarchyJSON {
 	  IXholonClass xhc = node.getXhc();
 	  String color = null;
 	  String symbol = null;
+	  String icon = null;
 	  if (xhc == null) {
 	    // this is a IH node, or the app node
 	    if ("Application".equals(node.getName())) {
@@ -178,6 +186,12 @@ public class Xholon2D3HierarchyJSON {
 		        symbol = getSymbol((IDecoration)((IXholonClass)node).getMechanism());
 		      }
 		    }
+		    if (useIcons) {
+		      icon = getIcon((IDecoration)node);
+	        if (icon == null) {
+		        icon = getIcon((IDecoration)((IXholonClass)node).getMechanism());
+		      }
+		    }
 		  }
 	  }
 	  else {
@@ -186,6 +200,9 @@ public class Xholon2D3HierarchyJSON {
 	      color = getColor((IDecoration)node);
 	      if (useSymbols) {
 	        symbol = getSymbol((IDecoration)node);
+	      }
+	      if (useIcons) {
+	        icon = getIcon((IDecoration)node);
 	      }
 	    }
 	    else {
@@ -198,6 +215,12 @@ public class Xholon2D3HierarchyJSON {
 		      symbol = getSymbol((IDecoration)xhc);
 	        if (symbol == null) {
 		        symbol = getSymbol((IDecoration)xhc.getMechanism());
+		      }
+		    }
+		    if (useIcons) {
+		      icon = getIcon((IDecoration)xhc);
+	        if (icon == null) {
+		        icon = getIcon((IDecoration)xhc.getMechanism());
 		      }
 		    }
 		  }
@@ -219,6 +242,12 @@ public class Xholon2D3HierarchyJSON {
       sbd
       .append("\"symbol\": \"")
       .append(symbol)
+      .append("\", ");
+    }
+    if (icon != null) {
+      sbd
+      .append("\"icon\": \"")
+      .append(icon)
       .append("\", ");
     }
 	  return sbd.toString();
@@ -278,6 +307,25 @@ public class Xholon2D3HierarchyJSON {
 		return symbol;
 	}
 	
+	/**
+	 * Get the optional icon for a node.
+	 * @param node
+	 * @return An icon URL String (ex: "abc.png" "abc.svg"), or null.
+	 */
+	protected String getIcon(IDecoration node) {
+	  String icon = ((IDecoration)node).getIcon();
+		if (icon == null) {
+			if (node instanceof IXholonClass) {
+				IXholon p = ((IXholonClass)node).getParentNode();
+				if ((p != null) && (p instanceof IXholonClass)) {
+					// try to get a color from the parent class
+					return getIcon((IDecoration)p);
+				}
+			}
+		}
+		return icon;
+	}
+	
 	// shouldShowStateMachineEntities
 	public boolean isShouldShowStateMachineEntities() {
 	  return shouldShowStateMachineEntities;
@@ -316,6 +364,10 @@ public class Xholon2D3HierarchyJSON {
 	// useSymbols
 	public boolean isUseSymbols() {return useSymbols;}
 	public void setUseSymbols(boolean useSymbols) {this.useSymbols = useSymbols;}
+	
+	// useIcons
+	public boolean isUseIcons() {return useIcons;}
+	public void setUseIcons(boolean useIcons) {this.useIcons = useIcons;}
 	
 	// includeClass
 	public boolean isIncludeClass() {return includeClass;}

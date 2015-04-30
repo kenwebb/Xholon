@@ -63,6 +63,7 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
 	  xholon2json.setInsertDummyData(isInsertDummyData());
 	  xholon2json.setIncludeClass(isIncludeClass());
 	  xholon2json.setUseSymbols(isUseSymbols());
+	  xholon2json.setUseIcons(isUseIcons());
 	  xholon2json.writeAll();
 	  String jsonStr = xholon2json.getJsonStr();
 	  int numNodes = xholon2json.getNumNodes();
@@ -126,6 +127,7 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
     p.includeClass = false;
     p.shape = "circle"; // "ellipse", "rect"
     p.maxSvg = 50; // max allowable number of SVG subtrees, to prevent running out of memory
+    p.useIcons = false;
     p.useSymbols = false;
     p.maxChars = 1;
     p.marble = ''; // '{"type":"default","maxChars":4}'
@@ -165,5 +167,8 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
   
   public native boolean isUseSymbols() /*-{return this.efParams.useSymbols;}-*/;
   //public native void setUseSymbols(boolean useSymbols) /*-{this.efParams.useSymbols = useSymbols;}-*/;
+  
+  public native boolean isUseIcons() /*-{return this.efParams.useIcons;}-*/;
+  //public native void setUseIcons(boolean useIcons) /*-{this.efParams.useIcons = useIcons;}-*/;
   
 }

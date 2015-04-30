@@ -2,9 +2,12 @@ package org.primordion.xholon.io;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.EventListener;
+
+import org.client.RCImages;
 
 import org.primordion.xholon.app.Application;
 import org.primordion.xholon.app.IApplication;
@@ -155,6 +158,17 @@ public class Xholon2D3CirclePack implements EventListener {
   public static Object[] searchForReferencingNodes(IXholon node) {
     return node.searchForReferencingNodes().toArray();
   }
+  
+  /**
+   * Get a named system image, as defined in the Xholon RCImages class.
+   * @param The name of an image (ex: "Control_control_play_blue").
+   * @return A data URL, or null.
+   */
+  protected static String rcImages(String resourceName) {
+    ImageResource ir = (ImageResource)RCImages.INSTANCE.getResource(resourceName);
+    if (ir == null) {return null;}
+	  return ir.getSafeUri().asString();
+	}
 	
 	/**
 	 * Create a D3 Pack Layout from the JSON data.
@@ -169,6 +183,7 @@ public class Xholon2D3CirclePack implements EventListener {
 	 * @param gui 
 	 */
 	protected native void createD3(JavaScriptObject json, JavaScriptObject efParams, int width, int height, Object selection, IXholonGui gui) /*-{
+	  $wnd.console.log(json);
 	  var w = width,
     h = height,
     format = $wnd.d3.format(",d"),
@@ -181,7 +196,8 @@ public class Xholon2D3CirclePack implements EventListener {
     maxSvg = 50, // max allowable number of SVG subtrees, to prevent running out of memory
     maxChars = 1, // max allowable number of chars in the standard text
     marble = "", // alternative content, in place of the standard text
-    supportTouch = false;
+    supportTouch = false,
+    useIcons = false;
     
     if (efParams) {
       sort = efParams.sort;
@@ -200,6 +216,7 @@ public class Xholon2D3CirclePack implements EventListener {
       if (efParams.height != -1) {h = efParams.height;}
       if (efParams.selection) {selection = efParams.selection;}
       supportTouch = efParams.supportTouch;
+      useIcons = efParams.useIcons;
     }
     
     var pack = $wnd.d3.layout.pack()
@@ -329,7 +346,9 @@ public class Xholon2D3CirclePack implements EventListener {
     }
     
     node.filter(function(d) {
+      //$wnd.console.log(d);
       if (d.dummy) {return false;}
+      if (d.icon) {return false;}
       // display centered containers, only when they are symbols
       if (labelContainersOptions == "center" && d.symbol) {return true;}
       return !d.children; // || (labelContainersOptions == "center");
@@ -351,6 +370,26 @@ public class Xholon2D3CirclePack implements EventListener {
         }
         return dname;
       });
+    
+    // icons
+    // TODO provide size options "ouside"(default) "inside"(bounding box) "image"(original image size) "MxN"
+    if (useIcons) {
+      node.filter(function(d) {
+        return d.icon;
+      }).append("image")
+        .attr("xlink:href", function(d) {
+          var dicon = d.icon;
+          if (dicon.substring(0,7) == "system:") {
+            dicon = dicon.substring(7);
+            dicon = @org.primordion.xholon.io.Xholon2D3CirclePack::rcImages(Ljava/lang/String;)(dicon);
+          }
+          return dicon;
+        })
+        .attr("x", function(d) {return d.r * (-1);}) // -8)
+        .attr("y", function(d) {return d.r * (-1);}) // -8)
+        .attr("width", function(d) {return d.r * 2;}) // 16)
+        .attr("height", function(d) {return d.r * 2;}) //16);
+    }
     
     if (marble) {
       // this is for marble.type == "default"; there may also be other marble types

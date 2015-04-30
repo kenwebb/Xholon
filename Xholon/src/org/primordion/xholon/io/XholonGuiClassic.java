@@ -522,10 +522,12 @@ public class XholonGuiClassic extends AbstractXholonGui { //DockPanel {
 	 * @return A GWT image specific to that xhcNode, or the default GWT image.
 	 */
 	protected Image getImageIcon(IDecoration node) {
-		Image icon = null;
+	  Image icon = null;
 		String iconFileName = ((IDecoration)node).getIcon();
-	  if (iconFileName != null) {
-			icon = rcImages(iconFileName.substring(7, iconFileName.length() - 4).replace("/", "_"));
+		if (iconFileName != null) {
+	    if (iconFileName.startsWith("images/")) {
+			  icon = rcImages(iconFileName.substring(7, iconFileName.length() - 4).replace("/", "_"));
+			}
 		}
 		else {
 			if (node instanceof IXholonClass) {
