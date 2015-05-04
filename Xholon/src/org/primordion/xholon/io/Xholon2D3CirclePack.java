@@ -183,7 +183,6 @@ public class Xholon2D3CirclePack implements EventListener {
 	 * @param gui 
 	 */
 	protected native void createD3(JavaScriptObject json, JavaScriptObject efParams, int width, int height, Object selection, IXholonGui gui) /*-{
-	  $wnd.console.log(json);
 	  var w = width,
     h = height,
     format = $wnd.d3.format(",d"),
