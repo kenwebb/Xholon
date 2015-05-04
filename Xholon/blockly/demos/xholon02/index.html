@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Blockly Demo: Generating JavaScript</title>
+  <script src="../../blockly_compressed.js"></script>
+  <script src="../../blocks_compressed.js"></script>
+  <script src="../../javascript_compressed.js"></script>
+  <script src="../../msg/js/en.js"></script>
+  <style>
+    body {
+      background-color: #fff;
+      font-family: sans-serif;
+    }
+    h1 {
+      font-weight: normal;
+      font-size: 140%;
+    }
+  </style>
+</head>
+<body>
+  <h1><a href="https://developers.google.com/blockly/">Blockly</a> &gt;
+    <a href="../index.html">Demos</a> &gt; Generating JavaScript</h1>
+
+  <p>This is a simple demo of generating code from blocks.</p>
+
+  <p>&rarr; More info on <a href="https://developers.google.com/blockly/installation/code-generators">Code Generators</a>...</p>
+
+  <p>
+    <button onclick="showCode()">Show JavaScript</button>
+    <button onclick="runCode()">Run JavaScript</button>
+  </p>
+
+  <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+
+  <xml id="toolbox" style="display: none">
+    <category name="Math">
+      <block type="math_number"></block>
+    </category>
+    <category name="Text">
+      <block type="text_print"></block>
+    </category>
+    <category name="XhXml">
+      <block type="xhxml_avatar"></block>
+      <block type="xhxml_behavior"></block>
+      <block type="xhxml_rolename"></block>
+    </category>
+    <category name="XhIflang">
+      <block type="xhiflang_role"></block>
+      <block type="xhiflang_appear"></block>
+      <block type="xhiflang_become"></block>
+      <block type="xhiflang_build"></block>
+      <block type="xhiflang_comment"></block>
+      <block type="xhiflang_drop"></block>
+      <block type="xhiflang_enter"></block>
+      <block type="xhiflang_examine"></block>
+      <block type="xhiflang_exit"></block>
+      <block type="xhiflang_follow"></block>
+      <block type="xhiflang_go"></block>
+      <block type="xhiflang_group"></block>
+      <block type="xhiflang_inventory"></block>
+      <block type="xhiflang_lead"></block>
+      <block type="xhiflang_look"></block>
+      <block type="xhiflang_next"></block>
+      <block type="xhiflang_out"></block>
+      <block type="xhiflang_param"></block>
+      <block type="xhiflang_prev"></block>
+      <block type="xhiflang_put"></block>
+      <block type="xhiflang_smash"></block>
+      <block type="xhiflang_take"></block>
+      <block type="xhiflang_unbuild"></block>
+      <block type="xhiflang_unfollow"></block>
+      <block type="xhiflang_unlead"></block>
+      <block type="xhiflang_vanish"></block>
+      <block type="xhiflang_wait"></block>
+    </category>
+  </xml>
+
+  <script>
+    var workspace = Blockly.inject('blocklyDiv',
+        {toolbox: document.getElementById('toolbox')});
+    /*Blockly.Xml.domToWorkspace(workspace,
+        document.getElementById('startBlocks'));*/
+
+    function showCode() {
+      // Generate JavaScript code and display it.
+      Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+      var code = Blockly.JavaScript.workspaceToCode(workspace);
+      alert(code);
+    }
+
+    function runCode() {
+      // Generate JavaScript code and run it.
+      window.LoopTrap = 1000;
+      Blockly.JavaScript.INFINITE_LOOP_TRAP =
+          'if (--window.LoopTrap == 0) throw "Infinite loop.";\n';
+      var code = Blockly.JavaScript.workspaceToCode(workspace);
+      Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+      try {
+        eval(code);
+      } catch (e) {
+        alert(e);
+      }
+    }
+  </script>
+
+</body>
+</html>
