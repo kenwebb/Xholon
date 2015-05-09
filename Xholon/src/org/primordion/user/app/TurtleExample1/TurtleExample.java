@@ -65,11 +65,17 @@ public void postConfigure()
 
 public void processReceivedMessage(IMessage msg)
 {
-  // allow user to set the turtle actions
-	setAppSpecificParam1(XhTurtleExample1.getAppSpecificParam1());
-	
-	actTurtle();
-	this.sendMessage(SIG_SELF, null, this); // reschedule by sending self a message
+  switch (msg.getSignal()) {
+  case SIG_SELF:
+    // allow user to set the turtle actions
+	  setAppSpecificParam1(XhTurtleExample1.getAppSpecificParam1());
+	  actTurtle();
+	  this.sendMessage(SIG_SELF, null, this); // reschedule by sending self a message
+	  break;
+	default:
+	  super.processReceivedMessage(msg);
+	  break;
+	}
 }
 
 /**
@@ -139,11 +145,7 @@ protected void actTurtle()
 		pu(); fd(40); rt(90); fd(50); lt(90); pd(); // move to upper right quadrant
 		toLDragon(4, 11);
 	}
-	else if ("nil".equals(appSpecificParam1)) {
-		// do nothing
-		this.home(); // for use with clear
-	}
-	else if ("clear".equals(appSpecificParam1)) {
+	else if ("clearPatches".equals(appSpecificParam1)) {
     // the first turtle invokes the patch owner to clear the patches
     IXholon node = this;
 	  while (node != null) {
@@ -153,8 +155,21 @@ protected void actTurtle()
 		  }
 		  node = node.getParentNode();
 	  }
-		XhTurtleExample1.setAppSpecificParam1("nil");
+		XhTurtleExample1.setAppSpecificParam1("clearingPatches");
 	}
+	else if ("clearingPatches".equals(appSpecificParam1)) {
+	  this.home();
+	}
+	else if ("clearTurtles".equals(appSpecificParam1)) {
+	  XhTurtleExample1.setAppSpecificParam1("clearingTurtles");
+	}
+	else if ("clearingTurtles".equals(appSpecificParam1)) {
+	  this.die();
+	}
+	else if ("nil".equals(appSpecificParam1)) {
+	  // do nothing
+	}
+	
 }
 
 /**

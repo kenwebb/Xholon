@@ -49,12 +49,16 @@
 <script>$wnd.xh.app().attr("AppSpecificParam1", "toLDragon");</script>
 ]]></Special>
 
-<Special action="nil"><![CDATA[
-<script>$wnd.xh.app().attr("AppSpecificParam1", "nil");</script>
+<Special action="clearPatches"><![CDATA[
+<script>$wnd.xh.app().attr("AppSpecificParam1", "clearPatches");</script>
 ]]></Special>
 
-<Special action="clear"><![CDATA[
-<script>$wnd.xh.app().attr("AppSpecificParam1", "clear");</script>
+<Special action="clearTurtles"><![CDATA[
+<script>$wnd.xh.app().attr("AppSpecificParam1", "clearTurtles");</script>
+]]></Special>
+
+<Special action="nil"><![CDATA[
+<script>$wnd.xh.app().attr("AppSpecificParam1", "nil");</script>
 ]]></Special>
 
 </Specials>

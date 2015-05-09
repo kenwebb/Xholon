@@ -20,6 +20,7 @@ package org.primordion.xholon.base;
 
 import org.primordion.xholon.exception.XholonConfigurationException;
 import org.primordion.xholon.util.ClassHelper;
+import org.primordion.xholon.util.Misc;
 
 /**
  * A turtle is an agent in the turtle mechanism.
@@ -32,6 +33,9 @@ import org.primordion.xholon.util.ClassHelper;
  */
 public class Turtle extends XholonWithPorts implements ITurtle {
 	private static final long serialVersionUID = 8324399273496072903L;
+	
+	protected static final String COMMENT_START = ";"; // start of a NetLogo comment
+	protected static final int ACTIONIX_INITIAL = -1; // initial value of actionIx
 	
 	// NetLogo built-in variables for turtles:
 	//   breed color heading hidden? label label-color pen-mode pen-size shape size who xcor ycor
@@ -49,7 +53,319 @@ public class Turtle extends XholonWithPorts implements ITurtle {
 	public double xcor, ycor; // current x, y position in global coordinates
 	protected int whenMoved; // in which time step did this turtle last move?
 	
+	public String roleName = null;
+	
+	protected StringBuilder sb = null;
+	
+	/**
+   * An optional array of actions to automatically perform, during successive timesteps.
+   */
+  protected String[] actions = new String[0];
+  
+  /**
+   * Index into the actions array.
+   */
+  protected int actionIx = ACTIONIX_INITIAL;
+	
 	public Turtle() {}
+	
+	@Override
+  public void setRoleName(String roleName) {this.roleName = roleName;}
+  @Override
+  public String getRoleName() {return roleName;}
+	
+	/*
+<Turtle/>
+	*/
+	
+	/* Can paste the following into a Patch in Turtle Example 1, using XholonConsole
+<Turtle><script><![CDATA[
+  var me;
+  var beh = {
+    postConfigure: function() {
+      me = this.cnode.parent();
+      me.action("color 25"); // orange
+      me.action("pd");
+      me.action("fd 10");
+      me.action("rt 90");
+      me.action("fd 10");
+      me.action("rt 90");
+      me.action("fd 10");
+      me.action("rt 90");
+      me.action("fd 10");
+      me.action("rt 90");
+    }
+  }
+]]></script></Turtle>
+	*/
+	
+	/*
+<Turtle roleName="Franklin">
+  <Attribute_String><![CDATA[
+    pu
+    color 25
+    pd
+    fd 10
+    rt 90
+    fd 10
+    rt 90
+    fd 10
+    rt 90
+    fd 10
+  ]]></Attribute_String>
+</Turtle>
+	*/
+	
+	@Override
+  public void setVal(String actionsStr) {
+    this.setVal_String(actionsStr);
+  }
+  
+  @Override
+  public void setVal_String(String actionsStr) {
+    // set the contents of the actions array
+    if ((actionsStr != null) && (actionsStr.length() > 0)) {
+      /*if (transcript && ((actionIx > ACTIONIX_INITIAL) && (actionIx < actions.length))) {
+        // show a warning message if a new script overlays an existing uncompleted one
+        String msg = "overwriting script with " + (actions.length - actionIx) + " actions left.";
+        this.println(this.getName(IXholon.GETNAME_ROLENAME_OR_CLASSNAME) + ": " + msg);
+      }*/
+      actions = actionsStr.split("\n");
+      actionIx = ACTIONIX_INITIAL;
+    }
+  }
+  
+  @Override
+  public String getVal_String() {
+    // get the value of the current item in the actions array, or null
+    if ((actionIx > ACTIONIX_INITIAL) && (actionIx < actions.length)) {
+      return actions[actionIx];
+    }
+    return null;
+  }
+  
+	@Override
+  public void postConfigure() {
+    if (this.getFirstChild() != null) {
+      this.setVal_String(this.getFirstChild().getVal_String());
+      this.getFirstChild().removeChild();
+    }
+    // testing
+    for (int i = 0; i < actions.length; i++) {
+      doAction(actions[i]);
+    }
+    super.postConfigure();
+  }
+	
+	@Override
+  public void processReceivedMessage(IMessage msg) {
+    //consoleLog("Turtle processReceivedMessage( " + msg.getData());
+    switch (msg.getSignal()) {
+    case ISignal.SIGNAL_XHOLON_CONSOLE_REQ:
+      String responseStr = processCommands((String)msg.getData());
+      if ((responseStr != null) && (responseStr.length() > 0)) {
+        responseStr = COMMENT_START + responseStr;
+        msg.getSender().sendMessage(ISignal.SIGNAL_XHOLON_CONSOLE_RSP, "\n" + responseStr, this);
+      }
+      break;
+    default:
+      super.processReceivedMessage(msg);
+      break;
+    }
+  }
+  
+  @Override
+  public IMessage processReceivedSyncMessage(IMessage msg) {
+    //consoleLog("Turtle processReceivedSyncMessage( " + msg.getData());
+    switch (msg.getSignal()) {
+    case ISignal.SIGNAL_XHOLON_CONSOLE_REQ:
+      String responseStr = processCommands((String)msg.getData());
+      if ((responseStr != null) && (responseStr.length() > 0)) {
+        responseStr = COMMENT_START + responseStr;
+        //consoleLog(responseStr);
+      }
+      return new Message(ISignal.SIGNAL_XHOLON_CONSOLE_RSP, "\n" + responseStr, this, msg.getSender());
+    default:
+      return super.processReceivedSyncMessage(msg);
+    }
+  }
+	
+	@Override
+  public void doAction(String action) {
+    String responseStr = processCommands(action);
+    /*if (transcript && (responseStr != null) && (responseStr.length() > 0)) {
+      this.println(" " + responseStr);
+    }
+    if (speech && (responseStr != null) && (responseStr.length() > 0)) {
+      this.speak(" " + responseStr, ssuLang, ssuVoice, ssuVolume, ssuRate, ssuPitch);
+    }
+    if (debug) {
+      this.consoleLog(responseStr);
+    }*/
+  }
+  
+  protected String processCommands(String cmds) {
+    //consoleLog("Turtle processCommands( " + cmds);
+    sb = new StringBuilder();
+    processCommand(cmds);
+    return sb.toString();
+  }
+  
+  protected void processCommand(String cmd) {
+    //consoleLog("Turtle processCommand( " + cmd);
+    cmd = cmd.trim();
+    if (cmd.length() == 0) {return;}
+    if (cmd.startsWith(COMMENT_START)) {return;}
+    String[] data = cmd.split(" ");
+    int len = data.length;
+    //consoleLog("Turtle processCommand( " + data[0]);
+    switch (data[0]) {
+    case "back":
+    case "bk":
+      if (len == 2) {
+        bk(Misc.atod(data[1], 0));
+      }
+      break;
+    case "beep":
+      beep();
+      break;
+    // case "can-move":
+    case "color": // or "set color" ?
+      if (len == 2) {
+        //consoleLog("color " + data[1]);
+        setColor(Misc.atoi(data[1], 0));
+        //consoleLog(getColor());
+      }
+      else {
+        sb.append("Please specify a color integer between 0 and 140 (ex: ")
+        .append(data[0])
+        .append(" 35).");
+      }
+      break;
+    case "die":
+      die();
+      break;
+    // case "distance":
+    case "distancexy":
+      if (len == 3) {
+        double distance = distancexy(Misc.atod(data[1], 0), Misc.atod(data[2], 0));
+        sb.append(distance);
+      }
+      break;
+    case "downhill":
+      sb.append(downhill());
+      break;
+    case "downhill4":
+      sb.append(downhill4());
+      break;
+    case "dx":
+      sb.append(dx());
+      break;
+    case "dy":
+      sb.append(dy());
+      break;
+    // case "face":
+    case "facexy":
+      if (len == 3) {
+        facexy(Misc.atod(data[1], 0), Misc.atod(data[2], 0));
+      }
+      break;
+    case "forward":
+    case "fd":
+      if (len == 2) {
+        //consoleLog("fd " + data[1]);
+        fd(Misc.atod(data[1], 0));
+      }
+      break;
+    case "hatch":
+      if (len == 2) {
+        hatch(Misc.atoi(data[1], 0), COMMANDID_NONE);
+      }
+      else if (len == 3) {
+        hatch(Misc.atoi(data[1], 0), Misc.atoi(data[2], 0));
+      }
+      break;
+    case "hide-turtle":
+    case "ht":
+      ht();
+      break;
+    case "home":
+      home();
+      break;
+    //case "in-cone":
+    //case "in-radius":
+    case "jump":
+      if (len == 1) {
+        jump(Misc.atod(data[1], 0));
+      }
+      break;
+    case "left":
+    case "lt":
+      if (len == 2) {
+        lt(Misc.atod(data[1], 0));
+      }
+      break;
+    //case "neighbors":
+    //case "neighbors4":
+    //case "other turtles-here":
+    //case "patch-ahead":
+    //case "patch-at":
+    //case "patch-at-heading-and-distance":
+    //case "patch-here":
+    //case "patch-left-and-ahead":
+    //case "patch-right-and-ahead":
+    case "pen-down":
+    case "pd":
+      //consoleLog("pd");
+      pd();
+      break;
+    case "pen-erase":
+    case "pe":
+      pe();
+      break;
+    case "pen-up":
+    case "pu":
+      pu();
+      break;
+    case "right":
+    case "rt":
+      if (len == 2) {
+        rt(Misc.atod(data[1], 0));
+      }
+      break;
+    case "setxy":
+      if (len == 3) {
+        setxy(Misc.atod(data[1], 0), Misc.atod(data[2], 0));
+      }
+      break;
+    case "show-turtle":
+    case "st":
+      showTurtle();
+      break;
+    case "stamp":
+      stamp();
+      break;
+    case "stamp-erase":
+      stampErase();
+      break;
+    //case "towards":
+    case "towardsxy":
+      if (len == 3) {
+        towardsxy(Misc.atod(data[1], 0), Misc.atod(data[2], 0));
+      }
+      break;
+    //case "turtles-at":
+    //case "turtles-here":
+    //case "turtles-on":
+    case "uphill":
+      sb.append(uphill());
+      break;
+    case "uphill4":
+      sb.append(uphill4());
+      break;
+    default: break;
+    }
+  }
 	
 	/*
      * @see org.primordion.xholon.base.ITurtle#back(double)
@@ -433,16 +749,16 @@ public class Turtle extends XholonWithPorts implements ITurtle {
 	public IPatch patchRightAndAhead(double distance, double angle) {
 		return ((IPatch)parentNode).patchAtHeadingAndDistance(heading + angle, distance);
 	}
-    
-    /*
-     * @see org.primordion.xholon.base.ITurtle#penDown()
-     */
-    public void penDown()
-    {
-    	pd();
-    }
-    
-    /*
+  
+  /*
+   * @see org.primordion.xholon.base.ITurtle#penDown()
+   */
+  public void penDown()
+  {
+  	pd();
+  }
+  
+  /*
 	 * @see org.primordion.xholon.base.ITurtle#pd()
 	 */
 	public void pd()

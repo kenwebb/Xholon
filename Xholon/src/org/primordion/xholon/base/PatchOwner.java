@@ -48,6 +48,9 @@ public class PatchOwner extends AbstractGrid implements IXholon {
 	protected int nextColor = 135;
 	protected double nextHeading = 345.0;
 	
+	// prevent needless recursive calls on act() for all patches and turtles
+	public void act() {}
+	
 	/**
 	 * Get next color.
 	 * @return A color value.
