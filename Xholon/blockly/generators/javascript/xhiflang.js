@@ -49,6 +49,10 @@ Blockly.JavaScript['xhiflang_become'] = function(block) {
   return code;
 };
 
+Blockly.JavaScript['xhiflang_breakpoint'] = function(block) {
+  return 'breakpoint;\n';
+};
+
 /*Blockly.JavaScript['xhiflang_build'] = function(block) {
   var value_build = Blockly.JavaScript.valueToCode(block, 'BUILD', Blockly.JavaScript.ORDER_ATOMIC);
   var code = 'build ' + block.getFieldValue('THING') + value_build + ';\n';
@@ -82,17 +86,28 @@ Blockly.JavaScript['xhiflang_drop'] = function(block) {
 };
 
 Blockly.JavaScript['xhiflang_enter'] = function(block) {
-  var code = 'enter ' + block.getFieldValue('PLACE') + ';\n';
+  var code = 'enter ' + block.getFieldValue('THING') + ';\n';
   return code;
 };
 
 Blockly.JavaScript['xhiflang_examine'] = function(block) {
-  var code = 'examine ' + block.getFieldValue('THING') + ';\n';
+  var dropdown_command = block.getFieldValue('COMMAND');
+  var command = '';
+  switch (dropdown_command) {
+  case 'EXAMINE': command = 'examine'; break;
+  case 'X': command = 'x'; break;
+  default: break;
+  }
+  var code = command + ' ' + block.getFieldValue('THING') + ';\n';
   return code;
 };
 
 Blockly.JavaScript['xhiflang_exit'] = function(block) {
-  var code = 'exit ' + block.getFieldValue('PLACE') + ';\n';
+  var place = block.getFieldValue('THING');
+  if (place.length > 0) {
+    place = ' ' + place;
+  }
+  var code = 'exit' + place + ';\n';
   return code;
 };
 
@@ -101,8 +116,15 @@ Blockly.JavaScript['xhiflang_follow'] = function(block) {
   return code;
 };
 
+Blockly.JavaScript['xhiflang_get'] = function(block) {
+  var text_thing = block.getFieldValue('THING');
+  var text_name = block.getFieldValue('NAME');
+  var code = 'get ' + text_thing + ' ' + text_name + ';\n';
+  return code;
+};
+
 Blockly.JavaScript['xhiflang_go'] = function(block) {
-  var code = 'go ' + block.getFieldValue('PLACE') + ';\n';
+  var code = 'go ' + block.getFieldValue('THING') + ';\n';
   return code;
 };
 
@@ -110,15 +132,24 @@ Blockly.JavaScript['xhiflang_group'] = function(block) {
   var text_thing1 = block.getFieldValue('THING1');
   var dropdown_where = block.getFieldValue('WHERE');
   var where = 'in';
-  if (dropdown_where == 'OPTIONON') {where = 'on';}
-  else if (dropdown_where == 'OPTIONUNDER') {where = 'under';}
+  if (dropdown_where == 'ON') {where = 'on';}
+  else if (dropdown_where == 'UNDER') {where = 'under';}
   var text_thing2 = block.getFieldValue('THING2');
   var code = 'group ' + text_thing1 + ' ' + where + ' ' + text_thing2 + ';\n';
   return code;
 };
 
+// if ifeq etc. TODO
+
 Blockly.JavaScript['xhiflang_inventory'] = function(block) {
-  return 'inventory;\n';
+  var dropdown_command = block.getFieldValue('COMMAND');
+  var command = '';
+  switch (dropdown_command) {
+  case 'INVENTORY': command = 'inventory'; break;
+  case 'I': command = 'i'; break;
+  default: break;
+  }
+  return command + ';\n';
 };
 
 Blockly.JavaScript['xhiflang_lead'] = function(block) {
@@ -131,7 +162,7 @@ Blockly.JavaScript['xhiflang_look'] = function(block) {
 };
 
 Blockly.JavaScript['xhiflang_next'] = function(block) {
-  var code = 'next ' + block.getFieldValue('TARGET') + ';\n';
+  var code = 'next ' + block.getFieldValue('THING') + ';\n';
   return code;
 };
 
@@ -185,8 +216,18 @@ Blockly.JavaScript['xhiflang_param'] = function(block) {
   return code;
 };
 
+Blockly.JavaScript['xhiflang_paramcaption'] = function(block) {
+  var code = 'param caption ' + block.getFieldValue('SELECTION') + ';\n';
+  return code;
+};
+
+Blockly.JavaScript['xhiflang_paramspeech'] = function(block) {
+  var code = 'param speech ' + block.getFieldValue('OBJECT') + ';\n';
+  return code;
+};
+
 Blockly.JavaScript['xhiflang_prev'] = function(block) {
-  var code = 'prev ' + block.getFieldValue('TARGET') + ';\n';
+  var code = 'prev ' + block.getFieldValue('THING') + ';\n';
   return code;
 };
 
@@ -194,10 +235,20 @@ Blockly.JavaScript['xhiflang_put'] = function(block) {
   var text_thing1 = block.getFieldValue('THING1');
   var dropdown_where = block.getFieldValue('WHERE');
   var where = 'in';
-  if (dropdown_where == 'OPTIONON') {where = 'on';}
-  else if (dropdown_where == 'OPTIONUNDER') {where = 'under';}
+  if (dropdown_where == 'ON') {where = 'on';}
+  else if (dropdown_where == 'UNDER') {where = 'under';}
   var text_thing2 = block.getFieldValue('THING2');
   var code = 'put ' + text_thing1 + ' ' + where + ' ' + text_thing2 + ';\n';
+  return code;
+};
+
+// xhiflang_search  TODO ?
+
+Blockly.JavaScript['xhiflang_set'] = function(block) {
+  var text_thing = block.getFieldValue('THING');
+  var text_name = block.getFieldValue('NAME');
+  var text_value = block.getFieldValue('VALUE');
+  var code = 'set ' + text_thing + ' ' + text_name + ' ' + text_value + ';\n';
   return code;
 };
 
@@ -213,7 +264,14 @@ Blockly.JavaScript['xhiflang_take'] = function(block) {
 
 // also eat
 Blockly.JavaScript['xhiflang_unbuild'] = function(block) {
-  var code = 'unbuild ' + block.getFieldValue('THING') + ';\n';
+  var dropdown_command = block.getFieldValue('COMMAND');
+  var command = '';
+  switch (dropdown_command) {
+  case 'UNBUILD': command = 'unbuild'; break;
+  case 'EAT': command = 'eat'; break;
+  default: break;
+  }
+  var code = command + ' ' + block.getFieldValue('THING') + ';\n';
   return code;
 };
 
@@ -230,8 +288,10 @@ Blockly.JavaScript['xhiflang_vanish'] = function(block) {
 };
 
 Blockly.JavaScript['xhiflang_wait'] = function(block) {
-  // var timesteps = block.getFieldValue('TIMESTEPS');
-  var timesteps = Blockly.JavaScript.valueToCode(block, 'TIMESTEPS', Blockly.JavaScript.ORDER_ATOMIC) || '1';
+  var timesteps = Blockly.JavaScript.valueToCode(block, 'DURATION', Blockly.JavaScript.ORDER_ATOMIC) || '1';
+  if (Number(timesteps) < 1) {
+    timesteps = '1';
+  }
   var code = 'wait ' + timesteps + ';\n';
   return code;
 };

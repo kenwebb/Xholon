@@ -35,13 +35,13 @@ goog.require('Blockly.JavaScript');
 Blockly.JavaScript['xhxml_avatar'] = function(block) {
   var value_avatar = Blockly.JavaScript.valueToCode(block, 'AVATAR', Blockly.JavaScript.ORDER_ATOMIC);
   var statements_behavior = Blockly.JavaScript.statementToCode(block, 'BEHAVIOR');
-  var code = '<Avatar ' + value_avatar + '>' + statements_behavior + '</Avatar>\n';
+  var code = '<Avatar' + value_avatar + '>\n' + statements_behavior + '</Avatar>\n';
   return code;
 };
 
 Blockly.JavaScript['xhxml_behavior'] = function(block) {
   var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
-  var code = '<Attribute_String><![CDATA[\n' + statements_name + ']]></Attribute_String>';
+  var code = '<Attribute_String><![CDATA[\n' + statements_name + ']]></Attribute_String>\n';
   return code;
 };
 

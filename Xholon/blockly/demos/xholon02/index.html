@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Blockly Demo: Generating JavaScript</title>
+  <title>Xholon Interactive Fiction (IF) language, with Blockly</title>
   <script src="../../blockly_compressed.js"></script>
   <script src="../../blocks_compressed.js"></script>
   <script src="../../javascript_compressed.js"></script>
@@ -19,19 +19,19 @@
   </style>
 </head>
 <body>
-  <h1><a href="https://developers.google.com/blockly/">Blockly</a> &gt;
-    <a href="../index.html">Demos</a> &gt; Generating JavaScript</h1>
-
-  <p>This is a simple demo of generating code from blocks.</p>
-
-  <p>&rarr; More info on <a href="https://developers.google.com/blockly/installation/code-generators">Code Generators</a>...</p>
+  <h3>Xholon Interactive Fiction (IF) language, with Blockly</h3>
+  <p>You can paste the generated code into any Xholon app.</p>
 
   <p>
-    <button onclick="showCode()">Show JavaScript</button>
-    <button onclick="runCode()">Run JavaScript</button>
+    <button onclick="showCode()">Generate IF code</button>
+    <button onclick="saveToXml()">Save to XML</button>
+    <button onclick="saveToXmlPretty()">Save to XML (pretty)</button>
+    <button onclick="loadFromXml()">Load from XML</button>
   </p>
 
-  <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+  <div id="blocklyDiv" style="height: 480px; width: 900px;"></div>
+  
+  <textarea id="content_out" class="content" rows="20" cols="80" wrap="off"></textarea>
 
   <xml id="toolbox" style="display: none">
     <category name="Math">
@@ -49,6 +49,7 @@
       <block type="xhiflang_role"></block>
       <block type="xhiflang_appear"></block>
       <block type="xhiflang_become"></block>
+      <block type="xhiflang_breakpoint"></block>
       <block type="xhiflang_build"></block>
       <block type="xhiflang_comment"></block>
       <block type="xhiflang_drop"></block>
@@ -56,6 +57,7 @@
       <block type="xhiflang_examine"></block>
       <block type="xhiflang_exit"></block>
       <block type="xhiflang_follow"></block>
+      <block type="xhiflang_get"></block>
       <block type="xhiflang_go"></block>
       <block type="xhiflang_group"></block>
       <block type="xhiflang_inventory"></block>
@@ -64,8 +66,11 @@
       <block type="xhiflang_next"></block>
       <block type="xhiflang_out"></block>
       <block type="xhiflang_param"></block>
+      <block type="xhiflang_paramcaption"></block>
+      <block type="xhiflang_paramspeech"></block>
       <block type="xhiflang_prev"></block>
       <block type="xhiflang_put"></block>
+      <block type="xhiflang_set"></block>
       <block type="xhiflang_smash"></block>
       <block type="xhiflang_take"></block>
       <block type="xhiflang_unbuild"></block>
@@ -75,34 +80,510 @@
       <block type="xhiflang_wait"></block>
     </category>
   </xml>
+  
+  <xml id="startBlocks" style="display: none">
+    <block type="xhxml_avatar" id="4" inline="false" x="74" y="18">
+      <value name="AVATAR">
+        <block type="xhxml_rolename" id="12">
+          <field name="ROLE">Harry</field>
+        </block>
+      </value>
+      <statement name="BEHAVIOR">
+        <block type="xhxml_behavior" id="8">
+          <statement name="NAME">
+            <block type="xhiflang_build" id="45" inline="false">
+              <field name="COMMAND">BUILD</field>
+              <field name="THING">School</field>
+              <value name="ROLE">
+                <block type="xhiflang_role" id="78">
+                  <field name="ROLE">Hogwarts</field>
+                </block>
+              </value>
+              <next>
+                <block type="xhiflang_enter" id="111">
+                  <field name="THING">Hogwarts</field>
+                  <next>
+                    <block type="xhiflang_build" id="144" inline="false">
+                      <field name="COMMAND">BUILD</field>
+                      <field name="THING">Classroom</field>
+                      <value name="ROLE">
+                        <block type="xhiflang_role" id="177">
+                          <field name="ROLE">Potions</field>
+                        </block>
+                      </value>
+                      <next>
+                        <block type="xhiflang_build" id="178" inline="false">
+                          <field name="COMMAND">BUILD</field>
+                          <field name="THING">Classroom</field>
+                          <value name="ROLE">
+                            <block type="xhiflang_role" id="179">
+                              <field name="ROLE">"Defence Against the Dark Arts"</field>
+                            </block>
+                          </value>
+                          <next>
+                            <block type="xhiflang_look" id="279">
+                              <next>
+                                <block type="xhiflang_enter" id="212">
+                                  <field name="THING">*classroom</field>
+                                  <next>
+                                    <block type="xhiflang_look" id="245">
+                                      <next>
+                                        <block type="xhiflang_exit" id="278">
+                                          <field name="THING"></field>
+                                          <next>
+                                            <block type="xhiflang_enter" id="312">
+                                              <field name="THING">Defence</field>
+                                              <next>
+                                                <block type="xhiflang_look" id="313"></block>
+                                              </next>
+                                            </block>
+                                          </next>
+                                        </block>
+                                      </next>
+                                    </block>
+                                  </next>
+                                </block>
+                              </next>
+                            </block>
+                          </next>
+                        </block>
+                      </next>
+                    </block>
+                  </next>
+                </block>
+              </next>
+            </block>
+          </statement>
+        </block>
+      </statement>
+    </block>
+  </xml>
 
   <script>
     var workspace = Blockly.inject('blocklyDiv',
         {toolbox: document.getElementById('toolbox')});
-    /*Blockly.Xml.domToWorkspace(workspace,
-        document.getElementById('startBlocks'));*/
-
+    Blockly.Xml.domToWorkspace(workspace,
+        document.getElementById('startBlocks'));
+    
     function showCode() {
-      // Generate JavaScript code and display it.
       Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
       var code = Blockly.JavaScript.workspaceToCode(workspace);
-      alert(code);
+      var outTextarea = document.getElementById('content_out');
+      outTextarea.value = code;
     }
 
-    function runCode() {
-      // Generate JavaScript code and run it.
-      window.LoopTrap = 1000;
-      Blockly.JavaScript.INFINITE_LOOP_TRAP =
-          'if (--window.LoopTrap == 0) throw "Infinite loop.";\n';
-      var code = Blockly.JavaScript.workspaceToCode(workspace);
-      Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
-      try {
-        eval(code);
-      } catch (e) {
-        alert(e);
-      }
+    function saveToXml() {
+      var xmlDom = Blockly.Xml.workspaceToDom(workspace);
+      var xmlText = Blockly.Xml.domToText(xmlDom);
+      var outTextarea = document.getElementById('content_out');
+      outTextarea.value = xmlText;
+    }
+    
+    function saveToXmlPretty() {
+      var xmlDom = Blockly.Xml.workspaceToDom(workspace);
+      var xmlText = Blockly.Xml.domToPrettyText(xmlDom);
+      var outTextarea = document.getElementById('content_out');
+      outTextarea.value = xmlText;
+    }
+    
+    function loadFromXml() {
+      var outTextarea = document.getElementById('content_out');
+      var dom = Blockly.Xml.textToDom(outTextarea.value);
+      Blockly.Xml.domToWorkspace(workspace, dom);
     }
   </script>
+  
+  <p><a href="helpIflang.html">Help for Interactive Fiction (IF) language</a></p>
+  <p><a href="http://www.primordion.com/Xholon/gwt/">Xholon</a></p>
+  <p><a href="https://developers.google.com/blockly/">Blockly</a></p>
+  
+<!--  QUICK TEST
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="xhxml_avatar" id="1" inline="false" x="12" y="11">
+    <value name="AVATAR">
+      <block type="xhxml_rolename" id="2">
+        <field name="ROLE">Delilah</field>
+      </block>
+    </value>
+    <statement name="BEHAVIOR">
+      <block type="xhxml_behavior" id="3">
+        <statement name="NAME">
+          <block type="xhiflang_build" id="4" inline="false">
+            <field name="COMMAND">BUILD</field>
+            <field name="THING">Car</field>
+            <value name="ROLE">
+              <block type="xhiflang_role" id="5">
+                <field name="ROLE">Edsel</field>
+              </block>
+            </value>
+            <next>
+              <block type="xhiflang_comment" id="6">
+                <field name="COMMENT">This is a test.</field>
+                <next>
+                  <block type="xhiflang_become" id="7">
+                    <field name="THING">Edsel</field>
+                    <field name="ROLE">Lemon</field>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </statement>
+  </block>
+</xml>
+-->
 
+<!--  The Black Geese - Elena
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="xhxml_avatar" id="1" inline="false" x="12" y="11">
+    <value name="AVATAR">
+      <block type="xhxml_rolename" id="2">
+        <field name="ROLE">Elena</field>
+      </block>
+    </value>
+    <statement name="BEHAVIOR">
+      <block type="xhxml_behavior" id="3">
+        <statement name="NAME">
+          <block type="xhiflang_comment" id="4">
+            <field name="COMMENT">1 Elena looks to see who is in the house</field>
+            <next>
+              <block type="xhiflang_wait" id="5" inline="false">
+                <value name="TIMESTEPS">
+                  <block type="math_number" id="6">
+                    <field name="NUM">1</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="xhiflang_comment" id="7">
+                    <field name="COMMENT">2 Elena takes her baby brother to the playground and leaves him on the grass</field>
+                    <next>
+                      <block type="xhiflang_take" id="8">
+                        <field name="THING">baby</field>
+                        <next>
+                          <block type="xhiflang_go" id="9">
+                            <field name="PLACE">play</field>
+                            <next>
+                              <block type="xhiflang_drop" id="10">
+                                <field name="THING">baby</field>
+                                <next>
+                                  <block type="xhiflang_wait" id="11" inline="false">
+                                    <value name="TIMESTEPS">
+                                      <block type="math_number" id="12">
+                                        <field name="NUM">1</field>
+                                      </block>
+                                    </value>
+                                    <next>
+                                      <block type="xhiflang_comment" id="13">
+                                        <field name="COMMENT">3 after playing with her friends for a while, Elena looks for her baby brother</field>
+                                        <next>
+                                          <block type="xhiflang_wait" id="14" inline="false">
+                                            <value name="TIMESTEPS">
+                                              <block type="math_number" id="15">
+                                                <field name="NUM">1</field>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <block type="xhiflang_comment" id="16">
+                                                <field name="COMMENT">4 Elena finds that her baby brother is missing, and starts running across the fields on her way to the forest</field>
+                                                <next>
+                                                  <block type="xhiflang_exit" id="17">
+                                                    <field name="PLACE"></field>
+                                                    <next>
+                                                      <block type="xhiflang_go" id="18">
+                                                        <field name="PLACE">fields</field>
+                                                        <next>
+                                                          <block type="xhiflang_wait" id="19" inline="false">
+                                                            <value name="TIMESTEPS">
+                                                              <block type="math_number" id="20">
+                                                                <field name="NUM">1</field>
+                                                              </block>
+                                                            </value>
+                                                            <next>
+                                                              <block type="xhiflang_comment" id="21">
+                                                                <field name="COMMENT">5 Elena rescues a fish, and receives a magic shell in return</field>
+                                                                <next>
+                                                                  <block type="xhiflang_enter" id="22">
+                                                                    <field name="PLACE">bankOfPond</field>
+                                                                    <next>
+                                                                      <block type="xhiflang_take" id="23">
+                                                                        <field name="THING">fish</field>
+                                                                        <next>
+                                                                          <block type="xhiflang_exit" id="24">
+                                                                            <field name="PLACE"></field>
+                                                                            <next>
+                                                                              <block type="xhiflang_enter" id="25">
+                                                                                <field name="PLACE">pond</field>
+                                                                                <next>
+                                                                                  <block type="xhiflang_drop" id="26">
+                                                                                    <field name="THING">fish</field>
+                                                                                    <next>
+                                                                                      <block type="xhiflang_take" id="27">
+                                                                                        <field name="THING">shell</field>
+                                                                                        <next>
+                                                                                          <block type="xhiflang_exit" id="28">
+                                                                                            <field name="PLACE"></field>
+                                                                                            <next>
+                                                                                              <block type="xhiflang_wait" id="29" inline="false">
+                                                                                                <value name="TIMESTEPS">
+                                                                                                  <block type="math_number" id="30">
+                                                                                                    <field name="NUM">1</field>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                                <next>
+                                                                                                  <block type="xhiflang_comment" id="31">
+                                                                                                    <field name="COMMENT">6 Elena runs to a grove of trees</field>
+                                                                                                    <next>
+                                                                                                      <block type="xhiflang_go" id="32">
+                                                                                                        <field name="PLACE">trees</field>
+                                                                                                        <next>
+                                                                                                          <block type="xhiflang_comment" id="33">
+                                                                                                            <field name="COMMENT">7 Elena removes the trap from the squirrel's leg, and receives a magic walnut in return</field>
+                                                                                                            <next>
+                                                                                                              <block type="xhiflang_take" id="34">
+                                                                                                                <field name="THING">trap</field>
+                                                                                                                <next>
+                                                                                                                  <block type="xhiflang_enter" id="35">
+                                                                                                                    <field name="PLACE">tree</field>
+                                                                                                                    <next>
+                                                                                                                      <block type="xhiflang_take" id="36">
+                                                                                                                        <field name="THING">walnut</field>
+                                                                                                                        <next>
+                                                                                                                          <block type="xhiflang_exit" id="37">
+                                                                                                                            <field name="PLACE"></field>
+                                                                                                                            <next>
+                                                                                                                              <block type="xhiflang_drop" id="38">
+                                                                                                                                <field name="THING">trap</field>
+                                                                                                                                <next>
+                                                                                                                                  <block type="xhiflang_wait" id="39" inline="false">
+                                                                                                                                    <value name="TIMESTEPS">
+                                                                                                                                      <block type="math_number" id="40">
+                                                                                                                                        <field name="NUM">1</field>
+                                                                                                                                      </block>
+                                                                                                                                    </value>
+                                                                                                                                    <next>
+                                                                                                                                      <block type="xhiflang_comment" id="41">
+                                                                                                                                        <field name="COMMENT">8 Elena runs to a stony bank</field>
+                                                                                                                                        <next>
+                                                                                                                                          <block type="xhiflang_go" id="69">
+                                                                                                                                            <field name="PLACE">st</field>
+                                                                                                                                            <next>
+                                                                                                                                              <block type="xhiflang_wait" id="98" inline="false">
+                                                                                                                                                <value name="TIMESTEPS">
+                                                                                                                                                  <block type="math_number" id="99">
+                                                                                                                                                    <field name="NUM">1</field>
+                                                                                                                                                  </block>
+                                                                                                                                                </value>
+                                                                                                                                                <next>
+                                                                                                                                                  <block type="xhiflang_comment" id="97">
+                                                                                                                                                    <field name="COMMENT">9 Elena rolls a fallen rock from a field mouses hole in the ground, and receives a magic pebble in return</field>
+                                                                                                                                                    <next>
+                                                                                                                                                      <block type="xhiflang_take" id="100">
+                                                                                                                                                        <field name="THING">fallenRock</field>
+                                                                                                                                                        <next>
+                                                                                                                                                          <block type="xhiflang_enter" id="128">
+                                                                                                                                                            <field name="PLACE"></field>
+                                                                                                                                                            <next>
+                                                                                                                                                              <block type="xhiflang_take" id="129">
+                                                                                                                                                                <field name="THING">fallenRock</field>
+                                                                                                                                                                <next>
+                                                                                                                                                                  <block type="xhiflang_exit" id="157">
+                                                                                                                                                                    <field name="PLACE"></field>
+                                                                                                                                                                    <next>
+                                                                                                                                                                      <block type="xhiflang_drop" id="185">
+                                                                                                                                                                        <field name="THING"></field>
+                                                                                                                                                                        <next>
+                                                                                                                                                                          <block type="xhiflang_wait" id="186" inline="false">
+                                                                                                                                                                            <value name="TIMESTEPS">
+                                                                                                                                                                              <block type="math_number" id="187">
+                                                                                                                                                                                <field name="NUM">1</field>
+                                                                                                                                                                              </block>
+                                                                                                                                                                            </value>
+                                                                                                                                                                            <next>
+                                                                                                                                                                              <block type="xhiflang_comment" id="215">
+                                                                                                                                                                                <field name="COMMENT">10 Elena runs to the forest</field>
+                                                                                                                                                                                <next>
+                                                                                                                                                                                  <block type="xhiflang_go" id="243">
+                                                                                                                                                                                    <field name="PLACE">forest</field>
+                                                                                                                                                                                    <next>
+                                                                                                                                                                                      <block type="xhiflang_wait" id="244" inline="false">
+                                                                                                                                                                                        <value name="TIMESTEPS">
+                                                                                                                                                                                          <block type="math_number" id="245">
+                                                                                                                                                                                            <field name="NUM">1</field>
+                                                                                                                                                                                          </block>
+                                                                                                                                                                                        </value>
+                                                                                                                                                                                        <next>
+                                                                                                                                                                                          <block type="xhiflang_comment" id="273">
+                                                                                                                                                                                            <field name="COMMENT">11 Elena rescues her baby brother from Baba Yaga's hut</field>
+                                                                                                                                                                                            <next>
+                                                                                                                                                                                              <block type="xhiflang_enter" id="301">
+                                                                                                                                                                                                <field name="PLACE">clearing</field>
+                                                                                                                                                                                                <next>
+                                                                                                                                                                                                  <block type="xhiflang_enter" id="329">
+                                                                                                                                                                                                    <field name="PLACE">hut</field>
+                                                                                                                                                                                                    <next>
+                                                                                                                                                                                                      <block type="xhiflang_take" id="330">
+                                                                                                                                                                                                        <field name="THING">baby</field>
+                                                                                                                                                                                                        <next>
+                                                                                                                                                                                                          <block type="xhiflang_exit" id="358">
+                                                                                                                                                                                                            <field name="PLACE"></field>
+                                                                                                                                                                                                            <next>
+                                                                                                                                                                                                              <block type="xhiflang_exit" id="386">
+                                                                                                                                                                                                                <field name="PLACE"></field>
+                                                                                                                                                                                                                <next>
+                                                                                                                                                                                                                  <block type="xhiflang_wait" id="387" inline="false">
+                                                                                                                                                                                                                    <value name="TIMESTEPS">
+                                                                                                                                                                                                                      <block type="math_number" id="388">
+                                                                                                                                                                                                                        <field name="NUM">1</field>
+                                                                                                                                                                                                                      </block>
+                                                                                                                                                                                                                    </value>
+                                                                                                                                                                                                                    <next>
+                                                                                                                                                                                                                      <block type="xhiflang_comment" id="416">
+                                                                                                                                                                                                                        <field name="COMMENT">12 Elena escapes from the witch by using the three magic objects, and brings her baby brother home</field>
+                                                                                                                                                                                                                        <next>
+                                                                                                                                                                                                                          <block type="xhiflang_exit" id="444">
+                                                                                                                                                                                                                            <field name="PLACE"></field>
+                                                                                                                                                                                                                            <next>
+                                                                                                                                                                                                                              <block type="xhiflang_drop" id="472">
+                                                                                                                                                                                                                                <field name="THING">shell</field>
+                                                                                                                                                                                                                                <next>
+                                                                                                                                                                                                                                  <block type="xhiflang_drop" id="500">
+                                                                                                                                                                                                                                    <field name="THING">walnut</field>
+                                                                                                                                                                                                                                    <next>
+                                                                                                                                                                                                                                      <block type="xhiflang_drop" id="528">
+                                                                                                                                                                                                                                        <field name="THING">pebble</field>
+                                                                                                                                                                                                                                        <next>
+                                                                                                                                                                                                                                          <block type="xhiflang_enter" id="556">
+                                                                                                                                                                                                                                            <field name="PLACE">village</field>
+                                                                                                                                                                                                                                            <next>
+                                                                                                                                                                                                                                              <block type="xhiflang_enter" id="584">
+                                                                                                                                                                                                                                                <field name="PLACE">house</field>
+                                                                                                                                                                                                                                                <next>
+                                                                                                                                                                                                                                                  <block type="xhiflang_drop" id="612">
+                                                                                                                                                                                                                                                    <field name="THING">baby</field>
+                                                                                                                                                                                                                                                  </block>
+                                                                                                                                                                                                                                                </next>
+                                                                                                                                                                                                                                              </block>
+                                                                                                                                                                                                                                            </next>
+                                                                                                                                                                                                                                          </block>
+                                                                                                                                                                                                                                        </next>
+                                                                                                                                                                                                                                      </block>
+                                                                                                                                                                                                                                    </next>
+                                                                                                                                                                                                                                  </block>
+                                                                                                                                                                                                                                </next>
+                                                                                                                                                                                                                              </block>
+                                                                                                                                                                                                                            </next>
+                                                                                                                                                                                                                          </block>
+                                                                                                                                                                                                                        </next>
+                                                                                                                                                                                                                      </block>
+                                                                                                                                                                                                                    </next>
+                                                                                                                                                                                                                  </block>
+                                                                                                                                                                                                                </next>
+                                                                                                                                                                                                              </block>
+                                                                                                                                                                                                            </next>
+                                                                                                                                                                                                          </block>
+                                                                                                                                                                                                        </next>
+                                                                                                                                                                                                      </block>
+                                                                                                                                                                                                    </next>
+                                                                                                                                                                                                  </block>
+                                                                                                                                                                                                </next>
+                                                                                                                                                                                              </block>
+                                                                                                                                                                                            </next>
+                                                                                                                                                                                          </block>
+                                                                                                                                                                                        </next>
+                                                                                                                                                                                      </block>
+                                                                                                                                                                                    </next>
+                                                                                                                                                                                  </block>
+                                                                                                                                                                                </next>
+                                                                                                                                                                              </block>
+                                                                                                                                                                            </next>
+                                                                                                                                                                          </block>
+                                                                                                                                                                        </next>
+                                                                                                                                                                      </block>
+                                                                                                                                                                    </next>
+                                                                                                                                                                  </block>
+                                                                                                                                                                </next>
+                                                                                                                                                              </block>
+                                                                                                                                                            </next>
+                                                                                                                                                          </block>
+                                                                                                                                                        </next>
+                                                                                                                                                      </block>
+                                                                                                                                                    </next>
+                                                                                                                                                  </block>
+                                                                                                                                                </next>
+                                                                                                                                              </block>
+                                                                                                                                            </next>
+                                                                                                                                          </block>
+                                                                                                                                        </next>
+                                                                                                                                      </block>
+                                                                                                                                    </next>
+                                                                                                                                  </block>
+                                                                                                                                </next>
+                                                                                                                              </block>
+                                                                                                                            </next>
+                                                                                                                          </block>
+                                                                                                                        </next>
+                                                                                                                      </block>
+                                                                                                                    </next>
+                                                                                                                  </block>
+                                                                                                                </next>
+                                                                                                              </block>
+                                                                                                            </next>
+                                                                                                          </block>
+                                                                                                        </next>
+                                                                                                      </block>
+                                                                                                    </next>
+                                                                                                  </block>
+                                                                                                </next>
+                                                                                              </block>
+                                                                                            </next>
+                                                                                          </block>
+                                                                                        </next>
+                                                                                      </block>
+                                                                                    </next>
+                                                                                  </block>
+                                                                                </next>
+                                                                              </block>
+                                                                            </next>
+                                                                          </block>
+                                                                        </next>
+                                                                      </block>
+                                                                    </next>
+                                                                  </block>
+                                                                </next>
+                                                              </block>
+                                                            </next>
+                                                          </block>
+                                                        </next>
+                                                      </block>
+                                                    </next>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </statement>
+  </block>
+</xml>
+-->
 </body>
 </html>

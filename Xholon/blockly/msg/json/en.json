@@ -368,7 +368,92 @@
 	"PROCEDURES_IFRETURN_TOOLTIP": "If a value is true, then return a second value.",
 	"PROCEDURES_IFRETURN_WARNING": "Warning: This block may be used only within a function definition.",
 	
-	"XHIFLANG_BUILD_HELPURL": "http://www.primordion.com/Xholon/gwt/",
+	"XHIFLANG_HELPURL": "helpIflang.html",
+	
+	"XHIFLANG_APPEAR_TITLE": "appear",
+	"XHIFLANG_APPEAR_TOOLTIP": "Make this avatar a visible part of the world. This command has no effect if the avatar is already visible.",
+	
+	"XHIFLANG_BECOME_TITLE": "become",
+	"XHIFLANG_BECOME_TOOLTIP": "Give the specified thing a new role name (ex: become car role Lemon).",
+	
+	"XHIFLANG_BREAKPOINT_TITLE": "breakpoint",
+	"XHIFLANG_BREAKPOINT_TOOLTIP": "The animation will pause when it reaches this breakpoint. To continue after the breakpoint, select Pause (to unpause).",
+
 	"XHIFLANG_BUILD_TITLE": "build",
-	"XHIFLANG_BUILD_TOOLTIP": "Build the specified thing."
+	"XHIFLANG_BUILD_TOOLTIP": "Build the specified thing (ex: build Car). Optionally, you can also specify a role name (ex: build Robot role Robbie).",
+	
+	"XHIFLANG_COMMENT_TITLE": "comment",
+	"XHIFLANG_COMMENT_TOOLTIP": "Write a comment (ex: [The girl will fly from the castle to the mountain]).",
+	
+	"XHIFLANG_DROP_TITLE": "drop",
+	"XHIFLANG_DROP_TOOLTIP": "Drop the specified thing at the place where this avatar is currently located (ex: drop hat). The thing must be in the avatar's inventory. Optionally, drop everything that this avatar is carrying (ex: drop).",
+	
+	"XHIFLANG_ENTER_TITLE": "enter",
+	"XHIFLANG_ENTER_TOOLTIP": "Enter the specified place (ex: enter house).",
+	
+	"XHIFLANG_EXAMINE_TITLE": "examine",
+	"XHIFLANG_EXAMINE_TOOLTIP": "Examine the specified thing (ex: examine treasure).",
+	
+	"XHIFLANG_EXIT_TITLE": "exit",
+	"XHIFLANG_EXIT_TOOLTIP": "Exit to the enclosing node (ex: exit), or continue exiting until the avatar reaches the specified node or the outermost node (ex: exit City).",
+	
+	"XHIFLANG_FOLLOW_TITLE": "follow",
+	"XHIFLANG_FOLLOW_TOOLTIP": "Follow another avatar (ex: follow Joe).",
+	
+	"XHIFLANG_GET_TITLE": "get",
+	"XHIFLANG_GET_TOOLTIP": "Get the value of a thing's variable (ex: get car speed).",
+	
+	"XHIFLANG_GO_TITLE": "go",
+	"XHIFLANG_GO_TOOLTIP": "Go to the specified thing.",
+	
+	"XHIFLANG_GROUP_TITLE": "group",
+	"XHIFLANG_GROUP_TOOLTIP": "Group one or more things inside of some other thing (ex: group Bob,Melissa in car).",
+	
+	"XHIFLANG_INVENTORY_TITLE": "inventory",
+	"XHIFLANG_INVENTORY_TOOLTIP": "Show what this avatar is currently carrying.",
+	
+	"XHIFLANG_LEAD_TITLE": "lead",
+	"XHIFLANG_LEAD_TOOLTIP": "Lead some thing, which might be another avatar (ex: lead train).",
+	
+	"XHIFLANG_LOOK_TITLE": "look",
+	"XHIFLANG_LOOK_TOOLTIP": "Show where this avatar is currently located, and show what other things (if any) are also at this location.",
+	
+	"XHIFLANG_NEXT_TITLE": "next",
+	"XHIFLANG_NEXT_TOOLTIP": "Go to the next node (ex: next), or go to the next node with the specified name (ex: next store).",
+	
+	"XHIFLANG_OUT_TITLE": "out",
+	"XHIFLANG_OUT_TOOLTIP": "Ouput some text as speech, as a caption, to the transcript, and/or to the debug console (ex: out speech The cow jumped over the moon.).",
+	
+	"XHIFLANG_PARAM_TITLE": "param",
+	"XHIFLANG_PARAM_TOOLTIP": "Set the value of a parameter (ex: param transcript true).",
+	
+	"XHIFLANG_PREV_TITLE": "prev",
+	"XHIFLANG_PREV_TOOLTIP": "Go to the previous node (ex: prev), or go to the previous node with the specified name (ex: prev playground).",
+	
+	"XHIFLANG_PUT_TITLE": "put",
+	"XHIFLANG_PUT_TOOLTIP": "Put a thing in, on, or under some other thing (ex: put bread in toaster).",
+	
+	"XHIFLANG_SET_TITLE": "set",
+	"XHIFLANG_SET_TOOLTIP": "Set the value of a thing's variable (ex: set car speed 100).",
+	
+	"XHIFLANG_SMASH_TITLE": "smash",
+	"XHIFLANG_SMASH_TOOLTIP": "Smash the specified thing (ex: smash piggybank). The thing will cease to exist, but any objects inside the thing will continue to exist. The technical computer term for this is 'flatten'.",
+	
+	"XHIFLANG_TAKE_TITLE": "take",
+	"XHIFLANG_TAKE_TOOLTIP": "Take an existing thing, and add it to the avatar's inventory (ex: take book).",
+	
+	"XHIFLANG_UNBUILD_TITLE": "unbuild",
+	"XHIFLANG_UNBUILD_TOOLTIP": "Unbuild a thing that currently exists in the avatar's inventory. The thing will cease to exist.",
+	
+	"XHIFLANG_UNFOLLOW_TITLE": "unfollow",
+	"XHIFLANG_UNFOLLOW_TOOLTIP": "Unfollow the avatar (if any) that this avatar is following.",
+	
+	"XHIFLANG_UNLEAD_TITLE": "unlead",
+	"XHIFLANG_UNLEAD_TOOLTIP": "Unlead the thing or other avatar (if any) that this avatar is leading.",
+	
+	"XHIFLANG_VANISH_TITLE": "vanish",
+	"XHIFLANG_VANISH_TOOLTIP": "Make this avatar vanish from the world. The avatar will still exist and will still be able to do all the stuff it could do before. It will become like a ghost. This command has no effect if the avatar has already vanished.",
+	
+	"XHIFLANG_WAIT_TITLE": "wait",
+	"XHIFLANG_WAIT_TOOLTIP": "Wait for the specified number of time steps (ex: wait 5). By default, it waits just one time step (ex: wait)."
 }
