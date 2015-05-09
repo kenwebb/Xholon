@@ -375,6 +375,7 @@ public class Avatar extends XholonWithPorts {
       }
       break;
     default:
+      super.processReceivedMessage(msg);
       break;
     }
   }
@@ -1401,33 +1402,37 @@ public class Avatar extends XholonWithPorts {
     sb
     .append("Basic commands:")
     .append("\nappear")
-    .append("\nbecome thing role|type newRoleOrTypeName")
-    .append("\nbuild|append|prepend|before|after thing [role roleName]")
-    .append("\ndrop [thing]")
-    .append("\neat|unbuild thing")
-    .append("\nenter [*]thing")
-    .append("\nexamine|x thing")
-    .append("\nexit [ancestor]")
-    .append("\nfollow leader")
+    .append("\nbecome THING role ROLE")
+    .append("\nbreakpoint")
+    .append("\nbuild|append|prepend|before|after THING [role ROLE]")
+    .append("\n[COMMENT]")
+    .append("\ndrop [THING]")
+    .append("\nenter [*]THING")
+    .append("\nexamine|x THING")
+    .append("\nexit [THING]")
+    .append("\nfollow LEADER_THING")
+    .append("\nget THING NAME")
     .append("\ngo portName|next|prev|N|E|S|W|NE|SE|SW|NW|port0|portN|xpath")
-    .append("\ngroup thing1[,thingI,...,thingN] in|on|under|ANY thing2")
+    .append("\ngroup THING1[,THINGi,...,THINGn] in|on|under THING2")
     .append("\nhelp")
     .append("\nif xpath command [elseif xpath command] [else command]")
     .append("\ninventory|i")
-    .append("\nlead follower")
+    .append("\nlead FOLLOWER_THING")
     .append("\nlook")
-    .append("\nnext [[*]target]")
-    .append("\nout speech,caption,transcript,debug,all text")
-    .append("\nparam name value")
-    .append("\nprev [[*]target]")
-    .append("\nput thing1 in|on|under|ANY thing2")
-    .append("\nsearch thing")
-    .append("\nsmash thing")
-    .append("\ntake [thing]")
+    .append("\nnext [[*]THING]")
+    .append("\nout speech,caption,transcript,debug,all TEXT")
+    .append("\nparam NAME VALUE")
+    .append("\nprev [[*]THING]")
+    .append("\nput THING1 in|on|under THING2")
+    .append("\nsearch THING")
+    .append("\nset THING NAME VALUE")
+    .append("\nsmash THING")
+    .append("\ntake [THING]")
+    .append("\nunbuild|eat THING")
     .append("\nunfollow")
     .append("\nunlead")
     .append("\nvanish")
-    .append("\nwait [duration]|[til timestep]")
+    .append("\nwait [DURATION]|[til TIMESTEP]")
     ;
   }
   
