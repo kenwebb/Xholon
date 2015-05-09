@@ -24,6 +24,7 @@ package org.primordion.xholon.base;
  * A turtle is an agent in the turtle mechanism.
  * The turtle mechanism is based on Logo and NetLogo.
  * The abbreviated version of a turtle command (fd bk rt lt) should be used instead of the unabbreviated command.
+ * I'm including the original NetLogo syntax for each command (see NetLogo Dictionary).
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.5 (Created on February 24, 2007)
@@ -65,13 +66,15 @@ public interface ITurtle extends IXholon {
 	public static final int COMMANDID_NONE = -1;
 	public static final int FILTERID_NONE = -1;
 	
-    /**
+  /** 
+   * back number
 	 * Move back a given distance.
 	 * @param distance A distance measured in units.
 	 */
     public void back(double distance);
     
-    /**
+  /**
+   * bk number
 	 * Move back a given distance.
 	 * This method implements the same functionality as back().
 	 * @param distance A distance measured in units.
@@ -79,11 +82,13 @@ public interface ITurtle extends IXholon {
     public void bk(double distance);
     
 	/**
+	 * beep
 	 * Make a single short beep sound.
 	 */
     public void beep();
     
     /**
+     * can-move? distance
      * Can this turtle legally move the specified distance, given its current heading?
      * @param distance A distance measured in units.
      * @return true or false
@@ -91,11 +96,13 @@ public interface ITurtle extends IXholon {
     public boolean canMove(double distance);
 	
 	/**
+	 * die
 	 * Remove yourself permanently from the gene pool.
 	 */
 	public void die();
 	
 	/**
+	 * distance agent
 	 * Return the distance between self and the specified turtle or patch.
 	 * @param turtleOrPatch A turtle or patch object.
 	 * @return A distance in units.
@@ -103,6 +110,7 @@ public interface ITurtle extends IXholon {
 	public double distance(IXholon turtleOrPatch);
 	
 	/**
+	 * distancexy xcor ycor
 	 * Return the distance between yourself and the specified x, y coordinates.
 	 * @param x A global x coordinate.
 	 * @param y A global y coordinate.
@@ -111,6 +119,7 @@ public interface ITurtle extends IXholon {
 	public double distancexy(double x, double y);
 	
 	/**
+	 * downhill patch-variable
 	 * "Return the turtle heading in the direction of the minimum value
 	 * of the variable patch-variable, of the patches in a one-patch radius of the turtle."
 	 * @return An angle between 0 and 359 degrees.
@@ -118,6 +127,7 @@ public interface ITurtle extends IXholon {
 	public double downhill();
 	
 	/**
+	 * downhill4 patch-variable
 	 * "Return the turtle heading in the direction of the minimum value
 	 * of the variable patch-variable, of the patches in a one-patch radius of the turtle."
 	 * @return An angle between 0 and 359 degrees.
@@ -125,35 +135,41 @@ public interface ITurtle extends IXholon {
 	public double downhill4();
 	
 	/**
+	 * dx
 	 * Returns the delta in the x direction if the turtle moved one unit along its current heading.
 	 */
 	public double dx();
 	
 	/**
+	 * dy
 	 * Returns the delta in the y direction if the turtle moved one unit along its current heading.
 	 */
 	public double dy();
 	
 	/**
+	 * face agent
 	 * Turn to face the specified turtle or patch.
 	 * @param turtleOrPatch A turtle or patch object.
 	 */
 	public void face(IXholon turtleOrPatch);
 	
 	/**
+	 * facexy number number
 	 * Turn to face the specified x, y coordinates.
 	 * @param x A global x coordinate.
 	 * @param y A global y coordinate.
 	 */
 	public void facexy(double x, double y);
 	
-    /**
+  /**
+   * forward number
 	 * Move forward a given distance.
 	 * @param distance A distance measured in units.
 	 */
     public void forward(double distance);
     
 	/**
+	 * fd number
 	 * Move forward a given distance.
 	 * This method implements the same functionality as forward().
 	 * @param distance A distance measured in units.
@@ -161,6 +177,7 @@ public interface ITurtle extends IXholon {
     public void fd(double distance);
     
     /**
+     * hatch number [ commands ]
      * Hatch a specified number of new turtles, each identical to this turtle.
      * @param numTurtles The number of new turtles to hatch.
      * @param commandId The ID of a set of turtle commands that can be executed.
@@ -169,22 +186,26 @@ public interface ITurtle extends IXholon {
     public void hatch(int numTurtles, int commandId);
     
     /**
+     * hide-turtle
      * Hide from view.
      */
     public void hideTurtle();
     
     /**
+     * ht
      * Hide from view.
      * This method implements the same functionality as hideTurtle().
      */
     public void ht();
     
     /**
+     * home
      * Go home, by returning to the home coordinates.
      */
     public void home();
     
     /**
+     * in-cone distance angle
      * Return agents that fall within a cone defined by the distance and angle .
      * @param distance A distance measured in units.
      * @param angle An angle measured in degrees.
@@ -193,6 +214,7 @@ public interface ITurtle extends IXholon {
     public IAgentSet inCone(double distance, double angle);
     
 	/**
+	 * in-radius number
 	 * Return a list of all neighbors (turtles) within the specified radius.
 	 * This works for a torus where each cell has 8 neighbors.
 	 * @param radius Distance from the current patch. The current patch is a radius of 0 from itself.
@@ -201,6 +223,7 @@ public interface ITurtle extends IXholon {
 	public IAgentSet inRadius(int radius);
 
 	/**
+	 * in-radius number
 	 * Return a list of all neighbors (turtles) within the specified radius.
 	 * This works for a torus where each cell has 8 neighbors.
 	 * @param radius Distance from the current patch. The current patch is a radius of 0 from itself.
@@ -210,6 +233,7 @@ public interface ITurtle extends IXholon {
 	public IAgentSet inRadius(int radius, int filterId);
 	
     /**
+     * jump number
      * Jump forward a given distance, without effecting any intervening patches or turtles.
      * @param distance A distance measured in units.
      */
@@ -227,13 +251,15 @@ public interface ITurtle extends IXholon {
      */
     public void jump(ITurtle aTurtle);
     
-    /**
+  /**
+   * left number
 	 * Turn left a given angle.
 	 * @param angle An angle measured in degrees.
 	 */
     public void left(double angle);
     
-    /**
+  /**
+   * lt number
 	 * Turn left a given angle.
 	 * This method implements the same functionality as left().
 	 * @param angle A relative angle measured in degrees.
@@ -241,24 +267,28 @@ public interface ITurtle extends IXholon {
     public void lt(double angle);
     
     /**
+     * neighbors
      * Return the 8 surrounding neighbor patches.
      * @return A collection of IPatch instances.
      */
     public IAgentSet neighbors();
     
     /**
+     * neighbors4
      * Return the 4 surrounding neighbor patches.
      * @return A collection of IPatch instances.
      */
     public IAgentSet neighbors4();
     
     /**
+     * other turtles-here
      * Return all other turtles that are also currently located at this turtle's patch.
      * @return A collection of ITurtle instances.
      */
     public IAgentSet otherTurtlesHere();
     
     /**
+     * patch-ahead distance
      * Return the single patch that is the given distance along the turtle's current heading.
      * @param distance A distance measured in units.
      * @return An IPatch instance.
@@ -266,6 +296,7 @@ public interface ITurtle extends IXholon {
     public IPatch patchAhead(double distance);
     
     /**
+     * patch-at dx dy
      * Return the single patch at the specified x and y relative distance.
      * @param dx A relative distance in the x direction, in patches.
      * @param dy A relative distance in the y direction, in patches.
@@ -274,6 +305,7 @@ public interface ITurtle extends IXholon {
     public IPatch patchAt(int dx, int dy);
     
     /**
+     * patch-at-heading-and-distance heading distance
      * Return the single patch at the specified absolute heading and relative distance.
      * @param heading An absolute angle measured in degrees.
      * @param distance A distance measured in units.
@@ -282,12 +314,14 @@ public interface ITurtle extends IXholon {
     public IPatch patchAtHeadingAndDistance(double heading, double distance);
     
     /**
+     * patch-here
      * Return the patch that the turtle is currently on.
      * @return A patch.
      */
     public IPatch patchHere();
     
     /**
+     * patch-left-and-ahead angle distance
      * Return the single patch that is the given distance from the turtle,
      * in the direction turned left the given angle from the turtle's current heading.
      * @param distance A distance measured in units.
@@ -297,6 +331,7 @@ public interface ITurtle extends IXholon {
     public IPatch patchLeftAndAhead(double distance, double angle);
     
     /**
+     * patch-right-and-ahead angle distance
      * Return the single patch that is the given distance from the turtle,
      * in the direction turned right the given angle from the turtle's current heading.
      * @param distance A distance measured in units.
@@ -306,45 +341,53 @@ public interface ITurtle extends IXholon {
     public IPatch patchRightAndAhead(double distance, double angle);
     
 	/**
+	 * pen-down
 	 * Set the pen down, so it is able to draw.
 	 */
 	public void penDown();
 	
 	/**
+	 * pd
 	 * Set the pen down, so it is able to draw.
 	 * This method implements the same functionality as penDown().
 	 */
 	public void pd();
 	
 	/**
+	 * pen-erase
 	 * Set the pen to erase.
 	 */
 	public void penErase();
 	
 	/**
+	 * pe
 	 * Set the pen to erase.
 	 * This method implements the same functionality as penErase().
 	 */
 	public void pe();
 	
 	/**
+	 * pen-up
 	 * Set the pen up, so it is unable to draw.
 	 */
 	public void penUp();
 	
 	/**
+	 * pu
 	 * Set the pen up, so it is unable to draw.
 	 * This method implements the same functionality as penUp().
 	 */
 	public void pu();
 	
-    /**
+  /**
+   * right number
 	 * Turn right a given angle.
 	 * @param angle An angle measured in degrees.
 	 */
     public void right(double angle);
     
-    /**
+  /**
+   * rt number
 	 * Turn right a given angle.
 	 * This method implements the same functionality as right().
 	 * @param angle A relative angle measured in degrees.
@@ -352,6 +395,7 @@ public interface ITurtle extends IXholon {
     public void rt(double angle);
 
 	/**
+	 * setxy x y
 	 * Set the turtle's x and y coordinates, and move to that location.
 	 * @param x New value for the turtle's x coordinate.
 	 * @param y New value for the turtle's y coordinate.
@@ -359,27 +403,32 @@ public interface ITurtle extends IXholon {
 	public void setxy(double x, double y);
 	
     /**
+     * show-turtle
      * Show in the viewer.
      */
     public void showTurtle();
     
     /**
+     * st
      * Show in the viewer.
      * This method implements the same functionality as showTurtle().
      */
     public void st();
     
     /**
+     * stamp
      * Leave an inprint or stamp of self at the current patch.
      */
     public void stamp();
     
     /**
+     * stamp-erase
      * Erase any inprint or stamp at the current patch.
      */
     public void stampErase();
     
 	/**
+	 * towards agent
 	 * Return the heading between self and the specified turtle or patch.
 	 * @param turtleOrPatch A turtle or patch object.
 	 * @return A A heading angle in degrees.
@@ -387,6 +436,7 @@ public interface ITurtle extends IXholon {
 	public double towards(IXholon turtleOrPatch);
 	
 	/**
+	 * towardsxy x y
 	 * Return the heading between self and the specified x, y coordinates.
 	 * @param x A global x coordinate.
 	 * @param y A global y coordinate.
@@ -395,6 +445,7 @@ public interface ITurtle extends IXholon {
 	public double towardsxy(double x, double y);
 	
     /**
+     * turtles-at dx dy
      * Return the turtles located at the single patch at the specified x and y relative distance.
      * @param dx A relative distance in the x direction, in patches.
      * @param dy A relative distance in the y direction, in patches.
@@ -403,12 +454,14 @@ public interface ITurtle extends IXholon {
     public IAgentSet turtlesAt(int dx, int dy);
     
     /**
+     * turtles-here
      * Return the turtles located at the current patch.
      * @return A collection of ITurtle instances.
      */
     public IAgentSet turtlesHere();
     
     /**
+     * turtles-on
      * Return the turtles that are on the given patch or patches,
      * or standing on the same patch as the given turtle or turtles.
      * @return A collection of ITurtle instances.
@@ -416,15 +469,17 @@ public interface ITurtle extends IXholon {
     public IAgentSet turtlesOn();
     
     /**
+     * uphill patch-variable
      * "Return the turtle heading in the direction of the maximum value
-	 * of the variable patch-variable, of the patches in a one-patch radius of the turtle."
-	 * @return An angle between 0 and 359 degrees.
+	   * of the variable patch-variable, of the patches in a one-patch radius of the turtle."
+	   * @return An angle between 0 and 359 degrees.
      *
      */
 	public double uphill();
 	
 	/**
-     * "Return the turtle heading in the direction of the maximum value
+	 * uphill4 patch-variable
+   * "Return the turtle heading in the direction of the maximum value
 	 * of the variable patch-variable, of the patches in a one-patch radius of the turtle."
 	 * @return An angle between 0 and 359 degrees.
 	 */
