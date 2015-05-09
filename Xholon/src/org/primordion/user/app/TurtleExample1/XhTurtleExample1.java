@@ -64,14 +64,16 @@ public void postConfigure()
 	switch(xhc.getId()) {
 	case TurtleObserverCE:
 	{
-		((PatchOwner)port[PatchOwner]).cp();
-		((PatchOwner)port[PatchOwner]).crt(12); // 12 for inspi
+	  if (!("nil".equals(appSpecificParam1))) {
+		  ((PatchOwner)port[PatchOwner]).cp();
+		  ((PatchOwner)port[PatchOwner]).crt(12); // 12 for inspi
+		}
 		
 		// test creation of turtles of a special breed
 		//((PatchOwner)port[PatchOwner]).crt(10, "Sheep");
 		
 		// get first turtle and move it around
-		if ("nil".equals(appSpecificParam1)) {
+		if ("test".equals(appSpecificParam1)) {
 			ITurtle t = (ITurtle)getXPath().evaluate("./descendant::Turtle", port[PatchOwner]);
 			moveTurtleAround(t);
 		}

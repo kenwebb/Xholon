@@ -33,7 +33,19 @@ Comment: This is a template that you can use to start a model of a Xholon applic
 
 <section id="howtouseit">
 <title>How to use it</title>
-<p/>
+<p>By default, this app draws a "toInspi" shape. To have it draw one of the other available shapes, use the "draw" parameter on the browser's URL line. Add one of the following to the end of the URL:</p>
+<p>&amp;draw=circle</p>
+<p>&amp;draw=square</p>
+<p>&amp;draw=poly</p>
+<p>&amp;draw=house</p>
+<p>&amp;draw=toPolyspi</p>
+<p>&amp;draw=toInspi</p>
+<p>&amp;draw=toEquispi</p>
+<p>&amp;draw=toBranch</p>
+<p>&amp;draw=toLBranch</p>
+<p>&amp;draw=toLDragon</p>
+<p>&amp;draw=nil</p>
+<p>&amp;draw=test</p>
 </section>
 
 <section id="thingstonotice">
@@ -43,7 +55,21 @@ Comment: This is a template that you can use to start a model of a Xholon applic
 
 <section id="thingstotry">
 <title>Things to try</title>
-<p/>
+<p>Add "&amp;draw=nil" to the URL line, and reload the page.</p>
+<p>Right-click somewhere in the middle of the grid, and select "Xholon Console".</p>
+<p>Click inside the new Xholon Console, type "&lt;Turtle/&gt;", and click "Submit".</p>
+<p>Erase what you just typed, type "xpath *", and click "Submit".</p>
+<p>Right-click "Mode", and select "Toggle Terminal".</p>
+<p>Erase the text inside the console, type "pd", and press the Enter key.</p>
+<p>Type "color 35", and press the Enter key.</p>
+<p>Type "fd 10" to move the turtle forward by 10, and press the Enter key.</p>
+<p>Type "rt 90" to turn the turtle 90 degrees right, and press the Enter key.</p>
+<p>Type "fd 10", and press the Enter key.</p>
+<p>Type "rt 90", and press the Enter key.</p>
+<p>Type "fd 10", and press the Enter key.</p>
+<p>Type "rt 90", and press the Enter key.</p>
+<p>Type "fd 10", and press the Enter key.</p>
+<p>Type "rt 90", and press the Enter key.</p>
 </section>
 
 <section id="extendingthemodel">
@@ -58,7 +84,7 @@ Comment: This is a template that you can use to start a model of a Xholon applic
 
 <section id="creditsandreferences">
 <title>Credits and references</title>
-<p/>
+<p>Most of the examples are from: Abelson, H. and diSessa, A. (1980). Turtle Geometry. Cambridge, MA: MIT Press.</p>
 </section>
 
 </body>

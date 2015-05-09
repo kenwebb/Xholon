@@ -16,7 +16,7 @@
 <param name="InfoM" value="false"/>
 <param name="ErrorM" value="true"/>
 <param name="MaxProcessLoops" value="-1"/> <!-- -1 -->
-<param name="TimeStepInterval" value="10"/>
+<param name="TimeStepInterval" value="1000"/> <!-- 10 -->
 <param name="SizeMessageQueue" value="100"/>
 <param name="InheritanceHierarchyFile" value="./config/user/TurtleExample1/TurtleExample1_InheritanceHierarchy.xml"/>
 <param name="CompositeStructureHierarchyFile" value="./config/user/TurtleExample1/TurtleExample1_CompositeStructureHierarchy.xml"/>

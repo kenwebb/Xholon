@@ -18,6 +18,8 @@
 
 package org.primordion.user.app.TurtleExample1;
 
+import com.google.gwt.user.client.Window.Location;
+
 import org.primordion.xholon.app.Application;
 import org.primordion.xholon.base.XholonTime;
 import org.primordion.xholon.exception.XholonConfigurationException;
@@ -50,7 +52,17 @@ public String getAppSpecificParam1() {return XhTurtleExample1.getAppSpecificPara
 
 public boolean setParam(String pName, String pValue)
 {
-	if ("AppSpecificParam1".equals(pName)) {setAppSpecificParam1(pValue); return true;}
+	if ("AppSpecificParam1".equals(pName)) {
+	  String wlDraw = Location.getParameter("draw");
+	  if (wlDraw == null) {
+	    setAppSpecificParam1(pValue);
+	  }
+	  else {
+	    // override with value from URL line (ex: &draw=nil)
+	    setAppSpecificParam1(wlDraw);
+	  }
+	  return true;
+	}
 	return super.setParam(pName, pValue);
 }
 
