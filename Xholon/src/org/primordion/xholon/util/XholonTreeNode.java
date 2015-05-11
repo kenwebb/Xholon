@@ -562,16 +562,22 @@ public class XholonTreeNode {
 	 * @see org.primordion.xholon.base.IXholon#print(java.lang.Object)
 	 */
 	public void print(Object obj) {
-		System.out.print(obj);
+		//System.out.print(obj);
+		consoleLog(obj.toString());
 	}
 	
 	/*
 	 * @see org.primordion.xholon.base.IXholon#println(java.lang.Object)
 	 */
 	public void println(Object obj) {
-		System.out.println(obj);
+		//System.out.println(obj);
+		consoleLog(obj.toString() + "\n");
 	}
 	
+	protected native void consoleLog(String s) /*-{
+    $wnd.console.log(s);
+  }-*/;
+  
 	/*
 	 * @see org.primordion.xholon.base.IXholon#getName()
 	 */

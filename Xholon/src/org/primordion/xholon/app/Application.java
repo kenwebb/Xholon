@@ -53,6 +53,7 @@ import org.client.HtmlElementCache;
 import org.client.RCConfig;
 import org.client.SystemMechSpecific;
 import org.client.XholonJsApi;
+import org.client.XholonUtilJsApi;
 
 import org.primordion.xholon.base.IAttribute;
 import org.primordion.xholon.base.IControl;
@@ -1800,6 +1801,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 		// Initialize the IXholon scripting API.
 		//println("XholonJsApi.initIXholonApi();");
 		XholonJsApi.initIXholonApi();
+		XholonUtilJsApi.initUtilApi();
 				
 		//System.out.println("App.initialize() root: " + root);
 		//if (root != null) {

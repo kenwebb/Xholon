@@ -1235,6 +1235,7 @@ public class Xholon implements EntryPoint {
     
     XholonJsApi.exportTopLevelApi(app);
     XholonJsApi.exportIXholonApi((IXholon)app);
+    XholonUtilJsApi.exportUtilApi();
     
     // use localStorage version of Java-based app, if such a version is available
     if (src == null) {
