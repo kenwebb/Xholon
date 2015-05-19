@@ -428,7 +428,7 @@ public class Avatar extends XholonWithPorts {
       }
       // strip "script;" from the start of the string
       this.setVal_String(cmds.substring(7));
-      return "Script initialized.";
+      return ""; //"Script initialized.";
     }
     sb = new StringBuilder();
     String[] s = cmds.split(CMD_SEPARATOR, 100);
