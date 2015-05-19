@@ -23,25 +23,21 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-//import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.TextBox;
-//import com.google.gwt.user.client.ui.Widget;
 
 import java.util.Date;
-//import java.util.List;
 
 import org.primordion.xholon.base.IXholon;
-//import org.primordion.xholon.base.PortInformation;
 import org.primordion.ef.AbstractXholon2ExternalFormat;
-//import org.primordion.xholon.io.gwt.HtmlScriptHelper;
 import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
 
 /**
  * Create a new tab.
  * The tab is typically used to write notes,
  * but could be used to write any type of text.
+ * $wnd.xh.xport("_other,NewTab",$wnd.xh.root(),'{"tabName":"Abc"}');
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.9.0 (Created on December 24, 2013)
@@ -79,7 +75,6 @@ public class Xholon2NewTab extends AbstractXholon2ExternalFormat implements IXho
   
   @Override
   public boolean initialize(String outFileName, String modelName, IXholon root) {
-    //consoleLog("Xholon2NewTab initialize() start");
     timeNow = new Date();
     timeStamp = timeNow.getTime();
     /*if (outFileName == null) {
@@ -90,54 +85,65 @@ public class Xholon2NewTab extends AbstractXholon2ExternalFormat implements IXho
     }*/
     this.modelName = modelName;
     this.root = root;
-    //consoleLog("Xholon2NewTab initialize() end");
     return true;
   }
 
   @Override
   public void writeAll() {
-    //consoleLog("Xholon2NewTab writeAll() start");
-    final Xholon2NewTab xh2nt = this;
-    //consoleLog("Xholon2NewTab writeAll() 1");
-    dialog = uiBinder.createAndBindUi(this);
-    //consoleLog(dialog);
-    cancelButton.addClickHandler(new ClickHandler() {
-      public void onClick(ClickEvent event) {
-        //consoleLog("cancelButton clicked");
-        xh2nt.hide();
-      }
-    });
-    //consoleLog("Xholon2NewTab writeAll() 2");
-    newButton.addClickHandler(new ClickHandler() {
-      public void onClick(ClickEvent event) {
-        //consoleLog("newButton clicked");
-        xh2nt.makeTab();
-        xh2nt.hide();
-      }
-    });
-    //consoleLog("Xholon2NewTab writeAll() 3");
-    show();
-    //consoleLog("Xholon2NewTab writeAll() end");
+    if (getTabName().length() > 0) {
+      makeTab(getTabName());
+    }
+    else {
+      final Xholon2NewTab xh2nt = this;
+      dialog = uiBinder.createAndBindUi(this);
+      cancelButton.addClickHandler(new ClickHandler() {
+        public void onClick(ClickEvent event) {
+          xh2nt.hide();
+        }
+      });
+      newButton.addClickHandler(new ClickHandler() {
+        public void onClick(ClickEvent event) {
+          xh2nt.makeTab(null);
+          xh2nt.hide();
+        }
+      });
+      show();
+    }
   }
   
   /**
    * Make the new tab.
+   * @param tnArg A tab name, or null.
    */
-  public void makeTab() {
-    //consoleLog("making new tab");
-    outFileName = outPath + tabName.getText() + "_" + root.getXhcName() + "_" + root.getId()
+  public void makeTab(String tnArg) {
+    String tn = tnArg;
+    if (tn == null) {
+      tn = tabName.getText();
+    }
+    outFileName = outPath + tn + "_" + root.getXhcName() + "_" + root.getId()
         + "_" + timeStamp + outFileExt;
-    writeToTarget("", outFileName, tabName.getText(), root);
+    writeToTarget("", outFileName, tn, root);
   }
   
   public void hide() {
-    //consoleLog("hide()");
     dialog.hide();
   }
 
   public void show() {
-    //consoleLog("show()");
     dialog.center();
   }
+  
+  /**
+   * Make a JavaScript object with all the parameters for this external format.
+   */
+  protected native void makeEfParams() /*-{
+    var p = {};
+    p.tabName = ""; // "Notes"
+    this.efParams = p;
+  }-*/;
+  
+  /**  */
+  public native String getTabName() /*-{return this.efParams.tabName;}-*/;
+  //public native void setTabName(String tabName) /*-{this.efParams.tabName = tabName;}-*/;
   
 }
