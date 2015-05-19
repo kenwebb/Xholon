@@ -160,11 +160,18 @@ public class Avatar extends XholonWithPorts {
   protected boolean debug = false;
   
   /**
-   * An optional caption that act() should write to for each action.
+   * An optional caption Element that act() should write to for each action.
    * Use "param caption SELECTOR" to set a value, and "param caption null" to disable it.
    * ex: "param caption #xhanim>#one>p"
    */
-  protected Element caption = null;
+  protected Element captionEle = null;
+  
+  /**
+   * Whether or not to automatically write ongoing actions to the caption.
+   * An avatar can only write to a caption if captionEle != null, and caption == true .
+   * ex: "param caption true" or "param caption false"
+   */
+  protected boolean caption = true;
   
   /**
    * Whether or not act() should speak each action.
@@ -325,8 +332,8 @@ public class Avatar extends XholonWithPorts {
         if (++actionIx < actions.length) {
           String a = actions[actionIx].trim();
           if (a.length() > 0) {
-            if (caption != null) {
-              caption.setInnerText(outPrefix + a);
+            if (caption && (captionEle != null) && (!a.startsWith("wait"))) {
+              captionEle.setInnerText(outPrefix + a);
             }
             if (transcript) {
               this.println(outPrefix + a);
@@ -1671,8 +1678,8 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
         this.speak(outPrefix + text, ssuLang, ssuVoice, ssuVolume, ssuRate, ssuPitch);
         break;
       case "caption":
-        if (caption != null) {
-          caption.setInnerText(outPrefix + text);
+        if (captionEle != null) {
+          captionEle.setInnerText(outPrefix + text);
         }
         break;
       case "transcript":
@@ -1917,8 +1924,15 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
     //consoleLog(name + " " + value + " " + valueRest);
     switch (name) {
     case "caption":
-      if ("null".equals(value)) {caption = null;}
-      else {caption = querySelector(value);}
+      //if ("null".equals(value)) {captionEle = null;}
+      //else {captionEle = querySelector(value);}
+      
+      switch (value) {
+      case "true": caption = true; break;
+      case "false": caption = false; break;
+      case "null": captionEle = null; break;
+      default: captionEle = querySelector(value); break;
+      }
       break;
     case "debug":
       switch (value) {
@@ -2050,7 +2064,7 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
   
   /**
    * Query for a DOM Element, given a selector.
-   * ex: var caption = document.querySelector("#xhanim>#one>p");
+   * ex: var captionEle = document.querySelector("#xhanim>#one>p");
    * @param selector - a CSS selector (ex: "#xhanim>#one>p")
    */
   protected native Element querySelector(String selector) /*-{
