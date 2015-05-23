@@ -32,6 +32,7 @@ import java.util.List;
 import org.primordion.xholon.app.IApplication;
 import org.primordion.xholon.base.IControl;
 import org.primordion.xholon.base.IGrid;
+import org.primordion.xholon.io.gwt.HtmlScriptHelper;
 import org.primordion.xholon.service.IXholonService;
 import org.primordion.xholon.service.XholonHelperService;
 import org.primordion.xholon.util.Misc;
@@ -96,6 +97,9 @@ public class Avatar extends XholonWithPorts {
   protected static final String WILDCARD = "*";
   protected static final String DOLLAR_CHILD_SEPARATOR = ">"; // ex: $One>Two>three
   protected static final String LEAD_PARENT_NODE = ".."; // ex: lead ..;
+  protected static final String DEFAULT_HOPBOP_PARAMS = "25"; // anim hop
+  protected static final String DEFAULT_VIEWELE_STR = "#xhanim>#one";
+  protected static final String ALTERNATE_VIEWELE_STR = "#xhgraph";
   
   // Variables
   public String roleName = null;
@@ -158,6 +162,14 @@ public class Avatar extends XholonWithPorts {
    * Whether or not to write informative debug messages.
    */
   protected boolean debug = false;
+  
+  /**
+   * The root of an optional view, typically a HTML div that contains a d3cp SVG image.
+   * This is used by the "anim" command.
+   * Use "param view SELECTOR" to set a value, and "param view null" to disable it.
+   * ex: "param view #xhanim>#one"
+   */
+  protected Element viewEle = null;
   
   /**
    * An optional caption Element that act() should write to for each action.
@@ -302,6 +314,9 @@ public class Avatar extends XholonWithPorts {
     contextNode = this.getParentNode();
     app = this.getApp();
     xpath = this.getXPath();
+    if (isXhSvgAnimRequired()) {
+      HtmlScriptHelper.requireScript("xhSvgAnim", null);
+    }
     meteorService = app.getService(IXholonService.XHSRV_METEOR_PLATFORM);
     if (this.getFirstChild() != null) {
       this.setVal_String(this.getFirstChild().getVal_String());
@@ -310,6 +325,20 @@ public class Avatar extends XholonWithPorts {
     }
     super.postConfigure();
   }
+  
+  /**
+   * The xhSvgAnim.js script is required,
+   * if it hasn't yet been loaded and if no other Avatar is currently trying to load it.
+   * The first Avatar that returns true from this method, sets xh.anim to null,
+   * to prevent other Avatars from trying to load xhSvgAnim.js .
+   */
+  protected native boolean isXhSvgAnimRequired() /*-{
+    if (typeof $wnd.xh.anim == "undefined") {
+      $wnd.xh.anim = null;
+      return true;
+    }
+    return false;
+  }-*/;
   
   @Override
   public void act() {
@@ -594,6 +623,18 @@ public class Avatar extends XholonWithPorts {
     }
     int len = data.length;
     switch (data[0]) {
+    case "anim":
+      switch (len) {
+      case 1: anim(null, null); break; // anim;
+      case 2: anim(data[1], null); break; // anim hide; anim "{...}";
+      case 3: anim(data[1], data[2]); break; // anim grow 2;
+      case 4:
+      default:
+        sb.append("Please specify a properly formatted animation")
+        .append(" (ex: anim hop 25).");
+        break;
+      }
+      break;
     case "appear":
       appear();
       break;
@@ -886,6 +927,81 @@ public class Avatar extends XholonWithPorts {
       break;
     }
   }
+  
+  /**
+   * Do a simple animation.
+   * A simple animation does not change the model. It only effects the view.
+   * Many of these are based on ScratchJr blocks.
+   * anim turnright|turnleft|hop|grow|shrink|resetsize|hide|show PARAMS
+   * @param animType 
+   * @param params 
+   */
+  protected void anim(String animType, String params) {
+    //sb.append("anim not yet implemented: anim " + animType + " " + params);
+    double duration = app.getTimeStepInterval() / 1000;
+    if (viewEle == null) {
+      viewEle = querySelector(DEFAULT_VIEWELE_STR);
+    }
+    if (viewEle == null) {
+      viewEle = querySelector(ALTERNATE_VIEWELE_STR);
+    }
+    switch (animType) {
+    //case "grow": animGrow(params); break;
+    //case "hide": animHide(params); break;
+    //case "hop": animHop(params); break;
+    //case "resetsize": animResetsize(params); break;
+    //case "show": animShow(params); break;
+    //case "shrink": animShrink(params); break;
+    //case "turnleft": animTurnleft(params); break;
+    //case "turnright": animTurnright(params); break;
+    
+    //case "bop":
+    case "duck":
+      // a duck is a downwards hop; or I could call it "bop"
+      if (params == null) {params = DEFAULT_HOPBOP_PARAMS;}
+      makeJsObject(this, "anim", "{\"duck\": " + params + "}");
+      animView(this, viewEle, duration);
+      break;
+    case "hop":
+      // {"hop": 25}
+      if (params == null) {params = DEFAULT_HOPBOP_PARAMS;}
+      makeJsObject(this, "anim", "{\"hop\": " + params + "}");
+      //animView(this, this.querySelector("div#xhanim svg"));
+      animView(this, viewEle, duration); // TODO xhgraph only works with The Black Geese
+      break;
+    default:
+      // this may be a JSON string specifying one or more animations
+      makeJsObject(this, "anim", animType);
+      break;
+    }
+  }
+  
+  protected native void makeJsObject(IXholon node, String attrName, String jsonStr) /*-{
+    $wnd.console.log("about to JSON.parse(" + jsonStr + ")");
+    node[attrName] = $wnd.JSON.parse(jsonStr);
+  }-*/;
+  
+  protected native void animView(IXholon xhnode, Element view, double duration) /*-{
+    if ($wnd.xh.anim) {
+      $wnd.xh.anim(xhnode, view, duration);
+    }
+  }-*/;
+  
+  /**
+   * For now, this View method is in the Avatar model object.
+   * invalid to have ":" as part of the selector; the following works in Firebug
+var svgRoot = document.querySelector("div#xhanim svg");
+var nodeName = "Sheila:avatar_42";
+var node = svgRoot.querySelector("g>g[id^=Sheila]"); // or "g>g[id$=avatar_42]" also works
+node
+   */
+  //protected native void animView(IXholon node, Element svgRoot) /*-{
+    // the following all works
+  //  var nodeName = node.name("^^c_i^");
+  //  $wnd.console.log(nodeName);
+  //  $wnd.console.log(svgRoot);
+  //  $wnd.console.log(svgRoot.querySelector('g>g[id$=' + nodeName + ']'));
+  //}-*/;
   
   /**
    * Become visible to the other nodes in the Xholon tree,
@@ -1408,6 +1524,7 @@ public class Avatar extends XholonWithPorts {
   protected void help() {
     sb
     .append("Basic commands:")
+    .append("\nanim turnright|turnleft|hop|grow|shrink|resetsize|hide|show PARAMS")
     .append("\nappear")
     .append("\nbecome THING role ROLE")
     .append("\nbreakpoint")
@@ -1932,6 +2049,12 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
       case "false": caption = false; break;
       case "null": captionEle = null; break;
       default: captionEle = querySelector(value); break;
+      }
+      break;
+    case "view":
+      switch (value) {
+      case "null": viewEle = null; break;
+      default: viewEle = querySelector(value); break;
       }
       break;
     case "debug":
