@@ -18,7 +18,6 @@ xh.anim(xhnode, selection, duration);
 
 xh.anim = function(xhnode, selection, duration) {
   
-  console.log("xh.anim 1");
   if (typeof d3 == "undefined") {return;}
   
   /**
@@ -29,10 +28,7 @@ xh.anim = function(xhnode, selection, duration) {
    *   I multiple by -1, to reverse the SVG default where a negative number means up.
    */
   var hop = function(g, amount) {
-    //console.log("hopping");
     var matrix = g.transform.baseVal.getItem(0).matrix;
-    //var cx = matrix.e;
-    //var cy = matrix.f;
     d3.select(g).transition()
     .attr("transform", "translate(" + (matrix.e + 0) + "," + (matrix.f + (amount * (-1))) + ")")
     .duration(durationMs)
@@ -60,27 +56,12 @@ xh.anim = function(xhnode, selection, duration) {
     var matrix = g.transform.baseVal.getItem(0).matrix;
     var cx = matrix.e;
     var cy = matrix.f;
-    //console.log("turning " + degrees + " " + cx + " " + cy);
     d3.select(g).transition()
-    /*.attrTween("transform", function() {
-      return d3.interpolateString(
-        "rotate(" + 0 + "," + cx + "," + cy + ")",
-        "rotate(" + degrees + "," + cx + "," + cy + ")");
-        //"rotate(0)", "rotate(" + degrees + ")"); // it rotates correctly around 0,0
-    })*/
     .attr("transform", "rotate(" + degrees + "," + cx + "," + cy + ")" + "translate(" + cx + "," + cy + ")")
-    
     .duration(durationMs)
     .each("end", function() {
       d3.select(g).transition()
-      /*.attrTween("transform", function() {
-        return d3.interpolateString(
-          "rotate(" + degrees + "," + cx + "," + cy + ")",
-          "rotate(" + 0 + "," + cx + "," + cy + ")");
-          //"rotate(" + degrees + ")", "rotate(0)");
-      })*/
       .attr("transform", "rotate(" + 0 + "," + cx + "," + cy + ")" + "translate(" + cx + "," + cy + ")")
-      
       .duration(durationMs)
     });
   }
@@ -97,7 +78,6 @@ xh.anim = function(xhnode, selection, duration) {
    * I assume that the original scale is 1,1
    */
   var grow = function(g, scaleX, scaleY) {
-    console.log("growing");
     var matrix = g.transform.baseVal.getItem(0).matrix;
     var cx = matrix.e;
     var cy = matrix.f;
@@ -130,9 +110,32 @@ xh.anim = function(xhnode, selection, duration) {
     }
   }
   
-  // TODO mirror() based on scale
+  /**
+   * hide
+   * Make the node very small so it's effectively hidden from view.
+   */
+  var hide = function(g) {
+    var matrix = g.transform.baseVal.getItem(0).matrix;
+    var cx = matrix.e;
+    var cy = matrix.f;
+    d3.select(g).transition()
+    .attr("transform", "translate(" + cx + "," + cy + ")" + "scale(" + (1/256) + ")")
+    .duration(durationMs);
+  }
   
-  //console.log("xh.anim 2");
+  /**
+   * show
+   * Make the node visible again by returning it to its normal size.
+   */
+  var show = function(g) {
+    var matrix = g.transform.baseVal.getItem(0).matrix;
+    var cx = matrix.e;
+    var cy = matrix.f;
+    d3.select(g).transition()
+    .attr("transform", "translate(" + cx + "," + cy + ")" + "scale(" + 1 + ")")
+    .duration(durationMs);
+  }
+  
   if ((xhnode === undefined) || (xhnode === null)) {
     xhnode = xh.root();
   }
@@ -144,38 +147,27 @@ xh.anim = function(xhnode, selection, duration) {
   }
   var durationMs = duration * 500; // convert seconds to ms, divided by 2 to accommodate the 2 half-cycles
   
-  //console.log("xh.anim 3");
   var animObj = xhnode.anim;
   if (!animObj) {
-    //console.log("xh.anim 4");
     return;
   }
   
-  //console.log("xh.anim 5");
-  console.log(animObj);
-  console.log(selection);
   var svg = null;
   try {
     svg = selection.querySelector("svg");
   } catch(e) {
-    console.log(e); // SYNTAX_ERR
+    console.log(e);
     return;
   }
   if (!svg) {return;}
-  console.log(svg);
   
   var nodeName = xhnode.name("^^c_i^");
-  //console.log(nodeName);
-  //console.log(svg);
   var g = svg.querySelector('g>g[id$=' + nodeName + ']');
-  //console.log(g);
   if (g == null) {
     return;
   }
   
-  //hop(g, -25);
   for (aname in animObj) {
-    console.log(aname);
     switch (aname) {
     case "hop":
       hop(g, animObj[aname]);
@@ -197,6 +189,12 @@ xh.anim = function(xhnode, selection, duration) {
       break;
     case "mirror":
       mirror(g, animObj[aname]);
+      break;
+    case "hide":
+      hide(g);
+      break;
+    case "show":
+      show(g);
       break;
     default: break;
     }

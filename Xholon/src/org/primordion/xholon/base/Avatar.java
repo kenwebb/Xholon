@@ -628,13 +628,13 @@ public class Avatar extends XholonWithPorts {
     switch (data[0]) {
     case "anim":
       switch (len) {
-      case 1: anim(null, null); break; // anim;
-      case 2: anim(data[1], null); break; // anim hide; anim "{...}";
-      case 3: anim(data[1], data[2]); break; // anim grow 2;
-      case 4:
+      //case 1: anim(null, null, null); break; // anim;
+      //case 2: anim(data[1], null, null); break; // anim this;
+      case 3: anim(data[1], data[2], null); break; // anim this grow;
+      case 4: anim(data[1], data[2], data[3]); break; // anim this grow 2;
       default:
         sb.append("Please specify a properly formatted animation")
-        .append(" (ex: anim hop 25).");
+        .append(" (ex: anim this hop 25;).");
         break;
       }
       break;
@@ -935,66 +935,86 @@ public class Avatar extends XholonWithPorts {
    * Do a simple animation.
    * A simple animation does not change the model. It only effects the view.
    * Many of these are based on ScratchJr blocks.
-   * anim turnright|turnleft|hop|grow|shrink|resetsize|hide|show PARAMS
+   * anim THING turnright|turnleft|hop|grow|shrink|resetsize|hide|show PARAMS
+   * @param thing 
    * @param animType 
    * @param params 
    */
-  protected void anim(String animType, String params) {
-    //sb.append("anim not yet implemented: anim " + animType + " " + params);
-    double duration = app.getTimeStepInterval() / 1000;
-    if (viewEle == null) {
-      viewEle = querySelector(DEFAULT_VIEWELE_STR);
+  protected void anim(String thing, String animType, String params) {
+    if (thing == null) {return;}
+    if (animType == null) {return;}
+    IXholon node = null;
+    if (THIS_AVATAR.equals(thing)) {
+      node = this;
     }
-    if (viewEle == null) {
-      viewEle = querySelector(ALTERNATE_VIEWELE_STR);
+    else {
+      node = findNode(thing, contextNode);
+      if (node == null) {
+        node = findNode(thing, this);
+      }
     }
-    switch (animType) {
-    case "hop":
-      if (params == null) {params = DEFAULT_HOP_PARAMS;}
-      makeJsObject(this, "anim", "{\"hop\": " + params + "}");
-      animView(this, viewEle, duration);
-      break;
-    case "duck":
-      // a downwards hop
-      if (params == null) {params = DEFAULT_HOP_PARAMS;}
-      makeJsObject(this, "anim", "{\"duck\": " + params + "}");
-      animView(this, viewEle, duration);
-      break;
-    case "turnright":
-      if (params == null) {params = DEFAULT_TURN_PARAMS;}
-      makeJsObject(this, "anim", "{\"turnright\": " + params + "}");
-      animView(this, viewEle, duration);
-      break;
-    case "turnleft":
-      if (params == null) {params = DEFAULT_TURN_PARAMS;}
-      makeJsObject(this, "anim", "{\"turnleft\": " + params + "}");
-      animView(this, viewEle, duration);
-      break;
-    case "grow": // scale
-      if (params == null) {params = DEFAULT_GROW_PARAMS;}
-      makeJsObject(this, "anim", "{\"grow\": " + params + "}");
-      animView(this, viewEle, duration);
-      break;
-    case "shrink": // scale
-      if (params == null) {params = DEFAULT_GROW_PARAMS;}
-      makeJsObject(this, "anim", "{\"shrink\": " + params + "}");
-      animView(this, viewEle, duration);
-      break;
-    case "mirror": // scale
-      if (params == null) {params = DEFAULT_MIRROR_PARAMS;}
-      makeJsObject(this, "anim", "{\"mirror\": \"" + params + "\"}");
-      animView(this, viewEle, duration);
-      break;
-    default:
-      // this may be a JSON string specifying one or more animations
-      makeJsObject(this, "anim", animType);
-      break;
+    if (node != null) {
+      double duration = app.getTimeStepInterval() / 1000;
+      if (viewEle == null) {
+        viewEle = querySelector(DEFAULT_VIEWELE_STR);
+      }
+      if (viewEle == null) {
+        viewEle = querySelector(ALTERNATE_VIEWELE_STR);
+      }
+      switch (animType) {
+      case "hop":
+        if (params == null) {params = DEFAULT_HOP_PARAMS;}
+        makeJsObject(node, "anim", "{\"hop\": " + params + "}");
+        animView(node, viewEle, duration);
+        break;
+      case "duck": // a downwards hop
+        if (params == null) {params = DEFAULT_HOP_PARAMS;}
+        makeJsObject(node, "anim", "{\"duck\": " + params + "}");
+        animView(node, viewEle, duration);
+        break;
+      case "turnright":
+        if (params == null) {params = DEFAULT_TURN_PARAMS;}
+        makeJsObject(node, "anim", "{\"turnright\": " + params + "}");
+        animView(node, viewEle, duration);
+        break;
+      case "turnleft":
+        if (params == null) {params = DEFAULT_TURN_PARAMS;}
+        makeJsObject(node, "anim", "{\"turnleft\": " + params + "}");
+        animView(node, viewEle, duration);
+        break;
+      case "grow":
+        if (params == null) {params = DEFAULT_GROW_PARAMS;}
+        makeJsObject(node, "anim", "{\"grow\": " + params + "}");
+        animView(node, viewEle, duration);
+        break;
+      case "shrink":
+        if (params == null) {params = DEFAULT_GROW_PARAMS;}
+        makeJsObject(node, "anim", "{\"shrink\": " + params + "}");
+        animView(node, viewEle, duration);
+        break;
+      case "mirror":
+        if (params == null) {params = DEFAULT_MIRROR_PARAMS;}
+        makeJsObject(node, "anim", "{\"mirror\": \"" + params + "\"}");
+        animView(node, viewEle, duration);
+        break;
+      case "hide":
+        makeJsObject(node, "anim", "{\"hide\": " + true + "}");
+        animView(node, viewEle, duration);
+        break;
+      case "show":
+        makeJsObject(node, "anim", "{\"show\": " + true + "}");
+        animView(node, viewEle, duration);
+        break;
+      default:
+        // this may be a JSON string specifying one or more animations
+        makeJsObject(node, "anim", animType);
+        break;
+      }
     }
   }
   
-  protected native void makeJsObject(IXholon node, String attrName, String jsonStr) /*-{
-    $wnd.console.log("about to JSON.parse(" + jsonStr + ")");
-    node[attrName] = $wnd.JSON.parse(jsonStr);
+  protected native void makeJsObject(IXholon xhnode, String attrName, String jsonStr) /*-{
+    xhnode[attrName] = $wnd.JSON.parse(jsonStr);
   }-*/;
   
   protected native void animView(IXholon xhnode, Element view, double duration) /*-{
@@ -1002,22 +1022,6 @@ public class Avatar extends XholonWithPorts {
       $wnd.xh.anim(xhnode, view, duration);
     }
   }-*/;
-  
-  /**
-   * For now, this View method is in the Avatar model object.
-   * invalid to have ":" as part of the selector; the following works in Firebug
-var svgRoot = document.querySelector("div#xhanim svg");
-var nodeName = "Sheila:avatar_42";
-var node = svgRoot.querySelector("g>g[id^=Sheila]"); // or "g>g[id$=avatar_42]" also works
-node
-   */
-  //protected native void animView(IXholon node, Element svgRoot) /*-{
-    // the following all works
-  //  var nodeName = node.name("^^c_i^");
-  //  $wnd.console.log(nodeName);
-  //  $wnd.console.log(svgRoot);
-  //  $wnd.console.log(svgRoot.querySelector('g>g[id$=' + nodeName + ']'));
-  //}-*/;
   
   /**
    * Become visible to the other nodes in the Xholon tree,
@@ -1540,7 +1544,7 @@ node
   protected void help() {
     sb
     .append("Basic commands:")
-    .append("\nanim turnright|turnleft|hop|grow|shrink|resetsize|hide|show PARAMS")
+    .append("\nanim THING turnright|turnleft|hop|duck|grow|shrink|mirror PARAMS")
     .append("\nappear")
     .append("\nbecome THING role ROLE")
     .append("\nbreakpoint")
