@@ -94,19 +94,19 @@ xh.anim = function(xhnode, selection, duration) {
   
   /**
    * ex: grow 2
-   * I assume that the original scale is 1
+   * I assume that the original scale is 1,1
    */
-  var grow = function(g, scale) {
+  var grow = function(g, scaleX, scaleY) {
     console.log("growing");
     var matrix = g.transform.baseVal.getItem(0).matrix;
     var cx = matrix.e;
     var cy = matrix.f;
     d3.select(g).transition()
-    .attr("transform", "translate(" + cx + "," + cy + ")" + "scale(" + scale + ")")
+    .attr("transform", "translate(" + cx + "," + cy + ")" + "scale(" + scaleX + "," + scaleY + ")")
     .duration(durationMs)
     .each("end", function() {
       d3.select(g).transition()
-      .attr("transform", "translate(" + cx + "," + cy + ")" + "scale(" + 1 + ")")
+      .attr("transform", "translate(" + cx + "," + cy + ")" + "scale(1,1)")
       .duration(durationMs)
     });
   }
@@ -114,8 +114,20 @@ xh.anim = function(xhnode, selection, duration) {
   /**
    * ex: shrink 2
    */
-  var shrink = function(g, scale) {
-    grow(g, 1 / scale);
+  var shrink = function(g, scaleX, scaleY) {
+    grow(g, 1/scaleX, 1/scaleY);
+  }
+  
+  /**
+   * ex: mirror x
+   */
+  var mirror = function(g, direction) {
+    if (direction == "y") {
+      grow(g, 1, -1);
+    }
+    else {
+      grow(g, -1, 1);
+    }
   }
   
   // TODO mirror() based on scale
@@ -178,10 +190,13 @@ xh.anim = function(xhnode, selection, duration) {
       turnleft(g, animObj[aname]);
       break;
     case "grow":
-      grow(g, animObj[aname]);
+      grow(g, animObj[aname], animObj[aname]);
       break;
     case "shrink":
-      shrink(g, animObj[aname]);
+      shrink(g, animObj[aname], animObj[aname]);
+      break;
+    case "mirror":
+      mirror(g, animObj[aname]);
       break;
     default: break;
     }

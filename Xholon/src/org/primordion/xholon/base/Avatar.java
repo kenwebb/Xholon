@@ -100,6 +100,7 @@ public class Avatar extends XholonWithPorts {
   protected static final String DEFAULT_HOP_PARAMS = "25"; // anim hop 25
   protected static final String DEFAULT_TURN_PARAMS = "45"; // anim turnright 45
   protected static final String DEFAULT_GROW_PARAMS = "2"; // anim grow 2
+  protected static final String DEFAULT_MIRROR_PARAMS = "x"; // anim mirror x  or y
   protected static final String DEFAULT_VIEWELE_STR = "#xhanim>#one";
   protected static final String ALTERNATE_VIEWELE_STR = "#xhgraph";
   
@@ -977,6 +978,11 @@ public class Avatar extends XholonWithPorts {
     case "shrink": // scale
       if (params == null) {params = DEFAULT_GROW_PARAMS;}
       makeJsObject(this, "anim", "{\"shrink\": " + params + "}");
+      animView(this, viewEle, duration);
+      break;
+    case "mirror": // scale
+      if (params == null) {params = DEFAULT_MIRROR_PARAMS;}
+      makeJsObject(this, "anim", "{\"mirror\": \"" + params + "\"}");
       animView(this, viewEle, duration);
       break;
     default:
