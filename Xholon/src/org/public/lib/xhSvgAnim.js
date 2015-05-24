@@ -29,13 +29,13 @@ xh.anim = function(xhnode, selection, duration) {
    *   I multiple by -1, to reverse the SVG default where a negative number means up.
    */
   var hop = function(g, amount) {
-    console.log("hopping");
+    //console.log("hopping");
     var matrix = g.transform.baseVal.getItem(0).matrix;
-    //console.log("" + matrix.e + "," + matrix.f);
+    //var cx = matrix.e;
+    //var cy = matrix.f;
     d3.select(g).transition()
     .attr("transform", "translate(" + (matrix.e + 0) + "," + (matrix.f + (amount * (-1))) + ")")
     .duration(durationMs)
-    // the "end" event triggers a reverse half-hop; only needed if g is still part of the active SVG image
     .each("end", function() {
       d3.select(g).transition()
       .attr("transform", "translate(" + (matrix.e + 0) + "," + (matrix.f + amount) + ")")
@@ -50,6 +50,76 @@ xh.anim = function(xhnode, selection, duration) {
     hop(g, amount * -1);
   }
   
+  /**
+   * ex: turnright 45
+   * the "end" event triggers a reverse rotate; only needed if g is still part of the active SVG image
+   * I assume that the original angle is 0 degrees.
+   * Can only turn up to 180 degrees; use d3.interpolateString() if I want to go higher than 180
+   */
+  var turnright = function(g, degrees) {
+    var matrix = g.transform.baseVal.getItem(0).matrix;
+    var cx = matrix.e;
+    var cy = matrix.f;
+    //console.log("turning " + degrees + " " + cx + " " + cy);
+    d3.select(g).transition()
+    /*.attrTween("transform", function() {
+      return d3.interpolateString(
+        "rotate(" + 0 + "," + cx + "," + cy + ")",
+        "rotate(" + degrees + "," + cx + "," + cy + ")");
+        //"rotate(0)", "rotate(" + degrees + ")"); // it rotates correctly around 0,0
+    })*/
+    .attr("transform", "rotate(" + degrees + "," + cx + "," + cy + ")" + "translate(" + cx + "," + cy + ")")
+    
+    .duration(durationMs)
+    .each("end", function() {
+      d3.select(g).transition()
+      /*.attrTween("transform", function() {
+        return d3.interpolateString(
+          "rotate(" + degrees + "," + cx + "," + cy + ")",
+          "rotate(" + 0 + "," + cx + "," + cy + ")");
+          //"rotate(" + degrees + ")", "rotate(0)");
+      })*/
+      .attr("transform", "rotate(" + 0 + "," + cx + "," + cy + ")" + "translate(" + cx + "," + cy + ")")
+      
+      .duration(durationMs)
+    });
+  }
+  
+  /**
+   * ex: turnleft 45
+   */
+  var turnleft = function(g, degrees) {
+    turnright(g, degrees * -1);
+  }
+  
+  /**
+   * ex: grow 2
+   * I assume that the original scale is 1
+   */
+  var grow = function(g, scale) {
+    console.log("growing");
+    var matrix = g.transform.baseVal.getItem(0).matrix;
+    var cx = matrix.e;
+    var cy = matrix.f;
+    d3.select(g).transition()
+    .attr("transform", "translate(" + cx + "," + cy + ")" + "scale(" + scale + ")")
+    .duration(durationMs)
+    .each("end", function() {
+      d3.select(g).transition()
+      .attr("transform", "translate(" + cx + "," + cy + ")" + "scale(" + 1 + ")")
+      .duration(durationMs)
+    });
+  }
+  
+  /**
+   * ex: shrink 2
+   */
+  var shrink = function(g, scale) {
+    grow(g, 1 / scale);
+  }
+  
+  // TODO mirror() based on scale
+  
   //console.log("xh.anim 2");
   if ((xhnode === undefined) || (xhnode === null)) {
     xhnode = xh.root();
@@ -58,9 +128,9 @@ xh.anim = function(xhnode, selection, duration) {
     selection = document.querySelector("#xhanim>#one"); // "#xhgraph"
   }
   if ((duration === undefined) || (duration === null)) {
-    duration = 5;
+    duration = 1;
   }
-  var durationMs = duration * 1000; // convert seconds to ms
+  var durationMs = duration * 500; // convert seconds to ms, divided by 2 to accommodate the 2 half-cycles
   
   //console.log("xh.anim 3");
   var animObj = xhnode.anim;
@@ -93,12 +163,25 @@ xh.anim = function(xhnode, selection, duration) {
   
   //hop(g, -25);
   for (aname in animObj) {
+    console.log(aname);
     switch (aname) {
     case "hop":
       hop(g, animObj[aname]);
       break;
     case "duck":
       duck(g, animObj[aname]);
+      break;
+    case "turnright":
+      turnright(g, animObj[aname]);
+      break;
+    case "turnleft":
+      turnleft(g, animObj[aname]);
+      break;
+    case "grow":
+      grow(g, animObj[aname]);
+      break;
+    case "shrink":
+      shrink(g, animObj[aname]);
       break;
     default: break;
     }

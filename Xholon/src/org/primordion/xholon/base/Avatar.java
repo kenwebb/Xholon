@@ -97,7 +97,9 @@ public class Avatar extends XholonWithPorts {
   protected static final String WILDCARD = "*";
   protected static final String DOLLAR_CHILD_SEPARATOR = ">"; // ex: $One>Two>three
   protected static final String LEAD_PARENT_NODE = ".."; // ex: lead ..;
-  protected static final String DEFAULT_HOPBOP_PARAMS = "25"; // anim hop
+  protected static final String DEFAULT_HOP_PARAMS = "25"; // anim hop 25
+  protected static final String DEFAULT_TURN_PARAMS = "45"; // anim turnright 45
+  protected static final String DEFAULT_GROW_PARAMS = "2"; // anim grow 2
   protected static final String DEFAULT_VIEWELE_STR = "#xhanim>#one";
   protected static final String ALTERNATE_VIEWELE_STR = "#xhgraph";
   
@@ -946,28 +948,36 @@ public class Avatar extends XholonWithPorts {
       viewEle = querySelector(ALTERNATE_VIEWELE_STR);
     }
     switch (animType) {
-    //case "grow": animGrow(params); break;
-    //case "hide": animHide(params); break;
-    //case "hop": animHop(params); break;
-    //case "resetsize": animResetsize(params); break;
-    //case "show": animShow(params); break;
-    //case "shrink": animShrink(params); break;
-    //case "turnleft": animTurnleft(params); break;
-    //case "turnright": animTurnright(params); break;
-    
-    //case "bop":
+    case "hop":
+      if (params == null) {params = DEFAULT_HOP_PARAMS;}
+      makeJsObject(this, "anim", "{\"hop\": " + params + "}");
+      animView(this, viewEle, duration);
+      break;
     case "duck":
-      // a duck is a downwards hop; or I could call it "bop"
-      if (params == null) {params = DEFAULT_HOPBOP_PARAMS;}
+      // a downwards hop
+      if (params == null) {params = DEFAULT_HOP_PARAMS;}
       makeJsObject(this, "anim", "{\"duck\": " + params + "}");
       animView(this, viewEle, duration);
       break;
-    case "hop":
-      // {"hop": 25}
-      if (params == null) {params = DEFAULT_HOPBOP_PARAMS;}
-      makeJsObject(this, "anim", "{\"hop\": " + params + "}");
-      //animView(this, this.querySelector("div#xhanim svg"));
-      animView(this, viewEle, duration); // TODO xhgraph only works with The Black Geese
+    case "turnright":
+      if (params == null) {params = DEFAULT_TURN_PARAMS;}
+      makeJsObject(this, "anim", "{\"turnright\": " + params + "}");
+      animView(this, viewEle, duration);
+      break;
+    case "turnleft":
+      if (params == null) {params = DEFAULT_TURN_PARAMS;}
+      makeJsObject(this, "anim", "{\"turnleft\": " + params + "}");
+      animView(this, viewEle, duration);
+      break;
+    case "grow": // scale
+      if (params == null) {params = DEFAULT_GROW_PARAMS;}
+      makeJsObject(this, "anim", "{\"grow\": " + params + "}");
+      animView(this, viewEle, duration);
+      break;
+    case "shrink": // scale
+      if (params == null) {params = DEFAULT_GROW_PARAMS;}
+      makeJsObject(this, "anim", "{\"shrink\": " + params + "}");
+      animView(this, viewEle, duration);
       break;
     default:
       // this may be a JSON string specifying one or more animations
