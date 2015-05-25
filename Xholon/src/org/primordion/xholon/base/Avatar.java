@@ -998,7 +998,7 @@ public class Avatar extends XholonWithPorts {
         animView(node, viewEle, duration);
         break;
       case "hide":
-        makeJsObject(node, "anim", "{\"hide\": " + true + "}");
+        makeJsObject(node, "anim", "{\"show\": " + false + "}");
         animView(node, viewEle, duration);
         break;
       case "show":
