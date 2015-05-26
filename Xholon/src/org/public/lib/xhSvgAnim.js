@@ -17,7 +17,7 @@ xh.anim(xhnode, selection, duration);
 */
 
 xh.anim = function(xhnode, selection, duration) {
-  
+  console.log("xh.anim 1");
   if (typeof d3 == "undefined") {return;}
   
   /**
@@ -111,29 +111,35 @@ xh.anim = function(xhnode, selection, duration) {
   }
   
   /**
-   * hide
-   * Make the node very small so it's effectively hidden from view.
+   * show
+   * Make the node visible again by returning it to its normal size.
    */
-  var hide = function(g) {
+  var show = function(g, shouldShow) {
+    var scale = 1;
+    if (!shouldShow) {
+      scale = 1/256;
+    }
     var matrix = g.transform.baseVal.getItem(0).matrix;
     var cx = matrix.e;
     var cy = matrix.f;
     d3.select(g).transition()
-    .attr("transform", "translate(" + cx + "," + cy + ")" + "scale(" + (1/256) + ")")
+    .attr("transform", "translate(" + cx + "," + cy + ")" + "scale(" + scale + ")")
     .duration(durationMs);
   }
   
   /**
-   * show
-   * Make the node visible again by returning it to its normal size.
+   * Save the animation data, typically for later use by xhSvgTween.js .
    */
-  var show = function(g) {
-    var matrix = g.transform.baseVal.getItem(0).matrix;
-    var cx = matrix.e;
-    var cy = matrix.f;
-    d3.select(g).transition()
-    .attr("transform", "translate(" + cx + "," + cy + ")" + "scale(" + 1 + ")")
-    .duration(durationMs);
+  var saveData = function(g, animName, animValue) {
+    var d3Data = g.__data__;
+    if (!d3Data) {
+      d3Data = g.__data__ = {};
+    }
+    if (!d3Data.anim) {
+      d3Data.anim = {};
+    }
+    d3Data.anim[animName] = animValue;
+    console.log(d3Data);
   }
   
   if ((xhnode === undefined) || (xhnode === null)) {
@@ -167,7 +173,15 @@ xh.anim = function(xhnode, selection, duration) {
     return;
   }
   
+  /*var d3Data = g.__data__;
+  if (d3Data) {
+    // save it for xhSvgTween.js
+    d3Data.anim = animObj;
+  }
+  console.log(d3Data);*/
+  
   for (aname in animObj) {
+    console.log(aname);
     switch (aname) {
     case "hop":
       hop(g, animObj[aname]);
@@ -190,14 +204,15 @@ xh.anim = function(xhnode, selection, duration) {
     case "mirror":
       mirror(g, animObj[aname]);
       break;
-    case "hide":
-      hide(g);
-      break;
+    //case "hide":
+    //  hide(g);
+    //  break;
     case "show":
-      show(g);
+      show(g, animObj[aname]);
       break;
     default: break;
     }
+    saveData(g, aname, animObj[aname]);
   }
   
 }
