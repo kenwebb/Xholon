@@ -103,6 +103,7 @@ public class Avatar extends XholonWithPorts {
   protected static final String DEFAULT_MIRROR_PARAMS = "x"; // anim mirror x  or y
   protected static final String DEFAULT_VIEWELE_STR = "#xhanim>#one";
   protected static final String ALTERNATE_VIEWELE_STR = "#xhgraph";
+  protected static final String[] DEFAULT_OUTANIM = {"turnright", "30"}; // for use with "out anim"
   
   // Variables
   public String roleName = null;
@@ -238,6 +239,11 @@ public class Avatar extends XholonWithPorts {
   protected boolean meteormove = false;
   
   protected IXholon meteorService = null;
+  
+  /**
+   * This is for use with "out anim".
+   */
+  protected String[] outAnim = DEFAULT_OUTANIM;
   
   // constructor
   public Avatar() {}
@@ -1831,7 +1837,20 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
       case "canvas":
         out2Canvas(text, "testing", "replace");
         break;
+      case "anim":
+        // thing, animType, params)
+        anim(THIS_AVATAR, outAnim[0], outAnim[1]);
+        break;
       default:
+        // ex: anim(turnright)  anim(grow 2)
+        if ((dests[i].startsWith("anim(")) && (dests[i].length() > 7)) {
+          String[] a = dests[i].substring(5, dests[i].length()-1).split(" ");
+          switch (a.length) {
+          case 1: anim(THIS_AVATAR, a[0], null); break;
+          case 2: anim(THIS_AVATAR, a[0], a[1]); break;
+          default: break;
+          }
+        }
         break;
       }
     }
@@ -2061,9 +2080,6 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
     //consoleLog(name + " " + value + " " + valueRest);
     switch (name) {
     case "caption":
-      //if ("null".equals(value)) {captionEle = null;}
-      //else {captionEle = querySelector(value);}
-      
       switch (value) {
       case "true": caption = true; break;
       case "false": caption = false; break;
@@ -2076,6 +2092,11 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
       case "null": viewEle = null; break;
       default: viewEle = querySelector(value); break;
       }
+      break;
+    case "anim":
+      // ex: param anim grow 1.1;  param anim turnleft;
+      outAnim[0] = "null".equals(value) ? null : value;
+      outAnim[1] = "null".equals(valueRest) ? null : valueRest;
       break;
     case "debug":
       switch (value) {
