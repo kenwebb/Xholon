@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Xholon Interactive Fiction (IF) language</title>
+</head>
+<body>
+  <h3>Xholon Interactive Fiction (IF) language</h3>
+  <p>Basic commands that can be used by Avatar objects:</p>
+  <pre>
+appear
+become THING role ROLE
+breakpoint
+build|append|prepend|before|after THING [role ROLE]
+[COMMENT]
+drop [THING]
+enter [*]THING
+examine|x THING
+exit [THING]
+follow LEADER_THING
+get THING NAME
+go portName|next|prev|N|E|S|W|NE|SE|SW|NW|port0|portN|xpath
+group THING1[,THINGi,...,THINGn] in|on|under THING2
+help
+if xpath command [elseif xpath command] [else command]
+inventory|i
+lead FOLLOWER_THING
+look
+next [[*]THING]
+out speech,caption,transcript,debug,all TEXT
+param NAME VALUE
+prev [[*]THING]
+put THING1 in|on|under THING2
+search THING
+set THING NAME VALUE
+smash THING
+take [THING]
+unbuild|eat THING
+unfollow
+unlead
+vanish
+wait [DURATION]|[til TIMESTEP]];
+  </pre>
+  
+  <p><a href="http://www.primordion.com/Xholon/gwt/">Xholon</a></p>
+</body>
+</html>

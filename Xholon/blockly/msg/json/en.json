@@ -433,6 +433,9 @@
 	"XHIFLANG_PUT_TITLE": "put",
 	"XHIFLANG_PUT_TOOLTIP": "Put a thing in, on, or under some other thing (ex: put bread in toaster).",
 	
+	"XHIFLANG_SCRIPT_TITLE": "script",
+	"XHIFLANG_SCRIPT_TOOLTIP": "Give this avatar a new script to run.",
+	
 	"XHIFLANG_SET_TITLE": "set",
 	"XHIFLANG_SET_TOOLTIP": "Set the value of a thing's variable (ex: set car speed 100).",
 	

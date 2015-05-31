@@ -456,6 +456,18 @@ Blockly.Blocks['xhiflang_put'] = {
   }
 };
 
+// script is a container, and has the same colour as the xhxml containers
+Blockly.Blocks['xhiflang_script'] = {
+  init: function() {
+    this.setHelpUrl(Blockly.Msg.XHIFLANG_HELPURL);
+    this.setColour(120);
+    this.appendDummyInput()
+        .appendField(Blockly.Msg.XHIFLANG_SCRIPT_TITLE);
+    this.appendStatementInput("NAME");
+    this.setTooltip(Blockly.Msg.XHIFLANG_SCRIPT_TOOLTIP);
+  }
+};
+
 // xhiflang_search  TODO ?
 
 Blockly.Blocks['xhiflang_set'] = {

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Xholon Interactive Fiction (IF) language, with Blockly</title>
+  <script src="../../blockly_compressed.js"></script>
+  <script src="../../blocks_compressed.js"></script>
+  <script src="../../javascript_compressed.js"></script>
+  <script src="../../msg/js/en.js"></script>
+  <style>
+    body {
+      background-color: #fff;
+      font-family: sans-serif;
+    }
+    h1 {
+      font-weight: normal;
+      font-size: 140%;
+    }
+  </style>
+</head>
+<body>
+  <h3>Xholon Interactive Fiction (IF) language, with Blockly</h3>
+  <p>You can paste the generated code into any Xholon app.</p>
+
+  <p>
+    <button onclick="showCode()">Generate IF code</button>
+    <button onclick="saveToXml()">Save to XML</button>
+    <button onclick="saveToXmlPretty()">Save to XML (pretty)</button>
+    <button onclick="loadFromXml()">Load from XML</button>
+  </p>
+
+  <div id="blocklyDiv" style="height: 480px; width: 900px;"></div>
+  
+  <textarea id="content_out" class="content" rows="20" cols="80" wrap="off"></textarea>
+
+  <xml id="toolbox" style="display: none">
+    <category name="Math">
+      <block type="math_number"></block>
+    </category>
+    <category name="Text">
+      <block type="text_print"></block>
+    </category>
+    <category name="XhXml">
+      <block type="xhxml_avatar"></block>
+      <block type="xhxml_behavior"></block>
+      <block type="xhxml_rolename"></block>
+    </category>
+    <category name="XhIflang">
+      <block type="xhiflang_script"></block>
+      <block type="xhiflang_role"></block>
+      <block type="xhiflang_appear"></block>
+      <block type="xhiflang_become"></block>
+      <block type="xhiflang_breakpoint"></block>
+      <block type="xhiflang_build"></block>
+      <block type="xhiflang_comment"></block>
+      <block type="xhiflang_drop"></block>
+      <block type="xhiflang_enter"></block>
+      <block type="xhiflang_examine"></block>
+      <block type="xhiflang_exit"></block>
+      <block type="xhiflang_follow"></block>
+      <block type="xhiflang_get"></block>
+      <block type="xhiflang_go"></block>
+      <block type="xhiflang_group"></block>
+      <block type="xhiflang_inventory"></block>
+      <block type="xhiflang_lead"></block>
+      <block type="xhiflang_look"></block>
+      <block type="xhiflang_next"></block>
+      <block type="xhiflang_out"></block>
+      <block type="xhiflang_param"></block>
+      <block type="xhiflang_paramcaption"></block>
+      <block type="xhiflang_paramspeech"></block>
+      <block type="xhiflang_prev"></block>
+      <block type="xhiflang_put"></block>
+      <block type="xhiflang_set"></block>
+      <block type="xhiflang_smash"></block>
+      <block type="xhiflang_take"></block>
+      <block type="xhiflang_unbuild"></block>
+      <block type="xhiflang_unfollow"></block>
+      <block type="xhiflang_unlead"></block>
+      <block type="xhiflang_vanish"></block>
+      <block type="xhiflang_wait"></block>
+    </category>
+  </xml>
+  
+  <xml id="startBlocks" style="display: none">
+    <block type="xhiflang_script" id="50" x="60" y="196">
+      <statement name="NAME">
+        <block type="xhiflang_exit" id="84">
+          <field name="THING"></field>
+          <next>
+            <block type="xhiflang_enter" id="118">
+              <field name="THING">eatzone</field>
+              <next>
+                <block type="xhiflang_enter" id="152">
+                  <field name="THING">foodbowl</field>
+                  <next>
+                    <block type="xhiflang_take" id="186">
+                      <field name="THING">food</field>
+                      <next>
+                        <block type="xhiflang_unbuild" id="220">
+                          <field name="COMMAND">EAT</field>
+                          <field name="THING">food</field>
+                          <next>
+                            <block type="xhiflang_wait" id="254" inline="false">
+                              <value name="DURATION">
+                                <block type="math_number" id="259">
+                                  <field name="NUM">1</field>
+                                </block>
+                              </value>
+                              <next>
+                                <block type="xhiflang_exit" id="255">
+                                  <field name="THING"></field>
+                                  <next>
+                                    <block type="xhiflang_exit" id="256">
+                                      <field name="THING"></field>
+                                      <next>
+                                        <block type="xhiflang_enter" id="257">
+                                          <field name="THING">sleepzone</field>
+                                        </block>
+                                      </next>
+                                    </block>
+                                  </next>
+                                </block>
+                              </next>
+                            </block>
+                          </next>
+                        </block>
+                      </next>
+                    </block>
+                  </next>
+                </block>
+              </next>
+            </block>
+          </next>
+        </block>
+      </statement>
+    </block>
+  </xml>
+  
+  <script>
+    var workspace = Blockly.inject('blocklyDiv',
+        {toolbox: document.getElementById('toolbox')});
+    Blockly.Xml.domToWorkspace(workspace,
+        document.getElementById('startBlocks'));
+    
+    function showCode() {
+      Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+      var code = Blockly.JavaScript.workspaceToCode(workspace);
+      var outTextarea = document.getElementById('content_out');
+      outTextarea.value = code;
+    }
+
+    function saveToXml() {
+      var xmlDom = Blockly.Xml.workspaceToDom(workspace);
+      var xmlText = Blockly.Xml.domToText(xmlDom);
+      var outTextarea = document.getElementById('content_out');
+      outTextarea.value = xmlText;
+    }
+    
+    function saveToXmlPretty() {
+      var xmlDom = Blockly.Xml.workspaceToDom(workspace);
+      var xmlText = Blockly.Xml.domToPrettyText(xmlDom);
+      var outTextarea = document.getElementById('content_out');
+      outTextarea.value = xmlText;
+    }
+    
+    function loadFromXml() {
+      var outTextarea = document.getElementById('content_out');
+      var dom = Blockly.Xml.textToDom(outTextarea.value);
+      Blockly.Xml.domToWorkspace(workspace, dom);
+    }
+  </script>
+  
+  <p><a href="helpIflang.html">Help for Interactive Fiction (IF) language</a></p>
+  <p><a href="http://www.primordion.com/Xholon/gwt/">Xholon</a></p>
+  <p><a href="https://developers.google.com/blockly/">Blockly</a></p>
+  
+</body>
+</html>

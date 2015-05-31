@@ -242,6 +242,12 @@ Blockly.JavaScript['xhiflang_put'] = function(block) {
   return code;
 };
 
+Blockly.JavaScript['xhiflang_script'] = function(block) {
+  var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
+  var code = 'script;\n' + statements_name;
+  return code;
+};
+
 // xhiflang_search  TODO ?
 
 Blockly.JavaScript['xhiflang_set'] = function(block) {
