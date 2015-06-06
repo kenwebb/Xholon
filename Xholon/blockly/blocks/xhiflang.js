@@ -94,6 +94,23 @@ Blockly.Blocks['xhiflang_role'] = {
   }
 };
 
+// anim THING turnright|turnleft|hop|duck|grow|shrink|mirror PARAMS
+Blockly.Blocks['xhiflang_anim'] = {
+  init: function() {
+    this.setHelpUrl(Blockly.Msg.XHIFLANG_HELPURL);
+    this.setColour(Blockly.Blocks.xhiflang.HUE);
+    this.appendDummyInput()
+        .appendField(Blockly.Msg.XHIFLANG_ANIM_TITLE)
+        .appendField(new Blockly.FieldTextInput(""), "THING")
+        .appendField(new Blockly.FieldDropdown([["turnright", "TURNRIGHT"], ["turnleft", "TURNLEFT"], ["hop", "HOP"], ["duck", "DUCK"], ["grow", "GROW"], ["shrink", "SHRINK"], ["mirror", "MIRROR"]]), "WHICH")
+        .appendField(new Blockly.FieldTextInput(""), "PARAMS");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip(Blockly.Msg.XHIFLANG_ANIM_TOOLTIP);
+  }
+};
+
 Blockly.Blocks['xhiflang_appear'] = {
   init: function() {
     this.setHelpUrl(Blockly.Msg.XHIFLANG_HELPURL);

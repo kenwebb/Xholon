@@ -38,6 +38,30 @@ Blockly.JavaScript['xhiflang_role'] = function(block) {
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
+// anim THING turnright|turnleft|hop|duck|grow|shrink|mirror PARAMS
+Blockly.JavaScript['xhiflang_anim'] = function(block) {
+  var text_thing = block.getFieldValue('THING');
+  var dropdown_which = block.getFieldValue('WHICH');
+  var which = 'turnright';
+  switch (dropdown_which) {
+  case 'TURNRIGHT': which = 'turnright'; break;
+  case 'TURNLEFT': which = 'turnleft'; break;
+  case 'HOP': which = 'hop'; break;
+  case 'DUCK': which = 'duck'; break;
+  case 'GROW': which = 'grow'; break;
+  case 'SHRINK': which = 'shrink'; break;
+  case 'MIRROR': which = 'mirror'; break;
+  default: break;
+  }
+  var text_params = block.getFieldValue('PARAMS');
+  var code = 'anim ' + text_thing + ' ' + which;
+  if (text_params) {
+    code += ' ' + text_params;
+  }
+  code += ';\n';
+  return code;
+};
+
 Blockly.JavaScript['xhiflang_appear'] = function(block) {
   return 'appear;\n';
 };

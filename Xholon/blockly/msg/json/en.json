@@ -370,6 +370,9 @@
 	
 	"XHIFLANG_HELPURL": "helpIflang.html",
 	
+	"XHIFLANG_ANIM_TITLE": "anim",
+	"XHIFLANG_ANIM_TOOLTIP": "Animate the specified thing (ex: anim this hop). Optionally, you can specify an amount (ex: anim pencil turnright 180).",
+	
 	"XHIFLANG_APPEAR_TITLE": "appear",
 	"XHIFLANG_APPEAR_TOOLTIP": "Make this avatar a visible part of the world. This command has no effect if the avatar is already visible.",
 	
