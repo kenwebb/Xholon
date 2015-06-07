@@ -90,4 +90,12 @@ public interface IFindChildSibWith extends IXholon {
 	 */
 	public abstract IXholon findNextSiblingWithAncestorXhClass(IXholon contextNode, int siblingXhClassId);
 	
+	/**
+	 * Find a context node's first descendant with the specified role name.
+	 * @param contextNode 
+	 * @param roleName A role name.
+	 * @return A matching descendant xholon, or null.
+	 */
+	public abstract IXholon findFirstDescWithRoleName(IXholon contextNode, String roleName);
+	
 }

@@ -336,6 +336,27 @@ public class XholonHelperService extends AbstractXholonService
 		return null;
 	}
 	
+	@Override
+	public IXholon findFirstDescWithRoleName(IXholon contextNode, String roleName) {
+	  if (roleName == null) {return null;}
+		return findFirstDescWithRoleNameRecurse(contextNode, roleName);
+	}
+	
+	protected IXholon findFirstDescWithRoleNameRecurse(IXholon node, String roleName) {
+		if (roleName.equals(node.getRoleName())) {
+			return node;
+		}
+		node = node.getFirstChild();
+		while (node != null) {
+			IXholon descNode = findFirstDescWithRoleNameRecurse(node, roleName);
+			if (descNode != null) {
+				return descNode;
+			}
+			node = node.getNextSibling();
+		}
+		return null;
+	}
+	
 	/**
 	 * Get the instance of ICutCopyPaste.
 	 * @return An instance, or null.
