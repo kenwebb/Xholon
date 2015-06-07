@@ -35,6 +35,7 @@ import org.primordion.xholon.base.IGrid;
 import org.primordion.xholon.io.gwt.HtmlScriptHelper;
 import org.primordion.xholon.service.IXholonService;
 import org.primordion.xholon.service.XholonHelperService;
+import org.primordion.xholon.util.ClassHelper;
 import org.primordion.xholon.util.Misc;
 
 /**
@@ -245,6 +246,27 @@ public class Avatar extends XholonWithPorts {
    */
   protected String[] outAnim = DEFAULT_OUTANIM;
   
+  /**
+   * An optional start action that postConfigure() should take.
+   * Typically this would be "go THING" to get this Avatar to its starting location.
+   * ex: "xpath(One/Two[@roleName='Zwei']/Three)"
+   * ex: "Speedy:degu"
+   * ex: "Speedy"
+   */
+  protected String start = null;
+  
+  /**
+   * An optional start position, relative to start.
+   * Possible values: append prepend before after script
+   */
+  protected String startPos = null;
+  
+  /**
+   * An optional end action that should be taken after the entire script is run.
+   * Typically this would be "vanish" to remove this Avatar from the tree.
+   */
+  protected String end = null;
+  
   // constructor
   public Avatar() {}
   
@@ -320,7 +342,6 @@ public class Avatar extends XholonWithPorts {
   
   @Override
   public void postConfigure() {
-    contextNode = this.getParentNode();
     app = this.getApp();
     xpath = this.getXPath();
     if (isXhSvgAnimRequired()) {
@@ -332,7 +353,121 @@ public class Avatar extends XholonWithPorts {
       this.outPrefix = this.getName(IXholon.GETNAME_ROLENAME_OR_CLASSNAME) + ": ";
       this.getFirstChild().removeChild();
     }
+    setStartContextNode();
     super.postConfigure();
+  }
+  
+  /**
+   * Set the starting context node.
+   * Handles start if only a roleName is specified (search the whole tree).
+   * Handle roleName that contains spaces.
+   * TODO handle xhcName with wrong case (ex: "degu" instead of "Degu") ?
+   * examples:
+<Avatar roleName="Harry" start="World" startPos="append">
+  <Attribute_String><![CDATA[
+    build School role Hogwarts;
+    enter Hogwarts;
+    look;
+  ]]></Attribute_String>
+</Avatar>
+
+<Avatar start="Harry" startPos="script">
+  <Attribute_String><![CDATA[
+    build Classroom role Dummy;
+    enter Dummy;
+    look;
+  ]]></Attribute_String>
+</Avatar>
+
+<Avatar roleName="Suzie" start="Hogwarts" end="vanish">
+  <Attribute_String><![CDATA[
+    build School role Abc;
+    enter Abc;
+    look;
+  ]]></Attribute_String>
+</Avatar>
+
+<Avatar roleName="Abbie" start="Hogwarts:School">
+  <Attribute_String><![CDATA[
+    build School role def;
+    enter def;
+    look;
+  ]]></Attribute_String>
+</Avatar>
+   */
+  protected void setStartContextNode() {
+    if (start == null) {
+      contextNode = this.getParentNode();
+    }
+    else {
+      IXholon newContextNode = null;
+      if (start.startsWith("xpath(")) {
+        newContextNode = evalXPathCmdArg(start, this.getRootNode());
+      }
+      else {
+        // roleName(ex: "Speedy")  xhcName(ex: "Degu")  roleName:xhcName(ex: "Speedy:Degu")
+        String[] names = start.split(":");
+        String xpathExpr = null;
+        IXholon rootNode = this.getRootNode();
+        if (names.length == 1) {
+        	// this might be a roleName
+        	XholonHelperService xhs = (XholonHelperService)app.getService(IXholonService.XHSRV_XHOLON_HELPER);
+          newContextNode = xhs.findFirstDescWithRoleName(rootNode, names[0]);
+          if (newContextNode == null) {
+            // or it might be a xhcName
+            xpathExpr = "descendant::" + names[0];
+            newContextNode = xpath.evaluate(xpathExpr, rootNode);
+          }
+        }
+        else {
+          xpathExpr = "descendant::" + names[1] + "[@roleName='" + names[0] + "']";
+          newContextNode = xpath.evaluate(xpathExpr, rootNode);
+        }
+      }
+      sb = new StringBuilder();
+      switch (startPos) {
+      case "script":
+        if (newContextNode == null) {
+          // TODO if possible, treat this as an "append"
+        }
+        else if (ClassHelper.isAssignableFrom(Avatar.class, newContextNode.getClass())) {
+          // transfer the script to the existing Avatar, and then vanish
+          String actionz = "";
+          for (int i = 0; i < this.actions.length; i++) {
+            if (i == 0) {
+              actionz += this.actions[i];
+            }
+            else {
+              actionz += "\n" + this.actions[i];
+            }
+          }
+          ((Avatar)newContextNode).setVal_String(actionz);
+          this.vanish();
+        }
+        break;
+      case "prepend":
+      case "before":
+      case "after":
+        // TODO
+        break;
+      case "append":
+      default: // null
+        this.moveto(newContextNode, null);
+        break;
+      } // end switch
+      
+    }
+  }
+  
+  /**
+   * Do optional end action(s).
+   */
+  protected void end() {
+    if (end != null) {
+      consoleLog("end() " + end);
+      this.processCommands(end);
+      end = null;
+    }
   }
   
   /**
@@ -384,6 +519,9 @@ public class Avatar extends XholonWithPorts {
         }
         else if (repeat) {
           actionIx = ACTIONIX_INITIAL;
+        }
+        else {
+          end();
         }
       }
       else {
@@ -1781,6 +1919,23 @@ public class Avatar extends XholonWithPorts {
 	  //}
 	  //return false;
 	}-*/;
+  
+  @Override
+  public int setAttributeVal(String attrName, String attrVal) {
+    if ("start".equals(attrName)) {
+      this.start = attrVal.trim();
+    }
+    else if ("startPos".equals(attrName)) {
+      this.startPos = attrVal.trim();
+    }
+    else if ("end".equals(attrName)) {
+      this.end = attrVal.trim();
+    }
+    else {
+      return super.setAttributeVal(attrName, attrVal);
+    }
+    return 0;
+  }
   
   /**
    * Look at the avatar's current location, and at the items in that location.
