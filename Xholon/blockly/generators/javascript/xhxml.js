@@ -34,8 +34,29 @@ goog.require('Blockly.JavaScript');
 
 Blockly.JavaScript['xhxml_avatar'] = function(block) {
   var value_avatar = Blockly.JavaScript.valueToCode(block, 'AVATAR', Blockly.JavaScript.ORDER_ATOMIC);
+  var text_start = block.getFieldValue('START');
+  var dropdown_startpos = block.getFieldValue('STARTPOS');
+  var startpos = 'append';
+  switch (dropdown_startpos) {
+  case 'APPEND': startpos = 'append'; break;
+  case 'PREPEND': startpos = 'prepend'; break;
+  case 'BEFORE': startpos = 'before'; break;
+  case 'AFTER': startpos = 'after'; break;
+  case 'SCRIPT': startpos = 'script'; break;
+  default: break;
+  }
+  
+  var text_end = block.getFieldValue('END');
   var statements_behavior = Blockly.JavaScript.statementToCode(block, 'BEHAVIOR');
-  var code = '<Avatar' + value_avatar + '>\n' + statements_behavior + '</Avatar>\n';
+  var code = '<Avatar';
+  if (text_start) {
+    code += " start=\"" + text_start + "\"";
+  }
+  code += " startPos=\"" + startpos + "\"";
+  if (text_end) {
+    code += " end=\"" + text_end + "\"";
+  }
+  code += value_avatar + '>\n' + statements_behavior + '</Avatar>\n';
   return code;
 };
 

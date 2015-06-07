@@ -44,9 +44,14 @@ Blockly.Blocks['xhxml_avatar'] = {
     this.setColour(Blockly.Blocks.xhxml.HUE);
     this.appendValueInput("AVATAR")
         .setCheck("ROLE")
-        .appendField("Avatar");
+        .appendField("Avatar")
+        .appendField(new Blockly.FieldTextInput(""), "START")
+        .appendField(new Blockly.FieldDropdown([["append", "APPEND"], ["script", "SCRIPT"]]), "STARTPOS")
+        .appendField(new Blockly.FieldTextInput("vanish"), "END");
     this.appendStatementInput("BEHAVIOR");
-    this.setTooltip('Create a new Avatar, with optional roleName and optional behavior.');
+    // <Avatar roleName="Harry" start="World" startPos="append">
+    // <Avatar start="Harry" startPos="script">
+    this.setTooltip('Create a new Avatar, with optional roleName and optional behavior. Edit the values for start, startPos, and end. "append" creates a new Avatar as a last child of start (ex: <Avatar start="School" startPos="append" roleName="Harry">). "script" replaces the script inside the existing Avatar specified by start (ex: <Avatar start="Harry" startPos="script" end="vanish">).');
   }
 };
 
