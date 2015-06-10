@@ -56,6 +56,29 @@ Blockly.JavaScript.lists_getSublist=function(a){var b=Blockly.JavaScript.valueTo
 "}"])+"("+b+", '"+c+"', "+e+", '"+d+"', "+a+")",Blockly.JavaScript.ORDER_FUNCTION_CALL]};Blockly.JavaScript.lists_split=function(a){var b=Blockly.JavaScript.valueToCode(a,"INPUT",Blockly.JavaScript.ORDER_MEMBER),c=Blockly.JavaScript.valueToCode(a,"DELIM",Blockly.JavaScript.ORDER_NONE)||"''";a=a.getFieldValue("MODE");if("SPLIT"==a)b||(b="''"),a="split";else if("JOIN"==a)b||(b="[]"),a="join";else throw"Unknown mode: "+a;return[b+"."+a+"("+c+")",Blockly.JavaScript.ORDER_FUNCTION_CALL]};/*
 
  Visual Blocks Editor
+ Xholon Interactive Fiction (IF) language for Kindergarten+ (ages 3-7)
+
+ Copyright 2012 Google Inc. (original Blockly content)
+ Copyright 2015 Ken Webb  (Xholon-specific content)
+ https://developers.google.com/blockly/
+ http://www.primordion.com/Xholon
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+*/
+Blockly.JavaScript.xhkinder={};Blockly.JavaScript.xhkinder_turnright=function(a){var b="anim this turnright";(a=a.getFieldValue("WHICH"))&&(b+=" "+20*a);return b+";\n"};Blockly.JavaScript.xhkinder_turnleft=function(a){var b="anim this turnleft";(a=a.getFieldValue("WHICH"))&&(b+=" "+20*a);return b+";\n"};Blockly.JavaScript.xhkinder_hop=function(a){return"anim this hop;\n"};Blockly.JavaScript.xhkinder_duck=function(a){return"anim this duck;\n"};Blockly.JavaScript.xhkinder_grow=function(a){return"anim this grow;\n"};
+Blockly.JavaScript.xhkinder_shrink=function(a){return"anim this shrink;\n"};Blockly.JavaScript.xhkinder_mirror=function(a){return"anim this mirror;\n"};Blockly.JavaScript.xhkinder_enter=function(a){return"enter;\n"};Blockly.JavaScript.xhkinder_exit=function(a){return"exit;\n"};Blockly.JavaScript.xhkinder_next=function(a){return"next;\n"};Blockly.JavaScript.xhkinder_prev=function(a){return"prev;\n"};/*
+
+ Visual Blocks Editor
  Xholon Interactive Fiction (IF) language
 
  Copyright 2012 Google Inc. (original Blockly content)
@@ -75,7 +98,9 @@ Blockly.JavaScript.lists_getSublist=function(a){var b=Blockly.JavaScript.valueTo
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-Blockly.JavaScript.xhiflang={};Blockly.JavaScript.xhiflang_role=function(a){return[" role "+a.getFieldValue("ROLE"),Blockly.JavaScript.ORDER_ATOMIC]};Blockly.JavaScript.xhiflang_appear=function(a){return"appear;\n"};Blockly.JavaScript.xhiflang_become=function(a){var b=a.getFieldValue("THING");a=a.getFieldValue("ROLE");return"become "+b+" role "+a+";\n"};Blockly.JavaScript.xhiflang_breakpoint=function(a){return"breakpoint;\n"};
+Blockly.JavaScript.xhiflang={};Blockly.JavaScript.xhiflang_role=function(a){return[" role "+a.getFieldValue("ROLE"),Blockly.JavaScript.ORDER_ATOMIC]};
+Blockly.JavaScript.xhiflang_anim=function(a){var b=a.getFieldValue("THING"),c="turnright";switch(a.getFieldValue("WHICH")){case "TURNRIGHT":c="turnright";break;case "TURNLEFT":c="turnleft";break;case "HOP":c="hop";break;case "DUCK":c="duck";break;case "GROW":c="grow";break;case "SHRINK":c="shrink";break;case "MIRROR":c="mirror"}a=a.getFieldValue("PARAMS");b="anim "+b+" "+c;a&&(b+=" "+a);return b+";\n"};Blockly.JavaScript.xhiflang_appear=function(a){return"appear;\n"};
+Blockly.JavaScript.xhiflang_become=function(a){var b=a.getFieldValue("THING");a=a.getFieldValue("ROLE");return"become "+b+" role "+a+";\n"};Blockly.JavaScript.xhiflang_breakpoint=function(a){return"breakpoint;\n"};
 Blockly.JavaScript.xhiflang_build=function(a){var b=Blockly.JavaScript.valueToCode(a,"ROLE",Blockly.JavaScript.ORDER_ATOMIC),c="";switch(a.getFieldValue("COMMAND")){case "BUILD":c="build";break;case "APPEND":c="append";break;case "PREPEND":c="prepend";break;case "BEFORE":c="before";break;case "AFTER":c="after"}a=a.getFieldValue("THING");return c+" "+a+b+";\n"};Blockly.JavaScript.xhiflang_comment=function(a){return"["+a.getFieldValue("COMMENT")+"];\n"};
 Blockly.JavaScript.xhiflang_drop=function(a){return"drop "+a.getFieldValue("THING")+";\n"};Blockly.JavaScript.xhiflang_enter=function(a){return"enter "+a.getFieldValue("THING")+";\n"};Blockly.JavaScript.xhiflang_examine=function(a){var b="";switch(a.getFieldValue("COMMAND")){case "EXAMINE":b="examine";break;case "X":b="x"}return b+" "+a.getFieldValue("THING")+";\n"};Blockly.JavaScript.xhiflang_exit=function(a){a=a.getFieldValue("THING");0<a.length&&(a=" "+a);return"exit"+a+";\n"};
 Blockly.JavaScript.xhiflang_follow=function(a){return"follow "+a.getFieldValue("LEADER")+";\n"};Blockly.JavaScript.xhiflang_get=function(a){var b=a.getFieldValue("THING");a=a.getFieldValue("NAME");return"get "+b+" "+a+";\n"};Blockly.JavaScript.xhiflang_go=function(a){return"go "+a.getFieldValue("THING")+";\n"};
@@ -84,9 +109,9 @@ Blockly.JavaScript.xhiflang_look=function(a){return"look;\n"};Blockly.JavaScript
 Blockly.JavaScript.xhiflang_out=function(a){var b="TRUE"==a.getFieldValue("SPEECH"),c="TRUE"==a.getFieldValue("CAPTION"),d="TRUE"==a.getFieldValue("TRANSCRIPT"),e="TRUE"==a.getFieldValue("DEBUG");a=a.getFieldValue("TEXT");var f=!1,g="out ";b&&(g+="speech",f=!0);c&&(f&&(g+=","),g+="caption",f=!0);d&&(f&&(g+=","),g+="transcript",f=!0);e&&(f&&(g+=","),g+="debug");return g+(" "+a+";\n")};
 Blockly.JavaScript.xhiflang_param=function(a){var b="";switch(a.getFieldValue("NAME")){case "SPEECH":b="speech";break;case "TRANSCRIPT":b="transcript";break;case "DEBUG":b="debug";break;case "LOOP":b="loop";break;case "REPEAT":b="repeat";break;case "METEOR":b="meteor";break;case "METEORMOVE":b="meteormove";break;case "METEOR+MOVE":b="meteor+move"}a="TRUE"==a.getFieldValue("VALUE");return"param "+b+" "+a+";\n"};
 Blockly.JavaScript.xhiflang_paramcaption=function(a){return"param caption "+a.getFieldValue("SELECTION")+";\n"};Blockly.JavaScript.xhiflang_paramspeech=function(a){return"param speech "+a.getFieldValue("OBJECT")+";\n"};Blockly.JavaScript.xhiflang_prev=function(a){return"prev "+a.getFieldValue("THING")+";\n"};
-Blockly.JavaScript.xhiflang_put=function(a){var b=a.getFieldValue("THING1"),c=a.getFieldValue("WHERE"),d="in";"ON"==c?d="on":"UNDER"==c&&(d="under");a=a.getFieldValue("THING2");return"put "+b+" "+d+" "+a+";\n"};Blockly.JavaScript.xhiflang_set=function(a){var b=a.getFieldValue("THING"),c=a.getFieldValue("NAME");a=a.getFieldValue("VALUE");return"set "+b+" "+c+" "+a+";\n"};Blockly.JavaScript.xhiflang_smash=function(a){return"smash "+a.getFieldValue("THING")+";\n"};
-Blockly.JavaScript.xhiflang_take=function(a){return"take "+a.getFieldValue("THING")+";\n"};Blockly.JavaScript.xhiflang_unbuild=function(a){var b="";switch(a.getFieldValue("COMMAND")){case "UNBUILD":b="unbuild";break;case "EAT":b="eat"}return b+" "+a.getFieldValue("THING")+";\n"};Blockly.JavaScript.xhiflang_unfollow=function(a){return"unfollow;\n"};Blockly.JavaScript.xhiflang_unlead=function(a){return"unlead;\n"};Blockly.JavaScript.xhiflang_vanish=function(a){return"vanish;\n"};
-Blockly.JavaScript.xhiflang_wait=function(a){a=Blockly.JavaScript.valueToCode(a,"DURATION",Blockly.JavaScript.ORDER_ATOMIC)||"1";1>Number(a)&&(a="1");return"wait "+a+";\n"};
+Blockly.JavaScript.xhiflang_put=function(a){var b=a.getFieldValue("THING1"),c=a.getFieldValue("WHERE"),d="in";"ON"==c?d="on":"UNDER"==c&&(d="under");a=a.getFieldValue("THING2");return"put "+b+" "+d+" "+a+";\n"};Blockly.JavaScript.xhiflang_script=function(a){return"script;\n"+Blockly.JavaScript.statementToCode(a,"NAME")};Blockly.JavaScript.xhiflang_set=function(a){var b=a.getFieldValue("THING"),c=a.getFieldValue("NAME");a=a.getFieldValue("VALUE");return"set "+b+" "+c+" "+a+";\n"};
+Blockly.JavaScript.xhiflang_smash=function(a){return"smash "+a.getFieldValue("THING")+";\n"};Blockly.JavaScript.xhiflang_take=function(a){return"take "+a.getFieldValue("THING")+";\n"};Blockly.JavaScript.xhiflang_unbuild=function(a){var b="";switch(a.getFieldValue("COMMAND")){case "UNBUILD":b="unbuild";break;case "EAT":b="eat"}return b+" "+a.getFieldValue("THING")+";\n"};Blockly.JavaScript.xhiflang_unfollow=function(a){return"unfollow;\n"};Blockly.JavaScript.xhiflang_unlead=function(a){return"unlead;\n"};
+Blockly.JavaScript.xhiflang_vanish=function(a){return"vanish;\n"};Blockly.JavaScript.xhiflang_wait=function(a){a=Blockly.JavaScript.valueToCode(a,"DURATION",Blockly.JavaScript.ORDER_ATOMIC)||"1";1>Number(a)&&(a="1");return"wait "+a+";\n"};
 // Copyright 2012 Google Inc.  Apache License 2.0
 Blockly.JavaScript.logic={};
 Blockly.JavaScript.controls_if=function(a){for(var b=0,c=Blockly.JavaScript.valueToCode(a,"IF"+b,Blockly.JavaScript.ORDER_NONE)||"false",d=Blockly.JavaScript.statementToCode(a,"DO"+b),e="if ("+c+") {\n"+d+"}",b=1;b<=a.elseifCount_;b++)c=Blockly.JavaScript.valueToCode(a,"IF"+b,Blockly.JavaScript.ORDER_NONE)||"false",d=Blockly.JavaScript.statementToCode(a,"DO"+b),e+=" else if ("+c+") {\n"+d+"}";a.elseCount_&&(d=Blockly.JavaScript.statementToCode(a,"ELSE"),e+=" else {\n"+d+"}");return e+"\n"};
@@ -139,7 +164,9 @@ Blockly.JavaScript.controls_forEach=function(a){var b=Blockly.JavaScript.variabl
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-Blockly.JavaScript.xhxml={};Blockly.JavaScript.xhxml_avatar=function(a){var b=Blockly.JavaScript.valueToCode(a,"AVATAR",Blockly.JavaScript.ORDER_ATOMIC);a=Blockly.JavaScript.statementToCode(a,"BEHAVIOR");return"<Avatar"+b+">\n"+a+"</Avatar>\n"};Blockly.JavaScript.xhxml_behavior=function(a){return"<Attribute_String><![CDATA[\n"+Blockly.JavaScript.statementToCode(a,"NAME")+"]]\x3e</Attribute_String>\n"};Blockly.JavaScript.xhxml_rolename=function(a){return[' roleName="'+a.getFieldValue("ROLE")+'"',Blockly.JavaScript.ORDER_ATOMIC]};
+Blockly.JavaScript.xhxml={};
+Blockly.JavaScript.xhxml_avatar=function(a){var b=Blockly.JavaScript.valueToCode(a,"AVATAR",Blockly.JavaScript.ORDER_ATOMIC),c=a.getFieldValue("START"),d="append";switch(a.getFieldValue("STARTPOS")){case "APPEND":d="append";break;case "PREPEND":d="prepend";break;case "BEFORE":d="before";break;case "AFTER":d="after";break;case "SCRIPT":d="script"}var e=a.getFieldValue("END");a=Blockly.JavaScript.statementToCode(a,"BEHAVIOR");var f="<Avatar";c&&(f+=' start="'+c+'"');f+=' startPos="'+d+'"';e&&(f+=' end="'+
+e+'"');return f+(b+">\n"+a+"</Avatar>\n")};Blockly.JavaScript.xhxml_behavior=function(a){return"<Attribute_String><![CDATA[\n"+Blockly.JavaScript.statementToCode(a,"NAME")+"]]\x3e</Attribute_String>\n"};Blockly.JavaScript.xhxml_rolename=function(a){return[' roleName="'+a.getFieldValue("ROLE")+'"',Blockly.JavaScript.ORDER_ATOMIC]};
 // Copyright 2012 Google Inc.  Apache License 2.0
 Blockly.JavaScript.variables={};Blockly.JavaScript.variables_get=function(a){return[Blockly.JavaScript.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE),Blockly.JavaScript.ORDER_ATOMIC]};Blockly.JavaScript.variables_set=function(a){var b=Blockly.JavaScript.valueToCode(a,"VALUE",Blockly.JavaScript.ORDER_ASSIGNMENT)||"0";return Blockly.JavaScript.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE)+" = "+b+";\n"};
 // Copyright 2012 Google Inc.  Apache License 2.0

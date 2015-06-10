@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Xholon Interactive Fiction (IF) language for Kindergarten+ (ages 3-7), with Blockly</title>
+  <script src="../../blockly_compressed.js"></script>
+  <script src="../../blocks_compressed.js"></script>
+  <script src="../../javascript_compressed.js"></script>
+  <script src="../../msg/js/en.js"></script>
+  <style>
+    body {
+      background-color: #fff;
+      font-family: sans-serif;
+    }
+    h1 {
+      font-weight: normal;
+      font-size: 140%;
+    }
+    .blocklyText {
+      font-size: 13pt !important;
+    }
+    .blocklyMainBackground { 
+      fill: #fff !important; 
+    }
+  </style>
+</head>
+<body>
+  <h3>Xholon Interactive Fiction (IF) language for Kindergarten+ (ages 3-7), with Blockly</h3>
+  <p>You can paste the generated code into any Xholon app.</p>
+
+  <p>
+    <button onclick="showCode()">Generate IF code</button>
+    <button onclick="saveToXml()">Save to XML</button>
+    <button onclick="saveToXmlPretty()">Save to XML (pretty)</button>
+    <button onclick="loadFromXml()">Load from XML</button>
+  </p>
+
+  <div id="blocklyDiv" style="height: 600px; width: 900px;"></div>
+  
+  <textarea id="content_out" class="content" rows="20" cols="80" wrap="off"></textarea>
+
+  <xml id="toolbox" style="display: none">
+    <block type="xhkinder_turnright"></block>
+    <block type="xhkinder_turnleft"></block>
+    <block type="xhkinder_hop"></block>
+    <block type="xhkinder_duck"></block>
+    <block type="xhkinder_grow"></block>
+    <block type="xhkinder_shrink"></block>
+    <block type="xhkinder_mirror"></block>
+    <block type="xhkinder_enter"></block>
+    <block type="xhkinder_exit"></block>
+    <block type="xhkinder_next"></block>
+    <block type="xhkinder_prev"></block>
+  </xml>
+  
+  <xml id="startBlocks" style="display: none">
+    <block type="xhkinder_turnright" id="12" x="18" y="10">
+      <next>
+        <block type="xhkinder_turnleft" id="24">
+          <next>
+            <block type="xhkinder_hop" id="36">
+              <next>
+                <block type="xhkinder_duck" id="48">
+                  <next>
+                    <block type="xhkinder_grow" id="72">
+                      <next>
+                        <block type="xhkinder_shrink" id="84">
+                          <next>
+                            <block type="xhkinder_mirror" id="96">
+                              <next>
+                                <block type="xhkinder_enter" id="108">
+                                  <next>
+                                    <block type="xhkinder_exit" id="120">
+                                      <next>
+                                        <block type="xhkinder_next" id="132">
+                                          <next>
+                                            <block type="xhkinder_prev" id="144"></block>
+                                          </next>
+                                        </block>
+                                      </next>
+                                    </block>
+                                  </next>
+                                </block>
+                              </next>
+                            </block>
+                          </next>
+                        </block>
+                      </next>
+                    </block>
+                  </next>
+                </block>
+              </next>
+            </block>
+          </next>
+        </block>
+      </next>
+    </block>
+  </xml>
+
+  <script>
+    var workspace = Blockly.inject('blocklyDiv',
+        {toolbox: document.getElementById('toolbox')});
+    Blockly.Xml.domToWorkspace(workspace,
+        document.getElementById('startBlocks'));
+    
+    function showCode() {
+      Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+      var code = Blockly.JavaScript.workspaceToCode(workspace);
+      code = '<Avatar start="Avatar" startPos="script" end="vanish"><Attribute_String><![CDATA[\n'
+        + code
+        + ']]></Attribute_String></Avatar>';
+      var outTextarea = document.getElementById('content_out');
+      outTextarea.value = code;
+    }
+
+    function saveToXml() {
+      var xmlDom = Blockly.Xml.workspaceToDom(workspace);
+      var xmlText = Blockly.Xml.domToText(xmlDom);
+      var outTextarea = document.getElementById('content_out');
+      outTextarea.value = xmlText;
+    }
+    
+    function saveToXmlPretty() {
+      var xmlDom = Blockly.Xml.workspaceToDom(workspace);
+      var xmlText = Blockly.Xml.domToPrettyText(xmlDom);
+      var outTextarea = document.getElementById('content_out');
+      outTextarea.value = xmlText;
+    }
+    
+    function loadFromXml() {
+      var outTextarea = document.getElementById('content_out');
+      var dom = Blockly.Xml.textToDom(outTextarea.value);
+      Blockly.Xml.domToWorkspace(workspace, dom);
+    }
+  </script>
+  
+  <!--<p><a href="helpIflang.html">Help for Interactive Fiction (IF) language</a></p>-->
+  <p><a href="http://www.primordion.com/Xholon/gwt/">Xholon</a></p>
+  <p><a href="https://developers.google.com/blockly/">Blockly</a></p>
+  
+</body>
+</html>
