@@ -1372,14 +1372,8 @@ public class Avatar extends XholonWithPorts {
     else {
       node = findNode(thing, contextNode);
     }
-    if (node != null) {
+    if ((node != null) && (node != this)) {
       if (isContainerOrSupporter(node)) {
-        /*if (this.hasParentNode()) {
-          this.removeChild();
-          this.appendChild(node);
-        }
-        contextNode = node;
-        sb.append("Entered ").append(makeNodeName(node));*/
         moveto(node, "Entered");
       }
     }
