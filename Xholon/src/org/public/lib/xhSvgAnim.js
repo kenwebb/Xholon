@@ -29,12 +29,13 @@ xh.anim = function(xhnode, selection, duration) {
    */
   var hop = function(g, amount) {
     var matrix = g.transform.baseVal.getItem(0).matrix;
+    var matrixf = matrix.f;
     d3.select(g).transition()
     .attr("transform", "translate(" + (matrix.e + 0) + "," + (matrix.f + (amount * (-1))) + ")")
     .duration(durationMs)
     .each("end", function() {
       d3.select(g).transition()
-      .attr("transform", "translate(" + (matrix.e + 0) + "," + (matrix.f + amount) + ")")
+      .attr("transform", "translate(" + (matrix.e + 0) + "," + matrixf + ")")
       .duration(durationMs)
     });
   }
