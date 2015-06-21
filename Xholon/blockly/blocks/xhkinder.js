@@ -34,30 +34,29 @@ goog.require('Blockly.Blocks');
 
 Blockly.Blocks.xhkinder.HUE = 345;
 
-// anim THING turnright|turnleft|hop|duck|grow|shrink|mirror PARAMS
-/*Blockly.Blocks['xhkinder_anim'] = {
-  init: function() {
-    this.setHelpUrl(Blockly.Msg.XHIFLANG_HELPURL);
-    this.setColour(Blockly.Blocks.xhkinder.HUE);
-    this.appendDummyInput()
-        .appendField(Blockly.Msg.XHIFLANG_ANIM_TITLE)
-        .appendField(new Blockly.FieldTextInput(""), "THING")
-        .appendField(new Blockly.FieldDropdown([["turnright", "TURNRIGHT"], ["turnleft", "TURNLEFT"], ["hop", "HOP"], ["duck", "DUCK"], ["grow", "GROW"], ["shrink", "SHRINK"], ["mirror", "MIRROR"]]), "WHICH")
-        .appendField(new Blockly.FieldTextInput(""), "PARAMS");
-    this.setInputsInline(true);
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip(Blockly.Msg.XHIFLANG_ANIM_TOOLTIP);
+// whether or not to include a FieldDropdown with discrete parameters
+Blockly.Blocks.xhkinder.PARAMS = false;
+var searchArr = location.search.substring(1).split('&');
+console.log(searchArr);
+for (var i = 0; i < searchArr.length; i++) {
+  var nameVal = searchArr[i].split('=');
+  if (nameVal[0] == "blparams") {
+    Blockly.Blocks.xhkinder.PARAMS = nameVal[1];
   }
-};*/
+}
+
+// FieldDropdown default value
+Blockly.Blocks.xhkinder.FDD = "\u00a0";
 
 Blockly.Blocks['xhkinder_turnright'] = {
   init: function() {
     this.setHelpUrl(Blockly.Msg.XHIFLANG_HELPURL);
     this.setColour(180);
-    this.appendDummyInput()
-        .appendField("\u21B7") // "R"
-        .appendField(new Blockly.FieldDropdown([["_", ""], ["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"], ["6", "6"], ["7", "7"], ["8", "8"], ["9", "9"]]), "WHICH");
+    var di = this.appendDummyInput()
+        .appendField("\u21B7"); // "R"
+    if (Blockly.Blocks.xhkinder.PARAMS == "true") {//Blockly.Blocks.xhkinder.PARAMS == "true";
+      di.appendField(new Blockly.FieldDropdown([[Blockly.Blocks.xhkinder.FDD, ""], ["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"], ["6", "6"], ["7", "7"], ["8", "8"], ["9", "9"]]), "WHICH");
+    }
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(Blockly.Msg.XHIFLANG_ANIM_TOOLTIP);
@@ -68,9 +67,11 @@ Blockly.Blocks['xhkinder_turnleft'] = {
   init: function() {
     this.setHelpUrl(Blockly.Msg.XHIFLANG_HELPURL);
     this.setColour(185);
-    this.appendDummyInput()
-        .appendField("\u21B6") // "L"
-        .appendField(new Blockly.FieldDropdown([["_", ""], ["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"], ["6", "6"], ["7", "7"], ["8", "8"], ["9", "9"]]), "WHICH");
+    var di = this.appendDummyInput()
+        .appendField("\u21B6"); // "L"
+    if (Blockly.Blocks.xhkinder.PARAMS == "true") {
+      di.appendField(new Blockly.FieldDropdown([[Blockly.Blocks.xhkinder.FDD, ""], ["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"], ["6", "6"], ["7", "7"], ["8", "8"], ["9", "9"]]), "WHICH");
+    }
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(Blockly.Msg.XHIFLANG_ANIM_TOOLTIP);
@@ -81,8 +82,11 @@ Blockly.Blocks['xhkinder_hop'] = {
   init: function() {
     this.setHelpUrl(Blockly.Msg.XHIFLANG_HELPURL);
     this.setColour(220);
-    this.appendDummyInput()
+    var di = this.appendDummyInput()
         .appendField("\u21B1"); // "H"
+    if (Blockly.Blocks.xhkinder.PARAMS == "true") {
+      di.appendField(new Blockly.FieldDropdown([[Blockly.Blocks.xhkinder.FDD, ""], ["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"], ["6", "6"], ["7", "7"], ["8", "8"], ["9", "9"]]), "WHICH");
+    }
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(Blockly.Msg.XHIFLANG_ANIM_TOOLTIP);
@@ -93,8 +97,11 @@ Blockly.Blocks['xhkinder_duck'] = {
   init: function() {
     this.setHelpUrl(Blockly.Msg.XHIFLANG_HELPURL);
     this.setColour(225);
-    this.appendDummyInput()
+    var di = this.appendDummyInput()
         .appendField("\u21B2"); // "D"
+    if (Blockly.Blocks.xhkinder.PARAMS == "true") {
+      di.appendField(new Blockly.FieldDropdown([[Blockly.Blocks.xhkinder.FDD, ""], ["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"], ["6", "6"], ["7", "7"], ["8", "8"], ["9", "9"]]), "WHICH");
+    }
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(Blockly.Msg.XHIFLANG_ANIM_TOOLTIP);
@@ -105,8 +112,11 @@ Blockly.Blocks['xhkinder_grow'] = {
   init: function() {
     this.setHelpUrl(Blockly.Msg.XHIFLANG_HELPURL);
     this.setColour(260);
-    this.appendDummyInput()
+    var di = this.appendDummyInput()
         .appendField("\u21F1"); // "G"
+    if (Blockly.Blocks.xhkinder.PARAMS == "true") {
+      di.appendField(new Blockly.FieldDropdown([[Blockly.Blocks.xhkinder.FDD, ""], ["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"], ["6", "6"], ["7", "7"], ["8", "8"], ["9", "9"]]), "WHICH");
+    }
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(Blockly.Msg.XHIFLANG_ANIM_TOOLTIP);
@@ -117,8 +127,11 @@ Blockly.Blocks['xhkinder_shrink'] = {
   init: function() {
     this.setHelpUrl(Blockly.Msg.XHIFLANG_HELPURL);
     this.setColour(265);
-    this.appendDummyInput()
+    var di = this.appendDummyInput()
         .appendField("\u21F2"); // "S"
+    if (Blockly.Blocks.xhkinder.PARAMS == "true") {
+      di.appendField(new Blockly.FieldDropdown([[Blockly.Blocks.xhkinder.FDD, ""], ["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"], ["6", "6"], ["7", "7"], ["8", "8"], ["9", "9"]]), "WHICH");
+    }
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(Blockly.Msg.XHIFLANG_ANIM_TOOLTIP);
@@ -129,8 +142,11 @@ Blockly.Blocks['xhkinder_mirror'] = {
   init: function() {
     this.setHelpUrl(Blockly.Msg.XHIFLANG_HELPURL);
     this.setColour(300);
-    this.appendDummyInput()
+    var di = this.appendDummyInput()
         .appendField("\u21D4"); // "M"
+    if (Blockly.Blocks.xhkinder.PARAMS == "true") {
+      di.appendField(new Blockly.FieldDropdown([[Blockly.Blocks.xhkinder.FDD, ""], ["x", "x"], ["y", "y"]]), "WHICH");
+    }
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(Blockly.Msg.XHIFLANG_ANIM_TOOLTIP);

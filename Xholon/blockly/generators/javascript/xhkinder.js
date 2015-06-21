@@ -75,23 +75,53 @@ Blockly.JavaScript['xhkinder_turnleft'] = function(block) {
 };
 
 Blockly.JavaScript['xhkinder_hop'] = function(block) {
-  return 'anim this hop;\n';
+  //return 'anim this hop;\n';
+  var code =  'anim this hop';
+  var dropdown_which = block.getFieldValue('WHICH');
+  if (dropdown_which) {
+    code += ' ' + (dropdown_which * 50);
+  }
+  return code + ';\n';
 };
 
 Blockly.JavaScript['xhkinder_duck'] = function(block) {
-  return 'anim this duck;\n';
+  //return 'anim this duck;\n';
+  var code =  'anim this duck';
+  var dropdown_which = block.getFieldValue('WHICH');
+  if (dropdown_which) {
+    code += ' ' + (dropdown_which * 50);
+  }
+  return code + ';\n';
 };
 
 Blockly.JavaScript['xhkinder_grow'] = function(block) {
-  return 'anim this grow;\n';
+  //return 'anim this grow;\n';
+  var code =  'anim this grow';
+  var dropdown_which = block.getFieldValue('WHICH');
+  if (dropdown_which) {
+    code += ' ' + (Math.pow(2, dropdown_which));
+  }
+  return code + ';\n';
 };
 
 Blockly.JavaScript['xhkinder_shrink'] = function(block) {
-  return 'anim this shrink;\n';
+  //return 'anim this shrink;\n';
+  var code =  'anim this shrink';
+  var dropdown_which = block.getFieldValue('WHICH');
+  if (dropdown_which) {
+    code += ' ' + (Math.pow(2, dropdown_which));
+  }
+  return code + ';\n';
 };
 
 Blockly.JavaScript['xhkinder_mirror'] = function(block) {
-  return 'anim this mirror;\n';
+  //return 'anim this mirror;\n';
+  var code =  'anim this mirror';
+  var dropdown_which = block.getFieldValue('WHICH');
+  if (dropdown_which) {
+    code += ' ' + (dropdown_which);
+  }
+  return code + ';\n';
 };
 
 /*Blockly.JavaScript['xhkinder_appear'] = function(block) {
