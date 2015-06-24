@@ -59,7 +59,7 @@ Blockly.Blocks['xhkinder_turnright'] = {
     }
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip(Blockly.Msg.XHIFLANG_ANIM_TOOLTIP);
+    this.setTooltip(Blockly.Msg.XHKINDER_TURNRIGHT_TOOLTIP);
   }
 };
 
@@ -74,7 +74,7 @@ Blockly.Blocks['xhkinder_turnleft'] = {
     }
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip(Blockly.Msg.XHIFLANG_ANIM_TOOLTIP);
+    this.setTooltip(Blockly.Msg.XHKINDER_TURNLEFT_TOOLTIP);
   }
 };
 
@@ -89,7 +89,7 @@ Blockly.Blocks['xhkinder_hop'] = {
     }
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip(Blockly.Msg.XHIFLANG_ANIM_TOOLTIP);
+    this.setTooltip(Blockly.Msg.XHKINDER_HOP_TOOLTIP);
   }
 };
 
@@ -104,7 +104,7 @@ Blockly.Blocks['xhkinder_duck'] = {
     }
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip(Blockly.Msg.XHIFLANG_ANIM_TOOLTIP);
+    this.setTooltip(Blockly.Msg.XHKINDER_DUCK_TOOLTIP);
   }
 };
 
@@ -113,13 +113,13 @@ Blockly.Blocks['xhkinder_grow'] = {
     this.setHelpUrl(Blockly.Msg.XHIFLANG_HELPURL);
     this.setColour(260);
     var di = this.appendDummyInput()
-        .appendField("\u21F1"); // "G"
+        .appendField("\u25C0"); // "G" "\u21F1"
     if (Blockly.Blocks.xhkinder.PARAMS == "true") {
       di.appendField(new Blockly.FieldDropdown([[Blockly.Blocks.xhkinder.FDD, ""], ["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"], ["6", "6"], ["7", "7"], ["8", "8"], ["9", "9"]]), "WHICH");
     }
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip(Blockly.Msg.XHIFLANG_ANIM_TOOLTIP);
+    this.setTooltip(Blockly.Msg.XHKINDER_GROW_TOOLTIP);
   }
 };
 
@@ -128,13 +128,13 @@ Blockly.Blocks['xhkinder_shrink'] = {
     this.setHelpUrl(Blockly.Msg.XHIFLANG_HELPURL);
     this.setColour(265);
     var di = this.appendDummyInput()
-        .appendField("\u21F2"); // "S"
+        .appendField("\u25B6"); // "S" "\u21F2"
     if (Blockly.Blocks.xhkinder.PARAMS == "true") {
       di.appendField(new Blockly.FieldDropdown([[Blockly.Blocks.xhkinder.FDD, ""], ["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"], ["6", "6"], ["7", "7"], ["8", "8"], ["9", "9"]]), "WHICH");
     }
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip(Blockly.Msg.XHIFLANG_ANIM_TOOLTIP);
+    this.setTooltip(Blockly.Msg.XHKINDER_SHRINK_TOOLTIP);
   }
 };
 
@@ -149,7 +149,7 @@ Blockly.Blocks['xhkinder_mirror'] = {
     }
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip(Blockly.Msg.XHIFLANG_ANIM_TOOLTIP);
+    this.setTooltip(Blockly.Msg.XHKINDER_MIRROR_TOOLTIP);
   }
 };
 

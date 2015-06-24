@@ -461,5 +461,14 @@
 	"XHIFLANG_VANISH_TOOLTIP": "Make this avatar vanish from the world. The avatar will still exist and will still be able to do all the stuff it could do before. It will become like a ghost. This command has no effect if the avatar has already vanished.",
 	
 	"XHIFLANG_WAIT_TITLE": "wait",
-	"XHIFLANG_WAIT_TOOLTIP": "Wait for the specified number of time steps (ex: wait 5). By default, it waits just one time step (ex: wait)."
+	"XHIFLANG_WAIT_TOOLTIP": "Wait for the specified number of time steps (ex: wait 5). By default, it waits just one time step (ex: wait).",
+	
+	"XHKINDER_TURNRIGHT_TOOLTIP": "Turn Right",
+	"XHKINDER_TURNLEFT_TOOLTIP": "Turn Left",
+	"XHKINDER_HOP_TOOLTIP": "Hop",
+	"XHKINDER_DUCK_TOOLTIP": "Duck",
+	"XHKINDER_GROW_TOOLTIP": "Grow",
+	"XHKINDER_SHRINK_TOOLTIP": "Shrink",
+	"XHKINDER_MIRROR_TOOLTIP": "Mirror"
+	
 }
