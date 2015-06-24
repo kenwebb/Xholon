@@ -35,6 +35,7 @@ import org.primordion.xholon.base.IGrid;
 import org.primordion.xholon.io.gwt.HtmlScriptHelper;
 import org.primordion.xholon.service.IXholonService;
 import org.primordion.xholon.service.XholonHelperService;
+import org.primordion.xholon.service.meteor.IMeteorPlatformService;
 import org.primordion.xholon.util.ClassHelper;
 import org.primordion.xholon.util.Misc;
 
@@ -1225,7 +1226,7 @@ public class Avatar extends XholonWithPorts {
       }
       if (meteor && (meteorService != null)) {
         String[] data = {newValue, "add", "@" + whatChanges};
-        meteorService.sendSyncMessage(-3897, data, node);
+        meteorService.sendSyncMessage(IMeteorPlatformService.SIG_COLL_INSERT_REQ, data, node); // -3897
       }
     }
   }
@@ -1284,7 +1285,7 @@ public class Avatar extends XholonWithPorts {
       // send a SIG_COLL_INSERT_REQ message
       // TODO pass the pos
       String[] data = {thing, "add", pos};
-      meteorService.sendSyncMessage(-3897, data, contextNode);
+      meteorService.sendSyncMessage(IMeteorPlatformService.SIG_COLL_INSERT_REQ, data, contextNode);
     }
   }
   
@@ -1332,7 +1333,7 @@ public class Avatar extends XholonWithPorts {
       // optionally write this change to Meteor
       if (meteor && (meteorService != null)) {
         String[] data = {null, "remove"};
-        meteorService.sendSyncMessage(-3897, data, node);
+        meteorService.sendSyncMessage(IMeteorPlatformService.SIG_COLL_INSERT_REQ, data, node);
       }
       node.removeChild();
       sb.append(response);
@@ -1351,7 +1352,7 @@ public class Avatar extends XholonWithPorts {
       // optionally write this change to Meteor
       if (meteor && (meteorService != null)) {
         String[] data = {null, "remove"};
-        meteorService.sendSyncMessage(-3897, data, node);
+        meteorService.sendSyncMessage(IMeteorPlatformService.SIG_COLL_INSERT_REQ, data, node);
       }
       IXholon sib = node.getNextSibling();
       node.removeChild();
@@ -1667,7 +1668,7 @@ public class Avatar extends XholonWithPorts {
         String targetXpathExpr = xpath.getExpression(app.getRoot(), node);
         if (targetXpathExpr != null) {
           String[] data = {targetXpathExpr, "move", "append"};
-          meteorService.sendSyncMessage(-3897, data, this);
+          meteorService.sendSyncMessage(IMeteorPlatformService.SIG_COLL_INSERT_REQ, data, this);
         }
       }
       this.removeChild();

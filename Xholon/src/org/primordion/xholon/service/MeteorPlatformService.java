@@ -32,34 +32,182 @@ import org.primordion.xholon.base.Message;
 import org.primordion.xholon.base.transferobject.IXholonPatch;
 import org.primordion.xholon.base.transferobject.XholonPatch;
 import org.primordion.xholon.service.XholonHelperService;
+import org.primordion.xholon.service.meteor.IMeteorPlatformService;
 
 /**
  * Handle interaction with the Meteor Platform.
+ * The method "boolean isExistsMeteor()" is in Xholon.java .
  * TODO support RFC 5261
+ *
+ * ##################################################################
+ * Usage from inside Xholon:
+ * ##################################################################
+ 
+// removeAllItems(String collName)
+var mps = $wnd.xh.service('MeteorPlatformService');
+if (mps) {
+  $wnd.console.log(mps.name());
+  var node = $wnd.xh.root();
+  var msg = mps.call(-3892, null, node);
+  $wnd.console.log(msg);
+  $wnd.console.log(msg.data);
+}
+
+// removeAllSessionItems(String collName, String sessionId)
+var mps = $wnd.xh.service('MeteorPlatformService');
+if (mps) {
+  $wnd.console.log(mps.name());
+  var node = $wnd.xh.root();
+  var sessionId = null;
+  var msg = mps.call(-3887, sessionId, node);
+  $wnd.console.log(msg);
+  $wnd.console.log(msg.data);
+}
+
+// removeItem(String collName, String meteorId)
+var mps = $wnd.xh.service('MeteorPlatformService');
+if (mps) {
+  $wnd.console.log(mps.name());
+  var node = $wnd.xh.root();
+  var meteorId = "a1b2c3d4";
+  var msg = mps.call(-3891, meteorId, node);
+  $wnd.console.log(msg);
+  $wnd.console.log(msg.data);
+}
+
+// collLength(String collName)
+var mps = $wnd.xh.service('MeteorPlatformService');
+if (mps) {
+  $wnd.console.log(mps.name());
+  var node = $wnd.xh.root();
+  var msg = mps.call(-3890, null, node);
+  $wnd.console.log(msg);
+  $wnd.console.log("Collection length: " + msg.data);
+}
+
+// fetchAllItems(String collName)
+var mps = $wnd.xh.service('MeteorPlatformService');
+if (mps) {
+  $wnd.console.log(mps.name());
+  var node = $wnd.xh.root();
+  var msg = mps.call(-3894, null, node);
+  $wnd.console.log(msg);
+  var items = msg.data;
+  $wnd.console.log(items);
+}
+
+// fetchAllSessionItems(String collName, String sessionId)
+var mps = $wnd.xh.service('MeteorPlatformService');
+if (mps) {
+  $wnd.console.log(mps.name());
+  var node = $wnd.xh.root();
+  var sessionId = null;
+  var msg = mps.call(-3888, sessionId, node);
+  $wnd.console.log(msg);
+  var items = msg.data;
+  $wnd.console.log(items);
+}
+
+// fetchItem(String collName, String meteorId)
+var mps = $wnd.xh.service('MeteorPlatformService');
+if (mps) {
+  $wnd.console.log(mps.name());
+  var node = $wnd.xh.root();
+  var meteorId = "a1b2c3d4";
+  var msg = mps.call(-3893, meteorId, node);
+  $wnd.console.log(msg);
+  var item = msg.data;
+  $wnd.console.log(item);
+}
+
+ * ##################################################################
+ * Usage from Developer Tools:
+ * ##################################################################
+
+// removeAllItems(String collName)
+var mps = xh.service('MeteorPlatformService');
+if (mps) {
+  console.log(mps.name());
+  var node = xh.root();
+  var msg = mps.call(-3892, null, node);
+  console.log(msg);
+  console.log(msg.data);
+}
+
+// removeAllSessionItems(String collName, String sessionId)
+var mps = xh.service('MeteorPlatformService');
+if (mps) {
+  console.log(mps.name());
+  var node = xh.root();
+  var sessionId = null;
+  var msg = mps.call(-3887, sessionId, node);
+  console.log(msg);
+  console.log(msg.data);
+}
+
+// removeItem(String collName, String meteorId)
+var mps = xh.service('MeteorPlatformService');
+if (mps) {
+  console.log(mps.name());
+  var node = xh.root();
+  var meteorId = "a1b2c3d4";
+  var msg = mps.call(-3891, meteorId, node);
+  console.log(msg);
+  console.log(msg.data);
+}
+
+// collLength(String collName)
+var mps = xh.service('MeteorPlatformService');
+if (mps) {
+  console.log(mps.name());
+  var node = xh.root();
+  var msg = mps.call(-3890, null, node);
+  console.log(msg);
+  console.log("Collection length: " + msg.data);
+}
+
+// fetchAllItems(String collName)
+var mps = xh.service('MeteorPlatformService');
+if (mps) {
+  console.log(mps.name());
+  var node = xh.root();
+  var msg = mps.call(-3894, null, node);
+  console.log(msg);
+  var items = msg.data;
+  console.log(items);
+}
+
+// fetchAllSessionItems(String collName, String sessionId)
+var mps = xh.service('MeteorPlatformService');
+if (mps) {
+  console.log(mps.name());
+  var node = xh.root();
+  var sessionId = null;
+  var msg = mps.call(-3888, sessionId, node);
+  console.log(msg);
+  var items = msg.data;
+  console.log(items);
+}
+
+// fetchItem(String collName, String meteorId)
+var mps = xh.service('MeteorPlatformService');
+if (mps) {
+  console.log(mps.name());
+  var node = xh.root();
+  var meteorId = "a1b2c3d4";
+  var msg = mps.call(-3893, meteorId, node);
+  console.log(msg);
+  var item = msg.data;
+  console.log(item);
+}
+
+ *
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @see <a href="https://www.meteor.com/">Meteor website</a>
  * @since 0.9.1 (Created on April 21, 2015)
  */
-public class MeteorPlatformService extends AbstractXholonService {
-  
-  public static final int SIG_EXISTS_METEOR_REQ = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 101; // -3898
-  public static final int SIG_SHOULD_WRITE_REQ = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 103; // -3896
-  public static final int SIG_SHOULD_READ_REQ = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 104; // -3895
-  
-  /**
-   * A request to insert something in a local Meteor collection (database).
-   */
-  public static final int SIG_COLL_INSERT_REQ = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 102; // -3897
-  
-  
-  
-  //public static final int SIG_EXISTS_METEOR_RESP = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 201; // -3798
-  
-  /**
-   * A generic response to a request to do something.
-   */
-  public static final int SIG_METEOR_RESP = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 202; // -3797
+public class MeteorPlatformService extends AbstractXholonService implements IMeteorPlatformService {
   
   /** This is a single global control. */
   protected boolean shouldWrite = true;
@@ -122,6 +270,7 @@ public class MeteorPlatformService extends AbstractXholonService {
     case SIG_EXISTS_METEOR_REQ:
       return new Message(SIG_METEOR_RESP, isExistsMeteor(), this, msg.getSender());
     case SIG_SHOULD_WRITE_REQ:
+    {
       if (msg.getData() != null) {
         consoleLog(msg.getData());
         // msg.getData() must be a boolean
@@ -130,18 +279,94 @@ public class MeteorPlatformService extends AbstractXholonService {
       }
       consoleLog("shouldWrite now equals " + isShouldWrite());
       return new Message(SIG_METEOR_RESP, isShouldWrite(), this, msg.getSender());
+    }
     case SIG_SHOULD_READ_REQ:
+    {
       if (msg.getData() != null) {
         // msg.getData() must be a boolean
         boolean sr = (Boolean)msg.getData();
         setShouldRead(sr);
       }
       return new Message(SIG_METEOR_RESP, isShouldRead(), this, msg.getSender());
+    }
     case SIG_COLL_INSERT_REQ:
+    {
+      Object robj = "Unable to insert item " + msg.getData();
       if (isShouldWrite() && isExistsMeteor()) {
-        collInsert(msg.getSender(), (String[])msg.getData());
+        robj = null;
+        insertItem(msg.getSender(), (String[])msg.getData());
       }
-      return new Message(SIG_METEOR_RESP, null, this, msg.getSender());
+      return new Message(SIG_METEOR_RESP, robj, this, msg.getSender());
+    }
+    case SIG_COLL_FETCH_ALLITEMS_REQ:
+    {
+      Object robj = "Unable to fetch all items";
+      if (isExistsMeteor()) {
+        robj = fetchAllItems(collName);
+      }
+      return new Message(SIG_METEOR_RESP, robj, this, msg.getSender());
+    }
+    case SIG_COLL_FETCH_ALLSESSIONITEMS_REQ:
+    {
+      Object robj = "Unable to fetch all session items " + msg.getData();
+      String sid = sessionId; // use the current sessionId by default
+      if (msg.getData() != null) {
+        sid = (String)msg.getData(); // use a sessionId passed in by the user
+      }
+      if (isExistsMeteor()) {
+        robj = fetchAllSessionItems(collName, sid);
+      }
+      return new Message(SIG_METEOR_RESP, robj, this, msg.getSender());
+    }
+    case SIG_COLL_FETCH_ITEM_REQ:
+    {
+      Object robj = "Unable to fetch item " + msg.getData();
+      if (isExistsMeteor() && (msg.getData() != null)) {
+        robj = fetchItem(collName, (String)msg.getData());
+      }
+      return new Message(SIG_METEOR_RESP, robj, this, msg.getSender());
+    }
+    case SIG_COLL_REMOVE_ALLITEMS_REQ:
+    {
+      Object robj = "Unable to remove all items";
+      if (isExistsMeteor()) {
+        robj = null;
+        removeAllItems(collName);
+      }
+      return new Message(SIG_METEOR_RESP, robj, this, msg.getSender());
+    }
+    case SIG_COLL_REMOVE_ALLSESSIONITEMS_REQ:
+    {
+      Object robj = "Unable to remove all session items " + msg.getData();
+      String sid = sessionId; // use the current sessionId by default
+      if (msg.getData() != null) {
+        sid = (String)msg.getData(); // use a sessionId passed in by the user
+      }
+      if (isExistsMeteor()) {
+        robj = null;
+        removeAllSessionItems(collName, sid);
+      }
+      return new Message(SIG_METEOR_RESP, robj, this, msg.getSender());
+    }
+    case SIG_COLL_REMOVE_ITEM_REQ:
+    {
+      Object robj = "Unable to remove item " + msg.getData();
+      if (isExistsMeteor() && (msg.getData() != null)) {
+        robj = null;
+        removeItem(collName, (String)msg.getData());
+      }
+      return new Message(SIG_METEOR_RESP, robj, this, msg.getSender());
+    }
+    case SIG_COLL_LENGTH_REQ:
+    {
+      int robj = 0;
+      if (isExistsMeteor()) {
+        robj = collLength(collName);
+      }
+      return new Message(SIG_METEOR_RESP, robj, this, msg.getSender());
+    }
+    case SIG_COLL_UPDATE_ITEM_REQ:
+      return new Message(SIG_METEOR_RESP, "NOT YET IMPLEMENTED", this, msg.getSender());
     default:
       return super.processReceivedSyncMessage(msg);
     }
@@ -154,8 +379,8 @@ public class MeteorPlatformService extends AbstractXholonService {
    * @param contextNode 
    * @param data XML that should be inserted at contextNode, patch op (ex: "add"), edit action (ex: "append").
    */
-  protected void collInsert(IXholon contextNode, String[] data) {
-    consoleLog("starting collInsert " + data.length);
+  protected void insertItem(IXholon contextNode, String[] data) {
+    consoleLog("starting insertItem " + data.length);
     //consoleLog("contextNode " + contextNode);
     String xpathExpr = ".";
     if (contextNode != app.getRoot()) {
@@ -186,7 +411,6 @@ public class MeteorPlatformService extends AbstractXholonService {
       return;
     }
     
-    //collInsert(patchOp, collName, xpathExpr, editAction, xmlStr, sessionId);
     // TODO handle attributes and text
     XholonPatch xhp = new XholonPatch();
     switch (patchOp) {
@@ -244,29 +468,14 @@ public class MeteorPlatformService extends AbstractXholonService {
     default:
       break;
     }
-    collInsert(xhp.getVal_Object(), collName, sessionId);
+    insertItem(collName, xhp.getVal_Object(), sessionId);
   }
   
   /**
    * Insert an item into a Meteor collection.
    * Object {_id: "Z32o6Siws4h3u3Nik", op: "add", sel: "descendant::Hello", pos: "append", content: "<World roleName="Universe"/>"}
    */
-//  protected native void collInsert(String patchOp, String collName, String sel, String pos, String xmlStr, String sessionId) /*-{
-//    var obj = {};
-//    obj.op = patchOp;
-//    obj.sel = sel;
-//    obj.pos = pos;
-//    obj.content = xmlStr;
-//    obj.sessionId = sessionId;
-//    $wnd.console.log(obj);
-//    $wnd[collName].insert(obj);
-//  }-*/;
-  
-  /**
-   * Insert an item into a Meteor collection.
-   * Object {_id: "Z32o6Siws4h3u3Nik", op: "add", sel: "descendant::Hello", pos: "append", content: "<World roleName="Universe"/>"}
-   */
-  protected native void collInsert(Object obj, String collName, String sessionId) /*-{
+  protected native void insertItem(String collName, Object obj, String sessionId) /*-{
     obj.sessionId = sessionId;
     $wnd.console.log(obj);
     $wnd[collName].insert(obj);
@@ -282,7 +491,7 @@ public class MeteorPlatformService extends AbstractXholonService {
 	public void processMeteorQ(String collName) {
 	  if (collName == null) {collName = this.collName;}
 	  if (isShouldRead() && isExistsMeteor()) {
-	    JsArray items = fetch(collName);
+	    JsArray items = fetchAllItems(collName);
 	    //consoleLog(items);
 	    for (int i = indexNextRead; i < items.length(); i++) {
 	      JavaScriptObject item = items.get(i);
@@ -388,37 +597,61 @@ public class MeteorPlatformService extends AbstractXholonService {
 	  node[attrName] = attrValue;
 	}-*/;
 	
-	//protected native int collLength(String collName) /*-{
-	//  return $wnd[collName].find().fetch().length;
-	//}-*/;
+	protected native int collLength(String collName) /*-{
+	  return $wnd[collName].find().fetch().length;
+	}-*/;
 	
-	protected native JsArray fetch(String collName) /*-{
+	protected native Object fetchItem(String collName, int itemIndex) /*-{
+	  return $wnd[collName].find().fetch()[itemIndex];
+	}-*/;
+	
+	protected native Object fetchItem(String collName, String meteorId) /*-{
+	  return $wnd[collName].findOne(meteorId);
+	}-*/;
+	
+	protected native JsArray fetchAllItems(String collName) /*-{
 	  return $wnd[collName].find().fetch();
 	}-*/;
 	
-	//protected native Object fetchItem(String collName, int itemIndex) /*-{
-	//  return $wnd[collName].find().fetch()[itemIndex];
-	//}-*/;
+	/*
+var sessionId = "5d1f783f-940c-4edd-8341-fb8ec5d94966";
+var mongoSelector = {sessionId: sessionId};
+console.log(mongoSelector);
+var robj = Test01.find(mongoSelector).fetch();
+console.log(robj);
+	*/
+	protected native JsArray fetchAllSessionItems(String collName, String sessionId) /*-{
+	  var mongoSelector = {sessionId: sessionId};
+	  return $wnd[collName].find(mongoSelector).fetch();
+	}-*/;
 	
-	//protected native String op(JavaScriptObject item) /*-{
-	//  return item.op;
-	//}-*/;
+	protected native void removeItem(String collName, String meteorId) /*-{
+	  $wnd[collName].remove(meteorId);
+	}-*/;
 	
-	//protected native String sel(JavaScriptObject item) /*-{
-	//  return item.sel;
-	//}-*/;
+	protected native void removeAllItems(String collName) /*-{
+	  var items = $wnd[collName].find().fetch();
+	  for (var i = 0; i < items.length; i++) {
+	    var id = items[i]._id;
+	    $wnd[collName].remove(id);
+	  }
+	}-*/;
 	
-	//protected native String pos(JavaScriptObject item) /*-{
-	//  return item.pos;
-	//}-*/;
+	protected native void removeAllSessionItems(String collName, String sessionId) /*-{
+	  var mongoSelector = {sessionId: sessionId};
+	  var items = $wnd[collName].find(mongoSelector).fetch();
+	  for (var i = 0; i < items.length; i++) {
+	    var id = items[i]._id;
+	    $wnd[collName].remove(id);
+	  }
+	}-*/;
 	
-	//protected native String content(JavaScriptObject item) /*-{
-	//  return item.content;
-	//}-*/;
-	
-	//protected native String sessionId(JavaScriptObject item) /*-{
-	//  return item.sessionId;
-	//}-*/;
+	protected native void updateItem(String collName, String meteorId, Object obj, String sessionId) /*-{
+	  obj.sessionId = sessionId;
+    $wnd.console.log(obj);
+    // TODO
+    //$wnd[collName].update(meteorId, obj);
+	}-*/;
 	
 	/**
 	 * Make and return a session ID.
@@ -449,19 +682,6 @@ public class MeteorPlatformService extends AbstractXholonService {
     else if (enableRead.equals(action)) {setShouldRead(true);}
     else if (disableRead.equals(action)) {setShouldRead(false);}
   }
-  
-  // this method has been moved to Xholon.java
-  /**
-   * Has the Meteor platform been loaded into the DOM?
-   */
-  //public native boolean isExistsMeteor() /*-{
-  //  if ($wnd.Meteor) {
-  //    return true;
-  //  }
-  //  else {
-  //    return false;
-  //  }
-  //}-*/;
   
   /**
    * @return the shouldWrite
