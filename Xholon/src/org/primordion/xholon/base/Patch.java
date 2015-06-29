@@ -257,7 +257,7 @@ public class Patch extends GridEntity implements IPatch {
 			turtle.setXcor(pxcor);
 			turtle.setYcor(pycor);
 			turtle.setHeading(MiscRandom.getRandomInt(0, 360));
-			turtle.setColor(MiscRandom.getRandomInt(0, 140));
+			turtle.setTColor(MiscRandom.getRandomInt(0, 140));
 			turtle.setPenMode(ITurtle.PENMODE_DOWN);
 			turtle.initWhenMoved(ITurtle.WHENMOVED_INIT);
 			if (commandId != COMMANDID_NONE) {

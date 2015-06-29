@@ -511,14 +511,14 @@ public interface ITurtle extends IXholon {
 	 * Get the turtle's color.
 	 * @return A color value, as defined in ITurtlePatchColor.
 	 */
-	public int getColor();
+	public int getTColor();
 	
 	/**
 	 * Set the turtle's color.
 	 * NetLogo: set color value
 	 * @param color A color value, as defined in ITurtlePatchColor.
 	 */
-	public void setColor(int color);
+	public void setTColor(int color);
 	
 	/**
 	 * Get the turtle's heading.

@@ -206,7 +206,7 @@ public class PatchOwner extends AbstractGrid implements IXholon {
 			turtle.setXhc(getClassNode("Turtle"));
 			turtle.setxy(0.0, 0.0);
 			turtle.setHeading(getNextHeading());
-			turtle.setColor(getNextColor());
+			turtle.setTColor(getNextColor());
 			turtle.pu();
 			turtle.initWhenMoved(ITurtle.WHENMOVED_INIT);
 		}
@@ -271,7 +271,7 @@ public class PatchOwner extends AbstractGrid implements IXholon {
 			turtle.setXhc(xhcNode);
 			turtle.setxy(0.0, 0.0);
 			turtle.setHeading(getNextHeading());
-			turtle.setColor(getNextColor());
+			turtle.setTColor(getNextColor());
 			turtle.pu();
 			turtle.initWhenMoved(ITurtle.WHENMOVED_INIT);
 		}

@@ -89,7 +89,7 @@ public class WolfSheep extends Turtle implements CeWolfSheepGrass {
 		    //set energy random (2 * sheep-gain-from-food)
 		    //setxy random-xcor random-ycor
 		    //set grabbed? false
-			setColor(ITurtlePatchColor.TPCOLOR_WHITE);
+			setTColor(ITurtlePatchColor.TPCOLOR_WHITE);
 			energy = MiscRandom.getRandomDouble(0.0, 2.0 * sheepGainFromFood);
 			if ((getWorldWidth() > 100) || (getWorldHeight() > 100)) {
 				setxy(MiscRandom.getRandomDouble(-25.0, +25.0), MiscRandom.getRandomDouble(-25.0, +25.0));
@@ -107,7 +107,7 @@ public class WolfSheep extends Turtle implements CeWolfSheepGrass {
 		    //set size 1.5  ;; easier to see
 		    //set energy random (2 * wolf-gain-from-food)
 		    //setxy random-xcor random-ycor
-			setColor(ITurtlePatchColor.TPCOLOR_BLACK);
+			setTColor(ITurtlePatchColor.TPCOLOR_BLACK);
 			energy = MiscRandom.getRandomDouble(0.0, 2.0 * wolfGainFromFood);
 			if ((getWorldWidth() > 100) || (getWorldHeight() > 100)) {
 				setxy(MiscRandom.getRandomDouble(-25.0, +25.0), MiscRandom.getRandomDouble(-25.0, +25.0));

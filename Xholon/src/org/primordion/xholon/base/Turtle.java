@@ -233,7 +233,7 @@ public class Turtle extends XholonWithPorts implements ITurtle {
     case "color": // or "set color" ?
       if (len == 2) {
         //consoleLog("color " + data[1]);
-        setColor(Misc.atoi(data[1], 0));
+        setTColor(Misc.atoi(data[1], 0));
         //consoleLog(getColor());
       }
       else {
@@ -562,7 +562,7 @@ public class Turtle extends XholonWithPorts implements ITurtle {
 			turtle.setXcor(xcor);
 			turtle.setYcor(ycor);
 			turtle.setHeading(heading);
-			turtle.setColor(color);
+			turtle.setTColor(color);
 			turtle.setPenMode(penMode);
 			turtle.initWhenMoved(ITurtle.WHENMOVED_INIT);
 			if (commandId != COMMANDID_NONE) {
@@ -961,17 +961,17 @@ public class Turtle extends XholonWithPorts implements ITurtle {
 	}
 	
 	/*
-	 * @see org.primordion.xholon.base.ITurtle#getColor()
+	 * @see org.primordion.xholon.base.ITurtle#getTColor()
 	 */
-	public int getColor()
+	public int getTColor()
 	{
 		return color;
 	}
 	
     /*
-	 * @see org.primordion.xholon.base.ITurtle#setColor(double)
+	 * @see org.primordion.xholon.base.ITurtle#setTColor(double)
 	 */
-	public void setColor(int color)
+	public void setTColor(int color)
 	{
 		this.color = color;
 	}

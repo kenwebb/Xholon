@@ -396,7 +396,7 @@ public void setAppSpecificAttribute(IXholon node, Class<IXholon> clazz, String a
       if (node == null) {return;}
       else if ("org.primordion.xholon.base.Turtle".equals(clazz.getName())) {
         if ("Breed".equalsIgnoreCase(attrName)) {((Turtle)node).setBreed(Integer.parseInt((String)attrVal));return;}
-        if ("Color".equalsIgnoreCase(attrName)) {((Turtle)node).setColor(Integer.parseInt((String)attrVal));return;}
+        if ("Color".equalsIgnoreCase(attrName)) {((Turtle)node).setTColor(Integer.parseInt((String)attrVal));return;}
         if ("Heading".equalsIgnoreCase(attrName)) {((Turtle)node).setHeading(Double.parseDouble((String)attrVal));return;}
         if ("IsHidden".equalsIgnoreCase(attrName)) {((Turtle)node).setIsHidden(Boolean.parseBoolean((String)attrVal));return;}
         if ("Label".equalsIgnoreCase(attrName)) {((Turtle)node).setLabel((String)attrVal);return;}

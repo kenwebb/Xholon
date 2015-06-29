@@ -17,13 +17,13 @@ import org.primordion.xholon.base.XholonWithPorts;
 public class Beast extends XholonWithPorts implements CeBestiary {
 	
 	/** Default color, color of new beasts such as Dog. */
-	private static final int COLOR_DEFAULT = 0xFF00FF; //Color.MAGENTA;
+	//private static final int COLOR_DEFAULT = 0xFF00FF; //Color.MAGENTA;
 	
 	/**
 	 * Color designation, for use in GUIs.
 	 * ex: "0xFF0000"
 	 */
-	private int color = COLOR_DEFAULT;
+	//private int color = COLOR_DEFAULT;
 	
 	private String roleName = null;
 	
@@ -35,13 +35,13 @@ public class Beast extends XholonWithPorts implements CeBestiary {
 		this.roleName = roleName;
 	}
 
-	public int getColor() {
-		return color;
-	}
+	//public int getColor() {
+	//	return color;
+	//}
 
-	public void setColor(int color) {
-		this.color = color;
-	}
+	//public void setColor(int color) {
+	//	this.color = color;
+	//}
 	
 	/*
 	 * @see org.primordion.xholon.base.Xholon#getAllPorts()
