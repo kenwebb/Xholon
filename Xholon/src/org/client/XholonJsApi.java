@@ -646,6 +646,79 @@ public class XholonJsApi {
         return null;
       }
     });
+    
+    // IDecoration methods
+    
+    // color
+    // var color = node.color();
+    // var color = node.xhc().color();
+    // node.color("0x00ff00"); node.color("#ff0000");
+    // node.xhc().color("rgba(0,255,0,0.5)");
+    api.color = $entry(function(val) {
+      if (val === undefined) {
+        return this.@org.primordion.xholon.base.IDecoration::getColor()();
+      }
+      else {
+        this.@org.primordion.xholon.base.IDecoration::setColor(Ljava/lang/String;)(val);
+        return this;
+      }
+    });
+    
+    // font
+    api.font = $entry(function(val) {
+      if (val === undefined) {
+        return this.@org.primordion.xholon.base.IDecoration::getFont()();
+      }
+      else {
+        this.@org.primordion.xholon.base.IDecoration::setFont(Ljava/lang/String;)(val);
+        return this;
+      }
+    });
+    
+    // icon
+    // me.icon("https://github.com/favicon.ico");
+    api.icon = $entry(function(val) {
+      if (val === undefined) {
+        return this.@org.primordion.xholon.base.IDecoration::getIcon()();
+      }
+      else {
+        this.@org.primordion.xholon.base.IDecoration::setIcon(Ljava/lang/String;)(val);
+        return this;
+      }
+    });
+    
+    // toolTip
+    api.toolTip = $entry(function(val) {
+      if (val === undefined) {
+        return this.@org.primordion.xholon.base.IDecoration::getToolTip()();
+      }
+      else {
+        this.@org.primordion.xholon.base.IDecoration::setToolTip(Ljava/lang/String;)(val);
+        return this;
+      }
+    });
+    
+    // symbol
+    api.symbol = $entry(function(val) {
+      if (val === undefined) {
+        return this.@org.primordion.xholon.base.IDecoration::getSymbol()();
+      }
+      else {
+        this.@org.primordion.xholon.base.IDecoration::setSymbol(Ljava/lang/String;)(val);
+        return this;
+      }
+    });
+    
+    // format
+    api.format = $entry(function(val) {
+      if (val === undefined) {
+        return this.@org.primordion.xholon.base.IDecoration::getFormat()();
+      }
+      else {
+        this.@org.primordion.xholon.base.IDecoration::setFormat(Ljava/lang/String;)(val);
+        return this;
+      }
+    });
 
     
     // TODO pcs(expression) and select(expression)

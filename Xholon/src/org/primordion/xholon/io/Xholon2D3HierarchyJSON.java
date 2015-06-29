@@ -207,18 +207,30 @@ public class Xholon2D3HierarchyJSON {
 	    }
 	    else {
 	      // this is a CSH node or a Control node
-	      color = getColor((IDecoration)xhc);
+	      // color
+	      color = getColor((IDecoration)node);
+		    if (color == null) {
+	        color = getColor((IDecoration)xhc);
+	      }
 		    if (color == null) {
 		      color = getColor((IDecoration)xhc.getMechanism());
 		    }
+		    // symbol
 		    if (useSymbols) {
-		      symbol = getSymbol((IDecoration)xhc);
+		      symbol = getSymbol((IDecoration)node);
+	        if (symbol == null) {
+		        symbol = getSymbol((IDecoration)xhc);
+		      }
 	        if (symbol == null) {
 		        symbol = getSymbol((IDecoration)xhc.getMechanism());
 		      }
 		    }
+		    // icon
 		    if (useIcons) {
-		      icon = getIcon((IDecoration)xhc);
+		      icon = getIcon((IDecoration)node);
+	        if (icon == null) {
+		        icon = getIcon((IDecoration)xhc);
+		      }
 	        if (icon == null) {
 		        icon = getIcon((IDecoration)xhc.getMechanism());
 		      }

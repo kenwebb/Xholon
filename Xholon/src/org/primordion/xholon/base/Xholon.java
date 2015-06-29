@@ -73,7 +73,7 @@ import org.primordion.xholon.logging.LogFactory; // for use with GWT 2.5.1
  * @since 0.1 (Created on Jun 8, 2005)
  */
 
-public abstract class Xholon implements IXholon, Comparable, Serializable {
+public abstract class Xholon implements IXholon, IDecoration, Comparable, Serializable {
 	private static final long serialVersionUID = 1271821389789389499L;
 
 	/** Parent node, or null if root. */
@@ -2628,6 +2628,7 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 			xds.put(Annotation.makeUniqueKey(this), ann);
 		}
 	}
+	public void setAnno(String annotation) {this.setAnnotation(annotation);}
 	
 	/*
 	 * @see org.primordion.xholon.base.IXholon#getAnnotation()
@@ -2646,6 +2647,7 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 		}
 		return null;
 	}
+	public String getAnno() {return this.getAnnotation();}
 	
 	/*
 	 * @see org.primordion.xholon.base.IXholon#hasAnnotation()
@@ -2662,6 +2664,7 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 		}
 		return true;
 	}
+	public boolean hasAnno() {return this.hasAnnotation();}
 	
 	/*
 	 * @see org.primordion.xholon.base.IXholon#showAnnotation()
@@ -2678,6 +2681,7 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
 			ann.showAnnotation();
 		}
 	}
+	public void showAnno() {this.showAnnotation();}
 	
 	/*
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
@@ -3180,6 +3184,90 @@ public abstract class Xholon implements IXholon, Comparable, Serializable {
       return false;
     }
   }-*/;
+  
+  @Override
+  public native String getColor() /*-{
+		if (typeof this.decoration == "undefined") {return null;}
+		return this.decoration.color;
+	}-*/;
+	
+  @Override
+	public native void setColor(String color) /*-{
+	  if (typeof this.decoration == "undefined") {
+			this.decoration = {};
+		}
+	  this.decoration.color = color;
+	}-*/;
+
+  @Override
+	public native String getFont() /*-{
+		if (typeof this.decoration == "undefined") {return null;}
+		return this.decoration.font;
+	}-*/;
+
+  @Override
+	public native void setFont(String font) /*-{
+		if (typeof this.decoration == "undefined") {
+			this.decoration = {};
+		}
+		this.decoration.font = font;
+	}-*/;
+
+  @Override
+	public native String getIcon() /*-{
+		if (typeof this.decoration == "undefined") {return null;}
+		return this.decoration.icon;
+	}-*/;
+
+  @Override
+	public native void setIcon(String icon) /*-{
+		if (typeof this.decoration == "undefined") {
+			this.decoration = {};
+		}
+		this.decoration.icon = icon;
+	}-*/;
+	
+  @Override
+	public native String getToolTip() /*-{
+		if (typeof this.decoration == "undefined") {return null;}
+		return this.decoration.toolTip;
+	}-*/;
+
+  @Override
+	public native void setToolTip(String toolTip) /*-{
+		if (typeof this.decoration == "undefined") {
+			this.decoration = {};
+		}
+		this.decoration.toolTip = toolTip;
+	}-*/;
+	
+  @Override
+	public native String getSymbol() /*-{
+		if (typeof this.decoration == "undefined") {return null;}
+		return this.decoration.symbol;
+	}-*/;
+	
+  @Override
+	public native void setSymbol(String symbol) /*-{
+		if (typeof this.decoration == "undefined") {
+			this.decoration = {};
+		}
+		this.decoration.symbol = symbol;
+	}-*/;
+	
+  @Override
+	public native String getFormat() /*-{
+		if (typeof this.decoration == "undefined") {return null;}
+		return this.decoration.format;
+	}-*/;
+	
+  @Override
+	public native void setFormat(String format) /*-{
+		if (typeof this.decoration == "undefined") {
+			this.decoration = {};
+		}
+		this.decoration.format = format;
+	}-*/;
   
 	/*
 	 * @see java.lang.Object#toString()
