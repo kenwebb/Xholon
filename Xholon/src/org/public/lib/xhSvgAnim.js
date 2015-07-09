@@ -16,6 +16,10 @@ var duration = 2;
 xh.anim(xhnode, selection, duration);
 */
 
+if (typeof xh == "undefined") {
+  xh = {};
+}
+
 xh.anim = function(xhnode, selection, duration) {
   console.log("xh.anim 1");
   if (typeof d3 == "undefined") {return;}
