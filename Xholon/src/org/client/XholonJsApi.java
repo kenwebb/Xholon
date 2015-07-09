@@ -664,6 +664,17 @@ public class XholonJsApi {
       }
     });
     
+    // opacity
+    api.opacity = $entry(function(val) {
+      if (val === undefined) {
+        return this.@org.primordion.xholon.base.IDecoration::getOpacity()();
+      }
+      else {
+        this.@org.primordion.xholon.base.IDecoration::setOpacity(Ljava/lang/String;)(val);
+        return this;
+      }
+    });
+    
     // font
     api.font = $entry(function(val) {
       if (val === undefined) {

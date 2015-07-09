@@ -30,6 +30,10 @@ public interface IDecoration {
 
 	public abstract void setColor(String color);
 
+	public abstract String getOpacity();
+
+	public abstract void setOpacity(String opacity);
+
 	public abstract String getFont();
 
 	public abstract void setFont(String font);

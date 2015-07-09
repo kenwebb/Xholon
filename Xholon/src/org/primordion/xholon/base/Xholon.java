@@ -3200,6 +3200,20 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 	}-*/;
 
   @Override
+  public native String getOpacity() /*-{
+		if (typeof this.decoration == "undefined") {return null;}
+		return this.decoration.opacity;
+	}-*/;
+	
+  @Override
+	public native void setOpacity(String opacity) /*-{
+	  if (typeof this.decoration == "undefined") {
+			this.decoration = {};
+		}
+	  this.decoration.opacity = opacity;
+	}-*/;
+
+  @Override
 	public native String getFont() /*-{
 		if (typeof this.decoration == "undefined") {return null;}
 		return this.decoration.font;

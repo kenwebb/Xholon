@@ -345,6 +345,7 @@ public class Xml2XholonClass extends AbstractXml2Xholon_gwt implements IXml2Xhol
 						+ NAVINFO_SEPARATOR;
 					}
 					else if ("Color".equals(tagName)) {}
+					else if ("Opacity".equals(tagName)) {}
 					else if ("Font".equals(tagName)) {}
 					else if ("Icon".equals(tagName)) {}
 					else if ("ToolTip".equals(tagName)) {}
@@ -401,6 +402,7 @@ public class Xml2XholonClass extends AbstractXml2Xholon_gwt implements IXml2Xhol
 			case IXmlReader.END_TAG:
 				tagName = xmlReader.getName();
 				if ("Color".equals(tagName)) {}
+				else if ("Opacity".equals(tagName)) {}
 				else if ("Font".equals(tagName)) {}
 				else if ("Icon".equals(tagName)) {}
 				else if ("ToolTip".equals(tagName)) {}
@@ -459,6 +461,9 @@ public class Xml2XholonClass extends AbstractXml2Xholon_gwt implements IXml2Xhol
 					}
 					else if ("Font".equals(tagName)) {
 						((IDecoration)existingXholonClass).setFont(textVal);
+					}
+					else if ("Opacity".equals(tagName)) {
+						((IDecoration)existingXholonClass).setOpacity(textVal);
 					}
 					else if ("Icon".equals(tagName)) {
 						((IDecoration)existingXholonClass).setIcon(textVal);

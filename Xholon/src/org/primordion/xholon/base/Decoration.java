@@ -36,6 +36,12 @@ public class Decoration implements IDecoration, Serializable {
 	private String color = null;
 	
 	/**
+	 * Optional color opacity designation, for use in GUIs.
+	 * 0.0 to 1.0
+	 */
+	private String opacity = null;
+	
+	/**
 	 * Optional font designation, for use in GUIs.
 	 * ex: &lt;Font>Arial-BOLD-18&lt;/Font>
 	 */
@@ -85,6 +91,20 @@ public class Decoration implements IDecoration, Serializable {
 	 */
 	public void setColor(String color) {
 		this.color = color;
+	}
+
+	/*
+	 * @see org.primordion.xholon.base.IDecoration#getOpacity()
+	 */
+	public String getOpacity() {
+		return opacity;
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.IDecoration#setOpacity(java.lang.String)
+	 */
+	public void setOpacity(String opacity) {
+		this.opacity = opacity;
 	}
 
 	/*

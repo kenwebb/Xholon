@@ -1004,6 +1004,24 @@ public class XholonClass extends Xholon implements IXholonClass, IDecoration {
 	}
 
 	/*
+	 * @see org.primordion.xholon.base.IDecoration#getOpacity()
+	 */
+	public String getOpacity() {
+		if (decoration == null) {return null;}
+		return decoration.getOpacity();
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.IDecoration#setOpacity(java.lang.String)
+	 */
+	public void setOpacity(String opacity) {
+		if (decoration == null) {
+			decoration = new Decoration();
+		}
+		decoration.setOpacity(opacity);
+	}
+
+	/*
 	 * @see org.primordion.xholon.base.IDecoration#getFont()
 	 */
 	public String getFont() {

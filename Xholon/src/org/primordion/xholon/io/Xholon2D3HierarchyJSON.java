@@ -168,6 +168,7 @@ public class Xholon2D3HierarchyJSON {
 	  StringBuilder sbd = new StringBuilder();
 	  IXholonClass xhc = node.getXhc();
 	  String color = null;
+	  String opacity = null;
 	  String symbol = null;
 	  String icon = null;
 	  if (xhc == null) {
@@ -215,6 +216,8 @@ public class Xholon2D3HierarchyJSON {
 		    if (color == null) {
 		      color = getColor((IDecoration)xhc.getMechanism());
 		    }
+		    // opacity
+		    opacity = ((IDecoration)node).getOpacity();
 		    // symbol
 		    if (useSymbols) {
 		      symbol = getSymbol((IDecoration)node);
@@ -243,7 +246,10 @@ public class Xholon2D3HierarchyJSON {
       .append("\"color\": \"")
       .append(color)
       .append("\", ");
-      if (isRGBA(color)) {
+      if (opacity != null) {
+        sbd.append("\"opacity\": ").append(opacity).append(", ");
+      }
+      else if (isRGBA(color)) {
         // allow the rgba alpha value to have its full effect (result is rgba alpha * opacity)
         sbd.append("\"opacity\": ").append(1.0).append(", ");
       } else {
