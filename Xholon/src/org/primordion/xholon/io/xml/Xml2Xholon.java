@@ -27,6 +27,7 @@ import java.util.Random;
 
 import org.client.GwtEnvironment;
 
+import org.primordion.xholon.base.IDecoration;
 import org.primordion.xholon.base.IReflection;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
@@ -57,6 +58,7 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 		int multiplicity = 1;
 		IXholon currentXholon = null;
 		boolean includeContentsFound = true;
+		String tagName = null;
 		while (eventType != IXmlReader.END_DOCUMENT) {
 		  switch (eventType) {
 			case IXmlReader.START_TAG:
@@ -71,7 +73,7 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 					eventType = xmlReader.getEventType();
 				}
 				else {
-				  String tagName = xmlReader.getName();
+				  tagName = xmlReader.getName();
 					if ("attribute".equals(tagName)) {
 						// ex: <attribute name="output" value="255.0"/>
 						currentXholon = newXholon("Attribute_attribute", parentXholon, xmlReader);
@@ -158,6 +160,14 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 					else if ("XholonWorkbook".equals(tagName)) {
 						return new XholonWorkbook().xml2Xh(app, xmlReader.getUnderlyingReader());
 					}
+					else if ("Color".equals(tagName)) {}
+					else if ("Opacity".equals(tagName)) {}
+					else if ("Font".equals(tagName)) {}
+					else if ("Icon".equals(tagName)) {}
+					else if ("ToolTip".equals(tagName)) {}
+					else if ("Symbol".equals(tagName)) {}
+					else if ("Format".equals(tagName)) {}
+					else if ("Anno".equals(tagName)) {}
 					else { // regular elements including Attribute_ nodes
 					  currentXholon = newXholon(tagName, parentXholon, xmlReader);
 						//consoleLog("  Xml2Xholon xml2Xh: " + currentXholon);
@@ -242,8 +252,35 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 				break;
 			case IXmlReader.TEXT:
 			  String textVal = xmlReader.getText().trim();
+			  //consoleLog(tagName + " " + textVal + " " + parentXholon);
 				if (textVal.length() > 0) {
-					setVal(currentXholon, textVal, "val");
+					if ("Color".equals(tagName)) {
+						((IDecoration)parentXholon).setColor(textVal);
+					}
+					else if ("Font".equals(tagName)) {
+						((IDecoration)parentXholon).setFont(textVal);
+					}
+					else if ("Opacity".equals(tagName)) {
+						((IDecoration)parentXholon).setOpacity(textVal);
+					}
+					else if ("Icon".equals(tagName)) {
+						((IDecoration)parentXholon).setIcon(textVal);
+					}
+					else if ("ToolTip".equals(tagName)) {
+						((IDecoration)parentXholon).setToolTip(textVal);
+					}
+					else if ("Symbol".equals(tagName)) {
+						((IDecoration)parentXholon).setSymbol(textVal);
+					}
+					else if ("Format".equals(tagName)) {
+						((IDecoration)parentXholon).setFormat(textVal);
+					}
+					else if ("Anno".equals(tagName)) {
+					  parentXholon.setAnnotation(textVal);
+					}
+					else {
+					  setVal(currentXholon, textVal, "val");
+					}
 				}
 				eventType = xmlReader.next();
 				break;
