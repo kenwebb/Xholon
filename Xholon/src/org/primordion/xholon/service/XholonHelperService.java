@@ -18,6 +18,8 @@
 
 package org.primordion.xholon.service;
 
+import com.google.gwt.core.client.JsArrayString;
+
 import org.primordion.xholon.base.IMessage;
 import org.primordion.xholon.base.ISignal;
 import org.primordion.xholon.base.IXholon;
@@ -204,6 +206,9 @@ public class XholonHelperService extends AbstractXholonService
 			break;
 		case ISignal.ACTION_PASTE_AFTER_FROMDROP:
 			pasteAfterFromDrop(msg.getSender(), (String)msg.getData());
+			break;
+		case ISignal.ACTION_PASTE_MERGE_FROMROLENAMESTRING:
+			pasteMergeFromRolenamestring(msg.getSender(), msg.getData());
 			break;
 		default:
 			return super.processReceivedSyncMessage(msg);
@@ -826,6 +831,58 @@ public class XholonHelperService extends AbstractXholonService
 			webBrowser.postConfigure();
 		}
 		*/
+	}
+	
+	/**
+	 * Paste/Merge a subtree from a String that contains one or more roleNames separated by a separator.
+	 * At each level in the subtree, reuse a node if it already exists.
+	 * Otherwise paste a new node as the last child.
+	 * This is used by the "Movie Script Parser" XholonWorkbook.
+	 * @param parent The root of the subtree.
+	 * @param data A String array containing:
+	 *   params[0] A String of one or more roleNames, separated by a separator (ex: "Kenz House - Living Room").
+	 *   params[1] A String containing the separator (ex: " - ").
+	 *   params[2] A String containing the name of a XholonClass (ex: "Place").
+	 */
+	public void pasteMergeFromRolenamestring(IXholon parent, Object data) {
+		consoleLog("pasteMergeFromRolenamestring");
+		String roleNames = null;
+		String sep = null;
+		String xholonClassName = null;
+		if (data instanceof String[]) {
+			String[] params = (String[])data;
+			if (params.length != 3) {return;}
+			roleNames = params[0];
+			sep = params[1];
+			xholonClassName = params[2];
+		}
+		else if (data instanceof JsArrayString) {
+			JsArrayString params = (JsArrayString)data;
+			if (params.length() != 3) {return;}
+			roleNames = params.get(0);
+			sep = params.get(1);
+			xholonClassName = params.get(2);
+		}
+		else {
+			return;
+		}
+		consoleLog(roleNames + " \"" + sep + "\" " + xholonClassName);
+		String[] roleNameArr = roleNames.split(sep);
+		
+		for (int i = 0; ((i < roleNameArr.length) && (parent != null)); i++) {
+		  String roleName = roleNameArr[i].trim();
+		  consoleLog(roleName);
+		  IXholon child = findFirstChildWithRoleName(parent, roleName);
+		  if (child == null) {
+			  // create a new child node
+			  // ex: <Place roleName="Kenz House"/>
+			  String xmlString = "<" + xholonClassName + " roleName=\"" + roleName + "\"/>";
+			  consoleLog(xmlString);
+			  cutCopyPasteInstance().pasteLastChild(parent, xmlString);
+			  child = parent.getLastChild();
+		  }
+		  parent = child;
+		}
 	}
 	
 }

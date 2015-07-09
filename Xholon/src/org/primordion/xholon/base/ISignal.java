@@ -252,6 +252,12 @@ public interface ISignal {
 	 */
 	public static final int ACTION_PASTE_AFTER_FROMDROP = -2022;
 	
+	/**
+	 * Generate a subtree from a String that contains one or more roleNames separated by a separator.
+	 * This is used by the "Movie Script Parser" XholonWorkbook.
+	 */
+  public static final int ACTION_PASTE_MERGE_FROMROLENAMESTRING = -2023;
+	
 	// XML Data Transfer signals
 	
 	/**
