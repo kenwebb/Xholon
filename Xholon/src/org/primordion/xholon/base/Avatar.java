@@ -2519,7 +2519,7 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
     //if (typeof $wnd.speechSynthesis == "undefined") {return;}
     if (typeof $wnd.SpeechSynthesisUtterance == "undefined") {return;}
     var newUtterance = new $wnd.SpeechSynthesisUtterance();
-    newUtterance.text = textToSpeak;
+    newUtterance.text = textToSpeak.substring(0, 160); // long utterances crash the speech synthesizer
     if (ssuLang != null) {
       newUtterance.lang = ssuLang;
     }
