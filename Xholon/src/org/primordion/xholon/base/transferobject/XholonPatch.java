@@ -40,8 +40,8 @@ public class XholonPatch extends Xholon implements IXholonPatch {
    * Constructor.
    * If you use this constructor, then you will need to call various setters to insert various fields.
    */
-  public XholonPatch() {
-    makePatch();
+  public XholonPatch(String appName) {
+    makePatch(appName);
   }
   
   /**
@@ -88,8 +88,9 @@ public class XholonPatch extends Xholon implements IXholonPatch {
   /**
    * Make a JavaScript (JSON + XML content) patch object.
    */
-  protected native void makePatch() /*-{
+  protected native void makePatch(String appName) /*-{
     this.patch = {};
+    this.patch.app = appName;
   }-*/;
   
   /**
@@ -132,7 +133,7 @@ public class XholonPatch extends Xholon implements IXholonPatch {
    * Add an element.
    */
   protected void addElement(String sel, String pos, String content) {
-    makePatch();
+    //makePatch();
     setOp(PATCHOP_ADD);
     setSel(sel);
     setPos(pos);
@@ -143,7 +144,7 @@ public class XholonPatch extends Xholon implements IXholonPatch {
    * Add an attribute.
    */
   public void addAttribute(String sel, String type, String content) {
-    makePatch();
+    //makePatch();
     setOp(PATCHOP_ADD);
     setSel(sel);
     setType(type);
@@ -154,7 +155,7 @@ public class XholonPatch extends Xholon implements IXholonPatch {
    * Replace an element, including it's entire subtree.
    */
   public void replaceElement(String sel, String content) {
-    makePatch();
+    //makePatch();
     setOp(PATCHOP_REPLACE);
     setSel(sel);
     setContent(content);
@@ -165,7 +166,7 @@ public class XholonPatch extends Xholon implements IXholonPatch {
    * Use addAttribute() instead.
    */
   /*public void replaceAttribute(String sel, String content) {
-    makePatch();
+    //makePatch();
     setOp(PATCHOP_REPLACE);
     setSel(sel);
     setContent(content);
@@ -175,7 +176,7 @@ public class XholonPatch extends Xholon implements IXholonPatch {
    * Replace text.
    */
   public void replaceText(String sel, String content) {
-    makePatch();
+    //makePatch();
     setOp(PATCHOP_REPLACE);
     setSel(sel);
     setContent(content);
@@ -185,7 +186,7 @@ public class XholonPatch extends Xholon implements IXholonPatch {
    * Remove an element, including it's entire subtree.
    */
   public void removeElement(String sel) {
-    makePatch();
+    //makePatch();
     setOp(PATCHOP_REMOVE);
     setSel(sel);
   }
@@ -194,7 +195,7 @@ public class XholonPatch extends Xholon implements IXholonPatch {
    * Remove an attribute.
    */
   /*public void removeAttribute(String sel) {
-    makePatch();
+    //makePatch();
     setOp(PATCHOP_REMOVE);
     setSel(sel);
   }*/
@@ -203,7 +204,7 @@ public class XholonPatch extends Xholon implements IXholonPatch {
    * Remove text.
    */
   public void removeText(String sel) {
-    makePatch();
+    //makePatch();
     setOp(PATCHOP_REMOVE);
     setSel(sel);
   }
@@ -228,7 +229,7 @@ public class XholonPatch extends Xholon implements IXholonPatch {
    * Move an element, from a source to a target.
    */
   protected void moveElement(String source, String target, String pos) {
-    makePatch();
+    //makePatch();
     setOp(PATCHOP_MOVE);
     setSource(source);
     setTarget(target);
