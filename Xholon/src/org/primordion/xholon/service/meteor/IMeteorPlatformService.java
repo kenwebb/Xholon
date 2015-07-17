@@ -47,6 +47,29 @@ public interface IMeteorPlatformService {
   public static final int SIG_COLL_REMOVE_ALLSESSIONITEMS_REQ = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 112; // -3887
   
   /**
+   * A request to call setCollName(String collName).
+   */
+  public static final int SIG_COLL_SET_COLLNAME_REQ = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 113; // -3886
+  
+  /**
+   * A request to call getCollName().
+   */
+  public static final int SIG_COLL_GET_COLLNAME_REQ = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 114; // -3885
+  
+  /**
+   * A request to call setAppName(String appName).
+   */
+  public static final int SIG_COLL_SET_APP_REQ = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 115; // -3884
+  
+  /**
+   * A request to call getAppName().
+   */
+  public static final int SIG_COLL_GET_APP_REQ = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 116; // -3883
+  
+  public static final int SIG_COLL_FETCH_ALLAPPITEMS_REQ = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 117; // -3882
+  public static final int SIG_COLL_REMOVE_ALLAPPITEMS_REQ = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 118; // -3881
+  
+  /**
    * A generic response to a request to do something.
    */
   public static final int SIG_METEOR_RESP = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 202; // -3797

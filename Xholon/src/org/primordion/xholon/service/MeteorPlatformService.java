@@ -20,6 +20,8 @@ package org.primordion.xholon.service;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.http.client.URL;
+import com.google.gwt.user.client.Window.Location;
 
 import java.util.Date;
 
@@ -215,7 +217,7 @@ public class MeteorPlatformService extends AbstractXholonService implements IMet
   protected boolean shouldRead = true;
   
   /** The name of a Meteor collection. */
-  protected String collName = "Test01";
+  protected String collName = "Test02"; // "Test01"
   
   /**
    * Index of the next item to read from the Meteor collection.
@@ -231,7 +233,12 @@ public class MeteorPlatformService extends AbstractXholonService implements IMet
    */
   protected String sessionId = null;
   
-  XholonHelperService xholonHelperService = null;
+  protected XholonHelperService xholonHelperService = null;
+  
+  /**
+   * The value of the "app" parameter from the URL.
+   */
+  protected String appName = null;
   
   @Override
   public IXholon getService(String serviceName)
@@ -249,6 +256,13 @@ public class MeteorPlatformService extends AbstractXholonService implements IMet
       }
       if (xholonHelperService == null) {
         xholonHelperService = (XholonHelperService)app.getService(IXholonService.XHSRV_XHOLON_HELPER);
+      }
+      if (appName == null) {
+        appName = Location.getParameter("app");
+        if (appName != null) {
+          // convert "+" back to " ", etc.
+          appName = URL.decodeQueryString(appName);
+        }
       }
       return this;
     }
@@ -318,6 +332,18 @@ public class MeteorPlatformService extends AbstractXholonService implements IMet
       }
       return new Message(SIG_METEOR_RESP, robj, this, msg.getSender());
     }
+    case SIG_COLL_FETCH_ALLAPPITEMS_REQ:
+    {
+      Object robj = "Unable to fetch all app items " + msg.getData();
+      String appn = appName; // use the current appName by default
+      if (msg.getData() != null) {
+        appn = (String)msg.getData(); // use a appName passed in by the user; should I allow this ?
+      }
+      if (isExistsMeteor()) {
+        robj = fetchAllAppItems(collName, appn);
+      }
+      return new Message(SIG_METEOR_RESP, robj, this, msg.getSender());
+    }
     case SIG_COLL_FETCH_ITEM_REQ:
     {
       Object robj = "Unable to fetch item " + msg.getData();
@@ -348,6 +374,19 @@ public class MeteorPlatformService extends AbstractXholonService implements IMet
       }
       return new Message(SIG_METEOR_RESP, robj, this, msg.getSender());
     }
+    case SIG_COLL_REMOVE_ALLAPPITEMS_REQ:
+    {
+      Object robj = "Unable to remove all app items " + msg.getData();
+      String appn = appName; // use the current appName by default
+      if (msg.getData() != null) {
+        appn = (String)msg.getData(); // use a appName passed in by the user
+      }
+      if (isExistsMeteor()) {
+        robj = null;
+        removeAllAppItems(collName, appn);
+      }
+      return new Message(SIG_METEOR_RESP, robj, this, msg.getSender());
+    }
     case SIG_COLL_REMOVE_ITEM_REQ:
     {
       Object robj = "Unable to remove item " + msg.getData();
@@ -366,12 +405,51 @@ public class MeteorPlatformService extends AbstractXholonService implements IMet
       return new Message(SIG_METEOR_RESP, robj, this, msg.getSender());
     }
     case SIG_COLL_UPDATE_ITEM_REQ:
+    {
       return new Message(SIG_METEOR_RESP, "NOT YET IMPLEMENTED", this, msg.getSender());
+    }
+    case SIG_COLL_SET_COLLNAME_REQ:
+    {
+      Object robj = "Unable to set collection name " + msg.getData();
+      if (isExistsMeteor() && (msg.getData() != null)) {
+        robj = null;
+        this.setCollName((String)msg.getData());
+      }
+      return new Message(SIG_METEOR_RESP, robj, this, msg.getSender());
+    }
+    case SIG_COLL_GET_COLLNAME_REQ:
+    {
+      Object robj = null;
+      if (isExistsMeteor()) {
+        robj = this.getCollName();
+      }
+      return new Message(SIG_METEOR_RESP, robj, this, msg.getSender());
+    }
+    case SIG_COLL_SET_APP_REQ:
+    {
+      Object robj = "Unable to set app name " + msg.getData();
+      if (isExistsMeteor() && (msg.getData() != null)) {
+        robj = null;
+        this.setAppName((String)msg.getData());
+      }
+      return new Message(SIG_METEOR_RESP, robj, this, msg.getSender());
+    }
+    case SIG_COLL_GET_APP_REQ:
+    {
+      Object robj = null;
+      if (isExistsMeteor()) {
+        robj = this.getAppName();
+      }
+      return new Message(SIG_METEOR_RESP, robj, this, msg.getSender());
+    }
     default:
+    {
       return super.processReceivedSyncMessage(msg);
     }
     
-  }
+    } // end switch
+    
+  } // end processReceivedSyncMessage()
   
   /**
    * Insert something in a local Meteor collection (database).
@@ -412,7 +490,7 @@ public class MeteorPlatformService extends AbstractXholonService implements IMet
     }
     
     // TODO handle attributes and text
-    XholonPatch xhp = new XholonPatch();
+    XholonPatch xhp = new XholonPatch(appName);
     switch (patchOp) {
     case IXholonPatch.PATCHOP_ADD:
       switch (editAction) {
@@ -491,8 +569,15 @@ public class MeteorPlatformService extends AbstractXholonService implements IMet
 	public void processMeteorQ(String collName) {
 	  if (collName == null) {collName = this.collName;}
 	  if (isShouldRead() && isExistsMeteor()) {
-	    JsArray items = fetchAllItems(collName);
-	    //consoleLog(items);
+	    JsArray items = null;
+	    if ("Test01".equals(collName)) {
+	      // "Test01" records do not include the appName
+	      // TODO this is just a temporary fix for backwards compatibility
+	      items = fetchAllItems(collName);
+	    }
+	    else {
+	      items = fetchAllAppItems(collName, appName);
+	    }
 	    for (int i = indexNextRead; i < items.length(); i++) {
 	      JavaScriptObject item = items.get(i);
 	      consoleLog(item);
@@ -504,19 +589,12 @@ public class MeteorPlatformService extends AbstractXholonService implements IMet
 	        consoleLog("this is a remotely inserted item");
 	        
 	        String op = xhp.getOp();
-	        consoleLog("op " + op);
 	        String xmlStr = xhp.getContent();
-	        consoleLog("xmlStr " + xmlStr);
 	        String sel = xhp.getSel();
-	        consoleLog("sel " + sel);
 	        String pos = xhp.getPos();
-	        consoleLog("pos " + pos);
 	        String type = xhp.getType();
-	        consoleLog("type " + type);
 	        String source = xhp.getSource();
-	        consoleLog("source " + source);
 	        String target = xhp.getTarget();
-	        consoleLog("target " + target);
 	        IXholon cnode = null; //xpath.evaluate(sel, app.getRoot());
 	        
 	        switch (op) {
@@ -614,14 +692,21 @@ public class MeteorPlatformService extends AbstractXholonService implements IMet
 	}-*/;
 	
 	/*
-var sessionId = "5d1f783f-940c-4edd-8341-fb8ec5d94966";
-var mongoSelector = {sessionId: sessionId};
-console.log(mongoSelector);
-var robj = Test01.find(mongoSelector).fetch();
-console.log(robj);
-	*/
+   * Fetch all items from the specified Collection, for the specified sessionId.
+	 */
 	protected native JsArray fetchAllSessionItems(String collName, String sessionId) /*-{
 	  var mongoSelector = {sessionId: sessionId};
+	  return $wnd[collName].find(mongoSelector).fetch();
+	}-*/;
+	
+	/*
+   * Fetch all items from the specified Collection, for the specified appName.
+	 */
+	protected native JsArray fetchAllAppItems(String collName, String appName) /*-{
+	  var mongoSelector = {app: appName};
+	  if (appName == null) {
+	    mongoSelector = {app: {$exists: false}};
+	  }
 	  return $wnd[collName].find(mongoSelector).fetch();
 	}-*/;
 	
@@ -639,6 +724,15 @@ console.log(robj);
 	
 	protected native void removeAllSessionItems(String collName, String sessionId) /*-{
 	  var mongoSelector = {sessionId: sessionId};
+	  var items = $wnd[collName].find(mongoSelector).fetch();
+	  for (var i = 0; i < items.length; i++) {
+	    var id = items[i]._id;
+	    $wnd[collName].remove(id);
+	  }
+	}-*/;
+	
+	protected native void removeAllAppItems(String collName, String appName) /*-{
+	  var mongoSelector = {app: appName};
 	  var items = $wnd[collName].find(mongoSelector).fetch();
 	  for (var i = 0; i < items.length; i++) {
 	    var id = items[i]._id;
@@ -717,6 +811,14 @@ console.log(robj);
   
   public void setCollName(String collName) {
     this.collName = collName;
+  }
+  
+  public String getAppName() {
+    return collName;
+  }
+  
+  public void setAppName(String appName) {
+    this.appName = appName;
   }
   
 }
