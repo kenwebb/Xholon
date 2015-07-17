@@ -1214,8 +1214,12 @@ public class Avatar extends XholonWithPorts {
         node.setVal_String(newValue);
       }
       else if ("type".equals(whatChanges)) {
-        sb.append("become X type Y  is not yet implemented");
-        return;
+        //sb.append("become X type Y  is not yet implemented");
+        //return;
+        IXholonClass xhClass = node.getClassNode(newValue);
+        if (xhClass != null) {
+          node.setXhc(xhClass);
+        }
       }
       else {
         //boolean rc = 
