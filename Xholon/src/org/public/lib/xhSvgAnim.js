@@ -21,7 +21,6 @@ if (typeof xh == "undefined") {
 }
 
 xh.anim = function(xhnode, selection, duration) {
-  console.log("xh.anim 1");
   if (typeof d3 == "undefined") {return;}
   
   /**
@@ -144,7 +143,6 @@ xh.anim = function(xhnode, selection, duration) {
       d3Data.anim = {};
     }
     d3Data.anim[animName] = animValue;
-    console.log(d3Data);
   }
   
   if ((xhnode === undefined) || (xhnode === null)) {
@@ -178,15 +176,7 @@ xh.anim = function(xhnode, selection, duration) {
     return;
   }
   
-  /*var d3Data = g.__data__;
-  if (d3Data) {
-    // save it for xhSvgTween.js
-    d3Data.anim = animObj;
-  }
-  console.log(d3Data);*/
-  
   for (aname in animObj) {
-    console.log(aname);
     switch (aname) {
     case "hop":
       hop(g, animObj[aname]);
