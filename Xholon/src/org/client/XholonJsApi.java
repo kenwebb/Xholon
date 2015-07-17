@@ -415,8 +415,17 @@ public class XholonJsApi {
     });
     
     // xhc
-    api.xhc = $entry(function() {
-      return this.@org.primordion.xholon.base.IXholon::getXhc()();
+    api.xhc = $entry(function(xhClassName) {
+      if (xhClassName === undefined) {
+        return this.@org.primordion.xholon.base.IXholon::getXhc()();
+      }
+      else {
+        var xhClass = this.@org.primordion.xholon.base.IXholon::getClassNode(Ljava/lang/String;)(xhClassName);
+        if (xhClass) {
+          this.@org.primordion.xholon.base.IXholon::setXhc(Lorg/primordion/xholon/base/IXholonClass;)(xhClass);
+        }
+        return this;
+      }
     });
     
     // anno
