@@ -740,6 +740,17 @@ public class XholonJsApi {
       }
     });
 
+    // geo
+    api.geo = $entry(function(val) {
+      if (val === undefined) {
+        return this.@org.primordion.xholon.base.IDecoration::getGeo()();
+      }
+      else {
+        this.@org.primordion.xholon.base.IDecoration::setGeo(Ljava/lang/String;)(val);
+        return this;
+      }
+    });
+
     
     // TODO pcs(expression) and select(expression)
     

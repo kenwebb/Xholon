@@ -1112,6 +1112,24 @@ public class XholonClass extends Xholon implements IXholonClass, IDecoration {
 	}
 	
 	/*
+	 * @see org.primordion.xholon.base.IDecoration#getGeo()
+	 */
+	public String getGeo() {
+		if (decoration == null) {return null;}
+		return decoration.getGeo();
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.IDecoration#setGeo(java.lang.String)
+	 */
+	public void setGeo(String geo) {
+		if (decoration == null) {
+			decoration = new Decoration();
+		}
+		decoration.setGeo(geo);
+	}
+	
+	/*
 	 * @see org.primordion.xholon.base.IXholon#getAnnotation()
 	 */
 	public String getAnnotation() {

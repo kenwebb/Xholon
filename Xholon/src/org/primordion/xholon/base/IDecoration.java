@@ -62,4 +62,8 @@ public interface IDecoration {
 	
 	public abstract void showAnno();
 
+	public abstract String getGeo();
+
+	public abstract void setGeo(String geo);
+
 }

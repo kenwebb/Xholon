@@ -351,6 +351,7 @@ public class Xml2XholonClass extends AbstractXml2Xholon_gwt implements IXml2Xhol
 					else if ("ToolTip".equals(tagName)) {}
 					else if ("Symbol".equals(tagName)) {}
 					else if ("Format".equals(tagName)) {}
+					else if ("Geo".equals(tagName)) {}
 					else if ("DefaultContent".equals(tagName)) {}
 					else if ("Anno".equals(tagName)) {}
 					else { // must be a xholon class name
@@ -408,6 +409,7 @@ public class Xml2XholonClass extends AbstractXml2Xholon_gwt implements IXml2Xhol
 				else if ("ToolTip".equals(tagName)) {}
 				else if ("Symbol".equals(tagName)) {}
 				else if ("Format".equals(tagName)) {}
+				else if ("Geo".equals(tagName)) {}
 				else if ("DefaultContent".equals(tagName)) {}
 				else if ("Anno".equals(tagName)) {}
 				else if (tagName.equals(xhClassName)) { // end of a xholon class name
@@ -476,6 +478,9 @@ public class Xml2XholonClass extends AbstractXml2Xholon_gwt implements IXml2Xhol
 					}
 					else if ("Format".equals(tagName)) {
 						((IDecoration)existingXholonClass).setFormat(textVal);
+					}
+					else if ("Geo".equals(tagName)) {
+						((IDecoration)existingXholonClass).setGeo(textVal);
 					}
 					else if ("DefaultContent".equals(tagName)) {
 						existingXholonClass.setDefaultContent(textVal);

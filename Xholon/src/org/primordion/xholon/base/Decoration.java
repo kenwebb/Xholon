@@ -79,6 +79,15 @@ public class Decoration implements IDecoration, Serializable {
 	 */
 	private IAnnotation anno = null;
 	
+	/** 
+	 * Optional geographical information.
+	 * It might be a pair of csv coordinates (in LatLng order as used by Leaflet),
+	 * or a GeoJSON or TopoJSON string.
+	 * ex: 45.421529600000000000,-75.697193099999990000
+	 * ex: { "type": "Point", "coordinates": [100.0, 0.0] }
+	 */
+	private String geo = null;
+	
 	/*
 	 * @see org.primordion.xholon.base.IDecoration#getColor()
 	 */
@@ -206,6 +215,18 @@ public class Decoration implements IDecoration, Serializable {
 		anno.showAnnotation();
 	}
 	
+	/*
+	 * @see org.primordion.xholon.base.IDecoration#getGeo()
+	 */
+	public String getGeo() {
+		return geo;
+	}
 	
+	/*
+	 * @see org.primordion.xholon.base.IDecoration#setGeo(java.lang.String)
+	 */
+	public void setGeo(String geo) {
+		this.geo = geo;
+	}
 	
 }

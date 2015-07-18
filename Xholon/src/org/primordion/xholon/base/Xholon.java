@@ -3276,6 +3276,20 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 	}-*/;
 	
   @Override
+	public native void setGeo(String geo) /*-{
+		if (typeof this.decoration == "undefined") {
+			this.decoration = {};
+		}
+		this.decoration.geo = geo;
+	}-*/;
+  
+  @Override
+	public native String getGeo() /*-{
+		if (typeof this.decoration == "undefined") {return null;}
+		return this.decoration.geo;
+	}-*/;
+	
+  @Override
 	public native void setFormat(String format) /*-{
 		if (typeof this.decoration == "undefined") {
 			this.decoration = {};
