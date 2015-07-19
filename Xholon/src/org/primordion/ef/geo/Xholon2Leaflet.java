@@ -32,41 +32,10 @@ import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
 
 /**
  * Export a Xholon model as a Leaflet interactive map.
- * Example:
-<pre>
-		var map = L.map('map').setView([51.505, -0.09], 13);
-		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ', {
-			maxZoom: 18,
-			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-			id: 'mapbox.streets'
-		}).addTo(map);
-		L.marker([51.5, -0.09]).addTo(map)
-			.bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
-		L.circle([51.508, -0.11], 500, {
-			color: 'red',
-			fillColor: '#f03',
-			fillOpacity: 0.5
-		}).addTo(map).bindPopup("I am a circle.");
-		L.polygon([
-			[51.509, -0.08],
-			[51.503, -0.06],
-			[51.51, -0.047]
-		]).addTo(map).bindPopup("I am a polygon.");
-		var popup = L.popup();
-		function onMapClick(e) {
-			popup
-				.setLatLng(e.latlng)
-				.setContent("You clicked the map at " + e.latlng.toString())
-				.openOn(map);
-		}
-		map.on('click', onMapClick);
-</pre>
  *
  * TODO
  * - optionally show annotations in popup
- * - enable use of GeoJSON
+ * - DONE enable use of GeoJSON
  * - enable use of TopoJSON
  * - try GeoJSON + CSS; Leaflet.geojsonCSS plugin
  * - OSM Buildings	JS library for visualizing 3D OSM building geometry on top of Leaflet
@@ -84,7 +53,6 @@ public class Xholon2Leaflet extends AbstractXholon2ExternalFormat implements IXh
   private String outPath = "./ef/leaflet/";
   private String modelName;
   private IXholon root;
-  private StringBuilder sb;
   
   /** Current date and time. */
   private Date timeNow;
@@ -116,7 +84,6 @@ public class Xholon2Leaflet extends AbstractXholon2ExternalFormat implements IXh
    * @see org.primordion.xholon.io.IXholon2ExternalFormat#writeAll()
    */
   public void writeAll() {
-    sb = new StringBuilder();
     String geo = ((IDecoration)root).getGeo();
     if ((geo == null) || (geo.length() == 0)) {return;}
     
@@ -125,48 +92,54 @@ public class Xholon2Leaflet extends AbstractXholon2ExternalFormat implements IXh
     if (div == null) {return;}
     div.setAttribute("style","width: " + getWidth() + "px; height: " + getHeight() + "px");
     
-    sb
-    .append("var map = L.map('")
-    .append(getSelection())
-    .append("').setView(");
-    if (geo.startsWith("[")) {
-      sb.append(geo);
+    if (!geo.startsWith("[")) {
+      geo = "[" + geo + "]";
     }
-    else {
-      sb.append("[").append(geo).append("]");
-    }
-    sb
-    .append(", 13);\n")
-    .append("L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ', {\n")
-    .append("	maxZoom: 18,\n")
-    .append("	attribution: 'Map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors, ' +\n")
-    .append("		'<a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, ' +\n")
-    .append("		'Imagery © <a href=\"http://mapbox.com\">Mapbox</a>',\n")
-    .append("	id: 'mapbox.streets'\n")
-    .append("}).addTo(map);\n");
-    
-    writeNode(root, 0); // root is level 0
-    
-    sb
-    .append("var popup = L.popup();\n")
-    .append("function onMapClick(e) {\n")
-    .append("	popup\n")
-    .append("		.setLatLng(e.latlng)\n")
-    .append("		.setContent(\"You clicked the map at \" + e.latlng.toString())\n")
-    .append("		.openOn(map);\n")
-    .append("}\n")
-    .append("map.on('click', onMapClick);\n")
-    ;
-    writeToTarget(sb.toString(), outFileName, outPath, root);
-    pasteScript("leafletScript", sb.toString());
+    Object map = createMapWithTiles(getSelection(), geo);
+    writeNode(map, root, 0); // root is level 0
+    createMapPopup(map);
   }
+  
+  /**
+   * Create a Leaflet map with tiles.
+   * @param selection The id of the div where the Leaflet map will reside (ex: "xhmap").
+   * @param geo The map latlng coordinate (ex: "[12.1,34.3]").
+   */
+  protected native Object createMapWithTiles(String selection, String geo) /*-{
+    var geoJSON = $wnd.JSON.parse(geo);
+    var map = $wnd.L.map(selection).setView(geoJSON, 13);
+    
+    $wnd.L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ', {
+			maxZoom: 18,
+			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+			id: 'mapbox.streets'
+		}).addTo(map);
+		return map;
+  }-*/;
+  
+  /**
+   * Create a popup for the Leaflet map.
+   * @param map The Leaflet map object.
+   */
+  protected native void createMapPopup(Object map) /*-{
+    var popup = $wnd.L.popup();
+		function onMapClick(e) {
+			popup
+				.setLatLng(e.latlng)
+				.setContent("You clicked the map at " + e.latlng.toString())
+				.openOn(map);
+		}
+		map.on('click', onMapClick);
+  }-*/;
   
   /**
    * Write one node, and its child nodes.
    * @param node The current node in the Xholon hierarchy.
    * @param level Current level in the hierarchy.
    */
-  protected void writeNode(IXholon node, int level) {
+  protected void writeNode(Object map, IXholon node, int level) {
     // only show state machine nodes if should show them, or if root is a StateMachineCE
     if ((node.getXhcId() == CeStateMachineEntity.StateMachineCE)
         && (isShouldShowStateMachineEntities() == false)
@@ -180,40 +153,13 @@ public class Xholon2Leaflet extends AbstractXholon2ExternalFormat implements IXh
       if ((geo != null) && (geo.length() > 0)) {
         String nodeName = node.getName(getNameTemplate());
         if (geo.startsWith("{")) {
-          writeNodeGeoJSON(geo, nodeName);
+          createNodeGeoJSON(map, node, geo, nodeName, getShape(), getCircleRadius(), getPathOptions(node));
         }
         else {
-          switch (getShape()) {
-          case "marker":
-            sb.append("L.marker(");
-            if (geo.startsWith("[")) {
-              sb.append(geo);
-            }
-            else {
-              sb.append("[").append(geo).append("]");
-            }
-            sb
-            .append(").addTo(map).bindPopup(\"<b>")
-            .append(nodeName)
-            .append("</b>\");\n");
-            break;
-          case "circle":
-            sb.append("L.circle(");
-            if (geo.startsWith("[")) {
-              sb.append(geo);
-            }
-            else {
-              sb.append("[").append(geo).append("]");
-            }
-            sb
-            .append(",")
-            .append(getCircleRadius())
-            .append(").addTo(map).bindPopup(\"<b>")
-            .append(nodeName)
-            .append("</b>\");\n");
-            break;
-          default: break;
+          if (!geo.startsWith("[")) {
+            geo = "[" + geo + "]";
           }
+          createNodePath(map, node, geo, nodeName, getShape(), getCircleRadius(), getPathOptions(node));
         }
       }
     }
@@ -222,54 +168,93 @@ public class Xholon2Leaflet extends AbstractXholon2ExternalFormat implements IXh
     if (node.hasChildNodes()) {
       IXholon childNode = node.getFirstChild();
       while (childNode != null) {
-        writeNode(childNode, level+1);
+        writeNode(map, childNode, level+1);
         childNode = childNode.getNextSibling();
       }
     }
   }
   
   /**
-   * Write Leaflet content based on a GeoJSON string.
-   * @param geoJSONStr 
-   * @param popupStr 
-L.geoJson(data, {
-  pointToLayer: function(feature,latlng) {
-    return L.marker(latlng);
-  }
-}).addTo(map);
+   * Create Leaflet content as a Path (Circle, Polygon, Polyline, Rectangle).
+   * L.circle([45.388446,-75.7407834],30,{"color": "red"}).addTo(map).bindPopup("<b>house</b>");
    */
-  protected void writeNodeGeoJSON(String geoJSONStr, String popupStr) {
-    sb
-    .append("L.geoJson(")
-    .append(geoJSONStr)
-    .append(", {\n")
-    .append("  pointToLayer: function(feature,latlng) {\n");
-    switch (getShape()) {
+  protected native void createNodePath(Object map, IXholon node, String latlng, String popupStr, String shape, int circleRadius, String pathOptions) /*-{
+    latlng = $wnd.JSON.parse(latlng);
+    var path = null;
+    switch (shape) {
     case "marker":
-      sb.append("    return L.marker(latlng);\n");
+      path = $wnd.L.marker(latlng);
       break;
     case "circle":
-      sb
-      .append("    return L.circle(latlng,")
-      .append(getCircleRadius())
-      .append(");\n");
+      if (pathOptions) {
+        path = $wnd.L.circle(latlng, circleRadius, $wnd.JSON.parse(pathOptions));
+      }
+      else {
+        path = $wnd.L.circle(latlng, circleRadius);
+      }
       break;
     default: break;
     }
-    sb
-    .append("  }")
-    .append("}).addTo(map)")
-    .append(".bindPopup(\"<b>")
-    .append(popupStr)
-    .append("</b>\")")
-    .append(";\n");
+    if (path) {
+      path.addTo(map).bindPopup("<b>" + popupStr + "</b>");
+    }
+  }-*/;
+  
+  /**
+   * Create Leaflet content based on a GeoJSON string.
+   */
+  protected native void createNodeGeoJSON(Object map, IXholon node, String geoJSONStr, String popupStr, String shape, int circleRadius, String pathOptions) /*-{
+    var geoJSON = $wnd.JSON.parse(geoJSONStr);
+    $wnd.L.geoJson(geoJSON, {
+      pointToLayer: function(feature,latlng) {
+        switch (shape) {
+        case "marker":
+          return $wnd.L.marker(latlng);
+        case "circle":
+          //return L.circle(latlng,30,{color: "orange"});
+          if (pathOptions) {
+            return $wnd.L.circle(latlng, circleRadius, $wnd.JSON.parse(pathOptions));
+          }
+          else {
+            return $wnd.L.circle(latlng, circleRadius);
+          }
+        default: break;
+        }
+      }}).addTo(map).bindPopup("<b>" + popupStr + "</b>");
+  }-*/;
+  
+  /**
+   * Get Leaflet Path (Circle, Polygon, Polyline, Rectangle) options.
+   * {color: feature.properties.color}
+   * For now, just return node's IDecoration color, or null
+   * @param node 
+   * @return an Object string, or a zero-length string. Example:
+   *   ,{color: "red"}
+   *
+see http://leafletjs.com/reference.html#path for list/description of options
+Styles (see leaflet-src.js)
+this.options IDecoration SVG
+------------ ----------- ---
+color                    stroke, fill (if no fillColor)
+opacity                  stroke-opacity
+weight                   stroke-width
+dashArray                stroke-dasharray
+fillColor    Color       fill
+fillOpacity  Opacity     fill-opacity
+   *
+   */
+  protected String getPathOptions(IXholon node) {
+    String color = ((IDecoration)node).getColor();
+    if (color == null) {
+      color = ((IDecoration)node.getXhc()).getColor();
+    }
+    if (color == null) {
+      return null;
+    }
+    return "{\"color\": \"" + color + "\"}";
   }
   
-  protected void pasteScript(String scriptId, String scriptContent) {
-	  HtmlScriptHelper.fromString(scriptContent, true);
-	}
-
-	/**
+  /**
    * Make a JavaScript object with all the parameters for this external format.
    * annotations
    * circle radius
