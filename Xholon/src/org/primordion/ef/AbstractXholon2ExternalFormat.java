@@ -173,6 +173,11 @@ public abstract class AbstractXholon2ExternalFormat extends Xholon {
         $wnd.console.log(url);
         $wnd.open(url, "_blank", "");
       }
+      p.stringify = function() {
+        $wnd.console.log(formatName);
+        $wnd.console.log(root.name());
+        $wnd.console.log($wnd.JSON.stringify(p));
+      }
       //gui.remember(p); // causes page freeze in Firefox, but not in Chrome
       for (var prop in p) {
         var pname = prop;
