@@ -179,36 +179,41 @@ public class Xholon2Leaflet extends AbstractXholon2ExternalFormat implements IXh
       String geo = ((IDecoration)node).getGeo();
       if ((geo != null) && (geo.length() > 0)) {
         String nodeName = node.getName(getNameTemplate());
-        switch (getShape()) {
-        case "marker":
-          sb.append("L.marker(");
-          if (geo.startsWith("[")) {
-            sb.append(geo);
+        if (geo.startsWith("{")) {
+          writeNodeGeoJSON(geo, nodeName);
+        }
+        else {
+          switch (getShape()) {
+          case "marker":
+            sb.append("L.marker(");
+            if (geo.startsWith("[")) {
+              sb.append(geo);
+            }
+            else {
+              sb.append("[").append(geo).append("]");
+            }
+            sb
+            .append(").addTo(map).bindPopup(\"<b>")
+            .append(nodeName)
+            .append("</b>\");\n");
+            break;
+          case "circle":
+            sb.append("L.circle(");
+            if (geo.startsWith("[")) {
+              sb.append(geo);
+            }
+            else {
+              sb.append("[").append(geo).append("]");
+            }
+            sb
+            .append(",")
+            .append(getCircleRadius())
+            .append(").addTo(map).bindPopup(\"<b>")
+            .append(nodeName)
+            .append("</b>\");\n");
+            break;
+          default: break;
           }
-          else {
-            sb.append("[").append(geo).append("]");
-          }
-          sb
-          .append(").addTo(map).bindPopup(\"<b>")
-          .append(nodeName)
-          .append("</b>\").openPopup();\n");
-          break;
-        case "circle":
-          sb.append("L.circle(");
-          if (geo.startsWith("[")) {
-            sb.append(geo);
-          }
-          else {
-            sb.append("[").append(geo).append("]");
-          }
-          sb
-          .append(",")
-          .append(getCircleRadius())
-          .append(").addTo(map).bindPopup(\"<b>")
-          .append(nodeName)
-          .append("</b>\").openPopup();\n");
-          break;
-        default: break;
         }
       }
     }
@@ -221,6 +226,43 @@ public class Xholon2Leaflet extends AbstractXholon2ExternalFormat implements IXh
         childNode = childNode.getNextSibling();
       }
     }
+  }
+  
+  /**
+   * Write Leaflet content based on a GeoJSON string.
+   * @param geoJSONStr 
+   * @param popupStr 
+L.geoJson(data, {
+  pointToLayer: function(feature,latlng) {
+    return L.marker(latlng);
+  }
+}).addTo(map);
+   */
+  protected void writeNodeGeoJSON(String geoJSONStr, String popupStr) {
+    sb
+    .append("L.geoJson(")
+    .append(geoJSONStr)
+    .append(", {\n")
+    .append("  pointToLayer: function(feature,latlng) {\n");
+    switch (getShape()) {
+    case "marker":
+      sb.append("    return L.marker(latlng);\n");
+      break;
+    case "circle":
+      sb
+      .append("    return L.circle(latlng,")
+      .append(getCircleRadius())
+      .append(");\n");
+      break;
+    default: break;
+    }
+    sb
+    .append("  }")
+    .append("}).addTo(map)")
+    .append(".bindPopup(\"<b>")
+    .append(popupStr)
+    .append("</b>\")")
+    .append(";\n");
   }
   
   protected void pasteScript(String scriptId, String scriptContent) {
