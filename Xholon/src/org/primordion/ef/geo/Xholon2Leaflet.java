@@ -95,25 +95,65 @@ public class Xholon2Leaflet extends AbstractXholon2ExternalFormat implements IXh
     if (!geo.startsWith("[")) {
       geo = "[" + geo + "]";
     }
-    Object map = createMapWithTiles(getSelection(), geo);
-    writeNode(map, root, 0); // root is level 0
-    createMapPopup(map);
+    Object map = createMapWithTiles(getSelection(), geo, getTileServer());
+    if (map != null) {
+      writeNode(map, root, 0); // root is level 0
+      createMapPopup(map);
+    }
   }
   
   /**
    * Create a Leaflet map with tiles.
    * @param selection The id of the div where the Leaflet map will reside (ex: "xhmap").
    * @param geo The map latlng coordinate (ex: "[12.1,34.3]").
+   * @param tileServer 
+   *   most tile server values are from: https://leanpub.com/leaflet-tips-and-tricks/read
    */
-  protected native Object createMapWithTiles(String selection, String geo) /*-{
+  protected native Object createMapWithTiles(String selection, String geo, String tileServer) /*-{
     var geoJSON = $wnd.JSON.parse(geo);
     var map = $wnd.L.map(selection).setView(geoJSON, 13);
     
-    $wnd.L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ', {
+    // store a reference to the map in Xholon for debugging, testing, etc.
+    if (!$wnd.xh.leaflet) {
+      $wnd.xh.leaflet = {};
+    }
+    $wnd.xh.leaflet.map = map;
+    
+    var tlUrl = null;
+    var tlAttrib = null;
+    switch (tileServer) {
+    case "openstreetmap":
+    case "osm":
+      tlUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+      tlAttrib = '&copy; ' + '<a href="http://openstreetmap.org">OpenStreetMap</a>' + ' Contributors';
+      break;
+    case "osmbw":
+      tlUrl = 'http://{s}.www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png';
+      tlAttrib = '&copy; ' + '<a href="http://openstreetmap.org">OpenStreetMap</a>' + ' Contributors';
+      break;
+    case "outdoors":
+      tlUrl = 'http://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png';
+      tlAttrib = '&copy; ' + '<a href="http://openstreetmap.org">OpenStreetMap</a>' + ' Contributors & ' + '<a href="http://thunderforest.com/">Thunderforest</a>';
+      break;
+    case "openaerial":
+      tlUrl = 'http://otile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png';
+      tlAttrib = 'Portions Courtesy NASA/JPL-Caltech and U.S. Depart. of Agriculture, Farm Service Agency. Tiles courtesy of ' + '<a href="http://www.mapquest.com//">MapQuest</a>' + '<img src="http://developer.mapquest.com/content/osm/mq_logo.png">';
+      break;
+    case "mapbox":
+      tlUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ';
+      tlAttrib = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' + '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + 'Imagery © <a href="http://mapbox.com">Mapbox</a>';
+		  break;
+		case "stamen": // watercolor-like
+		  tlUrl = 'http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg';
+		  tlAttrib = '&copy; ' + '<a href="http://openstreetmap.org">OpenStreetMap</a>' + ' Contributors & ' + '<a href="http://stamen.com">Stamen Design</a>';
+		  break;
+		default: break;
+		}
+		if (tlUrl == null) {return null;}
+		
+    $wnd.L.tileLayer(tlUrl, {
 			maxZoom: 18,
-			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+			attribution: tlAttrib,
 			id: 'mapbox.streets'
 		}).addTo(map);
 		return map;
@@ -177,6 +217,9 @@ public class Xholon2Leaflet extends AbstractXholon2ExternalFormat implements IXh
   /**
    * Create Leaflet content as a Path (Circle, Polygon, Polyline, Rectangle).
    * L.circle([45.388446,-75.7407834],30,{"color": "red"}).addTo(map).bindPopup("<b>house</b>");
+   * TODO I could add a tooltip. Use an efParam to specify tooltip or popup. Example:
+   *   var marker = L.marker([-41.29042, 174.78219],{title: 'Hover Text'}).addTo(map);
+   *   path = $wnd.L.marker(latlng, {popupStr});
    */
   protected native void createNodePath(Object map, IXholon node, String latlng, String popupStr, String shape, int circleRadius, String pathOptions) /*-{
     latlng = $wnd.JSON.parse(latlng);
@@ -202,11 +245,17 @@ public class Xholon2Leaflet extends AbstractXholon2ExternalFormat implements IXh
   
   /**
    * Create Leaflet content based on a GeoJSON string.
+   * Priority:
+   * 1 use value from feature.properties
+   * 2 use value from Xholon IDecoration (Xholon node, XholonClass)
+   * 3 stay with Leaflet default (if I do nothing)
    */
   protected native void createNodeGeoJSON(Object map, IXholon node, String geoJSONStr, String popupStr, String shape, int circleRadius, String pathOptions) /*-{
     var geoJSON = $wnd.JSON.parse(geoJSONStr);
     $wnd.L.geoJson(geoJSON, {
       pointToLayer: function(feature,latlng) {
+        //$wnd.console.log(node.name());
+        //$wnd.console.log(feature);
         switch (shape) {
         case "marker":
           return $wnd.L.marker(latlng);
@@ -220,7 +269,22 @@ public class Xholon2Leaflet extends AbstractXholon2ExternalFormat implements IXh
           }
         default: break;
         }
-      }}).addTo(map).bindPopup("<b>" + popupStr + "</b>");
+      },
+      style: function(feature) {
+        var props = feature.properties;
+        var styles = {};
+        if (props) {
+          if (props.color) {styles.color = props.color;}
+          if (props.opacity) {styles.opacity = props.opacity;}
+          if (props.weight) {styles.weight = props.weight;}
+          if (props.dashArray) {styles.dashArray = props.dashArray;}
+          if (props.fillColor) {styles.fillColor = props.fillColor;}
+          if (props.fillOpacity) {styles.fillOpacity = props.fillOpacity;}
+        }
+        //$wnd.console.log(styles);
+        return styles;
+      }
+    }).addTo(map).bindPopup("<b>" + popupStr + "</b>");
   }-*/;
   
   /**
@@ -269,6 +333,7 @@ fillOpacity  Opacity     fill-opacity
     p.nameTemplate = "r:c^^^"; // "r:C^^^" "^^C^^^" "R^^^^^"
     p.shape = "marker"; // "circle" "polygon" "polyline"
     p.circleRadius = 10; // radius in meters
+    p.tileServer = "mapbox"; // "mapbox" "stamen"
     this.efParams = p;
   }-*/;
 	
@@ -292,6 +357,9 @@ fillOpacity  Opacity     fill-opacity
   
   public native int getCircleRadius() /*-{return this.efParams.circleRadius;}-*/;
   //public native void setCircleRadius(String circleRadius) /*-{this.efParams.circleRadius = circleRadius;}-*/;
+  
+  public native String getTileServer() /*-{return this.efParams.tileServer;}-*/;
+  //public native void setTileServer(String tileServer) /*-{this.efParams.tileServer = tileServer;}-*/;
   
   public String getOutFileName() {
     return outFileName;
