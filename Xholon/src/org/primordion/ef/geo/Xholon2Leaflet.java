@@ -38,7 +38,7 @@ import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
  * - DONE enable use of GeoJSON
  * - enable use of TopoJSON
  * - try GeoJSON + CSS; Leaflet.geojsonCSS plugin
- * - OSM Buildings	JS library for visualizing 3D OSM building geometry on top of Leaflet
+ * - OSM Buildings  JS library for visualizing 3D OSM building geometry on top of Leaflet
  * - look at other Leaflet plugins
  *
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
@@ -95,8 +95,10 @@ public class Xholon2Leaflet extends AbstractXholon2ExternalFormat implements IXh
     if (!geo.startsWith("[")) {
       geo = "[" + geo + "]";
     }
-    Object map = createMapWithTiles(getSelection(), geo, getTileServer());
+    Object map = createMapWithTiles(getSelection(), geo, getTileServer(), getZoom(), root.getParentNode());
     if (map != null) {
+      createInitAnim();
+      createUpdateAnim();
       writeNode(map, root, 0); // root is level 0
       createMapPopup(map);
     }
@@ -108,16 +110,22 @@ public class Xholon2Leaflet extends AbstractXholon2ExternalFormat implements IXh
    * @param geo The map latlng coordinate (ex: "[12.1,34.3]").
    * @param tileServer 
    *   most tile server values are from: https://leanpub.com/leaflet-tips-and-tricks/read
+   * @param zoom Leaflet view zoom.
+   * @param me The parent of the root of the Xholon subtree that is used to create this Leaflet map.
    */
-  protected native Object createMapWithTiles(String selection, String geo, String tileServer) /*-{
+  protected native Object createMapWithTiles(String selection, String geo, String tileServer, int zoom, IXholon me) /*-{
     var geoJSON = $wnd.JSON.parse(geo);
-    var map = $wnd.L.map(selection).setView(geoJSON, 13);
+    var map = $wnd.L.map(selection).setView(geoJSON, zoom);
+    map._initPathRoot();
     
     // store a reference to the map in Xholon for debugging, testing, etc.
     if (!$wnd.xh.leaflet) {
       $wnd.xh.leaflet = {};
     }
     $wnd.xh.leaflet.map = map;
+    $wnd.xh.leaflet.leafletSvg = null;
+    $wnd.xh.leaflet.d3cpArr = [];
+    $wnd.xh.leaflet.me = me;
     
     var tlUrl = null;
     var tlAttrib = null;
@@ -142,21 +150,21 @@ public class Xholon2Leaflet extends AbstractXholon2ExternalFormat implements IXh
     case "mapbox":
       tlUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ';
       tlAttrib = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' + '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + 'Imagery © <a href="http://mapbox.com">Mapbox</a>';
-		  break;
-		case "stamen": // watercolor-like
-		  tlUrl = 'http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg';
-		  tlAttrib = '&copy; ' + '<a href="http://openstreetmap.org">OpenStreetMap</a>' + ' Contributors & ' + '<a href="http://stamen.com">Stamen Design</a>';
-		  break;
-		default: break;
-		}
-		if (tlUrl == null) {return null;}
-		
+      break;
+    case "stamen": // watercolor-like
+      tlUrl = 'http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg';
+      tlAttrib = '&copy; ' + '<a href="http://openstreetmap.org">OpenStreetMap</a>' + ' Contributors & ' + '<a href="http://stamen.com">Stamen Design</a>';
+      break;
+    default: break;
+    }
+    if (tlUrl == null) {return null;}
+    
     $wnd.L.tileLayer(tlUrl, {
-			maxZoom: 18,
-			attribution: tlAttrib,
-			id: 'mapbox.streets'
-		}).addTo(map);
-		return map;
+      maxZoom: 18,
+      attribution: tlAttrib,
+      id: 'mapbox.streets'
+    }).addTo(map);
+    return map;
   }-*/;
   
   /**
@@ -165,13 +173,13 @@ public class Xholon2Leaflet extends AbstractXholon2ExternalFormat implements IXh
    */
   protected native void createMapPopup(Object map) /*-{
     var popup = $wnd.L.popup();
-		function onMapClick(e) {
-			popup
-				.setLatLng(e.latlng)
-				.setContent("You clicked the map at " + e.latlng.toString())
-				.openOn(map);
-		}
-		map.on('click', onMapClick);
+    function onMapClick(e) {
+      popup
+        .setLatLng(e.latlng)
+        .setContent("You clicked the map at " + e.latlng.toString())
+        .openOn(map);
+    }
+    map.on('click', onMapClick);
   }-*/;
   
   /**
@@ -220,6 +228,7 @@ public class Xholon2Leaflet extends AbstractXholon2ExternalFormat implements IXh
    * TODO I could add a tooltip. Use an efParam to specify tooltip or popup. Example:
    *   var marker = L.marker([-41.29042, 174.78219],{title: 'Hover Text'}).addTo(map);
    *   path = $wnd.L.marker(latlng, {popupStr});
+   *   var ellipse = L.ellipse([51.5, -0.09], [500, 100], 90).addTo(map);
    */
   protected native void createNodePath(Object map, IXholon node, String latlng, String popupStr, String shape, int circleRadius, String pathOptions) /*-{
     latlng = $wnd.JSON.parse(latlng);
@@ -236,6 +245,17 @@ public class Xholon2Leaflet extends AbstractXholon2ExternalFormat implements IXh
         path = $wnd.L.circle(latlng, circleRadius);
       }
       break;
+    case "ellipse":
+      if (pathOptions) {
+        path = $wnd.L.ellipse(latlng, [circleRadius, circleRadius*1.3], 15, $wnd.JSON.parse(pathOptions));
+      }
+      else {
+        path = $wnd.L.ellipse(latlng, [circleRadius, circleRadius*1.3], 15);
+      }
+      break;
+    case "d3cp":
+      // TODO
+      break;
     default: break;
     }
     if (path) {
@@ -251,6 +271,7 @@ public class Xholon2Leaflet extends AbstractXholon2ExternalFormat implements IXh
    * 3 stay with Leaflet default (if I do nothing)
    */
   protected native void createNodeGeoJSON(Object map, IXholon node, String geoJSONStr, String popupStr, String shape, int circleRadius, String pathOptions) /*-{
+    if (shape == "d3cp") {return;}
     var geoJSON = $wnd.JSON.parse(geoJSONStr);
     $wnd.L.geoJson(geoJSON, {
       pointToLayer: function(feature,latlng) {
@@ -267,7 +288,15 @@ public class Xholon2Leaflet extends AbstractXholon2ExternalFormat implements IXh
           else {
             return $wnd.L.circle(latlng, circleRadius);
           }
-        default: break;
+        case "ellipse":
+          if (pathOptions) {
+            return $wnd.L.ellipse(latlng, [circleRadius, circleRadius*1.3], 15, $wnd.JSON.parse(pathOptions));
+          }
+          else {
+            return $wnd.L.ellipse(latlng, [circleRadius, circleRadius*1.3], 15);
+          }
+        default:
+          return null;
         }
       },
       style: function(feature) {
@@ -319,6 +348,69 @@ fillOpacity  Opacity     fill-opacity
   }
   
   /**
+   * Create the initAnim () function.
+   * Examples:
+    this.initAnim("City/Preschool[@roleName='Mothercraft']", 35, 35);
+    this.initAnim("City/School[@roleName='Hilson']", 30, 30);
+    this.initAnim("City/School[@roleName='New']", 30, 30);
+    this.initAnim("City/House", 200, 200);
+   */
+  protected native void createInitAnim() /*-{
+    $wnd.xh.leaflet.initAnim = function(xpathExpr, width, height) {
+      if (width === undefined) {width = -1;}
+      if (height === undefined) {height = -1;}
+      var xhNode = $wnd.xh.leaflet.me.xpath(xpathExpr);
+      var svgId = "xh" + xhNode.id();
+      
+      if ($wnd.xh.leaflet.leafletSvg == null) {
+        $wnd.xh.leaflet.leafletSvg = $wnd.xh.leaflet.map.getPanes().overlayPane.querySelector("svg");
+      }
+      
+      var ele = $doc.createElementNS("http://www.w3.org/2000/svg", "svg");
+      ele.setAttribute("id", svgId);
+      $wnd.xh.leaflet.leafletSvg.appendChild(ele);
+      
+      $wnd.xh.leaflet.me.append('<Animate duration="2" selection="div#xhmap div.leaflet-overlay-pane>svg>svg#'
+      + svgId
+      + '" xpath="./FunSystem/'
+      + xpathExpr
+      + '" efParams="{&quot;selection&quot;:&quot;div#xhmap div.leaflet-overlay-pane>svg>svg#'
+      + svgId
+      + '&quot;,&quot;sort&quot;:&quot;disable&quot;,&quot;width&quot;:'
+      + width
+      + ',&quot;height&quot;:'
+      + height
+      + ',&quot;mode&quot;:&quot;tween&quot;,&quot;labelContainers&quot;:true'
+      + ',&quot;shape&quot;:&quot;circle&quot;}"/>');
+  
+      $wnd.xh.leaflet.d3cpArr.push({xpathExpr: xpathExpr, svgId: svgId, xhNode: xhNode});
+    }
+  }-*/;
+  
+  /**
+   * Create the updateAnim function.
+   * Examples:
+   this.updateAnim($wnd.xh.leaflet.d3cpArr[i]);
+   */
+  protected native void createUpdateAnim() /*-{
+    $wnd.xh.leaflet.updateAnim = function() {
+      if ($wnd.xh.leaflet.leafletSvg) {
+        for (var i = 0; i < $wnd.xh.leaflet.d3cpArr.length; i++) {
+          var d3cpObj = $wnd.xh.leaflet.d3cpArr[i];
+          var ele = $wnd.xh.leaflet.leafletSvg.querySelector("svg#" + d3cpObj.svgId + ">svg");
+          if (!ele) {return;}
+          var latLng = $wnd.JSON.parse(d3cpObj.xhNode.geo());
+          var point = $wnd.xh.leaflet.map.latLngToLayerPoint(latLng);
+          var width = ele.getAttribute("width");
+          var height = ele.getAttribute("height");
+          ele.setAttribute("x", point.x - width/2);
+          ele.setAttribute("y", point.y - height/2);
+        }
+      }
+    }
+  }-*/;
+  
+  /**
    * Make a JavaScript object with all the parameters for this external format.
    * annotations
    * circle radius
@@ -334,9 +426,10 @@ fillOpacity  Opacity     fill-opacity
     p.shape = "marker"; // "circle" "polygon" "polyline"
     p.circleRadius = 10; // radius in meters
     p.tileServer = "mapbox"; // "mapbox" "stamen"
+    p.zoom = 13;
     this.efParams = p;
   }-*/;
-	
+  
   public native boolean isShouldShowStateMachineEntities() /*-{return this.efParams.shouldShowStateMachineEntities;}-*/;
   public native void setShouldShowStateMachineEntities(boolean shouldShowStateMachineEntities) /*-{this.efParams.shouldShowStateMachineEntities = shouldShowStateMachineEntities;}-*/;
   
@@ -360,6 +453,9 @@ fillOpacity  Opacity     fill-opacity
   
   public native String getTileServer() /*-{return this.efParams.tileServer;}-*/;
   //public native void setTileServer(String tileServer) /*-{this.efParams.tileServer = tileServer;}-*/;
+  
+  public native int getZoom() /*-{return this.efParams.zoom;}-*/;
+  //public native void setZoom(String zoom) /*-{this.efParams.zoom = zoom;}-*/;
   
   public String getOutFileName() {
     return outFileName;
