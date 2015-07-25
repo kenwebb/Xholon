@@ -60,6 +60,29 @@ public class XholonJsApi {
   }
   
   /**
+   * Get an XPath 1.0 compliant expression that uniquely identifies a path
+	 * from an ancestor node to a descendant node.
+	 *
+	 * Example:
+console.log(xh.xpathExpr(xh.root().first(), xh.root()));
+  "HelloWorldSystem/Hello"
+   *
+   * Example:
+var ancestor = $wnd.xh.root().first().first(); // City
+var descendant = ancestor.xpath("School[@roleName='Hilson']");
+$wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
+  "City/School[@roleName='Hilson']"
+   *
+	 * @param descendant A Xholon node that is a descendant of ancestor.
+	 * @param ancestor A Xholon node that is an ancestor of descendant.
+   */
+  public static String xpathExpr(IXholon descendant, IXholon ancestor) {
+    if (descendant == null) {return null;}
+    if (ancestor == null) {return null;}
+    return ((Xholon)ancestor).getXPath().getExpression(descendant, ancestor, false);
+  }
+  
+  /**
    * Get all ports as an array.
    * @param node
    * @return An array of PortInformation objects, or an empty array.
@@ -153,6 +176,11 @@ public class XholonJsApi {
     // xpath
     $wnd.xh.xpath = $entry(function(expression, node) {
       return @org.client.XholonJsApi::xpath(Ljava/lang/String;Lorg/primordion/xholon/base/IXholon;)(expression, node);
+    });
+    
+    // xpathExpr
+    $wnd.xh.xpathExpr = $entry(function(descendant, ancestor) {
+      return @org.client.XholonJsApi::xpathExpr(Lorg/primordion/xholon/base/IXholon;Lorg/primordion/xholon/base/IXholon;)(descendant, ancestor);
     });
     
     // service
