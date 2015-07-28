@@ -49,6 +49,10 @@ import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
 @SuppressWarnings("serial")
 public class Xholon2Leaflet extends AbstractXholon2ExternalFormat implements IXholon2ExternalFormat {
   
+  public static final int IMPL_LEAFLETONLY = 1;
+  public static final int IMPL_D3SVGOVERLAY = 2;
+  public static final int IMPL_D3 = 3; // see bost.ocks.org/mike/leaflet/
+  
   private String outFileName;
   private String outPath = "./ef/leaflet/";
   private String modelName;
@@ -356,25 +360,48 @@ fillOpacity  Opacity     fill-opacity
     this.initAnim("City/House", 200, 200);
    */
   protected native void createInitAnim() /*-{
+    var $efParams = this.efParams;
     $wnd.xh.leaflet.initAnim = function(xpathExpr, width, height) {
       if (width === undefined) {width = -1;}
       if (height === undefined) {height = -1;}
       var xhNode = $wnd.xh.leaflet.me.xpath(xpathExpr);
       var svgId = "xh" + xhNode.id();
+      var efpSel = "div#" + $efParams.selection + " div.leaflet-overlay-pane";
       
       if ($wnd.xh.leaflet.leafletSvg == null) {
-        $wnd.xh.leaflet.leafletSvg = $wnd.xh.leaflet.map.getPanes().overlayPane.querySelector("svg");
+        // see Xholon2Leaflet.java IMPL_ constants
+        //$wnd.console.log($efParams.impl);
+        switch ($efParams.impl) {
+        case 1: // IMPL_LEAFLETONLY = 1
+          $wnd.xh.leaflet.leafletSvg = $wnd.xh.leaflet.map.getPanes().overlayPane.querySelector("svg");
+          $wnd.xh.leaflet.leafletSvg.efpSel = efpSel + ">svg>svg#";
+          break;
+        case 2: // IMPL_D3SVGOVERLAY = 2
+          $wnd.xh.leaflet.leafletSvg = $wnd.xh.leaflet.map.getPanes().overlayPane.querySelector("svg.d3-overlay>g>g>g");
+          $wnd.xh.leaflet.leafletSvg.efpSel = efpSel + ">svg.d3-overlay>g>g>g>svg#";
+          break;
+        case 3:
+          // TODO
+          break;
+        default: break;
+        }
       }
       
       var ele = $doc.createElementNS("http://www.w3.org/2000/svg", "svg");
       ele.setAttribute("id", svgId);
       $wnd.xh.leaflet.leafletSvg.appendChild(ele);
       
-      $wnd.xh.leaflet.me.append('<Animate duration="2" selection="div#xhmap div.leaflet-overlay-pane>svg>svg#'
+      // $wnd.xh.leaflet.me.append('<Animate duration="2" selection="div#xhmap div.leaflet-overlay-pane>svg>svg#'
+      //$wnd.xh.leaflet.me.append('<Animate duration="2" selection="div#xhmap div.leaflet-overlay-pane>svg.d3-overlay>g>g>g>svg#'
+      $wnd.xh.leaflet.me.append('<Animate duration="2" selection="'
+      + $wnd.xh.leaflet.leafletSvg.efpSel
       + svgId
       + '" xpath="./FunSystem/'
       + xpathExpr
-      + '" efParams="{&quot;selection&quot;:&quot;div#xhmap div.leaflet-overlay-pane>svg>svg#'
+      //+ '" efParams="{&quot;selection&quot;:&quot;div#xhmap div.leaflet-overlay-pane>svg>svg#'
+      //+ '" efParams="{&quot;selection&quot;:&quot;div#xhmap div.leaflet-overlay-pane>svg.d3-overlay>g>g>g>svg#'
+      + '" efParams="{&quot;selection&quot;:&quot;'
+      + $wnd.xh.leaflet.leafletSvg.efpSel
       + svgId
       + '&quot;,&quot;sort&quot;:&quot;disable&quot;,&quot;width&quot;:'
       + width
@@ -389,8 +416,11 @@ fillOpacity  Opacity     fill-opacity
   
   /**
    * Create the updateAnim function.
-   * Examples:
-   this.updateAnim($wnd.xh.leaflet.d3cpArr[i]);
+   * Example: $wnd.xh.leaflet.updateAnim();
+   * @param sel The currently selected SVG element, in an array (ex: var g = sel[0][0]; ).
+   * @param proj A projection Object.
+   * @param zoom The current zoom level.
+   * Object sel, Object proj, int zoom
    */
   protected native void createUpdateAnim() /*-{
     $wnd.xh.leaflet.updateAnim = function() {
@@ -427,6 +457,7 @@ fillOpacity  Opacity     fill-opacity
     p.circleRadius = 10; // radius in meters
     p.tileServer = "mapbox"; // "mapbox" "stamen"
     p.zoom = 13;
+    p.impl = 1;
     this.efParams = p;
   }-*/;
   
@@ -456,6 +487,9 @@ fillOpacity  Opacity     fill-opacity
   
   public native int getZoom() /*-{return this.efParams.zoom;}-*/;
   //public native void setZoom(String zoom) /*-{this.efParams.zoom = zoom;}-*/;
+  
+  public native int getImpl() /*-{return this.efParams.impl;}-*/;
+  //public native void setImpl(String impl) /*-{this.efParams.impl = impl;}-*/;
   
   public String getOutFileName() {
     return outFileName;
