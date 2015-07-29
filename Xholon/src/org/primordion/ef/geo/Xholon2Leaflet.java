@@ -370,7 +370,6 @@ fillOpacity  Opacity     fill-opacity
       
       if ($wnd.xh.leaflet.leafletSvg == null) {
         // see Xholon2Leaflet.java IMPL_ constants
-        //$wnd.console.log($efParams.impl);
         switch ($efParams.impl) {
         case 1: // IMPL_LEAFLETONLY = 1
           $wnd.xh.leaflet.leafletSvg = $wnd.xh.leaflet.map.getPanes().overlayPane.querySelector("svg");
@@ -389,17 +388,18 @@ fillOpacity  Opacity     fill-opacity
       
       var ele = $doc.createElementNS("http://www.w3.org/2000/svg", "svg");
       ele.setAttribute("id", svgId);
+      // assume that width and height have real values (not -1)
+      var latLng = $wnd.JSON.parse(xhNode.geo());
+      var point = $wnd.xh.leaflet.map.latLngToLayerPoint(latLng);
+      ele.setAttribute("x", point.x - width/2);
+      ele.setAttribute("y", point.y - height/2);
       $wnd.xh.leaflet.leafletSvg.appendChild(ele);
       
-      // $wnd.xh.leaflet.me.append('<Animate duration="2" selection="div#xhmap div.leaflet-overlay-pane>svg>svg#'
-      //$wnd.xh.leaflet.me.append('<Animate duration="2" selection="div#xhmap div.leaflet-overlay-pane>svg.d3-overlay>g>g>g>svg#'
       $wnd.xh.leaflet.me.append('<Animate duration="2" selection="'
       + $wnd.xh.leaflet.leafletSvg.efpSel
       + svgId
       + '" xpath="./FunSystem/'
       + xpathExpr
-      //+ '" efParams="{&quot;selection&quot;:&quot;div#xhmap div.leaflet-overlay-pane>svg>svg#'
-      //+ '" efParams="{&quot;selection&quot;:&quot;div#xhmap div.leaflet-overlay-pane>svg.d3-overlay>g>g>g>svg#'
       + '" efParams="{&quot;selection&quot;:&quot;'
       + $wnd.xh.leaflet.leafletSvg.efpSel
       + svgId
@@ -415,6 +415,7 @@ fillOpacity  Opacity     fill-opacity
   }-*/;
   
   /**
+   * THIS IS NO LONGER NEEDED
    * Create the updateAnim function.
    * Example: $wnd.xh.leaflet.updateAnim();
    * @param sel The currently selected SVG element, in an array (ex: var g = sel[0][0]; ).
