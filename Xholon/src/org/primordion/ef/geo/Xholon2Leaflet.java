@@ -372,8 +372,17 @@ fillOpacity  Opacity     fill-opacity
         // see Xholon2Leaflet.java IMPL_ constants
         switch ($efParams.impl) {
         case 1: // IMPL_LEAFLETONLY = 1
-          $wnd.xh.leaflet.leafletSvg = $wnd.xh.leaflet.map.getPanes().overlayPane.querySelector("svg");
-          $wnd.xh.leaflet.leafletSvg.efpSel = efpSel + ">svg>svg#";
+          var leafletSvg = $wnd.xh.leaflet.map.getPanes().overlayPane.querySelector("svg.leaflet-zoom-animated");
+          $wnd.console.log(leafletSvg);
+          var gEle = $doc.createElementNS("http://www.w3.org/2000/svg", "g");
+          gEle.setAttribute("id", "leaflet-d3cp");
+          gEle.setAttribute("transform", "scale(1,1)"); // can only scale a G element, not an SVG ele
+          $wnd.console.log(gEle);
+          leafletSvg.appendChild(gEle);
+          $wnd.xh.leaflet.leafletSvg = leafletSvg.querySelector("g#leaflet-d3cp");
+          $wnd.console.log($wnd.xh.leaflet.leafletSvg);
+          $wnd.xh.leaflet.leafletSvg.efpSel = efpSel + ">svg.leaflet-zoom-animated>g#leaflet-d3cp>svg#";
+          $wnd.console.log($wnd.xh.leaflet.leafletSvg.efpSel);
           break;
         case 2: // IMPL_D3SVGOVERLAY = 2
           $wnd.xh.leaflet.leafletSvg = $wnd.xh.leaflet.map.getPanes().overlayPane.querySelector("svg.d3-overlay>g>g>g");
@@ -386,14 +395,15 @@ fillOpacity  Opacity     fill-opacity
         }
       }
       
-      var ele = $doc.createElementNS("http://www.w3.org/2000/svg", "svg");
-      ele.setAttribute("id", svgId);
+      var svgEle = $doc.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svgEle.setAttribute("id", svgId);
       // assume that width and height have real values (not -1)
       var latLng = $wnd.JSON.parse(xhNode.geo());
       var point = $wnd.xh.leaflet.map.latLngToLayerPoint(latLng);
-      ele.setAttribute("x", point.x - width/2);
-      ele.setAttribute("y", point.y - height/2);
-      $wnd.xh.leaflet.leafletSvg.appendChild(ele);
+      svgEle.setAttribute("x", point.x - width/2);
+      svgEle.setAttribute("y", point.y - height/2);
+      $wnd.console.log(svgEle);
+      $wnd.xh.leaflet.leafletSvg.appendChild(svgEle);
       
       $wnd.xh.leaflet.me.append('<Animate duration="2" selection="'
       + $wnd.xh.leaflet.leafletSvg.efpSel
