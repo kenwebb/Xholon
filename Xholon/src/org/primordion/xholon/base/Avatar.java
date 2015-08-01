@@ -1152,7 +1152,12 @@ public class Avatar extends XholonWithPorts {
         break;
       default:
         // this may be a JSON string specifying one or more animations
-        makeJsObject(node, "anim", animType);
+        //makeJsObject(node, "anim", animType);
+        //consoleLog(animType + "," + params);
+        String jsonStr = "{\"" + animType + "\": \"" + params + "\"}";
+        //consoleLog(jsonStr);
+        makeJsObject(node, "anim", jsonStr);
+        animView(node, viewEle, duration);
         break;
       }
     }

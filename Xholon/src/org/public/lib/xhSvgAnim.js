@@ -132,6 +132,54 @@ xh.anim = function(xhnode, selection, duration) {
   }
   
   /**
+   * style
+   * Style the node and then return it to its original style.
+   * ex: background green
+   * TODO the shape could also be a rect/path/etc
+   */
+  var style = function(g, styleName, styleVal) {
+    //console.log("xhSvgAnim style " + styleName + "," + styleVal);
+    //console.log(g);
+    var shape = g.querySelector("circle");
+    console.log(shape);
+    var d3Ele = d3.select(shape);
+    var origStyleVal = d3Ele.style(styleName);
+    //console.log("origStyleVal " + origStyleVal);
+    d3Ele.transition()
+    .style(styleName, styleVal)
+    .duration(durationMs)
+    .each("end", function() {
+      d3Ele.transition()
+      .style(styleName, origStyleVal)
+      .duration(durationMs)
+    });
+  }
+  
+  /**
+   * attr
+   * Change an attribute of the node and then return it to its original value.
+   * ex: r 20
+   * TODO the shape could also be a rect/path/etc
+   */
+  var attr = function(g, attrName, attrVal) {
+    console.log("xhSvgAnim attr " + attrName + "," + attrVal);
+    console.log(g);
+    var shape = g.querySelector("circle");
+    console.log(shape);
+    var d3Ele = d3.select(shape);
+    var origAttrVal = d3Ele.attr(attrName);
+    console.log("origAttrVal " + origAttrVal);
+    d3Ele.transition()
+    .attr(attrName, attrVal)
+    .duration(durationMs)
+    .each("end", function() {
+      d3Ele.transition()
+      .attr(attrName, origAttrVal)
+      .duration(durationMs)
+    });
+  }
+  
+  /**
    * Save the animation data, typically for later use by xhSvgTween.js .
    */
   var saveData = function(g, animName, animValue) {
@@ -204,6 +252,23 @@ xh.anim = function(xhnode, selection, duration) {
     //  break;
     case "show":
       show(g, animObj[aname]);
+      break;
+    // SVG styles
+    case "fill":
+    case "fill-opacity":
+    case "stroke":
+    case "stroke-width":
+    case "stroke-dasharray":
+    case "opacity":
+      console.log(aname);
+      style(g, aname, animObj[aname]);
+      break;
+    // TODO SVG attributes
+    case "cx":
+    case "cy":
+    case "r":
+      console.log(aname);
+      attr(g, aname, animObj[aname]);
       break;
     default: break;
     }
