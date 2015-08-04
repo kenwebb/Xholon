@@ -107,6 +107,8 @@ public class Avatar extends XholonWithPorts {
   protected static final String ALTERNATE_VIEWELE_STR = "#xhgraph";
   protected static final String[] DEFAULT_OUTANIM = {"turnright", "30"}; // for use with "out anim"
   
+  protected static final int SIG_FOLLOWLEADERTECH_CANON = 101;
+  
   // Variables
   public String roleName = null;
   protected double val;
@@ -158,6 +160,12 @@ public class Avatar extends XholonWithPorts {
    * Index into the actions array.
    */
   protected int actionIx = ACTIONIX_INITIAL;
+  
+  /**
+   * Optional technique that the follower should use while following the leader.
+   * "unison" "mirror" etc.  (see my Choreography workbook)
+   */
+  protected String followLeaderTechnique = null;
   
   /**
    * Whether or not act() should call println() for each action.
@@ -498,7 +506,9 @@ public class Avatar extends XholonWithPorts {
         if (contextNode != leader.getParentNode()) {
           this.removeChild();
           this.appendChild(leader.getParentNode());
-          //contextNode = this.getParentNode(); // handled by local appendChild(...)
+        }
+        if (followLeaderTechnique != null) {
+          doFollowLeaderTechnique();
         }
       }
       
@@ -548,6 +558,84 @@ public class Avatar extends XholonWithPorts {
     super.act();
   }
   
+  /**
+   * Optionally do a follow leader technique.
+   * Example that can be pasted into the AYA play:
+<_-.avatars>
+  <Avatar roleName="Unison">follow AYA unison;</Avatar>
+  <Avatar roleName="Mirror">follow AYA mirror;</Avatar>
+  <Avatar roleName="Canon">follow AYA canon;</Avatar>
+</_-.avatars>
+   */
+  protected void doFollowLeaderTechnique() {
+    String leaderAction = this.leader.getVal_String();
+    if (leaderAction != null) {
+      // assume that there is only one action in the String
+      leaderAction = leaderAction.trim();
+      if (leaderAction.startsWith("anim ")) {
+        consoleLog(leaderAction);
+        switch (this.followLeaderTechnique) {
+        case "unison":
+          // do identical action
+          this.doAction(leaderAction);
+          break;
+        case "canon":
+          // delay the action by one timestep
+          this.sendMessage(SIG_FOLLOWLEADERTECH_CANON, leaderAction, this);
+          break;
+        case "mirror":
+          // do a mirrored version of the action
+          if (leaderAction.endsWith(";")) {
+            leaderAction = leaderAction.substring(0, leaderAction.length()-1);
+          }
+          String[] animArr = leaderAction.split(" ", 4);
+          switch (animArr[2]) {
+          case "hop":
+            animArr[2] = "duck";
+            break;
+          case "duck":
+            animArr[2] = "hop";
+            break;
+          case "turnright":
+            animArr[2] = "turnleft";
+            break;
+          case "turnleft":
+            animArr[2] = "turnright";
+            break;
+          case "grow":
+            animArr[2] = "shrink";
+            break;
+          case "shrink":
+            animArr[2] = "grow";
+            break;
+          case "mirror":
+            // anim this mirror [x|y]
+            if (animArr.length == 3) { // the default is "x", so use "y"
+              animArr = "anim this mirror y".split(" ", 4);
+            }
+            else {
+              if ("x".equals(animArr[3])) {
+                animArr[3] = "y";
+              }
+              else {
+                animArr[3] = "x";
+              }
+            }
+            break;
+          default: break;
+          }
+          String animStr = "";
+          for (int i = 0; i < animArr.length; i++) {
+            animStr += animArr[i] + " ";
+          }
+          this.doAction(animStr);
+          break;
+        default: break;
+        }
+      }
+    }
+  } // end doFollowLeaderTechnique()
+  
   @Override
   public void processReceivedMessage(IMessage msg) {
     switch (msg.getSignal()) {
@@ -557,6 +645,9 @@ public class Avatar extends XholonWithPorts {
         responseStr = COMMENT_START + responseStr + COMMENT_END + CMD_SEPARATOR;
         msg.getSender().sendMessage(ISignal.SIGNAL_XHOLON_CONSOLE_RSP, "\n" + responseStr, this);
       }
+      break;
+    case SIG_FOLLOWLEADERTECH_CANON:
+      this.doAction((String)msg.getData());
       break;
     default:
       super.processReceivedMessage(msg);
@@ -870,6 +961,9 @@ public class Avatar extends XholonWithPorts {
         IXholon node = findNode(data[1], contextNode);
         if (node != null) {
           leader = node;
+          if (len > 2) {
+            followLeaderTechnique = data[2];
+          }
           sb.append("Following.");
         }
         else {
@@ -1702,7 +1796,7 @@ public class Avatar extends XholonWithPorts {
     .append("\nenter [*]THING")
     .append("\nexamine|x THING")
     .append("\nexit [THING]")
-    .append("\nfollow LEADER_THING")
+    .append("\nfollow LEADER_THING [unison|mirror|canon]")
     .append("\nget THING NAME")
     .append("\ngo portName|next|prev|N|E|S|W|NE|SE|SW|NW|port0|portN|xpath")
     .append("\ngroup THING1[,THINGi,...,THINGn] in|on|under THING2")
