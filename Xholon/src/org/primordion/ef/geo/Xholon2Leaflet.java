@@ -50,8 +50,8 @@ import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
 public class Xholon2Leaflet extends AbstractXholon2ExternalFormat implements IXholon2ExternalFormat {
   
   public static final int IMPL_LEAFLETONLY = 1;
-  public static final int IMPL_D3SVGOVERLAY = 2;
-  public static final int IMPL_D3 = 3; // see bost.ocks.org/mike/leaflet/
+  //public static final int IMPL_D3SVGOVERLAY = 2;
+  //public static final int IMPL_D3 = 3; // see bost.ocks.org/mike/leaflet/
   
   private String outFileName;
   private String outPath = "./ef/leaflet/";
@@ -102,7 +102,7 @@ public class Xholon2Leaflet extends AbstractXholon2ExternalFormat implements IXh
     Object map = createMapWithTiles(getSelection(), geo, getTileServer(), getZoom(), root.getParentNode());
     if (map != null) {
       createInitAnim();
-      createUpdateAnim();
+      createRemoveAnim();
       writeNode(map, root, 0); // root is level 0
       createMapPopup(map);
     }
@@ -373,24 +373,21 @@ fillOpacity  Opacity     fill-opacity
         switch ($efParams.impl) {
         case 1: // IMPL_LEAFLETONLY = 1
           var leafletSvg = $wnd.xh.leaflet.map.getPanes().overlayPane.querySelector("svg.leaflet-zoom-animated");
-          $wnd.console.log(leafletSvg);
+          //$wnd.console.log(leafletSvg);
           var gEle = $doc.createElementNS("http://www.w3.org/2000/svg", "g");
           gEle.setAttribute("id", "leaflet-d3cp");
           gEle.setAttribute("transform", "scale(1,1)"); // can only scale a G element, not an SVG ele
-          $wnd.console.log(gEle);
+          //$wnd.console.log(gEle);
           leafletSvg.appendChild(gEle);
           $wnd.xh.leaflet.leafletSvg = leafletSvg.querySelector("g#leaflet-d3cp");
-          $wnd.console.log($wnd.xh.leaflet.leafletSvg);
+          //$wnd.console.log($wnd.xh.leaflet.leafletSvg);
           $wnd.xh.leaflet.leafletSvg.efpSel = efpSel + ">svg.leaflet-zoom-animated>g#leaflet-d3cp>svg#";
-          $wnd.console.log($wnd.xh.leaflet.leafletSvg.efpSel);
+          //$wnd.console.log($wnd.xh.leaflet.leafletSvg.efpSel);
           break;
-        case 2: // IMPL_D3SVGOVERLAY = 2
-          $wnd.xh.leaflet.leafletSvg = $wnd.xh.leaflet.map.getPanes().overlayPane.querySelector("svg.d3-overlay>g>g>g");
-          $wnd.xh.leaflet.leafletSvg.efpSel = efpSel + ">svg.d3-overlay>g>g>g>svg#";
-          break;
-        case 3:
-          // TODO
-          break;
+        //case 2: // IMPL_D3SVGOVERLAY = 2
+          //$wnd.xh.leaflet.leafletSvg = $wnd.xh.leaflet.map.getPanes().overlayPane.querySelector("svg.d3-overlay>g>g>g");
+          //$wnd.xh.leaflet.leafletSvg.efpSel = efpSel + ">svg.d3-overlay>g>g>g>svg#";
+          //break;
         default: break;
         }
       }
@@ -402,7 +399,7 @@ fillOpacity  Opacity     fill-opacity
       var point = $wnd.xh.leaflet.map.latLngToLayerPoint(latLng);
       svgEle.setAttribute("x", point.x - width/2);
       svgEle.setAttribute("y", point.y - height/2);
-      $wnd.console.log(svgEle);
+      //$wnd.console.log(svgEle);
       $wnd.xh.leaflet.leafletSvg.appendChild(svgEle);
       
       $wnd.xh.leaflet.me.append('<Animate duration="2" selection="'
@@ -425,29 +422,30 @@ fillOpacity  Opacity     fill-opacity
   }-*/;
   
   /**
-   * THIS IS NO LONGER NEEDED
-   * Create the updateAnim function.
-   * Example: $wnd.xh.leaflet.updateAnim();
-   * @param sel The currently selected SVG element, in an array (ex: var g = sel[0][0]; ).
-   * @param proj A projection Object.
-   * @param zoom The current zoom level.
-   * Object sel, Object proj, int zoom
+   * Create the removeAnim() function.
+   * Example: $wnd.xh.leaflet.removeAnim($funsys.first().next().next().next());
    */
-  protected native void createUpdateAnim() /*-{
-    $wnd.xh.leaflet.updateAnim = function() {
-      if ($wnd.xh.leaflet.leafletSvg) {
-        for (var i = 0; i < $wnd.xh.leaflet.d3cpArr.length; i++) {
-          var d3cpObj = $wnd.xh.leaflet.d3cpArr[i];
-          var ele = $wnd.xh.leaflet.leafletSvg.querySelector("svg#" + d3cpObj.svgId + ">svg");
-          if (!ele) {return;}
-          var latLng = $wnd.JSON.parse(d3cpObj.xhNode.geo());
-          var point = $wnd.xh.leaflet.map.latLngToLayerPoint(latLng);
-          var width = ele.getAttribute("width");
-          var height = ele.getAttribute("height");
-          ele.setAttribute("x", point.x - width/2);
-          ele.setAttribute("y", point.y - height/2);
-        }
+  protected native void createRemoveAnim() /*-{
+    $wnd.xh.leaflet.removeAnim = function(firstAnim) {
+      // remove all the Xholon <Animate nodes
+      var anim = firstAnim;
+      while (anim) {
+        var nextAnim = anim.next();
+        anim.remove();
+        anim = nextAnim;
       }
+      
+      // remove all the SVG d3cpObj elements
+      for (var i = 0; i < $wnd.xh.leaflet.d3cpArr.length; i++) {
+        var d3cpObj = $wnd.xh.leaflet.d3cpArr[i];
+        var ele = $wnd.xh.leaflet.leafletSvg.querySelector("svg#" + d3cpObj.svgId);
+        if (!ele) {return;}
+        $wnd.xh.leaflet.leafletSvg.removeChild(ele);
+      }
+      
+      // re-initialize some variables in preparation for the new zoom level
+      $wnd.xh.leaflet.leafletSvg = null;
+      $wnd.xh.leaflet.d3cpArr = [];
     }
   }-*/;
   
