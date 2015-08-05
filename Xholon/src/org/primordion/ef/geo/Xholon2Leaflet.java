@@ -395,7 +395,17 @@ fillOpacity  Opacity     fill-opacity
       var svgEle = $doc.createElementNS("http://www.w3.org/2000/svg", "svg");
       svgEle.setAttribute("id", svgId);
       // assume that width and height have real values (not -1)
-      var latLng = $wnd.JSON.parse(xhNode.geo());
+      var latLng = null;
+      var geoStr = xhNode.geo();
+      var geo = $wnd.JSON.parse(geoStr);
+      if (geoStr.substring(0,1) == "{") {
+        // assume geo is in GeoJSON format; GeoJSON latLng are in reverse order
+        latLng = geo.geometry.coordinates.reverse();
+      }
+      else {
+        // assume geo is a latLng array [123,456]
+        latLng = geo;
+      }
       var point = $wnd.xh.leaflet.map.latLngToLayerPoint(latLng);
       svgEle.setAttribute("x", point.x - width/2);
       svgEle.setAttribute("y", point.y - height/2);
