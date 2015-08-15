@@ -425,6 +425,8 @@ fillOpacity  Opacity     fill-opacity
       + ',&quot;height&quot;:'
       + height
       + ',&quot;mode&quot;:&quot;tween&quot;,&quot;labelContainers&quot;:true'
+      + ',&quot;includeId&quot;:true'
+      + ',&quot;includeClass&quot;:false'
       + ',&quot;shape&quot;:&quot;circle&quot;}"/>');
   
       $wnd.xh.leaflet.d3cpArr.push({xpathExpr: xpathExpr, svgId: svgId, xhNode: xhNode});
