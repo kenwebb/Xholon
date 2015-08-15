@@ -49,8 +49,8 @@ public class Behavior_gwtpython extends Behavior_gwtjs {
 	public void postConfigure() {
 	  // convert scriptContent from Python to JavaScript
 	  this.setScriptContent(this.py2js(this.getScriptContent()));
-	  consoleLog("This behavior is a " + this.getXhcName());
-	  pythonClass(this.getXhcName());
+	  //consoleLog("This behavior is a " + this.getXhcName());
+	  //pythonClass(this.getXhcName());
 		super.postConfigure();
   }
   
@@ -69,36 +69,28 @@ public class Behavior_gwtpython extends Behavior_gwtjs {
   }-*/;
 	
 	protected native void postConfigure(JavaScriptObject bobj) /*-{
-	  //bobj.postConfigure();
 	  bobj.__class__.$methods.postConfigure(bobj)();
 	}-*/;
 	
 	protected native JavaScriptObject configureJso(IXholon cnode, String scriptContent) /*-{
-	  $wnd.console.log("Behavior_gwtpython 1");
-	  $wnd.console.log(scriptContent);
-	  
-	  // create a JavaScript/Python class (ex: 
+	  //$wnd.console.log(scriptContent);
 	  eval(scriptContent);
-	  
-	  $wnd.console.log("Behavior_gwtpython 2");
-	  
-	  //var beh = xh.Brickbehavior();
 	  var behClassName = cnode.xhc().name();
-	  $wnd.console.log(behClassName);
+	  //$wnd.console.log(behClassName);
 	  var beh = $wnd.xh[behClassName]();
 	  
 	  try {
 	    if (typeof beh === 'undefined') {
-	      $wnd.console.log("beh was undefined");
+	      //$wnd.console.log("beh was undefined");
 	      return null;
 	    }
 	    else {
-	      $wnd.console.log(beh);
+	      //$wnd.console.log(beh);
 	      beh.cnode = cnode;
 	      return beh;
 	    }
 	  } catch(e) {
-	    $wnd.console.log("beh was non-existent");
+	    //$wnd.console.log("beh was non-existent");
 	    return null;
 	  }
 	}-*/;
@@ -109,20 +101,63 @@ testBeh.__class__.$methods.postConfigure(testBeh)();
 testBeh.__class__.$methods.act(testBeh)();
 	 */
 	protected native boolean hasFunction(JavaScriptObject bobj, String fname) /*-{
-	  //$wnd.console.log("bobj[fname] " + fname);
-	  $wnd.console.log(bobj.__class__.$methods[fname]);
-	  //if (bobj && bobj[fname]) {
+	  //$wnd.console.log(bobj.__class__.$methods[fname]);
 	  if (bobj && bobj.__class__.$methods[fname]) {
-	    $wnd.console.log(true);
+	    //$wnd.console.log(true);
 	    return true;
 	  }
-	  $wnd.console.log(false);
+	  //$wnd.console.log(false);
 	  return false;
 	}-*/;
 
+	protected native void preAct(JavaScriptObject bobj) /*-{
+	  bobj.__class__.$methods.preAct(bobj)();
+	}-*/;
+	
 	protected native void act(JavaScriptObject bobj) /*-{
-	  //bobj.act();
 	  bobj.__class__.$methods.act(bobj)();
+	}-*/;
+	
+	protected native void postAct(JavaScriptObject bobj) /*-{
+	  bobj.__class__.$methods.postAct(bobj)();
+	}-*/;
+	
+	protected native void processReceivedMessage(JavaScriptObject bobj, IMessage msg) /*-{
+	  bobj.__class__.$methods.processReceivedMessage(msg.obj());
+	}-*/;
+	
+	protected native Object processReceivedSyncMessage(JavaScriptObject bobj, IMessage msg) /*-{
+	  return bobj.__class__.$methods.processReceivedSyncMessage(msg.obj());
+	}-*/;
+	
+	protected native Object handleNodeSelection(JavaScriptObject bobj) /*-{
+	  return bobj.handleNodeSelection();
+	}-*/;
+	
+	protected native void performActivity(JavaScriptObject bobj, int activityId, IMessage msg) /*-{
+	  bobj.performActivity(activityId, msg);
+	}-*/;
+	
+	protected native boolean performGuard(JavaScriptObject bobj, int activityId, IMessage msg) /*-{
+	  return bobj.performGuard(activityId, msg);
+	}-*/;
+	
+	protected native String toString(JavaScriptObject bobj) /*-{
+	  return bobj.__class__.$methods.toString();
+	}-*/;
+	
+	protected native Object invokeMethod(JavaScriptObject bobj, String methodName, Object[] args) /*-{
+	  try {
+	    var returnObj = bobj.__class__.$methods[methodName].apply(bobj, args);
+	    if (returnObj === undefined) {
+	      return null;
+	    }
+	    else {
+	      return returnObj;
+	    }
+	  } catch(e) {
+	    return null;
+	  }
 	}-*/;
 	
 }
