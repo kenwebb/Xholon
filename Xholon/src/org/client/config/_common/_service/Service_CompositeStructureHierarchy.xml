@@ -87,6 +87,7 @@
       <attr:Attribute_String roleName="Wikipedia (en)">http://en.wikipedia.org/wiki/</attr:Attribute_String>
       <attr:Attribute_String roleName="Wiktionary (en)">http://en.wiktionary.org/wiki/</attr:Attribute_String>
       <attr:Attribute_String roleName="Wikimedia commons">http://commons.wikimedia.org/wiki/</attr:Attribute_String>
+      <attr:Attribute_String roleName="DuckDuckGo">https://duckduckgo.com/?q=</attr:Attribute_String>
       <attr:Attribute_String roleName="Bing">http://www.bing.com/search?q=</attr:Attribute_String>
       <attr:Attribute_String roleName="Twitter">https://twitter.com/#!/search/</attr:Attribute_String>
       <attr:Attribute_String roleName="Webster">http://www.merriam-webster.com/dictionary/</attr:Attribute_String>
@@ -112,7 +113,6 @@
       http://search.yacy.net/
       <attr:Attribute_String roleName="Wikipedia (simple)">http://simple.wikipedia.org/wiki/</attr:Attribute_String>
       <attr:Attribute_String roleName="Wiktionary (simple)">http://simple.wiktionary.org/wiki/</attr:Attribute_String>
-      http://duckduckgo.com/?q=
       http://www.trueknowledge.com/q/mars_mass (replaced by evi)
       http://www.evi.com/q/solar_system
       http://www.dmoz.org/search?q=Solar+System http://www.dmoz.org/search?q=%22Climate+change%22
