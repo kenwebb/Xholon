@@ -240,11 +240,14 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			else if (implName.endsWith("Mechanism")) {
 				newNode = new org.primordion.xholon.base.Mechanism();
 			}
-			if (implName.endsWith("Behavior_gwtjs")) {
+			else if (implName.endsWith("Behavior_gwtjs")) {
 				newNode = new org.primordion.xholon.base.Behavior_gwtjs();
 			}
-			if (implName.endsWith("Behavior_gwtjsproto")) {
+			else if (implName.endsWith("Behavior_gwtjsproto")) {
 				newNode = new org.primordion.xholon.base.Behavior_gwtjsproto();
+			}
+			else if (implName.endsWith("Behavior_gwtpython")) {
+				newNode = new org.primordion.xholon.base.Behavior_gwtpython();
 			}
 			else if (implName.endsWith("XholonList")) {
 				newNode = new org.primordion.xholon.base.XholonList();
@@ -728,6 +731,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 				return true;
 			}
 			if (implName.endsWith("Behavior_gwtjsproto")) {
+				return true;
+			}
+			if (implName.endsWith("Behavior_gwtpython")) {
 				return true;
 			}
 		}
