@@ -69,19 +69,23 @@ public class Behavior_gwtpython extends Behavior_gwtjs {
   }-*/;
 	
 	protected native void postConfigure(JavaScriptObject bobj) /*-{
-	  bobj.postConfigure();
+	  //bobj.postConfigure();
+	  bobj.__class__.$methods.postConfigure(bobj)();
 	}-*/;
 	
 	protected native JavaScriptObject configureJso(IXholon cnode, String scriptContent) /*-{
 	  $wnd.console.log("Behavior_gwtpython 1");
 	  $wnd.console.log(scriptContent);
-	  eval(scriptContent);
-	  $wnd.console.log("Behavior_gwtpython 2");
-	  $wnd.console.log(typeof beh);
-	  $wnd.console.log($wnd);
 	  
-	  var behModule = $wnd.__BRYTHON__.modules.__main___beh_3;
-	  $wnd.console.log(behModule);
+	  // create a JavaScript/Python class (ex: 
+	  eval(scriptContent);
+	  
+	  $wnd.console.log("Behavior_gwtpython 2");
+	  
+	  //var beh = xh.Brickbehavior();
+	  var behClassName = cnode.xhc().name();
+	  $wnd.console.log(behClassName);
+	  var beh = $wnd.xh[behClassName]();
 	  
 	  try {
 	    if (typeof beh === 'undefined') {
@@ -99,9 +103,16 @@ public class Behavior_gwtpython extends Behavior_gwtjs {
 	  }
 	}-*/;
 	
+	/**
+	 * 
+testBeh.__class__.$methods.postConfigure(testBeh)();
+testBeh.__class__.$methods.act(testBeh)();
+	 */
 	protected native boolean hasFunction(JavaScriptObject bobj, String fname) /*-{
-	  $wnd.console.log("bobj[fname] " + fname);
-	  if (bobj && bobj[fname]) {
+	  //$wnd.console.log("bobj[fname] " + fname);
+	  $wnd.console.log(bobj.__class__.$methods[fname]);
+	  //if (bobj && bobj[fname]) {
+	  if (bobj && bobj.__class__.$methods[fname]) {
 	    $wnd.console.log(true);
 	    return true;
 	  }
@@ -109,4 +120,9 @@ public class Behavior_gwtpython extends Behavior_gwtjs {
 	  return false;
 	}-*/;
 
+	protected native void act(JavaScriptObject bobj) /*-{
+	  //bobj.act();
+	  bobj.__class__.$methods.act(bobj)();
+	}-*/;
+	
 }
