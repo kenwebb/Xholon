@@ -2615,12 +2615,18 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
    * TODO can I repeatedly reuse a single SpeechSynthesisUtterance instance?
    * @param text 
    */
-  protected native void speak(String textToSpeak, String ssuLang, Object ssuVoice, float ssuVolume, float ssuRate, float ssuPitch) /*-{
-    //$wnd.console.log("speak() " + typeof $wnd.speechSynthesis != "undefined");
-    //$wnd.console.log(textToSpeak);
+  protected void speak(String textToSpeak, String ssuLang, Object ssuVoice, float ssuVolume, float ssuRate, float ssuPitch) {
+    if (speakResponsiveVoice(textToSpeak, ssuLang, ssuVoice, ssuVolume, ssuRate, ssuPitch)) {return;}
+    speakGoogle(textToSpeak, ssuLang, ssuVoice, ssuVolume, ssuRate, ssuPitch);
+  }
+  
+  /**
+   * Speak using the Google API.
+   */
+  protected native boolean speakGoogle(String textToSpeak, String ssuLang, Object ssuVoice, float ssuVolume, float ssuRate, float ssuPitch) /*-{
     // Firefox defines speechSynthesis but not SpeechSynthesisUtterance
     //if (typeof $wnd.speechSynthesis == "undefined") {return;}
-    if (typeof $wnd.SpeechSynthesisUtterance == "undefined") {return;}
+    if (typeof $wnd.SpeechSynthesisUtterance == "undefined") {return false;}
     var newUtterance = new $wnd.SpeechSynthesisUtterance();
     newUtterance.text = textToSpeak.substring(0, 160); // long utterances crash the speech synthesizer
     if (ssuLang != null) {
@@ -2639,32 +2645,78 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
       newUtterance.pitch = ssuPitch;
     }
     $wnd.speechSynthesis.speak(newUtterance); // add to the utterance queue
+    return true;
+  }-*/;
+  
+  /**
+   * Speak using the ResponsiveVoice API.
+   * params are "used to add optional pitch (range 0 to 2), rate (range 0 to 1.5), volume (range 0 to 1) and callbacks"
+   */
+  protected native boolean speakResponsiveVoice(String textToSpeak, String ssuLang, Object ssuVoice, float ssuVolume, float ssuRate, float ssuPitch) /*-{
+    if (typeof $wnd.responsiveVoice == "undefined" || !$wnd.responsiveVoice.voiceSupport) {return false;}
+    var params = {};
+    var hasParams = false;
+    if (ssuVolume != -1.0) {
+      params.volume = ssuVolume;
+      hasParams = true;
+    }
+    if (ssuRate != -1.0) {
+      params.rate = ssuRate;
+      hasParams = true;
+    }
+    if (ssuPitch != -1.0) {
+      params.pitch = ssuPitch;
+      hasParams = true;
+    }
+    if (hasParams) {
+      $wnd.responsiveVoice.speak(textToSpeak, ssuVoice, params);
+    }
+    else {
+      $wnd.responsiveVoice.speak(textToSpeak, ssuVoice);
+    }
+    return true;
   }-*/;
   
   /**
    * Determine whether or not speech synthesis is supported for this browser.
+   * It checks for ResponsiveVoice API, or for Google API.
    * @return true or false
    */
   protected native boolean isSpeechSupported() /*-{
-    //$wnd.console.log("isSpeechSupported() " + typeof $wnd.speechSynthesis != "undefined");
-    //return typeof $wnd.speechSynthesis != "undefined";
-    return typeof $wnd.SpeechSynthesisUtterance != "undefined";
+    var rc = typeof $wnd.responsiveVoice != "undefined" && $wnd.responsiveVoice.voiceSupport;
+    if (!rc) {
+      rc = typeof $wnd.SpeechSynthesisUtterance != "undefined";
+    }
+    return rc;
   }-*/;
   
   /**
-   * Find a SpeechSynthesisVoice.
+   * Find a ResponsiveVoice or Google Voice.
    * @param name
-   * @return A SpeechSynthesisVoice object, or null.
-   * ex: Object voice = findVoice("Google UK English Female");
+   * @return A Voice object, or null.
+   * ex: Object voice = findVoice("US English Female"); // ResponsiveVoice
+   * ex: Object voice = findVoice("Google UK English Female"); // Google
    * 
    * TODO voices are loaded asynchronously, so need to wait for an event
+// Google
 window.speechSynthesis.onvoiceschanged = function() {
   var voices = $wnd.speechSynthesis.getVoices();
-  
 };
+
+// ResponsiveVoice
+var voices = $wnd.responsiveVoice.getVoices();
    */
   protected native Object findVoice(String name) /*-{
-    var voices = $wnd.speechSynthesis.getVoices();
+    var voices = null;
+    if (typeof $wnd.responsiveVoice != "undefined" && $wnd.responsiveVoice.voiceSupport) {
+      voices = $wnd.responsiveVoice.getVoices();
+    }
+    else if (typeof $wnd.SpeechSynthesisUtterance != "undefined") {
+      voices = $wnd.speechSynthesis.getVoices();
+    }
+    else {
+      return null;
+    }
     for (var i = 0; i < voices.length; i++) {
       if (voices[i].name == name) {
         return voices[i];

@@ -1,0 +1,156 @@
+<!doctype html>
+<!-- The DOCTYPE declaration above will set the     -->
+<!-- browser's rendering engine into                -->
+<!-- "Standards Mode". Replacing this declaration   -->
+<!-- with a "Quirks Mode" doctype is not supported. -->
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="author" content="Ken Webb">
+    <meta name="copyright" content="MIT License, Copyright (C) 2013 - 2015 Ken Webb">
+
+    <!--                                                               -->
+    <!-- Consider inlining CSS to reduce the number of requested files -->
+    <!--                                                               -->
+    <link type="text/css" rel="stylesheet" href="Xholon.css">
+
+    <!--                                           -->
+    <!-- Any title is fine                         -->
+    <!--                                           -->
+    <title>Xholon ResponsiveVoice</title>
+    
+    <!-- Google APIs - Visualization -->
+    <!--<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load('visualization', '1.0', {packages: ['corechart', 'treemap']});
+    </script>-->
+    <!--<script src="https://www.google.com/jsapi?autoload=%7B%22modules%22%3A%5B%7B%22name%22%3A%22visualization%22%2C%22version%22%3A%221.0%22%2C%22packages%22%3A%5B%22corechart%22%2C%22treemap%22%5D%2C%22callback%22%3A%22console.log%22%7D%5D%7D"></script>-->
+    
+    <!-- Snap.js snapsvg.io -->
+    <script src="snap.svg-min.js"></script>
+    
+    <!-- D3 -->
+    <script type="text/javascript" language="javascript" src="d3.min.js" charset="utf-8"></script>
+    
+    <!-- responsivevoice.com -->
+    <script src='http://code.responsivevoice.org/responsivevoice.js'></script>
+    
+    <!-- C3 chart library; depends on D3 -->
+    <!--<script src="c3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="c3.css">-->
+    
+    <!-- NVD3 chart library; depends on D3 -->
+    <!--<link href="nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="nv.d3.min.js"></script>-->
+    
+    <!-- QUnit, uncomment to enable JavaScript unit testing -->
+    <!--<link rel="stylesheet" href="xholon/lib/qunit-1.13.0.css">
+    <script src="xholon/lib/qunit-1.13.0.js"></script>-->
+    
+    <!-- TESTING -->
+    <script src="xholon/lib/hammer.min.js"></script>
+    
+    <!-- require.js needs to be the last library loaded -->
+    <script src="require.js"></script>
+    
+    <!--                                           -->
+    <!-- This script loads your compiled module.   -->
+    <!-- If you add any GWT meta tags, they must   -->
+    <!-- be added before this line.                -->
+    <!--                                           -->
+    <script type="text/javascript" language="javascript" src="xholon/xholon.nocache.js"></script>
+  </head>
+
+  <!--                                           -->
+  <!-- The body can have arbitrary html, or      -->
+  <!-- you can leave the body empty if you want  -->
+  <!-- to create a completely dynamic UI.        -->
+  <!--                                           -->
+  <body>
+
+    <!-- OPTIONAL: include this if you want history support -->
+    <!--<iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>-->
+    
+    <!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
+    <noscript>
+      <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
+        Your web browser must have JavaScript enabled
+        in order for this application to display correctly.
+      </div>
+    </noscript>
+    
+    <!-- Each of the following can have sub-div elements. -->
+    <div id="xhtop">
+      <h3 id="xholontitle" style="display: inline;">Xholon</h3>
+      <span id="timestep" style="padding-left: 20px; font-size: 13px;">0</span>:<span id="maxprocessloops" style="font-size: 13px;">&infin;</span>
+    </div>
+    
+    <!-- default GWT-based GUI -->
+    <div id="xhgui"></div>
+    
+    <!-- reserved for app-specific use -->
+    <div id="xhappspecific"></div>
+    
+    <div id="xhconsole">
+      <!--<div id="xhout"></div> will be added as a tab in a TabLayoutPanel -->
+      <!--<div id="xhclipboard"></div>  will be added as a tab in a TabLayoutPanel -->
+      <!-- instances of node-specific XholonConsole -->
+    </div>
+    
+    <!-- text: much of which could use CodeMirror/Ace -->
+    <div id="xhtabs"></div>
+    
+    <!-- data: line chart, pie chart, other Google charts, etc. -->
+    <div id="xhchart"></div>
+    
+    <!-- HTML5 canvas -->
+    <div id="xhcanvas"></div>
+    
+    <!-- structure: network, tree, Google/D3 Treemap, D3 charts/graphs, etc. -->
+    <div id="xhgraph">
+      <div id="networkview"></div>
+      <div id="treeview"></div>
+      <div id="xhtreemap"></div>
+    </div>
+    
+    <!-- SVG and other animations, such as those with Animate.java
+         Each separate animation should have its own child div -->
+    <div id="xhanim"></div>
+    
+    <!-- static SVG images -->
+    <div id="xhsvg"></div>
+    
+    <!-- PNG, etc. -->
+    <div id="xhimg"></div>
+    
+    <!-- Include Zepto with a script tag near the end of your page. -->
+    <!--<script src="zepto.min.js"></script>-->
+    
+    <!-- QUnit unit testing -->
+    <div id="xhunittest">
+      <!-- these are required by QUnit -->
+      <div id="qunit"></div>
+      <div id="qunit-fixture"></div>
+    </div>
+    
+    <div id="xhfooter">
+    <hr/>
+    <!--<div class="twitter">
+      <a href="https://twitter.com/KenSWebb" class="twitter-follow-button" data-show-count="false">Follow @KenSWebb</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+      <a href="https://twitter.com/share" class="twitter-share-button" data-via="KenSWebb" data-count="none">Tweet</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>-->
+    <div class="license" style="font-size: 9px;"><p>Xholon GWT is a <a href="index.html">Xholon</a> project. Copyright (C) 2013 - 2015 Ken Webb</p></div>
+    <div class="aatt" style="font-size: 9px;"><pre style="font-size: 9px;">
+  @QWERTYUIk
+  OPASmDFGHe
+  primordion
+  JKLZcXCVB.
+    </pre></div>
+    <div><a href="http://responsivevoice.org">ResponsiveVoice-NonCommercial</a> licensed under <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img title="ResponsiveVoice Text To Speech" src="http://responsivevoice.org/wp-content/uploads/2014/08/95x15.png" alt="95x15" width="95" height="15" /></div>
+    </div>
+    
+  </body>
+</html>
