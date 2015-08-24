@@ -18,13 +18,15 @@
 
 package org.primordion.xholon.base;
 
+import org.primordion.xholon.app.IApplication;
+
 /**
  * Regulates the act() method for other nodes.
  * Multiple instances of this class could be used inline, to handle multiple situations.
  * Typically it prevents child and/or sibling nodes from running their act().
  * TODO could I handle DT integration by calling act() a specified number of times?
  *
-<ActRegulator val="1"/>
+<ActRegulator val="1.0"/>
  *
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
@@ -48,6 +50,8 @@ public class ActRegulator extends Xholon {
   
   private boolean speechSupported = false;
   
+  private IApplication app = null;
+  
   private int val = 0;
   
   @Override
@@ -59,6 +63,7 @@ public class ActRegulator extends Xholon {
   @Override
   public void postConfigure() {
 		speechSupported = isSpeechSupported();
+		app = this.getApp();
 		super.postConfigure();
 	}
 	
@@ -69,6 +74,8 @@ public class ActRegulator extends Xholon {
 		  return;
 		case SPEECH_ACTIVE:
 		  if (speechSupported && speechActive()) {
+		    // act as if this is just a continuation of the same timeStep
+		    app.setTimeStep(app.getTimeStep() - 1);
 		    // prevent child and sibling nodes from running their act() methods
 		    return;
 		  }
