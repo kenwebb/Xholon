@@ -224,6 +224,11 @@ public interface IApplication extends IXholon {
 	 */
 	public abstract IMechanism getMechRoot();
 	
+	public abstract void setAvatar(IXholon avatar);
+	public abstract IXholon getAvatar();
+	public abstract void setAvatarContextNode(IXholon node);
+	public abstract IXholon getAvatarContextNode();
+	
 	/**
 	 * Set the default Mechanism.
 	 * @param defaultMechanism The default Mechanism.

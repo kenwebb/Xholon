@@ -55,6 +55,7 @@ import org.client.SystemMechSpecific;
 import org.client.XholonJsApi;
 import org.client.XholonUtilJsApi;
 
+//import org.primordion.xholon.base.Avatar;
 import org.primordion.xholon.base.IAttribute;
 import org.primordion.xholon.base.IControl;
 import org.primordion.xholon.base.IInheritanceHierarchy;
@@ -517,6 +518,12 @@ public abstract class Application extends AbstractApplication implements IApplic
 	 * This can be used while initializing the app.
 	 */
 	private XholonWorkbookBundle workbookBundle = null;
+	
+	/**
+	 * A roving invisible avatar, whose contextNode is always the currently selected node.
+	 * This must be an instance of Avatar.
+	 */
+	protected IXholon avatar = null;
 	
 	/**
 	 * Constructor.
@@ -1653,6 +1660,30 @@ public abstract class Application extends AbstractApplication implements IApplic
 	}
 	
 	@Override
+	public void setAvatar(IXholon avatar)
+	{
+		this.avatar = avatar;
+	}
+	
+	@Override
+	public IXholon getAvatar()
+	{
+		return this.avatar;
+	}
+	
+	@Override
+	public void setAvatarContextNode(IXholon node)
+	{
+	  this.avatar.setVal_Object(node);
+	}
+	
+	@Override
+	public IXholon getAvatarContextNode()
+	{
+	  return (IXholon)this.avatar.getVal_Object();
+	}
+	
+	@Override
 	public IMessage processReceivedSyncMessage(IMessage msg) {
 	  switch (msg.getSignal()) {
 		case -1001:
@@ -1802,6 +1833,14 @@ public abstract class Application extends AbstractApplication implements IApplic
 		//println("XholonJsApi.initIXholonApi();");
 		XholonJsApi.initIXholonApi();
 		XholonUtilJsApi.initUtilApi();
+		
+		this.root.appendChild("Avatar", null, "org.primordion.xholon.base.Avatar");
+    this.avatar = this.root.getLastChild();
+    if ((this.avatar != null) && ("Avatar".equals(this.avatar.getXhcName()))) {
+      this.avatar.postConfigure();
+      // make sure avatar is invisible (not part of the CSH tree)
+      this.avatar.doAction("vanish");
+    }
 				
 		//System.out.println("App.initialize() root: " + root);
 		//if (root != null) {

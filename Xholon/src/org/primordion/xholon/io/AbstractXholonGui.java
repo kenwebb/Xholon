@@ -254,6 +254,7 @@ public abstract class AbstractXholonGui implements IXholonGui {
         else {
           // mouse click
           // the new selection should replace what was previously remembered
+  		    app.setAvatarContextNode(node);
           nodeSelectionService
             .sendSystemMessage(NodeSelectionService.SIG_REMEMBER_SELECTED_NODES_REQ, nodeArray, node);
         }
