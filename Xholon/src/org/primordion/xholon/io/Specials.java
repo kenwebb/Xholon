@@ -117,7 +117,7 @@ public class Specials {
           text = text
           .replaceAll("&lt;!\\[CDATA\\[", "<![CDATA[")
           .replaceAll("\\]\\]&gt;", "]]>");
-          node.consoleLog(text);
+          //node.consoleLog(text);
           // put the text into a Map, where action is the key
           map.put(action, text);
         }
