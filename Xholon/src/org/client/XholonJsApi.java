@@ -250,6 +250,38 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       return "";
     });
     
+    // speech recognition
+    $wnd.xh.speechRecognition = $entry(function() {
+      if ('webkitSpeechRecognition' in $wnd) {
+        var r = new $wnd.webkitSpeechRecognition();
+        r.continuous = true;
+        r.onresult = function(event) {
+          var result = event.results[event.results.length-1][0].transcript;
+          var nss = $wnd.xh.service("NodeSelectionService");
+          var data = nss.call(-3894, null, $wnd.xh.root()).data;
+          if (data.length > 0) {
+            var node = data[0];
+            if ((node.xhc().name() == "Avatar") || (node.xhc().parent().name() == "Avatar")) {
+              node.action(result);
+            }
+            else {
+              app.@org.primordion.xholon.app.Application::getAvatar()().action(result);
+            }
+          }
+          else {
+            app.@org.primordion.xholon.app.Application::getAvatar()().action(result);
+          }
+        }
+        r.onend = function(event) {
+          r.start();
+        }
+        r.start();
+      }
+      else {
+        // $wnd.xh.root().println("speech recognition not supported");
+      }
+    });
+
     // html.toggle
     $wnd.xh.html.toggle = $entry(function(elementId) {
       @org.client.HtmlElementCache::toggleElementDisplay(Ljava/lang/String;)(elementId);
