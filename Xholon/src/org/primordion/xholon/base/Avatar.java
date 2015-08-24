@@ -325,6 +325,18 @@ public class Avatar extends XholonWithPorts {
   }
   
   @Override
+  public void setVal_Object(Object contextNode) {
+    if (contextNode != this) {
+      this.contextNode = (IXholon)contextNode;
+    }
+  }
+  
+  @Override
+  public Object getVal_Object() {
+    return this.contextNode;
+  }
+  
+  @Override
   @SuppressWarnings("unchecked")
   public List getAllPorts() {
     List<PortInformation> xhcPortList = this.getXhc().getPortInformation();
@@ -863,6 +875,7 @@ public class Avatar extends XholonWithPorts {
     int len = data.length;
     switch (data[0]) {
     case "anim":
+    case "animate": // useful with speech recognition
       switch (len) {
       //case 1: anim(null, null, null); break; // anim;
       //case 2: anim(data[1], null, null); break; // anim this;
@@ -889,6 +902,8 @@ public class Avatar extends XholonWithPorts {
       }
       break;
     case "breakpoint":
+    case "break": // useful with speech recognition
+    case "pause":
       breakpoint();
       break;
     case "build": // make
@@ -954,6 +969,9 @@ public class Avatar extends XholonWithPorts {
       else {
         exit(data[1]);
       }
+      break;
+    case "first":
+      enter(null);
       break;
     case "follow": // follow the leader
     {
@@ -1058,7 +1076,12 @@ public class Avatar extends XholonWithPorts {
       break;
     }
     case "look":
-      look();
+      if ((len > 1) && ("all".equals(data[1]))) {
+        lookAll();
+      }
+      else {
+        look();
+      }
       break;
     case "next":
       if (len > 1) {
@@ -1081,6 +1104,7 @@ public class Avatar extends XholonWithPorts {
       }
       break;
     case "param":
+    case "parameter": // useful with speech recognition
       if (len > 2) {
         param(data[1], data[2], data[3]);
       }
@@ -1088,7 +1112,11 @@ public class Avatar extends XholonWithPorts {
         sb.append("Please specify the name and value of the param (ex: param loop false).");
       }
       break;
+    case "parent":
+      exit(null);
+      break;
     case "prev":
+    case "previous": // useful with speech recognition
       if (len > 1) {
         prev(data[1]);
       }
@@ -1122,6 +1150,12 @@ public class Avatar extends XholonWithPorts {
       else {
         sb.append("Please specify which thing to smash (ex: smash tower).");
       }
+      break;
+    case "start":
+      start();
+      break;
+    case "step":
+      step();
       break;
     case "take":
       if (len > 1) {
@@ -1163,9 +1197,40 @@ public class Avatar extends XholonWithPorts {
         waitCount = WAITCOUNT_HIGH;
       }
       break;
+    case "where":
+      sb.append("You are in ").append(makeNodeName(contextNode)).append(".");
+      break;
+    case "who":
+      sb.append("You are ").append(makeNodeName(this)).append(".");
+      break;
     default:
       // TODO check for app-specific commands
-      sb.append(data[0]).append(" is not a verb I recognise.");
+      // with speech recognition, allow no-build, no-follow, no-lead in place of unbuild, unfollow, unlead
+      if (data[0].startsWith("no")) {
+        if ("nofollow".equals(data[0])) {
+          leader = null; // unfollow
+        }
+        if ("no".equals(data[0])) {
+          if ("follow".equals(data[1])) {
+            leader = null; // unfollow
+          }
+          else if ("lead".equals(data[1])) {
+            follower = null; // unlead
+          }
+          else if ("build".equals(data[1])) {
+            // unbuild
+            if (len > 2) {
+              eat(data[2], "Unbuilt.");
+            }
+            else {
+              eatAll("Unbuilt all.");
+            }
+          }
+        }
+      }
+      else {
+        sb.append(cmd).append("?"); //.append(" is not a verb I recognise.");
+      }
       break;
     }
   }
@@ -1212,11 +1277,13 @@ public class Avatar extends XholonWithPorts {
         animView(node, viewEle, duration);
         break;
       case "turnright":
+      case "right":  // useful with speech recognition
         if (params == null) {params = DEFAULT_TURN_PARAMS;}
         makeJsObject(node, "anim", "{\"turnright\": " + params + "}");
         animView(node, viewEle, duration);
         break;
       case "turnleft":
+      case "left":  // useful with speech recognition
         if (params == null) {params = DEFAULT_TURN_PARAMS;}
         makeJsObject(node, "anim", "{\"turnleft\": " + params + "}");
         animView(node, viewEle, duration);
@@ -1804,7 +1871,7 @@ public class Avatar extends XholonWithPorts {
     .append("\nif xpath command [elseif xpath command] [else command]")
     .append("\ninventory|i")
     .append("\nlead FOLLOWER_THING")
-    .append("\nlook")
+    .append("\nlook [all]")
     .append("\nnext [[*]THING]")
     .append("\nout speech,caption,transcript,debug,all TEXT")
     .append("\nparam NAME VALUE")
@@ -2036,11 +2103,28 @@ public class Avatar extends XholonWithPorts {
   }
   
   /**
-   * Look at the avatar's current location, and at the items in that location.
+   * Look at the avatar's current location, and at the child items in that location.
    */
   protected void look() {
     sb.append("You are in ").append(makeNodeName(contextNode)).append(".");
+    lookChildren(contextNode.getFirstChild(), " ");
+  }
+  
+  /**
+   * Look at the avatar's current location, and at the complete subtree in that location.
+   */
+  protected void lookAll() {
+    sb.append("You are in ").append(makeNodeName(contextNode)).append(".");
     lookRecurse(contextNode.getFirstChild(), " ");
+  }
+  
+  protected void lookChildren(IXholon node, String indent) {
+    while (node != null) {
+      if (node != this) { // exclude this avatar and its children
+        sb.append("\n").append(indent).append("You see ").append(makeNodeName(node));
+      }
+      node = node.getNextSibling();
+    }
   }
   
   protected void lookRecurse(IXholon node, String indent) {
@@ -2476,7 +2560,22 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
    * or other nodes with simultaneously-active Xholon.act() methods.
    */
   protected void breakpoint() {
-    app.setControllerState(IControl.CS_PAUSED); // 4
+    if (app.getControllerState() == IControl.CS_PAUSED) {
+      // unpause
+      app.setControllerState(IControl.CS_RUNNING); // 3
+    }
+    else {
+      // pause
+      app.setControllerState(IControl.CS_PAUSED); // 4
+    }
+  }
+  
+  protected void start() {
+    app.setControllerState(IControl.CS_RUNNING); // 3
+  }
+  
+  protected void step() {
+    app.setControllerState(IControl.CS_STEPPING); // 5
   }
   
   /**
