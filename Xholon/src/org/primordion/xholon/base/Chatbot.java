@@ -125,6 +125,18 @@ public class Chatbot extends Xholon {
   public void decVal(double decAmount) {val -= decAmount;}
   
   @Override
+  public void setVal_Object(Object contextNode) {
+    if (contextNode != this) {
+      this.contextNode = (IXholon)contextNode;
+    }
+  }
+  
+  @Override
+  public Object getVal_Object() {
+    return this.contextNode;
+  }
+  
+  @Override
   public void postConfigure() {
     contextNode = this.getParentNode();
     app = this.getApp();
