@@ -276,6 +276,11 @@ public class Avatar extends XholonWithPorts {
    */
   protected String end = null;
   
+  /**
+   * An optional instance of Chatbot, that will respond to requests that the avatar doesn't understand.
+   */
+  protected IXholon chatbot = null;
+  
   // constructor
   public Avatar() {}
   
@@ -327,7 +332,15 @@ public class Avatar extends XholonWithPorts {
   @Override
   public void setVal_Object(Object contextNode) {
     if (contextNode != this) {
-      this.contextNode = (IXholon)contextNode;
+      //this.contextNode = (IXholon)contextNode;
+      setContextNode((IXholon)contextNode);
+    }
+  }
+  
+  protected void setContextNode(IXholon contextNode) {
+    this.contextNode = contextNode;
+    if (chatbot != null) {
+      chatbot.setVal_Object(contextNode);
     }
   }
   
@@ -418,7 +431,8 @@ public class Avatar extends XholonWithPorts {
    */
   protected void setStartContextNode() {
     if (start == null) {
-      contextNode = this.getParentNode();
+      //contextNode = this.getParentNode();
+      setContextNode(this.getParentNode());
     }
     else {
       IXholon newContextNode = null;
@@ -565,6 +579,10 @@ public class Avatar extends XholonWithPorts {
            // handled by local appendChild(...)
         }
       }
+      
+      if (chatbot != null) {
+        chatbot.act();
+      }
     }
     
     super.act();
@@ -699,7 +717,8 @@ public class Avatar extends XholonWithPorts {
   public void appendChild(IXholon newParentNode) {
     super.appendChild(newParentNode);
     // make sure that any Avatar that moves has its contextNode updated
-    contextNode = this.getParentNode();
+    //contextNode = this.getParentNode();
+    setContextNode(this.getParentNode());
   }
   
   /**
@@ -1229,7 +1248,17 @@ public class Avatar extends XholonWithPorts {
         }
       }
       else {
-        sb.append(cmd).append("?"); //.append(" is not a verb I recognise.");
+        if (chatbot != null) {
+          IMessage rmsg = chatbot.sendSyncMessage(ISignal.SIGNAL_XHOLON_CONSOLE_REQ, cmd, this);
+          String dataObj = (String)rmsg.getData();
+          if ((dataObj != null) && (dataObj.length() > 1)) {
+            // ignore initial "\n"
+            sb.append(dataObj.substring(1));
+          }
+        }
+        else {
+          sb.append(cmd).append("?");
+        }
       }
       break;
     }
@@ -1606,12 +1635,6 @@ public class Avatar extends XholonWithPorts {
       node = xpath.evaluate("ancestor::" + ancestor, contextNode);
     }
     if (node != null) {
-      /*if (this.hasParentNode()) {
-        this.removeChild();
-        this.appendChild(node);
-      }
-      contextNode = node;
-      sb.append("Exited to ").append(makeNodeName(node));*/
       moveto(node, "Exited to");
     }
     else {
@@ -1844,7 +1867,8 @@ public class Avatar extends XholonWithPorts {
       this.removeChild();
       this.appendChild(node);
     }
-    contextNode = node;
+    //contextNode = node;
+    setContextNode(node);
   }
   
   /**
@@ -2546,6 +2570,19 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
       default: break;
       }
       break;
+    case "chatbot":
+      switch (value) {
+      case "true":
+        contextNode.appendChild("Chatbot", null, "org.primordion.xholon.base.Chatbot");
+        this.chatbot = contextNode.getLastChild();
+        if ((this.chatbot != null) && ("Chatbot".equals(this.chatbot.getXhcName()))) {
+          this.chatbot.postConfigure();
+        }
+        this.chatbot.removeChild();
+        break;
+      case "false": chatbot = null; break;
+      default: break;
+      }
     default:
       break;
     }
