@@ -251,10 +251,14 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
     });
     
     // speech recognition
-    $wnd.xh.speechRecognition = $entry(function() {
+    // @param lang (ex: "en-GB")
+    $wnd.xh.speechRecognition = $entry(function(lang) {
       if ('webkitSpeechRecognition' in $wnd) {
         var r = new $wnd.webkitSpeechRecognition();
         r.continuous = true;
+        if (lang !== undefined) {
+          r.lang = lang;
+        }
         r.onresult = function(event) {
           var result = event.results[event.results.length-1][0].transcript;
           var nss = $wnd.xh.service("NodeSelectionService");
