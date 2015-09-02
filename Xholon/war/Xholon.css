@@ -81,6 +81,14 @@ h1 {
 svg.hidden {
   display: none;
 }
+svg.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+div.divoverlay {
+  position: relative;
+}
 .d3cpnode text {
   fill: #808080; /** #a0a0a0 too light */
   pointer-events: none;
