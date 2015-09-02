@@ -243,6 +243,7 @@ public class Xholon2D3CirclePack implements EventListener {
           return;
         }
     var hidden = false;
+    var overlay = false;
     
     // selectionNode.html(null) only works if selectionNode is an HTML node; can't be a SVG node
     if (mode) {
@@ -262,12 +263,18 @@ public class Xholon2D3CirclePack implements EventListener {
         //  return "frame_" + $wnd.xh.param("TimeStep");
         //});
         break;
+      case "overlay":
+        overlay = true;
+        selectionNode.classed("divoverlay", true);
+        selectionNode.style("height", h + "px");
+        break;
       default: break;
       }
     }
     
     var svg = selectionNode.append("svg")
       .classed("hidden", hidden)
+      .classed("overlay", overlay)
       .attr("width", w)
       .attr("height", h)
       .append("g") // the top-level g
