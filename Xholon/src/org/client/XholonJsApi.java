@@ -285,6 +285,41 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
         // $wnd.xh.root().println("speech recognition not supported");
       }
     });
+    
+    // Enable external access through a new Avatar, using WebRTC PeerJS.
+    // This would typically be used from PeerjsChat.html
+    // xh.webRTC();
+    // xh.webRTC("Alligator", undefined, 3);
+    $wnd.xh.webRTC = $entry(function(id, key, debug) {
+      if (typeof $wnd.Peer === "undefined") {return;}
+      var root = $wnd.xh.root();
+      if (key === undefined) {
+        var key = "lwjd5qra8257b9"; // peerjs demo API key
+      }
+      if (debug === undefined) {
+        var debug = 0; // debug level (0 - 3)
+      }
+      if (id === undefined) {
+        var appName = "" + $wnd.xh.html.urlparam("app").replace(/\+/g," ");
+        var id = appName + "_" + new Date().getTime() + "_" + root.id();
+      }
+      root.println(id);
+      var peer = new $wnd.Peer(id, {key: key, debug: debug});
+      peer.on('connection', function(connection) {
+        if (connection.label == "chat") { // Peerjs Chat also tries to set up a "file" connection
+          var avatar = root.append("<Avatar/>").last();
+          avatar.action("vanish");
+          connection.on('open', function() {
+            connection.send('Welcome to ' + $wnd.xh.param("ModelName"));
+          });
+          connection.on('data', function(data) {
+            //root.println(data);
+            var msg = avatar.call(-9, data, root);
+            connection.send(msg.data.substring(1));
+          });
+        }
+      });
+    });
 
     // html.toggle
     $wnd.xh.html.toggle = $entry(function(elementId) {
@@ -304,6 +339,18 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       if (left === undefined) {left = 0;}
       if (top === undefined) {top = 0;}
       return @org.client.XholonJsApi::popup(Ljava/lang/String;Ljava/lang/String;ZZII)(title, htmlText, autoHide, modal, left, top);
+    });
+    
+    // get a URL search param
+    $wnd.xh.html.urlparam = $entry(function(searchParam) {
+      var params = $wnd.location.search.substr(1).split('&');
+      for (var i = 0; i < params.length; i++) {
+        var p = params[i].split('=');
+	      if (p[0] == searchParam) {
+	        return decodeURIComponent(p[1]);
+	      }
+      }
+      return null;
     });
     
     // css.style
