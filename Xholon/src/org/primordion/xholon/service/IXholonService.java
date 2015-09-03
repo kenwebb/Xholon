@@ -61,6 +61,7 @@ public interface IXholonService {
 	public static final String XHSRV_PRE_CONFIGURATION = "PreConfigurationService";
 	public static final String XHSRV_REFLECTION = "ReflectionService";
 	public static final String XHSRV_REST = "RestService";
+	public static final String XHSRV_REMOTE_NODE = "RemoteNodeService";
 	public static final String XHSRV_SCRIPT = "ScriptService";
 	public static final String XHSRV_SEARCH_ENGINE = "SearchEngineService";
 	public static final String XHSRV_RECORD_PLAYBACK = "RecordPlaybackService";

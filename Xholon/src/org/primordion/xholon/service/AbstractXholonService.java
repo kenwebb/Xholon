@@ -139,6 +139,9 @@ public abstract class AbstractXholonService extends Xholon implements IXholonSer
 		else if ("org.primordion.xholon.service.nosql.Neo4jRestApi".equals(implName)) {
 		  instance = new org.primordion.xholon.service.nosql.Neo4jRestApi();
 		}
+		else if ("org.primordion.xholon.service.remotenode.PeerJS".equals(implName)) {
+		  instance = new org.primordion.xholon.service.remotenode.PeerJS();
+		}
 		else {
 		  //System.out.println("AbstractXholonService.createInstance( creating " + implName + " as DefaultXholonService");
 		  instance = new org.primordion.xholon.service.DefaultXholonService();

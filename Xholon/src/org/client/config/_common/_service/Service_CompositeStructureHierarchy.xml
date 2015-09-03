@@ -153,6 +153,12 @@
   
   <MeteorPlatformService/>
   
+  <RemoteNodeService>
+    <XholonMap>
+      <attr:Attribute_String roleName="RemoteNodeService-PeerJS">org.primordion.xholon.service.remotenode.PeerJS</attr:Attribute_String>
+    </XholonMap>
+  </RemoteNodeService>
+  
   <!--<RestService>
     <XholonMap>
       <attr:Attribute_String roleName="RestService-Jersey">org.primordion.xholon.service.rest.Jersey</attr:Attribute_String>

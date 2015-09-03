@@ -370,6 +370,7 @@ A typical service has:
 		<XPathService/>
 		<XQueryService/>
 		<MeteorPlatformService/>
+		<RemoteNodeService/>
 		
 		<!-- others, plus anything else in Xholon that can be a service -->
 		<Xholon2Svg/>
