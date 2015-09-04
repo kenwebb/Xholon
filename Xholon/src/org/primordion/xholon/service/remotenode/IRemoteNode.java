@@ -18,7 +18,6 @@
 
 package org.primordion.xholon.service.remotenode;
 
-//import org.primordion.xholon.base.IMessage;
 import org.primordion.xholon.base.IXholon;
 
 /**
@@ -29,11 +28,12 @@ import org.primordion.xholon.base.IXholon;
  */
 public interface IRemoteNode extends IXholon {
 	
-	// DO NOT USE INIT
-	//public static final int SIG_INIT_REQ = 101;
-	//public static final int SIG_INIT_RESP = 201;
-
-	public static final int SIG_LISTEN_REQ = 101;
+	// listen for a remote connection
+	public static final int SIG_LISTEN_REQ  = 101;
 	public static final int SIG_LISTEN_RESP = 201;
+	
+	// initiate a remote connection
+	public static final int SIG_CONNECT_REQ  = 102;
+	public static final int SIG_CONNECT_RESP = 202;
 	
 }

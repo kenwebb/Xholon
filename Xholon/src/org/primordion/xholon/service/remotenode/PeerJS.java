@@ -37,6 +37,8 @@ import org.primordion.xholon.base.Xholon;
  */
 public class PeerJS extends Xholon implements IRemoteNode {
   
+  protected static final String PEERJS_DEMO_API_KEY = "lwjd5qra8257b9";
+  
   public PeerJS() {
     this.println("An instance of PeerJS has been created");
   }
@@ -45,11 +47,10 @@ public class PeerJS extends Xholon implements IRemoteNode {
   public void processReceivedMessage(IMessage msg) {
     switch (msg.getSignal()) {
     default:
-      // TODO this message is from the local reffedNode
+      // this message is from the local reffedNode
       // format it as a JSON object, and call connection.send(obj);
-      consoleLog("processReceivedMessage " + msg.getSignal() + " " + msg.getData());
+      //consoleLog("processReceivedMessage " + msg.getSignal() + " " + msg.getData());
       sendRemote(msg.getSignal(), msg.getData(), this);
-      //super.processReceivedMessage(msg);
     }
   }
   
@@ -70,18 +71,18 @@ public class PeerJS extends Xholon implements IRemoteNode {
     */
     
     /**
-     * Maybe each app that wants to use WebRTC needs to set up a Listener
+     * Each app that wants to use WebRTC needs to set up a Listener
      * that registers itself with the PeerJS server.
-     * One listener per app, or one listener per node?
+     * One listener per node
      * Each listener will need a unique PeerJS ID.
      * 
      */
     case SIG_LISTEN_REQ:
+    {
       String localid = null;
       String key = null;
       int debug = 3; // debug level (0 - 3)
       if (msg.getData() != null) {
-        //String[] data = (String[])msg.getData();
         // Alligator
         // Alligator_123,lwjd5qra8257b9,3
         // Alligator,,1
@@ -97,13 +98,45 @@ public class PeerJS extends Xholon implements IRemoteNode {
         }
       }
       if (key == null || key.length() == 0) {
-        key = "lwjd5qra8257b9"; // peerjs demo API key
+        key = PEERJS_DEMO_API_KEY;
       }
       if (localid.length() == 0) {
         localid = null;
       }
       listen(localid, key, debug, msg.getSender(), this);
       return new Message(SIG_LISTEN_RESP, null, this, msg.getSender());
+    }
+    
+    // initiate a remote connection
+    case SIG_CONNECT_REQ:
+    {
+      String remoteid = null;
+      String key = null;
+      int debug = 3; // debug level (0 - 3)
+      if (msg.getData() != null) {
+        // Alligator
+        // Alligator_123,lwjd5qra8257b9,3
+        // Alligator,,1
+        // ,,2
+        String[] data = ((String)msg.getData()).split(",", 3);
+        consoleLog(data);
+        switch(data.length) {
+        // break is intentionally left out so the cases will fall through
+        case 3: debug = Integer.parseInt(data[2]);
+        case 2: key = data[1];
+        case 1: remoteid = data[0];
+        default: break;
+        }
+      }
+      if (key == null || key.length() == 0) {
+        key = PEERJS_DEMO_API_KEY;
+      }
+      if (remoteid.length() == 0) {
+        remoteid = null;
+      }
+      connect(remoteid, key, debug, msg.getSender(), this);
+      return new Message(SIG_CONNECT_RESP, null, this, msg.getSender());
+    }
     
     default:
     {
@@ -126,13 +159,13 @@ public class PeerJS extends Xholon implements IRemoteNode {
     if (typeof $wnd.Peer === "undefined") {return;}
     var meName = me.name();
     if (localid == null) {
-      var appName = "" + $wnd.xh.html.urlparam("app").replace(/\+/g," ");
+      var appName = "" + $wnd.xh.html.urlparam("app").replace(/\+/g," ").substring(0,18);
       localid = appName + "_" + new Date().getTime() + "_" + reffedNode.id();
     }
     me.println(localid);
     me.println(key);
     me.println(debug);
-    peer = new $wnd.Peer(localid, {key: key, debug: debug});
+    var peer = new $wnd.Peer(localid, {key: key, debug: debug});
     peer.on('connection', function(connection) {
       $wnd.console.log(connection.label);
       if (connection.label != "file") { // Peerjs Chat also tries to set up a "file" connection
@@ -148,10 +181,34 @@ public class PeerJS extends Xholon implements IRemoteNode {
           // the data doesn't have to be just a string
           // "PeerJS has the BinaryPack serialization format built-in."
           // example JSON  {"signal":101, "data":"Hello"}
-          var signal = 101;
+          //me.println(data + " " + meName);
+          var signal = 111;
           reffedNode.msg(signal, data, me);
         });
       }
+    });
+  }-*/;
+  
+  protected native void connect(String remoteid, String key, int debug, IXholon reffingNode, IXholon me) /*-{
+    if (typeof $wnd.Peer === "undefined") {return;}
+    var meName = me.name();
+    var appName = "" + $wnd.xh.html.urlparam("app").replace(/\+/g," ").substring(0,18);
+    var localid = appName + "_" + new Date().getTime() + "_" + reffingNode.id();
+    me.println("localid " + localid);
+    me.println("remoteid " + remoteid);
+    me.println(key);
+    me.println(debug);
+    
+    var peer = new $wnd.Peer(localid, {key: key, debug: debug});
+    
+    var connection = peer.connect(remoteid);
+    me.connexn = connection; // cache the connection object so I can send messages on it
+    connection.on('data', function(data) {
+      // When we receive 'Hello', send 'World'.
+      //me.println(data + " " + meName);
+      //connection.send(meName); // testing
+      var signal = 112;
+      reffingNode.msg(signal, data, me);
     });
   }-*/;
   
@@ -160,15 +217,15 @@ public class PeerJS extends Xholon implements IRemoteNode {
    * proxy.msg(103, "Proxy 1", xh.root().first());
    */
   protected native void sendRemote(int signal, Object data, IXholon me) /*-{
-    $wnd.console.log(signal);
-    $wnd.console.log(data);
-    $wnd.console.log(me);
+    //$wnd.console.log(signal);
+    //$wnd.console.log(data);
+    //$wnd.console.log(me);
     if (typeof me.connexn === "undefined") {return;}
-    $wnd.console.log(me.connexn);
+    //$wnd.console.log(me.connexn);
     me.connexn.send(data);
-    var obj = {signal:signal, data:data};
-    $wnd.console.log(obj);
-    me.connexn.send(obj);
+    // the following doesn't seem to work:
+    //var obj = {signal:signal, data:data};
+    //me.connexn.send(obj);
   }-*/;
   
 }
