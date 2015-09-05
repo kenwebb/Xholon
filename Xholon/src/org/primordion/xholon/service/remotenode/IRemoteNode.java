@@ -18,7 +18,7 @@
 
 package org.primordion.xholon.service.remotenode;
 
-import org.primordion.xholon.base.IXholon;
+import org.primordion.xholon.base.ISignal;
 
 /**
  * An interface for RemoteNode classes.
@@ -26,14 +26,14 @@ import org.primordion.xholon.base.IXholon;
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.9.1 (Created on September 2, 2015)
  */
-public interface IRemoteNode extends IXholon {
+public interface IRemoteNode {
 	
 	// listen for a remote connection
-	public static final int SIG_LISTEN_REQ  = 101;
-	public static final int SIG_LISTEN_RESP = 201;
+	public static final int SIG_LISTEN_REQ  = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 101; // -3898
+	public static final int SIG_LISTEN_RESP = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 201; // -3798
 	
 	// initiate a remote connection
-	public static final int SIG_CONNECT_REQ  = 102;
-	public static final int SIG_CONNECT_RESP = 202;
+	public static final int SIG_CONNECT_REQ  = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 102; // -3897
+	public static final int SIG_CONNECT_RESP = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 202; // -3797
 	
 }
