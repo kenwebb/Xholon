@@ -170,25 +170,30 @@ public class PeerJS extends Xholon implements IRemoteNode {
       $wnd.console.log(connection.label);
       if (connection.label != "file") { // Peerjs Chat also tries to set up a "file" connection
         me.connexn = connection; // cache the connection object so I can send messages on it
-        connection.on('open', function() {
-          me.print(meName + " "); // testing
-          connection.send(meName); // testing
-        });
+        //connection.on('open', function() {
+          // TODO ?
+        //});
         connection.on('data', function(data) {
-          // TODO the data should include the Xholon signal (ex: 101) as part of a JSON object,
-          // OR use a standard signal defined in ISignal or IRemoteNode
-          // OR use a standard signal if data does not include it
-          // the data doesn't have to be just a string
-          // "PeerJS has the BinaryPack serialization format built-in."
-          // example JSON  {"signal":101, "data":"Hello"}
-          //me.println(data + " " + meName);
-          var signal = 111;
-          reffedNode.msg(signal, data, me);
+          //$wnd.console.log(me.name() + " listen connection.on()");
+          //$wnd.console.log(data);
+          if (data.substring(0,1) == "{") {
+            var obj = $wnd.JSON.parse(data);
+            //$wnd.console.log(obj);
+            reffedNode.msg(obj.signal, obj.data, me);
+          }
+          else {
+            // this is probably a human-generated command for an Avatar, such as from PeerjsChat.html
+            var respMsg = reffedNode.call(-9, data, me);
+            connection.send(respMsg.data); //.substring(1));
+          }
         });
       }
     });
   }-*/;
   
+  /**
+   * Connect to a remote node that's listening for connection requests.
+   */
   protected native void connect(String remoteid, String key, int debug, IXholon reffingNode, IXholon me) /*-{
     if (typeof $wnd.Peer === "undefined") {return;}
     var meName = me.name();
@@ -198,17 +203,22 @@ public class PeerJS extends Xholon implements IRemoteNode {
     me.println("remoteid " + remoteid);
     me.println(key);
     me.println(debug);
-    
     var peer = new $wnd.Peer(localid, {key: key, debug: debug});
-    
     var connection = peer.connect(remoteid);
     me.connexn = connection; // cache the connection object so I can send messages on it
     connection.on('data', function(data) {
-      // When we receive 'Hello', send 'World'.
-      //me.println(data + " " + meName);
-      //connection.send(meName); // testing
-      var signal = 112;
-      reffingNode.msg(signal, data, me);
+      //$wnd.console.log(me.name() + " connect connection.on()");
+      //$wnd.console.log(data);
+      if (data.substring(0,1) == "{") {
+        var obj = $wnd.JSON.parse(data);
+        //$wnd.console.log(obj);
+        reffingNode.msg(obj.signal, obj.data, me);
+      }
+      else {
+        // this is probably a human-generated command for an Avatar, such as from PeerjsChat.html
+        var respMsg = reffingNode.call(-9, data, me);
+        connection.send(respMsg.data); //.substring(1));
+      }
     });
   }-*/;
   
@@ -222,10 +232,17 @@ public class PeerJS extends Xholon implements IRemoteNode {
     //$wnd.console.log(me);
     if (typeof me.connexn === "undefined") {return;}
     //$wnd.console.log(me.connexn);
-    me.connexn.send(data);
+    //me.connexn.send(data);
+    
     // the following doesn't seem to work:
     //var obj = {signal:signal, data:data};
+    //$wnd.console.log(obj);
     //me.connexn.send(obj);
+    
+    // {"signal":101,"data":"One tow three"}
+    var jsonStr = '{"signal":' + signal + ',"data":"' + data + '"}';
+    //$wnd.console.log(me.name() + " sendRemote() " + jsonStr);
+    me.connexn.send(jsonStr);
   }-*/;
   
 }
