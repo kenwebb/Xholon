@@ -39,9 +39,12 @@ public class PeerJS extends Xholon implements IRemoteNode {
   
   protected static final String PEERJS_DEMO_API_KEY = "lwjd5qra8257b9";
   
-  public PeerJS() {
-    this.println("An instance of PeerJS has been created");
-  }
+  public PeerJS() {}
+  
+  @Override
+  public native boolean isUsable() /*-{
+    return typeof $wnd.Peer !== "undefined";
+  }-*/;
   
   @Override
   public void processReceivedMessage(IMessage msg) {

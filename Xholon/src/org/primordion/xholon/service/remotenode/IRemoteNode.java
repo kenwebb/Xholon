@@ -36,4 +36,10 @@ public interface IRemoteNode {
 	public static final int SIG_CONNECT_REQ  = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 102; // -3897
 	public static final int SIG_CONNECT_RESP = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 202; // -3797
 	
+	/**
+	 * Is the RemoteNode usable?
+	 * Is a required library available?
+	 * For example, PeerJS requires $wnd.Peer .
+	*/
+	public abstract boolean isUsable();
 }
