@@ -1741,17 +1741,34 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 			  consoleLog("Xholon bindPorts() xpathExpression == null");
 			}
 			else {
-			  IXholon reffedNode = this.getXPath().evaluate(xpathExpression.trim(), this);
+			  IXholon reffedNode = null;
+			  String fieldName = pi.getFieldName();
+			  if (xpathExpression.startsWith("RemoteNodeService")) {
+			    reffedNode = this.bindRemotePort(fieldName, xpathExpression);
+			  }
+			  else {
+			    reffedNode = this.getXPath().evaluate(xpathExpression.trim(), this);
+			  }
 			  if (reffedNode != null) {
-			    String fieldName = pi.getFieldName();
 			    int index = pi.getFieldNameIndex();
 			    if (fieldName != null) {
-			      if (index == PortInformation.PORTINFO_NOTANARRAY) {
-			        bindPort(this, fieldName, reffedNode);
+			      if (index == PortInformation.PORTINFO_NOTANARRAY) { // -1
+			        //if ("port".equals(fieldName)) { // TODO ?
+			        //  setPort(0, reffedNode);
+			        //}
+			        if ("trop".equals(fieldName)) {
+			          setPort(0, reffedNode);
+			        }
+			        else {
+			          bindPort(this, fieldName, reffedNode);
+			        }
 			      }
 			      else {
 			        // this is an array, possibly a "port" port
 			        if ("port".equals(fieldName)) {
+			          setPort(index, reffedNode);
+			        }
+			        else if ("trop".equals(fieldName)) {
 			          setPort(index, reffedNode);
 			        }
 			        else {
@@ -1786,6 +1803,41 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
     }
     node[fieldName][index] = reffedNode;
 	}-*/;
+	
+	/**
+	 * Bind to a remote port using the RemoteNodeService.
+	 * Return a new instance of PeerJS.java or other implementation of IRemoteNode.java .
+	 * Handle both port name="port" and name="trop".
+	 * <p>"RemoteNodeService-PeerJS,Alligator,OPTIONAL_KEY,OPTIONAL_DEBUG"</p>
+	 * @param remoteNodeExpr An expression that specifies the remote node (ex: ).
+	 * @return A proxy node, or null.
+	 */
+	protected IXholon bindRemotePort(String portName, String remoteNodeExpr) {
+	  boolean isTrop = false;
+	  if ("trop".equals(portName)) {
+	    isTrop = true;
+	  }
+	  String[] rnsParams = remoteNodeExpr.split(",", 2);
+	  //consoleLog(rnsParams);
+    IXholon remoteNode = this.getService(rnsParams[0]);
+    if (remoteNode != null) {
+      //consoleLog(remoteNode.getName());
+      IMessage respMsg = null;
+      if (isTrop) {
+        // have remoteNode listen for a remote connection (where -3898 (101) = SIG_LISTEN_REQ)
+        respMsg = remoteNode.sendSyncMessage(-3898, rnsParams[1], this);
+      }
+      else {
+        // have node initiate a remote connection (where -3897 (102) = SIG_CONNECT_REQ)
+        respMsg = remoteNode.sendSyncMessage(-3897, rnsParams[1], this);
+      }
+      //consoleLog(respMsg);
+    }
+    else {
+      this.println("Unable to find $wnd.Peer . Be sure you are using XholonWebRTC.html which includes peer.js, rather than Xholon.html .");
+    }
+    return remoteNode;
+	}
 	
 	/*
 	 * @see org.primordion.xholon.base.IXholon#configure()
