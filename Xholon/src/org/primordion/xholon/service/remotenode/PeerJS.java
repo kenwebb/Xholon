@@ -22,6 +22,7 @@ import org.primordion.xholon.base.IMessage;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.Message;
 import org.primordion.xholon.base.Xholon;
+import org.primordion.xholon.util.ClassHelper;
 
 /**
  * Provide access to the PeerJS library, to use WebRTC.
@@ -31,10 +32,10 @@ import org.primordion.xholon.base.Xholon;
  * Testing works well with the basic Java HelloWorld app:
  *   http://localhost/Xholon_localhost/XholonWebRTC.html?app=HelloWorld&gui=clsc
  * 
- * TODO
- * - be able to specify whether to use msg() or call() in onData()
- *   onDataJsonSync = false
- *   onDataTextSync = true
+ * - be able to specify whether to use msg() or call() or action() in onData()
+ *   onDataJsonSync   = false
+ *   onDataTextSync   = true
+ *   onDataTextAction = false
  * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
@@ -47,13 +48,17 @@ public class PeerJS extends Xholon implements IRemoteNode {
   public PeerJS() {
     setOnDataJsonSync(false);
     setOnDataTextSync(true);
+    setOnDataTextAction(false);
   }
+  
+  protected String formatName = "Xml";
+  protected String efParams = "{\"xhAttrStyle\":1,\"nameTemplate\":\"^^C^^^\",\"xhAttrReturnAll\":true,\"writeStartDocument\":false,\"writeXholonId\":false,\"writeXholonRoleName\":true,\"writePorts\":true,\"writeAnnotations\":true,\"shouldPrettyPrint\":true,\"writeAttributes\":true,\"writeStandardAttributes\":true,\"shouldWriteVal\":false,\"shouldWriteAllPorts\":false}";
   
   protected native void setOnDataJsonSync(boolean onDataJsonSync) /*-{
     this.onDataJsonSync = onDataJsonSync;
   }-*/;
   
-  protected native boolean getOnDataJsonSync() /*-{
+  protected native boolean isOnDataJsonSync() /*-{
     return this.onDataJsonSync;
   }-*/;
   
@@ -61,8 +66,16 @@ public class PeerJS extends Xholon implements IRemoteNode {
     this.onDataTextSync = onDataTextSync;
   }-*/;
   
-  protected native boolean getOnDataTextSync() /*-{
+  protected native boolean isOnDataTextSync() /*-{
     return this.onDataTextSync;
+  }-*/;
+  
+  protected native void setOnDataTextAction(boolean onDataTextAction) /*-{
+    this.onDataTextAction = onDataTextAction;
+  }-*/;
+  
+  protected native boolean isOnDataTextAction() /*-{
+    return this.onDataTextAction;
   }-*/;
   
   @Override
@@ -72,12 +85,58 @@ public class PeerJS extends Xholon implements IRemoteNode {
   
   @Override
   public void processReceivedMessage(IMessage msg) {
-    switch (msg.getSignal()) {
+    int signal = msg.getSignal();
+    switch (signal) {
+    
+    /*
+    signal bit options for XML:
+    initial 1-bit filler so it's in the ISignal.SIGNAL_MIN_USER range  1
+    send as JSON, or as plain text  1 0
+    remove the node from the CSH, or leave it intact  1 0
+    append, prepend, before, after on receiving end  000 001 010 011
+      also option to pass the message/XML on to the user node  100
+    
+    example signals for XML:
+    signal = 1 0b00001  send as plain text, and leave the node intact, and append (the default)
+    signal = 3 0b00011  send as JSON, and leave the node intact, and append
+    signal = 5 0b00101  send as plain text, and remove the node from the CSH, and append
+    signal = 7 0b00111  send as JSON, and remove the node from the CSH, and append
+    signal = 9 0b01001  send as plain text, and leave the node intact, and prepend
+    */
     default:
       // this message is from the local reffedNode
-      // format it as a JSON object, and call connection.send(obj);
-      //consoleLog("processReceivedMessage " + msg.getSignal() + " " + msg.getData());
-      sendRemote(msg.getSignal(), msg.getData(), this);
+      // - if data is a IXholon node, then:
+      //   serialize the node and its subtree as XML,
+      //   optionally remove the node from the local CSH,
+      //   send the XML to the remote location as plain text or JSON,
+      //   where the remote location will append/prepend/before/appear the XML to the remote CSH
+      Object data = msg.getData();
+      if (ClassHelper.isAssignableFrom(Xholon.class, data.getClass())) {
+        String serStr = serialize((IXholon)data, formatName, efParams);
+        int sendJson = signal & 2; // 0b10
+        int removeNode = signal & 4;  // 0b100
+        if (sendJson == 2) {
+          if (sendRemote(signal, serStr) && removeNode == 4) {
+            ((IXholon)data).removeChild(); // remove the node from the Xholon CSH
+            if ((IXholon)data == msg.getSender()) {
+              // close the connection with the remote end, if the removed node is the reffed/ing node
+              this.closeConnection();
+            }
+          }
+        }
+        else {
+          if (sendRemote(serStr) && removeNode == 4) {
+            ((IXholon)data).removeChild(); // remove the node from the Xholon CSH
+            if ((IXholon)data == msg.getSender()) {
+              // close the connection with the remote end, if the removed node is the reffed/ing node
+              this.closeConnection();
+            }
+          }
+        }
+      }
+      else {
+        if (sendRemote(signal, (String)data)) {}
+      }
     }
   }
   
@@ -127,7 +186,7 @@ public class PeerJS extends Xholon implements IRemoteNode {
       if (localid.length() == 0) {
         localid = null;
       }
-      listen(localid, key, debug, msg.getSender(), this);
+      listen(localid, key, debug, msg.getSender());
       return new Message(SIG_LISTEN_RESP, null, this, msg.getSender());
     }
     
@@ -158,7 +217,7 @@ public class PeerJS extends Xholon implements IRemoteNode {
       if (remoteid.length() == 0) {
         remoteid = null;
       }
-      connect(remoteid, key, debug, msg.getSender(), this);
+      connect(remoteid, key, debug, msg.getSender());
       return new Message(SIG_CONNECT_RESP, null, this, msg.getSender());
     }
     
@@ -168,6 +227,10 @@ public class PeerJS extends Xholon implements IRemoteNode {
       
     case SIG_ON_DATA_TEXT_SYNC_REQ:
       setOnDataTextSync((Boolean)msg.getData());
+      return new Message(SIG_ON_DATA_RESP, null, this, msg.getSender());
+    
+    case SIG_ON_DATA_TEXT_ACTION_REQ:
+      setOnDataTextAction((Boolean)msg.getData());
       return new Message(SIG_ON_DATA_RESP, null, this, msg.getSender());
     
     default:
@@ -184,25 +247,23 @@ public class PeerJS extends Xholon implements IRemoteNode {
    * @param key A PeerJS API key, or null.
    * @param debug A PeerJS debug level (0-3).
    * @param reffedNode The node in this app that can be reffed by nodes in other apps.
-   * @param me This PeerJS node.
    */
-  protected native void listen(String localid, String key, int debug, IXholon reffedNode, IXholon me) /*-{
+  protected native void listen(String localid, String key, int debug, IXholon reffedNode) /*-{
     if (typeof $wnd.Peer === "undefined") {return;}
-    var meName = me.name();
     if (localid == null) {
       var appName = "" + $wnd.xh.html.urlparam("app").replace(/\+/g," ").substring(0,18);
       localid = appName + "_" + new Date().getTime() + "_" + reffedNode.id();
     }
-    me.println(localid);
-    me.println(key);
-    me.println(debug);
-    var peer = new $wnd.Peer(localid, {key: key, debug: debug});
-    peer.on('connection', function(connection) {
-      $wnd.console.log(connection.label);
+    this.println(localid);
+    this.println(key);
+    this.println(debug);
+    this.peer = new $wnd.Peer(localid, {key: key, debug: debug});
+    var myself = this;
+    this.peer.on('connection', function(connection) {
       if (connection.label != "file") { // Peerjs Chat also tries to set up a "file" connection
-        me.connexn = connection; // cache the connection object so I can send messages on it
+        myself.connexn = connection; // cache the connection object so I can send messages on it
         connection.on('data', function(data) {
-          me.@org.primordion.xholon.service.remotenode.PeerJS::onData(Ljava/lang/String;Lorg/primordion/xholon/base/IXholon;Lorg/primordion/xholon/base/IXholon;)(data, reffedNode, me);
+          myself.@org.primordion.xholon.service.remotenode.PeerJS::onData(Ljava/lang/String;Lorg/primordion/xholon/base/IXholon;Lorg/primordion/xholon/base/IXholon;)(data, reffedNode, myself);
         });
       }
     });
@@ -214,56 +275,72 @@ public class PeerJS extends Xholon implements IRemoteNode {
    * @param key A PeerJS API key, or null.
    * @param debug A PeerJS debug level (0-3).
    * @param reffingNode The node in this app that is trying to reference nodes in other apps.
-   * @param me This PeerJS node.
    */
-  protected native void connect(String remoteid, String key, int debug, IXholon reffingNode, IXholon me) /*-{
+  protected native void connect(String remoteid, String key, int debug, IXholon reffingNode) /*-{
     if (typeof $wnd.Peer === "undefined") {return;}
-    var meName = me.name();
     var appName = "" + $wnd.xh.html.urlparam("app").replace(/\+/g," ").substring(0,18);
     var localid = appName + "_" + new Date().getTime() + "_" + reffingNode.id();
-    me.println("localid " + localid);
-    me.println("remoteid " + remoteid);
-    me.println(key);
-    me.println(debug);
-    var peer = new $wnd.Peer(localid, {key: key, debug: debug});
-    var connection = peer.connect(remoteid);
-    me.connexn = connection; // cache the connection object so I can send messages on it
-    connection.on('data', function(data) {
-      me.@org.primordion.xholon.service.remotenode.PeerJS::onData(Ljava/lang/String;Lorg/primordion/xholon/base/IXholon;Lorg/primordion/xholon/base/IXholon;)(data, reffingNode, me);
+    this.println("localid " + localid);
+    this.println("remoteid " + remoteid);
+    this.println(key);
+    this.println(debug);
+    this.peer = new $wnd.Peer(localid, {key: key, debug: debug});
+    this.connexn = this.peer.connect(remoteid);
+    var myself = this;
+    this.connexn.on('data', function(data) {
+      myself.@org.primordion.xholon.service.remotenode.PeerJS::onData(Ljava/lang/String;Lorg/primordion/xholon/base/IXholon;Lorg/primordion/xholon/base/IXholon;)(data, reffingNode, myself);
     });
+  }-*/;
+  
+  /**
+   * Closes the data connection gracefully, cleaning up underlying DataChannels and PeerConnections.
+   */
+  protected native void closeConnection() /*-{
+    if (typeof this.connexn === "undefined") {return;}
+    this.connexn.close();
   }-*/;
   
   /**
    * Handle connection.on('data', function(data) .
    * @param data The data received from a remote source.
-   *   This can be either a JSON string, or a plain text string.
+   *   This can be a JSON string, an XML string, or a plain text string.
    *   If it's JSON, then it's probably from a remote IXholon node.
-   *   If it's plain text, then this is probably a human-generated command for an Avatar,
+   *   If it's plain text, then this may be a human-generated command for an Avatar,
    *     such as from PeerjsChat.html
    * @param node The IXholon node that this PeerJS instance sends to, using call() or msg() .
-   * @param me This instance of PeerJS.
+   * @param myself This instance of PeerJS.
    */
-  protected native void onData(String data, IXholon node, IXholon me) /*-{
+  protected native void onData(String data, IXholon node, IXholon myself) /*-{
     if (data.substring(0,1) == "{") {
       var obj = $wnd.JSON.parse(data);
       if (obj) {
         var objSignal = obj.signal ? obj.signal : -9;
         var objData = obj.data ? obj.data : "";
-        if (this.onDataJsonSync) {
-          node.call(objSignal, objData, me);
+        if (objData.substring(0,1) == "<") {
+          // if objData is XML, then JSON.parse(data) will have converted \" back to "
+          node.append(objData);
+        }
+        else if (this.onDataJsonSync) {
+          node.call(objSignal, objData, myself);
         }
         else {
-          node.msg(objSignal, objData, me);
+          node.msg(objSignal, objData, myself);
         }
       }
     }
+    else if (data.substring(0,1) == "<") {
+      node.append(data);
+    }
     else {
-      if (this.onDataTextSync) {
-        var respMsg = node.call(-9, data, me);
-        me.connexn.send(respMsg.data);
+      if (this.onDataTextAction) {
+        node.action(data);
+      }
+      else if (this.onDataTextSync) {
+        var respMsg = node.call(-9, data, myself);
+        myself.connexn.send(respMsg.data);
       }
       else {
-        node.msg(-9, data, me);
+        node.msg(-9, data, myself);
       }
     }
   }-*/;
@@ -272,14 +349,111 @@ public class PeerJS extends Xholon implements IRemoteNode {
    * Send a message to a remote app using a PeerJS connection.
    * proxy.msg(103, "Proxy 1", xh.root().first());
    * {"signal":101,"data":"One two three"}
+   * JSON.stringify(data) will escape any embedded " quotes to \", and will put " around the string .
    * @param signal A Xholon IMessage signal.
    * @param data A Xholon IMessage data.
-   * @param me This instance of PeerJS.
    */
-  protected native void sendRemote(int signal, Object data, IXholon me) /*-{
-    if (typeof me.connexn === "undefined") {return;}
-    var jsonStr = '{"signal":' + signal + ',"data":"' + data + '"}';
-    me.connexn.send(jsonStr);
+  protected native boolean sendRemote(int signal, String data) /*-{
+    if (typeof this.connexn === "undefined") {return false;}
+    var jsonStr = '{"signal":' + signal + ',"data":' + $wnd.JSON.stringify(data) + '}';
+    this.connexn.send(jsonStr);
+    return true;
   }-*/;
   
+  /**
+   * Send a message to a remote app using a PeerJS connection.
+   * Typically this will be an XML string, that's a serialization of a IXholon node or subtree.
+   * @param data A Xholon IMessage data.
+   */
+  protected native boolean sendRemote(String data) /*-{
+    if (typeof this.connexn === "undefined") {return false;}
+    this.connexn.send(data);
+    return true;
+  }-*/;
+  
+  /**
+   * Serialize a IXholon node as XML, or as another format.
+   * @param node The node and subtree that should be serialized.
+   * @param formatName External format name (ex: "Xml").
+   * @param efParams External format parameters.
+   * @return A serialization of the node.
+   */
+  protected native String serialize(IXholon node, String formatName, String efParams) /*-{
+    return $wnd.xh.xport(formatName, node, efParams, false, true);
+  }-*/;
+  
+  // actions
+  private static final String showPeer = "Show Peer";
+	private static final String showConnection = "Show Connection";
+	private static final String showThisNode = "Show This Node";
+	
+	/** action list */
+	private String[] actions = {showPeer, showConnection, showThisNode};
+	
+	/*
+	 * @see org.primordion.xholon.base.IXholon#getActionList()
+	 */
+	public String[] getActionList()
+	{
+		return actions;
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.Xholon#setActionList(java.lang.String[])
+	 */
+	public void setActionList(String[] actionList)
+	{
+		actions = actionList;
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.IXholon#doAction(java.lang.String)
+	 */
+	public void doAction(String action)
+	{
+		if (action == null) {return;}
+		if (showPeer.equals(action)) {
+		  showPeer();
+		}
+		if (showConnection.equals(action)) {
+			showConnection();
+		}
+		if (showThisNode.equals(action)) {
+		  this.println("onDataJsonSync   " + this.isOnDataJsonSync());
+		  this.println("onDataTextSync   " + this.isOnDataTextSync());
+		  this.println("onDataTextAction " + this.isOnDataTextAction());
+		}
+	}
+	
+	/**
+	 * Show information about the PeerJS Peer.
+	 */
+	protected native void showPeer() /*-{
+	  if (typeof this.peer === "undefined") {
+	    this.println("The peer is undefined.");
+	    return;
+	  }
+	  this.println("A peer object exists.");
+	  this.println(" id " + this.peer.id);
+	  this.println(" connections " + this.peer.connections);
+	  this.println(" disconnected " + this.peer.disconnected);
+	  this.println(" destroyed " + this.peer.destroyed);
+	}-*/;
+	
+	/**
+	 * Show information about the current WebRTC connection.
+	 */
+	protected native void showConnection() /*-{
+	  if (typeof this.connexn === "undefined") {
+	    this.println("The connection is undefined.");
+	    return;
+	  }
+	  this.println("A connection object exists.");
+	  this.println(" label " + this.connexn.label);
+	  this.println(" peer  " + this.connexn.peer);
+	  this.println(" serialization " + this.connexn.serialization);
+	  this.println(" type  " + this.connexn.type);
+	  this.println(" bufferSize " + this.connexn.bufferSize);
+	}-*/;
+	
 }

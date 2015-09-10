@@ -36,9 +36,10 @@ public interface IRemoteNode {
 	public static final int SIG_CONNECT_REQ  = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 102; // -3897
 	public static final int SIG_CONNECT_RESP = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 202; // -3797
 	
-	// set onDataJsonSync onDataTextSync
+	// set onDataJsonSync onDataTextSync onDataTextAction
 	public static final int SIG_ON_DATA_JSON_SYNC_REQ  = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 103; // -3896
 	public static final int SIG_ON_DATA_TEXT_SYNC_REQ  = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 104; // -3895
+	public static final int SIG_ON_DATA_TEXT_ACTION_REQ  = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 105; // -3894
 	public static final int SIG_ON_DATA_RESP = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 203; // -3796
 	
 	/**
