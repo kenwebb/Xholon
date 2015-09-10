@@ -33,6 +33,8 @@ import org.primordion.xholon.app.IApplication;
 import org.primordion.xholon.base.IControl;
 import org.primordion.xholon.base.IGrid;
 import org.primordion.xholon.io.gwt.HtmlScriptHelper;
+import org.primordion.xholon.io.xml.IXholon2Xml;
+import org.primordion.xholon.io.xml.IXmlWriter;
 import org.primordion.xholon.service.IXholonService;
 import org.primordion.xholon.service.XholonHelperService;
 import org.primordion.xholon.service.meteor.IMeteorPlatformService;
@@ -721,6 +723,18 @@ public class Avatar extends XholonWithPorts {
     setContextNode(this.getParentNode());
   }
   
+  @Override
+  public void toXmlAttributes(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {
+    super.toXmlAttributes(xholon2xml, xmlWriter);
+    xmlWriter.writeStartElement("Attribute_String");
+    String str = "\n";
+    for (int i = 0; i < actions.length; i++) {
+      str += actions[i] + "\n";
+    }
+    xmlWriter.writeText("<![CDATA[" + str + "]]>");
+    xmlWriter.writeEndElement("Attribute_String");
+  }
+	
   /**
    * Process one or more commands.
    * @param cmds (ex: "help" "look;go north;look")
