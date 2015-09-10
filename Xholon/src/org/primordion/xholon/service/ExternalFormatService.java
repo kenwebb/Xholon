@@ -34,6 +34,7 @@ import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.Message;
 import org.primordion.xholon.base.Xholon;
 import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
+
 /**
  * External Format Service.
  * Typically this class provides access to Model-to-Text (m2t) transformations.
@@ -112,6 +113,7 @@ public class ExternalFormatService extends AbstractXholonService {
 			String formatName = null;
 			String efParams = null;
 			boolean writeToTab = true;
+			boolean returnString = false;
 			if (msg.getData() instanceof String) {
 			  consoleLog("efs msg data is a String ");
 			  formatName = (String)msg.getData();
@@ -123,6 +125,7 @@ public class ExternalFormatService extends AbstractXholonService {
 			  formatName = arr.get(0);
 			  efParams = arr.get(1);
 			  writeToTab = Boolean.parseBoolean(arr.get(2));
+			  returnString = Boolean.parseBoolean(arr.get(3));
 			}
 			else { // it's a String array
 			  consoleLog("efs msg data is a String array");
@@ -134,10 +137,14 @@ public class ExternalFormatService extends AbstractXholonService {
 		  //consoleLog(efParams);
 		  //consoleLog(writeToTab);
 			IXholon2ExternalFormat xholon2ef = this.initExternalFormatWriter(node, formatName, efParams, writeToTab);
+			String responseData = null;
 			if (xholon2ef != null) {
 			  this.writeAll(xholon2ef);
+			  if (returnString) {
+			    responseData = ((IXholon)xholon2ef).getVal_String();
+			  }
 			}
-			return new Message(IXholonService.SIG_RESPONSE, null, this, msg.getSender());
+			return new Message(IXholonService.SIG_RESPONSE, responseData, this, msg.getSender());
 		default:
 			return super.processReceivedSyncMessage(msg);
 		}

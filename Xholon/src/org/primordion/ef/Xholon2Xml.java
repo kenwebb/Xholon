@@ -58,6 +58,11 @@ public class Xholon2Xml extends AbstractXholon2ExternalFormat implements IXholon
 	 */
 	public Xholon2Xml() {}
 	
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
 	/*
 	 * @see org.primordion.ef.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
 	 */
@@ -136,7 +141,8 @@ public class Xholon2Xml extends AbstractXholon2ExternalFormat implements IXholon
 			//out.write(sb.toString());
 			//out.write(xmlString);
 			//out.flush();
-			writeToTarget(sb.toString() + xmlString, outFileName, outPath, root);
+			sb.append(xmlString);
+			writeToTarget(sb.toString(), outFileName, outPath, root);
 		//} catch (IOException e) {
 		//	Xholon.getLogger().error("", e);
 		//}

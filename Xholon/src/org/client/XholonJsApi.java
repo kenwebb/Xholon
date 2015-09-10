@@ -226,18 +226,30 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
     // xport
     // "export" is a JS keyword, so use "xport" instead
     // $wnd.xh.xport("Graphviz", xh.root(), '{"layout":"neato"}');
-    $wnd.xh.xport = $entry(function(formatName, node, efParams, writeToTab) {
+    $wnd.xh.xport = $entry(function(formatName, node, efParams, writeToTab, returnString) {
       var efs = $wnd.xh.service('ExternalFormatService');
       if (efs) {
         // IXholonService.SIG_PROCESS_REQUEST = -3998
         var data = [formatName];
         if (efParams !== undefined) {
           data.push(efParams);
-        } else {data.push(null);}
+        } else {
+          data.push(null);
+        }
         if (writeToTab !== undefined) {
           data.push(writeToTab ? "true" : "false");
-        } else {data.push("true");};
-        efs.call(-3998, data, node);
+        } else {
+          data.push("true");
+        };
+        if (returnString !== undefined) {
+          data.push(returnString ? "true" : "false");
+        } else {
+          data.push("false");
+        };
+        var msg = efs.call(-3998, data, node);
+        if (returnString !== undefined) {
+          return msg.data;
+        }
       }
     });
     
