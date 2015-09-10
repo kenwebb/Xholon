@@ -45,6 +45,10 @@ import org.primordion.xholon.service.RecordPlaybackService;
 @SuppressWarnings("serial")
 public class CutCopyPaste extends Xholon implements ICutCopyPaste {
 	
+	// used in Copy/Cut to clipboard
+	String formatName = "Xml";
+  String efParams = "{\"xhAttrStyle\":1,\"nameTemplate\":\"^^C^^^\",\"xhAttrReturnAll\":true,\"writeStartDocument\":false,\"writeXholonId\":false,\"writeXholonRoleName\":true,\"writePorts\":true,\"writeAnnotations\":true,\"shouldPrettyPrint\":true,\"writeAttributes\":true,\"writeStandardAttributes\":true,\"shouldWriteVal\":false,\"shouldWriteAllPorts\":false}";
+
 	/*
 	 * @see org.primordion.xholon.base.Xholon#processReceivedMessage(org.primordion.xholon.base.IMessage)
 	 */
@@ -114,14 +118,27 @@ public class CutCopyPaste extends Xholon implements ICutCopyPaste {
 	 */
 	public String copySelf(IXholon node)
 	{
-		// Xholon2Xml
-		IXholon2Xml xholon2Xml = node.getXholon2Xml();
-		// TODO allow user to specify the xhAttrStyle
-		xholon2Xml.setXhAttrStyle(IXholon2Xml.XHATTR_TO_XMLELEMENT);
-		//xholon2Xml.setXhAttrStyle(Xholon2Xml.XHATTR_TO_NULL);
-		String xmlString = xholon2Xml.xholon2XmlString(node);
+	  // old approach
+		//IXholon2Xml xholon2Xml = node.getXholon2Xml();
+		//xholon2Xml.setXhAttrStyle(IXholon2Xml.XHATTR_TO_XMLATTR); //XHATTR_TO_XMLELEMENT);
+		//String xmlString = xholon2Xml.xholon2XmlString(node);
+		
+		// new approach
+    String xmlString = serialize(node, formatName, efParams);
+		
 		return xmlString;
 	}
+	
+	/**
+   * Serialize a IXholon node as XML, or as another format.
+   * @param node The node and subtree that should be serialized.
+   * @param formatName External format name (ex: "Xml").
+   * @param efParams External format parameters.
+   * @return A serialization of the node.
+   */
+  protected native String serialize(IXholon node, String formatName, String efParams) /*-{
+    return $wnd.xh.xport(formatName, node, efParams, false, true);
+  }-*/;
 	
 	/*
 	 * @see org.primordion.xholon.service.xholonhelper.ICutCopyPaste#cutToClipboard(org.primordion.xholon.base.IXholon)
