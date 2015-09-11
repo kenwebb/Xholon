@@ -30,7 +30,24 @@ import org.primordion.xholon.service.remotenode.IRemoteNode;
  * Examples:
 var proxy = xh.service("RemoteNodeService");
 var proxy = xh.service("RemoteNodeService-PeerJS");
-var resp = proxy.call(101, null, $wnd.xh.root().first());
+ *
+ * Numerous implementations of IRemoteNode are possible:
+ * - CrossApp cross-application, same browser, same domain, no postMessage required
+ *    see "The Love Letter - Jake - no postMessage()" and "... Helen ..." workbooks
+ * - PostMessage
+ *    see "The Love Letter - Jake Belknap" and "The Love Letter - Helen Elizabeth Worley" workbooks
+ * - MessageChannel
+ *    cross domain messaging within the same browser
+ * - WebRTC raw
+ * - PeerJS WebRTC library
+ * - other WebRTC libraries
+ * - FireChat chat only?
+ * - Web Application Messaging Protocol (WAMP)
+ * - other peer to peer (p2p)
+ * - web sockets
+ * - AJAX client-server
+ * - Meteor DDP is client-server
+ *
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.9.1 (Created on September 2, 2015)

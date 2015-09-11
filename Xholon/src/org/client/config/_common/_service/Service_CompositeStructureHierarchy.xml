@@ -155,6 +155,10 @@
   
   <RemoteNodeService>
     <XholonMap>
+      <attr:Attribute_String roleName="RemoteNodeService-CrossApp">org.primordion.xholon.service.remotenode.CrossApp</attr:Attribute_String>
+      <attr:Attribute_String roleName="RemoteNodeService-PostMessage">org.primordion.xholon.service.remotenode.PostMessage</attr:Attribute_String>
+      <attr:Attribute_String roleName="RemoteNodeService-MessageChannel">org.primordion.xholon.service.remotenode.MessageChannel</attr:Attribute_String>
+      <attr:Attribute_String roleName="RemoteNodeService-WebRTC">org.primordion.xholon.service.remotenode.WebRTC</attr:Attribute_String>
       <attr:Attribute_String roleName="RemoteNodeService-PeerJS">org.primordion.xholon.service.remotenode.PeerJS</attr:Attribute_String>
     </XholonMap>
   </RemoteNodeService>
