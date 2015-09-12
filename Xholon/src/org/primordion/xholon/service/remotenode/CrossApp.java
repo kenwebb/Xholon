@@ -26,8 +26,15 @@ import org.primordion.xholon.util.ClassHelper;
 
 /**
  * Enable simple cross-application communications.
+ * One window must be a child of the other window.
  * cross-application, same browser, same domain, no postMessage required
  * see "The Love Letter - Jake - no postMessage()" and "... Helen ..." workbooks
+ *
+ * TODO
+ * - useIframe = false  Google Chrome sees the separate window as a popup
+ *   Uncaught SecurityError: Blocked a frame with origin "http://localhost" from accessing a frame with origin "swappedout://".  The frame requesting access has a protocol of "http", the frame being accessed has a protocol of "swappedout". Protocols must match.
+ *   it works if I allow popups for that domain
+ *
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.9.1 (Created on September 10, 2015)
@@ -101,6 +108,9 @@ public class CrossApp extends Xholon implements IRemoteNode {
       //   optionally remove the node from the local CSH,
       //   send the XML to the remote location as plain text or JSON,
       //   where the remote location will append/prepend/before/appear the XML to the remote CSH
+      
+      // TODO just call processReceivedMessage(msg) on the remoteNode
+      
       Object data = msg.getData();
       if (ClassHelper.isAssignableFrom(Xholon.class, data.getClass())) {
         String serStr = serialize((IXholon)data, formatName, efParams);
@@ -136,21 +146,7 @@ public class CrossApp extends Xholon implements IRemoteNode {
     consoleLog(msg.getVal_Object());
     switch (msg.getSignal()) {
     
-    /**
-     The PeerJS ID could be a simple name such as "Alligator",
-     or a generated name that includes the Xholon app name + the date/time + Xholon ID of the remote node.
-     For example: WebRTC peerjs Avatar_1441024140451_40
-     The Xholon ID could be just the numeric id (40), or it could be the node's default name (avatar_40),
-     or it could be an XPath expression from root (Chameleon/PhysicalSystem/City/Avatar)
-    */
-    
-    /**
-     * Each app that wants to use WebRTC needs to set up a Listener
-     * that registers itself with the PeerJS server.
-     * One listener per node
-     * Each listener will need a unique PeerJS ID.
-     * 
-     */
+    // listen for  a remote connection
     case SIG_LISTEN_REQ:
     {
       String localid = null;
@@ -218,9 +214,8 @@ public class CrossApp extends Xholon implements IRemoteNode {
   } // end processReceivedSyncMessage()
   
   /**
-   * Listen for remote apps that want to reference a node within this app, using a PeerJS connection.
-   * TODO make this code generic; currently it's specific for Jake and Helen
-   * @param localid A PeerJS ID, or null.
+   * Listen for remote apps that want to reference a node within this app.
+   * @param localid A local ID, or null.
    * @param reffedNode The node in this app that can be reffed by nodes in other apps.
    */
   protected native void listen(String localid, IXholon reffedNode) /*-{
@@ -230,25 +225,25 @@ public class CrossApp extends Xholon implements IRemoteNode {
     }
     this.println(localid);
     
-    // assume that this app (Jake) has been opened by the other app (Helen)
-    var helenWindow = null;
+    // assume that this app has been opened by another app
+    var otherWindow = null;
     if ($wnd.self == $wnd.top) {
-      // Jake is in a separately opened window
-      $wnd.console.log("Jake is in a separately opened window");
-      helenWindow = $wnd.opener;
+      // this app is in a separately opened window
+      $wnd.console.log("this app is in a separately opened window");
+      otherWindow = $wnd.opener;
     }
     else {
-      // Jake is in an iframe
-      $wnd.console.log("Jake is in an iframe");
-      helenWindow = $wnd.top;
+      // this app is in an iframe
+      $wnd.console.log("this app is in an iframe");
+      otherWindow = $wnd.top;
     }
-    $wnd.console.log(helenWindow);
-    this.helen = helenWindow.xh.root().first().first();
-    if (this.helen) {
-      $wnd.console.log(this.helen.name());
-      $wnd.console.log("let the Helen window/app know that the Jake window/app is ready");
-      // let the Helen window/app know that the Jake window/app is ready
-      this.helen.msg(201, null, reffedNode);
+    $wnd.console.log(otherWindow);
+    this.remoteNode = otherWindow.xh.root().first().first();
+    if (this.remoteNode) {
+      $wnd.console.log(this.remoteNode.name());
+      $wnd.console.log("let the other window/app know that this window/app is ready");
+      // let the other window/app know that this window/app is ready
+      this.remoteNode.msg(201, null, reffedNode);
     }
   }-*/;
   
@@ -276,15 +271,16 @@ public class CrossApp extends Xholon implements IRemoteNode {
       + remoteUrl;
     this.println("url " + url);
     
-    var jakeWindow = null;
+    var otherWindow = null;
     if (useIframe) {
-      //jakeWindow = this.createIframe(url).contentWindow;
-      jakeWindow = this.@org.primordion.xholon.service.remotenode.CrossApp::createIframe(Ljava/lang/String;)(url);
+      //otherWindow = this.createIframe(url).contentWindow;
+      otherWindow = this.@org.primordion.xholon.service.remotenode.CrossApp::createIframe(Ljava/lang/String;)(url).contentWindow;
     }
     else {
-      jakeWindow = $wnd.open(url, remoteId);
+      // Google Chrome will invoke its popup blocker to prevent this; user must enable popups for this domain
+      otherWindow = $wnd.open(url, remoteid);
     }
-    $wnd.console.log(jakeWindow);
+    $wnd.console.log(otherWindow);
   }-*/;
   
   /**
@@ -315,10 +311,9 @@ public class CrossApp extends Xholon implements IRemoteNode {
    * @param data The data received from a remote source.
    *   This can be a JSON string, an XML string, or a plain text string.
    *   If it's JSON, then it's probably from a remote IXholon node.
-   *   If it's plain text, then this may be a human-generated command for an Avatar,
-   *     such as from PeerjsChat.html
-   * @param node The IXholon node that this PeerJS instance sends to, using call() or msg() .
-   * @param myself This instance of PeerJS.
+   *   If it's plain text, then this may be a human-generated command for an Avatar
+   * @param node The IXholon node that this CrossApp instance sends to, using call() or msg() .
+   * @param myself This instance of CrossApp.
    */
   protected native void onData(String data, IXholon node, IXholon myself) /*-{
     if (data.substring(0,1) == "{") {
@@ -369,12 +364,12 @@ public class CrossApp extends Xholon implements IRemoteNode {
     // this.connexn.send(jsonStr);
     $wnd.console.log("Jake's CrossApp is sending a message to Helen " + signal);
     $wnd.console.log(data);
-    this.helen.msg(signal, data, this);
+    this.remoteNode.msg(signal, data, this);
     return true;
   }-*/;
   
   /**
-   * Send a message to a remote app using a PeerJS connection.
+   * Send a message to a remote app using a CrossApp connection.
    * TODO NOT REQUIRED ? because end nodes will communicate directly
    * Typically this will be an XML string, that's a serialization of a IXholon node or subtree.
    * @param data A Xholon IMessage data.

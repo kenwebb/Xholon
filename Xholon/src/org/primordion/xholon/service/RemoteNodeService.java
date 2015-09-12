@@ -36,6 +36,10 @@ var proxy = xh.service("RemoteNodeService-PeerJS");
  *    see "The Love Letter - Jake - no postMessage()" and "... Helen ..." workbooks
  * - PostMessage
  *    see "The Love Letter - Jake Belknap" and "The Love Letter - Helen Elizabeth Worley" workbooks
+ * - LocalStorage can be used to communicate between windows/tabs of the same domain
+ *    see https://truongtx.me/2014/06/16/cross-tab-communication-using-html5-dom-storage/
+ *    see http://stackoverflow.com/questions/4079280/javascript-communication-between-browser-tabs-windows
+ *    see http://ponyfoo.com/articles/cross-tab-communication
  * - MessageChannel
  *    cross domain messaging within the same browser
  * - WebRTC raw
