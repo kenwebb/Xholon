@@ -39,7 +39,7 @@ import org.primordion.xholon.util.ClassHelper;
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.9.1 (Created on September 10, 2015)
  */
-public class CrossApp extends Xholon implements IRemoteNode {
+public class CrossApp extends AbstractRemoteNode implements IRemoteNode {
   
   public CrossApp() {
     this.println("instantiated a " + this.getClass().getName());
@@ -47,33 +47,6 @@ public class CrossApp extends Xholon implements IRemoteNode {
     setOnDataTextSync(true);
     setOnDataTextAction(false);
   }
-  
-  protected String formatName = "Xml";
-  protected String efParams = "{\"xhAttrStyle\":1,\"nameTemplate\":\"^^C^^^\",\"xhAttrReturnAll\":true,\"writeStartDocument\":false,\"writeXholonId\":false,\"writeXholonRoleName\":true,\"writePorts\":true,\"writeAnnotations\":true,\"shouldPrettyPrint\":true,\"writeAttributes\":true,\"writeStandardAttributes\":true,\"shouldWriteVal\":false,\"shouldWriteAllPorts\":false}";
-  
-  protected native void setOnDataJsonSync(boolean onDataJsonSync) /*-{
-    this.onDataJsonSync = onDataJsonSync;
-  }-*/;
-  
-  protected native boolean isOnDataJsonSync() /*-{
-    return this.onDataJsonSync;
-  }-*/;
-  
-  protected native void setOnDataTextSync(boolean onDataTextSync) /*-{
-    this.onDataTextSync = onDataTextSync;
-  }-*/;
-  
-  protected native boolean isOnDataTextSync() /*-{
-    return this.onDataTextSync;
-  }-*/;
-  
-  protected native void setOnDataTextAction(boolean onDataTextAction) /*-{
-    this.onDataTextAction = onDataTextAction;
-  }-*/;
-  
-  protected native boolean isOnDataTextAction() /*-{
-    return this.onDataTextAction;
-  }-*/;
   
   @Override
   public boolean isUsable() {
@@ -150,11 +123,13 @@ public class CrossApp extends Xholon implements IRemoteNode {
     case SIG_LISTEN_REQ:
     {
       String localid = null;
+      String remoteXPathExpr = null;
       if (msg.getData() != null) {
-        String[] data = ((String)msg.getData()).split(",", 3);
+        String[] data = ((String)msg.getData()).split(",", 2);
         consoleLog(data);
         switch(data.length) {
         // break is intentionally left out so the cases will fall through
+        case 2: remoteXPathExpr = data[1];
         case 1: localid = data[0];
         default: break;
         }
@@ -162,7 +137,7 @@ public class CrossApp extends Xholon implements IRemoteNode {
       if (localid.length() == 0) {
         localid = null;
       }
-      listen(localid, msg.getSender());
+      listen(localid, remoteXPathExpr, msg.getSender());
       return new Message(SIG_LISTEN_RESP, null, this, msg.getSender());
     }
     
@@ -216,14 +191,16 @@ public class CrossApp extends Xholon implements IRemoteNode {
   /**
    * Listen for remote apps that want to reference a node within this app.
    * @param localid A local ID, or null.
+   * @param remoteXPathExpr XPath expression relative to other window's xh.root() .
    * @param reffedNode The node in this app that can be reffed by nodes in other apps.
    */
-  protected native void listen(String localid, IXholon reffedNode) /*-{
+  protected native void listen(String localid, String remoteXPathExpr, IXholon reffedNode) /*-{
     if (localid == null) {
       var appName = "" + $wnd.xh.html.urlparam("app").replace(/\+/g," ").substring(0,18);
       localid = appName + "_" + new Date().getTime() + "_" + reffedNode.id();
     }
     this.println(localid);
+    this.println(remoteXPathExpr);
     
     // assume that this app has been opened by another app
     var otherWindow = null;
@@ -238,7 +215,12 @@ public class CrossApp extends Xholon implements IRemoteNode {
       otherWindow = $wnd.top;
     }
     $wnd.console.log(otherWindow);
-    this.remoteNode = otherWindow.xh.root().first().first();
+    if (remoteXPathExpr) {
+      this.remoteNode = otherWindow.xh.root().xpath(remoteXPathExpr); //first().first();
+    }
+    else {
+      this.remoteNode = otherWindow.xh.root();
+    }
     if (this.remoteNode) {
       $wnd.console.log(this.remoteNode.name());
       $wnd.console.log("let the other window/app know that this window/app is ready");
@@ -377,17 +359,6 @@ public class CrossApp extends Xholon implements IRemoteNode {
   protected native boolean sendRemote(String data) /*-{
     // this.connexn.send(data);
     return true;
-  }-*/;
-  
-  /**
-   * Serialize a IXholon node as XML, or as another format.
-   * @param node The node and subtree that should be serialized.
-   * @param formatName External format name (ex: "Xml").
-   * @param efParams External format parameters.
-   * @return A serialization of the node.
-   */
-  protected native String serialize(IXholon node, String formatName, String efParams) /*-{
-    return $wnd.xh.xport(formatName, node, efParams, false, true);
   }-*/;
   
   // actions

@@ -31,7 +31,7 @@ import org.primordion.xholon.util.ClassHelper;
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.9.1 (Created on September 10, 2015)
  */
-public class WebRTC extends Xholon implements IRemoteNode {
+public class WebRTC extends AbstractRemoteNode implements IRemoteNode {
   
   public WebRTC() {
     this.println("instantiated a " + this.getClass().getName());

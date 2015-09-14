@@ -41,7 +41,7 @@ import org.primordion.xholon.util.ClassHelper;
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.9.1 (Created on September 2, 2015)
  */
-public class PeerJS extends Xholon implements IRemoteNode {
+public class PeerJS extends AbstractRemoteNode implements IRemoteNode {
   
   protected static final String PEERJS_DEMO_API_KEY = "lwjd5qra8257b9";
   
@@ -50,33 +50,6 @@ public class PeerJS extends Xholon implements IRemoteNode {
     setOnDataTextSync(true);
     setOnDataTextAction(false);
   }
-  
-  protected String formatName = "Xml";
-  protected String efParams = "{\"xhAttrStyle\":1,\"nameTemplate\":\"^^C^^^\",\"xhAttrReturnAll\":true,\"writeStartDocument\":false,\"writeXholonId\":false,\"writeXholonRoleName\":true,\"writePorts\":true,\"writeAnnotations\":true,\"shouldPrettyPrint\":true,\"writeAttributes\":true,\"writeStandardAttributes\":true,\"shouldWriteVal\":false,\"shouldWriteAllPorts\":false}";
-  
-  protected native void setOnDataJsonSync(boolean onDataJsonSync) /*-{
-    this.onDataJsonSync = onDataJsonSync;
-  }-*/;
-  
-  protected native boolean isOnDataJsonSync() /*-{
-    return this.onDataJsonSync;
-  }-*/;
-  
-  protected native void setOnDataTextSync(boolean onDataTextSync) /*-{
-    this.onDataTextSync = onDataTextSync;
-  }-*/;
-  
-  protected native boolean isOnDataTextSync() /*-{
-    return this.onDataTextSync;
-  }-*/;
-  
-  protected native void setOnDataTextAction(boolean onDataTextAction) /*-{
-    this.onDataTextAction = onDataTextAction;
-  }-*/;
-  
-  protected native boolean isOnDataTextAction() /*-{
-    return this.onDataTextAction;
-  }-*/;
   
   @Override
   public native boolean isUsable() /*-{
@@ -369,17 +342,6 @@ public class PeerJS extends Xholon implements IRemoteNode {
     if (typeof this.connexn === "undefined") {return false;}
     this.connexn.send(data);
     return true;
-  }-*/;
-  
-  /**
-   * Serialize a IXholon node as XML, or as another format.
-   * @param node The node and subtree that should be serialized.
-   * @param formatName External format name (ex: "Xml").
-   * @param efParams External format parameters.
-   * @return A serialization of the node.
-   */
-  protected native String serialize(IXholon node, String formatName, String efParams) /*-{
-    return $wnd.xh.xport(formatName, node, efParams, false, true);
   }-*/;
   
   // actions
