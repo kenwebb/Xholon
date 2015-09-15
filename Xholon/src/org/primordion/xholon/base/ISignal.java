@@ -131,6 +131,11 @@ public interface ISignal {
 	 */
 	public static final int SIGNAL_XHOLON_CONSOLE_RSP = -10;
 	
+	/**
+	 * <p>A signal sent by an IRemoteNode to indicate that the underlying comms is ready to tx/rx.</p>
+	 */
+	public static final int SIGNAL_READY = -11;
+	
 	
 	/**
 	 * <p>Start of the range of values for Swing signals.</p>
