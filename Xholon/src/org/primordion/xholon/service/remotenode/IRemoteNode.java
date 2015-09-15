@@ -48,4 +48,7 @@ public interface IRemoteNode {
 	 * For example, PeerJS requires $wnd.Peer .
 	*/
 	public abstract boolean isUsable();
+	
+	
+	
 }

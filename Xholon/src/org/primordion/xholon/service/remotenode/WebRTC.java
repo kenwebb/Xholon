@@ -46,4 +46,28 @@ public class WebRTC extends AbstractRemoteNode implements IRemoteNode {
     return true;
   };
   
+  @Override
+  protected native Object fixListenParams(String listenParams) /*-{
+    var obj = {};
+    
+    return obj;
+  }-*/;
+  
+  @Override
+  protected native Object fixConnectParams(String connectParams) /*-{
+    var obj = {};
+    
+    return obj;
+  }-*/;
+  
+  @Override
+  protected native void listen(Object listenParams, IXholon reffedNode) /*-{
+    
+  }-*/;
+  
+  @Override
+  protected native void connect(Object connectParams, IXholon reffingNode) /*-{
+    
+  }-*/;
+  
 }

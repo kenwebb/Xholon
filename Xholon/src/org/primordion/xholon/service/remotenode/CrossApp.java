@@ -19,6 +19,7 @@
 package org.primordion.xholon.service.remotenode;
 
 import org.primordion.xholon.base.IMessage;
+import org.primordion.xholon.base.ISignal;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.Message;
 import org.primordion.xholon.base.Xholon;
@@ -55,146 +56,56 @@ public class CrossApp extends AbstractRemoteNode implements IRemoteNode {
   };
   
   @Override
-  public void processReceivedMessage(IMessage msg) {
-    int signal = msg.getSignal();
-    switch (signal) {
-    
-    /*
-    signal bit options for XML:
-    initial 1-bit filler so it's in the ISignal.SIGNAL_MIN_USER range  1
-    send as JSON, or as plain text  1 0
-    remove the node from the CSH, or leave it intact  1 0
-    append, prepend, before, after on receiving end  000 001 010 011
-      also option to pass the message/XML on to the user node  100
-    
-    example signals for XML:
-    signal = 1 0b00001  send as plain text, and leave the node intact, and append (the default)
-    signal = 3 0b00011  send as JSON, and leave the node intact, and append
-    signal = 5 0b00101  send as plain text, and remove the node from the CSH, and append
-    signal = 7 0b00111  send as JSON, and remove the node from the CSH, and append
-    signal = 9 0b01001  send as plain text, and leave the node intact, and prepend
-    */
-    default:
-      // this message is from the local reffedNode
-      // - if data is a IXholon node, then:
-      //   serialize the node and its subtree as XML,
-      //   optionally remove the node from the local CSH,
-      //   send the XML to the remote location as plain text or JSON,
-      //   where the remote location will append/prepend/before/appear the XML to the remote CSH
-      
-      // TODO just call processReceivedMessage(msg) on the remoteNode
-      
-      Object data = msg.getData();
-      if (ClassHelper.isAssignableFrom(Xholon.class, data.getClass())) {
-        String serStr = serialize((IXholon)data, formatName, efParams);
-        int sendJson = signal & 2; // 0b10
-        int removeNode = signal & 4;  // 0b100
-        if (sendJson == 2) {
-          if (sendRemote(signal, serStr) && removeNode == 4) {
-            ((IXholon)data).removeChild(); // remove the node from the Xholon CSH
-            if ((IXholon)data == msg.getSender()) {
-              // close the connection with the remote end, if the removed node is the reffed/ing node
-              this.closeConnection();
-            }
-          }
-        }
-        else {
-          if (sendRemote(serStr) && removeNode == 4) {
-            ((IXholon)data).removeChild(); // remove the node from the Xholon CSH
-            if ((IXholon)data == msg.getSender()) {
-              // close the connection with the remote end, if the removed node is the reffed/ing node
-              this.closeConnection();
-            }
-          }
-        }
-      }
-      else {
-        if (sendRemote(signal, (String)data)) {}
+  protected native Object fixListenParams(String listenParams) /*-{
+    var obj = {};
+    obj.localid = null;
+    obj.remoteXPathExpr = null;
+    if (listenParams) {
+      var data = listenParams.split(",", 2);
+      $wnd.console.log(data);
+      switch(data.length) {
+      // break is intentionally left out so the cases will fall through
+      case 2: obj.remoteXPathExpr = data[1];
+      case 1: obj.localid = data[0];
+      default: break;
       }
     }
-  }
+    if (obj.localid.length == 0) {
+      obj.localid = null;
+    }
+    return obj;
+  }-*/;
   
   @Override
-  public IMessage processReceivedSyncMessage(IMessage msg) {
-    consoleLog(msg.getVal_Object());
-    switch (msg.getSignal()) {
-    
-    // listen for  a remote connection
-    case SIG_LISTEN_REQ:
-    {
-      String localid = null;
-      String remoteXPathExpr = null;
-      if (msg.getData() != null) {
-        String[] data = ((String)msg.getData()).split(",", 2);
-        consoleLog(data);
-        switch(data.length) {
-        // break is intentionally left out so the cases will fall through
-        case 2: remoteXPathExpr = data[1];
-        case 1: localid = data[0];
-        default: break;
-        }
+  protected native Object fixConnectParams(String connectParams) /*-{
+    var obj = {};
+    obj.useIframe = true;
+    obj.remoteUrl = "";
+    obj.remoteid = "";
+    if (connectParams) {
+      var data = connectParams.split(",", 3);
+      $wnd.console.log(data);
+      switch(data.length) {
+      // break is intentionally left out so the cases will fall through
+      case 3: if (data[2] == "false") {obj.useIframe = false;}
+      case 2: obj.remoteUrl = data[1];
+      case 1: obj.remoteid = data[0];
+      default: break;
       }
-      if (localid.length() == 0) {
-        localid = null;
-      }
-      listen(localid, remoteXPathExpr, msg.getSender());
-      return new Message(SIG_LISTEN_RESP, null, this, msg.getSender());
     }
-    
-    // initiate a remote connection
-    case SIG_CONNECT_REQ:
-    {
-      boolean useIframe = true;
-      String remoteUrl = "";
-      String remoteid = "";
-      if (msg.getData() != null) {
-        String[] data = ((String)msg.getData()).split(",", 3);
-        consoleLog(data);
-        switch(data.length) {
-        // break is intentionally left out so the cases will fall through
-        case 3: useIframe = Boolean.parseBoolean(data[2]);
-        case 2: remoteUrl = data[1];
-        case 1: remoteid = data[0];
-        default: break;
-        }
-      }
-      if (remoteid.length() == 0) {
-        remoteid = null;
-      }
-      else if (remoteUrl.length() == 0) {
-        remoteUrl = null;
-      }
-      connect(remoteid, remoteUrl, useIframe, msg.getSender());
-      return new Message(SIG_CONNECT_RESP, null, this, msg.getSender());
+    if (obj.remoteid.length == 0) {
+      obj.remoteid = null;
     }
-    
-    case SIG_ON_DATA_JSON_SYNC_REQ:
-      setOnDataJsonSync((Boolean)msg.getData());
-      return new Message(SIG_ON_DATA_RESP, null, this, msg.getSender());
-      
-    case SIG_ON_DATA_TEXT_SYNC_REQ:
-      setOnDataTextSync((Boolean)msg.getData());
-      return new Message(SIG_ON_DATA_RESP, null, this, msg.getSender());
-    
-    case SIG_ON_DATA_TEXT_ACTION_REQ:
-      setOnDataTextAction((Boolean)msg.getData());
-      return new Message(SIG_ON_DATA_RESP, null, this, msg.getSender());
-    
-    default:
-    {
-      return super.processReceivedSyncMessage(msg);
+    if (obj.remoteUrl.length == 0) {
+      obj.remoteUrl = null;
     }
-    
-    } // end switch
-  } // end processReceivedSyncMessage()
+    return obj;
+  }-*/;
   
-  /**
-   * Listen for remote apps that want to reference a node within this app.
-   * @param localid A local ID, or null.
-   * @param remoteXPathExpr XPath expression relative to other window's xh.root() .
-   * @param reffedNode The node in this app that can be reffed by nodes in other apps.
-   */
-  protected native void listen(String localid, String remoteXPathExpr, IXholon reffedNode) /*-{
+  @Override
+  protected native void listen(Object listenParams, IXholon reffedNode) /*-{
+    var localid = listenParams.localid;
+    var remoteXPathExpr = listenParams.remoteXPathExpr;
     if (localid == null) {
       var appName = "" + $wnd.xh.html.urlparam("app").replace(/\+/g," ").substring(0,18);
       localid = appName + "_" + new Date().getTime() + "_" + reffedNode.id();
@@ -216,31 +127,30 @@ public class CrossApp extends AbstractRemoteNode implements IRemoteNode {
     }
     $wnd.console.log(otherWindow);
     if (remoteXPathExpr) {
-      this.remoteNode = otherWindow.xh.root().xpath(remoteXPathExpr); //first().first();
+      //this.remoteNode = otherWindow.xh.root().xpath(remoteXPathExpr);
+      this.port(1, otherWindow.xh.root().xpath(remoteXPathExpr));
     }
     else {
-      this.remoteNode = otherWindow.xh.root();
+      //this.remoteNode = otherWindow.xh.root();
+      this.port(1, otherWindow.xh.root());
     }
-    if (this.remoteNode) {
-      $wnd.console.log(this.remoteNode.name());
+    if (this.port(1)) { //this.remoteNode) {
+      $wnd.console.log(this.port(1).name()); //this.remoteNode.name());
       $wnd.console.log("let the other window/app know that this window/app is ready");
       // let the other window/app know that this window/app is ready
-      this.remoteNode.msg(201, null, reffedNode);
+      //this.remoteNode.msg(201, null, reffedNode);
+      this.port(1).msg(@org.primordion.xholon.base.ISignal::SIGNAL_READY, null, reffedNode); // -11
     }
   }-*/;
   
-  /**
-   * Connect to a remote node that's listening for connection requests.
-   * @param remoteid A remote ID (ex: "Jake").
-   * @param remoteUrl A partial URL
-       (ex: "?app=The%20Love%20Letter%20-%20Jake%20-%20CrossApp&src=lstr&gui=clsc").
-   * @param useIframe Whether to use an Iframe or a new window/tab
-   * @param reffingNode The node in this app that is trying to reference nodes in other apps.
-   */
-  protected native void connect(String remoteid, String remoteUrl, boolean useIframe, IXholon reffingNode) /*-{
-    var appName = "" + $wnd.xh.html.urlparam("app").replace(/\+/g," ").substring(0,18);
-    var localid = appName + "_" + new Date().getTime() + "_" + reffingNode.id();
-    this.println("localid " + localid);
+  @Override
+  protected native void connect(Object connectParams, IXholon reffingNode) /*-{
+    var remoteid = connectParams.remoteid;
+    var remoteUrl = connectParams.remoteUrl;
+    var useIframe = connectParams.useIframe;
+    //var appName = "" + $wnd.xh.html.urlparam("app").replace(/\+/g," ").substring(0,18);
+    //var localid = appName + "_" + new Date().getTime() + "_" + reffingNode.id();
+    //this.println("localid " + localid);
     this.println("remoteid " + remoteid);
     this.println("remoteUrl " + remoteUrl);
     this.println("useIframe " + useIframe);
@@ -255,8 +165,7 @@ public class CrossApp extends AbstractRemoteNode implements IRemoteNode {
     
     var otherWindow = null;
     if (useIframe) {
-      //otherWindow = this.createIframe(url).contentWindow;
-      otherWindow = this.@org.primordion.xholon.service.remotenode.CrossApp::createIframe(Ljava/lang/String;)(url).contentWindow;
+      otherWindow = this.@org.primordion.xholon.service.remotenode.AbstractRemoteNode::createIframe(Ljava/lang/String;)(url).contentWindow;
     }
     else {
       // Google Chrome will invoke its popup blocker to prevent this; user must enable popups for this domain
@@ -265,136 +174,53 @@ public class CrossApp extends AbstractRemoteNode implements IRemoteNode {
     $wnd.console.log(otherWindow);
   }-*/;
   
-  /**
-   * Create a new iframe.
-   * @param url 
-   * @return A Window/Iframe object.
-   */
-  protected native Object createIframe(String url) /*-{
-    var iframe = $doc.createElement('iframe');
-    iframe.src = url;
-    iframe.width = "100%"; // 900
-    iframe.height = 500;
-    $doc.getElementsByTagName('body')[0].appendChild(iframe);
-    return iframe;
-  }-*/;
-  
-  /**
-   * Close the data connection gracefully.
-   * TODO is this required or useful ?
-   */
-  protected native void closeConnection() /*-{
-    
-  }-*/;
-  
-  /**
-   * Handle connection.on('data', function(data) .
-   * TODO NOT REQUIRED ? because end nodes will communicate directly
-   * @param data The data received from a remote source.
-   *   This can be a JSON string, an XML string, or a plain text string.
-   *   If it's JSON, then it's probably from a remote IXholon node.
-   *   If it's plain text, then this may be a human-generated command for an Avatar
-   * @param node The IXholon node that this CrossApp instance sends to, using call() or msg() .
-   * @param myself This instance of CrossApp.
-   */
-  protected native void onData(String data, IXholon node, IXholon myself) /*-{
-    if (data.substring(0,1) == "{") {
-      var obj = $wnd.JSON.parse(data);
-      if (obj) {
-        var objSignal = obj.signal ? obj.signal : -9;
-        var objData = obj.data ? obj.data : "";
-        if (objData.substring(0,1) == "<") {
-          // if objData is XML, then JSON.parse(data) will have converted \" back to "
-          node.append(objData);
-        }
-        else if (this.onDataJsonSync) {
-          node.call(objSignal, objData, myself);
-        }
-        else {
-          node.msg(objSignal, objData, myself);
-        }
-      }
-    }
-    else if (data.substring(0,1) == "<") {
-      node.append(data);
-    }
-    else {
-      if (this.onDataTextAction) {
-        node.action(data);
-      }
-      else if (this.onDataTextSync) {
-        var respMsg = node.call(-9, data, myself);
-        // TODO myself.connexn.send(respMsg.data);
-      }
-      else {
-        node.msg(-9, data, myself);
-      }
-    }
-  }-*/;
-  
-  /**
-   * Send a message to a remote app.
-   * TODO NOT REQUIRED ? because end nodes will communicate directly
-   * proxy.msg(103, "Proxy 1", xh.root().first());
-   * {"signal":101,"data":"One two three"}
-   * JSON.stringify(data) will escape any embedded " quotes to \", and will put " around the string .
-   * @param signal A Xholon IMessage signal.
-   * @param data A Xholon IMessage data.
-   */
-  protected native boolean sendRemote(int signal, String data) /*-{
+  @Override
+  protected native boolean txRemote(int signal, Object data) /*-{
+    //if (typeof this.connexn === "undefined") {return false;}
     //var jsonStr = '{"signal":' + signal + ',"data":' + $wnd.JSON.stringify(data) + '}';
-    // this.connexn.send(jsonStr);
-    $wnd.console.log("Jake's CrossApp is sending a message to Helen " + signal);
-    $wnd.console.log(data);
-    this.remoteNode.msg(signal, data, this);
+    //this.connexn.send(jsonStr);
+    if (!this.port(1)) {return false;}
+    this.port(1).msg({signal:signal, data:data, sender:this});
     return true;
   }-*/;
   
-  /**
-   * Send a message to a remote app using a CrossApp connection.
-   * TODO NOT REQUIRED ? because end nodes will communicate directly
-   * Typically this will be an XML string, that's a serialization of a IXholon node or subtree.
-   * @param data A Xholon IMessage data.
-   */
-  protected native boolean sendRemote(String data) /*-{
-    // this.connexn.send(data);
+  @Override
+  protected native boolean txRemote(Object data) /*-{
+    //if (typeof this.connexn === "undefined") {return false;}
+    //this.connexn.send(data);
+    if (!this.port(1)) {return false;}
+    this.port(1).msg({signal:-9, data:data, sender:this});
     return true;
   }-*/;
   
   // actions
   private static final String showThisNode = "Show This Node";
-	
-	/** action list */
-	private String[] actions = {showThisNode};
-	
-	/*
-	 * @see org.primordion.xholon.base.IXholon#getActionList()
-	 */
-	public String[] getActionList()
-	{
-		return actions;
-	}
-	
-	/*
-	 * @see org.primordion.xholon.base.Xholon#setActionList(java.lang.String[])
-	 */
-	public void setActionList(String[] actionList)
-	{
-		actions = actionList;
-	}
-	
-	/*
-	 * @see org.primordion.xholon.base.IXholon#doAction(java.lang.String)
-	 */
-	public void doAction(String action)
-	{
-		if (action == null) {return;}
-		if (showThisNode.equals(action)) {
-		  this.println(this.getClass().getName() + " " + this.getName());
-		  this.println(" onDataJsonSync   " + this.isOnDataJsonSync());
-		  this.println(" onDataTextSync   " + this.isOnDataTextSync());
-		  this.println(" onDataTextAction " + this.isOnDataTextAction());
-		}
-	}
-	
+  
+  /** action list */
+  private String[] actions = {showThisNode};
+  
+  @Override
+  public String[] getActionList()
+  {
+    return actions;
+  }
+  
+  @Override
+  public void setActionList(String[] actionList)
+  {
+    actions = actionList;
+  }
+  
+  @Override
+  public void doAction(String action)
+  {
+    if (action == null) {return;}
+    if (showThisNode.equals(action)) {
+      this.println(this.getClass().getName() + " " + this.getName());
+      this.println(" onDataJsonSync   " + this.isOnDataJsonSync());
+      this.println(" onDataTextSync   " + this.isOnDataTextSync());
+      this.println(" onDataTextAction " + this.isOnDataTextAction());
+    }
+  }
+  
 }

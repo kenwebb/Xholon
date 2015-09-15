@@ -40,6 +40,13 @@ var proxy = xh.service("RemoteNodeService-PeerJS");
  *    see https://truongtx.me/2014/06/16/cross-tab-communication-using-html5-dom-storage/
  *    see http://stackoverflow.com/questions/4079280/javascript-communication-between-browser-tabs-windows
  *    see http://ponyfoo.com/articles/cross-tab-communication
+ *        https://github.com/bevacqua/local-storage  "A simplified localStorage API that just works"
+ *    see https://github.com/diy/intercom.js/  3 years old
+ *      "A client-side cross-window message broadcast library built on top of the HTML5 localStorage API."
+ *    see https://github.com/slimjack/IWC
+ *      "Interwindow (cross-tab) communication JavaScript library"
+ * - SharedWorker
+ *    see https://developer.mozilla.org/en-US/docs/Web/API/SharedWorker
  * - MessageChannel
  *    cross domain messaging within the same browser
  * - WebRTC raw
