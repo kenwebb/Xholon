@@ -221,6 +221,15 @@ Uses IDs in range 1013000 - 1013099 .
 <!-- represents instances of the Java Port class -->
 <Port xmlns="http://www.primordion.com/namespace/Port" id="1000100"/>
 
+<!-- concrete classes managed by the RemoteNodeService. -->
+<RemoteNode xmlns="http://www.primordion.com/namespace/RemoteNode" id="1014500">
+  <CrossApp/>
+  <MessageChannel/>
+  <PeerJS/>
+  <PortMessage/>
+  <WebRTC/>
+</RemoteNode>
+
 <!-- Represents Role nodes. Can be used to store a Xholon roleName. -->
 <Role xmlns="http://www.primordion.com/namespace/Role" id="1010100"/>
 

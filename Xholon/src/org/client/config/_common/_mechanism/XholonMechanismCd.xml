@@ -115,6 +115,13 @@
 	<!--<Quantity xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Quantity"/>-->
 	<!--<Quantity xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.service.mathscieng.Quantity"/>-->
 	
+	<!-- RemoteNode -->
+	<CrossApp xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.remotenode.CrossApp"/>
+	<MessageChannel xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.remotenode.MessageChannel"/>
+	<PeerJS xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.remotenode.PeerJS"/>
+	<PortMessage xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.remotenode.PortMessage"/>
+	<WebRTC xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.remotenode.WebRTC"/>
+	
 	<!-- Rest -->
   <!--<JerseyClient xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.rest.JerseyClient"/>-->
 	

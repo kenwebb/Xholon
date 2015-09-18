@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
-import org.primordion.xholon.service.remotenode.IRemoteNode;
+import org.primordion.xholon.service.remotenode.AbstractRemoteNode;
 
 /**
  * A service that creates nodes that proxy access to remote nodes.
@@ -88,8 +88,13 @@ public class RemoteNodeService extends AbstractXholonService {
 			  instance = createInstance(implName);
 			}
 			if (instance != null) {
-			  if (((IRemoteNode)instance).isUsable()) {
-			    IXholonClass xholonClass = getApp().getClassNode("XholonServiceImpl");
+			  if (((AbstractRemoteNode)instance).isUsable()) {
+			    String cName = instance.getClass().getName();
+          cName = cName.substring(cName.lastIndexOf(".")+1);
+          IXholonClass xholonClass = getApp().getClassNode(cName);
+          if (xholonClass == null) {
+			      xholonClass = getApp().getClassNode("XholonServiceImpl");
+			    }
 			    instance.setId(getNextId());
 			    instance.setXhc(xholonClass);
 			    instance.appendChild(this);
