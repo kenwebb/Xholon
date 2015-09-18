@@ -56,62 +56,71 @@ public class CrossApp extends AbstractRemoteNode implements IRemoteNode {
   };
   
   @Override
+  public boolean isColocated() {
+	  return true;
+	}
+  
+  // child window, Jake
+  @Override
   protected native Object fixListenParams(String listenParams) /*-{
     var obj = {};
-    obj.localid = null;
-    obj.remoteXPathExpr = null;
+    obj.remoteXPathExpr = null; // ex: NoBoundariesSystem/Helen
+    obj.localPortName = null; // ex: "0"  "1"  "2"  "world"  "helen"
     if (listenParams) {
       var data = listenParams.split(",", 2);
       $wnd.console.log(data);
       switch(data.length) {
       // break is intentionally left out so the cases will fall through
       case 2: obj.remoteXPathExpr = data[1];
-      case 1: obj.localid = data[0];
+      case 1: obj.localPortName = data[0];
       default: break;
       }
     }
-    if (obj.localid.length == 0) {
-      obj.localid = null;
-    }
+    $wnd.console.log(obj);
+    if (obj.remoteXPathExpr.length == 0) {obj.remoteXPathExpr = null;}
+    if (obj.localPortName.length == 0) {obj.localPortName = null;}
+    $wnd.console.log(obj);
     return obj;
   }-*/;
   
+  // parent window, Helen
   @Override
   protected native Object fixConnectParams(String connectParams) /*-{
     var obj = {};
     obj.useIframe = true;
-    obj.remoteUrl = "";
-    obj.remoteid = "";
+    obj.remoteUrl = ""; // remote URL fragment
+    // ex: "?app=The%20Love%20Letter%20-%20Jake%20-%20CrossApp&amp;src=lstr&amp;gui=clsc"
+    obj.remoteWindowName = ""; // ex: "Jake"
+    obj.remoteXPathExpr = null; // ex: "NoBoundariesSystem/Jake"
+    obj.localPortName = null; // ex: "0"  "1"  "2"  "world"  "helen"
     if (connectParams) {
-      var data = connectParams.split(",", 3);
+      var data = connectParams.split(",", 5);
       $wnd.console.log(data);
       switch(data.length) {
       // break is intentionally left out so the cases will fall through
-      case 3: if (data[2] == "false") {obj.useIframe = false;}
-      case 2: obj.remoteUrl = data[1];
-      case 1: obj.remoteid = data[0];
+      case 5: if (data[4] == "false") {obj.useIframe = false;}
+      case 4: obj.remoteUrl = data[3];
+      case 3: obj.remoteWindowName = data[2];
+      case 2: obj.remoteXPathExpr = data[1];
+      case 1: obj.localPortName = data[0];
       default: break;
       }
     }
-    if (obj.remoteid.length == 0) {
-      obj.remoteid = null;
-    }
-    if (obj.remoteUrl.length == 0) {
-      obj.remoteUrl = null;
-    }
+    if (obj.remoteUrl.length == 0) {obj.remoteUrl = null;}
+    if (obj.remoteWindowName.length == 0) {obj.remoteWindowName = null;}
+    if (obj.remoteXPathExpr.length == 0) {obj.remoteXPathExpr = null;}
+    if (obj.localPortName.length == 0) {obj.localPortName = null;}
     return obj;
   }-*/;
   
+  // child window, Jake
   @Override
   protected native void listen(Object listenParams, IXholon reffedNode) /*-{
-    var localid = listenParams.localid;
+    this.role(reffedNode.name("R^^^^^"));
+    var localPortName = listenParams.localPortName;
     var remoteXPathExpr = listenParams.remoteXPathExpr;
-    if (localid == null) {
-      var appName = "" + $wnd.xh.html.urlparam("app").replace(/\+/g," ").substring(0,18);
-      localid = appName + "_" + new Date().getTime() + "_" + reffedNode.id();
-    }
-    this.println(localid);
-    this.println(remoteXPathExpr);
+    this.println("localPortName " + localPortName);
+    this.println("remoteXPathExpr " + remoteXPathExpr);
     
     // assume that this app has been opened by another app
     var otherWindow = null;
@@ -127,31 +136,33 @@ public class CrossApp extends AbstractRemoteNode implements IRemoteNode {
     }
     $wnd.console.log(otherWindow);
     if (remoteXPathExpr) {
-      //this.remoteNode = otherWindow.xh.root().xpath(remoteXPathExpr);
       this.port(1, otherWindow.xh.root().xpath(remoteXPathExpr));
     }
     else {
-      //this.remoteNode = otherWindow.xh.root();
       this.port(1, otherWindow.xh.root());
     }
-    if (this.port(1)) { //this.remoteNode) {
-      $wnd.console.log(this.port(1).name()); //this.remoteNode.name());
-      $wnd.console.log("let the other window/app know that this window/app is ready");
+    if (this.port(1)) {
+      $wnd.console.log(this.port(1).name());
+      // have the local node's port reference the remote node
+      reffedNode.port(localPortName, this.port(1));
       // let the other window/app know that this window/app is ready
-      //this.remoteNode.msg(201, null, reffedNode);
+      $wnd.console.log("let the other window/app know that this window/app is ready");
       this.port(1).msg(@org.primordion.xholon.base.ISignal::SIGNAL_READY, null, reffedNode); // -11
     }
   }-*/;
   
+  // parent window, Helen
   @Override
   protected native void connect(Object connectParams, IXholon reffingNode) /*-{
-    var remoteid = connectParams.remoteid;
+    this.role(reffingNode.name("R^^^^^"));
+    var localPortName = connectParams.localPortName;
+    var remoteXPathExpr = connectParams.remoteXPathExpr;
+    var remoteWindowName = connectParams.remoteWindowName;
     var remoteUrl = connectParams.remoteUrl;
     var useIframe = connectParams.useIframe;
-    //var appName = "" + $wnd.xh.html.urlparam("app").replace(/\+/g," ").substring(0,18);
-    //var localid = appName + "_" + new Date().getTime() + "_" + reffingNode.id();
-    //this.println("localid " + localid);
-    this.println("remoteid " + remoteid);
+    this.println("localPortName " + localPortName);
+    this.println("remoteXPathExpr " + remoteXPathExpr);
+    this.println("remoteWindowName " + remoteWindowName);
     this.println("remoteUrl " + remoteUrl);
     this.println("useIframe " + useIframe);
     
@@ -169,29 +180,45 @@ public class CrossApp extends AbstractRemoteNode implements IRemoteNode {
     }
     else {
       // Google Chrome will invoke its popup blocker to prevent this; user must enable popups for this domain
-      otherWindow = $wnd.open(url, remoteid);
+      otherWindow = $wnd.open(url, remoteWindowName);
     }
     $wnd.console.log(otherWindow);
+    
+    // otherWindow.xh doesn't exist yet; save for connectFinish()
+    connectParams.otherWindow = otherWindow;
+    connectParams.reffingNode = reffingNode;
+    this.connectParams = connectParams;
+  }-*/;
+  
+  /**
+   * Finish the connection, if not already done.
+   * otherWindow.xh does exist now.
+   * This has to be done before txRemote() can be called.
+   */
+  protected native void connectFinish() /*-{
+    if (this.connectParams.remoteXPathExpr) {
+      this.port(1, this.connectParams.otherWindow.xh.root().xpath(this.connectParams.remoteXPathExpr));
+    }
+    else {
+      this.port(1, this.connectParams.otherWindow.xh.root());
+    }
+    if (this.port(1)) {
+      // have the local node's port reference the remote node
+      this.connectParams.reffingNode.port(this.connectParams.localPortName, this.port(1));
+    }
   }-*/;
   
   @Override
-  protected native boolean txRemote(int signal, Object data) /*-{
-    //if (typeof this.connexn === "undefined") {return false;}
-    //var jsonStr = '{"signal":' + signal + ',"data":' + $wnd.JSON.stringify(data) + '}';
-    //this.connexn.send(jsonStr);
-    if (!this.port(1)) {return false;}
-    this.port(1).msg({signal:signal, data:data, sender:this});
+  protected boolean txRemote(IMessage msg) {
+    if (this.getPort(1) == null) {
+      connectFinish();
+    }
+    if (this.getPort(1) == null) {
+      return false;
+    }
+    this.getPort(1).processReceivedMessage(msg);
     return true;
-  }-*/;
-  
-  @Override
-  protected native boolean txRemote(Object data) /*-{
-    //if (typeof this.connexn === "undefined") {return false;}
-    //this.connexn.send(data);
-    if (!this.port(1)) {return false;}
-    this.port(1).msg({signal:-9, data:data, sender:this});
-    return true;
-  }-*/;
+  }
   
   // actions
   private static final String showThisNode = "Show This Node";

@@ -43,6 +43,14 @@ public abstract class AbstractRemoteNode extends XholonWithPorts implements IRem
   protected String formatName = "Xml";
   protected String efParams = "{\"xhAttrStyle\":1,\"nameTemplate\":\"^^C^^^\",\"xhAttrReturnAll\":true,\"writeStartDocument\":false,\"writeXholonId\":false,\"writeXholonRoleName\":true,\"writePorts\":true,\"writeAnnotations\":true,\"shouldPrettyPrint\":true,\"writeAttributes\":true,\"writeStandardAttributes\":true,\"shouldWriteVal\":false,\"shouldWriteAllPorts\":false}";
   
+  public String roleName = null;
+  
+  @Override
+  public void setRoleName(String roleName) {this.roleName = roleName;}
+  
+  @Override
+  public String getRoleName() {return roleName;}
+
   protected native void setOnDataJsonSync(boolean onDataJsonSync) /*-{
     this.onDataJsonSync = onDataJsonSync;
   }-*/;
@@ -67,6 +75,22 @@ public abstract class AbstractRemoteNode extends XholonWithPorts implements IRem
     return this.onDataTextAction;
   }-*/;
   
+  /**
+   * Is the RemoteNode usable?
+   * Is a required library available?
+   * For example, PeerJS requires $wnd.Peer .
+  */
+  public abstract boolean isUsable();
+  
+  /**
+   * Two end nodes are colocated if they can communicate directly using Xholon messaging.
+   * For example, in an app that uses the CrossApp concrete class, nodes are colocated.
+   * Probably for all other concrete classes, nodes are not colocated.
+   */
+  public boolean isColocated() {
+    return false;
+  }
+
   @Override
   public void processReceivedMessage(IMessage msg) {
     int signal = msg.getSignal();
@@ -88,6 +112,10 @@ public abstract class AbstractRemoteNode extends XholonWithPorts implements IRem
     signal = 9 0b01001  send as plain text, and leave the node intact, and prepend
     */
     default:
+      if (this.isColocated()) {
+        txRemote(msg);
+        return;
+      }
       // this message is from the local reffedNode
       // - if data is a IXholon node, then:
       //   serialize the node and its subtree as XML,
@@ -121,7 +149,8 @@ public abstract class AbstractRemoteNode extends XholonWithPorts implements IRem
       else {
         if (txRemote(signal, (String)data)) {}
       }
-    }
+      break; // end case
+    } // end switch
   }
   
   @Override
@@ -201,6 +230,8 @@ public abstract class AbstractRemoteNode extends XholonWithPorts implements IRem
   
   protected boolean txRemote(Object data) {return false;}
   
+  protected boolean txRemote(IMessage msg) {return false;}
+  
   /**
    * Receive data from a remote source.
    * Handle connection.on('data', function(data) in PeerJS.
@@ -261,8 +292,8 @@ public abstract class AbstractRemoteNode extends XholonWithPorts implements IRem
   protected native String serialize(IXholon node, String formatName, String efParams) /*-{
     return $wnd.xh.xport(formatName, node, efParams, false, true);
   }-*/;
-	
-	  /**
+  
+    /**
    * Create a new iframe.
    * @param url 
    * @return A Window/Iframe object.
@@ -278,16 +309,16 @@ public abstract class AbstractRemoteNode extends XholonWithPorts implements IRem
   
   @Override
   public String toString() {
-		String outStr = getName();
-		if ((port != null) && (port.length > 0)) {
-			outStr += " [";
-			for (int i = 0; i < port.length; i++) {
-				if (port[i] != null) {
-					outStr += " port:" + port[i].getName();
-				}
-			}
-			outStr += "]";
-		}
-		return outStr;
-	}
+    String outStr = getName();
+    if ((port != null) && (port.length > 0)) {
+      outStr += " [";
+      for (int i = 0; i < port.length; i++) {
+        if (port[i] != null) {
+          outStr += " port:" + port[i].getName();
+        }
+      }
+      outStr += "]";
+    }
+    return outStr;
+  }
 }
