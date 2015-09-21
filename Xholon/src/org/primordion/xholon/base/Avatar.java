@@ -719,7 +719,6 @@ public class Avatar extends XholonWithPorts {
   public void appendChild(IXholon newParentNode) {
     super.appendChild(newParentNode);
     // make sure that any Avatar that moves has its contextNode updated
-    //contextNode = this.getParentNode();
     setContextNode(this.getParentNode());
   }
   
@@ -1665,29 +1664,71 @@ public class Avatar extends XholonWithPorts {
    *   xpath.evaluate(portName, contextNode);
    * @param portName - The name or index of a Xholon port (ex: "north" "south" "east" "west" "0" "1"),
    *   or a pseudo port name ("next" "prev" "xpath(...)")
-   *   or an abbreviated name (ex: "n" "so" "eas" "w").
    * @param nextTarget - Optional target for "next"
    */
   protected void go(String portName, String nextTarget) {
     if (portName == null) {return;}
     
-    switch (portName) {
-    case "next":
+    // uniform case for comparison works better with speech recognition
+    switch (portName.toUpperCase()) {
+    case "NEXT":
       if (nextTarget == null) {next();}
       else {next(nextTarget);}
       return;
-    case "prev":
+    case "PREV":
+    case "PREVIOUS": // useful with speech recognition
       if (nextTarget == null) {prev();}
       else {prev(nextTarget);}
       return;
     case "N": goPort(IGrid.P_NORTH); return;
-    case "E": goPort(IGrid.P_EAST); return;
-    case "S": goPort(IGrid.P_SOUTH); return;
-    case "W": goPort(IGrid.P_WEST); return;
-    case "NE": goPort(IGrid.P_NORTHEAST); return;
-    case "SE": goPort(IGrid.P_SOUTHEAST); return;
-    case "SW": goPort(IGrid.P_SOUTHWEST); return;
-    case "NW": goPort(IGrid.P_NORTHWEST); return;
+    case "NORTH":
+    {
+      // speech recognition recognizes "north east" "north west" rather than "northeast" "northwest"
+      if (nextTarget == null) {
+        goPort(IGrid.P_NORTH);
+      }
+      else if ("EAST".equalsIgnoreCase(nextTarget)) {
+        goPort(IGrid.P_NORTHEAST);
+      }
+      else if ("WEST".equalsIgnoreCase(nextTarget)) {
+        goPort(IGrid.P_NORTHWEST);
+      }
+      else {
+        goPort(IGrid.P_NORTH);
+      }
+      return;
+    }
+    case "E":
+    case "EAST": goPort(IGrid.P_EAST); return;
+    case "S":
+    case "SOUTH": goPort(IGrid.P_SOUTH); return;
+    case "W":
+    case "WEST": goPort(IGrid.P_WEST); return;
+    case "NE":
+    case "NA":
+    case "ANY":
+    case "NORTHEAST": goPort(IGrid.P_NORTHEAST); return;
+    case "SE":
+    case "SOUTHEAST": goPort(IGrid.P_SOUTHEAST); return;
+    case "SW":
+    case "SOUTHWEST": goPort(IGrid.P_SOUTHWEST); return;
+    case "NW":
+    case "NORTHWEST": goPort(IGrid.P_NORTHWEST); return;
+    case "0":
+    case "ZERO": goPort(0); return;
+    case "1":
+    case "ONE": goPort(1); return;
+    case "2":
+    case "TO": goPort(2); return;
+    case "3": goPort(3); return;
+    case "4": goPort(4); return;
+    case "5":
+    case "V": goPort(5); return;
+    case "6": goPort(6); return;
+    case "7": goPort(7); return;
+    case "8": goPort(8); return;
+    case "9": goPort(9); return;
+    case "10": goPort(10); return;
     default: break;
     }
     
