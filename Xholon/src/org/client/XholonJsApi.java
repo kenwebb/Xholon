@@ -779,6 +779,12 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       }
     });
     
+    // select
+    api.select = $entry(function() {
+      var app = $wnd.xh.app();
+      return app.@org.primordion.xholon.app.Application::handleNodeSelection(Lorg/primordion/xholon/base/IXholon;Ljava/lang/String;)(this, this.name());
+    });
+    
     // IDecoration methods
     
     // color
