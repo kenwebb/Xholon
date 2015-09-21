@@ -3976,4 +3976,51 @@ ${MODELNAME_DEFAULT},${SVGURI_DEFAULT},,,./,${VIEWABLES_CREATE}
 		xmlWriter.writeEndElement("param");
 	}
 	
+	@Override
+  public String handleNodeSelection(IXholon node, String nodeName) {
+	  String text = null;
+	  if (nodeName.equals("Application") || nodeName.equals("Model")) {
+		  if (this.getModelName() == null) {
+			  text = node.handleNodeSelection()
+				  + " [timeStep=" + this.getTimeStep() + "]";
+		  }
+		  else {
+			  text = node.handleNodeSelection()
+				  + " --> " + this.getModelName()
+				  + " [timeStep=" + this.getTimeStep() + "]";
+		  }
+	  }
+	  else if (nodeName.indexOf("textTree") != -1) {
+		  IXholon textTreeService = this.getService(IXholonService.XHSRV_TEXT_TREE_VIEWER);
+		  if (textTreeService != null) {
+			  textTreeService.sendSyncMessage(IXholonService.SIG_PROCESS_REQUEST, this.getRoot(), this);
+		  }
+		  text = (String)node.handleNodeSelection();
+	  }
+	  else if (nodeName.indexOf("xYChart") != -1) {
+      this.invokeDataPlotter();
+		  text = (String)node.handleNodeSelection();
+	  }
+	  else if (nodeName.indexOf("interaction") != -1) {
+		  this.invokeInteraction();
+		  text = (String)node.handleNodeSelection();
+	  }
+	  else if (nodeName.indexOf("gridViewer") != -1) {
+		  GridPanel.toggleFrozen();
+		  text = (String)node.handleNodeSelection();
+	  }
+	  else if (nodeName.indexOf("histogramViewer") != -1) {
+	    this.invokeHistogramPlotter();
+	    text = (String)node.handleNodeSelection();
+	  }
+	  else if (nodeName.indexOf("snapshot") != -1) {
+	    this.setSaveSnapshots(!this.getSaveSnapshots());
+	    text = (String)node.handleNodeSelection();
+	  }
+	  else {
+      text = (String)node.handleNodeSelection();
+    }
+    return text;
+  }
+	
 }

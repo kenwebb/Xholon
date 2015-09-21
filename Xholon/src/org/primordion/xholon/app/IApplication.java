@@ -895,4 +895,12 @@ public interface IApplication extends IXholon {
 	 */
 	public abstract String getHostPageBaseURL();
 	
+  /**
+   * Handle selection of a node, typically caused by left-clicking or touching a node.
+   * This is called by AbstractXholonGui and XholonJsApi.
+   * @param node 
+   * @param nodeName 
+   */
+	public abstract String handleNodeSelection(IXholon node, String nodeName);
+	
 }

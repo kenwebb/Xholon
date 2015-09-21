@@ -145,46 +145,8 @@ public abstract class AbstractXholonGui implements IXholonGui {
 		  if (nodeName.equals("Refresh")) {
 			  refresh();
 		  }
-		  else if (nodeName.equals("Application") || nodeName.equals("Model")) {
-			  if (app.getModelName() == null) {
-				  setText(node.handleNodeSelection()
-					  + " [timeStep=" + app.getTimeStep() + "]");
-			  }
-			  else {
-				  setText(node.handleNodeSelection()
-					  + " --> " + app.getModelName()
-					  + " [timeStep=" + app.getTimeStep() + "]");
-			  }
-		  }
-		  else if (nodeName.indexOf("textTree") != -1) {
-			  IXholon textTreeService = app.getService(IXholonService.XHSRV_TEXT_TREE_VIEWER);
-			  if (textTreeService != null) {
-				  textTreeService.sendSyncMessage(IXholonService.SIG_PROCESS_REQUEST, app.getRoot(), app);
-			  }
-			  setText((String)node.handleNodeSelection());
-		  }
-		  else if (nodeName.indexOf("xYChart") != -1) {
-        app.invokeDataPlotter();
-			  setText((String)node.handleNodeSelection());
-		  }
-		  else if (nodeName.indexOf("interaction") != -1) {
-			  app.invokeInteraction();
-			  setText((String)node.handleNodeSelection());
-		  }
-		  else if (nodeName.indexOf("gridViewer") != -1) {
-			  GridPanel.toggleFrozen();
-			  setText((String)node.handleNodeSelection());
-		  }
-		  else if (nodeName.indexOf("histogramViewer") != -1) {
-		    app.invokeHistogramPlotter();
-		    setText((String)node.handleNodeSelection());
-		  }
-		  else if (nodeName.indexOf("snapshot") != -1) {
-		    app.setSaveSnapshots(!app.getSaveSnapshots());
-		    setText((String)node.handleNodeSelection());
-		  }
-		  else {
-        setText((String)node.handleNodeSelection());
+      else {
+        setText(app.handleNodeSelection(node, nodeName));
       }
     }
   }
