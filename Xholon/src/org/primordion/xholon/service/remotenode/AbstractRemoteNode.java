@@ -153,6 +153,18 @@ public abstract class AbstractRemoteNode extends XholonWithPorts implements IRem
     } // end switch
   }
   
+  /**
+   * Catch nodes that are being appended to this instance of IRemoteNode.
+   * Serialize the node, and send it to the remote end of the connection.
+   * @param node 
+   *   This could for example be an Avatar node travelling thru a port.
+   */
+  @Override
+  public void setFirstChild(IXholon node) {
+    String serStr = serialize(node, formatName, efParams);
+    txRemote(serStr);
+  }
+  
   @Override
   public IMessage processReceivedSyncMessage(IMessage msg) {
     consoleLog(msg.getVal_Object());
