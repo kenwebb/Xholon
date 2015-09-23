@@ -1624,7 +1624,7 @@ public class Avatar extends XholonWithPorts {
     if (node.hasAnnotation()) {
       sb.append(" ").append(node.getAnnotation());
     }
-    else if (node.getXhc().hasAnnotation()) {
+    else if ((node.getXhc() != null) && node.getXhc().hasAnnotation()) {
       sb.append(" ").append(node.getXhc().getAnnotation());
     }
     else {

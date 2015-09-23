@@ -163,8 +163,13 @@ public class XPath extends AbstractXPath {
 						contextNode = contextNode.getFirstChild();
 					}
 					else {
+						boolean matchSuperClasses = true;
+						if ((contextNode.getXhc() == null) || ("Control".equals(contextNode.getXhcName()))) {
+							// contextNode is probably a XholonClass or a Control
+							matchSuperClasses = false;
+						}
 						contextNode = searchForClosestNeighbor(1, IXholon.NINCLUDE_xxC, null,
-								locationStep, true, contextNode);
+								locationStep, matchSuperClasses, contextNode);
 					}
 					break;
 				case IXPath.AXIS_DESCENDANT:
@@ -573,11 +578,16 @@ public class XPath extends AbstractXPath {
 	 */
 	protected IXholon searchForNthNamedDescendant(String descendantName, int n, String attrPredicate, IXholon xhNode)
 	{
+		boolean matchSuperClasses = true;
+		if ((xhNode.getXhc() == null) || ("Control".equals(xhNode.getXhcName()))) {
+			// xhNode is probably a XholonClass or Control
+			matchSuperClasses = false;
+		}
 		if ((n == 0) && (attrPredicate == null)) {
-			return searchForClosestNeighbor(50, IXholon.NINCLUDE_xxC, null, descendantName, true, xhNode);
+			return searchForClosestNeighbor(50, IXholon.NINCLUDE_xxC, null, descendantName, matchSuperClasses, xhNode);
 		}
 		Vector<IXholon> dV = searchForClosestNeighbors(50, IXholon.NINCLUDE_xxC, null,
-				descendantName, 1000, true, xhNode);
+				descendantName, 1000, matchSuperClasses, xhNode);
 		IXholon node = null;
 		for (int i = 0; i < dV.size(); i++) {
 			node = (IXholon)dV.elementAt(i);
@@ -611,7 +621,9 @@ public class XPath extends AbstractXPath {
 			if (node == null) {
 				return null;
 			}
-			else if (("*".equals(siblingName)) || (node.getXhc().hasAncestor(siblingName))) {
+			else if (("*".equals(siblingName))
+					|| ((node.getXhc() != null) && node.getXhc().hasAncestor(siblingName))
+					|| siblingName.equals(node.getXhcName())) {
 				if (xpathPredicateTrue(attrPredicate, node)) {
 					i++;
 					if (i == n) {

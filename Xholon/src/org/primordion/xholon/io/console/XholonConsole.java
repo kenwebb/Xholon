@@ -431,7 +431,7 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
     setId(app.getNextId());
     setRoleName(context.getName());
     
-    if (context.getXhc().hasAncestor("Avatar")) {
+    if ((context.getXhc() != null) && context.getXhc().hasAncestor("Avatar")) {
       setTerminalEnabled(true);
       sendMsgAsyncOrSync = SENDMESSAGE_SYNC;
     }

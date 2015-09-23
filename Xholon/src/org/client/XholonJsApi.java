@@ -277,7 +277,9 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
           var data = nss.call(-3894, null, $wnd.xh.root()).data;
           if (data.length > 0) {
             var node = data[0];
-            if ((node.xhc().name() == "Avatar") || (node.xhc().parent().name() == "Avatar")) {
+            if (node.xhc()
+                && node.xhc().parent()
+                && ((node.xhc().name() == "Avatar") || (node.xhc().parent().name() == "Avatar"))) {
               node.action(result);
             }
             else {
@@ -755,6 +757,7 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
     // hasClass
     api.hasClass = $entry(function(className) {
       var xhc = this.@org.primordion.xholon.base.IXholon::getXhc()();
+      if (!xhc) {return false;}
       return xhc.@org.primordion.xholon.base.IXholonClass::hasAncestor(Ljava/lang/String;)(className);
     });
     
