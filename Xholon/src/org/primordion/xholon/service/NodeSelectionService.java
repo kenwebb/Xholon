@@ -113,11 +113,10 @@ public class NodeSelectionService extends AbstractXholonService {
 	 */
 	public void processReceivedMessage(IMessage msg)
 	{
-		//System.out.println("NSSasync:" + msg);
-		switch (msg.getSignal()) {
+	  switch (msg.getSignal()) {
 		case SIG_REMEMBER_SELECTED_NODES_REQ:
-			currentlySelectedNodes = (IXholon[])msg.getData();
-			break;
+		  currentlySelectedNodes = (IXholon[])msg.getData();
+		  break;
 		case SIG_APPEND_SELECTED_NODES_REQ:
 			IXholon[] newNodes = (IXholon[])msg.getData();
 			IXholon[] combinedNodes = new IXholon[currentlySelectedNodes.length + newNodes.length];
@@ -150,7 +149,6 @@ public class NodeSelectionService extends AbstractXholonService {
 	 */
 	public IMessage processReceivedSyncMessage(IMessage msg)
 	{
-		//System.out.println("NSSsync:" + msg);
 		switch (msg.getSignal()) {
 		case SIG_REMEMBER_BUTTON3_NODE_REQ:
 			currentlySelectedButton3Node = (IXholon)msg.getData();
@@ -184,11 +182,12 @@ public class NodeSelectionService extends AbstractXholonService {
 	}
 	
 	// actions
-	private static final String showSelectedNodes     = "Show Selected Nodes";
+	private static final String showSelectedNodes       = "Show Selected Nodes";
+	private static final String showSelectedButton3Node = "Show Context Menu Node";
 	
 	/** action list */
 	private String[] actions = {
-			showSelectedNodes
+			showSelectedNodes, showSelectedButton3Node
 			};
 	
 	/*
@@ -214,13 +213,18 @@ public class NodeSelectionService extends AbstractXholonService {
 	{
 		println("NSS:" + action);
 		if (action == null) {return;}
-		println("NSS:" + currentlySelectedNodes.length);
-		if (currentlySelectedNodes == null) {return;}
 		if (showSelectedNodes.equals(action)) {
+			if (currentlySelectedNodes == null) {
+				println("NSS: 0");
+				return;
+			}
+			println("NSS:" + currentlySelectedNodes.length);
 			for (int i = 0; i < currentlySelectedNodes.length; i++) {
 				println(currentlySelectedNodes[i]);
-				//System.out.println(currentlySelectedNodes[i]);
 			}
+		}
+		else if (showSelectedButton3Node.equals(action)) {
+				println(currentlySelectedButton3Node);
 		}
 	}
 	
