@@ -262,6 +262,11 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       return "";
     });
     
+    // avatar
+    $wnd.xh.avatar = $entry(function() {
+      return app.@org.primordion.xholon.app.Application::getAvatar()();
+    });
+    
     // speech recognition
     // @param lang (ex: "en-GB")
     $wnd.xh.speechRecognition = $entry(function(lang) {
