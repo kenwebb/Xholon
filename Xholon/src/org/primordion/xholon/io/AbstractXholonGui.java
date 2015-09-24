@@ -52,8 +52,8 @@ import org.primordion.xholon.util.ClassHelper;
 public abstract class AbstractXholonGui implements IXholonGui {
   
   protected IXholon xhRoot;
-	protected static IXPath xpath = new XPath();         // XPath routines
-	
+  protected static IXPath xpath = new XPath();         // XPath routines
+  
   protected String modelName = null;
   
   protected IApplication app = null;
@@ -72,20 +72,20 @@ public abstract class AbstractXholonGui implements IXholonGui {
    * Text that can appear as an overlay in the GUI.
    */
   protected static final String splashText = "<div style=\"background-color: #f0f8ff\">"
-  	+ "<p><center><strong><em>Welcome to Xholon (version 0.9.1)</em></strong></center></p>"
-  	+ "<p>The Xholon GUI allows you to execute existing Xholon applications, and observe them at run-time.</p>"
-  	+ "<ul style=\"margin: 10\">"
-  	+ "<li>Press the <strong>Start</strong> button. While the application is running, you can press Pause (toggle pause/unpause), Step, Stop, and Refresh. Observe the (optional) output in the out tab.</li>"
-  	+ "<li>Expand <strong>Application &gt; View</strong> to see which if any viewers have been enabled.</li>"
-  	+ "<li>Expand <strong>Application &gt; Model</strong> to observe the hierarchical runtime structure and behavior (CompositeStructureHierarchy) of the application. Details of each node will display at the bottom of the GUI.</li>"
-  	+ "<li>Select <strong>Information</strong> from the Help menu for (optional) details about the application currently running.</li>"
-  	+ "<li>Right-click any node to open a context menu.</li>"
-  	+ "</ul>"
-  	+ "<p>Copyright (C) 2005 - 2015 Ken Webb</p>"
-  	+ "<p>Xholon library is licensed under GNU Lesser General Public License.</p>"
-  	+ "<p><center><a href=\"http://www.primordion.com/Xholon/gwt/\">www.primordion.com/Xholon/gwt/</a><center></p>"
-  	+ "<center><a href=\"http://www.primordion.com/Xholon/wiki/index.html\">Xholon wiki</a><center>"
-  	+ "</div>";
+    + "<p><center><strong><em>Welcome to Xholon (version 0.9.1)</em></strong></center></p>"
+    + "<p>The Xholon GUI allows you to execute existing Xholon applications, and observe them at run-time.</p>"
+    + "<ul style=\"margin: 10\">"
+    + "<li>Press the <strong>Start</strong> button. While the application is running, you can press Pause (toggle pause/unpause), Step, Stop, and Refresh. Observe the (optional) output in the out tab.</li>"
+    + "<li>Expand <strong>Application &gt; View</strong> to see which if any viewers have been enabled.</li>"
+    + "<li>Expand <strong>Application &gt; Model</strong> to observe the hierarchical runtime structure and behavior (CompositeStructureHierarchy) of the application. Details of each node will display at the bottom of the GUI.</li>"
+    + "<li>Select <strong>Information</strong> from the Help menu for (optional) details about the application currently running.</li>"
+    + "<li>Right-click any node to open a context menu.</li>"
+    + "</ul>"
+    + "<p>Copyright (C) 2005 - 2015 Ken Webb</p>"
+    + "<p>Xholon library is licensed under GNU Lesser General Public License.</p>"
+    + "<p><center><a href=\"http://www.primordion.com/Xholon/gwt/\">www.primordion.com/Xholon/gwt/</a><center></p>"
+    + "<center><a href=\"http://www.primordion.com/Xholon/wiki/index.html\">Xholon wiki</a><center>"
+    + "</div>";
 
   /**
    * Constructor.
@@ -93,13 +93,13 @@ public abstract class AbstractXholonGui implements IXholonGui {
   public AbstractXholonGui() {}
   
   /**
-	 * Get name of the model.
-	 * @return Model name.
-	 */
-	public String getModelName() {
-		return modelName;
-	}
-	
+   * Get name of the model.
+   * @return Model name.
+   */
+  public String getModelName() {
+    return modelName;
+  }
+  
   /**
    * Show the entire IXholon tree in a GUI.
    * @param node Node from which to start showing the tree.
@@ -109,44 +109,58 @@ public abstract class AbstractXholonGui implements IXholonGui {
   /**
    * Handle selection of a node,
    * typically caused by clicking or ctrl-clicking on a node with the left mouse button.
-   * @param node 
    * @param nodeName 
    * @param guiItem 
+   * @param isCtrlPressed 
    */
   public void handleNodeSelection(String nodeName, Object guiItem, boolean isCtrlPressed) {
-    IXholon node = xpath.evaluate("descendant-or-self::*[@name='" + nodeName + "']", xhRoot); //xpathXhRoot);
-    rememberNodeSelection(node, isCtrlPressed);
+    IXholon node = xpath.evaluate("descendant-or-self::*[@name='" + nodeName + "']", xhRoot);
     if (node == null) {
       // this is probably a XholonClass or a Mechanism
-		  if (isInInheritanceHierarchy(guiItem)) {
-			  IXholonClass xhcNode = xhRoot.getClassNode(nodeName);
-			  if (xhcNode == null) {
-				  setText(nodeName);
-			  }
-			  else {
-				  setText(xhcNode.toString());
-			  }
-		  }
-		  else if (isInMechanismHierarchy(guiItem)) {
-			  IXholon mechNode = app.getMechRoot();
-			  mechNode = xpath.evaluate("descendant-or-self::*[@name='" + nodeName + "']", mechNode);
-			  if (mechNode == null) {
-				  setText(nodeName);
-			  }
-			  else {
-				  setText(mechNode.toString());
-			  }
-		  }
-		  else {
-			  setText(nodeName);
-		  }
+      if (isInInheritanceHierarchy(guiItem)) {
+        IXholonClass xhcNode = xhRoot.getClassNode(nodeName);
+        if (xhcNode == null) {
+          setText(nodeName);
+        }
+        else {
+          rememberNodeSelection(xhcNode, isCtrlPressed);
+          setText(xhcNode.toString());
+        }
+      }
+      else if (isInMechanismHierarchy(guiItem)) {
+        IXholon mechNode = app.getMechRoot();
+        mechNode = xpath.evaluate("descendant-or-self::*[@name='" + nodeName + "']", mechNode);
+        if (mechNode == null) {
+          setText(nodeName);
+        }
+        else {
+          rememberNodeSelection(mechNode, isCtrlPressed);
+          setText(mechNode.toString());
+        }
+      }
+      else {
+        setText(nodeName);
+      }
     }
     else {
-		  if (nodeName.equals("Refresh")) {
-			  refresh();
-		  }
+      if (isInInheritanceHierarchy(guiItem)) {
+        IXholonClass xhcNode = xhRoot.getClassNode(nodeName);
+        if (xhcNode == null) {
+          setText(nodeName);
+        }
+        else {
+          rememberNodeSelection(xhcNode, isCtrlPressed);
+          setText(xhcNode.toString());
+        }
+      }
       else {
-        setText(app.handleNodeSelection(node, nodeName));
+        rememberNodeSelection(node, isCtrlPressed);
+        if (nodeName.equals("Refresh")) {
+          refresh();
+        }
+        else {
+          setText(app.handleNodeSelection(node, nodeName));
+        }
       }
     }
   }
@@ -182,11 +196,10 @@ public abstract class AbstractXholonGui implements IXholonGui {
    * @param node
    */
   protected void rememberButton3Selection(IXholon node) {
-    // pass the node to the NodeSelectionService by sending it as an async message
+    // pass the node to the NodeSelectionService by sending it as a sync message
     if (nodeSelectionService == null) {
       nodeSelectionService = app.getService(IXholonService.XHSRV_NODE_SELECTION);
     }
-    //System.out.println("XG:" + nodeSelectionService);
     if (nodeSelectionService != null) {
       nodeSelectionService
         .sendSyncMessage(NodeSelectionService.SIG_REMEMBER_BUTTON3_NODE_REQ, node, app);
@@ -204,21 +217,21 @@ public abstract class AbstractXholonGui implements IXholonGui {
     if (node != null) {
       IXholon[] nodeArray = {node};
       if (nodeSelectionService == null) {
-        nodeSelectionService = node.getService(IXholonService.XHSRV_NODE_SELECTION);
+        nodeSelectionService = app.getService(IXholonService.XHSRV_NODE_SELECTION);
       }
       if (nodeSelectionService != null) {
         if (isControlDown) {
           // mouse Ctrl-click
           // append the new selection to what has already been remembered
           nodeSelectionService
-            .sendSystemMessage(NodeSelectionService.SIG_APPEND_SELECTED_NODES_REQ, nodeArray, node);
+            .sendSystemMessage(NodeSelectionService.SIG_APPEND_SELECTED_NODES_REQ, nodeArray, app);
         }
         else {
           // mouse click
           // the new selection should replace what was previously remembered
-  		    app.setAvatarContextNode(node);
+          app.setAvatarContextNode(node);
           nodeSelectionService
-            .sendSystemMessage(NodeSelectionService.SIG_REMEMBER_SELECTED_NODES_REQ, nodeArray, node);
+            .sendSystemMessage(NodeSelectionService.SIG_REMEMBER_SELECTED_NODES_REQ, nodeArray, app);
         }
       }
     }
@@ -619,8 +632,8 @@ public abstract class AbstractXholonGui implements IXholonGui {
     helpSubMenu.addItem("About", new Command() {
       public void execute() {
         if (app != null) {
-					app.about();
-				}
+          app.about();
+        }
       }
     });
     helpSubMenu.addItem("Getting Started", new Command() {
@@ -631,8 +644,8 @@ public abstract class AbstractXholonGui implements IXholonGui {
     helpSubMenu.addItem("Information", new Command() {
       public void execute() {
         if (app != null) {
-					app.information();
-				}
+          app.information();
+        }
       }
     });
     helpSubMenu.addItem("JavaScript API", new Command() {
@@ -653,23 +666,23 @@ public abstract class AbstractXholonGui implements IXholonGui {
    */
   protected IXholon getXholonNode(final Object guiItem) {
     IXholon node = null;
-  	if (guiItem != null) {
-		  String nodeName = getGuiItemName(guiItem);
-		  if (isInInheritanceHierarchy(guiItem)) {
-			  // this is a XholonClass
-			  node = xhRoot.getClassNode(nodeName);
-		  }
-		  else if (isInMechanismHierarchy(guiItem)) {
-			  // this is a Mechanism
-			  IXholon mechNode = app.getMechRoot();
-			  node = xpath.evaluate("descendant-or-self::*[@name='" + nodeName + "']", mechNode);
-		  }
-		  else {
-			  // this is probably a regular Xholon
-			  node = xpath.evaluate("descendant-or-self::*[@name='" + nodeName + "']", xhRoot);
-		  }
-	  }
-  	return node;
+    if (guiItem != null) {
+      String nodeName = getGuiItemName(guiItem);
+      if (isInInheritanceHierarchy(guiItem)) {
+        // this is a XholonClass
+        node = xhRoot.getClassNode(nodeName);
+      }
+      else if (isInMechanismHierarchy(guiItem)) {
+        // this is a Mechanism
+        IXholon mechNode = app.getMechRoot();
+        node = xpath.evaluate("descendant-or-self::*[@name='" + nodeName + "']", mechNode);
+      }
+      else {
+        // this is probably a regular Xholon
+        node = xpath.evaluate("descendant-or-self::*[@name='" + nodeName + "']", xhRoot);
+      }
+    }
+    return node;
   }
   
   /**
