@@ -8,6 +8,9 @@ import com.google.gwt.json.client.JSONParser;
 
 import org.primordion.xholon.app.IApplication;
 import org.primordion.xholon.base.IXholon;
+import org.primordion.xholon.base.Mechanism;
+import org.primordion.xholon.base.XholonClass;
+import org.primordion.xholon.util.ClassHelper;
 
 /**
  * Xholon Gui based on D3 Circle Packing.
@@ -138,12 +141,23 @@ public class XholonGuiD3CirclePack extends AbstractXholonGui {
   }
   
   protected boolean isInInheritanceHierarchy(Object guiItem) {
-    return isInHierarchy(guiItem, "InheritanceHierarchy");
+    // any node in the subtree rooted by a XholonClass node (xhRoot), must itself be a XholonClass
+    // all XholonClass nodes are part of the InheritanceHierarchy
+    if (ClassHelper.isAssignableFrom(XholonClass.class, xhRoot.getClass())
+        || "InheritanceHierarchy".equals(xhRoot.getName())) {
+      return true;
+    }
+    return false;
+    //return isInHierarchy(guiItem, "InheritanceHierarchy");
   }
   
-  protected boolean isInMechanismHierarchy(Object guiItem) //TreeItem treeItem)
-  {
-    return isInHierarchy(guiItem, "MechanismHierarchy");
+  protected boolean isInMechanismHierarchy(Object guiItem) {
+    if (ClassHelper.isAssignableFrom(Mechanism.class, xhRoot.getClass())
+        || "MechanismHierarchy".equals(xhRoot.getName())) {
+      return true;
+    }
+    return false;
+    //return isInHierarchy(guiItem, "MechanismHierarchy");
   }
   
   protected native boolean isInHierarchy(Object guiItem, String hierName) /*-{
