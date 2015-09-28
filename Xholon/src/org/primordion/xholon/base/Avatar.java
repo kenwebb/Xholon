@@ -891,6 +891,17 @@ public class Avatar extends XholonWithPorts {
    *
    * be able to use a list of things wherever appropriate (ex: take one,two,three)
    * be able to use ALL wherever appropriate (ex: put * in Car)
+   * 
+   * clone - similar to "take", but it takes a clone/copy instead of the original object
+   * 3 options:
+   *  - create a copy
+   *  - create an XML serialization of the object
+   *  - create an iflang script that can be used to create the object
+   * clone THING    clone THING xml   clone THING iflang|script
+   * 
+   * freeze unfreeze
+   * serialize to or deserialize from XML or iflang
+   * 
    */
   protected void processCommand(String cmd) {
     cmd = cmd.trim();
@@ -1736,7 +1747,13 @@ public class Avatar extends XholonWithPorts {
       // port0 port1 etc.
       if ((portName.length() > 4) && (Misc.getNumericValue(portName.charAt(4)) != -1)) {
         int portNum = Misc.atoi(portName, 4);
-        goPort(portNum);
+        IXholon reffedNode = contextNode.getPort(portNum);
+        if (reffedNode == null) {
+          tryAllPorts(portName);
+        }
+        else {
+          moveto(reffedNode, null);
+        }
       }
       else {
         // ex: portx
@@ -1759,20 +1776,49 @@ public class Avatar extends XholonWithPorts {
       evalDollarCmdArg(portName);
       return;
     }
+    // if all else fails ...
+    tryAllPorts(portName);
+  }
+  
+  /**
+   * Try the getAllPorts() method.
+   * Search through the PortInformation array.
+   * @param portName (ex: "port0" "port7").
+   */
+  protected void tryAllPorts(String portName) {
     Object[] portArr = contextNode.getAllPorts().toArray();
     if ((portArr != null) && (portArr.length > 0)) {
       String foundPortNames = "";
       for (int i = 0; i < portArr.length; i++) {
         PortInformation pi = (PortInformation)portArr[i];
         String foundPortName = pi.getFieldName();
+        IXholon reffedNode = pi.getReffedNode();
+        // I think I'm using startsWith() to allow for users using abbreviated port names
+        // ex: "go por" will find "port0" if it exists
         if (foundPortName.startsWith(portName)) {
-          moveto(pi.getReffedNode(), null);
+          moveto(reffedNode, null);
           return;
         }
         else {
           foundPortNames += " " + foundPortName;
           if ("port".equals(foundPortName)) {
-            foundPortNames += pi.getFieldNameIndexStr();
+            String indexStr = pi.getFieldNameIndexStr(); // ex: "0"
+            foundPortNames += indexStr;
+            if ((foundPortName + indexStr).equals(portName)) { // ex: "port0"
+              moveto(reffedNode, null);
+              return;
+            }
+            else {
+              // try matching portName with the name of the reffed node (ex: "france" "italy")
+              if (reffedNode != null) {
+                String reffedNodeName = makeNodeName(reffedNode);
+                foundPortNames += "|" + reffedNodeName;
+                if (reffedNodeName.startsWith(portName)) {
+                  moveto(reffedNode, null);
+                  return;
+                }
+              }
+            }
           }
         }
       }
