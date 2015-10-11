@@ -25,6 +25,9 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Display;
 //import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.TextAreaElement;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 //import com.google.gwt.http.client.RequestBuilder;
 //import com.google.gwt.http.client.RequestCallback;
 //import com.google.gwt.http.client.RequestBuilder.Method;
@@ -38,6 +41,7 @@ import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
+import com.google.gwt.user.client.ui.RootPanel;
 
 //import java.io.PrintWriter; // GWT
 //import java.io.Writer; // GWT
@@ -1834,13 +1838,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 		XholonJsApi.initIXholonApi();
 		XholonUtilJsApi.initUtilApi();
 		
-		this.root.appendChild("Avatar", null, "org.primordion.xholon.base.Avatar");
-    this.avatar = this.root.getLastChild();
-    if ((this.avatar != null) && ("Avatar".equals(this.avatar.getXhcName()))) {
-      this.avatar.postConfigure();
-      // make sure avatar is invisible (not part of the CSH tree)
-      this.avatar.doAction("vanish");
-    }
+		initAvatar();
 				
 		//System.out.println("App.initialize() root: " + root);
 		//if (root != null) {
@@ -1853,6 +1851,62 @@ public abstract class Application extends AbstractApplication implements IApplic
 		//}
 		
 	}
+	
+	/**
+	 * Initialize this app's default Avatar.
+	 */
+	protected void initAvatar() {
+		this.root.appendChild("Avatar", null, "org.primordion.xholon.base.Avatar");
+    this.avatar = this.root.getLastChild();
+    if ((this.avatar != null) && ("Avatar".equals(this.avatar.getXhcName()))) {
+      this.avatar.postConfigure();
+      // make sure avatar is invisible (not part of the CSH tree)
+      this.avatar.doAction("vanish");
+      this.initAvatarKeyEvents(this.avatar);
+    }
+	}
+	
+	/*
+	 * Initialize an Avatar's keyboard events.
+	 * @param ava An Avatar.
+	 */
+	protected void initAvatarKeyEvents(final IXholon ava) {
+    RootPanel rp = RootPanel.get();
+    rp.addDomHandler(new KeyUpHandler() {
+      @Override
+      public void onKeyUp(KeyUpEvent kue) {
+        if (isAvatarKeyEvent(kue.getNativeEvent())) {
+          kue.stopPropagation();
+          kue.preventDefault();
+          switch (kue.getNativeKeyCode()) {
+          case KeyCodes.KEY_UP: ava.doAction("exit"); break;
+          case KeyCodes.KEY_DOWN: ava.doAction("first"); break;
+          case KeyCodes.KEY_LEFT: ava.doAction("prev"); break;
+          case KeyCodes.KEY_RIGHT: ava.doAction("next"); break;
+          case KeyCodes.KEY_A: ava.doAction("appear"); break;
+          case KeyCodes.KEY_L: ava.doAction("look"); break;
+          case KeyCodes.KEY_P: ava.doAction("pause"); break;
+          case KeyCodes.KEY_S: ava.doAction("step"); break;
+          case KeyCodes.KEY_V: ava.doAction("vanish"); break;
+          case KeyCodes.KEY_W: ava.doAction("who;where"); break;
+          default: break;
+          }
+        }
+      }
+    }, KeyUpEvent.getType());
+	}
+	
+	/**
+	 * Is this a keyboard event that an Avatar should process?
+	 * @return true or false
+	 */
+	protected native boolean isAvatarKeyEvent(Object event) /*-{
+	  var nodeName = event.target.nodeName.toUpperCase();
+	  if ((nodeName == "BODY") || (nodeName == "DIV")) {
+	    return true;
+	  }
+	  return false;
+	}-*/;
 	
 	/**
 	 * Initialize parameters of the Snapshot feature.
