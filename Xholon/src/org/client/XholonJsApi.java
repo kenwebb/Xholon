@@ -267,6 +267,25 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       return app.@org.primordion.xholon.app.Application::getAvatar()();
     });
     
+    // avatarKeyMap
+    // should use param to get/set this
+    // Usage example:
+    //   var json = xh.avatarKeyMap();
+    //   var obj = JSON.parse(json);
+    //   obj.X = "build Cat role Licorice";
+    //   obj.Y = "build Dog role Fido";
+    //   obj["1"] = "take *cat";
+    //   var newJson = JSON.stringify(obj);
+    //   xh.avatarKeyMap(newJson);
+    $wnd.xh.avatarKeyMap = $entry(function(keyMap) {
+      if (keyMap === undefined) {
+        return app.@org.primordion.xholon.app.Application::getAvatarKeyMap()();
+      }
+      else {
+        app.@org.primordion.xholon.app.Application::setAvatarKeyMap(Ljava/lang/String;)(keyMap);
+      }
+    });
+    
     // speech recognition
     // @param lang (ex: "en-GB")
     $wnd.xh.speechRecognition = $entry(function(lang) {

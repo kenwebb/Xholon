@@ -20,6 +20,7 @@ package org.primordion.xholon.app;
 
 //import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsonUtils;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Display;
@@ -1866,30 +1867,79 @@ public abstract class Application extends AbstractApplication implements IApplic
     }
 	}
 	
+	/**
+	 * Map from KeyCodes to Avatar actions.
+	 */
+	private JavaScriptObject avatarKeyMap = makeDefaultAvatarKeyMap();
+	
+	@Override
+	public String getAvatarKeyMap() {
+	  return this.stringify(this.avatarKeyMap);
+	}
+	
+	private native String stringify(JavaScriptObject jso) /*-{
+    return $wnd.JSON.stringify(jso);
+  }-*/;
+	
+	@Override
+	public void setAvatarKeyMap(String jsonStr) {
+	  avatarKeyMap = JsonUtils.safeEval(jsonStr);
+	}
+	
+	protected native JavaScriptObject makeDefaultAvatarKeyMap() /*-{
+	  return {
+	  "UP":"exit",
+	  "DOWN":"first",
+	  "LEFT":"prev",
+	  "RIGHT":"next",
+	  "A":"appear",
+	  "D":"drop",
+	  "E":"eat",
+	  "I":"inventory",
+	  "L":"look",
+	  "P":"pause",
+	  "R":"start",
+	  "S":"step",
+	  "T":"take",
+	  "V":"vanish",
+	  "W":"who;where"
+	  };
+	}-*/;
+	
+	protected native String queryAvatarKeyMap(JavaScriptObject avatarKeyMap, String key) /*-{
+	  var action = avatarKeyMap[key];
+	  if (action) {
+	    return action;
+	  }
+	  return null;
+	}-*/;
+	
 	/*
 	 * Initialize an Avatar's keyboard events.
 	 * @param ava An Avatar.
 	 */
 	protected void initAvatarKeyEvents(final IXholon ava) {
-    RootPanel rp = RootPanel.get();
+	  RootPanel rp = RootPanel.get();
     rp.addDomHandler(new KeyUpHandler() {
       @Override
       public void onKeyUp(KeyUpEvent kue) {
+        int nativeKeyCode = kue.getNativeKeyCode();
         if (isAvatarKeyEvent(kue.getNativeEvent())) {
           kue.stopPropagation();
           kue.preventDefault();
-          switch (kue.getNativeKeyCode()) {
-          case KeyCodes.KEY_UP: ava.doAction("exit"); break;
-          case KeyCodes.KEY_DOWN: ava.doAction("first"); break;
-          case KeyCodes.KEY_LEFT: ava.doAction("prev"); break;
-          case KeyCodes.KEY_RIGHT: ava.doAction("next"); break;
-          case KeyCodes.KEY_A: ava.doAction("appear"); break;
-          case KeyCodes.KEY_L: ava.doAction("look"); break;
-          case KeyCodes.KEY_P: ava.doAction("pause"); break;
-          case KeyCodes.KEY_S: ava.doAction("step"); break;
-          case KeyCodes.KEY_V: ava.doAction("vanish"); break;
-          case KeyCodes.KEY_W: ava.doAction("who;where"); break;
-          default: break;
+          String key = fromCharCode(nativeKeyCode);
+          if (KeyUpEvent.isArrow(nativeKeyCode)) {
+            switch (nativeKeyCode) {
+            case KeyCodes.KEY_UP: key = "UP"; break;
+            case KeyCodes.KEY_DOWN: key = "DOWN"; break;
+            case KeyCodes.KEY_LEFT: key = "LEFT"; break;
+            case KeyCodes.KEY_RIGHT: key = "RIGHT"; break;
+            default: break;
+            }
+          }
+          String action = queryAvatarKeyMap(avatarKeyMap, key);
+          if (action != null) {
+            ava.doAction(action);
           }
         }
       }
@@ -1906,6 +1956,16 @@ public abstract class Application extends AbstractApplication implements IApplic
 	    return true;
 	  }
 	  return false;
+	}-*/;
+	
+	/**
+	 * Used in Avatar-specific code, as part of recognizing keyboard input.
+	 * Return a String that corresponds to the Unicode/ASCII key code.
+	 * @param keyCode
+	 * @return 
+	 */
+	protected native String fromCharCode(int keyCode) /*-{
+	  return String.fromCharCode(keyCode);
 	}-*/;
 	
 	/**

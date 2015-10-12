@@ -228,6 +228,8 @@ public interface IApplication extends IXholon {
 	public abstract IXholon getAvatar();
 	public abstract void setAvatarContextNode(IXholon node);
 	public abstract IXholon getAvatarContextNode();
+	public abstract void setAvatarKeyMap(String jsonStr);
+	public abstract String getAvatarKeyMap();
 	
 	/**
 	 * Set the default Mechanism.
