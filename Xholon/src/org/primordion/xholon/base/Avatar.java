@@ -283,6 +283,12 @@ public class Avatar extends XholonWithPorts {
    */
   protected IXholon chatbot = null;
   
+  /**
+   * Whether or not to treat speech and other non-command input as notes to be recorded, or as errors.
+   * This is mostly intended for use with speech recognition, to do speech-to-text.
+   */
+  protected boolean takenotes = false;
+  
   // constructor
   public Avatar() {}
   
@@ -674,7 +680,9 @@ public class Avatar extends XholonWithPorts {
     case ISignal.SIGNAL_XHOLON_CONSOLE_REQ:
       String responseStr = processCommands((String)msg.getData());
       if ((responseStr != null) && (responseStr.length() > 0)) {
-        responseStr = COMMENT_START + responseStr + COMMENT_END + CMD_SEPARATOR;
+        if (!takenotes) {
+          responseStr = COMMENT_START + responseStr + COMMENT_END + CMD_SEPARATOR;
+        }
         msg.getSender().sendMessage(ISignal.SIGNAL_XHOLON_CONSOLE_RSP, "\n" + responseStr, this);
       }
       break;
@@ -693,7 +701,9 @@ public class Avatar extends XholonWithPorts {
     case ISignal.SIGNAL_XHOLON_CONSOLE_REQ:
       String responseStr = processCommands((String)msg.getData());
       if ((responseStr != null) && (responseStr.length() > 0)) {
-        responseStr = COMMENT_START + responseStr + COMMENT_END + CMD_SEPARATOR;
+        if (!takenotes) {
+          responseStr = COMMENT_START + responseStr + COMMENT_END + CMD_SEPARATOR;
+        }
       }
       return new Message(ISignal.SIGNAL_XHOLON_CONSOLE_RSP, "\n" + responseStr, this, msg.getSender());
     default:
@@ -1016,6 +1026,14 @@ public class Avatar extends XholonWithPorts {
     case "first":
       enter(null);
       break;
+    case "flip":
+      if (len == 1) {
+        flip("next");
+      }
+      else {
+        flip(data[1]); // "next" or "prev"
+      }
+      break;
     case "follow": // follow the leader
     {
       if (len > 1) {
@@ -1272,7 +1290,10 @@ public class Avatar extends XholonWithPorts {
         }
       }
       else {
-        if (chatbot != null) {
+        if (takenotes) {
+          sb.append(cmd);
+        }
+        else if (chatbot != null) {
           IMessage rmsg = chatbot.sendSyncMessage(ISignal.SIGNAL_XHOLON_CONSOLE_REQ, cmd, this);
           String dataObj = (String)rmsg.getData();
           if ((dataObj != null) && (dataObj.length() > 1)) {
@@ -1655,6 +1676,16 @@ public class Avatar extends XholonWithPorts {
     if (ancestor == null) {
       node = contextNode.getParentNode();
     }
+    else if ("next".equals(ancestor)) {
+      flipNext(this, contextNode);
+      setContextNode(contextNode.getParentNode());
+      return;
+    }
+    else if (ancestor.startsWith("prev")) {
+      flipPrev(this, contextNode);
+      setContextNode(contextNode.getParentNode());
+      return;
+    }
     else {
       node = xpath.evaluate("ancestor::" + ancestor, contextNode);
     }
@@ -1665,6 +1696,51 @@ public class Avatar extends XholonWithPorts {
       sb.append("Can't exit from ").append(makeNodeName(contextNode));
     }
   }
+  
+  /**
+   * Flip the position of this avatar with the position of its next or previous sibling.
+   * @param thing "next" or "prev[ious]"
+   */
+  protected void flip(String thing) {
+    switch(thing) {
+    case "parent":
+      exit("prev");
+      take("next");
+      break;
+    case "next":
+    {
+      IXholon node = getNextSibling();
+      if (node == null) {
+        node = getFirstSibling();
+      }
+      if (node != null) {
+        flipNext(this, node);
+      }
+      break;
+    }
+    case "prev":
+    case "previous":
+    {
+      IXholon node = getPreviousSibling();
+      if (node == null) {
+        node = getLastSibling();
+      }
+      if (node != null) {
+        flipPrev(this, node);
+      }
+      break;
+    }
+    default: break;
+    }
+  }
+  
+  protected native void flipNext(IXholon one, IXholon two) /*-{
+    one.remove().insertAfter(two);
+  }-*/;
+  
+  protected native void flipPrev(IXholon one, IXholon two) /*-{
+    one.remove().insertBefore(two);
+  }-*/;
   
   /**
    * Move the avatar to the node located in a specified direction.
@@ -1988,6 +2064,7 @@ public class Avatar extends XholonWithPorts {
     .append("\nenter [*]THING")
     .append("\nexamine|x THING")
     .append("\nexit [THING]")
+    .append("\nflip parent|prev|next|first")
     .append("\nfollow LEADER_THING [unison|mirror|canon]")
     .append("\nget THING NAME")
     .append("\ngo portName|next|prev|N|E|S|W|NE|SE|SW|NW|port0|portN|xpath")
@@ -2684,6 +2761,12 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
       case "false": chatbot = null; break;
       default: break;
       }
+    case "takenotes":
+      switch (value) {
+      case "true": takenotes = true; break;
+      case "false": takenotes = false; break;
+      default: break;
+      }
     default:
       break;
     }
@@ -2756,7 +2839,13 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
       }
       return node;
     }
-    if (nodeName.startsWith("xpath")) {
+    else if ("next".equals(nodeName)) {
+      return this.getNextSibling();
+    }
+    else if (nodeName.startsWith("prev")) {
+      return this.getPreviousSibling();
+    }
+    else if (nodeName.startsWith("xpath")) {
       node = evalXPathCmdArg(nodeName, aRoot);
       if (node != null) {
         return node;
