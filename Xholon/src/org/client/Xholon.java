@@ -94,16 +94,16 @@ public class Xholon implements EntryPoint {
    */
   private void initGwtEnvironment() {
     GwtEnvironment.gwtHostPageBaseURL = GWT.getHostPageBaseURL();
-		GwtEnvironment.gwtModuleBaseForStaticFiles = GWT.getModuleBaseForStaticFiles();
-		GwtEnvironment.gwtModuleBaseURL = GWT.getModuleBaseURL();
-		GwtEnvironment.gwtModuleName = GWT.getModuleName();
-		GwtEnvironment.gwtVersion = GWT.getVersion();
-		
-		GwtEnvironment.navAppCodeName = Navigator.getAppCodeName();
-		GwtEnvironment.navAppName = Navigator.getAppName();
-		GwtEnvironment.navAppVersion = Navigator.getAppVersion();
-		GwtEnvironment.navPlatform = Navigator.getPlatform();
-		GwtEnvironment.navUserAgent = Navigator.getUserAgent();
+    GwtEnvironment.gwtModuleBaseForStaticFiles = GWT.getModuleBaseForStaticFiles();
+    GwtEnvironment.gwtModuleBaseURL = GWT.getModuleBaseURL();
+    GwtEnvironment.gwtModuleName = GWT.getModuleName();
+    GwtEnvironment.gwtVersion = GWT.getVersion();
+    
+    GwtEnvironment.navAppCodeName = Navigator.getAppCodeName();
+    GwtEnvironment.navAppName = Navigator.getAppName();
+    GwtEnvironment.navAppVersion = Navigator.getAppVersion();
+    GwtEnvironment.navPlatform = Navigator.getPlatform();
+    GwtEnvironment.navUserAgent = Navigator.getUserAgent();
   }
   
   /**
@@ -1259,5 +1259,5 @@ public class Xholon implements EntryPoint {
       xholonGui.execModel(configFileName, app);
     }
   }
-	
+  
 }
