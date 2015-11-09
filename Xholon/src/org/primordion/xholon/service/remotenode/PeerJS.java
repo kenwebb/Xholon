@@ -18,10 +18,7 @@
 
 package org.primordion.xholon.service.remotenode;
 
-//import org.primordion.xholon.base.IMessage;
 import org.primordion.xholon.base.IXholon;
-//import org.primordion.xholon.base.Message;
-//import org.primordion.xholon.base.Xholon;
 
 /**
  * Provide access to the PeerJS library, to use WebRTC.
@@ -199,70 +196,70 @@ public class PeerJS extends AbstractRemoteNode implements IRemoteNode {
   
   // actions
   private static final String showPeer = "Show Peer";
-	private static final String showConnection = "Show Connection";
-	private static final String showThisNode = "Show This Node";
-	
-	/** action list */
-	private String[] actions = {showPeer, showConnection, showThisNode};
-	
-	@Override
-	public String[] getActionList()
-	{
-		return actions;
-	}
-	
-	@Override
-	public void setActionList(String[] actionList)
-	{
-		actions = actionList;
-	}
-	
-	@Override
-	public void doAction(String action)
-	{
-		if (action == null) {return;}
-		if (showPeer.equals(action)) {
-		  showPeer();
-		}
-		if (showConnection.equals(action)) {
-			showConnection();
-		}
-		if (showThisNode.equals(action)) {
-		  this.println("onDataJsonSync   " + this.isOnDataJsonSync());
-		  this.println("onDataTextSync   " + this.isOnDataTextSync());
-		  this.println("onDataTextAction " + this.isOnDataTextAction());
-		}
-	}
-	
-	/**
-	 * Show information about the PeerJS Peer.
-	 */
-	protected native void showPeer() /*-{
-	  if (typeof this.peer === "undefined") {
-	    this.println("The peer is undefined.");
-	    return;
-	  }
-	  this.println("A peer object exists.");
-	  this.println(" id " + this.peer.id);
-	  this.println(" connections " + this.peer.connections);
-	  this.println(" disconnected " + this.peer.disconnected);
-	  this.println(" destroyed " + this.peer.destroyed);
-	}-*/;
-	
-	/**
-	 * Show information about the current WebRTC connection.
-	 */
-	protected native void showConnection() /*-{
-	  if (typeof this.connexn === "undefined") {
-	    this.println("The connection is undefined.");
-	    return;
-	  }
-	  this.println("A connection object exists.");
-	  this.println(" label " + this.connexn.label);
-	  this.println(" peer  " + this.connexn.peer);
-	  this.println(" serialization " + this.connexn.serialization);
-	  this.println(" type  " + this.connexn.type);
-	  this.println(" bufferSize " + this.connexn.bufferSize);
-	}-*/;
-	
+  private static final String showConnection = "Show Connection";
+  private static final String showThisNode = "Show This Node";
+  
+  /** action list */
+  private String[] actions = {showPeer, showConnection, showThisNode};
+  
+  @Override
+  public String[] getActionList()
+  {
+    return actions;
+  }
+  
+  @Override
+  public void setActionList(String[] actionList)
+  {
+    actions = actionList;
+  }
+  
+  @Override
+  public void doAction(String action)
+  {
+    if (action == null) {return;}
+    if (showPeer.equals(action)) {
+      showPeer();
+    }
+    if (showConnection.equals(action)) {
+      showConnection();
+    }
+    if (showThisNode.equals(action)) {
+      this.println("onDataJsonSync   " + this.isOnDataJsonSync());
+      this.println("onDataTextSync   " + this.isOnDataTextSync());
+      this.println("onDataTextAction " + this.isOnDataTextAction());
+    }
+  }
+  
+  /**
+   * Show information about the PeerJS Peer.
+   */
+  protected native void showPeer() /*-{
+    if (typeof this.peer === "undefined") {
+      this.println("The peer is undefined.");
+      return;
+    }
+    this.println("A peer object exists.");
+    this.println(" id " + this.peer.id);
+    this.println(" connections " + this.peer.connections);
+    this.println(" disconnected " + this.peer.disconnected);
+    this.println(" destroyed " + this.peer.destroyed);
+  }-*/;
+  
+  /**
+   * Show information about the current WebRTC connection.
+   */
+  protected native void showConnection() /*-{
+    if (typeof this.connexn === "undefined") {
+      this.println("The connection is undefined.");
+      return;
+    }
+    this.println("A connection object exists.");
+    this.println(" label " + this.connexn.label);
+    this.println(" peer  " + this.connexn.peer);
+    this.println(" serialization " + this.connexn.serialization);
+    this.println(" type  " + this.connexn.type);
+    this.println(" bufferSize " + this.connexn.bufferSize);
+  }-*/;
+  
 }

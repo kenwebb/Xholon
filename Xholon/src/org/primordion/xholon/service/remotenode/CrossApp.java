@@ -57,8 +57,8 @@ public class CrossApp extends AbstractRemoteNode implements IRemoteNode {
   
   @Override
   public boolean isColocated() {
-	  return true;
-	}
+    return true;
+  }
   
   // child window, Jake
   @Override
