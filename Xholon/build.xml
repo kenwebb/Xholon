@@ -98,7 +98,7 @@ Test targets suppressed because -junit argument was not specified when running w
       source="7" target="7" nowarn="true"
       destdir="war/WEB-INF/classes"
       debug="true" debuglevel="lines,vars,source">
-      <classpath location="/home/ken/JavaThirdParty/junit4.11.1/junit-4.11.jar"/>
+      <classpath location="/home/ken/JavaThirdParty/junit4.12/junit-4.12.jar"/>
       <classpath refid="project.class.path"/>
     </javac>
   </target>
@@ -115,7 +115,7 @@ Test targets suppressed because -junit argument was not specified when running w
         <path refid="project.class.path" />
         <pathelement location="${gwt.sdk}/validation-api-1.0.0.GA.jar" />
         <pathelement location="${gwt.sdk}/validation-api-1.0.0.GA-sources.jar" />
-        <pathelement location="/home/ken/JavaThirdParty/junit4.11.1/junit-4.11.jar" />
+        <pathelement location="/home/ken/JavaThirdParty/junit4.12/junit-4.12.jar" />
       </classpath>
       <batchtest todir="reports/htmlunit.dev" >
         <fileset dir="test" >
@@ -137,9 +137,9 @@ Test targets suppressed because -junit argument was not specified when running w
         <pathelement location="src" />
         <pathelement location="test" />
         <path refid="project.class.path" />
-        <pathelement location="/home/ken/JavaThirdParty/gwt-2.6.0/validation-api-1.0.0.GA.jar" />
-        <pathelement location="/home/ken/JavaThirdParty/gwt-2.6.0/validation-api-1.0.0.GA-sources.jar" />
-        <pathelement location="/home/ken/JavaThirdParty/junit4.11.1/junit-4.11.jar" />
+        <pathelement location="${gwt.sdk}/validation-api-1.0.0.GA.jar" />
+        <pathelement location="${gwt.sdk}/gwt-2.6.0/validation-api-1.0.0.GA-sources.jar" />
+        <pathelement location="/home/ken/JavaThirdParty/junit-4.12/junit-4.12.jar" />
       </classpath>
       <batchtest todir="reports/htmlunit.prod" >
         <fileset dir="test" >
