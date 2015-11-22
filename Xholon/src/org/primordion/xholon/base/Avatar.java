@@ -108,6 +108,7 @@ public class Avatar extends XholonWithPorts {
   protected static final String DEFAULT_VIEWELE_STR = "#xhanim>#one";
   protected static final String ALTERNATE_VIEWELE_STR = "#xhgraph";
   protected static final String[] DEFAULT_OUTANIM = {"turnright", "30"}; // for use with "out anim"
+  protected static final String TAKENOTES_COMMAND = ".. ";
   
   protected static final int SIG_FOLLOWLEADERTECH_CANON = 101;
   
@@ -917,6 +918,17 @@ public class Avatar extends XholonWithPorts {
     cmd = cmd.trim();
     if (cmd.length() == 0) {return;}
     if (cmd.startsWith(COMMENT_START)) {return;}
+    
+    if (takenotes) {
+      if (cmd.startsWith(TAKENOTES_COMMAND) && (cmd.length() > 3)) { // ex: ".. where"
+        cmd = cmd.substring(3).trim();
+      }
+      else {
+        sb.append(cmd);
+        return;
+      }
+    }
+
     String[] data = null;
     if (cmd.indexOf('"') == -1) {
       data = cmd.split(" ", 4);
@@ -926,6 +938,7 @@ public class Avatar extends XholonWithPorts {
       //consoleLog(data);
     }
     int len = data.length;
+    
     switch (data[0]) {
     case "anim":
     case "animate": // useful with speech recognition
@@ -1290,10 +1303,7 @@ public class Avatar extends XholonWithPorts {
         }
       }
       else {
-        if (takenotes) {
-          sb.append(cmd);
-        }
-        else if (chatbot != null) {
+        if (chatbot != null) {
           IMessage rmsg = chatbot.sendSyncMessage(ISignal.SIGNAL_XHOLON_CONSOLE_REQ, cmd, this);
           String dataObj = (String)rmsg.getData();
           if ((dataObj != null) && (dataObj.length() > 1)) {
