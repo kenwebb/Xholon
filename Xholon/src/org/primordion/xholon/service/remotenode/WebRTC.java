@@ -26,6 +26,7 @@ import org.primordion.xholon.util.ClassHelper;
 
 /**
  * Enable cross-application communications using raw WebRTC.
+ * This requires adapter.js from github webrtc/adapter
  * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
@@ -35,16 +36,25 @@ public class WebRTC extends AbstractRemoteNode implements IRemoteNode {
   
   public WebRTC() {
     this.println("instantiated a " + this.getClass().getName());
+    adapt();
     //setOnDataJsonSync(false);
     //setOnDataTextSync(true);
     //setOnDataTextAction(false);
   }
   
+  /**
+   * see also adapter.js
+   */
+  protected native void adapt() /*-{
+    if (typeof $wnd.RTCPeerConnection === "undefined") {
+      $wnd.RTCPeerConnection = $wnd.RTCPeerConnection || $wnd.webkitRTCPeerConnection || $wnd.mozRTCPeerConnection;
+    }
+  }-*/;
+  
   @Override
-  public boolean isUsable() {
-    // This type of communications is built in to many browsers.
-    return true;
-  };
+  public native boolean isUsable() /*-{
+    return typeof $wnd.RTCPeerConnection !== "undefined";
+  }-*/;
   
   @Override
   protected native Object fixListenParams(String listenParams) /*-{
@@ -62,11 +72,52 @@ public class WebRTC extends AbstractRemoteNode implements IRemoteNode {
   
   @Override
   protected native void listen(Object listenParams, IXholon reffedNode) /*-{
-    
+    console.log("TODO WebRTC.listen " + listenParams);
   }-*/;
   
+  // see codelab step4 index.html createConnection()
   @Override
   protected native void connect(Object connectParams, IXholon reffingNode) /*-{
+    var servers = null;
+    this.localPeerConnection = new $wnd.RTCPeerConnection(servers, {optional: [{RtpDataChannels: true}]});
+    $wnd.console.log('Created local peer connection object localPeerConnection');
+    
+    try {
+      // Reliable Data Channels not yet supported in Chrome
+      this.sendChannel = this.localPeerConnection.createDataChannel("sendDataChannel",
+        {reliable: false});
+      $wnd.console.log('Created send data channel');
+    } catch (e) {
+      $wnd.alert('Failed to create data channel. ' +
+          'You need Chrome M25 or later with RtpDataChannel enabled');
+      $wnd.console.log('createDataChannel() failed with exception: ' + e.message);
+    }
+    
+    this.localPeerConnection.onicecandidate = function(event) {
+      $wnd.console.log('local ice callback TODO');
+      if (event.candidate) {
+        //remotePeerConnection.addIceCandidate(event.candidate); // TODO
+        $wnd.console.log('Local ICE candidate: \n' + event.candidate.candidate);
+      }
+    };
+    
+    this.sendChannel.onopen = handleSendChannelStateChange;
+    this.sendChannel.onclosee = handleSendChannelStateChange;
+    
+    // TODO remotePeerConnection
+    
+    function handleSendChannelStateChange() {
+      $wnd.console.log("handleSendChannelStateChange");
+      var readyState = this.sendChannel.readyState;
+      $wnd.console.log('Send channel state is: ' + readyState);
+      //if (readyState == "open") {
+      //  dataChannelSend.disabled = false;
+      //  dataChannelSend.focus();
+      //  dataChannelSend.placeholder = "";
+      //} else {
+      //  dataChannelSend.disabled = true;
+      //}
+    }
     
   }-*/;
   
