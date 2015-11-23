@@ -391,7 +391,7 @@ public class Avatar extends XholonWithPorts {
       HtmlScriptHelper.requireScript("xhSvgAnim", null);
     }
     meteorService = app.getService(IXholonService.XHSRV_METEOR_PLATFORM);
-    if (this.getFirstChild() != null) {
+    if ((this.getFirstChild() != null) && ("Attribute_String".equals(this.getFirstChild().getXhcName()))) {
       this.setVal_String(this.getFirstChild().getVal_String());
       this.outPrefix = this.getName(IXholon.GETNAME_ROLENAME_OR_CLASSNAME) + ": ";
       this.getFirstChild().removeChild();
@@ -738,7 +738,13 @@ public class Avatar extends XholonWithPorts {
     super.toXmlAttributes(xholon2xml, xmlWriter);
     xmlWriter.writeStartElement("Attribute_String");
     String str = "\n";
-    for (int i = 0; i < actions.length; i++) {
+    int xmlActionIx = 0;
+    // optionally set xmlActionIx to the current value of this.actionIx
+    if (this.hasAncestor(app.getSrvRoot().getName())) {
+      // this Avatar is probably about to be sent to another app using RemoteNodeService
+      xmlActionIx = this.actionIx + 1;
+    }
+    for (int i = xmlActionIx; i < actions.length; i++) {
       str += actions[i] + "\n";
     }
     xmlWriter.writeText("<![CDATA[" + str + "]]>");
