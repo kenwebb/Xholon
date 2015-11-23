@@ -1834,7 +1834,8 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
       //consoleLog(respMsg);
     }
     else {
-      this.println("Unable to find $wnd.Peer . Be sure you are using XholonWebRTC.html which includes peer.js, rather than Xholon.html .");
+      this.println("Unable to create a remoteNode instance from " + rnsParams[0]);
+      this.println("If you are using PeerJS, be sure you are using XholonWebRTC.html which includes peer.js, rather than Xholon.html .");
     }
     return remoteNode;
 	}
