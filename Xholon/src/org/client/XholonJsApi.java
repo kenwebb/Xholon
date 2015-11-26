@@ -358,6 +358,19 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
         }
       });
     });
+    
+    // show local storage
+    // max size is 5MB
+    // see: http://blog.blakesimpson.co.uk/read/46-check-size-of-localstorage-usage-in-chrome
+    $wnd.xh.showLocalStorage = $entry(function() {
+      var total = 0;
+      for(var x in localStorage) {
+        var amount = (localStorage[x].length * 2) / 1024 / 1024;
+        total += amount;
+        $wnd.console.log( x + " = " + amount.toFixed(4) + " MB");
+      }
+      $wnd.console.log( "Total: " + total.toFixed(4) + " MB");
+    });
 
     // html.toggle
     $wnd.xh.html.toggle = $entry(function(elementId) {

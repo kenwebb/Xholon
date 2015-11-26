@@ -158,7 +158,7 @@ public abstract class Attribute extends Xholon implements IAttribute {
 		toXmlAttributes(xholon2xml, xmlWriter);
 		if (getXhc() != null) {
 			if (getXhcId() != CeAttribute.Attribute_attributeCE) {
-				xmlWriter.writeText(getVal_String());
+				xmlWriter.writeText(makeTextSafe(getVal_String()));
 			}
 		}
 		IXholon childNode = getFirstChild();
@@ -167,6 +167,23 @@ public abstract class Attribute extends Xholon implements IAttribute {
 			childNode = childNode.getNextSibling();
 		}
 		xmlWriter.writeEndElement(xhcName);
+	}
+	
+	/**
+	 * If the input string contains any of these characters: < &
+	 * then return the original string embedded in a CDATA tag.
+	 * Else return the original string.
+	 */
+	protected String makeTextSafe(String str) {
+		for (int i = 0; i < str.length(); i++) {
+			switch (str.charAt(i)) {
+			case '<':
+			case '&':
+				return "<![CDATA[" + str + "]]>";
+			default: break;
+			}
+		}
+		return str;
 	}
 	
 	/*
