@@ -736,8 +736,7 @@ public class Avatar extends XholonWithPorts {
   @Override
   public void toXmlAttributes(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {
     super.toXmlAttributes(xholon2xml, xmlWriter);
-    xmlWriter.writeStartElement("Attribute_String");
-    String str = "\n";
+    String str = "";
     int xmlActionIx = 0;
     // optionally set xmlActionIx to the current value of this.actionIx
     if (this.hasAncestor(app.getSrvRoot().getName())) {
@@ -747,8 +746,11 @@ public class Avatar extends XholonWithPorts {
     for (int i = xmlActionIx; i < actions.length; i++) {
       str += actions[i] + "\n";
     }
-    xmlWriter.writeText("<![CDATA[" + str + "]]>");
-    xmlWriter.writeEndElement("Attribute_String");
+    if (str.length() > 0) {
+      xmlWriter.writeStartElement("Attribute_String");
+      xmlWriter.writeText("<![CDATA[\n" + str + "]]>");
+      xmlWriter.writeEndElement("Attribute_String");
+    }
   }
 	
   /**
@@ -769,7 +771,13 @@ public class Avatar extends XholonWithPorts {
     sb = new StringBuilder();
     String[] s = cmds.split(CMD_SEPARATOR, 100);
     for (int i = 0; i < s.length; i++) {
-      processCommand(s[i]);
+      if (s[i].startsWith("xport ")) {
+        // convert double quotes in JSON to backslash quote
+        processCommand(this.escapeDoubleQuotes(s[i]));
+      }
+      else {
+        processCommand(s[i]);
+      }
     }
     return sb.toString();
   }
@@ -812,6 +820,14 @@ public class Avatar extends XholonWithPorts {
       result.length = limit;
     }
     return result;
+  }-*/;
+  
+  protected native String escapeDoubleQuotes(String str) /*-{
+    return str.replace(/"/g, '\\"');
+  }-*/;
+  
+  protected native String unescapeDoubleQuotes(String str) /*-{
+    return str.replace(/\\"/g, '"');
   }-*/;
   
   /**
@@ -937,6 +953,10 @@ public class Avatar extends XholonWithPorts {
 
     String[] data = null;
     if (cmd.indexOf('"') == -1) {
+      data = cmd.split(" ", 4);
+    }
+    else if (cmd.startsWith("xport")) {
+      cmd = this.unescapeDoubleQuotes(cmd);
       data = cmd.split(" ", 4);
     }
     else {
@@ -1282,6 +1302,15 @@ public class Avatar extends XholonWithPorts {
       break;
     case "who":
       sb.append("You are ").append(makeNodeName(this)).append(".");
+      break;
+    case "xport":
+      // xport THING formatName,writeToTab,returnString,efParams
+      if (len > 2) {
+        xport(data[1], data[2]);
+      }
+      else {
+        sb.append("Please specify the correct number of parameters (ex: xport helloWorld Xml,false,true,{...}).");
+      }
       break;
     default:
       // TODO check for app-specific commands
@@ -2104,6 +2133,7 @@ public class Avatar extends XholonWithPorts {
     .append("\nunlead")
     .append("\nvanish")
     .append("\nwait [DURATION]|[til TIMESTEP]")
+    .append("\nxport THING formatName,writeToTab,returnString,efParams")
     ;
   }
   
@@ -2624,6 +2654,111 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
       this.removeChild();
     }
   }
+  
+  /**
+   * Export a subtree using a specified Xholon external format.
+   * xport THING formatName,writeToTab,returnString,writeToChildNode,efParams
+   * ex: xport helloWorld Xml,false,true,{...}
+   * 
+   * test from Developer Tools:
+var ava = xh.avatar();
+ava.action('xport helloWorldSystem_0 Graphviz,true,true,true,{}');
+ava.action('xport hello Xml,false,true,true,{"xhAttrStyle":1,"nameTemplate":"^^C^^^","xhAttrReturnAll":true,"writeStartDocument":false,"writeXholonId":false,"writeXholonRoleName":true,"writePorts":true,"writeAnnotations":true,"shouldPrettyPrint":true,"writeAttributes":true,"writeStandardAttributes":true,"shouldWriteVal":false,"shouldWriteAllPorts":false}');
+   * 
+   * formatName can be a nested comma separated string:
+xport hello _other,Newick,true,true,true,{}
+   * 
+   * @param thing ex: helloWorld
+   * @param params ex: Xml,false,true,true,{"xhAttrStyle":1,"nameTemplate":"^^C^^^","xhAttrReturnAll":true,"writeStartDocument":false,"writeXholonId":false,"writeXholonRoleName":true,"writePorts":true,"writeAnnotations":true,"shouldPrettyPrint":true,"writeAttributes":true,"writeStandardAttributes":true,"shouldWriteVal":false,"shouldWriteAllPorts":false}
+   */
+  protected void xport(String thing, String params) {
+    IXholon node = findNode(thing, contextNode);
+    if (node == null) {
+      sb.append("Can't find ").append(thing).append(".");
+      return;
+    }
+    String[] arr = params.split(",", 5);
+    if (arr.length != 5) {
+      sb.append("Please provide 5 params (formatName,writeToTab,returnString,writeToChildNode,efParams).");
+      return;
+    }
+    String formatName = null;
+    boolean writeToTab = false;
+    String efParams = "{}";
+    boolean returnString = true;
+    boolean writeToChildNode = true;
+    
+    if (arr[0].startsWith("_")) {
+      // this is a nested format name
+      // ex: _other,Newick,true,true,true,{}
+      formatName = arr[0] + "," + arr[1];
+      writeToTab = this.parseBoolean(arr[2]);
+      returnString = this.parseBoolean(arr[3]);
+      // TODO writeToChildNode
+      if (arr[4].startsWith("true,")) {
+        writeToChildNode = true;
+        efParams = arr[4].substring(5);
+      }
+      else if (arr[4].startsWith("false,")) {
+        writeToChildNode = false;
+        efParams = arr[4].substring(6);
+      }
+      else {
+        sb.append("The value of writeToChildNode must be \"true\" or \"false\"");
+        return;
+      }
+    }
+    else {
+      formatName = arr[0];
+      writeToTab = this.parseBoolean(arr[1]);
+      efParams = arr[4];
+      returnString = this.parseBoolean(arr[2]);
+      writeToChildNode = this.parseBoolean(arr[3]);
+    }
+    consoleLog(writeToChildNode);
+    String result = xportNative(formatName, node, efParams, writeToTab, returnString);
+    
+    if (returnString) {
+      if (writeToChildNode) {
+        // add the XholonMap node if it doesn't already exist
+        IXholon xholonMapNode = this.findFirstChildWithXhClass("XholonMap");
+        if (xholonMapNode == null) {
+          this.appendEfChild("<XholonMap roleName=\"ef\"/>", this);
+          xholonMapNode = this.getLastChild();
+        }
+        
+        String efChild = "<Attribute_String roleName=\"" + formatName + "\"><![CDATA[" + result + "]]></Attribute_String>";
+        this.appendEfChild(efChild, xholonMapNode);
+      }
+      else {
+        sb.append(result);
+      }
+    }
+  }
+  
+  protected boolean parseBoolean(String str) {
+    boolean bool = false;
+    if ("true".equals(str)) {
+      bool = true;
+    }
+    return bool;
+  }
+  
+  protected native void appendEfChild(String content, IXholon contextNode) /*-{
+    $wnd.xh.service('XholonHelperService').call(-2013, content, contextNode);
+  }-*/;
+  
+  /**
+   * $wnd.xh.xport = $entry(function(formatName, node, efParams, writeToTab, returnString)
+   */
+  protected native String xportNative(String formatName, IXholon node, String efParams, boolean writeToTab, boolean returnString) /*-{
+    $wnd.console.log(formatName);
+    $wnd.console.log(node.name());
+    $wnd.console.log(efParams);
+    $wnd.console.log(writeToTab);
+    $wnd.console.log(returnString);
+    return $wnd.xh.xport(formatName, node, efParams, writeToTab, returnString);
+  }-*/;
   
   /**
    * Change the value of a parameter.
