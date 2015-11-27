@@ -82,6 +82,11 @@ public class Xholon2HTModL extends AbstractXholon2ExternalFormat implements IXho
 	 */
 	public Xholon2HTModL() {}
 	
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
 	/*
 	 * @see org.primordion.ef.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
 	 */

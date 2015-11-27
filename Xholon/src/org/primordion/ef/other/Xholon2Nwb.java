@@ -95,6 +95,11 @@ public class Xholon2Nwb extends AbstractXholon2ExternalFormat implements IXholon
 	 */
 	public Xholon2Nwb() {}
 	
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
 	/*
 	 * @see org.primordion.xholon.io.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
 	 */

@@ -83,6 +83,11 @@ public class Xholon2Vensim4PetriNets extends AbstractXholon2ExternalFormat imple
 	 */
 	public Xholon2Vensim4PetriNets() {}
 	
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
 	/*
 	 * @see org.primordion.ef.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
 	 */

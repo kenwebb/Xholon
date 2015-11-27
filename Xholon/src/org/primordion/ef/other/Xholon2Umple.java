@@ -90,6 +90,11 @@ public class Xholon2Umple extends AbstractXholon2ExternalFormat implements IXhol
 	 */
 	public Xholon2Umple() {}
 	
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
 	/*
 	 * @see org.primordion.xholon.io.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
 	 */

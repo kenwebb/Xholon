@@ -51,6 +51,11 @@ public class SnapshotYAML extends Snapshot implements ISnapshot {
 	 */
 	public SnapshotYAML() {}
 	
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
 	/**
 	 * Save a timestamped snapshot to an XML file.
 	 * @param snRoot Root of the tree to be saved in the snapshot file.

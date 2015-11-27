@@ -329,6 +329,11 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
   /** constructor */
   public Xholon2Svg() {makeEfParams();}
   
+	@Override
+	public String getVal_String() {
+	  return svgSb.toString();
+	}
+	
   /**
    * This method will only be called if an instance of this class is pasted in.
    * It will not be called if an instance is created by XholonGui.

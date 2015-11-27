@@ -103,6 +103,11 @@ public class Xholon2MindMap extends AbstractXholon2ExternalFormat implements IXh
 	 */
 	public Xholon2MindMap() {}
 	
+	@Override
+	public String getVal_String() {
+	  return mmSb.toString();
+	}
+	
 	/*
 	 * @see org.primordion.ef.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
 	 */

@@ -106,6 +106,11 @@ public abstract class AbstractXholon2Cytojs extends AbstractXholon2ExternalForma
     this.layout = layout;
   }
   
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
   @Override
   public boolean initialize(String outFileName, String modelName, IXholon root) {
     timeNow = new Date();

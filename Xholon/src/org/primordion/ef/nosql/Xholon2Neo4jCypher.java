@@ -224,6 +224,11 @@ public class Xholon2Neo4jCypher extends AbstractXholon2ExternalFormat implements
   /** constructor */
   public Xholon2Neo4jCypher() {}
   
+	@Override
+	public String getVal_String() {
+	  return sbNode.toString();
+	}
+	
   @Override
   public boolean initialize(String outFileName, String modelName, IXholon aRoot) {
     timeNow = new Date();

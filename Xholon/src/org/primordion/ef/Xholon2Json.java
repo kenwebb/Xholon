@@ -110,6 +110,11 @@ public class Xholon2Json extends AbstractXholon2ExternalFormat implements IXholo
 	 */
 	public Xholon2Json() {}
 	
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
 	/*
 	 * @see org.primordion.xholon.io.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
 	 */

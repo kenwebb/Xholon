@@ -70,6 +70,11 @@ public class Xholon2CoffeeScript extends AbstractXholon2ExternalFormat implement
    */
   public Xholon2CoffeeScript() {}
   
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
   /*
    * @see org.primordion.xholon.io.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
    */

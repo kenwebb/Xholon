@@ -51,6 +51,11 @@ public class SnapshotXML extends Snapshot implements ISnapshot {
 	 */
 	public SnapshotXML() {}
 	
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
 	/* 
 	 * @see org.primordion.xholon.io.ISnapshot#saveSnapshot(org.primordion.xholon.base.IXholon, java.lang.String)
 	 */

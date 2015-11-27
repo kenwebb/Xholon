@@ -70,6 +70,11 @@ public abstract class AbstractXholon2Threejs extends AbstractXholon2ExternalForm
   
   public AbstractXholon2Threejs() {}
   
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
   /*
    * @see org.primordion.ef.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
    */

@@ -79,6 +79,8 @@ public class Xholon2Springy extends AbstractXholon2ExternalFormat implements IXh
    */
   protected StringBuilder endSb = null;
   
+  protected StringBuilder sb = null;
+  
   /** Annotation service. */
   protected IXholon annService = null;
   
@@ -87,6 +89,11 @@ public class Xholon2Springy extends AbstractXholon2ExternalFormat implements IXh
    */
   public Xholon2Springy() {}
   
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
   @Override
   public boolean initialize(String outFileName, String modelName, IXholon root) {
     //require();
@@ -148,7 +155,7 @@ public class Xholon2Springy extends AbstractXholon2ExternalFormat implements IXh
   @Override
   public void writeAll() {
     writeNode(root);
-    StringBuilder sb = new StringBuilder()
+    sb = new StringBuilder()
     .append(startSb.toString())
     .append("\n")
     .append(nodeSb.toString())

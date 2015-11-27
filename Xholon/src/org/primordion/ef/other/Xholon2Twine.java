@@ -79,6 +79,8 @@ public class Xholon2Twine extends AbstractXholon2ExternalFormat implements IXhol
    */
   protected StringBuilder endSb = null;
   
+  protected StringBuilder sb = null;
+  
   /** Annotation service. */
   protected IXholon annService = null;
   
@@ -87,6 +89,11 @@ public class Xholon2Twine extends AbstractXholon2ExternalFormat implements IXhol
    */
   public Xholon2Twine() {}
   
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
   @Override
   public boolean initialize(String outFileName, String modelName, IXholon root) {
     timeNow = new Date();
@@ -137,7 +144,7 @@ public class Xholon2Twine extends AbstractXholon2ExternalFormat implements IXhol
   @Override
   public void writeAll() {
     writeNode(root);
-    StringBuilder sb = new StringBuilder()
+    sb = new StringBuilder()
     .append(startSb.toString())
     .append(nodeSb.toString())
     .append(endSb.toString());

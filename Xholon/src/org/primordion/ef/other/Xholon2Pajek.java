@@ -79,6 +79,11 @@ public class Xholon2Pajek extends AbstractXholon2ExternalFormat implements IXhol
 	 */
 	public Xholon2Pajek() {}
 	
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
 	/*
 	 * @see org.primordion.xholon.io.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
 	 */

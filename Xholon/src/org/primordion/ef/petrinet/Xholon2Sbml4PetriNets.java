@@ -79,6 +79,11 @@ public class Xholon2Sbml4PetriNets extends AbstractXholon2ExternalFormat impleme
 	 */
 	public Xholon2Sbml4PetriNets() {}
 	
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
 	/*
 	 * @see org.primordion.xholon.io.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
 	 */

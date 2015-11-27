@@ -80,6 +80,11 @@ public class Xholon2PlantUML_Composite extends AbstractXholon2ExternalFormat imp
 	 */
 	public Xholon2PlantUML_Composite() {}
 	
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
 	/*
 	 * @see org.primordion.xholon.io.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
 	 */

@@ -70,6 +70,11 @@ public class Xholon2Smc extends AbstractXholon2ExternalFormat implements IXholon
     initialize(smcFileName, modelName, root);
   }
   
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
   /*
    * @see org.primordion.xholon.io.IXholon2Smc#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
    */

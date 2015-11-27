@@ -191,6 +191,11 @@ public class Xholon2GraphML extends AbstractXholon2ExternalFormat implements IXh
 	 */
 	public Xholon2GraphML() {}
 	
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
 	/*
 	 * @see org.primordion.xholon.io.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
 	 */

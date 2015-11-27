@@ -79,6 +79,11 @@ public class Xholon2IflangBlockly extends AbstractXholon2ExternalFormat implemen
    */
   public Xholon2IflangBlockly() {}
   
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
   /*
    * @see org.primordion.xholon.io.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
    */

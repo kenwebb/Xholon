@@ -120,6 +120,11 @@ public class Xholon2CherryTree extends AbstractXholon2ExternalFormat implements 
 	 */
 	public Xholon2CherryTree() {}
 	
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
 	/*
 	 * @see org.primordion.xholon.io.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
 	 */

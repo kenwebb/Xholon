@@ -35,6 +35,12 @@ public class Xholon2SnapshotXml extends AbstractXholon2ExternalFormat implements
 	private String outPath = "./ef/snapshot/";
 	private String modelName;
 	private IXholon root;
+	private Snapshot snapshot;
+	
+	@Override
+	public String getVal_String() {
+	  return snapshot.getVal_String();
+	}
 	
 	/*
 	 * @see org.primordion.ef.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
@@ -49,7 +55,7 @@ public class Xholon2SnapshotXml extends AbstractXholon2ExternalFormat implements
 	 * @see org.primordion.ef.IXholon2ExternalFormat#writeAll()
 	 */
 	public void writeAll() {
-		Snapshot snapshot = new SnapshotXML();
+		snapshot = new SnapshotXML();
 		Snapshot.setOutputPathGwtTabName(outPath);
 		snapshot.saveSnapshot(root, modelName);
 	}

@@ -30,6 +30,8 @@ import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
 @SuppressWarnings("serial")
 public class Xholon2Svg extends org.primordion.xholon.io.Xholon2Svg implements IXholon2ExternalFormat {
   
+  // getVal_String() is implemented by the superclass
+	
   @Override
   public boolean isWriteToTab() {return true;}
   @Override

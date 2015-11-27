@@ -81,6 +81,11 @@ public class Xholon2XmlSchema extends AbstractXholon2ExternalFormat implements I
    */
   public Xholon2XmlSchema() {}
   
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
   /*
    * @see org.primordion.xholon.io.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
    */

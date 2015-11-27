@@ -79,6 +79,8 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
 	 */
 	protected StringBuilder endSb = null;
 	
+	protected StringBuilder sb = null;
+	
 	/**
 	 * HTML element ID where Graphical Network View will be displayed.
 	 */
@@ -123,6 +125,11 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
 	public Xholon2ChapNetwork(boolean showNetwork, boolean showTree) {
 	  this.showNetwork = showNetwork;
 	  this.showTree = showTree;
+	}
+	
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
 	}
 	
 	@Override
@@ -193,7 +200,7 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
 	public void writeAll() {
 	  if (!isDefinedChapLinksNetwork()) {return;}
 		writeNode(root);
-		StringBuilder sb = new StringBuilder()
+		sb = new StringBuilder()
 		.append("// ")
 		.append(modelName)
 		.append("\n// see http://almende.github.io/chap-links-library/network.html")

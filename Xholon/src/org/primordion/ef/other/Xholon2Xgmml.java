@@ -166,6 +166,11 @@ public class Xholon2Xgmml extends AbstractXholon2ExternalFormat implements IXhol
 	 */
 	public Xholon2Xgmml() {}
 	
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
 	/*
 	 * @see org.primordion.xholon.io.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
 	 */

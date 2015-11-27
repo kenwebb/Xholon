@@ -30,7 +30,14 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
 	 */
 	private boolean insertDummyData = false;
 	
+	private String jsonStr;
+	
 	public Xholon2HierarchyJSON() {}
+	
+	@Override
+	public String getVal_String() {
+	  return jsonStr;
+	}
 	
 	/*
 	 * @see org.primordion.ef.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
@@ -65,7 +72,7 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
 	  xholon2json.setUseSymbols(isUseSymbols());
 	  xholon2json.setUseIcons(isUseIcons());
 	  xholon2json.writeAll();
-	  String jsonStr = xholon2json.getJsonStr();
+	  jsonStr = xholon2json.getJsonStr();
 	  int numNodes = xholon2json.getNumNodes();
 		
 		writeToTarget(jsonStr, outFileName, outPath, root);

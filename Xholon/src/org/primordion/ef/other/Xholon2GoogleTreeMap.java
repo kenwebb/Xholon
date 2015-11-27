@@ -117,6 +117,11 @@ public class Xholon2GoogleTreeMap extends AbstractXholon2ExternalFormat implemen
 	  }
 	}
 	
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
 	/**
 	 * Is the google visualization library already loaded?
 	 */

@@ -61,6 +61,11 @@ public class Xholon2Qep extends AbstractXholon2ExternalFormat implements IXholon
    */
   public Xholon2Qep() {}
   
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
   /**
    * Constructor.
    * @param qepFileName Name of the output QEP file.

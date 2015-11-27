@@ -67,6 +67,11 @@ public class Xholon2TreeML extends AbstractXholon2ExternalFormat implements IXho
 	 */
 	public Xholon2TreeML() {}
 	
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
 	/*
 	 * @see org.primordion.xholon.io.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
 	 */

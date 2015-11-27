@@ -133,6 +133,11 @@ public class Xholon2Spring extends AbstractXholon2ExternalFormat implements IXho
    */
   public Xholon2Spring() {}
   
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
 	/**
 	 * Initialize.
 	 * @param springFileName The name of a file to write to, or null to use default file name scheme.

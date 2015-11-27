@@ -117,6 +117,11 @@ public class Xholon2SExpression extends AbstractXholon2ExternalFormat implements
    */
   public Xholon2SExpression() {}
   
+	@Override
+	public String getVal_String() {
+	  return sb.toString();
+	}
+	
   /*
    * @see org.primordion.xholon.io.IXholon2ExternalFormat#initialize(java.lang.String, java.lang.String, org.primordion.xholon.base.IXholon)
    */
