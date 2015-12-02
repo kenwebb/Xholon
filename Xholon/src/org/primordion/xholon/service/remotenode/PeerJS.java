@@ -58,22 +58,32 @@ public class PeerJS extends AbstractRemoteNode implements IRemoteNode {
     obj.localid = null;
     obj.key = null;
     obj.debug = 3; // debug level (0 - 3)
+    // the following 4 options are only used if I'm running my own local PeerJS server
+    obj.host = null; // localhost  192.168.2.19
+    obj.port = -1; // default is 80, 9000
+    obj.path = null;
+    obj.config = null;
     if (listenParams) {
       // Alligator
       // Alligator_123,lwjd5qra8257b9,3
       // Alligator,,1
       // ,,2
-      var data = listenParams.split(",", 3);
+      // ,,,localhost,9000
+      var data = listenParams.split(",", 7);
       $wnd.console.log(data);
       switch(data.length) {
       // break is intentionally left out so the cases will fall through
+      case 7: obj.config = data[6];
+      case 6: obj.path = data[5];
+      case 5: obj.port = data[4];
+      case 4: obj.host = data[3];
       case 3: obj.debug = data[2];
       case 2: obj.key = data[1];
       case 1: obj.localid = data[0];
       default: break;
       }
     }
-    if (obj.key == null || obj.key.length == 0) {
+    if ((obj.key == null || obj.key.length == 0) && !obj.host) {
       obj.key = @org.primordion.xholon.service.remotenode.PeerJS::PEERJS_DEMO_API_KEY;
     }
     if (obj.localid.length == 0) {
@@ -88,22 +98,31 @@ public class PeerJS extends AbstractRemoteNode implements IRemoteNode {
     obj.remoteid = null;
     obj.key = null;
     obj.debug = 3; // debug level (0 - 3)
+    // the following 4 options are only used if I'm running my own local PeerJS server
+    obj.host = null; // localhost  192.168.2.19
+    obj.port = -1; // default is 80, 9000
+    obj.path = null;
+    obj.config = null;
     if (connectParams) {
       // Alligator
       // Alligator_123,lwjd5qra8257b9,3
       // Alligator,,1
       // ,,2
-      var data = connectParams.split(",", 3);
+      var data = connectParams.split(",", 7);
       $wnd.console.log(data);
       switch(data.length) {
       // break is intentionally left out so the cases will fall through
+      case 7: obj.config = data[6];
+      case 6: obj.path = data[5];
+      case 5: obj.port = data[4];
+      case 4: obj.host = data[3];
       case 3: obj.debug = data[2];
       case 2: obj.key = data[1];
       case 1: obj.remoteid = data[0];
       default: break;
       }
     }
-    if (obj.key == null || obj.key.length == 0) {
+    if ((obj.key == null || obj.key.length == 0) && !obj.host) {
       obj.key = @org.primordion.xholon.service.remotenode.PeerJS::PEERJS_DEMO_API_KEY;
     }
     if (obj.remoteid.length == 0) {
@@ -115,6 +134,7 @@ public class PeerJS extends AbstractRemoteNode implements IRemoteNode {
   @Override
   protected native void listen(Object listenParams, IXholon reffedNode) /*-{
     if (typeof $wnd.Peer === "undefined") {return;}
+    $wnd.console.log(listenParams);
     var localid = listenParams.localid; //  A PeerJS ID, or null.
     var key = listenParams.key; // A PeerJS API key, or null.
     var debug = listenParams.debug; // A PeerJS debug level (0-3).
@@ -122,10 +142,13 @@ public class PeerJS extends AbstractRemoteNode implements IRemoteNode {
       var appName = "" + $wnd.xh.html.urlparam("app").replace(/\+/g," ").substring(0,18);
       localid = appName + "_" + new Date().getTime() + "_" + reffedNode.id();
     }
-    this.println(localid);
-    this.println(key);
-    this.println(debug);
-    this.peer = new $wnd.Peer(localid, {key: key, debug: debug});
+    //this.println(localid);
+    //this.println(key);
+    //this.println(debug);
+    for (option in listenParams) {
+      this.println(listenParams[option]);
+    }
+    this.peer = new $wnd.Peer(localid, listenParams); //{key: key, debug: debug});
     var myself = this;
     this.peer.on('connection', function(connection) {
       if (connection.label != "file") { // Peerjs Chat also tries to set up a "file" connection
@@ -140,16 +163,20 @@ public class PeerJS extends AbstractRemoteNode implements IRemoteNode {
   @Override
   protected native void connect(Object connectParams, IXholon reffingNode) /*-{
     if (typeof $wnd.Peer === "undefined") {return;}
+    $wnd.console.log(connectParams);
     var remoteid = connectParams.remoteid; // A valid PeerJS ID.
     var key = connectParams.key; // A PeerJS API key, or null.
     var debug = connectParams.debug; // A PeerJS debug level (0-3).
     var appName = "" + $wnd.xh.html.urlparam("app").replace(/\+/g," ").substring(0,18);
     var localid = appName + "_" + new Date().getTime() + "_" + reffingNode.id();
     this.println("localid " + localid);
-    this.println("remoteid " + remoteid);
-    this.println(key);
-    this.println(debug);
-    this.peer = new $wnd.Peer(localid, {key: key, debug: debug});
+    //this.println("remoteid " + remoteid);
+    //this.println(key);
+    //this.println(debug);
+    for (option in connectParams) {
+      this.println(connectParams[option]);
+    }
+    this.peer = new $wnd.Peer(localid, connectParams); //{key: key, debug: debug});
     this.connexn = this.peer.connect(remoteid);
     var myself = this;
     this.connexn.on('data', function(data) {
