@@ -96,6 +96,25 @@ public class Xholon2Svg extends org.primordion.xholon.io.Xholon2Svg implements I
         $this.@org.primordion.xholon.service.ef.IXholon2ExternalFormat::initialize(Ljava/lang/String;Ljava/lang/String;Lorg/primordion/xholon/base/IXholon;)(outFileName, modelName, root);
         $this.@org.primordion.xholon.service.ef.IXholon2ExternalFormat::writeAll()();
       };
+      // for now, the Java source code is the only help information available
+      p.viewSourceCode = function() {
+        // https://github.com/kenwebb/Xholon/blob/master/Xholon/src/org/primordion/ef/other/Xholon2Twine.java
+        var url = "https://github.com/kenwebb/Xholon/blob/master/Xholon/src/org/primordion/ef/";
+        var fnarr = formatName.split(",");
+        if (fnarr.length == 2) {
+          url += fnarr[0].substring(1) + "/Xholon2" + fnarr[1] + ".java";
+        }
+        else {
+          url += "Xholon2" + fnarr[0] + ".java";
+        }
+        $wnd.console.log(url);
+        $wnd.open(url, "_blank", "");
+      }
+      p.stringify = function() {
+        $wnd.console.log(formatName);
+        $wnd.console.log(root.name());
+        $wnd.console.log($wnd.JSON.stringify(p));
+      }
       //gui.remember(p); // causes page freeze in Firefox, but not in Chrome
       for (var prop in p) {
         var pname = prop;
