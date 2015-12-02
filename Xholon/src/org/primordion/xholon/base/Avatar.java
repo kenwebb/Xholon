@@ -748,7 +748,8 @@ public class Avatar extends XholonWithPorts {
     }
     if (str.length() > 0) {
       xmlWriter.writeStartElement("Attribute_String");
-      xmlWriter.writeText("<![CDATA[\n" + str + "]]>");
+      //xmlWriter.writeText("<![CDATA[\n" + str + "]]>");
+      xmlWriter.writeText(makeTextXmlEmbeddable(str));
       xmlWriter.writeEndElement("Attribute_String");
     }
   }
@@ -759,6 +760,7 @@ public class Avatar extends XholonWithPorts {
    * @return a response
    */
   protected String processCommands(String cmds) {
+    sb = new StringBuilder();
     if (cmds.startsWith("script;")) {
       if (cmds.length() == 7) {
         // return the script as a newline-separated string
@@ -768,15 +770,21 @@ public class Avatar extends XholonWithPorts {
       this.setVal_String(cmds.substring(7));
       return ""; //"Script initialized.";
     }
-    sb = new StringBuilder();
-    String[] s = cmds.split(CMD_SEPARATOR, 100);
-    for (int i = 0; i < s.length; i++) {
-      if (s[i].startsWith("xport ")) {
-        // convert double quotes in JSON to backslash quote
-        processCommand(this.escapeDoubleQuotes(s[i]));
-      }
-      else {
-        processCommand(s[i]);
+    else if (cmds.startsWith("xport ")) {
+      // xport commands may contain embedded spaces and semicolons (CMD_SEPARATOR)
+      // convert double quotes in JSON to backslash quote
+      processCommand(this.escapeDoubleQuotes(cmds));
+    }
+    else {
+      String[] s = cmds.split(CMD_SEPARATOR, 100);
+      for (int i = 0; i < s.length; i++) {
+        //if (s[i].startsWith("xport ")) {
+        //  // convert double quotes in JSON to backslash quote
+        //  processCommand(this.escapeDoubleQuotes(s[i]));
+        //}
+        //else {
+          processCommand(s[i]);
+        //}
       }
     }
     return sb.toString();
@@ -957,7 +965,7 @@ public class Avatar extends XholonWithPorts {
     }
     else if (cmd.startsWith("xport")) {
       cmd = this.unescapeDoubleQuotes(cmd);
-      data = cmd.split(" ", 4);
+      data = cmd.split(" ", 3);
     }
     else {
       data = this.split(cmd, 4);
@@ -2727,7 +2735,10 @@ xport hello _other,Newick,true,true,true,{}
           xholonMapNode = this.getLastChild();
         }
         
-        String efChild = "<Attribute_String roleName=\"" + formatName + "\"><![CDATA[" + result + "]]></Attribute_String>";
+        String efChild = "<Attribute_String roleName=\"" + formatName + "\">"
+          //+ "<![CDATA[" + result + "]]>"
+          + makeTextXmlEmbeddable(result)
+          + "</Attribute_String>";
         this.appendEfChild(efChild, xholonMapNode);
       }
       else {
