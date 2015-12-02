@@ -531,7 +531,8 @@ public class Behavior_gwtjs extends Xholon {
 	 */
 	public void toXmlAttributes(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {
 		xmlWriter.writeAttribute("implName", "org.primordion.xholon.base.Behavior_" + scriptLanguage);
-		xmlWriter.writeText("<![CDATA[\n" + scriptContent + "\n]]>");
+		//xmlWriter.writeText("<![CDATA[\n" + scriptContent + "\n]]>");
+		xmlWriter.writeText(makeTextXmlEmbeddable(scriptContent));
 	}
 	
 	/*

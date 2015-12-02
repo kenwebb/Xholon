@@ -1388,6 +1388,18 @@ public abstract void toXmlAttribute(IXholon2Xml xholon2xml, IXmlWriter xmlWriter
  */
 public abstract void toXmlText(IXholon2Xml xholon2xml, IXmlWriter xmlWriter);
 
+/**
+ * Return a string that can be embedded in an XML document.
+ * If the input string contains any of these special characters: < &
+ * then return the original string embedded in a CDATA tag.
+ * Else return the original string.
+ * TODO allow option to wrap in CDATA, or to convert the special characters to XML entities (&lt; &amp;)
+ * TODO also handle: > " ' and others
+ * @param a string that may contain one or more of the special characters
+ * @return a possibly-modified version of the string
+ */
+public abstract String makeTextXmlEmbeddable(String str);
+
 // Meteor
 
 /**

@@ -158,7 +158,7 @@ public abstract class Attribute extends Xholon implements IAttribute {
 		toXmlAttributes(xholon2xml, xmlWriter);
 		if (getXhc() != null) {
 			if (getXhcId() != CeAttribute.Attribute_attributeCE) {
-				xmlWriter.writeText(makeTextSafe(getVal_String()));
+				xmlWriter.writeText(makeTextXmlEmbeddable(getVal_String()));
 			}
 		}
 		IXholon childNode = getFirstChild();
@@ -174,7 +174,7 @@ public abstract class Attribute extends Xholon implements IAttribute {
 	 * then return the original string embedded in a CDATA tag.
 	 * Else return the original string.
 	 */
-	protected String makeTextSafe(String str) {
+	/*protected String makeTextXmlEmbeddable(String str) {
 		for (int i = 0; i < str.length(); i++) {
 			switch (str.charAt(i)) {
 			case '<':
@@ -184,7 +184,7 @@ public abstract class Attribute extends Xholon implements IAttribute {
 			}
 		}
 		return str;
-	}
+	}*/
 	
 	/*
 	 * @see org.primordion.xholon.base.Xholon#toXmlAttributes(org.primordion.xholon.io.xml.IXholon2Xml, org.primordion.xholon.io.xml.IXmlWriter)

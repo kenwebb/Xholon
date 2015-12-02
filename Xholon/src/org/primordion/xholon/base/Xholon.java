@@ -3067,6 +3067,19 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 		// do nothing by default
 	}
 	
+	@Override
+	public String makeTextXmlEmbeddable(String str) {
+		for (int i = 0; i < str.length(); i++) {
+			switch (str.charAt(i)) {
+			case '<':
+			case '&':
+				return "<![CDATA[" + str + "]]>";
+			default: break;
+			}
+		}
+		return str;
+	}
+	
 	/**
 	 * Get the type of XML Attribute tag that corresponds to a particular Java class.
 	 * TODO This method may return an invalid Xholon class name.
