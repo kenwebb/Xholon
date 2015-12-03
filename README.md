@@ -5,7 +5,7 @@ Xholon is an open-source library for making open-ended HTML5 client-side applica
 The technology focus is on hierarchical and graph structure, building complex worlds,
 dynamic interactions, visualization, dynamic content updates, ...
 
-Xholon uses [Google Web Toolkit] [6] (GWT 2.6.0) to compile this repository's Java source code
+Xholon uses [Google Web Toolkit] [6] (GWT 2.7.0) to compile this repository's Java source code
 (documented [here] [7]) into a 100%-JavaScript library.
 The [JavaScript API] [1] (with a [jQuery] [13]-like syntax) enables writing web applications
 that run entirely in the browser.
