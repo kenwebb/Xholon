@@ -33,7 +33,7 @@ import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
 
 /**
  * Export a Xholon model in eTrice .room format.
- * To run the Java Stanalone Generator on the resulting .room content (Linux):
+ * To run the Java Standalone Generator on the resulting .room content (Linux):
  *   Save it to a file by copy and pasting from the Xholon tab.
  *   cd ~/etrice/generator-java
  *   java -jar org.eclipse.etrice.generator.java.jar HelloWorld.room
@@ -61,7 +61,7 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
   private boolean shouldShowStateMachineEntities = false;
   
   /** Template to use when writing out node names. */
-  protected String nameTemplateCSH = "^^c_i^"; // TODO don't include the id ? maybe do include the role?  "^^R^^^"
+  protected String nameTemplateCSH = "^^c_i^"; // TODO don't include the id ? maybe do include the role? "R^^^^^"
   protected String nameTemplateIH  = "^^C^^^"; // don't include role name
   
   protected Set<String> xhClassNameSet;
@@ -94,10 +94,19 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
       this.outFileName = fileName;
     }
     this.modelName = modelName;
-    this.modelNameNoSpecials = modelName.replace(" ", "_").replace("-", "_");
+    this.modelNameNoSpecials = replaceSpecials(modelName);
     this.root = root;
     xhClassNameSet = new HashSet<String>();
     return true;
+  }
+  
+  /**
+   * Replace special characters in model name and role name.
+   * @param str
+   * @return 
+   */
+  protected String replaceSpecials(String str) {
+    return str.replace(" ", "_").replace("-", "_");
   }
   
   /*
@@ -128,6 +137,7 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
     ;
     writeNode(root);
     writeSuperClasses();
+    writeProtocols();
     sb.append("}\n");
     writeToTarget(sb.toString(), outFileName, outPath, root);
   }
@@ -146,29 +156,10 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
     String nameIH = node.getName(nameTemplateIH);
     
     if (!xhClassNameSet.contains(nameIH)) {
-      /*sb
-      .append("  ActorClass ")
-      .append(nameIH);
-      String nameSuperclassIH = node.getXhc().getParentNode().getName();
-      if (!"XholonClass".equals(nameSuperclassIH)) {
-        sb.append(" extends ").append(nameSuperclassIH);
-      }
-      sb.append(" {\n");*/
       writeActorClassStartLine(node.getXhc(), nameIH);
-      if (node.hasChildNodes()) {
-        sb.append("    Structure {\n");
-        IXholon childNode = node.getFirstChild();
-        while (childNode != null) {
-          sb
-          .append("      ActorRef ")
-          .append(childNode.getName(nameTemplateCSH))
-          .append(": ")
-          .append(childNode.getName(nameTemplateIH))
-          .append("\n");
-          childNode = childNode.getNextSibling();
-        }
-        sb.append("    }\n");
-      }
+      List<PortInformation> portList = getXhPorts(node);
+      writeInterface(node, portList);
+      writeStructure(node, portList);
       // TODO if has behavior
       sb.append("  }\n\n");
       xhClassNameSet.add(nameIH);
@@ -184,6 +175,115 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
     }
   }
   
+  /**
+   * Get all outgoing ports associated with the current Xholon node.
+   */
+  protected List<PortInformation> getXhPorts(IXholon node) {
+    return node.getAllPorts();
+  }
+  
+  /**
+   * Write an optional eTrice ActorClass Interface.
+   * Do this only if there are ports.
+   * @param node
+   */
+  protected void writeInterface(IXholon node, List<PortInformation> portList) {
+    if (portList.size() > 0) {
+      sb.append("    Interface {\n");
+      for (int i = 0; i < portList.size(); i++) {
+        PortInformation pi = (PortInformation)portList.get(i);
+        if (pi != null) {
+          String fnIndex = pi.getFieldNameIndexStr();
+          if (fnIndex == null) {
+            fnIndex = "";
+          }
+          sb.append("      Port ").append(pi.getFieldName()).append(fnIndex).append(": ").append("TodoProtocol").append("\n");
+        }
+      }
+      sb.append("    }\n");
+    }
+  }
+  
+  /**
+   * Write an optional eTrice ActorClass Structure.
+   * @param node
+   */
+  protected void writeStructure(IXholon node, List<PortInformation> portList) {
+    String ports = writeStructurePorts(node, portList, new StringBuilder());
+    String actorRefs = writeStructureActorRefs(node, new StringBuilder());
+    String bindings = writeStructureBindings(node, new StringBuilder());
+    if ((ports + actorRefs + bindings).length() > 0) {
+      sb
+      .append("    Structure {\n")
+      .append(ports)
+      .append(actorRefs)
+      .append(bindings)
+      .append("    }\n");
+    }
+  }
+  
+  /**
+   * 
+   */
+  protected String writeStructurePorts(IXholon node, List<PortInformation> portList, StringBuilder sbPorts) {
+    for (int i = 0; i < portList.size(); i++) {
+      PortInformation pi = (PortInformation)portList.get(i);
+      if (pi != null) {
+        String fnIndex = pi.getFieldNameIndexStr();
+        if (fnIndex == null) {
+          fnIndex = "";
+        }
+        sbPorts.append("      external Port ").append(pi.getFieldName()).append(fnIndex).append("\n");
+      }
+    }
+    return sbPorts.toString();
+  }
+  
+  /**
+   * 
+   */
+  protected String writeStructureActorRefs(IXholon node, StringBuilder sbActorRefs) {
+    if (node.hasChildNodes()) {
+      IXholon childNode = node.getFirstChild();
+      while (childNode != null) {
+        sbActorRefs
+        .append("      ActorRef ")
+        .append(makeNameCSH(childNode))
+        .append(": ")
+        .append(childNode.getName(nameTemplateIH))
+        .append("\n");
+        childNode = childNode.getNextSibling();
+      }
+    }
+    return sbActorRefs.toString();
+  }
+  
+  /**
+   * 
+   */
+  protected String writeStructureBindings(IXholon node, StringBuilder sbBindings) {
+    //sbBindings.append("      // TODO bindings\n");
+    return sbBindings.toString();
+  }
+  
+  /**
+   * Make a CSH name for a node.
+   */
+  protected String makeNameCSH(IXholon node) {
+    String rn = node.getRoleName();
+    if (rn == null) {
+      //String cName = node.getXhcName();
+      //return cName.substring(0,1).toLowerCase() + cName.substring(1);
+      return node.getName(nameTemplateCSH);
+    }
+    else {
+      return replaceSpecials(rn);
+    }
+  }
+  
+  /**
+   * Write the start line of an ActorClass.
+   */
   protected void writeActorClassStartLine(IXholonClass xhcNode, String nameIH) {
     sb
     .append("  ActorClass ")
@@ -224,6 +324,23 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
       writeActorClassStartLine(xc, "XholonClass");
       sb.append("  }\n\n");
     }
+  }
+  
+  /**
+   * Write potocol classes.
+   * For now, it writes a dummyy protocol.
+   */
+  protected void writeProtocols() {
+    sb
+    .append("  ProtocolClass ").append("TodoProtocol" ).append(" {\n")
+    .append("    incoming {\n")
+    .append("      Message sigA()\n")
+    .append("    }\n")
+    .append("    outgoing {\n")
+    .append("      Message sigB()\n")
+    .append("    }\n")
+    .append("  }\n\n")
+    ;
   }
   
   public String getOutFileName() {
