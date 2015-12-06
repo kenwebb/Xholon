@@ -44,7 +44,7 @@ import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
  * @see <a href="http://www.eclipse.org/etrice/">eTrice web site</a>
  */
 @SuppressWarnings("serial")
-public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXholon2ExternalFormat {
+public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXholon2ExternalFormat, CeStateMachineEntity {
   
   /**
    * In (almost) all Xholon apps, the conjugated (incoming) ports are implied,
@@ -162,9 +162,8 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
    */
   @SuppressWarnings("unchecked")
   protected void writeNode(IXholon node) {
-    // only show state machine nodes if should show them, or if root is a StateMachineCE
-    if ((node.getXhcId() == CeStateMachineEntity.StateMachineCE)
-        && (shouldShowStateMachineEntities == false)) {
+    // ignore state machine nodes; they are handled elsewhere in the code
+    if (node.getXhcId() == StateMachineCE) {
       return;
     }
     String nameIH = node.getName(nameTemplateIH);
@@ -174,8 +173,9 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
       List<PortInformation> portList = getXhPorts(node);
       List<IXholon> reffingNodesList = node.searchForReferencingNodes();
       writeInterface(node, portList, reffingNodesList);
-      writeStructure(node, portList, reffingNodesList);
-      // TODO if has behavior
+      StringBuilder sbFsm = new StringBuilder();
+      writeStructure(node, portList, reffingNodesList, sbFsm);
+      sb.append(sbFsm.toString());
       sb.append("  }\n\n");
       xhClassNameSet.add(nameIH);
     }
@@ -269,10 +269,10 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
    * Write an optional eTrice ActorClass Structure.
    * @param node
    */
-  protected void writeStructure(IXholon node, List<PortInformation> portList, List<IXholon> reffingNodesList) {
+  protected void writeStructure(IXholon node, List<PortInformation> portList, List<IXholon> reffingNodesList, StringBuilder sbFsm) {
     String ports = writeStructurePorts(node, portList, new StringBuilder());
     String conjPorts = writeStructureConjugatedPorts(node, reffingNodesList, new StringBuilder());
-    String actorRefs = writeStructureActorRefs(node, new StringBuilder());
+    String actorRefs = writeStructureActorRefs(node, new StringBuilder(), sbFsm);
     String bindings = writeStructureBindings(node, portList, new StringBuilder());
     if ((ports + conjPorts + actorRefs + bindings).length() > 0) {
       sb
@@ -342,20 +342,102 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
   /**
    * 
    */
-  protected String writeStructureActorRefs(IXholon node, StringBuilder sbActorRefs) {
+  protected String writeStructureActorRefs(IXholon node, StringBuilder sbActorRefs, StringBuilder sbFsm) {
     if (node.hasChildNodes()) {
       IXholon childNode = node.getFirstChild();
       while (childNode != null) {
-        sbActorRefs
-        .append("      ActorRef ")
-        .append(makeNameCSH(childNode))
-        .append(": ")
-        .append(childNode.getName(nameTemplateIH))
-        .append("\n");
+        if (childNode.getXhcId() == StateMachineCE) {
+          writeBehaviorFsm(childNode, sbFsm);
+        }
+        else {
+          sbActorRefs
+          .append("      ActorRef ")
+          .append(makeNameCSH(childNode))
+          .append(": ")
+          .append(childNode.getName(nameTemplateIH))
+          .append("\n");
+        }
         childNode = childNode.getNextSibling();
       }
     }
     return sbActorRefs.toString();
+  }
+  
+  /**
+   * 
+   */
+  protected void writeBehaviorFsm(IXholon fsmNode, StringBuilder sbFsm) {
+    sbFsm.append("    Behavior {\n");
+    writeFsmNode(fsmNode, sbFsm, "     ");
+    sbFsm.append("    }\n");
+  }
+  
+  /**
+   * Write an FSM node and its children.
+   * TODO do rest of state machine types
+   */
+  protected void writeFsmNode(IXholon fsmNode, StringBuilder sbFsm, String tab) {
+    boolean shouldWriteEndBracket = true;
+    switch (fsmNode.getXhcId()) {
+    //case StateMachineEntityCE:
+    case StateMachineCE:
+      sbFsm.append(tab).append("StateMachine {\n");
+      break;
+    case RegionCE:
+      sbFsm.append(tab).append("subgraph {\n");
+      break;
+    //case VertexCE:
+    //case ConnectionPointReferenceCE: break;
+    case StateCE:
+    case FinalStateCE:
+      sbFsm.append(tab).append("State {\n");
+      break;
+    //case PseudostateCE:
+    //case PseudostateTerminateCE: break;
+    //case PseudostateShallowHistoryCE: break;
+    //case PseudostateJunctionCE: break;
+    //case PseudostateJoinCE: break;
+    case PseudostateInitialCE:
+      sbFsm.append(tab).append("InitialPoint {\n");
+      break;
+    //case PseudostateForkCE: break;
+    case PseudostateExitPointCE:
+      sbFsm.append(tab).append("ExitPoint {\n");
+      break;
+    case PseudostateEntryPointCE:
+      sbFsm.append(tab).append("EntryPoint {\n");
+      break;
+    //case PseudostateDeepHistoryCE: break;
+    case PseudostateChoiceCE:
+      sbFsm.append(tab).append("ChoicePoint {\n");
+      break;
+    //case TriggerCE: break;
+    case TransitionCE:
+    case TransitionExternalCE:
+    case TransitionInternalCE:
+    case TransitionLocalCE:
+      sbFsm.append(tab).append("Transition {\n");
+      break;
+    //case ActivityCE: break;
+    //case GuardCE: break;
+    //case EntryActivityCE: break;
+    //case ExitActivityCE: break;
+    //case DoActivityCE: break;
+    //case DeferrableTriggerCE: break;
+    //case TargetCE: break;
+    
+    default:
+      shouldWriteEndBracket = false;
+      return;
+    }
+    IXholon childNode = fsmNode.getFirstChild();
+    while (childNode != null) {
+      writeFsmNode(childNode, sbFsm, tab + " ");
+      childNode = childNode.getNextSibling();
+    }
+    if (shouldWriteEndBracket) {
+      sbFsm.append(tab).append("}\n");
+    }
   }
   
   /**
