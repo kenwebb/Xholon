@@ -46,6 +46,18 @@ import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
 @SuppressWarnings("serial")
 public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXholon2ExternalFormat {
   
+  /**
+   * In (almost) all Xholon apps, the conjugated (incoming) ports are implied,
+   * and in fact the Actor itself receives messages directly and not through a port.
+   * This is the default name of the Actor masquerading as a port.
+   */
+  private static final String CONJUGATED_PORTNAME_DEFAULT = "actorPort"; // port0 nullPort
+  
+  /**
+   * For now, I just have this one placeholder protocol.
+   */
+  private static final String PROTOCOL_DEFAULT = "TodoProtocol";
+  
   private String outFileName;
   private String outPath = "./ef/etrice/";
   private String modelName;
@@ -125,8 +137,10 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
       + " */\n");
     sb
     .append("RoomModel " + modelNameNoSpecials + " {\n\n")
-    .append("  //import room.basic.types.* from \"../../org.eclipse.etrice.modellib.java/model/Types.room\"\n")
-    .append("  //import room.basic.service.timing.* from \"../../org.eclipse.etrice.modellib.java/model/TimingService.room\"\n\n")
+    //.append("  //import room.basic.types.* from \"../../org.eclipse.etrice.modellib.java/model/Types.room\"\n")
+    //.append("  //import room.basic.service.timing.* from \"../../org.eclipse.etrice.modellib.java/model/TimingService.room\"\n\n")
+    .append("  import room.basic.types.* from \"Types.room\"\n")
+    .append("  import room.basic.service.timing.* from \"TimingService.room\"\n\n")
     .append("  LogicalSystem LogSys {\n")
     .append("    SubSystemRef subSystemRef: SubSysClass\n")
     .append("  }\n\n")
@@ -158,8 +172,9 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
     if (!xhClassNameSet.contains(nameIH)) {
       writeActorClassStartLine(node.getXhc(), nameIH);
       List<PortInformation> portList = getXhPorts(node);
-      writeInterface(node, portList);
-      writeStructure(node, portList);
+      List<IXholon> reffingNodesList = node.searchForReferencingNodes();
+      writeInterface(node, portList, reffingNodesList);
+      writeStructure(node, portList, reffingNodesList);
       // TODO if has behavior
       sb.append("  }\n\n");
       xhClassNameSet.add(nameIH);
@@ -179,7 +194,19 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
    * Get all outgoing ports associated with the current Xholon node.
    */
   protected List<PortInformation> getXhPorts(IXholon node) {
-    return node.getAllPorts();
+    List<PortInformation> portList = node.getAllPorts();
+    // remove ports whose remoteNode is outside the scope (not a descendant) of root
+    Iterator<PortInformation> it = portList.iterator();
+    while (it.hasNext()) {
+      PortInformation pi = (PortInformation)it.next();
+      if (pi != null) {
+        IXholon remoteNode = pi.getReffedNode();
+        if (!remoteNode.hasAncestor(root.getName())) {
+          it.remove();
+        }
+      }
+    }
+    return portList;
   }
   
   /**
@@ -187,8 +214,8 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
    * Do this only if there are ports.
    * @param node
    */
-  protected void writeInterface(IXholon node, List<PortInformation> portList) {
-    if (portList.size() > 0) {
+  protected void writeInterface(IXholon node, List<PortInformation> portList, List<IXholon> reffingNodesList) {
+    if ((portList.size() > 0) || (reffingNodesList.size() > 0)) {
       sb.append("    Interface {\n");
       for (int i = 0; i < portList.size(); i++) {
         PortInformation pi = (PortInformation)portList.get(i);
@@ -197,25 +224,61 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
           if (fnIndex == null) {
             fnIndex = "";
           }
-          sb.append("      Port ").append(pi.getFieldName()).append(fnIndex).append(": ").append("TodoProtocol").append("\n");
+          IXholon remoteNode = pi.getReffedNode();
+          // TODO use public boolean hasAncestor(String tnName) in Xholon.java, instead of getParentNode() ?
+          if (remoteNode.getParentNode() == node) {
+            // this is an internal end port, and should therefore not be added to the Interface
+            continue;
+          }
+          sb
+          .append("      Port ")
+          .append(pi.getFieldName())
+          .append(fnIndex)
+          .append(": ")
+          .append(PROTOCOL_DEFAULT)
+          .append("\n");
         }
       }
+      sb.append(writeInterfaceConjugatedPorts(node, reffingNodesList, new StringBuilder()));
       sb.append("    }\n");
     }
+  }
+  
+  /**
+   * 
+   */
+  protected String writeInterfaceConjugatedPorts(IXholon node, List<IXholon> reffingNodesList, StringBuilder sbPorts) {
+    for (int i = 0; i < reffingNodesList.size(); i++) {
+      IXholon reffingNode = reffingNodesList.get(i);
+      if (reffingNode.getParentNode() != node) {
+        // this is an external conjugated end port
+        sbPorts
+        .append("      //conjugated Port ")
+        .append(CONJUGATED_PORTNAME_DEFAULT)
+        .append(": ")
+        .append(PROTOCOL_DEFAULT)
+        .append(" // ")
+        .append(reffingNode.getName())
+        .append("\n");
+      }
+    }
+    return sbPorts.toString();
   }
   
   /**
    * Write an optional eTrice ActorClass Structure.
    * @param node
    */
-  protected void writeStructure(IXholon node, List<PortInformation> portList) {
+  protected void writeStructure(IXholon node, List<PortInformation> portList, List<IXholon> reffingNodesList) {
     String ports = writeStructurePorts(node, portList, new StringBuilder());
+    String conjPorts = writeStructureConjugatedPorts(node, reffingNodesList, new StringBuilder());
     String actorRefs = writeStructureActorRefs(node, new StringBuilder());
-    String bindings = writeStructureBindings(node, new StringBuilder());
-    if ((ports + actorRefs + bindings).length() > 0) {
+    String bindings = writeStructureBindings(node, portList, new StringBuilder());
+    if ((ports + conjPorts + actorRefs + bindings).length() > 0) {
       sb
       .append("    Structure {\n")
       .append(ports)
+      .append(conjPorts)
       .append(actorRefs)
       .append(bindings)
       .append("    }\n");
@@ -233,7 +296,44 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
         if (fnIndex == null) {
           fnIndex = "";
         }
-        sbPorts.append("      external Port ").append(pi.getFieldName()).append(fnIndex).append("\n");
+        sbPorts.append("      ");
+        IXholon remoteNode = pi.getReffedNode();
+        if (remoteNode.getParentNode() != node) {
+          // this is an external end port
+          sbPorts.append("external ");
+        }
+        sbPorts.append("Port ").append(pi.getFieldName()).append(fnIndex).append("\n");
+        // TODO if it's an internal end port, should it have ": ProtocolClass" at the end?
+      }
+    }
+    return sbPorts.toString();
+  }
+  
+  /**
+   * 
+   */
+  protected String writeStructureConjugatedPorts(IXholon node, List<IXholon> reffingNodesList, StringBuilder sbPorts) {
+    for (int i = 0; i < reffingNodesList.size(); i++) {
+      IXholon reffingNode = reffingNodesList.get(i);
+      if (reffingNode.getParentNode() == node) {
+        // this is an internal conjugated end port
+        sbPorts
+        .append("      //conjugated Port ")
+        .append(CONJUGATED_PORTNAME_DEFAULT)
+        .append(": ")
+        .append(PROTOCOL_DEFAULT)
+        .append(" // ")
+        .append(reffingNode.getName())
+        .append("\n");
+      }
+      else {
+        // this is an external conjugated end port
+        sbPorts
+        .append("      //external Port ")
+        .append(CONJUGATED_PORTNAME_DEFAULT)
+        .append(" // ")
+        .append(reffingNode.getName())
+        .append("\n");
       }
     }
     return sbPorts.toString();
@@ -261,8 +361,31 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
   /**
    * 
    */
-  protected String writeStructureBindings(IXholon node, StringBuilder sbBindings) {
-    //sbBindings.append("      // TODO bindings\n");
+  protected String writeStructureBindings(IXholon node, List<PortInformation> portList, StringBuilder sbBindings) {
+    for (int i = 0; i < portList.size(); i++) {
+      PortInformation pi = (PortInformation)portList.get(i);
+      if (pi != null) {
+        String fnIndex = pi.getFieldNameIndexStr();
+        if (fnIndex == null) {
+          fnIndex = "";
+        }
+        IXholon remoteNode = pi.getReffedNode();
+        //if (remoteNode == null) {continue;} // already checked in app.getAppSpecificObjectVals()
+        //if (!remoteNode.hasAncestor(root.getName())) {
+        //  // remoteNode is outside the scope (not a descendant) of root
+        //  continue;
+        //}
+        sbBindings
+        .append("      // Binding ")
+        .append(pi.getFieldName())
+        .append(fnIndex)
+        .append(" and ")
+        .append(makeNameCSH(remoteNode))
+        .append(".")
+        .append(CONJUGATED_PORTNAME_DEFAULT) // TODO can I determine the actual port name?
+        .append("\n");
+      }
+    }
     return sbBindings.toString();
   }
   
@@ -318,10 +441,40 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
         }
       }
     }
-    // write XholonClass at the end
+    writeXholonClassSuperClass();
+  }
+  
+  /**
+   * Write XholonClass superclass at the end of the file.
+   * I assume that the ports in XholonClass will be inherited by all subclasses
+   * TODO query MaxPorts parameter to determine max number of port ports are in this app
+   */
+  protected void writeXholonClassSuperClass() {
     IXholonClass xc = root.getClassNode("XholonClass");
     if (xc != null) {
+      int maxPorts = Integer.parseInt(root.getApp().getParam("MaxPorts"));
       writeActorClassStartLine(xc, "XholonClass");
+      if (maxPorts > 0) {
+        sb.append("    Interface {\n");
+        for (int i = 0; i < maxPorts; i++) {
+          //Error: ERROR:Duplicate name 'port0' in ActorClass 'XholonClass' (file://home/ken/etrice/generator-java/Cell___BioSystems_paper5.room line : 289)
+          //Error: ERROR:name 'port0' is already assigned to PortXholonClass.port0 (file://home/ken/etrice/generator-java/Cell___BioSystems_paper5.room line : 54)
+          sb
+          .append("      // Port port")
+          .append(i).append(": ")
+          .append(PROTOCOL_DEFAULT)
+          .append("\n");
+        }
+        sb.append("    }\n");
+        sb.append("    Structure {\n");
+        for (int j = 0; j < maxPorts; j++) {
+          //Error: ERROR:mismatched input 'conjugated' expecting ':' (file://home/ken/etrice/generator-java/Cell___BioSystems_paper5.room line : 300)
+          sb.append("      // conjugated Port port")
+          .append(j)
+          .append("\n");
+        }
+        sb.append("    }\n");
+      }
       sb.append("  }\n\n");
     }
   }
@@ -332,7 +485,7 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
    */
   protected void writeProtocols() {
     sb
-    .append("  ProtocolClass ").append("TodoProtocol" ).append(" {\n")
+    .append("  ProtocolClass ").append(PROTOCOL_DEFAULT).append(" {\n")
     .append("    incoming {\n")
     .append("      Message sigA()\n")
     .append("    }\n")
