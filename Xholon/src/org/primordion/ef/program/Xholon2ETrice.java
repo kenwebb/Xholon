@@ -64,6 +64,7 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
   private String modelNameNoSpecials; // modelName with no special characters - space dash
   private IXholon root;
   private StringBuilder sb;
+  private StringBuilder sbTrans = null; // write transitions at the current level
   
   /** Current date and time. */
   private Date timeNow;
@@ -78,11 +79,6 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
   
   protected Set<String> xhClassNameSet;
   
-  /**
-   * Should connections between nodes be shown with their port labels.
-   */
-  //private boolean shouldShowPortLabels = false;
-
   /**
    * Constructor.
    */
@@ -298,12 +294,26 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
         }
         sbPorts.append("      ");
         IXholon remoteNode = pi.getReffedNode();
-        if (remoteNode.getParentNode() != node) {
+        if (remoteNode.getParentNode() == node) {
           // this is an external end port
-          sbPorts.append("external ");
+          // TODO if it's an internal end port, should it have ": ProtocolClass" at the end?
+          sbPorts
+          .append("Port ")
+          .append(pi.getFieldName())
+          .append(fnIndex)
+          .append(": ")
+          .append(PROTOCOL_DEFAULT)
+          .append("\n");
         }
-        sbPorts.append("Port ").append(pi.getFieldName()).append(fnIndex).append("\n");
-        // TODO if it's an internal end port, should it have ": ProtocolClass" at the end?
+        else {
+          // this is an external end port
+          sbPorts
+          .append("external ")
+          .append("Port ")
+          .append(pi.getFieldName())
+          .append(fnIndex)
+          .append("\n");
+        }
       }
     }
     return sbPorts.toString();
@@ -374,23 +384,34 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
   
   /**
    * Write an FSM node and its children.
-   * TODO do rest of state machine types
    */
   protected void writeFsmNode(IXholon fsmNode, StringBuilder sbFsm, String tab) {
     boolean shouldWriteEndBracket = true;
+    //StringBuilder sbEndBracket = sbFsm;
     switch (fsmNode.getXhcId()) {
     //case StateMachineEntityCE:
     case StateMachineCE:
-      sbFsm.append(tab).append("StateMachine {\n");
+      sbFsm
+      .append(tab)
+      .append("StateMachine {\n");
+      sbTrans = new StringBuilder();
       break;
     case RegionCE:
-      sbFsm.append(tab).append("subgraph {\n");
+      sbFsm
+      .append(tab)
+      .append("subgraph {\n");
       break;
     //case VertexCE:
     //case ConnectionPointReferenceCE: break;
     case StateCE:
     case FinalStateCE:
-      sbFsm.append(tab).append("State {\n");
+      sbFsm
+      .append(tab)
+      .append("State ")
+      .append(makeNameCSH(fsmNode)) //fsmNode.getRoleName())
+      .append(" {\n");
+      // write transitions that exit from this State
+      writeTransitions(fsmNode, sbTrans, tab);
       break;
     //case PseudostateCE:
     //case PseudostateTerminateCE: break;
@@ -398,30 +419,68 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
     //case PseudostateJunctionCE: break;
     //case PseudostateJoinCE: break;
     case PseudostateInitialCE:
-      sbFsm.append(tab).append("InitialPoint {\n");
+      // InitialPoint is implicit in the eTrice Trextual Notation, and does not need to be explicitly specified
+      writeTransitions(fsmNode, sbTrans, tab);
+      shouldWriteEndBracket = false;
       break;
     //case PseudostateForkCE: break;
     case PseudostateExitPointCE:
-      sbFsm.append(tab).append("ExitPoint {\n");
+      sbFsm
+      .append(tab)
+      .append("ExitPoint ")
+      .append(makeNameCSH(fsmNode))
+      .append(" {\n");
+      writeTransitions(fsmNode, sbTrans, tab);
       break;
     case PseudostateEntryPointCE:
-      sbFsm.append(tab).append("EntryPoint {\n");
+      sbFsm
+      .append(tab)
+      .append("EntryPoint ")
+      .append(makeNameCSH(fsmNode))
+      .append(" {\n");
+      writeTransitions(fsmNode, sbTrans, tab);
       break;
     //case PseudostateDeepHistoryCE: break;
     case PseudostateChoiceCE:
-      sbFsm.append(tab).append("ChoicePoint {\n");
+      sbFsm
+      .append(tab)
+      .append("ChoicePoint ")
+      .append(makeNameCSH(fsmNode))
+      .append(" {\n");
+      writeTransitions(fsmNode, sbTrans, tab);
       break;
-    //case TriggerCE: break;
+    case TriggerCE:
+      sbTrans
+      .append(tab)
+      .append("triggers")
+      .append(" {\n")
+      .append(tab)
+      .append(" ")
+      .append("\"\\\\ TODO\"\n");
+      //sbEndBracket = sbTrans;
+      break;
     case TransitionCE:
     case TransitionExternalCE:
     case TransitionInternalCE:
     case TransitionLocalCE:
-      sbFsm.append(tab).append("Transition {\n");
-      break;
+      // transitions are handled by the State that links to them
+      return;
     //case ActivityCE: break;
     //case GuardCE: break;
-    //case EntryActivityCE: break;
-    //case ExitActivityCE: break;
+    case EntryActivityCE:
+      sbFsm
+      .append(tab)
+      .append("entry")
+      .append(" {\n")
+      .append(tab).append(" ").append("\"\\\\ TODO\"\n");
+      break;
+    case ExitActivityCE:
+      sbFsm
+      .append(tab)
+      .append("exit")
+      .append(" {\n")
+      .append(tab).append(" ").append("\"\\\\ TODO\"\n");
+      break;
     //case DoActivityCE: break;
     //case DeferrableTriggerCE: break;
     //case TargetCE: break;
@@ -435,8 +494,62 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
       writeFsmNode(childNode, sbFsm, tab + " ");
       childNode = childNode.getNextSibling();
     }
+    switch (fsmNode.getXhcId()) {
+    case StateMachineCE:
+    case RegionCE:
+      // write all the Transitions that have been cached for that level
+      sbFsm.append(sbTrans.toString());
+      sbTrans = new StringBuilder();
+      break;
+    default: break;
+    }
     if (shouldWriteEndBracket) {
       sbFsm.append(tab).append("}\n");
+    }
+  }
+  
+  /**
+   * Write all Transitions exiting from a specified State.
+   * @param stNode A Xholon State or Final State
+   */
+  protected void writeTransitions(IXholon stNode, StringBuilder sbTrans, String tab) {
+    IXholon[] cnpt = stNode.getPort();
+    for (int i = 0; i < cnpt.length; i++) {
+      IXholon transNode = cnpt[i];
+      if (transNode != null) {
+        IXholon destNode = transNode.getPort(0);
+        if (destNode != null) {
+          sbTrans
+          .append(tab)
+          .append("Transition ");
+          
+          switch (stNode.getXhcId()) {
+          case PseudostateInitialCE:
+            sbTrans
+            .append("init: initial");
+            break;
+          default:
+            sbTrans
+            .append(makeNameCSH(transNode)) //transNode.getRoleName())
+            .append(": ")
+            .append(makeNameCSH(stNode));
+            break;
+          }
+          
+          sbTrans
+          .append(" -> ")
+          .append(makeNameCSH(destNode))
+          .append(" {\n");
+          
+          // write triggers and other children of the Transition
+          IXholon childNode = transNode.getFirstChild();
+          while (childNode != null) {
+            writeFsmNode(childNode, sbTrans, tab + " ");
+            childNode = childNode.getNextSibling();
+          }
+          sbTrans.append(tab).append("}\n");
+        }
+      }
     }
   }
   
@@ -476,9 +589,7 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
    */
   protected String makeNameCSH(IXholon node) {
     String rn = node.getRoleName();
-    if (rn == null) {
-      //String cName = node.getXhcName();
-      //return cName.substring(0,1).toLowerCase() + cName.substring(1);
+    if ((rn == null) || (rn.length() == 0)) {
       return node.getName(nameTemplateCSH);
     }
     else {
