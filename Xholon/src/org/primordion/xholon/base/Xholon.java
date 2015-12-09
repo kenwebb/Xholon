@@ -1239,7 +1239,7 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 				switch (ch) {
 				case 'r': if (rn != null) {nameBuffer += getRoleName();} break;
 				case 'R': // roleName or className, but not both
-					if (rn == null) {
+					if ((rn == null) || (rn.length() == 0)) {
 						if (xhc == null) {
 							nameBuffer += this.getClass().getName() + "_";
 						}
@@ -2415,8 +2415,10 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 	}
 	
 	@Override
-	// TODO include non-port ports
-	// but don't call getAllPorts() which is too slow when used in D3 Circle Pack
+	/**
+	 * TODO include non-port ports
+	 * but don't call getAllPorts() which is too slow when used in D3 Circle Pack
+	 */
 	public List<IXholon> searchForReferencingNodes()
 	{
 	  List<IXholon> reffingNodes = new ArrayList<IXholon>();
@@ -2429,6 +2431,7 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 	
 	/**
 	 * Search for instances of Xholon with ports that reference this instance.
+	 * See enhancements in Xholon2Etrice.java
 	 * @param reffedNode The Xholon node that we're looking for references to.
 	 * @param reffingNodes A list that is being filled with references.
 	 */
