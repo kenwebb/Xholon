@@ -18,6 +18,7 @@
 
 package org.primordion.ef.program;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -25,11 +26,15 @@ import java.util.List;
 import java.util.Set;
 
 import org.primordion.ef.AbstractXholon2ExternalFormat;
+import org.primordion.xholon.base.Control;
+import org.primordion.xholon.base.IPort;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
+import org.primordion.xholon.base.Port;
 import org.primordion.xholon.base.PortInformation;
 import org.primordion.xholon.common.mechanism.CeStateMachineEntity;
 import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
+import org.primordion.xholon.util.ClassHelper;
 
 /**
  * Export a Xholon model in eTrice .room format.
@@ -37,6 +42,20 @@ import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
  *   Save it to a file by copy and pasting from the Xholon tab.
  *   cd ~/etrice/generator-java
  *   java -jar org.eclipse.etrice.generator.java.jar HelloWorld.room
+ * 
+ * TODO 
+ * - relay ports
+ * - do more complete job with conjugated ports
+ * - Protocol classes
+ * - bindings
+ * - multiplicity, replicated ports
+ * - be able to handle all of the xmi apps (MagicDraw, TopCased, etc.)
+ * - Behavior code
+ * - Attributes
+ * - Operations
+ * - Data classes
+ * - Layering (Xholon Services?)
+ * - FSM TransitionPoint
  * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
@@ -167,7 +186,7 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
     if (!xhClassNameSet.contains(nameIH)) {
       writeActorClassStartLine(node.getXhc(), nameIH);
       List<PortInformation> portList = getXhPorts(node);
-      List<IXholon> reffingNodesList = node.searchForReferencingNodes();
+      List<IXholon> reffingNodesList = this.searchForReferencingNodes(node);
       writeInterface(node, portList, reffingNodesList);
       StringBuilder sbFsm = new StringBuilder();
       writeStructure(node, portList, reffingNodesList, sbFsm);
@@ -296,7 +315,6 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
         IXholon remoteNode = pi.getReffedNode();
         if (remoteNode.getParentNode() == node) {
           // this is an external end port
-          // TODO if it's an internal end port, should it have ": ProtocolClass" at the end?
           sbPorts
           .append("Port ")
           .append(pi.getFieldName())
@@ -640,7 +658,6 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
   /**
    * Write XholonClass superclass at the end of the file.
    * I assume that the ports in XholonClass will be inherited by all subclasses
-   * TODO query MaxPorts parameter to determine max number of port ports are in this app
    */
   protected void writeXholonClassSuperClass() {
     IXholonClass xc = root.getClassNode("XholonClass");
@@ -688,6 +705,75 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
     .append("  }\n\n")
     ;
   }
+  
+	/**
+	 * see IXholon/Xholon searchForReferencingNodes()
+	 */
+	public List<IXholon> searchForReferencingNodes(IXholon reffedNode)
+	{
+	  List<IXholon> reffingNodes = new ArrayList<IXholon>();
+		IXholon myRoot = reffedNode.getRootNode();
+		if (myRoot.getClass() != Control.class) {
+			this.searchForReferencingNodesRecurse(myRoot, reffedNode, reffingNodes);
+		}
+		return reffingNodes;
+	}
+	
+	/**
+	 * Search for instances of Xholon with ports that reference this instance.
+	 * see IXholon/Xholon searchForReferencingNodesRecurse(...)
+	 * @param candidate A possible reffingNode.
+	 * @param reffedNode The Xholon node that we're looking for references to.
+	 * @param reffingNodes A list that is being filled with references.
+	 */
+	public void searchForReferencingNodesRecurse(IXholon candidate, IXholon reffedNode, List<IXholon> reffingNodes)
+	{
+	  IXholon[] port = candidate.getPort();
+	  if (port != null) {
+	    for (int i = 0; i < port.length; i++) {
+			  if (port[i] != null) {
+			    consoleLog(port[i].getClass().getName());
+				  if (port[i] == reffedNode) {
+					  reffingNodes.add(candidate);
+					}
+					else if (ClassHelper.isAssignableFrom(Port.class, port[i].getClass())) {
+					  /*if (((IPort)port[i]).getLink() != null) {
+					    consoleLog(((IPort)port[i]).getLink().getName());
+					    consoleLog(((IPort)port[i]).getLink().getParentNode().getName());
+					    consoleLog(((IPort)port[i]).getLink().getParentNode().getParentNode());
+					  }
+					  if (((IPort)port[i]).getLink(0) != null) {
+					    consoleLog(((IPort)port[i]).getLink(0).getName());
+					    consoleLog(((IPort)port[i]).getLink(0).getParentNode().getName());
+					    consoleLog(((IPort)port[i]).getLink(0).getParentNode().getParentNode());
+					  }*/
+					  
+					  if ((((IPort)port[i]).getLink(0) != null) && (((IPort)port[i]).getLink(0).getParentNode() != null)) {
+					    //if (((IPort)port[i]).getLink() == reffedNode) {
+					    //  reffingNodes.add(this);
+					    //}
+					    /*if (((IPort)port[i]).getLink(0) == reffedNode) {
+					      reffingNodes.add(this);
+					    }*/
+					    //else if (((IPort)port[i]).getLink().getParentNode().getParentNode() == reffedNode) {
+					    //  reffingNodes.add(this);
+					    //}
+					    if (((IPort)port[i]).getLink(0).getParentNode().getParentNode() == reffedNode) {
+					      reffingNodes.add(candidate);
+					    }
+					  }
+					}
+				}
+			}
+		}
+		if (candidate.getFirstChild() != null) {
+			this.searchForReferencingNodesRecurse(candidate.getFirstChild(), reffedNode, reffingNodes);
+		}
+		// don't search nextSibling if this is xhRoot and nextSibling is srvRoot
+		if ((candidate.getNextSibling() != null) && (candidate.getId() != 0)) {
+			this.searchForReferencingNodesRecurse(candidate.getNextSibling(), reffedNode, reffingNodes);
+		}
+	}
   
   public String getOutFileName() {
     return outFileName;
