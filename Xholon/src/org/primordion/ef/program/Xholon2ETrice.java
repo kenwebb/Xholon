@@ -199,6 +199,17 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
     }
     String nameIH = node.getName(nameTemplateIH);
     
+    // process children, and retrieve data about them
+    StringBuilder sbChildren = new StringBuilder();
+    if (node.hasChildNodes()) {
+      IXholon childNode = node.getFirstChild();
+      while (childNode != null) {
+        sbChildren.append(writeNode(childNode, new StringBuilder()));
+        childNode = childNode.getNextSibling();
+      }
+    }
+    
+    // write info about this node
     if (!xhClassNameSet.contains(nameIH)) {
       sbLocal.append(writeActorClassStartLine(node.getXhc(), nameIH, new StringBuilder()));
       List<PortInformation> portList = getXhPorts(node);
@@ -211,14 +222,8 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
       xhClassNameSet.add(nameIH);
     }
     
-    // children
-    if (node.hasChildNodes()) {
-      IXholon childNode = node.getFirstChild();
-      while (childNode != null) {
-        sbLocal.append(writeNode(childNode, new StringBuilder()));
-        childNode = childNode.getNextSibling();
-      }
-    }
+    // write processed children
+    sbLocal.append(sbChildren.toString());
     return sbLocal.toString();
   }
   
