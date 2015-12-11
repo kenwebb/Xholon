@@ -399,4 +399,28 @@ public abstract class AbstractXholon2ExternalFormat extends Xholon {
     $doc.getElementsByTagName("head")[0].appendChild(link);
   }-*/;
   
+    /**
+   * Find the first common ancestor of two nodes.
+   * @param nodeA
+   * @param nodeB
+   * @return A common ancestor, or null.
+   */
+  protected IXholon findFirstCommonAncestor(IXholon nodeA, IXholon nodeB) {
+    IXholon nodeRoot = nodeA.getRootNode();
+    IXholon pA = nodeA.getParentNode();
+    while (pA != null) {
+      IXholon pB = nodeB;
+      while (pB != null) {
+        if (pA == pB) {
+          return pA;
+        }
+        if (pB == nodeRoot) {break;}
+        pB = pB.getParentNode();
+      }
+      if (pA == nodeRoot) {break;}
+      pA = pA.getParentNode();
+    }
+    return null;
+  }
+  
 }

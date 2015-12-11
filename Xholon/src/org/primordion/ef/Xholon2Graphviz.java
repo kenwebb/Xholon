@@ -572,12 +572,13 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
   }
   
   /**
+   * MOVED TO AbstractXholon2ExternalFormat
    * Find the first common ancestor of two nodes.
    * @param nodeA
    * @param nodeB
    * @return A common ancestor, or null.
    */
-  protected IXholon findFirstCommonAncestor(IXholon nodeA, IXholon nodeB) {
+  /*protected IXholon findFirstCommonAncestor(IXholon nodeA, IXholon nodeB) {
     IXholon pA = nodeA.getParentNode();
     while (pA != null) {
       IXholon pB = nodeB;
@@ -592,7 +593,7 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
       pA = pA.getParentNode();
     }
     return null;
-  }
+  }*/
   
   /**
    * Make a node ID.
