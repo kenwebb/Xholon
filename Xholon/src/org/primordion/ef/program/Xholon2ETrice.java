@@ -65,6 +65,7 @@ import org.primordion.xholon.util.ClassHelper;
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.9.1 (Created on December 2, 2015)
  * @see <a href="http://www.eclipse.org/etrice/">eTrice web site</a>
+ * @see <a href="http://www.primordion.com/Xholon/gwt/exports/etrice/index.html">samples of generated .room files</a>
  */
 @SuppressWarnings("serial")
 public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXholon2ExternalFormat, CeStateMachineEntity {
@@ -77,9 +78,24 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
   private static final String CONJUGATED_PORTNAME_DEFAULT = "actorPort"; // port0 nullPort
   
   /**
+   * All (?) conjugated actorPort ports should be replicated.
+   */
+  private static final String REPLICATED_PORT_DEFAULT = "[*]";
+  
+  /**
    * For now, I just have this one placeholder protocol.
    */
   private static final String PROTOCOL_DEFAULT = "TodoProtocol";
+  
+  // states involved in constructing a hierarchy of bindings
+  //private static final int BINDING_STATE_INIT = 0; // this state may not be needed
+  private static final int BINDING_STATE_UP_FIRST = 1; // processing the source node
+  private static final int BINDING_STATE_UP = 2; // processing an intermediate node on the way up
+  private static final int BINDING_STATE_COMMON_UP = 3; // processing the common ancestor of the source and remote nodes
+  private static final int BINDING_STATE_COMMON_DOWN = 4; // processing the common ancestor of the source and remote nodes
+  private static final int BINDING_STATE_DOWN = 5; // processing an intermediate node on the way down
+  private static final int BINDING_STATE_DOWN_LAST = 6; // processing the remote node
+  private static final int BINDING_STATE_FINAL = 9; // this state may not be needed
   
   private String outFileName;
   private String outPath = "./ef/etrice/";
@@ -181,9 +197,9 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
   protected String writeRoomModelHeader(StringBuilder sbHeader) {
     sbHeader
     .append("RoomModel ").append(modelNameNoSpecials).append(" {\n\n")
-    //.append("  //import room.basic.types.* from \"../../org.eclipse.etrice.modellib.java/model/Types.room\"\n")
-    //.append("  //import room.basic.service.timing.* from \"../../org.eclipse.etrice.modellib.java/model/TimingService.room\"\n\n")
-    .append("  import room.basic.types.* from \"Types.room\"\n")
+    .append("  //import room.basic.types.* from \"../../org.eclipse.etrice.modellib.java/model/Types.room\"\n") // use inside Eclipse eTrice tool
+    .append("  //import room.basic.service.timing.* from \"../../org.eclipse.etrice.modellib.java/model/TimingService.room\"\n")
+    .append("  import room.basic.types.* from \"Types.room\"\n") // use with eTrice stand-alone generator
     .append("  import room.basic.service.timing.* from \"TimingService.room\"\n\n")
     .append("  LogicalSystem LogSys {\n")
     .append("    SubSystemRef subSystemRef: SubSysClass\n")
@@ -219,10 +235,17 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
     }
     
     // write info about this node
-    if (!xhClassNameSet.contains(nameIH)) {
+    List<PortInformation> portList = getXhPorts(node);
+    List<IXholon> reffingNodesList = this.searchForReferencingNodes(node);
+    if (xhClassNameSet.contains(nameIH)) {
+      // add possible entries to the relayPort and binding Map objects
+      // ignore the values returned by these 3 methods
+      writeInterfacePorts(node, portList, new StringBuilder());
+      writeInterfaceConjugatedPorts(node, reffingNodesList, new StringBuilder());
+      cacheStructureBindings(node, portList, new StringBuilder());
+    }
+    else {
       sbLocal.append(writeActorClassStartLine(node.getXhc(), nameIH, new StringBuilder()));
-      List<PortInformation> portList = getXhPorts(node);
-      List<IXholon> reffingNodesList = this.searchForReferencingNodes(node);
       sbLocal.append(writeInterface(node, portList, reffingNodesList, new StringBuilder()));
       StringBuilder sbFsm = new StringBuilder();
       sbLocal.append(writeStructure(node, portList, reffingNodesList, sbFsm, new StringBuilder()));
@@ -271,7 +294,7 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
       }
       
       sbLocal.append("    Interface {\n");
-      for (int i = 0; i < portList.size(); i++) {
+      /*for (int i = 0; i < portList.size(); i++) {
         PortInformation pi = (PortInformation)portList.get(i);
         if (pi != null) {
           String fnIndex = pi.getFieldNameIndexStr();
@@ -291,9 +314,10 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
           .append(": ")
           .append(PROTOCOL_DEFAULT)
           .append("\n");
-          cacheRelayPort(pi.getFieldName()+fnIndex, node, remoteNode, false);
+          cacheRelayPort(pi.getFieldName()+fnIndex, node, remoteNode, false, "");
         }
-      }
+      }*/
+      sbLocal.append(writeInterfacePorts(node, portList, new StringBuilder()));
       
       sbLocal.append(sbRelayPort.toString());
       
@@ -308,19 +332,20 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
    * The port string is "sent" up the Xholon containment hierarchy to node+remoteNode's common ancestor.
    * Regular and conjugated ports are both written only to the Interface, and not to the Structure.
    */
-  protected void cacheRelayPort(String localPortName, IXholon node, IXholon remoteNode, boolean isConjugated) {
+  protected void cacheRelayPort(String localPortName, IXholon node, IXholon remoteNode, boolean isConjugated, String replication) {
     String conj = "";
     if (isConjugated) {
       conj = "conjugated ";
     }
     String portStr = new StringBuilder()
     .append("      ")
-    .append("// ")
+    //.append("// ")
     .append(conj)
     .append("Port ")
     .append(makeNameCSH(node))
     .append("_")
     .append(localPortName)
+    .append(replication)
     .append(": ")
     .append(PROTOCOL_DEFAULT)
     .append(" // RELAY PORT ")
@@ -342,25 +367,65 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
   }
   
   /**
+   * Write Interface non-conjugated ports.
+   */
+  protected String writeInterfacePorts(IXholon node, List<PortInformation> portList, StringBuilder sbPorts) {
+    for (int i = 0; i < portList.size(); i++) {
+      PortInformation pi = (PortInformation)portList.get(i);
+      if (pi != null) {
+         String fnIndex = pi.getFieldNameIndexStr();
+         if (fnIndex == null) {
+           fnIndex = "";
+         }
+         IXholon remoteNode = pi.getReffedNode();
+         // TODO use public boolean hasAncestor(String tnName) in Xholon.java, instead of getParentNode() ?
+         if (remoteNode.getParentNode() == node) {
+           // this is an internal end port, and should therefore not be added to the Interface
+           continue;
+         }
+         sbPorts
+         .append("      Port ")
+         .append(pi.getFieldName())
+         .append(fnIndex)
+         .append(": ")
+         .append(PROTOCOL_DEFAULT)
+         .append("\n");
+         cacheRelayPort(pi.getFieldName()+fnIndex, node, remoteNode, false, "");
+      }
+    }
+    return sbPorts.toString();
+  }
+  
+  /**
    * Write Interface conjugated ports.
    * @param reffedNode The node that is being referenced, the node that will have any conjugated ports
    * @param reffingNodesList A list of nodes that reference the reffedNode
    * @param sbPorts 
    */
   protected String writeInterfaceConjugatedPorts(IXholon reffedNode, List<IXholon> reffingNodesList, StringBuilder sbPorts) {
+    boolean duplicate = false; // CONJUGATED_PORTNAME_DEFAULT is a replicated port, so it should only be written out once
     for (int i = 0; i < reffingNodesList.size(); i++) {
       IXholon reffingNode = reffingNodesList.get(i);
       if (reffingNode.getParentNode() != reffedNode) {
         // this is an external conjugated end port
         sbPorts
-        .append("      //conjugated Port ")
+        .append("      ");
+        if (duplicate) {
+          sbPorts.append("// ");
+        }
+        sbPorts
+        .append("conjugated Port ")
         .append(CONJUGATED_PORTNAME_DEFAULT)
+        .append(REPLICATED_PORT_DEFAULT)
         .append(": ")
         .append(PROTOCOL_DEFAULT)
         .append(" // ")
         .append(reffingNode.getName())
         .append("\n");
-        cacheRelayPort(CONJUGATED_PORTNAME_DEFAULT, reffedNode, reffingNode, true);
+        if (!duplicate) {
+          cacheRelayPort(CONJUGATED_PORTNAME_DEFAULT, reffedNode, reffingNode, true, REPLICATED_PORT_DEFAULT);
+          duplicate = true;
+        }
       }
     }
     return sbPorts.toString();
@@ -412,7 +477,7 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
           .append("\n");
         }
         else {
-          // this is an external end port
+          // this is an internal end port
           sbPorts
           .append("external ")
           .append("Port ")
@@ -429,13 +494,19 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
    * 
    */
   protected String writeStructureConjugatedPorts(IXholon node, List<IXholon> reffingNodesList, StringBuilder sbPorts) {
+    boolean duplicate = false;
+    String duplicateStr = "// ";
     for (int i = 0; i < reffingNodesList.size(); i++) {
       IXholon reffingNode = reffingNodesList.get(i);
       if (reffingNode.getParentNode() == node) {
         // this is an internal conjugated end port
         sbPorts
-        .append("      //conjugated Port ")
+        .append("      ");
+        if (duplicate) {sbPorts.append(duplicateStr);} else {duplicate = true;}
+        sbPorts
+        .append("conjugated Port ")
         .append(CONJUGATED_PORTNAME_DEFAULT)
+        .append(REPLICATED_PORT_DEFAULT)
         .append(": ")
         .append(PROTOCOL_DEFAULT)
         .append(" // ")
@@ -445,7 +516,10 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
       else {
         // this is an external conjugated end port
         sbPorts
-        .append("      //external Port ")
+        .append("      ");
+        if (duplicate) {sbPorts.append(duplicateStr);} else {duplicate = true;}
+        sbPorts
+        .append("external Port ")
         .append(CONJUGATED_PORTNAME_DEFAULT)
         .append(" // ")
         .append(reffingNode.getName())
@@ -691,38 +765,201 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
    * Cache bindings between nodes, by associating them with the 2 end nodes' common ancestor
    */
   protected void cacheStructureBindings(IXholon node, List<PortInformation> portList, StringBuilder sbBindings) {
+    if (!isShouldShowBindings()) {return;}
     for (int i = 0; i < portList.size(); i++) {
       PortInformation pi = (PortInformation)portList.get(i);
       if (pi != null) {
+        IXholon remoteNode = pi.getReffedNode();
         String fnIndex = pi.getFieldNameIndexStr();
         if (fnIndex == null) {
           fnIndex = "";
         }
-        IXholon remoteNode = pi.getReffedNode();
-        //sbBindings
-        String bindingStr = new StringBuilder()
-        .append("      // Binding ")
-        .append(makeNameCSH(node))
-        .append(".")
-        .append(pi.getFieldName())
-        .append(fnIndex)
-        .append(" and ")
-        .append(makeNameCSH(remoteNode))
-        .append(".")
-        .append(CONJUGATED_PORTNAME_DEFAULT) // TODO can I determine the actual port name?
-        .append("\n")
-        .toString();
+        
+        // String srcNodeName,  String srcNodePortSep,  String srcPortFn,  String srcPortFnIx,
+        // String trgtNodeName, String trgtNodePortSep, String trgtPortFn, String trgtPortFnIx
+        /*String bindingStr = makeBindingStr(
+          makeNameCSH(node), ".", pi.getFieldName(), fnIndex,
+          makeNameCSH(remoteNode), ".", CONJUGATED_PORTNAME_DEFAULT, "");*/
         
         IXholon commonAncestorNode = this.findFirstCommonAncestor(node, remoteNode);
-    
+        
+        // OLD
         // create an entry in mapBindings for commonAncestorNode
-        String contents = mapBindings.get(commonAncestorNode);
+        /*String contents = mapBindings.get(commonAncestorNode);
         if (contents != null) {
           bindingStr = contents + bindingStr;
         }
-        mapBindings.put(commonAncestorNode, bindingStr);
+        mapBindings.put(commonAncestorNode, bindingStr);*/
+        
+        // NEW
+        // TODO bindingStr may need to be a little bit different at each level
+        // create an entry in mapBindings for each ancestor of node, above node, and up to and including commonAncestorNode
+        /*IXholon ancestorNode = node.getParentNode();
+        while ((ancestorNode != null) && (ancestorNode != commonAncestorNode)) {
+          String contents = mapBindings.get(ancestorNode);
+          if (contents != null) {
+            bindingStr = contents + bindingStr;
+          }
+          mapBindings.put(ancestorNode, bindingStr);
+          ancestorNode = ancestorNode.getParentNode();
+        }*/
+        
+        // NEWER
+        int state = BINDING_STATE_UP_FIRST;
+        int maxLoops = 100; // prevent an infinite loop
+        IXholon bnode = node;
+        IXholon commonSourceNode = null; // c_46
+        String  commonSourcePortFn = "";
+        String  commonSourcePortFnIx = "";
+        IXholon commonTargetNode = null; // h_49
+        IXholon ownerNode = bnode.getParentNode(); // b_47
+        
+        String srcNodeName = makeNameCSH(bnode);
+        String srcNodePortSep = ".";
+        String srcPortFn = pi.getFieldName();
+        String srcPortFnIx = fnIndex;
+        String trgtNodeName = "";
+        String trgtNodePortSep = "";
+        String trgtPortFn = srcNodeName + "_" + srcPortFn;
+        String trgtPortFnIx = fnIndex;
+        
+        while ((state != BINDING_STATE_FINAL) && (maxLoops-- > 0)) {
+          switch (state) {
+          case BINDING_STATE_UP_FIRST:
+          {
+            String bindingStr = makeBindingStr(srcNodeName, srcNodePortSep, srcPortFn, srcPortFnIx, trgtNodeName, trgtNodePortSep, trgtPortFn, trgtPortFnIx);
+            putBinding(ownerNode, bindingStr);
+            bnode = ownerNode;
+            ownerNode = bnode.getParentNode();
+            srcNodeName = makeNameCSH(bnode);
+            //srcNodePortSep = ".";
+            srcPortFn = trgtPortFn;
+            //srcPortFnIx = fnIndex;
+            //trgtNodeName = "";
+            //trgtNodePortSep = "";
+            //trgtPortFn = trgtNodeName + "_" + srcPortFn;
+            //trgtPortFnIx = fnIndex;
+            state = BINDING_STATE_UP;
+            break;
+          }
+          case BINDING_STATE_UP:
+          {
+            String bindingStr = makeBindingStr(srcNodeName, srcNodePortSep, srcPortFn, srcPortFnIx, trgtNodeName, trgtNodePortSep, trgtPortFn, trgtPortFnIx);
+            putBinding(ownerNode, bindingStr);
+            bnode = ownerNode;
+            ownerNode = bnode.getParentNode();
+            srcNodeName = makeNameCSH(bnode);
+            state = BINDING_STATE_COMMON_UP;
+            break;
+          }
+          case BINDING_STATE_COMMON_UP:
+          {
+            commonSourceNode = bnode; // cache these for later
+            commonSourcePortFn = srcPortFn;
+            commonSourcePortFnIx = srcPortFnIx;
+            bnode = remoteNode;
+            ownerNode = bnode.getParentNode();
+            srcNodeName = "";
+            srcNodePortSep = "";
+            srcPortFn = makeNameCSH(bnode) + "_" + CONJUGATED_PORTNAME_DEFAULT;
+            srcPortFnIx = "";
+            trgtNodeName = makeNameCSH(bnode);
+            trgtNodePortSep = ".";
+            trgtPortFn = CONJUGATED_PORTNAME_DEFAULT;
+            trgtPortFnIx = "";
+            state = BINDING_STATE_DOWN_LAST;
+            break;
+          }
+          case BINDING_STATE_COMMON_DOWN:
+          {
+            ownerNode = commonSourceNode.getParentNode();
+            srcNodeName = makeNameCSH(commonSourceNode);
+            srcNodePortSep = ".";
+            srcPortFn = commonSourcePortFn;
+            srcPortFnIx = commonSourcePortFnIx;
+            trgtNodeName = makeNameCSH(commonTargetNode);
+            //trgtNodePortSep = ".";
+            //trgtPortFn = ;
+            //trgtPortFnIx = "";
+            String bindingStr = makeBindingStr(srcNodeName, srcNodePortSep, srcPortFn, srcPortFnIx, trgtNodeName, trgtNodePortSep, trgtPortFn, trgtPortFnIx);
+            putBinding(ownerNode, bindingStr);
+            state = BINDING_STATE_FINAL;
+            break;
+          }
+          case BINDING_STATE_DOWN:
+          {
+            String bindingStr = makeBindingStr(srcNodeName, srcNodePortSep, srcPortFn, srcPortFnIx, trgtNodeName, trgtNodePortSep, trgtPortFn, trgtPortFnIx);
+            putBinding(ownerNode, bindingStr);
+            bnode = ownerNode;
+            ownerNode = bnode.getParentNode();
+            if (ownerNode == commonAncestorNode) {
+              // TODO
+              commonTargetNode = bnode;
+              state = BINDING_STATE_COMMON_DOWN;
+            }
+            else {
+              trgtNodeName = makeNameCSH(bnode);
+            }
+            break;
+          }
+          case BINDING_STATE_DOWN_LAST:
+          {
+            String bindingStr = makeBindingStr(srcNodeName, srcNodePortSep, srcPortFn, srcPortFnIx, trgtNodeName, trgtNodePortSep, trgtPortFn, trgtPortFnIx);
+            putBinding(ownerNode, bindingStr);
+            bnode = ownerNode;
+            ownerNode = bnode.getParentNode();
+            trgtNodeName = makeNameCSH(bnode);
+            trgtPortFn = srcPortFn;
+            state = BINDING_STATE_DOWN;
+            break;
+          }
+          default: break;
+          }
+          
+        }
+        
       }
     }
+  }
+  
+  protected void putBinding(IXholon ownerNode, String bindingStr) {
+    //ownerNode.consoleLog(bindingStr);
+    String contents = mapBindings.get(ownerNode);
+    if (contents != null) {
+      bindingStr = contents + bindingStr;
+    }
+    mapBindings.put(ownerNode, bindingStr);
+  }
+  
+  /**
+   * Make a Binding string.
+   * @param srcNodeName Name of the source node (ex: "glucose_8")
+   * @param srcNodePortSep Either of "." or ""
+   * @param srcPortFn The srcNode field name used for this port (ex: "port" "world")
+   * @param srcPortFnIx A "port" port array index, or ""
+   * @param trgtNodeName Name of the target node (ex: "cellBilayer_5")
+   * @param trgtNodePortSep Either of "." or ""
+   * @param trgtPortFn 
+   * @param trgtPortFnIx 
+   * @return a Binding string that combines all the input params
+   */
+  protected String makeBindingStr(
+      String srcNodeName,  String srcNodePortSep,  String srcPortFn,  String srcPortFnIx,
+      String trgtNodeName, String trgtNodePortSep, String trgtPortFn, String trgtPortFnIx) {
+    return new StringBuilder()
+    .append("      ")
+    .append("// Binding ")
+    .append(srcNodeName)
+    .append(srcNodePortSep)
+    .append(srcPortFn)
+    .append(srcPortFnIx)
+    .append(" and ")
+    .append(trgtNodeName)
+    .append(trgtNodePortSep)
+    .append(trgtPortFn)
+    .append(trgtPortFnIx)
+    .append("\n")
+    .toString();
   }
   
   /**
@@ -897,6 +1134,27 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
 			this.searchForReferencingNodesRecurse(candidate.getNextSibling(), reffedNode, reffingNodes);
 		}
 	}
+	
+	/**
+	 * Make a list of IXholon and IPortInformation objects that define the complete path from a descendant node to an ancestor node.
+	 */
+	/*protected void makeCompletePathOut(IXholon descendant, String dFieldName, int dFieldNameIndex, IXholon ancestor, Map<IXholon,Object> map) {
+	  if (descendant == ancestor) {return;}
+	  IXholon node = descendant;
+	  PortInformation piA = new PortInformation(dFieldName + dFieldNameIndex, node.getParentNode());
+	  PortInformation piB = new PortInformation(makeNameCSH(node) + "_" + dFieldName + dFieldNameIndex), node.getParentNode());
+	  while ((node != null) && (node != ancestor)) {
+	    Object[] obj = new Object[3];
+		  obj[0] = node;
+		  obj[1] = pi;
+		  obj[2] = node.getParentNode();
+		  map.add(node.getParentNode(), obj);
+		  
+		  node = node.getParentNode();
+		  piA = new PortInformation(piB.getFieldName(), node.getParentNode());
+		  piB = null; // TODO
+		}
+	}*/
   
   public String getOutFileName() {
     return outFileName;
@@ -936,7 +1194,7 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
   protected native void makeEfParams() /*-{
     var p = {};
     p.shouldShowStateMachineEntities = false;
-    p.shouldShowPortLabels = false;
+    p.shouldShowBindings = true;
     this.efParams = p;
   }-*/;
 
@@ -944,8 +1202,8 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
   public native boolean isShouldShowStateMachineEntities() /*-{return this.efParams.shouldShowStateMachineEntities;}-*/;
   //public native void setShouldShowStateMachineEntities(boolean shouldShowStateMachineEntities) /*-{this.efParams.shouldShowStateMachineEntities = shouldShowStateMachineEntities;}-*/;
 
-  /** Should connections between nodes be shown with their port labels. */
-  public native boolean isShouldShowPortLabels() /*-{return this.efParams.shouldShowPortLabels;}-*/;
-  //public native void setShouldShowPortLabels(boolean shouldShowPortLabels) /*-{this.efParams.shouldShowPortLabels = shouldShowPortLabels;}-*/;
+  /** Should eTrice Bindings be shown. */
+  public native boolean isShouldShowBindings() /*-{return this.efParams.shouldShowBindings;}-*/;
+  //public native void setShouldShowBindings(boolean shouldShowBindings) /*-{this.efParams.shouldShowBindings = shouldShowBindings;}-*/;
 
 }
