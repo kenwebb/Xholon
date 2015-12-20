@@ -774,37 +774,8 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
         if (fnIndex == null) {
           fnIndex = "";
         }
-        
-        // String srcNodeName,  String srcNodePortSep,  String srcPortFn,  String srcPortFnIx,
-        // String trgtNodeName, String trgtNodePortSep, String trgtPortFn, String trgtPortFnIx
-        /*String bindingStr = makeBindingStr(
-          makeNameCSH(node), ".", pi.getFieldName(), fnIndex,
-          makeNameCSH(remoteNode), ".", CONJUGATED_PORTNAME_DEFAULT, "");*/
-        
         IXholon commonAncestorNode = this.findFirstCommonAncestor(node, remoteNode);
         
-        // OLD
-        // create an entry in mapBindings for commonAncestorNode
-        /*String contents = mapBindings.get(commonAncestorNode);
-        if (contents != null) {
-          bindingStr = contents + bindingStr;
-        }
-        mapBindings.put(commonAncestorNode, bindingStr);*/
-        
-        // NEW
-        // TODO bindingStr may need to be a little bit different at each level
-        // create an entry in mapBindings for each ancestor of node, above node, and up to and including commonAncestorNode
-        /*IXholon ancestorNode = node.getParentNode();
-        while ((ancestorNode != null) && (ancestorNode != commonAncestorNode)) {
-          String contents = mapBindings.get(ancestorNode);
-          if (contents != null) {
-            bindingStr = contents + bindingStr;
-          }
-          mapBindings.put(ancestorNode, bindingStr);
-          ancestorNode = ancestorNode.getParentNode();
-        }*/
-        
-        // NEWER
         int state = BINDING_STATE_UP_FIRST;
         int maxLoops = 100; // prevent an infinite loop
         IXholon bnode = node;
@@ -827,23 +798,25 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
           switch (state) {
           case BINDING_STATE_UP_FIRST:
           {
+            if (ownerNode == commonAncestorNode) {
+              state = BINDING_STATE_COMMON_UP;
+              break;
+            }
             String bindingStr = makeBindingStr(srcNodeName, srcNodePortSep, srcPortFn, srcPortFnIx, trgtNodeName, trgtNodePortSep, trgtPortFn, trgtPortFnIx);
             putBinding(ownerNode, bindingStr);
             bnode = ownerNode;
             ownerNode = bnode.getParentNode();
             srcNodeName = makeNameCSH(bnode);
-            //srcNodePortSep = ".";
             srcPortFn = trgtPortFn;
-            //srcPortFnIx = fnIndex;
-            //trgtNodeName = "";
-            //trgtNodePortSep = "";
-            //trgtPortFn = trgtNodeName + "_" + srcPortFn;
-            //trgtPortFnIx = fnIndex;
             state = BINDING_STATE_UP;
             break;
           }
           case BINDING_STATE_UP:
           {
+            if (ownerNode == commonAncestorNode) {
+              state = BINDING_STATE_COMMON_UP;
+              break;
+            }
             String bindingStr = makeBindingStr(srcNodeName, srcNodePortSep, srcPortFn, srcPortFnIx, trgtNodeName, trgtNodePortSep, trgtPortFn, trgtPortFnIx);
             putBinding(ownerNode, bindingStr);
             bnode = ownerNode;
@@ -878,9 +851,6 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
             srcPortFn = commonSourcePortFn;
             srcPortFnIx = commonSourcePortFnIx;
             trgtNodeName = makeNameCSH(commonTargetNode);
-            //trgtNodePortSep = ".";
-            //trgtPortFn = ;
-            //trgtPortFnIx = "";
             String bindingStr = makeBindingStr(srcNodeName, srcNodePortSep, srcPortFn, srcPortFnIx, trgtNodeName, trgtNodePortSep, trgtPortFn, trgtPortFnIx);
             putBinding(ownerNode, bindingStr);
             state = BINDING_STATE_FINAL;
@@ -888,12 +858,16 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
           }
           case BINDING_STATE_DOWN:
           {
+            if (ownerNode == commonAncestorNode) {
+              commonTargetNode = bnode;
+              state = BINDING_STATE_COMMON_DOWN;
+              break;
+            }
             String bindingStr = makeBindingStr(srcNodeName, srcNodePortSep, srcPortFn, srcPortFnIx, trgtNodeName, trgtNodePortSep, trgtPortFn, trgtPortFnIx);
             putBinding(ownerNode, bindingStr);
             bnode = ownerNode;
             ownerNode = bnode.getParentNode();
             if (ownerNode == commonAncestorNode) {
-              // TODO
               commonTargetNode = bnode;
               state = BINDING_STATE_COMMON_DOWN;
             }
@@ -904,6 +878,11 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
           }
           case BINDING_STATE_DOWN_LAST:
           {
+            if (ownerNode == commonAncestorNode) {
+              commonTargetNode = bnode;
+              state = BINDING_STATE_COMMON_DOWN;
+              break;
+            }
             String bindingStr = makeBindingStr(srcNodeName, srcNodePortSep, srcPortFn, srcPortFnIx, trgtNodeName, trgtNodePortSep, trgtPortFn, trgtPortFnIx);
             putBinding(ownerNode, bindingStr);
             bnode = ownerNode;
@@ -914,16 +893,16 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
             break;
           }
           default: break;
-          }
+          } // end switch
           
-        }
+        } // end while
         
-      }
-    }
-  }
+      } // end if
+    } // end for
+  } // end cacheStructureBindings()
   
   protected void putBinding(IXholon ownerNode, String bindingStr) {
-    //ownerNode.consoleLog(bindingStr);
+    ownerNode.consoleLog(makeNameCSH(ownerNode) + " " + bindingStr);
     String contents = mapBindings.get(ownerNode);
     if (contents != null) {
       bindingStr = contents + bindingStr;
@@ -948,7 +927,7 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
       String trgtNodeName, String trgtNodePortSep, String trgtPortFn, String trgtPortFnIx) {
     return new StringBuilder()
     .append("      ")
-    .append("// Binding ")
+    .append("Binding ")
     .append(srcNodeName)
     .append(srcNodePortSep)
     .append(srcPortFn)
