@@ -21,7 +21,7 @@ package org.primordion.ef.program;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -116,10 +116,13 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
   protected String nameTemplateCSH = "^^c_i^"; // TODO don't include the id ? maybe do include the role? "R^^^^^"
   protected String nameTemplateIH  = "^^C^^^"; // don't include role name
   
-  protected Set<String> xhClassNameSet;
+  protected Set<IXholonClass> xhClassSet;
   
-  protected Map<IXholon,String> mapRelayPorts;
-  protected Map<IXholon,String> mapBindings;
+  protected Map<IXholonClass,String> mapRelayPorts;
+  protected Map<IXholonClass,String> mapBindings;
+  protected Map<IXholonClass,String> mapInterface;
+  protected Map<IXholonClass,String> mapStructure;
+  protected Map<IXholonClass,String> mapBehavior;
   
   /**
    * Constructor.
@@ -146,9 +149,13 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
     this.modelName = modelName;
     this.modelNameNoSpecials = replaceSpecials(modelName);
     this.root = root;
-    xhClassNameSet = new HashSet<String>();
-    mapRelayPorts = new HashMap<IXholon,String>();
-    mapBindings = new HashMap<IXholon,String>();
+    
+    xhClassSet = new LinkedHashSet<IXholonClass>(); // a Set that maintains the insertion order
+    mapRelayPorts = new HashMap<IXholonClass,String>();
+    mapBindings = new HashMap<IXholonClass,String>();
+    mapInterface = new HashMap<IXholonClass,String>();
+    mapStructure = new HashMap<IXholonClass,String>();
+    mapBehavior = new HashMap<IXholonClass,String>();
     return true;
   }
   
@@ -173,6 +180,50 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
     sb.append(writeProtocols(new StringBuilder()));
     sb.append("}\n");
     writeToTarget(sb.toString(), outFileName, outPath, root);
+    
+    writeMaps();
+  }
+  
+  protected void writeMaps() {
+    /*for (Map.Entry<IXholonClass, String> entry : mapInterface.entrySet()) {
+        root.println(entry.getKey().getName() + "\n" + entry.getValue());
+    }*/
+    
+    Iterator<IXholonClass> it = xhClassSet.iterator();
+    while (it.hasNext()) {
+      IXholonClass xhc = it.next();
+      root.println("  ActorClass " + xhc.getName() + " {");
+      
+      // Interface
+      String strInterface = mapInterface.get(xhc);
+      String strRelayPorts = mapRelayPorts.get(xhc);
+      if ((strInterface + strRelayPorts).length() > 0) {
+        root.println("    Interface {");
+        if (strInterface != null && strInterface.length() > 0) {root.print(strInterface);}
+        if (strRelayPorts != null && strRelayPorts.length() > 0) {root.print(strRelayPorts);}
+        root.println("    }");
+      }
+      
+      // Structure
+      String strStructure = mapStructure.get(xhc);
+      String strBindings = mapBindings.get(xhc);
+      if ((strStructure + strBindings).length() > 0) {
+        root.println("    Structure {");
+        if (strStructure != null && strStructure.length() > 0) {root.print(strStructure);}
+        if (strBindings != null && strBindings.length() > 0) {root.print(strBindings);}
+        root.println("    }");
+      }
+      
+      // Behavior
+      String strBehavior = mapBehavior.get(xhc);
+      if ((strBehavior != null) && (strBehavior.length() > 0)) {
+        root.println("    Behavior {");
+        root.print(strBehavior);
+        root.println("    }");
+      }
+      
+      root.println("  }");
+    }
   }
   
   /**
@@ -222,7 +273,7 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
     if (node.getXhcId() == StateMachineCE) {
       return "";
     }
-    String nameIH = node.getName(nameTemplateIH);
+    IXholonClass nodeIH = node.getXhc();
     
     // process children, and retrieve data about them
     StringBuilder sbChildren = new StringBuilder();
@@ -237,7 +288,7 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
     // write info about this node
     List<PortInformation> portList = getXhPorts(node);
     List<IXholon> reffingNodesList = this.searchForReferencingNodes(node);
-    if (xhClassNameSet.contains(nameIH)) {
+    if (xhClassSet.contains(nodeIH)) {
       // add possible entries to the relayPort and binding Map objects
       // ignore the values returned by these 3 methods
       writeInterfacePorts(node, portList, new StringBuilder());
@@ -245,13 +296,13 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
       cacheStructureBindings(node, portList, new StringBuilder());
     }
     else {
-      sbLocal.append(writeActorClassStartLine(node.getXhc(), nameIH, new StringBuilder()));
+      sbLocal.append(writeActorClassStartLine(node.getXhc(), nodeIH.getName(), new StringBuilder()));
       sbLocal.append(writeInterface(node, portList, reffingNodesList, new StringBuilder()));
       StringBuilder sbFsm = new StringBuilder();
       sbLocal.append(writeStructure(node, portList, reffingNodesList, sbFsm, new StringBuilder()));
       sbLocal.append(sbFsm.toString());
       sbLocal.append("  }\n\n");
-      xhClassNameSet.add(nameIH);
+      xhClassSet.add(nodeIH);
     }
     
     // write processed children
@@ -284,45 +335,25 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
    * @param node
    */
   protected String writeInterface(IXholon node, List<PortInformation> portList, List<IXholon> reffingNodesList, StringBuilder sbLocal) {
-    String relayPortStr = mapRelayPorts.get(node);
-    if ((portList.size() > 0) || (reffingNodesList.size() > 0) || (relayPortStr != null)) { // || mapRelayPorts.size() > 0) {
+    String relayPortStr = mapRelayPorts.get(node.getXhc());
+    if ((portList.size() > 0) || (reffingNodesList.size() > 0) || (relayPortStr != null)) {
       StringBuilder sbRelayPort = new StringBuilder();
       if (relayPortStr != null) {
-        //consoleLog("mapRelayPorts.remove( " + node.getName());
         sbRelayPort.append(relayPortStr);
-        mapRelayPorts.remove(node);
+        //mapRelayPorts.remove(node.getXhc());
       }
-      
+      String interfacePorts = writeInterfacePorts(node, portList, new StringBuilder());
+      String interfaceConjPorts = writeInterfaceConjugatedPorts(node, reffingNodesList, new StringBuilder());
       sbLocal.append("    Interface {\n");
-      /*for (int i = 0; i < portList.size(); i++) {
-        PortInformation pi = (PortInformation)portList.get(i);
-        if (pi != null) {
-          String fnIndex = pi.getFieldNameIndexStr();
-          if (fnIndex == null) {
-            fnIndex = "";
-          }
-          IXholon remoteNode = pi.getReffedNode();
-          // TODO use public boolean hasAncestor(String tnName) in Xholon.java, instead of getParentNode() ?
-          if (remoteNode.getParentNode() == node) {
-            // this is an internal end port, and should therefore not be added to the Interface
-            continue;
-          }
-          sbLocal
-          .append("      Port ")
-          .append(pi.getFieldName())
-          .append(fnIndex)
-          .append(": ")
-          .append(PROTOCOL_DEFAULT)
-          .append("\n");
-          cacheRelayPort(pi.getFieldName()+fnIndex, node, remoteNode, false, "");
-        }
-      }*/
-      sbLocal.append(writeInterfacePorts(node, portList, new StringBuilder()));
-      
+      sbLocal.append(interfacePorts);
       sbLocal.append(sbRelayPort.toString());
-      
-      sbLocal.append(writeInterfaceConjugatedPorts(node, reffingNodesList, new StringBuilder()));
+      sbLocal.append(interfaceConjPorts);
       sbLocal.append("    }\n");
+      
+      // new Map
+      putMap(mapInterface, node.getXhc(), interfacePorts);
+      putMap(mapInterface, node.getXhc(), interfaceConjPorts);
+      
     }
     return sbLocal.toString();
   }
@@ -357,13 +388,24 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
     // create an entry in mapRelayPorts for each ancestor of node, above node and below commonAncestorNode
     IXholon ancestorNode = node.getParentNode();
     while ((ancestorNode != null) && (ancestorNode != commonAncestorNode)) {
-      String contents = mapRelayPorts.get(ancestorNode);
-      if (contents != null) {
-        portStr = contents + portStr;
-      }
-      mapRelayPorts.put(ancestorNode, portStr);
+      putMap(mapRelayPorts, ancestorNode.getXhc(), portStr);
       ancestorNode = ancestorNode.getParentNode();
     }
+  }
+  
+  /**
+   * Put a value into a Map.
+   * @param map 
+   * @param key 
+   * @param value 
+   */
+  protected void putMap(final Map<IXholonClass,String> map, final IXholonClass key, final String value) {
+    String v = value;
+    String contents = map.get(key);
+    if (contents != null) {
+      v = contents + v;
+    }
+    map.put(key, v);
   }
   
   /**
@@ -450,6 +492,12 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
       .append(bindings)
       .append("    }\n");
     }
+    
+    // new Map
+    putMap(mapStructure, node.getXhc(), ports);
+    putMap(mapStructure, node.getXhc(), conjPorts);
+    putMap(mapStructure, node.getXhc(), actorRefs);
+    
     return sbLocal.toString();
   }
   
@@ -557,8 +605,10 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
    * 
    */
   protected void writeBehaviorFsm(IXholon fsmNode, StringBuilder sbFsm) {
-    sbFsm.append("    Behavior {\n");
+    //sbFsm.append("    Behavior {\n");
     writeFsmNode(fsmNode, sbFsm, "     ");
+    putMap(mapBehavior, fsmNode.getParentNode().getXhc(), sbFsm.toString());
+    sbFsm.insert(0, "    Behavior {\n");
     sbFsm.append("    }\n");
   }
   
@@ -753,10 +803,10 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
    * 
    */
   protected String writeStructureBindings(IXholon node, List<PortInformation> portList, StringBuilder sbBindings) {
-    String bindingStr = mapBindings.get(node);
+    String bindingStr = mapBindings.get(node.getXhc());
     if (bindingStr != null) {
       sbBindings.append(bindingStr);
-      mapBindings.remove(node);
+      //mapBindings.remove(node.getXhc());
     }
     return sbBindings.toString();
   }
@@ -903,11 +953,7 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
   
   protected void putBinding(IXholon ownerNode, String bindingStr) {
     ownerNode.consoleLog(makeNameCSH(ownerNode) + " " + bindingStr);
-    String contents = mapBindings.get(ownerNode);
-    if (contents != null) {
-      bindingStr = contents + bindingStr;
-    }
-    mapBindings.put(ownerNode, bindingStr);
+    putMap(mapBindings, ownerNode.getXhc(), bindingStr);
   }
   
   /**
@@ -973,20 +1019,18 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
    * Write all superclasses for each concrete class in xhClassNameSet.
    */
   protected String writeSuperClasses(StringBuilder sbLocal) {
-    Set<String> tempSet = new HashSet<String>();
-    Iterator<String> it = xhClassNameSet.iterator();
+    Set<IXholonClass> tempSet = new LinkedHashSet<IXholonClass>();
+    Iterator<IXholonClass> it = xhClassSet.iterator();
     while (it.hasNext()) {
-      String nameIH = it.next();
-      IXholonClass xhcIH = root.getClassNode(nameIH);
+      IXholonClass xhcIH = it.next();
       if (xhcIH != null) {
         IXholonClass xhcParentIH = (IXholonClass)xhcIH.getParentNode();
         while ((xhcParentIH != null) && (!"XholonClass".equals(xhcParentIH.getName()))) {
-          String nameParentIH = xhcParentIH.getName();
-          if (!xhClassNameSet.contains(nameParentIH) && !tempSet.contains(nameParentIH)) {
+          if (!xhClassSet.contains(xhcParentIH) && !tempSet.contains(xhcParentIH)) {
             // write an ActorClass
-            sbLocal.append(writeActorClassStartLine(xhcParentIH, nameParentIH, new StringBuilder()));
+            sbLocal.append(writeActorClassStartLine(xhcParentIH, xhcParentIH.getName(), new StringBuilder()));
             sbLocal.append("  }\n\n");
-            tempSet.add(nameParentIH);
+            tempSet.add(xhcParentIH);
           }
           xhcParentIH = (IXholonClass)xhcParentIH.getParentNode();
         }
