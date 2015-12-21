@@ -175,15 +175,18 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
     sb = new StringBuilder(); // top-level sb
     sb.append(writeComment(new StringBuilder()));
     sb.append(writeRoomModelHeader(new StringBuilder()));
-    sb.append(writeNode(root, new StringBuilder()));
+    //sb.append(writeNode(root, new StringBuilder()));
+    writeNode(root, new StringBuilder()); // collect all the info in a set of Map objects
+    writeMaps(); // write out the info in the Map objects
     sb.append(writeSuperClasses(new StringBuilder()));
     sb.append(writeProtocols(new StringBuilder()));
     sb.append("}\n");
     writeToTarget(sb.toString(), outFileName, outPath, root);
-    
-    writeMaps();
   }
   
+  /**
+   * Write out all the info, from the set of Map objects.
+   */
   protected void writeMaps() {
     /*for (Map.Entry<IXholonClass, String> entry : mapInterface.entrySet()) {
         root.println(entry.getKey().getName() + "\n" + entry.getValue());
@@ -192,37 +195,37 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
     Iterator<IXholonClass> it = xhClassSet.iterator();
     while (it.hasNext()) {
       IXholonClass xhc = it.next();
-      root.println("  ActorClass " + xhc.getName() + " {");
+      sb.append(writeActorClassStartLine(xhc, xhc.getName(), new StringBuilder()));
       
       // Interface
       String strInterface = mapInterface.get(xhc);
       String strRelayPorts = mapRelayPorts.get(xhc);
       if ((strInterface + strRelayPorts).length() > 0) {
-        root.println("    Interface {");
-        if (strInterface != null && strInterface.length() > 0) {root.print(strInterface);}
-        if (strRelayPorts != null && strRelayPorts.length() > 0) {root.print(strRelayPorts);}
-        root.println("    }");
+        sb.append("    Interface {\n");
+        if (strInterface != null && strInterface.length() > 0) {sb.append(strInterface);}
+        if (strRelayPorts != null && strRelayPorts.length() > 0) {sb.append(strRelayPorts);}
+        sb.append("    }\n");
       }
       
       // Structure
       String strStructure = mapStructure.get(xhc);
       String strBindings = mapBindings.get(xhc);
       if ((strStructure + strBindings).length() > 0) {
-        root.println("    Structure {");
-        if (strStructure != null && strStructure.length() > 0) {root.print(strStructure);}
-        if (strBindings != null && strBindings.length() > 0) {root.print(strBindings);}
-        root.println("    }");
+        sb.append("    Structure {\n");
+        if (strStructure != null && strStructure.length() > 0) {sb.append(strStructure);}
+        if (strBindings != null && strBindings.length() > 0) {sb.append(strBindings);}
+        sb.append("    }\n");
       }
       
       // Behavior
       String strBehavior = mapBehavior.get(xhc);
       if ((strBehavior != null) && (strBehavior.length() > 0)) {
-        root.println("    Behavior {");
-        root.print(strBehavior);
-        root.println("    }");
+        sb.append("    Behavior {\n");
+        sb.append(strBehavior);
+        sb.append("    }\n");
       }
       
-      root.println("  }");
+      sb.append("  }\n\n");
     }
   }
   
@@ -257,6 +260,8 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
     .append("  }\n\n")
     .append("  SubSystemClass SubSysClass {\n")
     .append("    ActorRef topActor: ").append(root.getXhcName()).append("\n")
+    .append("    ActorRef timingService: ATimingService\n")
+    .append("    LayerConnection ref topActor satisfied_by timingService.timer\n")
     .append("    LogicalThread defaultThread\n")
     .append("  }\n\n")
     ;
@@ -1090,94 +1095,73 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
     return sbLocal.toString();
   }
   
-	/**
-	 * see IXholon/Xholon searchForReferencingNodes()
-	 */
-	public List<IXholon> searchForReferencingNodes(IXholon reffedNode)
-	{
-	  List<IXholon> reffingNodes = new ArrayList<IXholon>();
-		IXholon myRoot = reffedNode.getRootNode();
-		if (myRoot.getClass() != Control.class) {
-			this.searchForReferencingNodesRecurse(myRoot, reffedNode, reffingNodes);
-		}
-		return reffingNodes;
-	}
-	
-	/**
-	 * Search for instances of Xholon with ports that reference this instance.
-	 * see IXholon/Xholon searchForReferencingNodesRecurse(...)
-	 * @param candidate A possible reffingNode.
-	 * @param reffedNode The Xholon node that we're looking for references to.
-	 * @param reffingNodes A list that is being filled with references.
-	 */
-	public void searchForReferencingNodesRecurse(IXholon candidate, IXholon reffedNode, List<IXholon> reffingNodes)
-	{
-	  IXholon[] port = candidate.getPort();
-	  if (port != null) {
-	    for (int i = 0; i < port.length; i++) {
-			  if (port[i] != null) {
-			    if (port[i] == reffedNode) {
-					  reffingNodes.add(candidate);
-					}
-					else if (ClassHelper.isAssignableFrom(Port.class, port[i].getClass())) {
-					  /*if (((IPort)port[i]).getLink() != null) {
-					    consoleLog(((IPort)port[i]).getLink().getName());
-					    consoleLog(((IPort)port[i]).getLink().getParentNode().getName());
-					    consoleLog(((IPort)port[i]).getLink().getParentNode().getParentNode());
-					  }
-					  if (((IPort)port[i]).getLink(0) != null) {
-					    consoleLog(((IPort)port[i]).getLink(0).getName());
-					    consoleLog(((IPort)port[i]).getLink(0).getParentNode().getName());
-					    consoleLog(((IPort)port[i]).getLink(0).getParentNode().getParentNode());
-					  }*/
-					  
-					  if ((((IPort)port[i]).getLink(0) != null) && (((IPort)port[i]).getLink(0).getParentNode() != null)) {
-					    //if (((IPort)port[i]).getLink() == reffedNode) {
-					    //  reffingNodes.add(this);
-					    //}
-					    /*if (((IPort)port[i]).getLink(0) == reffedNode) {
-					      reffingNodes.add(this);
-					    }*/
-					    //else if (((IPort)port[i]).getLink().getParentNode().getParentNode() == reffedNode) {
-					    //  reffingNodes.add(this);
-					    //}
-					    if (((IPort)port[i]).getLink(0).getParentNode().getParentNode() == reffedNode) {
-					      reffingNodes.add(candidate);
-					    }
-					  }
-					}
-				}
-			}
-		}
-		if (candidate.getFirstChild() != null) {
-			this.searchForReferencingNodesRecurse(candidate.getFirstChild(), reffedNode, reffingNodes);
-		}
-		// don't search nextSibling if this is xhRoot and nextSibling is srvRoot
-		if ((candidate.getNextSibling() != null) && (candidate.getId() != 0)) {
-			this.searchForReferencingNodesRecurse(candidate.getNextSibling(), reffedNode, reffingNodes);
-		}
-	}
-	
-	/**
-	 * Make a list of IXholon and IPortInformation objects that define the complete path from a descendant node to an ancestor node.
-	 */
-	/*protected void makeCompletePathOut(IXholon descendant, String dFieldName, int dFieldNameIndex, IXholon ancestor, Map<IXholon,Object> map) {
-	  if (descendant == ancestor) {return;}
-	  IXholon node = descendant;
-	  PortInformation piA = new PortInformation(dFieldName + dFieldNameIndex, node.getParentNode());
-	  PortInformation piB = new PortInformation(makeNameCSH(node) + "_" + dFieldName + dFieldNameIndex), node.getParentNode());
-	  while ((node != null) && (node != ancestor)) {
-	    Object[] obj = new Object[3];
-		  obj[0] = node;
-		  obj[1] = pi;
-		  obj[2] = node.getParentNode();
-		  map.add(node.getParentNode(), obj);
-		  
-		  node = node.getParentNode();
-		  piA = new PortInformation(piB.getFieldName(), node.getParentNode());
-		  piB = null; // TODO
-		}
-	}*/
+  /**
+   * see IXholon/Xholon searchForReferencingNodes()
+   */
+  public List<IXholon> searchForReferencingNodes(IXholon reffedNode)
+  {
+    List<IXholon> reffingNodes = new ArrayList<IXholon>();
+    IXholon myRoot = reffedNode.getRootNode();
+    if (myRoot.getClass() != Control.class) {
+      this.searchForReferencingNodesRecurse(myRoot, reffedNode, reffingNodes);
+    }
+    return reffingNodes;
+  }
+  
+  /**
+   * Search for instances of Xholon with ports that reference this instance.
+   * see IXholon/Xholon searchForReferencingNodesRecurse(...)
+   * @param candidate A possible reffingNode.
+   * @param reffedNode The Xholon node that we're looking for references to.
+   * @param reffingNodes A list that is being filled with references.
+   */
+  public void searchForReferencingNodesRecurse(IXholon candidate, IXholon reffedNode, List<IXholon> reffingNodes)
+  {
+    IXholon[] port = candidate.getPort();
+    if (port != null) {
+      for (int i = 0; i < port.length; i++) {
+        if (port[i] != null) {
+          if (port[i] == reffedNode) {
+            reffingNodes.add(candidate);
+          }
+          else if (ClassHelper.isAssignableFrom(Port.class, port[i].getClass())) {
+            /*if (((IPort)port[i]).getLink() != null) {
+              consoleLog(((IPort)port[i]).getLink().getName());
+              consoleLog(((IPort)port[i]).getLink().getParentNode().getName());
+              consoleLog(((IPort)port[i]).getLink().getParentNode().getParentNode());
+            }
+            if (((IPort)port[i]).getLink(0) != null) {
+              consoleLog(((IPort)port[i]).getLink(0).getName());
+              consoleLog(((IPort)port[i]).getLink(0).getParentNode().getName());
+              consoleLog(((IPort)port[i]).getLink(0).getParentNode().getParentNode());
+            }*/
+            
+            if ((((IPort)port[i]).getLink(0) != null) && (((IPort)port[i]).getLink(0).getParentNode() != null)) {
+              //if (((IPort)port[i]).getLink() == reffedNode) {
+              //  reffingNodes.add(this);
+              //}
+              /*if (((IPort)port[i]).getLink(0) == reffedNode) {
+                reffingNodes.add(this);
+              }*/
+              //else if (((IPort)port[i]).getLink().getParentNode().getParentNode() == reffedNode) {
+              //  reffingNodes.add(this);
+              //}
+              if (((IPort)port[i]).getLink(0).getParentNode().getParentNode() == reffedNode) {
+                reffingNodes.add(candidate);
+              }
+            }
+          }
+        }
+      }
+    }
+    if (candidate.getFirstChild() != null) {
+      this.searchForReferencingNodesRecurse(candidate.getFirstChild(), reffedNode, reffingNodes);
+    }
+    // don't search nextSibling if this is xhRoot and nextSibling is srvRoot
+    if ((candidate.getNextSibling() != null) && (candidate.getId() != 0)) {
+      this.searchForReferencingNodesRecurse(candidate.getNextSibling(), reffedNode, reffingNodes);
+    }
+  }
   
   public String getOutFileName() {
     return outFileName;
