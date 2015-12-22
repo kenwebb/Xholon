@@ -45,6 +45,13 @@ import org.primordion.xholon.util.ClassHelper;
  *   cd ~/etrice/generator-java
  *   java -jar org.eclipse.etrice.generator.java.jar HelloWorld.room
  * 
+ * December 21, 2015 (these work)
+ * java -jar org.eclipse.etrice.generator.java.jar Hello_World05.room
+ * java -jar org.eclipse.etrice.generator.java.jar eTrice___A_to_H_01b.room  (manually edited multiplicity)
+ * java -jar org.eclipse.etrice.generator.java.jar Spring_Idol6.room  (manually edited multiplicity)
+ * java -jar org.eclipse.etrice.generator.java.jar Cell___BioSystems_paper15.room  (manually edited multiplicity, commented-out duped Bindings)
+ * java -jar org.eclipse.etrice.generator.java.jar Xholon_and_D3___Model_and_View___HTML_Model01.room
+ * 
  * TODO 
  * - relay ports
  * - do more complete job with conjugated ports
@@ -1117,36 +1124,48 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
    */
   public void searchForReferencingNodesRecurse(IXholon candidate, IXholon reffedNode, List<IXholon> reffingNodes)
   {
-    IXholon[] port = candidate.getPort();
-    if (port != null) {
-      for (int i = 0; i < port.length; i++) {
-        if (port[i] != null) {
-          if (port[i] == reffedNode) {
+    List<PortInformation> portList = getXhPorts(candidate); // NEW
+    //IXholon[] port = candidate.getPort(); // OLD
+    
+    // NEW
+    for (int i = 0; i < portList.size(); i++) {
+      PortInformation pi = (PortInformation)portList.get(i);
+      if (pi != null) {
+        Object portI = pi.getReffedNode();
+    //  }
+    //}
+    
+    // OLD
+    //if (port != null) {
+    //  for (int i = 0; i < port.length; i++) {
+    //    Object portI = port[i];
+        if (portI != null) {
+          if (portI == reffedNode) {
             reffingNodes.add(candidate);
           }
-          else if (ClassHelper.isAssignableFrom(Port.class, port[i].getClass())) {
-            /*if (((IPort)port[i]).getLink() != null) {
-              consoleLog(((IPort)port[i]).getLink().getName());
-              consoleLog(((IPort)port[i]).getLink().getParentNode().getName());
-              consoleLog(((IPort)port[i]).getLink().getParentNode().getParentNode());
+          else if (ClassHelper.isAssignableFrom(Port.class, portI.getClass())) {
+            /*if (((IPort)portI).getLink() != null) {
+              consoleLog(((IPort)portI).getLink().getName());
+              consoleLog(((IPort)portI).getLink().getParentNode().getName());
+              consoleLog(((IPort)portI).getLink().getParentNode().getParentNode());
             }
-            if (((IPort)port[i]).getLink(0) != null) {
-              consoleLog(((IPort)port[i]).getLink(0).getName());
-              consoleLog(((IPort)port[i]).getLink(0).getParentNode().getName());
-              consoleLog(((IPort)port[i]).getLink(0).getParentNode().getParentNode());
+            if (((IPort)portI).getLink(0) != null) {
+              consoleLog(((IPort)portI).getLink(0).getName());
+              consoleLog(((IPort)portI).getLink(0).getParentNode().getName());
+              consoleLog(((IPort)portI).getLink(0).getParentNode().getParentNode());
             }*/
             
-            if ((((IPort)port[i]).getLink(0) != null) && (((IPort)port[i]).getLink(0).getParentNode() != null)) {
-              //if (((IPort)port[i]).getLink() == reffedNode) {
+            if ((((IPort)portI).getLink(0) != null) && (((IPort)portI).getLink(0).getParentNode() != null)) {
+              //if (((IPort)portI).getLink() == reffedNode) {
               //  reffingNodes.add(this);
               //}
-              /*if (((IPort)port[i]).getLink(0) == reffedNode) {
+              /*if (((IPort)portI).getLink(0) == reffedNode) {
                 reffingNodes.add(this);
               }*/
-              //else if (((IPort)port[i]).getLink().getParentNode().getParentNode() == reffedNode) {
+              //else if (((IPort)portI).getLink().getParentNode().getParentNode() == reffedNode) {
               //  reffingNodes.add(this);
               //}
-              if (((IPort)port[i]).getLink(0).getParentNode().getParentNode() == reffedNode) {
+              if (((IPort)portI).getLink(0).getParentNode().getParentNode() == reffedNode) {
                 reffingNodes.add(candidate);
               }
             }
