@@ -195,10 +195,6 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
    * Write out all the info, from the set of Map objects.
    */
   protected void writeMaps() {
-    /*for (Map.Entry<IXholonClass, String> entry : mapInterface.entrySet()) {
-        root.println(entry.getKey().getName() + "\n" + entry.getValue());
-    }*/
-    
     Iterator<IXholonClass> it = xhClassSet.iterator();
     while (it.hasNext()) {
       IXholonClass xhc = it.next();
@@ -356,18 +352,20 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
       }
       String interfacePorts = writeInterfacePorts(node, portList, new StringBuilder());
       String interfaceConjPorts = writeInterfaceConjugatedPorts(node, reffingNodesList, new StringBuilder());
-      sbLocal.append("    Interface {\n");
+      
+      // old
+      /*sbLocal.append("    Interface {\n");
       sbLocal.append(interfacePorts);
       sbLocal.append(sbRelayPort.toString());
       sbLocal.append(interfaceConjPorts);
-      sbLocal.append("    }\n");
+      sbLocal.append("    }\n");*/
       
       // new Map
       putMap(mapInterface, node.getXhc(), interfacePorts);
       putMap(mapInterface, node.getXhc(), interfaceConjPorts);
       
     }
-    return sbLocal.toString();
+    return ""; //sbLocal.toString();
   }
   
   /**
@@ -494,8 +492,10 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
     String ports = writeStructurePorts(node, portList, new StringBuilder());
     String conjPorts = writeStructureConjugatedPorts(node, reffingNodesList, new StringBuilder());
     String actorRefs = writeStructureActorRefs(node, new StringBuilder(), sbFsm);
-    String bindings = writeStructureBindings(node, portList, new StringBuilder());
-    if ((ports + conjPorts + actorRefs + bindings).length() > 0) {
+    //String bindings = writeStructureBindings(node, portList, new StringBuilder()); // unused
+    
+    // old
+    /*if ((ports + conjPorts + actorRefs + bindings).length() > 0) {
       sbLocal
       .append("    Structure {\n")
       .append(ports)
@@ -503,7 +503,7 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
       .append(actorRefs)
       .append(bindings)
       .append("    }\n");
-    }
+    }*/
     
     // new Map
     putMap(mapStructure, node.getXhc(), ports);
@@ -620,8 +620,10 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
     //sbFsm.append("    Behavior {\n");
     writeFsmNode(fsmNode, sbFsm, "     ");
     putMap(mapBehavior, fsmNode.getParentNode().getXhc(), sbFsm.toString());
-    sbFsm.insert(0, "    Behavior {\n");
-    sbFsm.append("    }\n");
+    
+    // old
+    /*sbFsm.insert(0, "    Behavior {\n");
+    sbFsm.append("    }\n");*/
   }
   
   /**
@@ -638,9 +640,15 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
       sbTrans = new StringBuilder();
       break;
     case RegionCE:
-      sbFsm
-      .append(tab)
-      .append("subgraph {\n");
+      if (fsmNode.getParentNode().getXhcId() == StateMachineCE) {
+        // don't write "subgraph" if the Region is a direct child of the StateMachine node
+        shouldWriteEndBracket = false;
+      }
+      else {
+        sbFsm
+        .append(tab)
+        .append("subgraph {\n");
+      }
       break;
     //case VertexCE:
     //case ConnectionPointReferenceCE: break;
@@ -812,16 +820,16 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
   }
   
   /**
-   * 
+   * unused ?
    */
-  protected String writeStructureBindings(IXholon node, List<PortInformation> portList, StringBuilder sbBindings) {
+  /*protected String writeStructureBindings(IXholon node, List<PortInformation> portList, StringBuilder sbBindings) {
     String bindingStr = mapBindings.get(node.getXhc());
     if (bindingStr != null) {
       sbBindings.append(bindingStr);
       //mapBindings.remove(node.getXhc());
     }
     return sbBindings.toString();
-  }
+  }*/
   
   /**
    * Cache bindings between nodes, by associating them with the 2 end nodes' common ancestor
@@ -1124,6 +1132,7 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
    */
   public void searchForReferencingNodesRecurse(IXholon candidate, IXholon reffedNode, List<IXholon> reffingNodes)
   {
+    if ("org.primordion.xholon.base.StateMachineEntity".equals(candidate.getClass().getName())) {return;}
     List<PortInformation> portList = getXhPorts(candidate); // NEW
     //IXholon[] port = candidate.getPort(); // OLD
     
