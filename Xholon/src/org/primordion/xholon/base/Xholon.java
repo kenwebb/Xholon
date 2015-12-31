@@ -3345,6 +3345,14 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 	}-*/;
 	
   @Override
+	public native void setFormat(String format) /*-{
+		if (typeof this.decoration == "undefined") {
+			this.decoration = {};
+		}
+		this.decoration.format = format;
+	}-*/;
+  
+  @Override
 	public native void setGeo(String geo) /*-{
 		if (typeof this.decoration == "undefined") {
 			this.decoration = {};
@@ -3359,13 +3367,19 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 	}-*/;
 	
   @Override
-	public native void setFormat(String format) /*-{
+	public native void setSound(String geo) /*-{
 		if (typeof this.decoration == "undefined") {
 			this.decoration = {};
 		}
-		this.decoration.format = format;
+		this.decoration.sound = sound;
 	}-*/;
   
+  @Override
+	public native String getSound() /*-{
+		if (typeof this.decoration == "undefined") {return null;}
+		return this.decoration.sound;
+	}-*/;
+	
 	/*
 	 * @see java.lang.Object#toString()
 	 */

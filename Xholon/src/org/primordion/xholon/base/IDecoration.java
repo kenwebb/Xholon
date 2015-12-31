@@ -65,5 +65,9 @@ public interface IDecoration {
 	public abstract String getGeo();
 
 	public abstract void setGeo(String geo);
+	
+	public abstract String getSound();
+	
+	public abstract void setSound(String sound);
 
 }

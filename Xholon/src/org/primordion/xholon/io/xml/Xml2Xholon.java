@@ -168,6 +168,7 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 					else if ("Symbol".equals(tagName)) {}
 					else if ("Format".equals(tagName)) {}
 					else if ("Geo".equals(tagName)) {}
+					else if ("Sound".equals(tagName)) {}
 					else if ("Anno".equals(tagName)) {}
 					else { // regular elements including Attribute_ nodes
 					  currentXholon = newXholon(tagName, parentXholon, xmlReader);
@@ -278,6 +279,9 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 					}
 					else if ("Geo".equals(tagName)) {
 						((IDecoration)parentXholon).setGeo(textVal);
+					}
+					else if ("Sound".equals(tagName)) {
+						((IDecoration)parentXholon).setSound(textVal);
 					}
 					else if ("Anno".equals(tagName)) {
 					  parentXholon.setAnnotation(textVal);

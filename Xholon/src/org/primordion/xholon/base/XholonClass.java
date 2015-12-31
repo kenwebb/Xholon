@@ -1130,6 +1130,24 @@ public class XholonClass extends Xholon implements IXholonClass, IDecoration {
 	}
 	
 	/*
+	 * @see org.primordion.xholon.base.IDecoration#getSound()
+	 */
+	public String getSound() {
+		if (decoration == null) {return null;}
+		return decoration.getSound();
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.IDecoration#setSound(java.lang.String)
+	 */
+	public void setSound(String sound) {
+		if (decoration == null) {
+			decoration = new Decoration();
+		}
+		decoration.setSound(sound);
+	}
+	
+	/*
 	 * @see org.primordion.xholon.base.IXholon#getAnnotation()
 	 */
 	public String getAnnotation() {

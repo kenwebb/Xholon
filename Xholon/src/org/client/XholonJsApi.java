@@ -920,6 +920,17 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       }
     });
 
+    // sound
+    api.sound = $entry(function(val) {
+      if (val === undefined) {
+        return this.@org.primordion.xholon.base.IDecoration::getSound()();
+      }
+      else {
+        this.@org.primordion.xholon.base.IDecoration::setSound(Ljava/lang/String;)(val);
+        return this;
+      }
+    });
+
     
     // TODO pcs(expression) and select(expression)
     

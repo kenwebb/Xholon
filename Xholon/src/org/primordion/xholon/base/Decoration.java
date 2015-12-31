@@ -88,6 +88,12 @@ public class Decoration implements IDecoration, Serializable {
 	 */
 	private String geo = null;
 	
+	/**
+	 * Optional sound value, such as the name of a .wav file.
+	 * Used in Xholon2Scratch class.
+	 */
+	private String sound = null;
+	
 	/*
 	 * @see org.primordion.xholon.base.IDecoration#getColor()
 	 */
@@ -227,6 +233,20 @@ public class Decoration implements IDecoration, Serializable {
 	 */
 	public void setGeo(String geo) {
 		this.geo = geo;
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.IDecoration#getSound()
+	 */
+	public String getSound() {
+		return sound;
+	}
+	
+	/*
+	 * @see org.primordion.xholon.base.IDecoration#setSound(java.lang.String)
+	 */
+	public void setSound(String sound) {
+		this.sound = sound;
 	}
 	
 }
