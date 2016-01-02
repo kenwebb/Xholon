@@ -49,10 +49,9 @@ import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
  * - 
  * 
  * TODO:
- * - get sound defaults working OK
  * - check for and use IDecoration values for Xholon node and for XholonClass
- * - each clone should be able to say is node.getName() name
- *  - use a Scratch index variable and a Scratch list
+ * - calculate x,y,z positions for sprites
+ *  - use d3 or other layout engine
  * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
@@ -80,13 +79,11 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
   protected String nameTemplate = "^^C^^^"; // don't include role name
   
   // IDs used in the Scratch file; these values need to be incremented each time they are used
-  //protected int nextBaseLayerID = 1;
-  //protected int nextPenLayerID = 0;
-  protected int nextSoundID = 0;
   protected int nextIndexInLibrary = 1;
   
   // default stage sounds values
   protected String ssSoundNameDefault = "pop";
+  protected int ssSoundIDDefault = 1;
   protected String ssMd5Default = "83a9787d4cb6f3b7632b4ddfebf74367.wav";
   protected int ssSampleCountDefault = 258;
   protected int ssRateDefault = 11025;
@@ -105,6 +102,13 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
   protected int stageTempoBPMDefault = 60;
   protected float stageVideoAlphaDefault = 0.5f;
   
+  // default sprite sounds values  spri(t)e (s)ound
+  protected String tsSoundNameDefault = "meow";
+  protected int tsSoundIDDefault = 0;
+  protected String tsMd5Default = "83c36d806dc92327b9e7049a565c6bff.wav";
+  protected int tsSampleCountDefault = 18688;
+  protected int tsRateDefault = 22050;
+  
   // default sprite costumes values  spri(t)e (c)ostume
   protected String tcCostumeNameDefault = "costume1";
   protected int tcBaseLayerIDDefault = 1;
@@ -114,14 +118,9 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
   protected int tcRotationCenterYDefault = 55;
   
   // default info values
-  // the following is an existing project of mine
-  protected String nfProjectIDDefault = "92814753";
+  protected String nfProjectIDDefault = "92814753"; // this is an existing project of mine
   protected String nfSwfVersionDefault = "v442";
   protected String nfFlashVersionDefault = "LNX 20,0,0,267";
-  // Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36
-  //protected String nfUserAgentDefault = "Mozilla\\/5.0 (X11; Linux x86_64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/47.0.2526.106 Safari\\/537.36";
-  // TODO I may need to double-escape all "/" in the String
-  // "Hello/You/There".replaceAll("/", "\\\\/");
   protected String nfUserAgentDefault = GwtEnvironment.navUserAgent.replaceAll("/", "\\\\/");
   
   // info counts
@@ -166,16 +165,12 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     sb = new StringBuilder();
     sbClones = new StringBuilder();
     sbNamesList = new StringBuilder();
-    //nextBaseLayerID = 1;
-    //nextPenLayerID = 0;
-    nextSoundID = 0;
     nextIndexInLibrary = 1;
     nfScriptCount = 0;
     nfSpriteCount = 0;
     makeDefaults();
     writeStage();
     writeToTarget(sb.toString(), outFileName, outPath, root);
-    //root.println(sbClones.toString());
   }
   
   /**
@@ -185,9 +180,10 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     String[] stageSoundsDefaultsArr = getStageSoundsDefaults().split(",");
     switch (stageSoundsDefaultsArr.length) {
       // the case statements fall through (no break;)
-      case 4: ssRateDefault = Integer.parseInt(stageSoundsDefaultsArr[3]);
-      case 3: ssSampleCountDefault = Integer.parseInt(stageSoundsDefaultsArr[2]);
-      case 2: ssMd5Default = stageSoundsDefaultsArr[1];
+      case 5: ssRateDefault = Integer.parseInt(stageSoundsDefaultsArr[4]);
+      case 4: ssSampleCountDefault = Integer.parseInt(stageSoundsDefaultsArr[3]);
+      case 3: ssMd5Default = stageSoundsDefaultsArr[2];
+      case 2: ssSoundIDDefault = Integer.parseInt(stageSoundsDefaultsArr[1]);
       case 1: ssSoundNameDefault = stageSoundsDefaultsArr[0];
       default: break;
     }
@@ -201,6 +197,27 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
       case 3: scBaseLayerMD5Default = stageCostumesDefaultsArr[2];
       case 2: scBaseLayerIDDefault = Integer.parseInt(stageCostumesDefaultsArr[1]);
       case 1: scCostumeNameDefault = stageCostumesDefaultsArr[0];
+      default: break;
+    }
+    
+    String[] stageDefaultsArr = getStageDefaults().split(",");
+    switch (stageDefaultsArr.length) {
+      // the case statements fall through (no break;)
+      case 4: stageVideoAlphaDefault = Float.parseFloat(stageDefaultsArr[3]);
+      case 3: stageTempoBPMDefault = Integer.parseInt(stageDefaultsArr[2]);
+      case 2: stagePenLayerIDDefault = Integer.parseInt(stageDefaultsArr[1]);
+      case 1: stagePenLayerMD5Default = stageDefaultsArr[0];
+      default: break;
+    }
+    
+    String[] spriteSoundsDefaultsArr = getSpriteSoundsDefaults().split(",");
+    switch (spriteSoundsDefaultsArr.length) {
+      // the case statements fall through (no break;)
+      case 5: tsRateDefault = Integer.parseInt(spriteSoundsDefaultsArr[4]);
+      case 4: tsSampleCountDefault = Integer.parseInt(spriteSoundsDefaultsArr[3]);
+      case 3: tsMd5Default = spriteSoundsDefaultsArr[2];
+      case 2: tsSoundIDDefault = Integer.parseInt(spriteSoundsDefaultsArr[1]);
+      case 1: tsSoundNameDefault = spriteSoundsDefaultsArr[0];
       default: break;
     }
     
@@ -280,7 +297,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     sb
     .append("{\n")
     .append("  \"objName\": \"Stage\",\n")
-    .append(writeVariables(new StringBuilder()))
+    .append(writeStageVariables(new StringBuilder()))
     .append(writeLists(new StringBuilder()))
     .append(writeStageSounds(new StringBuilder()))
     .append(writeStageCostumes(new StringBuilder()))
@@ -305,6 +322,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     sbLocal
     .append("{\n")
     .append("  \"objName\": \"").append(node.getName(nameTemplate)).append("\",\n")
+    .append(writeSpriteVariables(new StringBuilder()))
     .append(writeSpriteScripts(node, new StringBuilder()))
     .append(writeSpriteSounds(new StringBuilder()))
     .append(writeSpriteCostumes(new StringBuilder()))
@@ -331,7 +349,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
   protected String writeSpriteScripts(IXholon node, StringBuilder sbLocal) {
     if (node == root) {
       sbLocal
-      .append("  \"scripts\": [[25, 25, [[\"whenGreenFlag\"], [\"setVar:to:\", \"namesListIndex\", \"0\"], [\"deleteLine:ofList:\", \"all\", \"namesList\"],\n")
+      .append("  \"scripts\": [[25, 25, [[\"whenGreenFlag\"], [\"setVar:to:\", \"spriteIndex\", \"0\"], [\"deleteLine:ofList:\", \"all\", \"namesList\"],\n")
       .append(sbNamesList.toString())
       .append(sbClones.toString())
       .append("]]],\n")
@@ -339,11 +357,22 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     }
     else {
       sbLocal
-      .append("  \"scripts\": [[25, 25, [[\"whenCloned\"], [\"show\"],")
-      .append(" [\"changeVar:by:\", \"namesListIndex\", 1],")
-      .append(" [\"say:\",")
-      .append(" [\"getLine:ofList:\", [\"readVariable\", \"namesListIndex\"], \"namesList\"]")
-      .append("]]]],\n");
+      .append("  \"scripts\": [[25, 25, [[\"whenCloned\"], [\"show\"],\n");
+      int spriteSizePercentage = getSpriteSizePercentage();
+      if ((spriteSizePercentage > 0) && (spriteSizePercentage != 100)) {
+        sbLocal
+        .append("      [\"setSizeTo:\", ")
+        .append(spriteSizePercentage)
+        .append("],\n");
+      }
+      sbLocal
+      .append("      [\"changeGraphicEffect:by:\", \"color\", [\"*\", [\"readVariable\", \"spriteIndex\"], 7]],\n")
+      .append("      [\"heading:\", [\"readVariable\", \"spriteIndex\"]],\n")
+      .append("      [\"forward:\", [\"*\", [\"readVariable\", \"spriteIndex\"], 3]],\n")
+      .append("      [\"heading:\", 90],\n")
+      .append("      [\"changeVar:by:\", \"spriteIndex\", 1],\n")
+      .append("      [\"setVar:to:\", \"name\", [\"getLine:ofList:\", [\"readVariable\", \"spriteIndex\"], \"namesList\"]]]],\n")
+      .append("  [25, 300, [[\"whenClicked\"], [\"say:duration:elapsed:from:\", [\"readVariable\", \"name\"], 2]]]],\n");
     }
     nfScriptCount++;
     return sbLocal.toString();
@@ -353,7 +382,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     if (!this.isShouldShowSounds()) {return "";}
     sbLocal
     .append("  \"sounds\": [");
-    writeSound(ssSoundNameDefault, ssMd5Default, ssSampleCountDefault, ssRateDefault, sbLocal);
+    writeSound(ssSoundNameDefault, ssSoundIDDefault, ssMd5Default, ssSampleCountDefault, ssRateDefault, sbLocal);
     sbLocal
     .append("],\n")
     ;
@@ -364,21 +393,22 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     if (!this.isShouldShowSounds()) {return "";}
     sbLocal
     .append("  \"sounds\": [");
-    writeSound("meow", "83c36d806dc92327b9e7049a565c6bff.wav", 18688, 22050, sbLocal);
+    //writeSound("meow", 0, "83c36d806dc92327b9e7049a565c6bff.wav", 18688, 22050, sbLocal);
+    writeSound(tsSoundNameDefault, tsSoundIDDefault, tsMd5Default, tsSampleCountDefault, tsRateDefault, sbLocal);
     sbLocal
     .append("],\n")
     ;
     return sbLocal.toString();
   }
   
-  protected void writeSound(String soundName, String md5, int sampleCount, int rate, StringBuilder sbLocal) {
+  protected void writeSound(String soundName, int soundID, String md5, int sampleCount, int rate, StringBuilder sbLocal) {
     sbLocal
     .append("{\n")
     .append("    \"soundName\": \"").append(soundName).append("\",\n")
-    .append("    \"soundID\": ").append(nextSoundID++).append(",\n")
+    .append("    \"soundID\": ").append(soundID).append(",\n")
     .append("    \"md5\": \"").append(md5).append("\",\n")
-    .append("    \"sampleCount\":").append(sampleCount).append(",\n")
-    .append("    \"rate\":").append(rate).append(",\n")
+    .append("    \"sampleCount\": ").append(sampleCount).append(",\n")
+    .append("    \"rate\": ").append(rate).append(",\n")
     .append("    \"format\": \"\"\n")
     .append("  }")
     ;
@@ -434,10 +464,10 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     return sbLocal.toString();
   }
   
-  protected String writeVariables(StringBuilder sbLocal) {
+  protected String writeStageVariables(StringBuilder sbLocal) {
     sbLocal
     .append("  \"variables\": [{\n")
-    .append("    \"name\": \"namesListIndex\",\n")
+    .append("    \"name\": \"spriteIndex\",\n")
     .append("    \"value\": 0,\n")
     .append("    \"isPersistent\": false\n")
     .append("  }],\n")
@@ -445,7 +475,18 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     return sbLocal.toString();
   }
   
-	protected String writeLists(StringBuilder sbLocal) {
+  protected String writeSpriteVariables(StringBuilder sbLocal) {
+    sbLocal
+    .append("  \"variables\": [{\n")
+    .append("    \"name\": \"name\",\n")
+    .append("    \"value\": 0,\n")
+    .append("    \"isPersistent\": false\n")
+    .append("  }],\n")
+    ;
+    return sbLocal.toString();
+  }
+  
+  protected String writeLists(StringBuilder sbLocal) {
     sbLocal
     .append("  \"lists\": [{\n")
     .append("    \"listName\": \"namesList\",\n")
@@ -503,12 +544,12 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
    */
   protected native void makeEfParams() /*-{
     var p = {};
-    p.stageSoundsDefaults = "pop,83a9787d4cb6f3b7632b4ddfebf74367.wav,258,11025";
+    p.stageSoundsDefaults = "pop,1,83a9787d4cb6f3b7632b4ddfebf74367.wav,258,11025";
     p.stageCostumesDefaults = "backdrop1,3,739b5e2a2435f6e1ec2993791b423146.png,1,240,180";
-    p.stageDefaults = "";
-    p.spriteSoundsDefaults = "";
+    p.stageDefaults = "5c81a336fab8be57adc039a8a2b33ca9.png,0,60,0.5";
+    p.spriteSoundsDefaults = "meow,0,83c36d806dc92327b9e7049a565c6bff.wav,18688,22050";
     p.spriteCostumesDefaults = "costume1,1,09dc888b0b7df19f70d81588ae73420e.svg,1,47,55";
-    //p.infoDefaults = "92814753|v442|LNX 20,0,0,267|Mozilla\/5.0 (X11; Linux x86_64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/47.0.2526.106 Safari\/537.36";
+    p.spriteSizePercentage = 100;
     p.infoDefaults = "92814753|v442|LNX 20,0,0,267";
     p.shouldShowSounds = false;
     this.efParams = p;
@@ -520,11 +561,17 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
   public native String getStageCostumesDefaults() /*-{return this.efParams.stageCostumesDefaults;}-*/;
   //public native void setStageCostumessDefaults(String stageCostumesDefaults) /*-{this.efParams.stageCostumesDefaults = stageCostumesDefaults;}-*/;
 
+  public native String getStageDefaults() /*-{return this.efParams.stageDefaults;}-*/;
+  //public native void setStageDefaults(String stageDefaults) /*-{this.efParams.stageDefaults = stageDefaults;}-*/;
+
   public native String getSpriteSoundsDefaults() /*-{return this.efParams.spriteSoundsDefaults;}-*/;
   //public native void setSpriteSoundsDefaults(String spriteSoundsDefaults) /*-{this.efParams.spriteSoundsDefaults = spriteSoundsDefaults;}-*/;
 
   public native String getSpriteCostumesDefaults() /*-{return this.efParams.spriteCostumesDefaults;}-*/;
   //public native void setSpriteCostumessDefaults(String spriteCostumesDefaults) /*-{this.efParams.spriteCostumesDefaults = spriteCostumesDefaults;}-*/;
+  
+  public native int getSpriteSizePercentage() /*-{return this.efParams.spriteSizePercentage;}-*/;
+  //public native void setSpriteSizePercentage(String spriteSizePercentage) /*-{this.efParams.spriteSizePercentage = spriteSizePercentage;}-*/;
 
   public native String getInfoDefaults() /*-{return this.efParams.infoDefaults;}-*/;
   //public native void setInfoDefaultsDefaults(String infoDefaults) /*-{this.efParams.infoDefaults = infoDefaults;}-*/;
