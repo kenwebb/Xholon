@@ -54,7 +54,8 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
   
   /** Template to use when writing out node names. */
   //protected String nameTemplate = "r:C^^^";
-  protected String nameTemplate = "^^C^^^"; // don't include role name
+  //protected String nameTemplate = "^^C^^^"; // don't include role name
+  protected String nameTemplate = "R^^^^^";
   
   /** Whether or not to format the output by inserting new lines. */
   //private boolean shouldInsertNewlines = true;
@@ -103,13 +104,17 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
     ;
     writeNode(root, "  ");
     sb
-    .append("],\n");
+    .append("]");
     
-    if (sbEdges.toString().length() > 0) {
+    if (sbEdges.length() > 0) {
       sb
+      .append(",\n")
       .append("  \"edges\": [")
       .append(sbEdges.toString())
-      .append("  ]\n");
+      .append("]\n");
+    }
+    else {
+      sb.append("\n");
     }
     sb
     .append("}\n");
@@ -134,10 +139,11 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
     .append(indent).append("  \"id\": \"n").append(nodeId).append("\",\n")
     .append(indent).append("  \"labels\": [{\"text\": \"").append(nodeLabel).append("\"}],\n")
     .append(indent).append("  \"width\": ").append(20).append(",\n")
-    .append(indent).append("  \"height\": ").append(20).append(",\n");
-    makeLinks(node);
+    .append(indent).append("  \"height\": ").append(20);
+    makeLinks(node, indent);
     if (node.hasChildNodes()) {
-      sb.append(indent).append("  \"children\": [");
+      sb.append(",\n")
+      .append(indent).append("  \"children\": [");
       IXholon childNode = node.getFirstChild();
       while (childNode != null) {
         writeNode(childNode, indent + "  ");
@@ -147,7 +153,10 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
         }
       }
       
-      sb.append("],\n");
+      sb.append("]\n");
+    }
+    else {
+      sb.append("\n");
     }
     sb.append(indent).append("}");
   }
@@ -157,12 +166,12 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
 	 * @param node The current node.
 	 */
 	@SuppressWarnings("unchecked")
-	protected void makeLinks(IXholon node)
+	protected void makeLinks(IXholon node, String indent)
 	{
 		//if (isShouldShowLinks() == false) {return;}
 		List<PortInformation> portList = node.getAllPorts();
 		for (int i = 0; i < portList.size(); i++) {
-			makeLink(node, (PortInformation)portList.get(i));
+			makeLink(node, (PortInformation)portList.get(i), indent);
 		}
 	}
 	
@@ -171,23 +180,27 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
 	 * @param node The node where the link originates.
 	 * @param portInfo Information about the port that represents the link.
 	 */
-	protected void makeLink(IXholon node, PortInformation portInfo)
+	protected void makeLink(IXholon node, PortInformation portInfo, String indent)
 	{
 		if (portInfo == null) {return;}
 		IXholon remoteNode = portInfo.getReffedNode();
-		writeEdge(node, remoteNode);
+		writeEdge(node, remoteNode, indent);
 	}
   
-  protected void writeEdge(IXholon sourceNode, IXholon targetNode) {
+  protected void writeEdge(IXholon sourceNode, IXholon targetNode, String indent) {
     int sourceId = sourceNode.getId();
     int targetId = targetNode.getId();
+    String edgeLabel = "e" + sourceId + "_" + targetId;
+    if (sbEdges.length() > 0) {
+      sbEdges.append(",");
+    }
     sbEdges
     .append("{\n")
-    .append("  \"id\": \"e").append(sourceId).append("_").append(targetId).append("\",\n")
-    .append("  \"source\": \"n").append(sourceId).append("\",\n")
-    .append("  \"target\": \"n").append(targetId).append("\",\n")
-    .append("},")
-    ;
+    .append(indent).append("  \"id\": \"").append(edgeLabel).append("\",\n")
+    .append(indent).append("  \"labels\": [{\"text\": \"").append(edgeLabel).append("\"}],\n")
+    .append(indent).append("  \"source\": \"n").append(sourceId).append("\",\n")
+    .append(indent).append("  \"target\": \"n").append(targetId).append("\"\n")
+    .append(indent).append("}");
   }
   
   public String getOutFileName() {
