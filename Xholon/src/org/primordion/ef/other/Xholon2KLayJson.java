@@ -29,7 +29,11 @@ import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
 
 /**
  * Export a Xholon model in KIELER KLay JSON format.
- * </pre>
+ * TODO
+ * - ports don't appear in the generated SVG, but the edges have a blank space where the ports should go
+ * - put JavaScript code in KLay index.html, into this class; also the CSS?
+ * - the node lables don not print on the diagram; they only appear as SVG tooltips
+ * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.9.1 (Created on January 3, 2015)
@@ -49,17 +53,11 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
   private Date timeNow;
   private long timeStamp;
   
-  /** Whether or not to show state machine nodes. */
-  private boolean shouldShowStateMachineEntities = false;
-  
   /** Template to use when writing out node names. */
   //protected String nameTemplate = "r:C^^^";
   //protected String nameTemplate = "^^C^^^"; // don't include role name
   protected String nameTemplate = "R^^^^^";
   
-  /** Whether or not to format the output by inserting new lines. */
-  //private boolean shouldInsertNewlines = true;
-
   /**
    * Constructor.
    */
@@ -93,32 +91,22 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
   public void writeAll() {
     sb = new StringBuilder();
     sbEdges = new StringBuilder();
-    sb
-    .append("{\n")
-    .append("  \"id\": ").append("\"root\",\n")
-    .append("  \"properties\": {\n")
-    .append("    \"direction\": ").append("\"DOWN\",\n")
-    .append("    \"spacing\": ").append("40\n")
-    .append("  },\n")
-    .append("  \"children\": [")
-    ;
-    writeNode(root, "  ");
-    sb
-    .append("]");
-    
-    if (sbEdges.length() > 0) {
-      sb
-      .append(",\n")
-      .append("  \"edges\": [")
-      .append(sbEdges.toString())
-      .append("]\n");
-    }
-    else {
-      sb.append("\n");
-    }
-    sb
-    .append("}\n");
+    writeNode(root, ""); //"  ");
     writeToTarget(sb.toString(), outFileName, outPath, root);
+  }
+  
+  /**
+   * For info on these and other properties:
+   * @see <a href="https://rtsys.informatik.uni-kiel.de/confluence/display/KIELER/KLay+Layered+Layout+Options">KLay+Layered+Layout+Options</a>
+   * @see <a href="https://rtsys.informatik.uni-kiel.de/confluence/display/KIELER/KIML+Layout+Options">KIML+Layout+Options</a>
+   */
+  protected String writeProperties(StringBuilder sbLocal) {
+    sbLocal
+    .append("  \"properties\": {\n")
+    .append("    \"direction\": \"").append(getDirection()).append("\",\n")
+    .append("    \"spacing\": ").append(getSpacing()).append("\n")
+    .append("  },\n");
+    return sbLocal.toString();
   }
   
   /**
@@ -129,17 +117,20 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
   protected void writeNode(IXholon node, String indent) {
     // only show state machine nodes if should show them, or if root is a StateMachineCE
     if ((node.getXhcId() == CeStateMachineEntity.StateMachineCE)
-        && (shouldShowStateMachineEntities == false)) {
+        && (isShowStateMachineEntities() == false)) {
       return;
     }
-    int nodeId = node.getId();
-    String nodeLabel = node.getName(nameTemplate);
     sb
     .append("{\n")
-    .append(indent).append("  \"id\": \"n").append(nodeId).append("\",\n")
-    .append(indent).append("  \"labels\": [{\"text\": \"").append(nodeLabel).append("\"}],\n")
-    .append(indent).append("  \"width\": ").append(20).append(",\n")
-    .append(indent).append("  \"height\": ").append(20);
+    .append(indent).append("  \"id\": \"").append(makeNodeId(node)).append("\",\n");
+    if (node == root) {
+      sb.append(writeProperties(new StringBuilder()));
+    }
+    sb
+    .append(indent).append("  \"labels\": [{\"text\": \"").append(makeNodeLabel(node)).append("\"}],\n")
+    .append(indent).append("  \"width\": ").append(getWidth()).append(",\n")
+    .append(indent).append("  \"height\": ").append(getHeight())
+    .append(writePorts(node, indent + "  ", new StringBuilder()));
     makeLinks(node, indent);
     if (node.hasChildNodes()) {
       sb.append(",\n")
@@ -158,6 +149,19 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
     else {
       sb.append("\n");
     }
+    if (node == root) {
+      if (sbEdges.length() > 0) {
+        sb
+        .append(indent)
+        .append("  ,\n")
+        .append("  \"edges\": [")
+        .append(sbEdges.toString())
+        .append("]\n");
+      }
+      else {
+        sb.append("\n");
+      }
+    }
     sb.append(indent).append("}");
   }
   
@@ -168,7 +172,7 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
 	@SuppressWarnings("unchecked")
 	protected void makeLinks(IXholon node, String indent)
 	{
-		//if (isShouldShowLinks() == false) {return;}
+		if (!isShowEdges()) {return;}
 		List<PortInformation> portList = node.getAllPorts();
 		for (int i = 0; i < portList.size(); i++) {
 			makeLink(node, (PortInformation)portList.get(i), indent);
@@ -184,13 +188,11 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
 	{
 		if (portInfo == null) {return;}
 		IXholon remoteNode = portInfo.getReffedNode();
-		writeEdge(node, remoteNode, indent);
+		writeEdge(node, remoteNode, portInfo, indent);
 	}
   
-  protected void writeEdge(IXholon sourceNode, IXholon targetNode, String indent) {
-    int sourceId = sourceNode.getId();
-    int targetId = targetNode.getId();
-    String edgeLabel = "e" + sourceId + "_" + targetId;
+  protected void writeEdge(IXholon sourceNode, IXholon targetNode, PortInformation sourcePortInfo, String indent) {
+    String edgeLabel = makeEdgeLabel(sourceNode, targetNode);
     if (sbEdges.length() > 0) {
       sbEdges.append(",");
     }
@@ -198,10 +200,120 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
     .append("{\n")
     .append(indent).append("  \"id\": \"").append(edgeLabel).append("\",\n")
     .append(indent).append("  \"labels\": [{\"text\": \"").append(edgeLabel).append("\"}],\n")
-    .append(indent).append("  \"source\": \"n").append(sourceId).append("\",\n")
-    .append(indent).append("  \"target\": \"n").append(targetId).append("\"\n")
+    .append(indent).append("  \"source\": \"").append(makeNodeId(sourceNode)).append("\",\n");
+    if (isShowPorts()) {
+      sbEdges
+      .append(indent).append("  \"sourcePort\": \"").append(makePortId(sourceNode, sourcePortInfo, new StringBuilder())).append("\",\n");
+    }
+    sbEdges
+    .append(indent).append("  \"target\": \"").append(makeNodeId(targetNode)).append("\"\n")
     .append(indent).append("}");
   }
+  
+  protected String writePorts(IXholon node, String indent, StringBuilder sbLocal) {
+    if (!isShowPorts()) {return "";}
+		List<PortInformation> portList = node.getAllPorts();
+		if (portList.size() == 0) {return "";}
+		sbLocal
+		.append(",\n")
+		.append(indent)
+		.append("\"ports\": [");
+		for (int i = 0; i < portList.size(); i++) {
+			if (i > 0) {
+			  sbLocal.append(",");
+			}
+			writePort(node, (PortInformation)portList.get(i), indent, sbLocal);
+		}
+		sbLocal.append("]");
+		return sbLocal.toString();
+  }
+  
+  protected void writePort(IXholon node, PortInformation pi, String indent, StringBuilder sbLocal) {
+    String fnIndex = pi.getFieldNameIndexStr();
+    if (fnIndex == null) {
+      fnIndex = "";
+    }
+    sbLocal
+    .append("{\n")
+    .append(indent).append("  \"id\": \"").append(makePortId(node, pi, new StringBuilder())).append("\",\n")
+    .append(indent).append("  \"width\": ").append(getPortWidth()).append(",\n")
+    .append(indent).append("  \"height\": ").append(getPortHeight()).append("\n")
+    .append(indent).append("}");
+  }
+  
+  protected String makePortId(IXholon node, PortInformation pi, StringBuilder sbLocal) {
+    String fnIndex = pi.getFieldNameIndexStr();
+    if (fnIndex == null) {
+      fnIndex = "";
+    }
+    sbLocal
+    .append(makeNodeId(node))
+    .append("_")
+    .append(pi.getFieldName())
+    .append(fnIndex);
+    return sbLocal.toString();
+  }
+  
+  protected String makeNodeId(IXholon node) {
+    return "n" + node.getId();
+  }
+  
+  protected String makeNodeLabel(IXholon node) {
+    return node.getName(nameTemplate);
+  }
+  
+  protected String makeEdgeId(IXholon sourceNode, IXholon targetNode) {
+    return makeEdgeLabel(sourceNode, targetNode);
+  }
+  
+  protected String makeEdgeLabel(IXholon sourceNode, IXholon targetNode) {
+    return "e" + sourceNode.getId() + "_" + targetNode.getId();
+  }
+  
+  /**
+   * Make a JavaScript object with all the parameters for this external format.
+   */
+  protected native void makeEfParams() /*-{
+    var p = {};
+    p.showEdges = true;
+    p.showStateMachineEntities = false;
+    p.showPorts = false;
+    p.direction = "UNDEFINED"; // UNDEFINED, RIGHT, DOWN
+    p.spacing = 20; // 20 is the KLay default
+    p.width = 20;
+    p.height = 20;
+    p.portWidth = 5;
+    p.portHeight = 5;
+    this.efParams = p;
+  }-*/;
+  
+  public native boolean isShowEdges() /*-{return this.efParams.showEdges;}-*/;
+  //public native void setShowEdges(boolean showEdges) /*-{this.efParams.showEdges = showEdges;}-*/;
+  
+  /** Whether or not to show state machine nodes. */
+  public native boolean isShowStateMachineEntities() /*-{return this.efParams.showStateMachineEntities;}-*/;
+  //public native void setShowStateMachineEntities(boolean showStateMachineEntities) /*-{this.efParams.showStateMachineEntities = showStateMachineEntities;}-*/;
+  
+  public native boolean isShowPorts() /*-{return this.efParams.showPorts;}-*/;
+  //public native void setShowPorts(boolean showPorts) /*-{this.efParams.showPorts = showPorts;}-*/;
+  
+  public native String getDirection() /*-{return this.efParams.direction;}-*/;
+  //public native void setDirection(String direction) /*-{this.efParams.direction = direction;}-*/;
+  
+  public native int getSpacing() /*-{return this.efParams.spacing;}-*/;
+  //public native void setSpacing(int spacing) /*-{this.efParams.spacing = spacing;}-*/;
+  
+  public native int getWidth() /*-{return this.efParams.width;}-*/;
+  //public native void setWidth(int width) /*-{this.efParams.width = width;}-*/;
+  
+  public native int getHeight() /*-{return this.efParams.height;}-*/;
+  //public native void setHeight(int height) /*-{this.efParams.height = height;}-*/;
+  
+  public native int getPortWidth() /*-{return this.efParams.portWidth;}-*/;
+  //public native void setPortWidth(int portWidth) /*-{this.efParams.portWidth = portWidth;}-*/;
+  
+  public native int getPortHeight() /*-{return this.efParams.portHeight;}-*/;
+  //public native void setPortHeight(int portHeight) /*-{this.efParams.portHeight = portHeight;}-*/;
   
   public String getOutFileName() {
     return outFileName;
@@ -227,15 +339,6 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
     this.root = root;
   }
 
-  public boolean isShouldShowStateMachineEntities() {
-    return shouldShowStateMachineEntities;
-  }
-
-  public void setShouldShowStateMachineEntities(
-      boolean shouldShowStateMachineEntities) {
-    this.shouldShowStateMachineEntities = shouldShowStateMachineEntities;
-  }
-  
   public String getNameTemplate() {
     return nameTemplate;
   }
