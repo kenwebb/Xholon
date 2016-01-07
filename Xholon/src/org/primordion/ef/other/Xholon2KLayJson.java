@@ -18,6 +18,8 @@
 
 package org.primordion.ef.other;
 
+import com.google.gwt.core.client.JavaScriptObject;
+
 import java.util.Date;
 import java.util.List;
 
@@ -29,10 +31,49 @@ import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
 
 /**
  * Export a Xholon model in KIELER KLay JSON format.
+ * If you want to see the KLay diagram (using d3),
+ * then run Xholon using XholonKLayD3.html .
  * TODO
  * - ports don't appear in the generated SVG, but the edges have a blank space where the ports should go
  * - put JavaScript code in KLay index.html, into this class; also the CSS?
  * - the node lables don not print on the diagram; they only appear as SVG tooltips
+ * 
+ * Requires these libraries:
+<pre>
+  <script type="text/javascript" src="d3.min.js"></script>
+  <script type="text/javascript" src="klay.js"></script>
+  <script type="text/javascript" src="klayjs-d3.js"></script>
+</pre>
+ * 
+ * CSS:
+<pre>
+  <style>
+    g.leaf > rect {
+      stroke: #fff;
+      stroke-width: 1px;
+      opacity: .5;
+    }
+  
+    g.compound > rect {
+      opacity: 0.1;
+    }
+    
+    .node {
+    }
+    
+    .link {
+      stroke: #999;
+      stroke-opacity: .6;
+      fill: none;
+    }
+    
+    .port {
+      stroke: #fff;
+      stroke-width: 1px;
+      opacity: .6;
+    }
+  </style>
+</pre>
  * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
@@ -91,8 +132,12 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
   public void writeAll() {
     sb = new StringBuilder();
     sbEdges = new StringBuilder();
-    writeNode(root, ""); //"  ");
-    writeToTarget(sb.toString(), outFileName, outPath, root);
+    writeNode(root, "");
+    String jsonStr = sb.toString();
+    writeToTarget(jsonStr, outFileName, outPath, root);
+    if (isDisplay()) {
+      createD3(jsonStr, getWidth(), getHeight(), getSelection());
+    }
   }
   
   /**
@@ -128,8 +173,8 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
     }
     sb
     .append(indent).append("  \"labels\": [{\"text\": \"").append(makeNodeLabel(node)).append("\"}],\n")
-    .append(indent).append("  \"width\": ").append(getWidth()).append(",\n")
-    .append(indent).append("  \"height\": ").append(getHeight())
+    .append(indent).append("  \"width\": ").append(getNodeWidth()).append(",\n")
+    .append(indent).append("  \"height\": ").append(getNodeHeight())
     .append(writePorts(node, indent + "  ", new StringBuilder()));
     makeLinks(node, indent);
     if (node.hasChildNodes()) {
@@ -280,10 +325,15 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
     p.showPorts = false;
     p.direction = "UNDEFINED"; // UNDEFINED, RIGHT, DOWN
     p.spacing = 20; // 20 is the KLay default
-    p.width = 20;
-    p.height = 20;
+    p.width = 600;
+    p.height = 800;
+    p.nodeWidth = 20;
+    p.nodeHeight = 20;
     p.portWidth = 5;
     p.portHeight = 5;
+    p.selection = "#xhsvg";
+    p.maxChars = 1;
+    p.display = true;
     this.efParams = p;
   }-*/;
   
@@ -309,11 +359,26 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
   public native int getHeight() /*-{return this.efParams.height;}-*/;
   //public native void setHeight(int height) /*-{this.efParams.height = height;}-*/;
   
+  public native int getNodeWidth() /*-{return this.efParams.nodeWidth;}-*/;
+  //public native void setNodeWidth(int nodeWidth) /*-{this.efParams.nodeWidth = nodeWidth;}-*/;
+  
+  public native int getNodeHeight() /*-{return this.efParams.nodeHeight;}-*/;
+  //public native void setNodeHeight(int nodeHeight) /*-{this.efParams.nodeHeight = nodeHeight;}-*/;
+  
   public native int getPortWidth() /*-{return this.efParams.portWidth;}-*/;
   //public native void setPortWidth(int portWidth) /*-{this.efParams.portWidth = portWidth;}-*/;
   
   public native int getPortHeight() /*-{return this.efParams.portHeight;}-*/;
   //public native void setPortHeight(int portHeight) /*-{this.efParams.portHeight = portHeight;}-*/;
+  
+  public native String getSelection() /*-{return this.efParams.selection;}-*/;
+  //public native void setSelection(String selection) /*-{this.efParams.selection = selection;}-*/;
+  
+  public native int getMaxChars() /*-{return this.efParams.maxChars;}-*/;
+  //public native void setMaxChars(int maxChars) /*-{this.efParams.maxChars = maxChars;}-*/;
+  
+  public native boolean isDisplay() /*-{return this.efParams.display;}-*/;
+  //public native void setDisplay(boolean display) /*-{this.efParams.display = display;}-*/;
   
   public String getOutFileName() {
     return outFileName;
@@ -354,5 +419,132 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
   public void setOutPath(String outPath) {
     this.outPath = outPath;
   }
+  
+  /**
+   * Create a d3 SVG diagram in the browser.
+   * TODO
+   * - 
+   */
+  protected native void createD3(String jsonStr, int width, int height, String selection) /*-{
+    var json = $wnd.JSON.parse(jsonStr);
+    
+    // KLay
+    var zoom = $wnd.d3.behavior.zoom()
+      .on("zoom", redraw);
+    
+    // KLay
+    var idfun = function(d) { return d.id; };
+    
+    // d3cp
+    var format = $wnd.d3.format(",d");
+    var maxChars = 1;
+    
+    // d3cp
+    if (this.efParams) {
+      maxChars = this.efParams.maxChars;
+      if (this.efParams.selection) {selection = this.efParams.selection;}
+    }
+    
+    // d3cp
+    // var pack = $wnd.d3.layout.pack() ???
+    
+    // d3cp
+    var selectionNode = $wnd.d3.select(selection);
+    
+    // d3cp KLay
+    var svg = selectionNode
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .call(zoom)
+      .append("g") // the top-level g
+      
+    // KLay
+    // group shizzle
+    var root = svg.append("g");
+    
+    // KLay
+    var layouter = $wnd.klay.d3kgraph()
+      .size([width, height])
+      .transformGroup(root)
+      .options({
+        edgeRouting: "ORTHOGONAL"
+      });
+    
+    // d3cp
+    var node = svg
+      .data([json]);
+    $wnd.console.log(node);
+    $wnd.console.log(svg.data());
+    
+    layouter.on("finish", function(d) {
+      
+      var nodes = layouter.nodes();
+      var links = layouter.links(nodes);
+      
+      var linkData = root.selectAll(".link")
+          .data(links, idfun);
+      var link = linkData.enter()
+          .append("path")
+          .attr("class", "link")
+          .attr("d", "M0 0");
+    
+      var nodeData = root.selectAll(".node")
+          .data(nodes, idfun);
+      var node = nodeData.enter()
+          .append("g")
+          .attr("class", function(d) { 
+            if (d.children) return "node compound"; else return "node leaf"; 
+          });
+          
+      var atoms = node.append("rect")
+          .attr("width", 10)
+          .attr("height", 10)
+          .attr("x", 0)
+          .attr("y", 0);
+    
+      node.append("title")
+          .text(function(d) {
+             if (d.labels) {
+               return d.labels[0].text;
+             }
+             else {
+               return d.id;
+             }
+           }); 
+
+      // apply edge routes
+      link.transition().attr("d", function(d) {
+        var path = "";
+        path += "M" + d.sourcePoint.x + " " + d.sourcePoint.y + " ";
+          (d.bendPoints || []).forEach(function(bp, i) {
+            path += "L" + bp.x + " " + bp.y + " ";
+          });
+        path += "L" + d.targetPoint.x + " " + d.targetPoint.y + " ";
+        return path;
+      });
+      
+      // apply node positions
+      node.transition()
+        .attr("transform", function(d) { return "translate(" + (d.x || 0) + " " + (d.y || 0) + ")"});
+      
+      atoms.transition()
+        .attr("width", function(d) { return d.width; })
+        .attr("height", function(d) { return d.height; });
+    }); // end layouter.on("finish",
+    
+    // 
+    var graph = svg.data()[0];
+    $wnd.console.log("about to do layouter.kgraph(graph);");
+    $wnd.console.log(layouter);
+    $wnd.console.log(layouter.kgraph);
+    $wnd.console.log(graph);
+    layouter.kgraph(graph);
+    
+    // redraw()
+    function redraw() {
+      svg.attr("transform", "translate(" + $wnd.d3.event.translate + ")"  + " scale(" + $wnd.d3.event.scale + ")");
+    }
+  }-*/;
 
 }
