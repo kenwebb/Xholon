@@ -31,49 +31,11 @@ import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
 
 /**
  * Export a Xholon model in KIELER KLay JSON format.
- * If you want to see the KLay diagram (using d3),
+ * If you want to see the generated KLay diagram (using d3),
  * then run Xholon using XholonKLayD3.html .
  * TODO
  * - ports don't appear in the generated SVG, but the edges have a blank space where the ports should go
- * - put JavaScript code in KLay index.html, into this class; also the CSS?
- * - the node lables don not print on the diagram; they only appear as SVG tooltips
- * 
- * Requires these libraries:
-<pre>
-  <script type="text/javascript" src="d3.min.js"></script>
-  <script type="text/javascript" src="klay.js"></script>
-  <script type="text/javascript" src="klayjs-d3.js"></script>
-</pre>
- * 
- * CSS:
-<pre>
-  <style>
-    g.leaf > rect {
-      stroke: #fff;
-      stroke-width: 1px;
-      opacity: .5;
-    }
-  
-    g.compound > rect {
-      opacity: 0.1;
-    }
-    
-    .node {
-    }
-    
-    .link {
-      stroke: #999;
-      stroke-opacity: .6;
-      fill: none;
-    }
-    
-    .port {
-      stroke: #fff;
-      stroke-width: 1px;
-      opacity: .6;
-    }
-  </style>
-</pre>
+ * - there should be a way for users to set the CSS
  * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
@@ -97,7 +59,7 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
   /** Template to use when writing out node names. */
   //protected String nameTemplate = "r:C^^^";
   //protected String nameTemplate = "^^C^^^"; // don't include role name
-  protected String nameTemplate = "R^^^^^";
+  //protected String nameTemplate = "R^^^^^";
   
   /**
    * Constructor.
@@ -136,7 +98,7 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
     String jsonStr = sb.toString();
     writeToTarget(jsonStr, outFileName, outPath, root);
     if (isDisplay()) {
-      createD3(jsonStr, getWidth(), getHeight(), getSelection());
+      createD3(jsonStr); //, getWidth(), getHeight(), getSelection());
     }
   }
   
@@ -304,7 +266,7 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
   }
   
   protected String makeNodeLabel(IXholon node) {
-    return node.getName(nameTemplate);
+    return node.getName(getNameTemplate());
   }
   
   protected String makeEdgeId(IXholon sourceNode, IXholon targetNode) {
@@ -320,10 +282,11 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
    */
   protected native void makeEfParams() /*-{
     var p = {};
+    p.nameTemplate = "R^^^^^";
     p.showEdges = true;
-    p.showStateMachineEntities = false;
     p.showPorts = false;
     p.direction = "UNDEFINED"; // UNDEFINED, RIGHT, DOWN
+    p.edgeRouting = "ORTHOGONAL"; // UNDEFINED, ORTHOGONAL, POLYLINE, SPLINES
     p.spacing = 20; // 20 is the KLay default
     p.width = 600;
     p.height = 800;
@@ -334,8 +297,12 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
     p.selection = "#xhsvg";
     p.maxChars = 1;
     p.display = true;
+    p.showStateMachineEntities = false;
     this.efParams = p;
   }-*/;
+  
+  public native String getNameTemplate() /*-{return this.efParams.nameTemplate;}-*/;
+  //public native void setNameTemplate(String nameTemplate) /*-{this.efParams.nameTemplate = nameTemplate;}-*/;
   
   public native boolean isShowEdges() /*-{return this.efParams.showEdges;}-*/;
   //public native void setShowEdges(boolean showEdges) /*-{this.efParams.showEdges = showEdges;}-*/;
@@ -349,6 +316,9 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
   
   public native String getDirection() /*-{return this.efParams.direction;}-*/;
   //public native void setDirection(String direction) /*-{this.efParams.direction = direction;}-*/;
+  
+  public native String getEdgeRouting() /*-{return this.efParams.edgeRouting;}-*/;
+  //public native void setEdgeRouting(String edgeRouting) /*-{this.efParams.edgeRouting = edgeRouting;}-*/;
   
   public native int getSpacing() /*-{return this.efParams.spacing;}-*/;
   //public native void setSpacing(int spacing) /*-{this.efParams.spacing = spacing;}-*/;
@@ -404,14 +374,6 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
     this.root = root;
   }
 
-  public String getNameTemplate() {
-    return nameTemplate;
-  }
-
-  public void setNameTemplate(String nameTemplate) {
-    this.nameTemplate = nameTemplate;
-  }
-
   public String getOutPath() {
     return outPath;
   }
@@ -422,10 +384,9 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
   
   /**
    * Create a d3 SVG diagram in the browser.
-   * TODO
-   * - 
+   * 
    */
-  protected native void createD3(String jsonStr, int width, int height, String selection) /*-{
+  protected native void createD3(String jsonStr) /*-{
     var json = $wnd.JSON.parse(jsonStr);
     
     // KLay
@@ -438,15 +399,23 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
     // d3cp
     var format = $wnd.d3.format(",d");
     var maxChars = 1;
+    var width = 600;
+    var height = 800;
+    var selection = "#xhsvg";
+    var edgeRouting = "ORTHOGONAL";
+    var nodeWidth = 20;
+    var nodeHeight = 20;
     
     // d3cp
     if (this.efParams) {
       maxChars = this.efParams.maxChars;
-      if (this.efParams.selection) {selection = this.efParams.selection;}
+      width = this.efParams.width;
+      height = this.efParams.height;
+      selection = this.efParams.selection;
+      edgeRouting = this.efParams.edgeRouting;
+      nodeWidth = this.efParams.nodeWidth;
+      nodeHeight = this.efParams.nodeHeight;
     }
-    
-    // d3cp
-    // var pack = $wnd.d3.layout.pack() ???
     
     // d3cp
     var selectionNode = $wnd.d3.select(selection);
@@ -468,14 +437,12 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
       .size([width, height])
       .transformGroup(root)
       .options({
-        edgeRouting: "ORTHOGONAL"
+        edgeRouting: edgeRouting
       });
     
     // d3cp
     var node = svg
       .data([json]);
-    $wnd.console.log(node);
-    $wnd.console.log(svg.data());
     
     layouter.on("finish", function(d) {
       
@@ -512,7 +479,30 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
                return d.id;
              }
            }); 
-
+      
+      if (maxChars > 0) {
+        node.append("text")
+        .attr("dx", function(d) {
+          return (0.5 * maxChars) + "em";
+        })
+        .attr("dy", "1.0em")
+        .style("text-anchor", "middle")
+        .style("font-size", function(d) {
+          var fs = nodeWidth * 1.0 / maxChars;
+          if (fs >= (nodeHeight * 0.8)) {
+            fs = nodeHeight * 0.8;
+          }
+          return fs + "px";
+        })
+        .text(function(d) {
+          var dname = d.labels[0].text.substring(0, maxChars);
+          if ((dname.charAt(0) == ":") && (dname.length > maxChars)) {
+            dname = dname.substring(1, maxChars+1);
+          }
+          return dname;
+        });
+      }
+      
       // apply edge routes
       link.transition().attr("d", function(d) {
         var path = "";
@@ -535,10 +525,6 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
     
     // 
     var graph = svg.data()[0];
-    $wnd.console.log("about to do layouter.kgraph(graph);");
-    $wnd.console.log(layouter);
-    $wnd.console.log(layouter.kgraph);
-    $wnd.console.log(graph);
     layouter.kgraph(graph);
     
     // redraw()
