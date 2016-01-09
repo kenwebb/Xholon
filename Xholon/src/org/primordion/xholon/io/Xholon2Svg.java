@@ -903,6 +903,8 @@ public class Xholon2Svg extends Xholon implements IXholon2Gui {
       // use _jsdata.xpos .ypos if available
       rectX = makePosX(node, rectX);
       rectY = makePosY(node, rectY);
+      rectWidth = makePosW(node, rectWidth);
+      rectHeight = makePosH(node, rectHeight);
     }
     else {
       StringTokenizer st = new StringTokenizer(prop, ",");
