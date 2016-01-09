@@ -26,6 +26,7 @@ import java.util.List;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.PortInformation;
 import org.primordion.xholon.common.mechanism.CeStateMachineEntity;
+import org.primordion.xholon.io.XholonGwtTabPanelHelper;
 import org.primordion.ef.AbstractXholon2ExternalFormat;
 import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
 
@@ -96,9 +97,20 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
     sbEdges = new StringBuilder();
     writeNode(root, "");
     String jsonStr = sb.toString();
-    writeToTarget(jsonStr, outFileName, outPath, root);
-    if (isDisplay()) {
-      createD3(jsonStr); //, getWidth(), getHeight(), getSelection());
+    String optionsStr = null;
+    if (isWriteToTarget()) {
+      writeToTarget(jsonStr, outFileName, outPath, root);
+    }
+    if (isKLayLoaded()) {
+      if (isWriteLayoutedToTarget()) {
+        writeLayoutedToTarget(jsonStr, optionsStr, outFileName, outPath);
+      }
+      if (is_jsdata()) {
+        make_jsdata(jsonStr, optionsStr, root);
+      }
+      if (isDisplay()) {
+        createD3(jsonStr);
+      }
     }
   }
   
@@ -296,7 +308,10 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
     p.portHeight = 5;
     p.selection = "#xhsvg";
     p.maxChars = 1;
+    p.writeToTarget = true;
+    p.writeLayoutedToTarget = false;
     p.display = true;
+    p._jsdata = false;
     p.showStateMachineEntities = false;
     this.efParams = p;
   }-*/;
@@ -347,8 +362,17 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
   public native int getMaxChars() /*-{return this.efParams.maxChars;}-*/;
   //public native void setMaxChars(int maxChars) /*-{this.efParams.maxChars = maxChars;}-*/;
   
+  public native boolean isWriteToTarget() /*-{return this.efParams.writeToTarget;}-*/;
+  //public native void setWriteToTarget(boolean writeToTarget) /*-{this.efParams.writeToTarget = writeToTarget;}-*/;
+  
+  public native boolean isWriteLayoutedToTarget() /*-{return this.efParams.writeLayoutedToTarget;}-*/;
+  //public native void setWriteLayoutedToTarget(boolean writeLayoutedToTarget) /*-{this.efParams.writeLayoutedToTarget = writeLayoutedToTarget;}-*/;
+  
   public native boolean isDisplay() /*-{return this.efParams.display;}-*/;
   //public native void setDisplay(boolean display) /*-{this.efParams.display = display;}-*/;
+  
+  public native boolean is_jsdata() /*-{return this.efParams._jsdata;}-*/;
+  //public native void set_jsdata(boolean _jsdata) /*-{this.efParams._jsdata = _jsdata;}-*/;
   
   public String getOutFileName() {
     return outFileName;
@@ -381,6 +405,79 @@ public class Xholon2KLayJson extends AbstractXholon2ExternalFormat implements IX
   public void setOutPath(String outPath) {
     this.outPath = outPath;
   }
+  
+  /**
+   * Call the KLay layouter, and write the result to a new tab.
+   */
+  protected native void writeLayoutedToTarget(String graphStr, String optionsStr, String uri, String outPath) /*-{
+    var graph = $wnd.JSON.parse(graphStr);
+    var options = $wnd.JSON.parse(optionsStr);
+    $wnd.$klay.layout({
+      graph: graph,
+      options: options,
+      success: function(layouted) {
+        $wnd.console.log(layouted);
+        var layoutedStr = $wnd.JSON.stringify(layouted);
+        @org.primordion.xholon.io.XholonGwtTabPanelHelper::addTab(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;Z)(layoutedStr, outPath, uri, false);
+      },
+      error: function(error) {
+        $wnd.console.log(error)
+      }
+    });
+  }-*/;
+  
+  protected native boolean isKLayLoaded() /*-{
+    if ($wnd.$klay) {
+      return true;
+    }
+    $wnd.xh.root().println("The KLay libraries are not loaded.");
+    return false;
+  }-*/;
+  
+  /**
+   * Call the KLay layouter, and write the resulting x,y coordinates to the _jsdata object for each Xholon node.
+   */
+  protected native void make_jsdata(String graphStr, String optionsStr, IXholon root) /*-{
+    var graph = $wnd.JSON.parse(graphStr);
+    var options = $wnd.JSON.parse(optionsStr);
+    
+    var set_jsdata = function(xhnode, x, y, w, h) {
+      if (!x) {x = 0;}
+      if (!y) {y = 0;}
+      xhnode._jsdata = {}
+      xhnode._jsdata.posx = x;
+      xhnode._jsdata.posy = y;
+      xhnode._jsdata.posw = w;
+      xhnode._jsdata.posh = h;
+    }
+    
+    // process the KLay JSON objects and the IXholon hierarchy in parallel
+    var process = function(klayobj, xhnode) {
+      if (klayobj && xhnode) {
+        set_jsdata(xhnode, klayobj.x, klayobj.y, klayobj.width, klayobj.height);
+        var klayobjIx = 0;
+        var xhnodeChild = xhnode.first();
+        while (xhnodeChild) {
+          process(klayobj.children[klayobjIx], xhnodeChild);
+          klayobjIx++;
+          xhnodeChild = xhnodeChild.next();
+        }
+      }
+    }
+    
+    $wnd.$klay.layout({
+      graph: graph,
+      options: options,
+      success: function(layouted) {
+        $wnd.console.log(layouted);
+        process(layouted, root);
+      },
+      error: function(error) {
+        $wnd.console.log(error)
+      }
+    });
+    
+  }-*/;
   
   /**
    * Create a d3 SVG diagram in the browser.
