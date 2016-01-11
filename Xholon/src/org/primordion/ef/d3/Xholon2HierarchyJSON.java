@@ -139,6 +139,7 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
     p.maxChars = 1;
     p.marble = ''; // '{"type":"default","maxChars":4}'
     p.supportTouch = false; // Hammer.js
+    p._jsdata = false;
     this.efParams = p;
   }-*/;
 
@@ -178,4 +179,7 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
   public native boolean isUseIcons() /*-{return this.efParams.useIcons;}-*/;
   //public native void setUseIcons(boolean useIcons) /*-{this.efParams.useIcons = useIcons;}-*/;
   
+  public native boolean is_jsdata() /*-{return this.efParams._jsdata;}-*/;
+  //public native void set_jsdata(boolean _jsdata) /*-{this.efParams._jsdata = _jsdata;}-*/;
+    
 }
