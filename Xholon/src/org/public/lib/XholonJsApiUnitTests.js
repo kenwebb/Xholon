@@ -55,9 +55,9 @@ test("Parameters", 35, function() {
   xh.param("ErrorM", "true");
   // use boolean rather than String to set the value
   equal(xh.param("ErrorM"), "true", "ErrorM is true");
-  xh.param("ErrorM", false);
+  xh.param("ErrorM", "false");
   equal(xh.param("ErrorM"), "false", "ErrorM can be set to false using a boolean");
-  xh.param("ErrorM", true);
+  xh.param("ErrorM", "true");
   equal(xh.param("ErrorM"), "true", "ErrorM can be set to true using a boolean");
   // restore initial values
   xh.param("AppM", appM);
