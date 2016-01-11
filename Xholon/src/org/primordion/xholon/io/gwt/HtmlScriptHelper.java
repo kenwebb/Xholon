@@ -89,12 +89,19 @@ public class HtmlScriptHelper {
    */
   public static void requireScript(String scriptName, String scriptPath) {
     if ((scriptName == null) || (scriptName.length() == 0)) {return;}
+    if (!scriptName.endsWith(".js")) {
+      scriptName = scriptName + ".js";
+    }
     if ((scriptPath == null) || (scriptPath.length() == 0)) {
       scriptPath = DEFAULT_REQUIRE_PATH;
     }
     else if (!(scriptPath.startsWith("http://")) && !(scriptPath.startsWith("https://"))) {
       // this may be a malicious URI, perhaps starting with "javascript:"
       return;
+    }
+    if ("http://127.0.0.1:9876/xholon/lib/".equals(scriptPath)) {
+      // for use with devmode
+      scriptPath = "http://127.0.0.1:8888/xholon/lib/";
     }
     if (!isLoaded(scriptName)) {
       final JavaScriptObject jso = ScriptInjector.fromUrl(scriptPath + scriptName)
