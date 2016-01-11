@@ -196,7 +196,8 @@ public class Xholon2D3CirclePack implements EventListener {
     maxChars = 1, // max allowable number of chars in the standard text
     marble = "", // alternative content, in place of the standard text
     supportTouch = false,
-    useIcons = false;
+    useIcons = false,
+    _jsdata = false;
     
     if (efParams) {
       sort = efParams.sort;
@@ -216,7 +217,11 @@ public class Xholon2D3CirclePack implements EventListener {
       if (efParams.selection) {selection = efParams.selection;}
       supportTouch = efParams.supportTouch;
       useIcons = efParams.useIcons;
+      _jsdata = efParams._jsdata;
     }
+    
+    var zoom = $wnd.d3.behavior.zoom()
+      .on("zoom", redraw);
     
     var pack = $wnd.d3.layout.pack()
       .size([w - 4, h - 4])
@@ -255,6 +260,7 @@ public class Xholon2D3CirclePack implements EventListener {
         if (!selectionNode.select("svg").empty()) {
           hidden = true;
         }
+        zoom = function() {return;}
         break;
       case "video":
         // TODO
@@ -272,11 +278,13 @@ public class Xholon2D3CirclePack implements EventListener {
       }
     }
     
-    var svg = selectionNode.append("svg")
+    var svg = selectionNode
+      .append("svg")
       .classed("hidden", hidden)
       .classed("overlay", overlay)
       .attr("width", w)
       .attr("height", h)
+      .call(zoom)
       .append("g") // the top-level g
       .attr("transform", function(d) {
         var sx = 1;
@@ -306,6 +314,9 @@ public class Xholon2D3CirclePack implements EventListener {
         return d.children ? "d3cpnode" + xhclass : "d3cpleaf d3cpnode" + xhclass;
       })
       .attr("transform", function(d) {
+        if (_jsdata) {
+          set_jsdata(d);
+        }
         return "translate(" + d.x + "," + d.y + ")";
       });
     
@@ -945,6 +956,36 @@ public class Xholon2D3CirclePack implements EventListener {
         d = d.parent;
       }
       return false;
+    }
+    
+    // redraw - to be called on zoom event
+    // don't scale the stroke-width
+    function redraw() {
+      svg.style("stroke-width", 0.1 / $wnd.d3.event.scale + "px");
+      svg.attr("transform", "translate(" + $wnd.d3.event.translate + ")"  + " scale(" + $wnd.d3.event.scale + ")");
+    }
+    
+    function set_jsdata(d) {
+      var xhnode = getXholonNode(d);
+      var x = d.x;
+      var y = d.y;
+      var w = 0;
+      var h = 0;
+      if (d.r) {
+        w = d.r * 2;
+        h = d.r * 2;
+      }
+      _set_jsdata(xhnode, x, y, w, h);
+    }
+    
+    function _set_jsdata(xhnode, x, y, w, h) {
+      if (!x) {x = 0;}
+      if (!y) {y = 0;}
+      xhnode._jsdata = {}
+      xhnode._jsdata.posx = x;
+      xhnode._jsdata.posy = y;
+      if (w) {xhnode._jsdata.posw = w;}
+      if (h) {xhnode._jsdata.posh = h;}
     }
     
 	}-*/;
