@@ -171,6 +171,9 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     makeDefaults();
     writeStage();
     writeToTarget(sb.toString(), outFileName, outPath, root);
+    if (isPhosphorus()) {
+      compileAndRunWithPhosphorus(sb.toString());
+    }
   }
   
   /**
@@ -552,6 +555,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     p.spriteSizePercentage = 100;
     p.infoDefaults = "92814753|v442|LNX 20,0,0,267";
     p.shouldShowSounds = false;
+    p.phosphorus = false;
     this.efParams = p;
   }-*/;
 
@@ -579,5 +583,28 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
   /** Whether or not to show Stage and Sprite sounds. */
   public native boolean isShouldShowSounds() /*-{return this.efParams.shouldShowSounds;}-*/;
   //public native void setShouldShowSounds(boolean shouldShowSounds) /*-{this.efParams.shouldShowSounds = shouldShowSounds;}-*/;
+  
+  /** Whether or not to have phosphorus compile and run the generated Scratch project. */
+  public native boolean isPhosphorus() /*-{return this.efParams.phosphorus;}-*/;
+  //public native void setPhosphorus(boolean phosphorus) /*-{this.efParams.phosphorus = phosphorus;}-*/;
+  
+  protected native void compileAndRunWithPhosphorus(String jsonStr) /*-{
+    // TODO
+    var P = $wnd.P;
+    $wnd.console.log(jsonStr);
+    if (P) {
+      $wnd.console.log(P);
+      var json = P.IO.parseJSONish(jsonStr);
+      $wnd.console.log(json);
+      var callback = null; //function() {}
+      var request = P.IO.loadJSONProject(json, callback, this);
+      $wnd.console.log(request);
+      if (request) {
+        P.player.showProgress(request, function(stage) {
+          stage.triggerGreenFlag();
+        });
+      }
+    }
+  }-*/;
   
 }
