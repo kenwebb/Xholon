@@ -370,8 +370,12 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
       }
       sbLocal
       .append("      [\"changeGraphicEffect:by:\", \"color\", [\"*\", [\"readVariable\", \"spriteIndex\"], 7]],\n")
-      .append("      [\"heading:\", [\"readVariable\", \"spriteIndex\"]],\n")
-      .append("      [\"forward:\", [\"*\", [\"readVariable\", \"spriteIndex\"], 3]],\n")
+      .append("      [\"heading:\", [\"*\", [\"readVariable\", \"spriteIndex\"], ")
+      .append(getSpriteHeadingMultiplier())
+      .append("]],\n")
+      .append("      [\"forward:\", [\"*\", [\"readVariable\", \"spriteIndex\"], ")
+      .append(getSpriteForwardMultiplier())
+      .append("]],\n")
       .append("      [\"heading:\", 90],\n")
       .append("      [\"changeVar:by:\", \"spriteIndex\", 1],\n")
       .append("      [\"setVar:to:\", \"name\", [\"getLine:ofList:\", [\"readVariable\", \"spriteIndex\"], \"namesList\"]]]],\n")
@@ -553,6 +557,8 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     p.spriteSoundsDefaults = "meow,0,83c36d806dc92327b9e7049a565c6bff.wav,18688,22050";
     p.spriteCostumesDefaults = "costume1,1,09dc888b0b7df19f70d81588ae73420e.svg,1,47,55";
     p.spriteSizePercentage = 100;
+    p.spriteHeadingMultiplier = 1;
+    p.spriteForwardMultiplier = 3;
     p.infoDefaults = "92814753|v442|LNX 20,0,0,267";
     p.shouldShowSounds = false;
     p.phosphorus = false;
@@ -577,6 +583,12 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
   public native int getSpriteSizePercentage() /*-{return this.efParams.spriteSizePercentage;}-*/;
   //public native void setSpriteSizePercentage(String spriteSizePercentage) /*-{this.efParams.spriteSizePercentage = spriteSizePercentage;}-*/;
 
+  public native int getSpriteHeadingMultiplier() /*-{return this.efParams.spriteHeadingMultiplier;}-*/;
+  //public native void setSpriteHeadingMultiplier(String spriteHeadingMultiplier) /*-{this.efParams.spriteHeadingMultiplier = spriteHeadingMultiplier;}-*/;
+
+  public native int getSpriteForwardMultiplier() /*-{return this.efParams.spriteForwardMultiplier;}-*/;
+  //public native void setSpriteForwardMultiplier(String spriteForwardMultiplier) /*-{this.efParams.spriteForwardMultiplier = spriteForwardMultiplier;}-*/;
+
   public native String getInfoDefaults() /*-{return this.efParams.infoDefaults;}-*/;
   //public native void setInfoDefaultsDefaults(String infoDefaults) /*-{this.efParams.infoDefaults = infoDefaults;}-*/;
   
@@ -588,17 +600,19 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
   public native boolean isPhosphorus() /*-{return this.efParams.phosphorus;}-*/;
   //public native void setPhosphorus(boolean phosphorus) /*-{this.efParams.phosphorus = phosphorus;}-*/;
   
+  /**
+   * Compile and run the Scratch JSON project using the phosphorus code.
+   * phosphorus "changeGraphicEffect:by:", "color" is not yet implemented for sprites
+   * @param jsonStr 
+   * http://phosphorus.github.io/
+   * https://github.com/nathan/phosphorus
+   */
   protected native void compileAndRunWithPhosphorus(String jsonStr) /*-{
-    // TODO
     var P = $wnd.P;
-    $wnd.console.log(jsonStr);
     if (P) {
-      $wnd.console.log(P);
       var json = P.IO.parseJSONish(jsonStr);
-      $wnd.console.log(json);
-      var callback = null; //function() {}
+      var callback = function(stage) {$wnd.console.log("callback");$wnd.console.log(stage);}
       var request = P.IO.loadJSONProject(json, callback, this);
-      $wnd.console.log(request);
       if (request) {
         P.player.showProgress(request, function(stage) {
           stage.triggerGreenFlag();

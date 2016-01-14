@@ -48,9 +48,13 @@
     <script src=//canvg.googlecode.com/svn/trunk/canvg.js></script>
     <script src=xholon/lib/phosphorus/phosphorus.js></script>
     <!--<script src=xholon/lib/phosphorus/player.js></script>  this has been moved after the phosphorus elements -->
-    
     <style>
-    
+    .turbo, .full-screen, .title {
+      visibility: hidden;
+    }
+    .controls span {
+      float: left;
+    }
     </style>
     
     <!-- C3 chart library; depends on D3 -->
@@ -154,12 +158,13 @@
     </div>
     
     <!-- phosphorus -->
+    <hr/>
     <div class=area id=player-area>
       <div class=controls>
         <span class=stop></span>
         <span class=pause></span>
         <span class=flag title="Shift+click to enable turbo mode."></span>
-        <div class=turbo>Turbo Mode</div>
+        <span class=turbo>Turbo Mode</span>
         <span class=full-screen></span>
       </div>
       <div class=player></div>
@@ -172,7 +177,7 @@
       <input class=url value=http://scratch.mit.edu/projects/>
       <a target=_blank class=project-link title="View project on Scratch"></a>
     </div>
-    <p>phosphorus is still in development. <a id=bug-link target=_blank href=https://github.com/nathan/phosphorus/issues/new>Click here</a> to report a problem with this project.</p>
+    <p>phosphorus is under <a id=bug-link target=_blank href=https://github.com/nathan/phosphorus/>development</a>.</p>
     <!-- the following script must be after the preceeding phosphorus elements -->
     <script src=xholon/lib/phosphorus/player.js></script>
     
