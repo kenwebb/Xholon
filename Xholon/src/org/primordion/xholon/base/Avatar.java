@@ -88,7 +88,7 @@ xh.root().xpath("StorySystem/Kitchen").append("<Avatar/>").last().action("look")
  * @see <a href="http://en.wikipedia.org/wiki/Inform">wikipedia Inform</a>
  * @since 0.9.1 (Created on August 6, 2014)
  */
-public class Avatar extends XholonWithPorts {
+public class Avatar extends AbstractAvatar {
   
   // Constants
   protected static final String COMMENT_START = "["; // Inform 7 comment start
@@ -112,17 +112,21 @@ public class Avatar extends XholonWithPorts {
   
   protected static final int SIG_FOLLOWLEADERTECH_CANON = 101;
   
+  /* MOVED TO AbstractAvatar
   // Variables
   public String roleName = null;
   protected double val;
+  */
   
   // the current location of the avatar; its parent or the node it references
   protected IXholon contextNode = null;
   
   protected StringBuilder sb = null;
   
+  /* MOVED TO AbstractAvatar
   // this is the name format required by findNode()
   protected String nameTemplate = IXholon.GETNAME_DEFAULT;
+  */
   
   protected static IXPath xpath = null;
   
@@ -237,7 +241,9 @@ public class Avatar extends XholonWithPorts {
    */
   protected int waitCount = 0;
   
+  /* MOVED TO AbstractAvatar
   protected IApplication app = null;
+  */
   
   /**
    * Whether or not to write changes to Meteor.
@@ -295,6 +301,7 @@ public class Avatar extends XholonWithPorts {
   
   // Setters and Getters
   
+  /* MOVED TO AbstractAvatar
   @Override
   public void setRoleName(String roleName) {this.roleName = roleName;}
   @Override
@@ -309,6 +316,7 @@ public class Avatar extends XholonWithPorts {
   public void incVal(double incAmount) {val += incAmount;}
   @Override
   public void decVal(double decAmount) {val -= decAmount;}
+  */
   
   @Override
   public void setVal(String actionsStr) {
@@ -358,6 +366,7 @@ public class Avatar extends XholonWithPorts {
     return this.contextNode;
   }
   
+  /* MOVED TO AbstractAvatar
   @Override
   @SuppressWarnings("unchecked")
   public List getAllPorts() {
@@ -382,6 +391,7 @@ public class Avatar extends XholonWithPorts {
     }
     return realPortList;
   }
+  */
   
   @Override
   public void postConfigure() {
@@ -790,6 +800,7 @@ public class Avatar extends XholonWithPorts {
     return sb.toString();
   }
   
+  /* MOVED TO AbstractAvatar
   protected String join(String[] arr, String sep) {
     StringBuilder sb = new StringBuilder();
     for (int i = 0; i < arr.length; i++) {
@@ -800,6 +811,7 @@ public class Avatar extends XholonWithPorts {
     }
     return sb.toString();
   }
+  */
   
   /**
    * Split a String into an array of substrings.
@@ -810,33 +822,36 @@ public class Avatar extends XholonWithPorts {
    * @param limit The maximum length of the resulting array.
    * @return An array of strings
    */
-  protected native String[] split(String str, int limit) /*-{
-    var result = str.match(/("[^"]+"|[^"\s]+)/g);
-    // remove starting and end quotes in result
-    for (var i = 0; i < result.length; i++) {
-      if (result[i].charAt(0) == '"') {
-        result[i] = result[i].substring(1, result[i].length-1);
-      }
-    }
-    if (result.length > limit) {
-      // limit number of entries in the result
-      var last = result[limit-1];
-      for (var j = limit; j < result.length; j++) {
-        last += " " + result[j];
-      }
-      result[limit-1] = last;
-      result.length = limit;
-    }
-    return result;
-  }-*/;
+  // MOVED TO AbstractAvatar
+  //protected native String[] split(String str, int limit) /*-{
+  //  var result = str.match(/("[^"]+"|[^"\s]+)/g);
+  //  // remove starting and end quotes in result
+  //  for (var i = 0; i < result.length; i++) {
+  //    if (result[i].charAt(0) == '"') {
+  //      result[i] = result[i].substring(1, result[i].length-1);
+  //    }
+  //  }
+  //  if (result.length > limit) {
+  //    // limit number of entries in the result
+  //    var last = result[limit-1];
+  //    for (var j = limit; j < result.length; j++) {
+  //      last += " " + result[j];
+  //    }
+  //    result[limit-1] = last;
+  //    result.length = limit;
+  //  }
+  //  return result;
+  //}-*/;
   
-  protected native String escapeDoubleQuotes(String str) /*-{
-    return str.replace(/"/g, '\\"');
-  }-*/;
+  // MOVED TO AbstractAvatar
+  //protected native String escapeDoubleQuotes(String str) /*-{
+  //  return str.replace(/"/g, '\\"');
+  //}-*/;
   
-  protected native String unescapeDoubleQuotes(String str) /*-{
-    return str.replace(/\\"/g, '"');
-  }-*/;
+  // MOVED TO AbstractAvatar
+  //protected native String unescapeDoubleQuotes(String str) /*-{
+  //  return str.replace(/\\"/g, '"');
+  //}-*/;
   
   /**
    * Process a command.
@@ -2942,6 +2957,7 @@ xport hello _other,Newick,true,true,true,{}
    * possibly one line in each of the scripts of two or more simultaneously-active Avatars,
    * or other nodes with simultaneously-active Xholon.act() methods.
    */
+  /* MOVED TO AbstractAvatar
   protected void breakpoint() {
     if (app.getControllerState() == IControl.CS_PAUSED) {
       // unpause
@@ -2952,32 +2968,40 @@ xport hello _other,Newick,true,true,true,{}
       app.setControllerState(IControl.CS_PAUSED); // 4
     }
   }
+  */
   
+  /* MOVED TO AbstractAvatar
   protected void start() {
     app.setControllerState(IControl.CS_RUNNING); // 3
   }
+  */
   
+  /* MOVED TO AbstractAvatar
   protected void step() {
     app.setControllerState(IControl.CS_STEPPING); // 5
   }
+  */
   
   /**
    * Query for a DOM Element, given a selector.
    * ex: var captionEle = document.querySelector("#xhanim>#one>p");
    * @param selector - a CSS selector (ex: "#xhanim>#one>p")
    */
-  protected native Element querySelector(String selector) /*-{
-    return $doc.querySelector(selector);
-  }-*/;
+  // MOVED TO AbstractAvatar
+  //protected native Element querySelector(String selector) /*-{
+  //  return $doc.querySelector(selector);
+  //}-*/;
   
   /**
    * Make a node name.
    * @param node 
    * @return 
    */
+  /* MOVED TO AbstractAvatar
   protected String makeNodeName(IXholon node) {
     return node.getName(nameTemplate);
   }
+  */
   
   /**
    * Find a node in the tree, given a node name.
