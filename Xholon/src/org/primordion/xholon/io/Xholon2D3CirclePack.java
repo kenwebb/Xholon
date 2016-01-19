@@ -192,6 +192,7 @@ public class Xholon2D3CirclePack implements EventListener {
     labelContainersOptions = "top", // "top" "bottom" "center"
     includeId = false,
     shape = "circle",
+    shapeParams = "5,5"; // rect rx,ry
     maxSvg = 50, // max allowable number of SVG subtrees, to prevent running out of memory
     maxChars = 1, // max allowable number of chars in the standard text
     marble = "", // alternative content, in place of the standard text
@@ -206,6 +207,7 @@ public class Xholon2D3CirclePack implements EventListener {
       labelContainersOptions = efParams.labelContainersOptions;
       includeId = efParams.includeId;
       shape = efParams.shape;
+      shapeParams = efParams.shapeParams;
       maxSvg = efParams.maxSvg;
       maxChars = efParams.maxChars;
       marble = efParams.marble;
@@ -348,11 +350,12 @@ public class Xholon2D3CirclePack implements EventListener {
         .style("fill-opacity", function(d) {return d.opacity;});
       break;
     case "rect": // TODO this is just a placeholder for now; a fully rounded square
+      var rxRy = shapeParams.split(",");
       node.append(shape)
         .attr("width", function(d) {return d.r * 2;}) // Math.sqrt(2*d.r*d.r)
         .attr("height", function(d) {return d.r * 2;})
-        .attr("rx", function(d) {return d.r;})
-        .attr("ry", function(d) {return d.r;})
+        .attr("rx", rxRy[0]) //function(d) {return d.r;})
+        .attr("ry", rxRy[1]) //function(d) {return d.r;})
         //.attr("transform", function(d) { return "translate(-" + d.r + ",-" + d.r + ")";})
         .attr("x", function(d) {return -d.r;})
         .attr("y", function(d) {return -d.r;})
