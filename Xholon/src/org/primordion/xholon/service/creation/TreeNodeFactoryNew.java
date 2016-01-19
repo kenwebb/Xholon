@@ -299,9 +299,12 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 				newNode = new org.primordion.xholon.base.OrNode();
 			}
 			
-			// Avatar
+			// Avatar, Sprite
 			else if (implName.endsWith("Avatar")) {
 				newNode = new org.primordion.xholon.base.Avatar();
+			}
+			else if (implName.endsWith("Sprite")) {
+				newNode = new org.primordion.xholon.base.Sprite();
 			}
 			
 			// ActRegulator

@@ -56,6 +56,7 @@
 	<!-- Avatar -->
 	<Avatar xhType="XhtypePureContainer" implName="org.primordion.xholon.base.Avatar"/>
 	<Chatbot xhType="XhtypePureContainer" implName="org.primordion.xholon.base.Chatbot"/>
+	<Sprite xhType="XhtypePureContainer" implName="org.primordion.xholon.base.Sprite"/>
 	
 	<!-- Behavior -->
 	

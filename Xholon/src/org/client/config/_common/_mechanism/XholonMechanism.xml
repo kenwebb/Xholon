@@ -57,6 +57,7 @@
 <!-- Avatar -->
 <Avatar xmlns="http://www.primordion.com/namespace/Avatar" id="1014400"/>
 <Chatbot xmlns="http://www.primordion.com/namespace/Chatbot" id="1014401"/>
+<Sprite xmlns="http://www.primordion.com/namespace/Sprite" id="1014402"/>
 
 <!-- UML Behavior entities -->
 <Behavior xmlns="http://www.primordion.com/namespace/Behavior" id="1001200">
