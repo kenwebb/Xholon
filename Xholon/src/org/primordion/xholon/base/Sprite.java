@@ -79,16 +79,23 @@ repeat (10)
   protected String spriteScript = null;
   
   /**
-   * The number of spaces used to represent one level of indentation.
-   * This value will be calculated when tokenizing the first indented block, if any.
+   * Index into the spriteScript while parsing it.
    */
-  protected int indent1 = -1;
+  protected int spriteScriptIx = 0;
   
   /**
-   * The current indent level.
-   * This is used while generating Scratch or Snap content.
+   * The number of spaces used to represent one level of indentation in the input (the spriteScript text).
+   * This value will be calculated when tokenizing/parsing the first indented block, if any.
    */
-  protected int currentIndentLevel = 0;
+  protected int indentIn1 = -1;
+  
+  /**
+   * The current output indent level.
+   * This is used while generating Xholon or Scratch or Snap content.
+   */
+  //protected int indentOutLevel = 0;
+  //protected String indentOutStr = "                                        ";
+  protected String indentOut1 = "  ";
   
   protected static final int BLOCKNAMEMAP_VALUEIX_SCRATCH = 0;
   protected static final int BLOCKNAMEMAP_VALUEIX_SNAP    = 1;
@@ -110,24 +117,28 @@ repeat (10)
   "thinkforsecs", "think:duration:elapsed:from:", "doThinkFor",
   "think", "think:", "doThink",
   // Sound
-  "playsound", "", "",
+  "playsound", "DUMMY", "DUMMY",
   // Pen
-  "clear", "", "",
+  "clear", "DUMMY", "DUMMY",
   // Data
-  "DATA", "", "",
+  "DATA", "DUMMY", "DUMMY",
   // Events
   "whengreenflagclicked", "whenGreenFlag", "receiveGo",
   // Control
-  "waitsecs", "", "",
+  "waitsecs", "DUMMY", "DUMMY",
   "repeat", "doRepeat", "doRepeat",
-  "CONTROL", "", "",
-  "ifthen", "", "",
+  "CONTROL", "DUMMY", "DUMMY",
+  "ifthen", "DUMMY", "DUMMY",
   "ifthenelse", "doIfElse", "doIfElse", // TODO how do I get the "else" part of the name ?
   // Sensing
-  "touching?", "", "",
-  "touchingcolor?", "touchingColor:", "reportTouchingColor"
+  "touching?", "DUMMY", "DUMMY",
+  "touchingcolor?", "touchingColor:", "reportTouchingColor",
   // Operators
-  
+  "+", "+", "reportSum",
+  "-", "-", "reportDifference",
+  "*", "*", "DUMMY",
+  "/", "/", "DUMMY",
+  "mod", "MOD", "DUMMY"
   // More Blocks
   
   }; // end blockNameArr
@@ -164,14 +175,23 @@ repeat (10)
   public void postConfigure() {
     app = this.getApp();
     if ((this.getFirstChild() != null) && ("Attribute_String".equals(this.getFirstChild().getXhcName()))) {
-      this.setVal_String(this.getFirstChild().getVal_String());
+      String str = this.getFirstChild().getVal_String();
+      if (!str.endsWith("\n")) {
+        // add trailing newline to make parsing easier
+        str += "\n";
+      }
+      str += "END"; // temporarily required to force last line to be parsed
+      this.setVal_String(str);
       this.getFirstChild().removeChild();
     }
     initBlockNameMap();
     
-    // TEST
-    String jsonStr = this.scriptToJsonSyntax(this.getVal_String());
-    this.println(jsonStr);
+    // TEST 1
+    //String jsonStr = this.scriptToJsonSyntax(this.getVal_String());
+    //this.println(jsonStr);
+    
+    // TEST 2
+    this.xholonize();
     
     super.postConfigure();
   }
@@ -201,16 +221,133 @@ repeat (10)
   }
   
   /**
+   * Write the Sprite's entire text syntax as a Xholon tree.
+   * This is a temporary structure, and may or may not be inserted as a child of a Sprite node.
+   * This can subsequently be given to a parser to generate Scratch JSON syntax, or Snap XML syntax.
+   * This method should be used instead of scriptToJsonSyntax() and tokenize() .
+   */
+  protected IXholon xholonize() {
+    //indentOutLevel = 1;
+    spriteScriptIx = 0; // start at the beginning of the Sprite's text script
+    
+    StringBuilder sb = new StringBuilder();
+    sb.append("<scripts>\n").append(indentOut1).append("<script>\n");
+    
+    sb.append(xholonizeRecurse(new StringBuilder(), indentOut1 + indentOut1));
+    
+    sb.append(indentOut1).append("</script>\n").append("</scripts>\n");
+    this.println(sb.toString());
+    return null;
+  }
+  
+  /**
+   * 
+   */
+  protected String xholonizeRecurse(StringBuilder sb, String indentOut) {
+    //indentOutLevel++;
+    //String indentOut = indentOutStr.substring(0, indentOutLevel);
+    String blockName = "";
+    StringBuilder sbBlockContents = new StringBuilder();
+    int state = 0; // initial spaces have to do with indenting/nesting
+    int indentIn = 0;
+    //for (int i = spriteScriptIx; i < spriteScript.length(); i++) {
+    while (spriteScriptIx < spriteScript.length()) {
+      char c = spriteScript.charAt(spriteScriptIx);
+      spriteScriptIx++;
+      switch (c) {
+      case '\n':
+        sb
+        .append(indentOut)
+        .append("<block s=\"")
+        .append(blockName)
+        .append("\">\n")
+        .append(sbBlockContents.toString())
+        .append(indentOut)
+        .append("</block>\n");
+        // start a new block
+        blockName = "";
+        sbBlockContents = new StringBuilder();
+        state = 0;
+        indentIn = 0;
+        break;
+      case ' ':
+        if (state == 0) {
+          indentIn++;
+        }
+        else {
+          
+        }
+        break;
+      case '<':
+        sbBlockContents
+        .append(indentOut).append(indentOut1)
+        .append("<ablock>")
+        .append(xholonizeRecurse(new StringBuilder(), indentOut + indentOut1))
+        .append("</ablock>\n");
+        break;
+      case '(':
+        sbBlockContents
+        .append(indentOut).append(indentOut1)
+        .append("<eblock>")
+        .append(xholonizeRecurse(new StringBuilder(), indentOut + indentOut1))
+        .append("</eblock>\n");
+        break;
+      case '[':
+        sbBlockContents
+        .append(indentOut).append(indentOut1)
+        .append("<rblock>")
+        .append(xholonizeRecurse(new StringBuilder(), indentOut + indentOut1))
+        .append("</rblock>\n");
+        break;
+      case '>':
+        return blockName + sbBlockContents.toString();
+      case ')':
+        return blockName + sbBlockContents.toString();
+      case ']':
+        return blockName + sbBlockContents.toString();
+      default:
+        if (state == 0) {
+          // handle indentation
+          if ((indentIn1 == -1) && (indentIn > 0)) {
+            // initialize the value of indentIn1
+            indentIn1 = indentIn;
+          }
+          if (indentIn == 0) {
+            //result += indentIn + delim;
+          }
+          else {
+            //result += "" + (indentIn/indentIn1) + delim;
+          }
+          state = 1;
+        }
+        blockName += c;
+        break;
+      }
+    }
+    return sb.toString();
+  } // end xholonRecurse()
+  
+  /**
    * Convert the Sprite script from text syntax to Scratch JSON syntax.
+   * @param textSyntax a complete script in text syntax
+   * @return a complete script in Scratch JSON syntax
    */
   protected String scriptToJsonSyntax(String textSyntax) {
     StringBuilder sb = new StringBuilder();
-    currentIndentLevel = 0;
+    //indentOutLevel = 0;
     String[] textSyntaxArr = textSyntax.split("\n");
     sb.append("[\n").append("[20, 20, [\n");
     for (int i = 0; i < textSyntaxArr.length; i++) {
       String block = textSyntaxArr[i];
-      sb.append(blockToJsonSyntax(block, new StringBuilder())).append(",").append("\n");
+      /*String comma = ",";
+      if (i == textSyntaxArr.length-1) {
+        // don't write trailing commas
+        comma = "";
+      }*/
+      sb
+      .append(blockToJsonSyntax(block, new StringBuilder()))
+      .append((i == textSyntaxArr.length-1) ? "" : ",") // don't write trailing commas
+      .append("\n");
       // TODO handle end of nesting for nested blocks: repeat, forever, if, if...else, repeat until
     }
     sb.append("]]\n").append("]");
@@ -237,29 +374,33 @@ repeat (10)
     while (index < tokens.length) {
       switch (tokens[index]) {
       case "<":
-        
+        index++;
         break;
       case "(":
-        sbLocal.append(", ").append(tokens[index+1]);
-        index++;
+        sbLocal.append(", ");
+        StringBuilder sbEllipse = new StringBuilder();
+        index = writeEllipseParam(tokens, index+1, sbEllipse);
+        sbLocal.append(sbEllipse.toString());
         break;
       case "[":
         sbLocal.append(", ").append("\"");
-        index = writeBracketedString(tokens, index+1, sbLocal);
+        index = writeRectangleParam(tokens, index+1, sbLocal);
         sbLocal.append("\"");
         break;
       case ">":
-        
+        index++;
         break;
       case ")":
-        
+        index++;
         break;
       case "]":
-        
+        index++;
         break;
-      default: break;
+      default:
+        index++;
+        break;
       }
-      index++;
+      
     }
     
     sbLocal
@@ -268,7 +409,50 @@ repeat (10)
     return sbLocal.toString();
   }
   
-  protected int writeBracketedString(String[] tokens, int index, StringBuilder sbLocal) {
+  protected int writeAngleParam(String[] tokens, int index, StringBuilder sbLocal) {
+    String token = tokens[index];
+    sbLocal.append(token);
+    return index;
+  }
+  
+  protected int writeEllipseParam(String[] tokens, int index, StringBuilder sbLocal) {
+    String token = tokens[index];
+    if ("(".equals(token)) {
+      // this is a nested param
+      sbLocal.append("[");
+      StringBuilder sbEllipse = new StringBuilder();
+      index = writeEllipseParam(tokens, index+1, sbEllipse);
+      if (index >= tokens.length) {
+        return index;
+      }
+      token = tokens[index];
+      if (")".equals(token)) {
+        index++;
+        token = tokens[index];
+        switch (token) {
+        case "+":
+        case "-":
+        case "*":
+        case "/":
+        case "mod":
+          sbLocal.append("\"").append(makeBlockNameJsonSyntax(token)).append("\"").append(", ");
+          break;
+        default: break;
+        }
+      }
+      else {
+      
+      }
+      sbLocal.append(sbEllipse.toString());
+      sbLocal.append("]");
+    }
+    else {
+      sbLocal.append(token);
+    }
+    return index + 1;
+  }
+  
+  protected int writeRectangleParam(String[] tokens, int index, StringBuilder sbLocal) {
     boolean foundStringToken = false;
     while (index < tokens.length) {
       switch (tokens[index]) {
@@ -295,6 +479,9 @@ repeat (10)
     return index;
   }
   
+  /**
+   * 
+   */
   protected String makeBlockNameJsonSyntax(String naiveBlockName) {
     String[] value = blockNameMap.get(naiveBlockName);
     if (value == null) {
@@ -304,50 +491,6 @@ repeat (10)
       return value[BLOCKNAMEMAP_VALUEIX_SCRATCH];
     }
   }
-  
-  // NO
-  /*protected String blockToJsonSyntax(String block) {
-    String[] tokens = tokenize(block);
-    switch (tokens[0]) {
-    
-    // these should be in one alphabetical list
-    
-    // "change x|y by (10)" Motion
-    case "change":
-      break;
-    
-    // "glide (1) secs to x: (-65) y: (-19)" Motion
-    case "glide":
-      break;
-    
-    // "go to x: (-65) y: (-19)"  "go to [THING]" Motion
-    case "go":
-      break;
-    
-    // "if on edge, bounce" Motion
-    case "if":
-      break;
-    
-    case "move": _move(tokens); break;
-    
-    // "point in direction (90)"  "point towards [THING]" Motion
-    case "point":
-      break;
-    
-    // "set x|y to (0)"  "set rotation style [left-right|OTHERSTYLE]" Motion
-    case "set":
-      break;
-    
-    // "turn right|left (15) degrees" Motion    clockwise instead of right? counterclockwise instead of left?
-    case "turn":
-      break;
-    
-    default:
-      break;
-    }
-    
-    return "";
-  }*/
   
   /**
    * Separate a block into tokens.
@@ -365,13 +508,13 @@ repeat (10)
     String result = "";
     String delim = " ";
     int state = 0; // spaces initially have to do with indenting/nesting
-    int indent = 0;
+    int indentIn = 0;
     for (int i = 0; i < block.length(); i++) {
       char c = block.charAt(i);
       switch (c) {
       case ' ':
         if (state == 0) {
-          indent++;
+          indentIn++;
         }
         else {
           result += delim;
@@ -404,15 +547,15 @@ repeat (10)
       default:
         if (state == 0) {
           // handle indentation
-          if ((indent1 == -1) && (indent > 0)) {
-            // initialize the value of indent1
-            indent1 = indent;
+          if ((indentIn1 == -1) && (indentIn > 0)) {
+            // initialize the value of indentIn1
+            indentIn1 = indentIn;
           }
-          if (indent == 0) {
-            result += indent + delim;
+          if (indentIn == 0) {
+            result += indentIn + delim;
           }
           else {
-            result += "" + (indent/indent1) + delim;
+            result += "" + (indentIn/indentIn1) + delim;
           }
           state = 1;
         }
@@ -428,44 +571,6 @@ repeat (10)
     String[] resultArr = result.split(delim);
     consoleLog(resultArr);
     return resultArr;
-  }
-  
-  /**
-   * NO ???
-   * move
-   * Motion: "move (10) steps"  "move 10 steps"  "move (amount) steps"  "move amount steps"  "move (amount + 2) steps"
-   */
-  protected void _move(String[] tokens) {
-    String bname = "forward:";
-    String steps = paramEllipse(tokens, 1);
-  }
-  
-  // NO ???
-  protected void paramAngle(String[] tokens, int startIx) {
-  
-  }
-  
-  /**
-   * NO ???
-   * Return the contents of an ellipse parameter, as a JSON string.
-   * Examples: (10)  10  (amount)  amount  (amount + 3)
-   * @param tokens The tokens in the current text block.
-   * @param startIx Index of the token where the ellipse parameter starts.
-   */
-  protected String paramEllipse(String[] tokens, int startIx) {
-    if ("(".equals(tokens[startIx])) {
-      // this param contains one or more tokens enclosed in ()
-      return null;
-    }
-    else {
-      // this is a single token
-      return tokens[startIx];
-    }
-  }
-  
-  // NO ???
-  protected void paramRect(String[] tokens, int startIx) {
-  
   }
   
 }
