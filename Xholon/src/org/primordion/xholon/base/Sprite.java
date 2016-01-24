@@ -23,6 +23,8 @@ import java.util.Map;
 
 import org.primordion.xholon.io.xml.IXholon2Xml;
 import org.primordion.xholon.io.xml.IXmlWriter;
+import org.primordion.xholon.service.IXholonService;
+import org.primordion.xholon.service.XholonHelperService;
 
 /**
  * Sprite as understood in Scratch and Snap.
@@ -61,7 +63,7 @@ say [Hello] for (0.5) secs
 broadcast [SIGNAL_ONE]
 ]]></Sprite>
    * 
-   * Example:
+   * Example: TODO for now add END as final line in the script, to force processing of the "say" statement
 <Sprite roleName="NestedBlocks01"><![CDATA[
 when greenflag clicked
 repeat (10)
@@ -73,6 +75,7 @@ repeat (10)
   else
     think [Hmm...]
   say ((123) + ((789) - (456)))
+END
 ]]></Sprite>
    * 
    */
@@ -111,36 +114,126 @@ repeat (10)
   // Motion
   "movesteps", "forward:", "forward",
   "turnrightdegrees", "turnRight", "turn",
+  "turnleftdegrees", "DUMMY", "DUMMY",
+  "pointindirection", "DUMMY", "DUMMY",
+  "pointtowards", "DUMMY", "DUMMY",
+  "gotoxy", "DUMMY", "DUMMY",
+  "goto", "DUMMY", "DUMMY",
+  "glidesecstoxy", "DUMMY", "DUMMY",
+  "changexby", "DUMMY", "DUMMY",
+  "setxto", "DUMMY", "DUMMY",
+  "changeyby", "DUMMY", "DUMMY",
+  "setyto", "DUMMY", "DUMMY",
+  "ifonedge,bounce", "DUMMY", "DUMMY",
+  "setrotationstyle", "DUMMY", "DUMMY",
+  
   // Looks
   "sayforsecs", "say:duration:elapsed:from:", "doSayFor",
   "say", "say:", "bubble",
   "thinkforsecs", "think:duration:elapsed:from:", "doThinkFor",
   "think", "think:", "doThink",
+  "show", "DUMMY", "DUMMY",
+  "hide", "DUMMY", "DUMMY",
+  "switchcostumeto", "DUMMY", "DUMMY",
+  "nextcostume", "DUMMY", "DUMMY",
+  "switchbackdropto", "DUMMY", "DUMMY",
+  "changeeffectby", "DUMMY", "DUMMY",
+  "seteffectto", "DUMMY", "DUMMY",
+  "cleargraphiceffects", "DUMMY", "DUMMY",
+  "changesizeby", "DUMMY", "DUMMY",
+  "setsizeto%", "DUMMY", "DUMMY",
+  "gotofront", "DUMMY", "DUMMY",
+  "gobacklayers", "DUMMY", "DUMMY",
+  
   // Sound
   "playsound", "DUMMY", "DUMMY",
+  "playsounduntildone", "DUMMY", "DUMMY",
+  "stopallsounds", "DUMMY", "DUMMY",
+  "playdrumforbeats", "DUMMY", "DUMMY",
+  "restforbeats", "DUMMY", "DUMMY",
+  "playnoteforbeats", "DUMMY", "DUMMY",
+  "setinstrumentto", "DUMMY", "DUMMY",
+  "changevolumeby", "DUMMY", "DUMMY",
+  "setvolumeto%", "DUMMY", "DUMMY",
+  "changetempoby", "DUMMY", "DUMMY",
+  "settempotobpm", "DUMMY", "DUMMY",
+  
   // Pen
   "clear", "DUMMY", "DUMMY",
+  "stamp", "DUMMY", "DUMMY",
+  "pendown", "DUMMY", "DUMMY",
+  "penup", "DUMMY", "DUMMY",
+  "changepencolorby", "DUMMY", "DUMMY",
+  "setpencolorto", "DUMMY", "DUMMY",
+  "changepenshadeby", "DUMMY", "DUMMY",
+  "setpenshadeto", "DUMMY", "DUMMY",
+  "changepensizeby", "DUMMY", "DUMMY",
+  "setpensizeto", "DUMMY", "DUMMY",
+  
   // Data
   "DATA", "DUMMY", "DUMMY",
+  
   // Events
   "whengreenflagclicked", "whenGreenFlag", "receiveGo",
+  "whenkeypressed", "DUMMY", "DUMMY",
+  "whenthisspriteclicked", "DUMMY", "DUMMY",
+  "whenbackdropswitchesto", "DUMMY", "DUMMY",
+  "when", "DUMMY", "DUMMY",
+  "whenIreceive", "DUMMY", "DUMMY",
+  "broadcast", "DUMMY", "DUMMY",
+  "broadcastandwait", "DUMMY", "DUMMY",
+  
   // Control
   "waitsecs", "DUMMY", "DUMMY",
   "repeat", "doRepeat", "doRepeat",
-  "CONTROL", "DUMMY", "DUMMY",
+  "forever", "DUMMY", "DUMMY",
   "ifthen", "DUMMY", "DUMMY",
   "ifthenelse", "doIfElse", "doIfElse", // TODO how do I get the "else" part of the name ?
-  // Sensing
-  "touching?", "DUMMY", "DUMMY",
-  "touchingcolor?", "touchingColor:", "reportTouchingColor",
-  // Operators
-  "+", "+", "reportSum",
-  "-", "-", "reportDifference",
-  "*", "*", "DUMMY",
-  "/", "/", "DUMMY",
-  "mod", "MOD", "DUMMY"
-  // More Blocks
+  "waituntil", "DUMMY", "DUMMY",
+  "repeatuntil", "DUMMY", "DUMMY",
+  "stop", "DUMMY", "DUMMY",
+  "whenIstartasaclone", "DUMMY", "DUMMY",
+  "createcloneof", "DUMMY", "DUMMY",
+  "deletethisclone", "DUMMY", "DUMMY",
   
+  // Sensing
+  "touching?", "DUMMY", "DUMMY", // angle
+  "touchingcolor?", "touchingColor:", "reportTouchingColor", // angle
+  "coloristouching?", "DUMMY", "DUMMY", // angle
+  "distanceto", "DUMMY", "DUMMY", // ellipse
+  "askandwait", "DUMMY", "DUMMY", // block
+  "keypressed?", "DUMMY", "DUMMY", // angle
+  "mousedown?", "DUMMY", "DUMMY", // angle
+  "mousex", "DUMMY", "DUMMY", // ellipse
+  "mousey", "DUMMY", "DUMMY", // ellipse
+  "turnvideo", "DUMMY", "DUMMY",
+  "setvideotransparencyto%", "DUMMY", "DUMMY",
+  "resettimer", "DUMMY", "DUMMY",
+  "of", "DUMMY", "DUMMY",
+  "dayssince2000", "DUMMY", "DUMMY",
+  "username", "DUMMY", "DUMMY",
+  
+  // Operators
+  "plus", "+", "reportSum",
+  "minus", "-", "reportDifference",
+  "times", "*", "DUMMY",
+  "dividedby", "/", "DUMMY",
+  "pickrandomto", "DUMMY", "DUMMY",
+  "lt", "DUMMY", "DUMMY",
+  "eq", "DUMMY", "DUMMY",
+  "gt", "DUMMY", "DUMMY",
+  "and", "DUMMY", "DUMMY",
+  "or", "DUMMY", "DUMMY",
+  "not", "DUMMY", "DUMMY",
+  "join", "DUMMY", "DUMMY",
+  "letterof", "DUMMY", "DUMMY",
+  "lengthof", "DUMMY", "DUMMY",
+  "mod", "MOD", "DUMMY",
+  "round", "DUMMY", "DUMMY",
+  //"of"  TODO
+  
+  // More Blocks
+  "define", "DUMMY", "DUMMY"
   }; // end blockNameArr
   
   /**
@@ -191,7 +284,7 @@ repeat (10)
     //this.println(jsonStr);
     
     // TEST 2
-    this.xholonize();
+    IXholon scriptRoot = this.xholonize();
     
     super.postConfigure();
   }
@@ -231,39 +324,61 @@ repeat (10)
     spriteScriptIx = 0; // start at the beginning of the Sprite's text script
     
     StringBuilder sb = new StringBuilder();
-    sb.append("<scripts>\n").append(indentOut1).append("<script>\n");
+    sb.append("<scripts>\n").append(indentOut1).append("<sscript>\n");
     
     sb.append(xholonizeRecurse(new StringBuilder(), indentOut1 + indentOut1));
     
-    sb.append(indentOut1).append("</script>\n").append("</scripts>\n");
-    this.println(sb.toString());
-    return null;
+    sb.append(indentOut1).append("</sscript>\n").append("</scripts>\n");
+    String xmlStr = sb.toString();
+    this.println(xmlStr);
+    
+    XholonHelperService xhs = (XholonHelperService)app.getService(IXholonService.XHSRV_XHOLON_HELPER);
+    xhs.pasteLastChild(this, xmlStr);
+    
+    return this.getLastChild();
   }
   
   /**
    * 
    */
   protected String xholonizeRecurse(StringBuilder sb, String indentOut) {
-    //indentOutLevel++;
-    //String indentOut = indentOutStr.substring(0, indentOutLevel);
     String blockName = "";
     StringBuilder sbBlockContents = new StringBuilder();
     int state = 0; // initial spaces have to do with indenting/nesting
     int indentIn = 0;
-    //for (int i = spriteScriptIx; i < spriteScript.length(); i++) {
+    char c = '\0';
     while (spriteScriptIx < spriteScript.length()) {
-      char c = spriteScript.charAt(spriteScriptIx);
+      c = spriteScript.charAt(spriteScriptIx);
       spriteScriptIx++;
       switch (c) {
       case '\n':
-        sb
-        .append(indentOut)
-        .append("<block s=\"")
-        .append(blockName)
-        .append("\">\n")
-        .append(sbBlockContents.toString())
-        .append(indentOut)
-        .append("</block>\n");
+        if (spriteScript.charAt(spriteScriptIx-2) == '\n') {
+          // a blank line (2 newline characters in a row) means start a new script
+          sb
+          .append(indentOut1)
+          .append("</sscript>\n")
+          .append("\n")
+          .append(indentOut1)
+          .append("<sscript>\n");
+        }
+        else if (blockName.startsWith("comment")) {
+          // this is not part of Scratch or Snap
+          sb
+          .append(indentOut)
+          .append("<!-- ")
+          .append(blockName.substring(7))
+          .append(" -->\n");
+        }
+        else {
+          sb
+          .append(indentOut)
+          .append("<block roleName=\"")
+          .append(blockName)
+          .append("\">\n")
+          .append(sbBlockContents.toString())
+          .append(indentOut)
+          .append("</block>\n");
+        }
         // start a new block
         blockName = "";
         sbBlockContents = new StringBuilder();
@@ -279,18 +394,35 @@ repeat (10)
         }
         break;
       case '<':
-        sbBlockContents
-        .append(indentOut).append(indentOut1)
-        .append("<ablock>")
-        .append(xholonizeRecurse(new StringBuilder(), indentOut + indentOut1))
-        .append("</ablock>\n");
+        char nextC = spriteScript.charAt(spriteScriptIx);
+        if (nextC == ' ') {
+          // this is the lt operator
+          blockName += c;
+        }
+        else {
+          // this is the start of an angle block
+          sbBlockContents
+          .append(indentOut).append(indentOut1)
+          .append("<ablock>")
+          .append(xholonizeRecurse(new StringBuilder(), indentOut + indentOut1))
+          .append("</ablock>\n");
+        }
         break;
       case '(':
-        sbBlockContents
-        .append(indentOut).append(indentOut1)
-        .append("<eblock>")
-        .append(xholonizeRecurse(new StringBuilder(), indentOut + indentOut1))
-        .append("</eblock>\n");
+        if (spriteScript.charAt(spriteScriptIx) == '(') {
+          sbBlockContents
+          .append(indentOut).append(indentOut1)
+          .append("<eblock>")
+          .append(xholonizeRecurse(new StringBuilder(), indentOut + indentOut1))
+          .append("</eblock>\n");
+        }
+        else {
+          sbBlockContents
+          .append(indentOut).append(indentOut1)
+          .append("<lnumber>")
+          .append(xholonizeRecurse(new StringBuilder(), indentOut + indentOut1))
+          .append("</lnumber>\n");
+        }
         break;
       case '[':
         sbBlockContents
@@ -300,9 +432,18 @@ repeat (10)
         .append("</rblock>\n");
         break;
       case '>':
-        return blockName + sbBlockContents.toString();
+        char prevC = spriteScript.charAt(spriteScriptIx-2);
+        if (prevC == ' ') {
+          // this is the gt operator
+          blockName += c;
+        }
+        else {
+          // this is the end of an angle block
+          return blockName + sbBlockContents.toString();
+        }
+        break;
       case ')':
-        return blockName + sbBlockContents.toString();
+        return fixXholonizedBlockName(blockName) + sbBlockContents.toString();
       case ']':
         return blockName + sbBlockContents.toString();
       default:
@@ -314,9 +455,11 @@ repeat (10)
           }
           if (indentIn == 0) {
             //result += indentIn + delim;
+            // TODO
           }
           else {
             //result += "" + (indentIn/indentIn1) + delim;
+            // TODO
           }
           state = 1;
         }
@@ -328,22 +471,35 @@ repeat (10)
   } // end xholonRecurse()
   
   /**
+   * Fix block names that don't work in XML, and/or that are single non-alphanumeric characters.
+   */
+  protected String fixXholonizedBlockName(String inBlockName) {
+    String outBlockName = inBlockName;
+    switch (inBlockName) {
+    case "-": outBlockName = "minus"; break; // "-" fails during generation of Xholon subtree
+    case "+": outBlockName = "plus"; break;
+    case "*": outBlockName = "times"; break;
+    case "/": outBlockName = "dividedby"; break;
+    case "<": outBlockName = "lt"; break;
+    case "=": outBlockName = "eq"; break;
+    case ">": outBlockName = "gt"; break;
+    default: break;
+    }
+    return outBlockName;
+  }
+  
+  /**
    * Convert the Sprite script from text syntax to Scratch JSON syntax.
    * @param textSyntax a complete script in text syntax
    * @return a complete script in Scratch JSON syntax
    */
-  protected String scriptToJsonSyntax(String textSyntax) {
+  /*protected String scriptToJsonSyntax(String textSyntax) {
     StringBuilder sb = new StringBuilder();
     //indentOutLevel = 0;
     String[] textSyntaxArr = textSyntax.split("\n");
     sb.append("[\n").append("[20, 20, [\n");
     for (int i = 0; i < textSyntaxArr.length; i++) {
       String block = textSyntaxArr[i];
-      /*String comma = ",";
-      if (i == textSyntaxArr.length-1) {
-        // don't write trailing commas
-        comma = "";
-      }*/
       sb
       .append(blockToJsonSyntax(block, new StringBuilder()))
       .append((i == textSyntaxArr.length-1) ? "" : ",") // don't write trailing commas
@@ -352,13 +508,13 @@ repeat (10)
     }
     sb.append("]]\n").append("]");
     return sb.toString();
-  }
+  }*/
   
   /**
    * Convert text syntax into Scratch JSON syntax.
    * @param a block defined using text syntax
    */
-  protected String blockToJsonSyntax(String block, StringBuilder sbLocal) {
+  /*protected String blockToJsonSyntax(String block, StringBuilder sbLocal) {
     String[] tokens = tokenize(block);
     String blockName = makeBlockNameJsonSyntax(tokens[0]);
     
@@ -407,15 +563,15 @@ repeat (10)
     .append("]");
     
     return sbLocal.toString();
-  }
+  }*/
   
-  protected int writeAngleParam(String[] tokens, int index, StringBuilder sbLocal) {
+  /*protected int writeAngleParam(String[] tokens, int index, StringBuilder sbLocal) {
     String token = tokens[index];
     sbLocal.append(token);
     return index;
-  }
+  }*/
   
-  protected int writeEllipseParam(String[] tokens, int index, StringBuilder sbLocal) {
+  /*protected int writeEllipseParam(String[] tokens, int index, StringBuilder sbLocal) {
     String token = tokens[index];
     if ("(".equals(token)) {
       // this is a nested param
@@ -450,9 +606,9 @@ repeat (10)
       sbLocal.append(token);
     }
     return index + 1;
-  }
+  }*/
   
-  protected int writeRectangleParam(String[] tokens, int index, StringBuilder sbLocal) {
+  /*protected int writeRectangleParam(String[] tokens, int index, StringBuilder sbLocal) {
     boolean foundStringToken = false;
     while (index < tokens.length) {
       switch (tokens[index]) {
@@ -477,12 +633,12 @@ repeat (10)
       index++;
     }
     return index;
-  }
+  }*/
   
   /**
    * 
    */
-  protected String makeBlockNameJsonSyntax(String naiveBlockName) {
+  /*protected String makeBlockNameJsonSyntax(String naiveBlockName) {
     String[] value = blockNameMap.get(naiveBlockName);
     if (value == null) {
       return "UNKNOWN" + naiveBlockName;
@@ -490,7 +646,7 @@ repeat (10)
     else {
       return value[BLOCKNAMEMAP_VALUEIX_SCRATCH];
     }
-  }
+  }*/
   
   /**
    * Separate a block into tokens.
