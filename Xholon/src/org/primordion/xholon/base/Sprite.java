@@ -36,6 +36,9 @@ one [two] three (four) five <six> seven
 [two] three (four) five <six>
 ]]></Attribute_String></Sprite>
  * 
+ * TODO
+ * - handle Control nesting properly
+ * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @see <a href="https://scratch.mit.edu">Scratch website</a>
@@ -100,8 +103,19 @@ END
   //protected String indentOutStr = "                                        ";
   protected String indentOut1 = "  ";
   
+  /**
+   * Whether or not xholonize() is currently parsing an lstring or comment where spaces should be retained,
+   * or parsing something else where spaces should be dropped.
+   */
+  protected boolean retainSpaces = false;
+  
   protected static final int BLOCKNAMEMAP_VALUEIX_SCRATCH = 0;
   protected static final int BLOCKNAMEMAP_VALUEIX_SNAP    = 1;
+  
+  /**
+   * Character that starts a comment line.
+   */
+  protected static final String COMMENT_CHAR = ";";
   
   /**
    * Map from a block's naive name, to the internal Scratch name and to the internal Snap name.
@@ -342,7 +356,7 @@ END
    * 
    */
   protected String xholonizeRecurse(StringBuilder sb, String indentOut) {
-    String blockName = "";
+    String blockNameOrValue = "";
     StringBuilder sbBlockContents = new StringBuilder();
     int state = 0; // initial spaces have to do with indenting/nesting
     int indentIn = 0;
@@ -361,26 +375,27 @@ END
           .append(indentOut1)
           .append("<sscript>\n");
         }
-        else if (blockName.startsWith("comment")) {
+        else if (blockNameOrValue.startsWith(COMMENT_CHAR)) {
           // this is not part of Scratch or Snap
           sb
           .append(indentOut)
           .append("<!-- ")
-          .append(blockName.substring(7))
+          .append(blockNameOrValue.substring(1))
           .append(" -->\n");
+          retainSpaces = false;
         }
         else {
           sb
           .append(indentOut)
           .append("<block roleName=\"")
-          .append(blockName)
+          .append(blockNameOrValue)
           .append("\">\n")
           .append(sbBlockContents.toString())
           .append(indentOut)
           .append("</block>\n");
         }
         // start a new block
-        blockName = "";
+        blockNameOrValue = "";
         sbBlockContents = new StringBuilder();
         state = 0;
         indentIn = 0;
@@ -392,19 +407,23 @@ END
         else {
           
         }
+        if (retainSpaces) {
+          blockNameOrValue += c;
+        }
         break;
       case '<':
         char nextC = spriteScript.charAt(spriteScriptIx);
         if (nextC == ' ') {
           // this is the lt operator
-          blockName += c;
+          blockNameOrValue += c;
         }
         else {
           // this is the start of an angle block
           sbBlockContents
           .append(indentOut).append(indentOut1)
-          .append("<ablock>")
+          .append("<ablock roleName=\"")
           .append(xholonizeRecurse(new StringBuilder(), indentOut + indentOut1))
+          .append(indentOut).append(indentOut1)
           .append("</ablock>\n");
         }
         break;
@@ -412,8 +431,10 @@ END
         if (spriteScript.charAt(spriteScriptIx) == '(') {
           sbBlockContents
           .append(indentOut).append(indentOut1)
-          .append("<eblock>")
+          .append("<eblock roleName=\"")
           .append(xholonizeRecurse(new StringBuilder(), indentOut + indentOut1))
+          //.append("\">\n")
+          .append(indentOut).append(indentOut1)
           .append("</eblock>\n");
         }
         else {
@@ -425,29 +446,63 @@ END
         }
         break;
       case '[':
+        retainSpaces = true;
+        //consoleLog("lstring or lcolor");
+        //consoleLog(blockNameOrValue);
+        String bname = "lstring";
+        switch (blockNameOrValue) {
+        case "touchingcolor":
+        case "color":
+        case "coloristouching":
+          bname = "lcolor";
+          break;
+        default: break;
+        }
         sbBlockContents
         .append(indentOut).append(indentOut1)
-        .append("<rblock>")
+        .append("<").append(bname).append(">") // TODO or lcolor
         .append(xholonizeRecurse(new StringBuilder(), indentOut + indentOut1))
-        .append("</rblock>\n");
+        .append("</").append(bname).append(">\n"); // TODO or lcolor
+        retainSpaces = false;
         break;
       case '>':
         char prevC = spriteScript.charAt(spriteScriptIx-2);
         if (prevC == ' ') {
           // this is the gt operator
-          blockName += c;
+          blockNameOrValue += c;
         }
         else {
           // this is the end of an angle block
-          return blockName + sbBlockContents.toString();
+          String strBN = blockNameOrValue; // an actual blockNameOrValue "touchingcolor?"
+          String strBC = sbBlockContents.toString();
+          //consoleLog(strBN);
+          //consoleLog(strBC);
+          return strBN + "\">\n" + strBC;
         }
         break;
       case ')':
-        return fixXholonizedBlockName(blockName) + sbBlockContents.toString();
+        String strBN = fixXholonizedBlockName(blockNameOrValue); // a number "123", or an actual blockNameOrValue "lt"
+        String strBC = sbBlockContents.toString();
+        //consoleLog(strBN);
+        //consoleLog(strBC);
+        if (strBC.length() == 0) {
+          // this is a number
+          return fixXholonizedBlockName(strBN);
+        }
+        else {
+          // this is the end of <eblock roleName="lt">\n ...
+          return fixXholonizedBlockName(strBN) + "\">\n" + strBC;
+        }
+        //return fixXholonizedBlockName(blockNameOrValue) + sbBlockContents.toString();
       case ']':
-        return blockName + sbBlockContents.toString();
+        return blockNameOrValue + sbBlockContents.toString();
+      case ';':
+        retainSpaces = true;
+        state = captureIndentIn1(state, indentIn);
+        blockNameOrValue += c;
+        break;
       default:
-        if (state == 0) {
+        /*if (state == 0) {
           // handle indentation
           if ((indentIn1 == -1) && (indentIn > 0)) {
             // initialize the value of indentIn1
@@ -462,13 +517,34 @@ END
             // TODO
           }
           state = 1;
-        }
-        blockName += c;
+        }*/
+        state = captureIndentIn1(state, indentIn);
+        blockNameOrValue += c;
         break;
       }
     }
     return sb.toString();
   } // end xholonRecurse()
+  
+  protected int captureIndentIn1(int state, int indentIn) {
+    if (state == 0) {
+      // handle indentation
+      if ((indentIn1 == -1) && (indentIn > 0)) {
+        // initialize the value of indentIn1
+        indentIn1 = indentIn;
+      }
+      if (indentIn == 0) {
+        //result += indentIn + delim;
+        // TODO
+      }
+      else {
+        //result += "" + (indentIn/indentIn1) + delim;
+        // TODO
+      }
+      state = 1;
+    }
+    return state;
+  }
   
   /**
    * Fix block names that don't work in XML, and/or that are single non-alphanumeric characters.
@@ -487,166 +563,6 @@ END
     }
     return outBlockName;
   }
-  
-  /**
-   * Convert the Sprite script from text syntax to Scratch JSON syntax.
-   * @param textSyntax a complete script in text syntax
-   * @return a complete script in Scratch JSON syntax
-   */
-  /*protected String scriptToJsonSyntax(String textSyntax) {
-    StringBuilder sb = new StringBuilder();
-    //indentOutLevel = 0;
-    String[] textSyntaxArr = textSyntax.split("\n");
-    sb.append("[\n").append("[20, 20, [\n");
-    for (int i = 0; i < textSyntaxArr.length; i++) {
-      String block = textSyntaxArr[i];
-      sb
-      .append(blockToJsonSyntax(block, new StringBuilder()))
-      .append((i == textSyntaxArr.length-1) ? "" : ",") // don't write trailing commas
-      .append("\n");
-      // TODO handle end of nesting for nested blocks: repeat, forever, if, if...else, repeat until
-    }
-    sb.append("]]\n").append("]");
-    return sb.toString();
-  }*/
-  
-  /**
-   * Convert text syntax into Scratch JSON syntax.
-   * @param a block defined using text syntax
-   */
-  /*protected String blockToJsonSyntax(String block, StringBuilder sbLocal) {
-    String[] tokens = tokenize(block);
-    String blockName = makeBlockNameJsonSyntax(tokens[0]);
-    
-    sbLocal
-    .append("[")
-    .append("\"")
-    .append(blockName)
-    .append("\"");
-    
-    // handle block parameters, which may be nested
-    int index = 2;
-    int nestingLevel = 0;
-    while (index < tokens.length) {
-      switch (tokens[index]) {
-      case "<":
-        index++;
-        break;
-      case "(":
-        sbLocal.append(", ");
-        StringBuilder sbEllipse = new StringBuilder();
-        index = writeEllipseParam(tokens, index+1, sbEllipse);
-        sbLocal.append(sbEllipse.toString());
-        break;
-      case "[":
-        sbLocal.append(", ").append("\"");
-        index = writeRectangleParam(tokens, index+1, sbLocal);
-        sbLocal.append("\"");
-        break;
-      case ">":
-        index++;
-        break;
-      case ")":
-        index++;
-        break;
-      case "]":
-        index++;
-        break;
-      default:
-        index++;
-        break;
-      }
-      
-    }
-    
-    sbLocal
-    .append("]");
-    
-    return sbLocal.toString();
-  }*/
-  
-  /*protected int writeAngleParam(String[] tokens, int index, StringBuilder sbLocal) {
-    String token = tokens[index];
-    sbLocal.append(token);
-    return index;
-  }*/
-  
-  /*protected int writeEllipseParam(String[] tokens, int index, StringBuilder sbLocal) {
-    String token = tokens[index];
-    if ("(".equals(token)) {
-      // this is a nested param
-      sbLocal.append("[");
-      StringBuilder sbEllipse = new StringBuilder();
-      index = writeEllipseParam(tokens, index+1, sbEllipse);
-      if (index >= tokens.length) {
-        return index;
-      }
-      token = tokens[index];
-      if (")".equals(token)) {
-        index++;
-        token = tokens[index];
-        switch (token) {
-        case "+":
-        case "-":
-        case "*":
-        case "/":
-        case "mod":
-          sbLocal.append("\"").append(makeBlockNameJsonSyntax(token)).append("\"").append(", ");
-          break;
-        default: break;
-        }
-      }
-      else {
-      
-      }
-      sbLocal.append(sbEllipse.toString());
-      sbLocal.append("]");
-    }
-    else {
-      sbLocal.append(token);
-    }
-    return index + 1;
-  }*/
-  
-  /*protected int writeRectangleParam(String[] tokens, int index, StringBuilder sbLocal) {
-    boolean foundStringToken = false;
-    while (index < tokens.length) {
-      switch (tokens[index]) {
-      case "<":
-      case "(":
-      case "[":
-      case ">":
-      case ")":
-      case "]":
-        return index;
-      default:
-        if (foundStringToken) {
-          // add a space between the previously found String token and this String token
-          sbLocal.append(" ");
-        }
-        else {
-          foundStringToken = true;
-        }
-        sbLocal.append(tokens[index]);
-        break;
-      }
-      index++;
-    }
-    return index;
-  }*/
-  
-  /**
-   * 
-   */
-  /*protected String makeBlockNameJsonSyntax(String naiveBlockName) {
-    String[] value = blockNameMap.get(naiveBlockName);
-    if (value == null) {
-      return "UNKNOWN" + naiveBlockName;
-    }
-    else {
-      return value[BLOCKNAMEMAP_VALUEIX_SCRATCH];
-    }
-  }*/
   
   /**
    * Separate a block into tokens.
