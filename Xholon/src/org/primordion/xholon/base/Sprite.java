@@ -360,11 +360,14 @@ END
     StringBuilder sbBlockContents = new StringBuilder();
     int state = 0; // initial spaces have to do with indenting/nesting
     int indentIn = 0;
+    int prevIndentIn = 0;
     char c = '\0';
     while (spriteScriptIx < spriteScript.length()) {
       c = spriteScript.charAt(spriteScriptIx);
       spriteScriptIx++;
       switch (c) {
+      
+      // newline
       case '\n':
         if (spriteScript.charAt(spriteScriptIx-2) == '\n') {
           // a blank line (2 newline characters in a row) means start a new script
@@ -385,6 +388,18 @@ END
           retainSpaces = false;
         }
         else {
+          if (indentIn > prevIndentIn) {
+            // this is a nested Control
+            sb
+            .append(indentOut)
+            .append("<sscript>\n");
+          }
+          else if (indentIn < prevIndentIn) {
+            // this is a nested Control
+            sb
+            .append(indentOut)
+            .append("</sscript>\n");
+          }
           sb
           .append(indentOut)
           .append("<block roleName=\"")
@@ -398,8 +413,11 @@ END
         blockNameOrValue = "";
         sbBlockContents = new StringBuilder();
         state = 0;
+        prevIndentIn = indentIn; // save the previous block's inputIn
         indentIn = 0;
         break;
+      
+      // space
       case ' ':
         if (state == 0) {
           indentIn++;
@@ -411,6 +429,8 @@ END
           blockNameOrValue += c;
         }
         break;
+      
+      // <
       case '<':
         char nextC = spriteScript.charAt(spriteScriptIx);
         if (nextC == ' ') {
@@ -427,6 +447,8 @@ END
           .append("</ablock>\n");
         }
         break;
+      
+      // (
       case '(':
         if (spriteScript.charAt(spriteScriptIx) == '(') {
           sbBlockContents
@@ -445,6 +467,8 @@ END
           .append("</lnumber>\n");
         }
         break;
+      
+      // [
       case '[':
         retainSpaces = true;
         //consoleLog("lstring or lcolor");
@@ -465,6 +489,8 @@ END
         .append("</").append(bname).append(">\n"); // TODO or lcolor
         retainSpaces = false;
         break;
+      
+      // >
       case '>':
         char prevC = spriteScript.charAt(spriteScriptIx-2);
         if (prevC == ' ') {
@@ -480,6 +506,8 @@ END
           return strBN + "\">\n" + strBC;
         }
         break;
+      
+      // )
       case ')':
         String strBN = fixXholonizedBlockName(blockNameOrValue); // a number "123", or an actual blockNameOrValue "lt"
         String strBC = sbBlockContents.toString();
@@ -493,53 +521,38 @@ END
           // this is the end of <eblock roleName="lt">\n ...
           return fixXholonizedBlockName(strBN) + "\">\n" + strBC;
         }
-        //return fixXholonizedBlockName(blockNameOrValue) + sbBlockContents.toString();
+      
+      // ]
       case ']':
         return blockNameOrValue + sbBlockContents.toString();
+      
+      // ; comment
       case ';':
         retainSpaces = true;
         state = captureIndentIn1(state, indentIn);
         blockNameOrValue += c;
         break;
+      
+      // any other character
       default:
-        /*if (state == 0) {
-          // handle indentation
-          if ((indentIn1 == -1) && (indentIn > 0)) {
-            // initialize the value of indentIn1
-            indentIn1 = indentIn;
-          }
-          if (indentIn == 0) {
-            //result += indentIn + delim;
-            // TODO
-          }
-          else {
-            //result += "" + (indentIn/indentIn1) + delim;
-            // TODO
-          }
-          state = 1;
-        }*/
         state = captureIndentIn1(state, indentIn);
         blockNameOrValue += c;
         break;
       }
-    }
+    } // end switch
+    
     return sb.toString();
   } // end xholonRecurse()
   
+  /**
+   * 
+   */
   protected int captureIndentIn1(int state, int indentIn) {
     if (state == 0) {
       // handle indentation
       if ((indentIn1 == -1) && (indentIn > 0)) {
         // initialize the value of indentIn1
         indentIn1 = indentIn;
-      }
-      if (indentIn == 0) {
-        //result += indentIn + delim;
-        // TODO
-      }
-      else {
-        //result += "" + (indentIn/indentIn1) + delim;
-        // TODO
       }
       state = 1;
     }
