@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.primordion.xholon.io.xml.IXholon2Xml;
 import org.primordion.xholon.io.xml.IXmlWriter;
+import org.primordion.xholon.io.xml.XmlPrettyPrinter;
 import org.primordion.xholon.service.IXholonService;
 import org.primordion.xholon.service.XholonHelperService;
 
@@ -38,6 +39,7 @@ one [two] three (four) five <six> seven
  * 
  * TODO
  * - handle Control nesting properly
+ * - handle "ifthen" "else" - for now I just output "ifthen"
  * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
@@ -50,6 +52,7 @@ public class Sprite extends AbstractAvatar {
   /**
    * The Sprite's script in simple text syntax, that mirrors exactly the Scratch/Snap block appearance.
    * TODO use the block syntax and names in Snap object.js
+   * 
    * Example:
 <Sprite roleName="test02"><![CDATA[
 when I receive [postConfigure]
@@ -94,14 +97,6 @@ END
    * This value will be calculated when tokenizing/parsing the first indented block, if any.
    */
   protected int indentIn1 = -1;
-  
-  /**
-   * The current output indent level.
-   * This is used while generating Xholon or Scratch or Snap content.
-   */
-  //protected int indentOutLevel = 0;
-  //protected String indentOutStr = "                                        ";
-  protected String indentOut1 = "  ";
   
   /**
    * Whether or not xholonize() is currently parsing an lstring or comment where spaces should be retained,
@@ -281,15 +276,10 @@ END
   @Override
   public void postConfigure() {
     app = this.getApp();
-    if ((this.getFirstChild() != null) && ("Attribute_String".equals(this.getFirstChild().getXhcName()))) {
-      String str = this.getFirstChild().getVal_String();
-      if (!str.endsWith("\n")) {
-        // add trailing newline to make parsing easier
-        str += "\n";
-      }
-      str += "END"; // temporarily required to force last line to be parsed
-      this.setVal_String(str);
-      this.getFirstChild().removeChild();
+    // the script has already been read and trimmed, so final newline is missing
+    if (!spriteScript.endsWith("\n")) {
+      // add trailing newline to make parsing easier
+      spriteScript += "\n";
     }
     initBlockNameMap();
     
@@ -334,17 +324,29 @@ END
    * This method should be used instead of scriptToJsonSyntax() and tokenize() .
    */
   protected IXholon xholonize() {
-    //indentOutLevel = 1;
     spriteScriptIx = 0; // start at the beginning of the Sprite's text script
     
     StringBuilder sb = new StringBuilder();
-    sb.append("<scripts>\n").append(indentOut1).append("<sscript>\n");
+    sb
+    .append("<scripts>\n")
+    .append("<sscript>\n");
     
-    sb.append(xholonizeRecurse(new StringBuilder(), indentOut1 + indentOut1));
+    sb.append(xholonizeRecurse(new StringBuilder()));
     
-    sb.append(indentOut1).append("</sscript>\n").append("</scripts>\n");
+    sb
+    .append("</sscript>\n")
+    .append("</scripts>");
     String xmlStr = sb.toString();
-    this.println(xmlStr);
+    String xmlStrPP = null;
+    if (isShouldPrettyPrint()) {
+			XmlPrettyPrinter p = new XmlPrettyPrinter();
+			p.setOmitXmlDeclaration("yes");
+			xmlStrPP = p.format(xmlStr);
+			this.println(xmlStrPP);
+		}
+		else {
+      this.println(xmlStr);
+    }
     
     XholonHelperService xhs = (XholonHelperService)app.getService(IXholonService.XHSRV_XHOLON_HELPER);
     xhs.pasteLastChild(this, xmlStr);
@@ -352,11 +354,15 @@ END
     return this.getLastChild();
   }
   
+  protected boolean isShouldPrettyPrint() {
+    return true;
+  }
+  
   /**
-   * 
+   * Recursively build up a Xholon tree as an XML string.
    */
-  protected String xholonizeRecurse(StringBuilder sb, String indentOut) {
-    String blockNameOrValue = "";
+  protected String xholonizeRecurse(StringBuilder sb) {
+    StringBuilder sbBlockNameOrValue = new StringBuilder();
     StringBuilder sbBlockContents = new StringBuilder();
     int state = 0; // initial spaces have to do with indenting/nesting
     int indentIn = 0;
@@ -369,50 +375,68 @@ END
       
       // newline
       case '\n':
-        if (spriteScript.charAt(spriteScriptIx-2) == '\n') {
-          // a blank line (2 newline characters in a row) means start a new script
+        final String blockNameOrValue = sbBlockNameOrValue.toString();
+        if ("else".equals(blockNameOrValue)) {
+          // TODO how do I change "ifthen" to "ifthenelse" ?
           sb
-          .append(indentOut1)
+          .append("</sscript>\n");
+        }
+        else if (spriteScript.charAt(spriteScriptIx-2) == '\n') {
+          // a blank line (2 newline characters in a row) means start a new script
+          if (indentIn < prevIndentIn) {
+            // this is the end of a nested Control block
+            sb
+            .append("</sscript>\n")
+            .append("</block>\n");
+          }
+          sb
           .append("</sscript>\n")
           .append("\n")
-          .append(indentOut1)
           .append("<sscript>\n");
         }
         else if (blockNameOrValue.startsWith(COMMENT_CHAR)) {
           // this is not part of Scratch or Snap
           sb
-          .append(indentOut)
           .append("<!-- ")
           .append(blockNameOrValue.substring(1))
           .append(" -->\n");
           retainSpaces = false;
         }
         else {
-          if (indentIn > prevIndentIn) {
-            // this is a nested Control
+          if (indentIn < prevIndentIn) {
+            // this is the end of a nested Control block
             sb
-            .append(indentOut)
+            .append("</sscript>\n")
+            .append("</block>\n");
+          }
+          else if (indentIn > prevIndentIn) {
+            // this is the start of a nested Control
+            sb
             .append("<sscript>\n");
           }
-          else if (indentIn < prevIndentIn) {
-            // this is a nested Control
-            sb
-            .append(indentOut)
-            .append("</sscript>\n");
+          /*if (isControlBlock(blockNameOrValue)) {
+            consoleLog("the following is a Control block:");
+            consoleLog(blockNameOrValue);
           }
+          if ("ifthen".equals(blockNameOrValue)) {
+            consoleLog("ifthen");
+            consoleLog(spriteScript.substring(spriteScriptIx));
+          }*/
           sb
-          .append(indentOut)
           .append("<block roleName=\"")
           .append(blockNameOrValue)
           .append("\">\n")
-          .append(sbBlockContents.toString())
-          .append(indentOut)
-          .append("</block>\n");
+          .append(sbBlockContents.toString());
+          if (!isControlBlock(blockNameOrValue)) {
+            sb
+            .append("</block>\n");
+          }
         }
+        //consoleLog(sb.toString());
         // start a new block
-        blockNameOrValue = "";
+        sbBlockNameOrValue = new StringBuilder();
         sbBlockContents = new StringBuilder();
-        state = 0;
+        state = 0; // this is required
         prevIndentIn = indentIn; // save the previous block's inputIn
         indentIn = 0;
         break;
@@ -422,11 +446,8 @@ END
         if (state == 0) {
           indentIn++;
         }
-        else {
-          
-        }
         if (retainSpaces) {
-          blockNameOrValue += c;
+          sbBlockNameOrValue.append(c);
         }
         break;
       
@@ -435,15 +456,13 @@ END
         char nextC = spriteScript.charAt(spriteScriptIx);
         if (nextC == ' ') {
           // this is the lt operator
-          blockNameOrValue += c;
+          sbBlockNameOrValue.append(c);
         }
         else {
           // this is the start of an angle block
           sbBlockContents
-          .append(indentOut).append(indentOut1)
           .append("<ablock roleName=\"")
-          .append(xholonizeRecurse(new StringBuilder(), indentOut + indentOut1))
-          .append(indentOut).append(indentOut1)
+          .append(xholonizeRecurse(new StringBuilder()))
           .append("</ablock>\n");
         }
         break;
@@ -452,18 +471,14 @@ END
       case '(':
         if (spriteScript.charAt(spriteScriptIx) == '(') {
           sbBlockContents
-          .append(indentOut).append(indentOut1)
           .append("<eblock roleName=\"")
-          .append(xholonizeRecurse(new StringBuilder(), indentOut + indentOut1))
-          //.append("\">\n")
-          .append(indentOut).append(indentOut1)
+          .append(xholonizeRecurse(new StringBuilder()))
           .append("</eblock>\n");
         }
         else {
           sbBlockContents
-          .append(indentOut).append(indentOut1)
           .append("<lnumber>")
-          .append(xholonizeRecurse(new StringBuilder(), indentOut + indentOut1))
+          .append(xholonizeRecurse(new StringBuilder()))
           .append("</lnumber>\n");
         }
         break;
@@ -471,10 +486,8 @@ END
       // [
       case '[':
         retainSpaces = true;
-        //consoleLog("lstring or lcolor");
-        //consoleLog(blockNameOrValue);
         String bname = "lstring";
-        switch (blockNameOrValue) {
+        switch(sbBlockNameOrValue.toString()) {
         case "touchingcolor":
         case "color":
         case "coloristouching":
@@ -483,10 +496,9 @@ END
         default: break;
         }
         sbBlockContents
-        .append(indentOut).append(indentOut1)
-        .append("<").append(bname).append(">") // TODO or lcolor
-        .append(xholonizeRecurse(new StringBuilder(), indentOut + indentOut1))
-        .append("</").append(bname).append(">\n"); // TODO or lcolor
+        .append("<").append(bname).append(">")
+        .append(xholonizeRecurse(new StringBuilder()))
+        .append("</").append(bname).append(">\n");
         retainSpaces = false;
         break;
       
@@ -495,24 +507,20 @@ END
         char prevC = spriteScript.charAt(spriteScriptIx-2);
         if (prevC == ' ') {
           // this is the gt operator
-          blockNameOrValue += c;
+          sbBlockNameOrValue.append(c);
         }
         else {
           // this is the end of an angle block
-          String strBN = blockNameOrValue; // an actual blockNameOrValue "touchingcolor?"
+          String strBN = sbBlockNameOrValue.toString(); // an actual blockNameOrValue "touchingcolor?"
           String strBC = sbBlockContents.toString();
-          //consoleLog(strBN);
-          //consoleLog(strBC);
           return strBN + "\">\n" + strBC;
         }
         break;
       
       // )
       case ')':
-        String strBN = fixXholonizedBlockName(blockNameOrValue); // a number "123", or an actual blockNameOrValue "lt"
+        String strBN = fixXholonizedBlockName(sbBlockNameOrValue.toString()); // a number "123", or an actual blockNameOrValue "lt"
         String strBC = sbBlockContents.toString();
-        //consoleLog(strBN);
-        //consoleLog(strBC);
         if (strBC.length() == 0) {
           // this is a number
           return fixXholonizedBlockName(strBN);
@@ -524,19 +532,19 @@ END
       
       // ]
       case ']':
-        return blockNameOrValue + sbBlockContents.toString();
+        return sbBlockNameOrValue.toString() + sbBlockContents.toString();
       
       // ; comment
       case ';':
         retainSpaces = true;
         state = captureIndentIn1(state, indentIn);
-        blockNameOrValue += c;
+        sbBlockNameOrValue.append(c);
         break;
       
       // any other character
       default:
         state = captureIndentIn1(state, indentIn);
-        blockNameOrValue += c;
+        sbBlockNameOrValue.append(c);
         break;
       }
     } // end switch
@@ -560,6 +568,25 @@ END
   }
   
   /**
+   * Is this a Scratch Control block?
+   */
+  protected boolean isControlBlock(String blockNameOrValue) {
+    boolean iscb = false;
+    switch (blockNameOrValue) {
+    case "repeat":
+    case "forever":
+    case "ifthen":
+    case "ifthenelse":
+    //case "else":  ???
+    case "repeatuntil":
+      iscb = true;
+      break;
+    default: break;
+    }
+    return iscb;
+  }
+  
+  /**
    * Fix block names that don't work in XML, and/or that are single non-alphanumeric characters.
    */
   protected String fixXholonizedBlockName(String inBlockName) {
@@ -578,6 +605,7 @@ END
   }
   
   /**
+   * UNUSED FOR NOW
    * Separate a block into tokens.
    * Tokens are delimited by spaces.
    * Start and end brackets < > ( ) [ ] are also individual tokens.
