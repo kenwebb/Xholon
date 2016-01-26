@@ -123,17 +123,17 @@ END
   // Motion
   "movesteps", "forward:", "forward",
   "turnrightdegrees", "turnRight", "turn",
-  "turnleftdegrees", "DUMMY", "DUMMY",
-  "pointindirection", "DUMMY", "DUMMY",
-  "pointtowards", "DUMMY", "DUMMY",
-  "gotoxy", "DUMMY", "DUMMY",
-  "goto", "DUMMY", "DUMMY",
-  "glidesecstoxy", "DUMMY", "DUMMY",
-  "changexby", "DUMMY", "DUMMY",
-  "setxto", "DUMMY", "DUMMY",
-  "changeyby", "DUMMY", "DUMMY",
-  "setyto", "DUMMY", "DUMMY",
-  "ifonedge,bounce", "DUMMY", "DUMMY",
+  "turnleftdegrees", "DUMMY", "turnLeft",
+  "pointindirection", "DUMMY", "setHeading",
+  "pointtowards", "DUMMY", "doFaceTowards",
+  "gotoxy", "DUMMY", "gotoXY",
+  "goto", "DUMMY", "doGotoObject",
+  "glidesecstoxy", "DUMMY", "doGlide",
+  "changexby", "DUMMY", "changeXPosition",
+  "setxto", "DUMMY", "setXPosition",
+  "changeyby", "DUMMY", "changeYPosition",
+  "setyto", "DUMMY", "setYPosition",
+  "ifonedge,bounce", "DUMMY", "bounceOffEdge",
   "setrotationstyle", "DUMMY", "DUMMY",
   
   // Looks
@@ -141,8 +141,8 @@ END
   "say", "say:", "bubble",
   "thinkforsecs", "think:duration:elapsed:from:", "doThinkFor",
   "think", "think:", "doThink",
-  "show", "DUMMY", "DUMMY",
-  "hide", "DUMMY", "DUMMY",
+  "show", "DUMMY", "show",
+  "hide", "DUMMY", "hide",
   "switchcostumeto", "DUMMY", "DUMMY",
   "nextcostume", "DUMMY", "DUMMY",
   "switchbackdropto", "DUMMY", "DUMMY",
@@ -193,13 +193,13 @@ END
   "broadcastandwait", "DUMMY", "DUMMY",
   
   // Control
-  "waitsecs", "DUMMY", "DUMMY",
+  "waitsecs", "DUMMY", "doWait",
   "repeat", "doRepeat", "doRepeat",
-  "forever", "DUMMY", "DUMMY",
-  "ifthen", "DUMMY", "DUMMY",
+  "forever", "DUMMY", "doForever",
+  "ifthen", "DUMMY", "doIf",
   "ifthenelse", "doIfElse", "doIfElse", // TODO how do I get the "else" part of the name ?
-  "waituntil", "DUMMY", "DUMMY",
-  "repeatuntil", "DUMMY", "DUMMY",
+  "waituntil", "DUMMY", "doWaitUntil",
+  "repeatuntil", "DUMMY", "doUntil",
   "stop", "DUMMY", "DUMMY",
   "whenIstartasaclone", "DUMMY", "DUMMY",
   "createcloneof", "DUMMY", "DUMMY",
@@ -208,7 +208,7 @@ END
   // Sensing
   "touching?", "DUMMY", "DUMMY", // angle
   "touchingcolor?", "touchingColor:", "reportTouchingColor", // angle
-  "coloristouching?", "DUMMY", "DUMMY", // angle
+  "coloristouching?", "DUMMY", "reportColorIsTouchingColor", // angle
   "distanceto", "DUMMY", "DUMMY", // ellipse
   "askandwait", "DUMMY", "DUMMY", // block
   "keypressed?", "DUMMY", "DUMMY", // angle
@@ -225,20 +225,20 @@ END
   // Operators
   "plus", "+", "reportSum",
   "minus", "-", "reportDifference",
-  "times", "*", "DUMMY",
-  "dividedby", "/", "DUMMY",
-  "pickrandomto", "DUMMY", "DUMMY",
-  "lt", "DUMMY", "DUMMY",
-  "eq", "DUMMY", "DUMMY",
-  "gt", "DUMMY", "DUMMY",
-  "and", "DUMMY", "DUMMY",
-  "or", "DUMMY", "DUMMY",
-  "not", "DUMMY", "DUMMY",
-  "join", "DUMMY", "DUMMY",
-  "letterof", "DUMMY", "DUMMY",
-  "lengthof", "DUMMY", "DUMMY",
-  "mod", "MOD", "DUMMY",
-  "round", "DUMMY", "DUMMY",
+  "times", "*", "reportProduct",
+  "dividedby", "/", "reportQuotient",
+  "pickrandomto", "DUMMY", "reportRandom",
+  "lt", "DUMMY", "reportLessThan",
+  "eq", "DUMMY", "reportEquals",
+  "gt", "DUMMY", "reportGreaterThan",
+  "and", "DUMMY", "reportAnd",
+  "or", "DUMMY", "reportOr",
+  "not", "DUMMY", "reportNot",
+  "join", "DUMMY", "reportJoinWords",
+  "letterof", "DUMMY", "reportLetter",
+  "lengthof", "DUMMY", "reportStringSize",
+  "mod", "MOD", "reportModulus",
+  "round", "DUMMY", "reportRound",
   //"of"  TODO
   
   // More Blocks
@@ -289,6 +289,14 @@ END
     
     // TEST 2
     IXholon scriptRoot = this.xholonize();
+    
+    // TEST 3
+    String snapXmlStr = xholonSubtree2SnapXml(scriptRoot);
+    consoleLog(snapXmlStr);
+    
+    // TEST 4
+    String scratchJsonStr = xholonSubtree2ScratchJson(scriptRoot);
+    consoleLog(scratchJsonStr);
     
     super.postConfigure();
   }
@@ -684,6 +692,184 @@ END
     String[] resultArr = result.split(delim);
     consoleLog(resultArr);
     return resultArr;
+  }
+  
+  /**
+   * Walk the Xholon subtree for the Scratch/Snap code, and generate an XML String in Snap format.
+   * @param root The root of the code subtree, typically the "scripts" node.
+   */
+  protected String xholonSubtree2SnapXml(IXholon root) {
+    StringBuilder sb = new StringBuilder();
+    String indent = "";
+    xholonSubtree2SnapXmlRecurse(root, indent, sb);
+    return sb.toString();
+  }
+  
+  /**
+   * Recursively generate Snap format.
+   */
+  protected void xholonSubtree2SnapXmlRecurse(IXholon node, String indent, StringBuilder sb) {
+    if (node == null) {return;}
+    String xhNodeName = node.getXhcName();
+    String xhRoleName = node.getRoleName();
+    String xhContent = node.getVal_String();
+    String tagName = null;
+    String s = null;
+    
+    switch(xhNodeName) {
+    case "scripts": tagName = "scripts"; break;
+    case "sscript": tagName = "script"; break;
+    case "block":
+    case "ablock":
+    case "eblock":
+      tagName = "block";
+      if ("ifthen".equals(xhRoleName)) {
+        // distinguish "ifthen" from "ifthenelse" by how many children the node has (2 vs 3)
+        int numChildren = node.getNumChildren(false);
+        if (numChildren == 3) {
+          xhRoleName = "ifthenelse";
+        }
+      }
+      String[] arr = blockNameMap.get(xhRoleName);
+      if (arr != null && arr.length > 1) {
+        s = arr[BLOCKNAMEMAP_VALUEIX_SNAP];
+      }
+      break;
+    case "lnumber": tagName = "l"; break;
+    case "lstring": tagName = "l"; break;
+    case "lcolor": tagName = "color"; break;
+    default: break;
+    }
+    
+    sb
+    .append(indent)
+    .append("<")
+    .append(tagName);
+    if (s != null) {
+      sb
+      .append(" s=\"")
+      .append(s)
+      .append("\"");
+    }
+    sb
+    .append(">");
+    if (xhContent != null) {
+      sb
+      .append(xhContent);
+    }
+    else {
+      sb.append("\n");
+      IXholon childNode = node.getFirstChild();
+      while (childNode != null) {
+        xholonSubtree2SnapXmlRecurse(childNode, indent + "  ", sb);
+        childNode = childNode.getNextSibling();
+      }
+      sb.append(indent);
+    }
+    
+    sb
+    .append("</")
+    .append(tagName)
+    .append(">\n");
+  }
+  
+    /**
+   * Walk the Xholon subtree for the Scratch/Snap code, and generate an JSON String in Scratch format.
+   * @param root The root of the code subtree, typically the "scripts" node.
+   */
+  protected String xholonSubtree2ScratchJson(IXholon root) {
+    StringBuilder sb = new StringBuilder();
+    String indent = "";
+    xholonSubtree2ScratchJsonRecurse(root, indent, sb);
+    return sb.toString();
+  }
+  
+  /**
+   * Recursively generate Scratch JSON format.
+   */
+  protected void xholonSubtree2ScratchJsonRecurse(IXholon node, String indent, StringBuilder sb) {
+    if (node == null) {return;}
+    String xhNodeName = node.getXhcName();
+    String xhRoleName = node.getRoleName();
+    String xhContent = node.getVal_String();
+    String s = null;
+    
+    switch(xhNodeName) {
+    case "scripts":
+      sb.append("\"scripts\":");
+      break;
+    case "sscript":
+      sb.append("\n").append(indent).append("[");
+      break;
+    case "block":
+    case "ablock":
+    case "eblock":
+      if ("ifthen".equals(xhRoleName)) {
+        // distinguish "ifthen" from "ifthenelse" by how many children the node has (2 vs 3)
+        int numChildren = node.getNumChildren(false);
+        if (numChildren == 3) {
+          xhRoleName = "ifthenelse";
+        }
+      }
+      String[] arr = blockNameMap.get(xhRoleName);
+      if (arr != null && arr.length > 1) {
+        s = arr[BLOCKNAMEMAP_VALUEIX_SCRATCH];
+      }
+      sb.append("\n").append(indent).append("[\"").append(s).append("\"");
+      if (node.hasChildNodes()) {
+        sb.append(", ");
+      }
+      break;
+    case "lnumber":
+      sb.append(xhContent);
+      break;
+    case "lstring":
+      sb.append("\"").append(xhContent).append("\"");
+      break;
+    case "lcolor":
+      sb.append("\"").append(xhContent).append("\"");
+      break;
+    default: break;
+    }
+    
+    IXholon childNode = node.getFirstChild();
+    String childIndent = indent + "  ";
+    if ("scripts".equals(xhNodeName)) {
+      childIndent = indent;
+    }
+    while (childNode != null) {
+      xholonSubtree2ScratchJsonRecurse(childNode, childIndent, sb);
+      childNode = childNode.getNextSibling();
+    }
+    
+    switch(xhNodeName) {
+    case "sscript":
+      sb.append("]");
+      if (node.hasNextSibling()) {
+        sb.append(",");
+      }
+      else {
+        sb.append("\n").append(indent.substring(0, indent.length()-2));
+      }
+      break;
+    case "block":
+    case "ablock":
+    case "eblock":
+      sb.append("]");
+      if (node.hasNextSibling()) {
+        sb.append(",");
+      }
+      else {
+        sb.append("\n").append(indent.substring(0, indent.length()-2));
+      }
+      break;
+    default:
+      if (node.hasNextSibling()) {
+        sb.append(", ");
+      }
+      break;
+    }
+    
   }
   
 }
