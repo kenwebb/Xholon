@@ -24,8 +24,10 @@ import java.util.Set;
 
 import org.client.GwtEnvironment;
 
+import org.primordion.xholon.base.IMessage;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
+import org.primordion.xholon.base.Sprite;
 import org.primordion.xholon.common.mechanism.CeStateMachineEntity;
 import org.primordion.ef.AbstractXholon2ExternalFormat;
 import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
@@ -270,7 +272,9 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
       if (!xhClassSet.contains(nodeIH)) {
         // write out this node's XholonClass as an invisible Scratch Sprite
         sb.append(writeSprite(node, new StringBuilder()));
-        xhClassSet.add(nodeIH);
+        if (!isSprite(node)) {
+          xhClassSet.add(nodeIH);
+        }
       }
       writeClone(node);
     }
@@ -282,6 +286,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
    * ["createCloneOf", "Airplane"]
    */
   protected void writeClone(IXholon node) {
+    if (isSprite(node)) {return;}
     sbNamesList
     .append("[\"append:toList:\", \"")
     .append(node.getName())
@@ -322,9 +327,16 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
   }
   
   protected String writeSprite(IXholon node, StringBuilder sbLocal) {
+    String nodeName = node.getName(nameTemplate);
+    if (isSprite(node)) {
+      nodeName = node.getRoleName();
+      if (nodeName == null) {
+        nodeName = node.getName();
+      }
+    }
     sbLocal
     .append("{\n")
-    .append("  \"objName\": \"").append(node.getName(nameTemplate)).append("\",\n")
+    .append("  \"objName\": \"").append(nodeName).append("\",\n")
     .append(writeSpriteVariables(new StringBuilder()))
     .append(writeSpriteScripts(node, new StringBuilder()))
     .append(writeSpriteSounds(new StringBuilder()))
@@ -350,7 +362,19 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
    * 
    */
   protected String writeSpriteScripts(IXholon node, StringBuilder sbLocal) {
-    if (node == root) {
+    if (isSprite(node)) {
+      // get the Sprite's script in Scratch JSON String format
+      IMessage msg = node.sendSyncMessage(Sprite.SIGNAL_SCRIPTS_SCRATCHJSON_REQ, null, this);
+      if (msg != null) {
+        String scripts = (String)msg.getData();
+        if (scripts != null) {
+          sbLocal
+          .append(scripts)
+          .append(",\n");
+        }
+      }
+    }
+    else if (node == root) {
       sbLocal
       .append("  \"scripts\": [[25, 25, [[\"whenGreenFlag\"], [\"setVar:to:\", \"spriteIndex\", \"0\"], [\"deleteLine:ofList:\", \"all\", \"namesList\"],\n")
       .append(sbNamesList.toString())
@@ -504,6 +528,14 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     .append("  }],\n")
     ;
     return sbLocal.toString();
+  }
+  
+  /**
+   * Each Sprite node (instance of Sprite.java) will likely have its own sript, so these nodes should not be built using cloning.
+   * 
+   */
+  protected boolean isSprite(IXholon node) {
+    return "Sprite".equals(node.getXhcName());
   }
   
   public String getOutFileName() {

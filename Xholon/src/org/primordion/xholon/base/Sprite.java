@@ -21,6 +21,8 @@ package org.primordion.xholon.base;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.primordion.xholon.base.IMessage;
+import org.primordion.xholon.base.Message;
 import org.primordion.xholon.io.xml.IXholon2Xml;
 import org.primordion.xholon.io.xml.IXmlWriter;
 import org.primordion.xholon.io.xml.XmlPrettyPrinter;
@@ -93,6 +95,16 @@ END
   protected int spriteScriptIx = 0;
   
   /**
+   * The spriteScript in Xholon XML format.
+   */
+  protected String xhXmlStr = null;
+  
+  /**
+   * The spriteScript as a Xholon subtree.
+   */
+  protected IXholon xhScriptRoot = null;
+  
+  /**
    * The number of spaces used to represent one level of indentation in the input (the spriteScript text).
    * This value will be calculated when tokenizing/parsing the first indented block, if any.
    */
@@ -122,7 +134,7 @@ END
   // naiveName, scratchName, snapName
   // Motion
   "movesteps", "forward:", "forward",
-  "turnrightdegrees", "turnRight", "turn",
+  "turnrightdegrees", "turnRight:", "turn",
   "turnleftdegrees", "DUMMY", "turnLeft",
   "pointindirection", "DUMMY", "setHeading",
   "pointtowards", "DUMMY", "doFaceTowards",
@@ -141,8 +153,8 @@ END
   "say", "say:", "bubble",
   "thinkforsecs", "think:duration:elapsed:from:", "doThinkFor",
   "think", "think:", "doThink",
-  "show", "DUMMY", "show",
-  "hide", "DUMMY", "hide",
+  "show", "show", "show",
+  "hide", "hide", "hide",
   "switchcostumeto", "DUMMY", "DUMMY",
   "nextcostume", "DUMMY", "DUMMY",
   "switchbackdropto", "DUMMY", "DUMMY",
@@ -283,22 +295,28 @@ END
     }
     initBlockNameMap();
     
+    test();
+        
+    super.postConfigure();
+  }
+  
+  protected void test() {
     // TEST 1
     //String jsonStr = this.scriptToJsonSyntax(this.getVal_String());
     //this.println(jsonStr);
     
     // TEST 2
-    IXholon scriptRoot = this.xholonize();
+    xhXmlStr = this.xholonize();
+    xhScriptRoot = makeXholonSubtree(xhXmlStr);
+    xhScriptRoot.removeChild();
     
     // TEST 3
-    String snapXmlStr = xholonSubtree2SnapXml(scriptRoot);
+    String snapXmlStr = xholonSubtree2SnapXml(xhScriptRoot);
     consoleLog(snapXmlStr);
     
     // TEST 4
-    String scratchJsonStr = xholonSubtree2ScratchJson(scriptRoot);
+    String scratchJsonStr = xholonSubtree2ScratchJson(xhScriptRoot);
     consoleLog(scratchJsonStr);
-    
-    super.postConfigure();
   }
   
   @Override
@@ -311,6 +329,71 @@ END
       xmlWriter.writeText(makeTextXmlEmbeddable(str));
       xmlWriter.writeEndElement("Attribute_String");
     }
+  }
+  
+  /**
+   * Request the scripts for this Sprite, in the original Xholon text format.
+   */
+  public static final int SIGNAL_SCRIPTS_XHOLONTEXT_REQ = 101;
+  
+  /**
+   * Request the scripts for this Sprite, in Xholon XML text format.
+   */
+  public static final int SIGNAL_SCRIPTS_XHOLONXML_REQ = 102;
+  
+  /**
+   * Request the scripts for this Sprite, in Scratch JSON text format.
+   */
+  public static final int SIGNAL_SCRIPTS_SCRATCHJSON_REQ = 103;
+  
+  /**
+   * Request the scripts for this Sprite, in Snap XML text format.
+   */
+  public static final int SIGNAL_SCRIPTS_SNAPXML_REQ = 104;
+  
+  public static final int SIGNAL_SCRIPTS_RSP = 201;
+  
+  @Override
+  public IMessage processReceivedSyncMessage(IMessage msg) {
+    switch (msg.getSignal()) {
+    
+    case SIGNAL_SCRIPTS_XHOLONTEXT_REQ:
+    {
+      return new Message(SIGNAL_SCRIPTS_RSP, spriteScript, this, msg.getSender());
+    }
+    
+    case SIGNAL_SCRIPTS_SCRATCHJSON_REQ:
+    {
+      if (xhXmlStr == null) {
+        xhXmlStr = this.xholonize();
+      }
+      if (xhScriptRoot == null) {
+        xhScriptRoot = makeXholonSubtree(xhXmlStr);
+        xhScriptRoot.removeChild(); // detach it from the main Xholon tree
+      }
+      String scratchJsonStr = this.xholonSubtree2ScratchJson(xhScriptRoot);
+      return new Message(SIGNAL_SCRIPTS_RSP, scratchJsonStr, this, msg.getSender());
+    }
+    
+    case SIGNAL_SCRIPTS_SNAPXML_REQ:
+    {
+      if (xhXmlStr == null) {
+        xhXmlStr = this.xholonize();
+      }
+      if (xhScriptRoot == null) {
+        xhScriptRoot = makeXholonSubtree(xhXmlStr);
+        xhScriptRoot.removeChild(); // detach it from the main Xholon tree
+      }
+      String snapXmlStr = this.xholonSubtree2SnapXml(xhScriptRoot);
+      return new Message(SIGNAL_SCRIPTS_RSP, snapXmlStr, this, msg.getSender());
+    }
+    
+    default:
+    {
+      return super.processReceivedSyncMessage(msg);
+    }
+    
+    } // end switch
   }
   
   /**
@@ -331,7 +414,7 @@ END
    * This can subsequently be given to a parser to generate Scratch JSON syntax, or Snap XML syntax.
    * This method should be used instead of scriptToJsonSyntax() and tokenize() .
    */
-  protected IXholon xholonize() {
+  protected String xholonize() {
     spriteScriptIx = 0; // start at the beginning of the Sprite's text script
     
     StringBuilder sb = new StringBuilder();
@@ -350,15 +433,18 @@ END
 			XmlPrettyPrinter p = new XmlPrettyPrinter();
 			p.setOmitXmlDeclaration("yes");
 			xmlStrPP = p.format(xmlStr);
-			this.println(xmlStrPP);
+			//this.println(xmlStrPP);
+			return xmlStrPP;
 		}
 		else {
-      this.println(xmlStr);
+      //this.println(xmlStr);
+      return xmlStr;
     }
-    
+  }
+  
+  protected IXholon makeXholonSubtree(String xmlStr) {
     XholonHelperService xhs = (XholonHelperService)app.getService(IXholonService.XHSRV_XHOLON_HELPER);
     xhs.pasteLastChild(this, xmlStr);
-    
     return this.getLastChild();
   }
   
@@ -707,6 +793,7 @@ END
   
   /**
    * Recursively generate Snap format.
+   * TODO write x, y for each outer script
    */
   protected void xholonSubtree2SnapXmlRecurse(IXholon node, String indent, StringBuilder sb) {
     if (node == null) {return;}
@@ -781,6 +868,7 @@ END
     StringBuilder sb = new StringBuilder();
     String indent = "";
     xholonSubtree2ScratchJsonRecurse(root, indent, sb);
+    sb.append("]"); // matches initial "scripts": [
     return sb.toString();
   }
   
@@ -796,10 +884,13 @@ END
     
     switch(xhNodeName) {
     case "scripts":
-      sb.append("\"scripts\":");
+      sb.append("\"scripts\": [");
       break;
     case "sscript":
       sb.append("\n").append(indent).append("[");
+      if ("scripts".equals(node.getParentNode().getXhcName())) {
+        sb.append("25, 25, [");
+      }
       break;
     case "block":
     case "ablock":
@@ -845,6 +936,9 @@ END
     switch(xhNodeName) {
     case "sscript":
       sb.append("]");
+      if ("scripts".equals(node.getParentNode().getXhcName())) {
+        sb.append("]");
+      }
       if (node.hasNextSibling()) {
         sb.append(",");
       }
