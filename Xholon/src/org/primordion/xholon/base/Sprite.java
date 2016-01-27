@@ -135,18 +135,18 @@ END
   // Motion
   "movesteps", "forward:", "forward",
   "turnrightdegrees", "turnRight:", "turn",
-  "turnleftdegrees", "DUMMY", "turnLeft",
-  "pointindirection", "DUMMY", "setHeading",
-  "pointtowards", "DUMMY", "doFaceTowards",
-  "gotoxy", "DUMMY", "gotoXY",
-  "goto", "DUMMY", "doGotoObject",
-  "glidesecstoxy", "DUMMY", "doGlide",
-  "changexby", "DUMMY", "changeXPosition",
-  "setxto", "DUMMY", "setXPosition",
-  "changeyby", "DUMMY", "changeYPosition",
-  "setyto", "DUMMY", "setYPosition",
-  "ifonedge,bounce", "DUMMY", "bounceOffEdge",
-  "setrotationstyle", "DUMMY", "DUMMY",
+  "turnleftdegrees", "turnLeft:", "turnLeft",
+  "pointindirection", "heading:", "setHeading",
+  "pointtowards", "pointTowards:", "doFaceTowards",
+  "gotoxy", "gotoX:y:", "gotoXY",
+  "goto", "gotoSpriteOrMouse:", "doGotoObject",
+  "glidesecstoxy", "glideSecs:toX:y:elapsed:from:", "doGlide",
+  "changexby", "changeXposBy:", "changeXPosition",
+  "setxto", "xpos:", "setXPosition",
+  "changeyby", "changeYposBy:", "changeYPosition",
+  "setyto", "ypos:", "setYPosition",
+  "ifonedge,bounce", "bounceOffEdge", "bounceOffEdge",
+  "setrotationstyle", "setRotationStyle", "UNKNOWN",
   
   // Looks
   "sayforsecs", "say:duration:elapsed:from:", "doSayFor",
@@ -155,106 +155,119 @@ END
   "think", "think:", "doThink",
   "show", "show", "show",
   "hide", "hide", "hide",
-  "switchcostumeto", "DUMMY", "DUMMY",
-  "nextcostume", "DUMMY", "DUMMY",
-  "switchbackdropto", "DUMMY", "DUMMY",
-  "changeeffectby", "DUMMY", "DUMMY",
-  "seteffectto", "DUMMY", "DUMMY",
-  "cleargraphiceffects", "DUMMY", "DUMMY",
-  "changesizeby", "DUMMY", "DUMMY",
-  "setsizeto%", "DUMMY", "DUMMY",
-  "gotofront", "DUMMY", "DUMMY",
-  "gobacklayers", "DUMMY", "DUMMY",
+  "switchcostumeto", "lookLike:", "doSwitchToCostume",
+  "nextcostume", "nextCostume", "doWearNextCostume",
+  "switchbackdropto", "startScene", "UNKNOWN",
+  "changeeffectby", "changeGraphicEffect:by:", "changeEffect",
+  "seteffectto", "setGraphicEffect:to:", "setEffect",
+  "cleargraphiceffects", "filterReset", "clearEffects",
+  "changesizeby", "changeSizeBy:", "changeScale",
+  "setsizeto%", "setSizeTo:", "setScale",
+  "gotofront", "comeToFront", "comeToFront",
+  "gobacklayers", "goBackByLayers:", "goBack",
   
   // Sound
-  "playsound", "DUMMY", "DUMMY",
-  "playsounduntildone", "DUMMY", "DUMMY",
-  "stopallsounds", "DUMMY", "DUMMY",
-  "playdrumforbeats", "DUMMY", "DUMMY",
-  "restforbeats", "DUMMY", "DUMMY",
-  "playnoteforbeats", "DUMMY", "DUMMY",
-  "setinstrumentto", "DUMMY", "DUMMY",
-  "changevolumeby", "DUMMY", "DUMMY",
-  "setvolumeto%", "DUMMY", "DUMMY",
-  "changetempoby", "DUMMY", "DUMMY",
-  "settempotobpm", "DUMMY", "DUMMY",
+  "playsound", "playSound:", "playSound",
+  "playsounduntildone", "doPlaySoundAndWait", "doPlaySoundUntilDone",
+  "stopallsounds", "stopAllSounds", "doStopAllSounds",
+  "playdrumforbeats", "playDrum", "UNKNOWN",
+  "restforbeats", "rest:elapsed:from:", "doRest",
+  "playnoteforbeats", "noteOn:duration:elapsed:from:", "doPlayNote",
+  "setinstrumentto", "instrument:", "UNKNOWN",
+  "changevolumeby", "changeVolumeBy:", "UNKNOWN",
+  "setvolumeto%", "setVolumeTo:", "UNKNOWN",
+  "changetempoby", "changeTempoBy:", "doChangeTempo",
+  "settempotobpm", "setTempoTo:", "doSetTempo",
   
   // Pen
-  "clear", "DUMMY", "DUMMY",
-  "stamp", "DUMMY", "DUMMY",
-  "pendown", "DUMMY", "DUMMY",
-  "penup", "DUMMY", "DUMMY",
-  "changepencolorby", "DUMMY", "DUMMY",
-  "setpencolorto", "DUMMY", "DUMMY",
-  "changepenshadeby", "DUMMY", "DUMMY",
-  "setpenshadeto", "DUMMY", "DUMMY",
-  "changepensizeby", "DUMMY", "DUMMY",
-  "setpensizeto", "DUMMY", "DUMMY",
+  "clear", "clearPenTrails", "clear",
+  "stamp", "stampCostume", "doStamp",
+  "pendown", "putPenDown", "down",
+  "penup", "putPenUp", "up",
+  //"setpencolorto", "penColor:", "setColor", // set pen color to [COLOR]
+  "changepencolorby", "changePenHueBy:", "changeHue",
+  "setpencolorto", "setPenHueTo:", "setHue", // set pen color to (NUMBER)
+  "changepenshadeby", "changePenShadeBy:", "changeBrightness",
+  "setpenshadeto", "setPenShadeTo:", "setBrightness",
+  "changepensizeby", "changePenSizeBy:", "changeSize",
+  "setpensizeto", "penSize:", "setSize",
   
   // Data
-  "DATA", "DUMMY", "DUMMY",
+  "setto", "setVar:to:", "doSetVar",
+  "changeby", "changeVar:by:", "doChangeVar",
+  "showvariable", "showVariable", "doShowVar",
+  "hidevariable", "hideVariable", "doHideVar",
+  "addto", "append:toList:", "doAddToList",
+  "deleteof", "deleteLine:ofList:", "doDeleteFromList",
+  "insertatof", "insert:at:ofList:", "doInsertInList",
+  "replaceitemofwith", "setLine:ofList:to:", "doReplaceInList",
+  "itemof", "getLine:ofList:", "reportListItem",
+  "lengthof", "lineCountOfList:", "reportListLength",
+  "contains?", "list:contains:", "reportListContainsItem",
+  "showlist", "showList:", "UNKNOWN",
+  "hidelist", "hideList:", "UNKNOWN",
   
   // Events
   "whengreenflagclicked", "whenGreenFlag", "receiveGo",
-  "whenkeypressed", "DUMMY", "DUMMY",
-  "whenthisspriteclicked", "DUMMY", "DUMMY",
-  "whenbackdropswitchesto", "DUMMY", "DUMMY",
-  "when", "DUMMY", "DUMMY",
-  "whenIreceive", "DUMMY", "DUMMY",
-  "broadcast", "DUMMY", "DUMMY",
-  "broadcastandwait", "DUMMY", "DUMMY",
+  "whenkeypressed", "whenKeyPressed", "receiveKey",
+  "whenthisspriteclicked", "whenClicked", "UNKNOWN",
+  "whenbackdropswitchesto", "whenSceneStarts", "UNKNOWN",
+  "when>", "whenSensorGreaterThan", "UNKNOWN",
+  "whenIreceive", "whenIReceive", "receiveMessage",
+  "broadcast", "broadcast:", "doBroadcast",
+  "broadcastandwait", "doBroadcastAndWait", "doBroadcastAndWait",
   
   // Control
-  "waitsecs", "DUMMY", "doWait",
+  "waitsecs", "wait:elapsed:from:", "doWait",
   "repeat", "doRepeat", "doRepeat",
-  "forever", "DUMMY", "doForever",
-  "ifthen", "DUMMY", "doIf",
+  "forever", "doForever", "doForever",
+  "ifthen", "doIf", "doIf",
   "ifthenelse", "doIfElse", "doIfElse", // TODO how do I get the "else" part of the name ?
-  "waituntil", "DUMMY", "doWaitUntil",
-  "repeatuntil", "DUMMY", "doUntil",
-  "stop", "DUMMY", "DUMMY",
-  "whenIstartasaclone", "DUMMY", "DUMMY",
-  "createcloneof", "DUMMY", "DUMMY",
-  "deletethisclone", "DUMMY", "DUMMY",
+  "waituntil", "doWaitUntil", "doWaitUntil",
+  "repeatuntil", "doUntil", "doUntil",
+  "stop", "stopScripts", "doStopThis",
+  "whenIstartasaclone", "whenCloned", "receiveOnClone",
+  "createcloneof", "createCloneOf", "createClone",
+  "deletethisclone", "deleteClone", "removeClone",
   
   // Sensing
-  "touching?", "DUMMY", "DUMMY", // angle
+  "touching?", "touching:", "reportTouchingObject", // angle
   "touchingcolor?", "touchingColor:", "reportTouchingColor", // angle
-  "coloristouching?", "DUMMY", "reportColorIsTouchingColor", // angle
-  "distanceto", "DUMMY", "DUMMY", // ellipse
-  "askandwait", "DUMMY", "DUMMY", // block
-  "keypressed?", "DUMMY", "DUMMY", // angle
-  "mousedown?", "DUMMY", "DUMMY", // angle
-  "mousex", "DUMMY", "DUMMY", // ellipse
-  "mousey", "DUMMY", "DUMMY", // ellipse
-  "turnvideo", "DUMMY", "DUMMY",
-  "setvideotransparencyto%", "DUMMY", "DUMMY",
-  "resettimer", "DUMMY", "DUMMY",
-  "of", "DUMMY", "DUMMY",
-  "dayssince2000", "DUMMY", "DUMMY",
-  "username", "DUMMY", "DUMMY",
+  "coloristouching?", "color:see:", "reportColorIsTouchingColor", // angle
+  "distanceto", "distanceTo:", "reportDistanceTo", // ellipse
+  "askandwait", "doAsk", "doAsk", // block
+  "keypressed?", "keyPressed:", "reportKeyPressed", // angle
+  "mousedown?", "mousePressed", "reportMouseDown", // angle
+  "mousex", "mouseX", "reportMouseX", // ellipse
+  "mousey", "mouseY", "reportMouseY", // ellipse
+  "turnvideo", "setVideoState", "UNKNOWN",
+  "setvideotransparencyto%", "setVideoTransparency", "UNKNOWN",
+  "resettimer", "timerReset", "doResetTimer",
+  "of", "getAttribute:of:", "reportAttributeOf",
+  "dayssince2000", "timestamp", "UNKNOWN",
+  "username", "getUserName", "UNKNOWN",
   
   // Operators
   "plus", "+", "reportSum",
   "minus", "-", "reportDifference",
   "times", "*", "reportProduct",
   "dividedby", "/", "reportQuotient",
-  "pickrandomto", "DUMMY", "reportRandom",
-  "lt", "DUMMY", "reportLessThan",
-  "eq", "DUMMY", "reportEquals",
-  "gt", "DUMMY", "reportGreaterThan",
-  "and", "DUMMY", "reportAnd",
-  "or", "DUMMY", "reportOr",
-  "not", "DUMMY", "reportNot",
-  "join", "DUMMY", "reportJoinWords",
-  "letterof", "DUMMY", "reportLetter",
-  "lengthof", "DUMMY", "reportStringSize",
-  "mod", "MOD", "reportModulus",
-  "round", "DUMMY", "reportRound",
+  "pickrandomto", "randomFrom:to:", "reportRandom",
+  "lt", "<", "reportLessThan",
+  "eq", "=", "reportEquals",
+  "gt", ">", "reportGreaterThan",
+  "and", "&", "reportAnd",
+  "or", "|", "reportOr",
+  "not", "not", "reportNot",
+  "join", "concatenate:with:", "reportJoinWords",
+  "letterof", "letter:of:", "reportLetter",
+  "lengthof", "stringLength:", "reportStringSize",
+  "mod", "%", "reportModulus",
+  "round", "rounded", "reportRound",
   //"of"  TODO
   
   // More Blocks
-  "define", "DUMMY", "DUMMY"
+  "define", "procDef", "UNKNOWN"
   }; // end blockNameArr
   
   /**
