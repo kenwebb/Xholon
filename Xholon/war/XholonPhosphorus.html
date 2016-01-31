@@ -46,7 +46,8 @@
     <script src=//canvg.googlecode.com/svn/trunk/rgbcolor.js></script>
     <script src=//canvg.googlecode.com/svn/trunk/StackBlur.js></script>
     <script src=//canvg.googlecode.com/svn/trunk/canvg.js></script>
-    <script src=xholon/lib/phosphorus/phosphorus.js></script>
+    <!--<script src=xholon/lib/phosphorus/phosphorus.js></script>-->
+    <script src=xholon/lib/phosphorus/phosphorus_xh.js></script>
     <!--<script src=xholon/lib/phosphorus/player.js></script>  this has been moved after the phosphorus elements -->
     <style>
     .turbo, .full-screen, .title {
@@ -157,27 +158,29 @@
       <div id="qunit-fixture"></div>
     </div>
     
-    <!-- phosphorus -->
-    <hr/>
-    <div class=area id=player-area>
-      <div class=controls>
-        <span class=stop></span>
-        <span class=pause></span>
-        <span class=flag title="Shift+click to enable turbo mode."></span>
-        <span class=turbo>Turbo Mode</span>
-        <span class=full-screen></span>
+    <!-- phosphorus player -->
+    <div id="xhphosphorus" style="display: none;">
+      <hr/>
+      <div class=area id=player-area>
+        <div class=controls>
+          <span class=stop></span>
+          <span class=pause></span>
+          <span class=flag title="Shift+click to enable turbo mode."></span>
+          <span class=turbo>Turbo Mode</span>
+          <span class=full-screen></span>
+        </div>
+        <div class=player></div>
+        <div class=internal-error>
+          An internal error occurred. <a id=error-bug-link target=_blank href=https://github.com/nathan/phosphorus/issues/new>Click here</a> to file a bug report.
+        </div>
       </div>
-      <div class=player></div>
-      <div class=internal-error>
-        An internal error occurred. <a id=error-bug-link target=_blank href=https://github.com/nathan/phosphorus/issues/new>Click here</a> to file a bug report.
+      <div class=title>
+        <div class=progress-bar></div>
+        <input class=url value=http://scratch.mit.edu/projects/>
+        <a target=_blank class=project-link title="View project on Scratch"></a>
       </div>
+      <p>phosphorus is under <a id=bug-link target=_blank href=https://github.com/nathan/phosphorus/>development</a>.</p>
     </div>
-    <div class=title>
-      <div class=progress-bar></div>
-      <input class=url value=http://scratch.mit.edu/projects/>
-      <a target=_blank class=project-link title="View project on Scratch"></a>
-    </div>
-    <p>phosphorus is under <a id=bug-link target=_blank href=https://github.com/nathan/phosphorus/>development</a>.</p>
     <!-- the following script must be after the preceeding phosphorus elements -->
     <script src=xholon/lib/phosphorus/player.js></script>
     
