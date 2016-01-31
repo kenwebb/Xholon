@@ -69,6 +69,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
   private String modelName;
   private IXholon root;
   private StringBuilder sb;
+  private StringBuilder sbSprites;
   private StringBuilder sbClones;
   private StringBuilder sbNamesList;
   
@@ -165,16 +166,32 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
    */
   public void writeAll() {
     sb = new StringBuilder();
+    sbSprites = new StringBuilder();
     sbClones = new StringBuilder();
     sbNamesList = new StringBuilder();
     nextIndexInLibrary = 1;
     nfScriptCount = 0;
     nfSpriteCount = 0;
     makeDefaults();
-    writeStage();
+    writeStage(root);
     writeToTarget(sb.toString(), outFileName, outPath, root);
     if (isPhosphorus()) {
-      compileAndRunWithPhosphorus(sb.toString());
+      if (isPhosphorusPlayer()) {
+        compileAndRunWithPhosphorusPlayer(sb.toString());
+      }
+      else {
+        int width = -1; //480;
+        int height = -1; //360;
+        String[] wh = getStageWidthHeight().split(",");
+        switch (wh.length) {
+        case 2:
+          width = Integer.parseInt(wh[0]);
+          height = Integer.parseInt(wh[1]);
+          break;
+        default: break;
+        }
+        compileAndRunWithPhosphorus(sb.toString(), getSelection(), width, height);
+      }
     }
   }
   
@@ -271,7 +288,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
       IXholonClass nodeIH = node.getXhc();
       if (!xhClassSet.contains(nodeIH)) {
         // write out this node's XholonClass as an invisible Scratch Sprite
-        sb.append(writeSprite(node, new StringBuilder()));
+        sbSprites.append(writeSprite(node, new StringBuilder()));
         if (!isSprite(node)) {
           xhClassSet.add(nodeIH);
         }
@@ -287,6 +304,14 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
    */
   protected void writeClone(IXholon node) {
     if (isSprite(node)) {return;}
+    String xhcName = node.getXhcName();
+    if ("Stage".equals(xhcName)) {
+      // don't write Stage as a Sprite
+      return;
+    }
+    else if (xhcName.endsWith("behavior")) {
+      return;
+    }
     sbNamesList
     .append("[\"append:toList:\", \"")
     .append(node.getName())
@@ -301,12 +326,23 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     
   }
   
-  protected void writeStage() {
+  /**
+   * Write the single Stage object.
+   * @param stageNode A node that may be a Stage node and may contain Stage scripts.
+   */
+  protected void writeStage(IXholon stageNode) {
+    // write sprites to sbSprites
+    writeNode(root, 0); // root is level 0
+    
     sb
     .append("{\n")
     .append("  \"objName\": \"Stage\",\n")
     .append(writeStageVariables(new StringBuilder()))
     .append(writeLists(new StringBuilder()))
+    
+    // write Stage scripts, as specified in a Stage node (typically root)
+    .append(writeStageScripts(stageNode, new StringBuilder()))
+    
     .append(writeStageSounds(new StringBuilder()))
     .append(writeStageCostumes(new StringBuilder()))
     .append("  \"currentCostumeIndex\": 0,\n")
@@ -316,8 +352,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     .append("  \"videoAlpha\": ").append(stageVideoAlphaDefault).append(",\n")
     .append("  \"children\": [")
     ;
-    // write sprites
-    writeNode(root, 0); // root is level 0
+    sb.append(sbSprites.toString());
     sb
     .append(writeSprite(root, new StringBuilder())) // write invisible root sprite with the clone script
     .append("],\n")
@@ -328,6 +363,14 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
   
   protected String writeSprite(IXholon node, StringBuilder sbLocal) {
     String nodeName = node.getName(nameTemplate);
+    String xhcName = node.getXhcName();
+    if ("Stage".equals(xhcName)) {
+      // don't write Stage as a Sprite
+      return "";
+    }
+    else if (xhcName.endsWith("behavior")) {
+      return "";
+    }
     if (isSprite(node)) {
       nodeName = node.getRoleName();
       if (nodeName == null) {
@@ -361,8 +404,23 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
   /**
    * 
    */
+  protected String writeStageScripts(IXholon node, StringBuilder sbLocal) {
+    // TODO also write any scripts contained within the node, if the node is a Stage
+    sbLocal
+    .append("  \"scripts\": [[25, 25, [[\"whenGreenFlag\"], [\"setVar:to:\", \"spriteIndex\", \"0\"], [\"deleteLine:ofList:\", \"all\", \"namesList\"],\n")
+    .append(sbNamesList.toString())
+    .append(sbClones.toString())
+    .append("]]],\n")
+    ;
+    return sbLocal.toString();
+  }
+  
+  /**
+   * 
+   */
   protected String writeSpriteScripts(IXholon node, StringBuilder sbLocal) {
     if (isSprite(node)) {
+      node.sendSyncMessage(Sprite.SIGNAL_SCRIPTS_WRITEXHXML_REQ, isWriteXhXmlStr(), this);
       // get the Sprite's script in Scratch JSON String format
       IMessage msg = node.sendSyncMessage(Sprite.SIGNAL_SCRIPTS_SCRATCHJSON_REQ, null, this);
       if (msg != null) {
@@ -375,12 +433,13 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
       }
     }
     else if (node == root) {
-      sbLocal
+      /*sbLocal
       .append("  \"scripts\": [[25, 25, [[\"whenGreenFlag\"], [\"setVar:to:\", \"spriteIndex\", \"0\"], [\"deleteLine:ofList:\", \"all\", \"namesList\"],\n")
       .append(sbNamesList.toString())
       .append(sbClones.toString())
       .append("]]],\n")
-      ;
+      ;*/
+      sbLocal.append(writeStageScripts(node, new StringBuilder()));
     }
     else {
       sbLocal
@@ -531,11 +590,17 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
   }
   
   /**
-   * Each Sprite node (instance of Sprite.java) will likely have its own sript, so these nodes should not be built using cloning.
-   * 
+   * Each Sprite node (instance of Sprite.java) will likely have its own script, so these nodes should not be built using cloning.
    */
   protected boolean isSprite(IXholon node) {
     return "Sprite".equals(node.getXhcName());
+  }
+  
+  /**
+   * Each Stage node (instance of Stage.java) will likely have its own script, so these nodes should not be built using cloning.
+   */
+  protected boolean isStage(IXholon node) {
+    return "Stage".equals(node.getXhcName());
   }
   
   public String getOutFileName() {
@@ -586,6 +651,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     p.stageSoundsDefaults = "pop,1,83a9787d4cb6f3b7632b4ddfebf74367.wav,258,11025";
     p.stageCostumesDefaults = "backdrop1,3,739b5e2a2435f6e1ec2993791b423146.png,1,240,180";
     p.stageDefaults = "5c81a336fab8be57adc039a8a2b33ca9.png,0,60,0.5";
+    p.stageWidthHeight = "480,360";
     p.spriteSoundsDefaults = "meow,0,83c36d806dc92327b9e7049a565c6bff.wav,18688,22050";
     p.spriteCostumesDefaults = "costume1,1,09dc888b0b7df19f70d81588ae73420e.svg,1,47,55";
     p.spriteSizePercentage = 100;
@@ -593,7 +659,10 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     p.spriteForwardMultiplier = 3;
     p.infoDefaults = "92814753|v442|LNX 20,0,0,267";
     p.shouldShowSounds = false;
-    p.phosphorus = false;
+    p.phosphorus = true;
+    p.phosphorusPlayer = false;
+    p.selection = "#xhcanvas";
+    p.writeXhXmlStr = false;
     this.efParams = p;
   }-*/;
 
@@ -605,6 +674,9 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
 
   public native String getStageDefaults() /*-{return this.efParams.stageDefaults;}-*/;
   //public native void setStageDefaults(String stageDefaults) /*-{this.efParams.stageDefaults = stageDefaults;}-*/;
+
+  public native String getStageWidthHeight() /*-{return this.efParams.stageWidthHeight;}-*/;
+  //public native void setStageWidthHeight(String stageWidthHeight) /*-{this.efParams.stageWidthHeight = stageWidthHeight;}-*/;
 
   public native String getSpriteSoundsDefaults() /*-{return this.efParams.spriteSoundsDefaults;}-*/;
   //public native void setSpriteSoundsDefaults(String spriteSoundsDefaults) /*-{this.efParams.spriteSoundsDefaults = spriteSoundsDefaults;}-*/;
@@ -622,7 +694,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
   //public native void setSpriteForwardMultiplier(String spriteForwardMultiplier) /*-{this.efParams.spriteForwardMultiplier = spriteForwardMultiplier;}-*/;
 
   public native String getInfoDefaults() /*-{return this.efParams.infoDefaults;}-*/;
-  //public native void setInfoDefaultsDefaults(String infoDefaults) /*-{this.efParams.infoDefaults = infoDefaults;}-*/;
+  //public native void setInfoDefaults(String infoDefaults) /*-{this.efParams.infoDefaults = infoDefaults;}-*/;
   
   /** Whether or not to show Stage and Sprite sounds. */
   public native boolean isShouldShowSounds() /*-{return this.efParams.shouldShowSounds;}-*/;
@@ -632,16 +704,32 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
   public native boolean isPhosphorus() /*-{return this.efParams.phosphorus;}-*/;
   //public native void setPhosphorus(boolean phosphorus) /*-{this.efParams.phosphorus = phosphorus;}-*/;
   
+  /** Whether or not to use the phosphorus player. */
+  public native boolean isPhosphorusPlayer() /*-{return this.efParams.phosphorusPlayer;}-*/;
+  //public native void setPhosphorusPlayer(boolean phosphorusPlayer) /*-{this.efParams.phosphorusPlayer = phosphorusPlayer;}-*/;
+  
+  public native String getSelection() /*-{return this.efParams.selection;}-*/;
+  //public native void setSelection(String selection) /*-{this.efParams.selection = selection;}-*/;
+  
+  /** Whether or not to request the Sprites to write out their generated xhXmlStr, mostly for debug purposes.. */
+  public native boolean isWriteXhXmlStr() /*-{return this.efParams.writeXhXmlStr;}-*/;
+  //public native void setWriteXhXmlStr(boolean writeXhXmlStr) /*-{this.efParams.writeXhXmlStr = writeXhXmlStr;}-*/;
+  
   /**
-   * Compile and run the Scratch JSON project using the phosphorus code.
+   * Compile and run the Scratch JSON project using the phosphorus code and the phosphorus player.
    * phosphorus "changeGraphicEffect:by:", "color" is not yet implemented for sprites
    * @param jsonStr 
    * http://phosphorus.github.io/
    * https://github.com/nathan/phosphorus
    */
-  protected native void compileAndRunWithPhosphorus(String jsonStr) /*-{
+  protected native void compileAndRunWithPhosphorusPlayer(String jsonStr) /*-{
     var P = $wnd.P;
     if (P) {
+      var player = $doc.querySelector('#xhphosphorus');
+      if (player) {
+        // make the phosphorus player area visible
+        player.style.display = "block";
+      }
       var json = P.IO.parseJSONish(jsonStr);
       var callback = function(stage) {$wnd.console.log("callback");$wnd.console.log(stage);}
       var request = P.IO.loadJSONProject(json, callback, this);
@@ -649,6 +737,67 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
         P.player.showProgress(request, function(stage) {
           stage.triggerGreenFlag();
         });
+      }
+    }
+  }-*/;
+  
+  /**
+   * Compile and run the Scratch JSON project using the phosphorus code, but without using the phosphorus player.
+   * @param jsonStr 
+   * @param selection CSS selection specifying where phosphorus should place the Scratch Stage
+   * http://phosphorus.github.io/
+   * https://github.com/nathan/phosphorus
+   */
+  protected native void compileAndRunWithPhosphorus(String jsonStr, String selection, int width, int height) /*-{
+    var P = $wnd.P;
+    
+    function showError(e) {
+      $wnd.console.error(e.stack);
+    }
+    
+    function showProgress(request, loadCallback) {
+      request.onload = function(s) {
+        var zoom = 1; //stage ? stage.zoom : 1;
+        $wnd.stage = stage = s;
+        stage.start();
+        stage.setZoom(zoom);
+        stage.handleError = showError;
+        var player = $doc.querySelector(selection); //'#xhcanvas');
+        player.style.height = stage.root.style.height;
+        player.appendChild(stage.root);
+        if (selection == "#xhsvg") {
+          // player should now contain an SVG div, followed by a canvas div
+          // add styles to allow both to appear together
+          var svgDiv = player.firstElementChild;
+          if (svgDiv != stage.root) {
+            svgDiv.style.position = "absolute";
+            svgDiv.style.zIndex = 1;
+          }
+        }
+        stage.focus();
+        if (loadCallback) {
+          loadCallback(stage);
+          loadCallback = null;
+        }
+      };
+      request.onerror = function(e) {
+        $wnd.console.log(e);
+      };
+      request.onprogress = function(e) {
+        //$wnd.console.log(e);
+      };
+    }
+    
+    if (P) {
+      P.xhInit(width,height);
+      var json = P.IO.parseJSONish(jsonStr);
+      var callback = function(stage) {$wnd.console.log("callback");$wnd.console.log(stage);}
+      var request = P.IO.loadJSONProject(json, callback, this);
+      if (request) {
+        showProgress(request, function(stage) {
+          stage.triggerGreenFlag();
+        });
+        
       }
     }
   }-*/;

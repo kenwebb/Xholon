@@ -41,7 +41,6 @@ one [two] three (four) five <six> seven
  * 
  * TODO
  * - handle Control nesting properly
- * - handle "ifthen" "else" - for now I just output "ifthen"
  * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
@@ -98,6 +97,11 @@ END
    * The spriteScript in Xholon XML format.
    */
   protected String xhXmlStr = null;
+  
+  /**
+   * Whether or not to write out the generated xhXmlStr, mostly for debug purposes.
+   */
+  protected boolean writeXhXmlStr = false;
   
   /**
    * The spriteScript as a Xholon subtree.
@@ -308,26 +312,23 @@ END
     }
     initBlockNameMap();
     
-    test();
+    //test();
         
     super.postConfigure();
   }
   
   protected void test() {
     // TEST 1
-    //String jsonStr = this.scriptToJsonSyntax(this.getVal_String());
-    //this.println(jsonStr);
-    
-    // TEST 2
     xhXmlStr = this.xholonize();
+    consoleLog(xhXmlStr);
     xhScriptRoot = makeXholonSubtree(xhXmlStr);
     xhScriptRoot.removeChild();
     
-    // TEST 3
+    // TEST 2
     String snapXmlStr = xholonSubtree2SnapXml(xhScriptRoot);
     consoleLog(snapXmlStr);
     
-    // TEST 4
+    // TEST 3
     String scratchJsonStr = xholonSubtree2ScratchJson(xhScriptRoot);
     consoleLog(scratchJsonStr);
   }
@@ -364,6 +365,11 @@ END
    */
   public static final int SIGNAL_SCRIPTS_SNAPXML_REQ = 104;
   
+  /**
+   * Request to enable writing out the generated xhXmlStr.
+   */
+  public static final int SIGNAL_SCRIPTS_WRITEXHXML_REQ = 105;
+  
   public static final int SIGNAL_SCRIPTS_RSP = 201;
   
   @Override
@@ -379,6 +385,9 @@ END
     {
       if (xhXmlStr == null) {
         xhXmlStr = this.xholonize();
+        if (writeXhXmlStr) {
+          consoleLog(xhXmlStr);
+        }
       }
       if (xhScriptRoot == null) {
         xhScriptRoot = makeXholonSubtree(xhXmlStr);
@@ -392,6 +401,9 @@ END
     {
       if (xhXmlStr == null) {
         xhXmlStr = this.xholonize();
+        if (writeXhXmlStr) {
+          consoleLog(xhXmlStr);
+        }
       }
       if (xhScriptRoot == null) {
         xhScriptRoot = makeXholonSubtree(xhXmlStr);
@@ -400,6 +412,10 @@ END
       String snapXmlStr = this.xholonSubtree2SnapXml(xhScriptRoot);
       return new Message(SIGNAL_SCRIPTS_RSP, snapXmlStr, this, msg.getSender());
     }
+    
+    case SIGNAL_SCRIPTS_WRITEXHXML_REQ:
+      writeXhXmlStr = (boolean)msg.getData();
+      return new Message(SIGNAL_SCRIPTS_RSP, null, this, msg.getSender());
     
     default:
     {
@@ -422,10 +438,8 @@ END
   }
   
   /**
-   * Write the Sprite's entire text syntax as a Xholon tree.
-   * This is a temporary structure, and may or may not be inserted as a child of a Sprite node.
-   * This can subsequently be given to a parser to generate Scratch JSON syntax, or Snap XML syntax.
-   * This method should be used instead of scriptToJsonSyntax() and tokenize() .
+   * Write this Sprite's behavior/script text syntax as as an XML string.
+   * @return an XML string
    */
   protected String xholonize() {
     spriteScriptIx = 0; // start at the beginning of the Sprite's text script
@@ -455,12 +469,22 @@ END
     }
   }
   
+  /**
+   * Write the Sprite's behavior (script) as a Xholon tree.
+   * This is a temporary structure, and may or may not be inserted as a child of a Sprite node.
+   * This can subsequently be used to generate Scratch JSON syntax, or Snap XML syntax.
+   * @param xmlStr an XML string
+   * @return a Xholon subtree, this subtree is still attached to the main Xholon tree as a child of a Sprite
+   */
   protected IXholon makeXholonSubtree(String xmlStr) {
     XholonHelperService xhs = (XholonHelperService)app.getService(IXholonService.XHSRV_XHOLON_HELPER);
     xhs.pasteLastChild(this, xmlStr);
     return this.getLastChild();
   }
   
+  /**
+   * Whether or not to pretty-print the generated XML.
+   */
   protected boolean isShouldPrettyPrint() {
     return true;
   }
@@ -529,12 +553,13 @@ END
             consoleLog("ifthen");
             consoleLog(spriteScript.substring(spriteScriptIx));
           }*/
+          boolean controlBlock = isControlBlock(blockNameOrValue);
           sb
           .append("<block roleName=\"")
           .append(blockNameOrValue)
           .append("\">\n")
           .append(sbBlockContents.toString());
-          if (!isControlBlock(blockNameOrValue)) {
+          if (!controlBlock) {
             sb
             .append("</block>\n");
           }
@@ -684,8 +709,8 @@ END
     case "forever":
     case "ifthen":
     case "ifthenelse":
-    //case "else":  ???
     case "repeatuntil":
+    //case "define": // "define" is a hat block
       iscb = true;
       break;
     default: break;
@@ -834,6 +859,10 @@ END
       if (arr != null && arr.length > 1) {
         s = arr[BLOCKNAMEMAP_VALUEIX_SNAP];
       }
+      if (s == null) {
+        // assume this is a defined name (ex: DrawSquare)
+        s = xhRoleName;
+      }
       break;
     case "lnumber": tagName = "l"; break;
     case "lstring": tagName = "l"; break;
@@ -918,6 +947,11 @@ END
       String[] arr = blockNameMap.get(xhRoleName);
       if (arr != null && arr.length > 1) {
         s = arr[BLOCKNAMEMAP_VALUEIX_SCRATCH];
+      }
+      if (s == null) {
+        // assume this is a defined name (ex: DrawSquare)
+        // TODO I'm prepending call as a temporary fix
+        s = "call\", \"" + xhRoleName;
       }
       sb.append("\n").append(indent).append("[\"").append(s).append("\"");
       if (node.hasChildNodes()) {
