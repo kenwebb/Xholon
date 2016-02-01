@@ -1269,7 +1269,33 @@ var P = (function() {
     console.log(CANVAS_WIDTH);
     console.log(CANVAS_HEIGHT);
   };
+  
+  var canvasWidth = function() {
+    return CANVAS_WIDTH;
+  };
+  
+  var canvasHeight = function() {
+    return CANVAS_HEIGHT;
+  };
 
+  /**
+   * Convert a color name into a decimal color number, for use with "penColor:"
+   * @see http://stackoverflow.com/questions/1573053/javascript-function-to-convert-color-names-to-hex-codes
+   * @param colorStr ex: "red"
+   * @return ex: 33488896
+   */
+  var getDecimalColor = function(colorStr) {
+    var a = document.createElement('div');
+    a.style.color = colorStr;
+    var colors = window
+    .getComputedStyle(document.body.appendChild(a)).color.match(/\d+/g)
+    .map(function(a){
+      return parseInt(a,10);
+    });
+    document.body.removeChild(a);
+    return (colors.length >= 3) ? (((1 << 24) + (colors[0] << 16) + (colors[1] << 8) + colors[2])) : false;
+  }
+  
   var Sprite = function(stage) {
     this.stage = stage;
 
@@ -2080,7 +2106,10 @@ var P = (function() {
     hasTouchEvents: hasTouchEvents,
     getKeyCode: getKeyCode,
     audioContext: audioContext,
-    xhInit,xhInit,
+    xhInit: xhInit,
+    canvasWidth: canvasWidth,
+    canvasHeight: canvasHeight,
+    getDecimalColor: getDecimalColor,
     IO: IO,
     Base: Base,
     Stage: Stage,
@@ -2791,7 +2820,7 @@ P.compile = (function() {
 
       } else if (block[0] === 'clearPenTrails') { /* Pen */
 
-        source += 'self.penCanvas.width = ' + CANVAS_WIDTH + '* self.maxZoom;\n';
+        source += 'self.penCanvas.width = ' + P.canvasWidth() + '* self.maxZoom;\n';
         source += 'self.penContext.scale(self.maxZoom, self.maxZoom);\n';
         source += 'self.penContext.lineCap = "round";\n'
 
@@ -2814,9 +2843,23 @@ P.compile = (function() {
 
       } else if (block[0] === 'setPenHueTo:') {
 
-        source += noRGB;
-        source += 'S.penHue = ' + num(block[1]) + ' * 360 / 200;\n';
-        source += 'S.penSaturation = 100;\n';
+        var penHue = block[1];
+        if (isNaN(penHue)) {
+          // penHue is a color name  ex: "red"
+          penHue = P.getDecimalColor(penHue);
+          source += 'var c = ' + num(penHue) + ';\n';
+          source += 'S.penColor = c;\n';
+          //source += 'var a = (c >> 24 & 0xff) / 0xff;\n'; // alpha ends up being very small, so the color is invisible
+          source += 'var a = 1;\n';
+          source += 'S.penCSS = "rgba(" + (c >> 16 & 0xff) + "," + (c >> 8 & 0xff) + "," + (c & 0xff) + ", " + (a || 1) + ")";\n';
+        }
+        else {
+          // penHue is a number
+          // both 123 and "123" are recognized as numbers
+          source += noRGB;
+          source += 'S.penHue = ' + num(penHue) + ' * 360 / 200;\n';
+          source += 'S.penSaturation = 100;\n';
+        }
 
       } else if (block[0] === 'changePenHueBy:') {
 
@@ -3177,6 +3220,7 @@ P.compile = (function() {
         }
       }
       result += '})';
+      console.log(result);
       return P.runtime.scopedEval(result);
     };
 
