@@ -188,9 +188,11 @@ END
   "stamp", "stampCostume", "doStamp",
   "pendown", "putPenDown", "down",
   "penup", "putPenUp", "up",
+  // if using "setPenHueTo:", the color must be a number from 0 to 199 in rainbow order from red to purple, so 150 is a bluish-purpleish
+  // if using "penColor:", the color must be a decimal rgba value, for example 2858785 is a shade of green
   //"setpencolorto", "penColor:", "setColor", // set pen color to [COLOR]
   "changepencolorby", "changePenHueBy:", "changeHue",
-  "setpencolorto", "setPenHueTo:", "setHue", // set pen color to (NUMBER)
+  "setpencolorto", "setPenHueTo:", "setHue", // set pen color to (NUMBER)  ex: set pen color to (150)
   "changepenshadeby", "changePenShadeBy:", "changeBrightness",
   "setpenshadeto", "setPenShadeTo:", "setBrightness",
   "changepensizeby", "changePenSizeBy:", "changeSize",
@@ -678,8 +680,19 @@ END
         state = captureIndentIn1(state, indentIn);
         sbBlockNameOrValue.append(c);
         break;
+      } // end switch
+    } // end while
+    
+    // handle hanging nested blocks
+    if (spriteScriptIx >= spriteScript.length()) {
+      // the end of the script has been reached
+      while (prevIndentIn > 0) {
+        sb
+        .append("</sscript>\n")
+        .append("</block>\n");
+        prevIndentIn -= indentIn1;
       }
-    } // end switch
+    }
     
     return sb.toString();
   } // end xholonRecurse()
