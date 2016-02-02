@@ -40,8 +40,24 @@ one [two] three (four) five <six> seven
 ]]></Attribute_String></Sprite>
  * 
  * TODO
- * - handle Control nesting properly
+ * - 
  * 
+ * The following XML can be included in Xholon workbooks in the <_-.XholonClass>
+  <!-- nodes that can appear in a Scratch scipt -->
+  <scripts/>
+  <sscript/>
+  <block/>
+  <xblock>
+    <ablock/> <!-- angle block     <...> -->
+    <eblock/> <!-- ellipse block   (...) -->
+  </xblock>
+  <literal superClass="Attribute_String">
+    <lnumber/> <!-- 123 -->
+    <lstring/> <!-- my cat is crazy -->
+    <lcolor/>  <!-- red -->
+    <lvariable/> <!-- username xhappname -->
+  </literal>
+ *
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @see <a href="https://scratch.mit.edu">Scratch website</a>
@@ -52,7 +68,6 @@ public class Sprite extends AbstractAvatar {
   
   /**
    * The Sprite's script in simple text syntax, that mirrors exactly the Scratch/Snap block appearance.
-   * TODO use the block syntax and names in Snap object.js
    * 
    * Example:
 <Sprite roleName="test02"><![CDATA[
@@ -70,7 +85,7 @@ say [Hello] for (0.5) secs
 broadcast [SIGNAL_ONE]
 ]]></Sprite>
    * 
-   * Example: TODO for now add END as final line in the script, to force processing of the "say" statement
+   * Example:
 <Sprite roleName="NestedBlocks01"><![CDATA[
 when greenflag clicked
 repeat (10)
@@ -82,7 +97,6 @@ repeat (10)
   else
     think [Hmm...]
   say ((123) + ((789) - (456)))
-END
 ]]></Sprite>
    * 
    */
@@ -228,7 +242,7 @@ END
   "repeat", "doRepeat", "doRepeat",
   "forever", "doForever", "doForever",
   "ifthen", "doIf", "doIf",
-  "ifthenelse", "doIfElse", "doIfElse", // TODO how do I get the "else" part of the name ?
+  "ifthenelse", "doIfElse", "doIfElse",
   "waituntil", "doWaitUntil", "doWaitUntil",
   "repeatuntil", "doUntil", "doUntil",
   "stop", "stopScripts", "doStopThis",
@@ -510,7 +524,6 @@ END
       case '\n':
         final String blockNameOrValue = sbBlockNameOrValue.toString();
         if ("else".equals(blockNameOrValue)) {
-          // TODO how do I change "ifthen" to "ifthenelse" ?
           sb
           .append("</sscript>\n");
         }
@@ -603,16 +616,23 @@ END
       
       // (
       case '(':
+        String ellipseContent = xholonizeRecurse(new StringBuilder());
         if (spriteScript.charAt(spriteScriptIx) == '(') {
           sbBlockContents
           .append("<eblock roleName=\"")
-          .append(xholonizeRecurse(new StringBuilder()))
+          .append(ellipseContent)
           .append("</eblock>\n");
+        }
+        else if (isBuiltinVariable(ellipseContent)) {
+          sbBlockContents
+          .append("<lvariable>")
+          .append(ellipseContent)
+          .append("</lvariable>\n");
         }
         else {
           sbBlockContents
           .append("<lnumber>")
-          .append(xholonizeRecurse(new StringBuilder()))
+          .append(ellipseContent)
           .append("</lnumber>\n");
         }
         break;
@@ -729,6 +749,23 @@ END
     default: break;
     }
     return iscb;
+  }
+  
+  /**
+   * Is this a builtin variable, either a standard Scratch variable such as "username" or a Xholon-based variable such as "xhappname"?
+   */
+  protected boolean isBuiltinVariable(String content) {
+    boolean isbv = false;
+    switch(content) {
+    case "username":
+    case "xhappname":
+    case "xhrootname":
+    case "xhmodelname":
+      isbv = true;
+      break;
+    default: break;
+    }
+    return isbv;
   }
   
   /**
@@ -950,6 +987,7 @@ END
     case "block":
     case "ablock":
     case "eblock":
+    {
       if ("ifthen".equals(xhRoleName)) {
         // distinguish "ifthen" from "ifthenelse" by how many children the node has (2 vs 3)
         int numChildren = node.getNumChildren(false);
@@ -971,6 +1009,7 @@ END
         sb.append(", ");
       }
       break;
+    }
     case "lnumber":
       sb.append(xhContent);
       break;
@@ -980,6 +1019,18 @@ END
     case "lcolor":
       sb.append("\"").append(xhContent).append("\"");
       break;
+    case "lvariable":
+    {
+      String[] arr = blockNameMap.get(xhContent);
+      if (arr != null && arr.length > 1) {
+        s = arr[BLOCKNAMEMAP_VALUEIX_SCRATCH];
+      }
+      if (s == null) {
+        s = xhContent;
+      }
+      sb.append("[\"").append(s).append("\"]");
+      break;
+    }
     default: break;
     }
     

@@ -2300,6 +2300,18 @@ P.compile = (function() {
 
         return '""';
 
+      } else if (e[0] === 'xhappname') { // Xholon
+
+        return '"' + xh.app().name() + '"';
+
+      } else if (e[0] === 'xhrootname') { // Xholon
+
+        return '"' + xh.root().name() + '"';
+
+      } else if (e[0] === 'xhmodelname') { // Xholon
+
+        return '"' + xh.param("ModelName") + '"';
+
       } else {
 
         warn('Undefined val: ' + e[0]);
