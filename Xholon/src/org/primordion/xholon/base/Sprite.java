@@ -165,6 +165,11 @@ repeat (10)
   "setyto", "ypos:", "setYPosition",
   "ifonedge,bounce", "bounceOffEdge", "bounceOffEdge",
   "setrotationstyle", "setRotationStyle", "UNKNOWN",
+  "mouse-pointer", "_mouse_", "UNKNOWN", // a rectangle variable
+  "left-right", "left-right", "UNKNOWN", // a rectangle variable
+  "xposition", "x position", "UNKNOWN", // an ellipse variable
+  "yposition", "y position", "UNKNOWN", // an ellipse variable
+  "direction", "direction", "UNKNOWN", // an ellipse variable
   
   // Looks
   "sayforsecs", "say:duration:elapsed:from:", "doSayFor",
@@ -183,6 +188,7 @@ repeat (10)
   "setsizeto%", "setSizeTo:", "setScale",
   "gotofront", "comeToFront", "comeToFront",
   "gobacklayers", "goBackByLayers:", "goBack",
+  "color", "color", "UNKNOWN", // a rectangle variable
   
   // Sound
   "playsound", "playSound:", "playSound",
@@ -284,10 +290,15 @@ repeat (10)
   "lengthof", "stringLength:", "reportStringSize",
   "mod", "%", "reportModulus",
   "round", "rounded", "reportRound",
-  //"of"  TODO
+  //"of", "computeFunction:of:", "UNKNOWN",  TODO
   
   // More Blocks
-  "define", "procDef", "UNKNOWN"
+  "define", "procDef", "UNKNOWN",
+  
+  // Xholon
+  "consolelog", "consolelog", "consolelog",
+  "xhprint", "xhprint", "xhprint",
+  "xhprintln", "xhprintln", "xhprintln"
   }; // end blockNameArr
   
   /**
@@ -560,14 +571,6 @@ repeat (10)
             sb
             .append("<sscript>\n");
           }
-          /*if (isControlBlock(blockNameOrValue)) {
-            consoleLog("the following is a Control block:");
-            consoleLog(blockNameOrValue);
-          }
-          if ("ifthen".equals(blockNameOrValue)) {
-            consoleLog("ifthen");
-            consoleLog(spriteScript.substring(spriteScriptIx));
-          }*/
           boolean controlBlock = isControlBlock(blockNameOrValue);
           sb
           .append("<block roleName=\"")
@@ -600,6 +603,7 @@ repeat (10)
       
       // <
       case '<':
+      {
         char nextC = spriteScript.charAt(spriteScriptIx);
         if (nextC == ' ') {
           // this is the lt operator
@@ -613,11 +617,21 @@ repeat (10)
           .append("</ablock>\n");
         }
         break;
+      }
       
       // (
       case '(':
+      {
+        char nextC = spriteScript.charAt(spriteScriptIx);
         String ellipseContent = xholonizeRecurse(new StringBuilder());
-        if (spriteScript.charAt(spriteScriptIx) == '(') {
+        if (nextC == '(') {
+          sbBlockContents
+          .append("<eblock roleName=\"")
+          .append(ellipseContent)
+          .append("</eblock>\n");
+        }
+        else if (nextC == '[') {
+          // TODO ([sqrt] of (9))
           sbBlockContents
           .append("<eblock roleName=\"")
           .append(ellipseContent)
@@ -629,6 +643,13 @@ repeat (10)
           .append(ellipseContent)
           .append("</lvariable>\n");
         }
+        else if (ellipseContent.charAt(0) >= 'a') {
+          // TODO handle:  say (pick random (1) to (10))  etc.  all of these statements start with a lower-case letter
+          sbBlockContents
+          .append("<eblock roleName=\"")
+          .append(ellipseContent)
+          .append("</eblock>\n");
+        }
         else {
           sbBlockContents
           .append("<lnumber>")
@@ -636,6 +657,7 @@ repeat (10)
           .append("</lnumber>\n");
         }
         break;
+      }
       
       // [
       case '[':
@@ -649,10 +671,20 @@ repeat (10)
           break;
         default: break;
         }
-        sbBlockContents
-        .append("<").append(bname).append(">")
-        .append(xholonizeRecurse(new StringBuilder()))
-        .append("</").append(bname).append(">\n");
+        String rectangleContent = xholonizeRecurse(new StringBuilder());
+        if (isBuiltinVariable(rectangleContent)) {
+          // "mouse-pointer" "left-right" "color"
+          sbBlockContents
+          .append("<lvariable>")
+          .append(rectangleContent)
+          .append("</lvariable>\n");
+        }
+        else {
+          sbBlockContents
+          .append("<").append(bname).append(">")
+          .append(rectangleContent)
+          .append("</").append(bname).append(">\n");
+        }
         retainSpaces = false;
         break;
       
@@ -665,7 +697,7 @@ repeat (10)
         }
         else {
           // this is the end of an angle block
-          String strBN = sbBlockNameOrValue.toString(); // an actual blockNameOrValue "touchingcolor?"
+          String strBN = fixXholonizedBlockName(sbBlockNameOrValue.toString()); // an actual blockNameOrValue "touchingcolor?"  "gt"
           String strBC = sbBlockContents.toString();
           return strBN + "\">\n" + strBC;
         }
@@ -677,11 +709,11 @@ repeat (10)
         String strBC = sbBlockContents.toString();
         if (strBC.length() == 0) {
           // this is a number
-          return fixXholonizedBlockName(strBN);
+          return strBN;
         }
         else {
           // this is the end of <eblock roleName="lt">\n ...
-          return fixXholonizedBlockName(strBN) + "\">\n" + strBC;
+          return strBN + "\">\n" + strBC;
         }
       
       // ]
@@ -757,7 +789,15 @@ repeat (10)
   protected boolean isBuiltinVariable(String content) {
     boolean isbv = false;
     switch(content) {
+    // Scratch
     case "username":
+    case "mouse-pointer":
+    case "left-right":
+    case "color":
+    case "xposition":
+    case "yposition":
+    case "direction":
+    // Xholon
     case "xhappname":
     case "xhrootname":
     case "xhmodelname":
@@ -1003,6 +1043,16 @@ repeat (10)
         // assume this is a defined name (ex: DrawSquare)
         // TODO I'm prepending call as a temporary fix
         s = "call\", \"" + xhRoleName;
+      }
+      else if ("of".equals(xhRoleName)) {
+        // distinguish "getAttribute:of:" from "computeFunction:of:" by type of second child node
+        int numChildren = node.getNumChildren(false);
+        if (numChildren == 2) {
+          // "getAttribute:of:" is the default
+          if ("lnumber".equals(node.getFirstChild().getNextSibling().getXhcName())) {
+            s = "computeFunction:of:";
+          }
+        }
       }
       sb.append("\n").append(indent).append("[\"").append(s).append("\"");
       if (node.hasChildNodes()) {
