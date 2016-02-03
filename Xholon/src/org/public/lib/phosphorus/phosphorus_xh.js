@@ -1256,18 +1256,12 @@ var P = (function() {
 
   // do initializations required by the Xholon app
   var xhInit = function(width, height) {
-    console.log(width);
-    console.log(height);
-    console.log(CANVAS_WIDTH);
-    console.log(CANVAS_HEIGHT);
     if (width != -1) {
       CANVAS_WIDTH = width;
     }
     if (height != -1) {
       CANVAS_HEIGHT = height;
     }
-    console.log(CANVAS_WIDTH);
-    console.log(CANVAS_HEIGHT);
   };
   
   var canvasWidth = function() {
@@ -3143,6 +3137,16 @@ P.compile = (function() {
       } else if (block[0] === 'timerReset') {
 
         source += 'self.timerStart = self.now();\n';
+
+      // Xholon KSW
+      } else if (block[0] === 'consolelog') {
+        source += 'console.log(' + val(block[1]) + ');\n';
+      } else if (block[0] === 'xhprint') {
+        //source += 'S.say(' + val(block[1]) + ', false);\n';
+        source += 'xh.root().print(' + val(block[1]) + ');\n';
+      } else if (block[0] === 'xhprintln') {
+        //source += 'S.say(' + val(block[1]) + ', false);\n';
+        source += 'xh.root().println(' + val(block[1]) + ');\n';
 
       } else {
 
