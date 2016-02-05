@@ -19,7 +19,9 @@
 package org.primordion.xholon.base;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.primordion.xholon.base.IMessage;
 import org.primordion.xholon.base.Message;
@@ -44,6 +46,9 @@ one [two] three (four) five <six> seven
  * 
  * The following XML can be included in Xholon workbooks in the <_-.XholonClass>
   <!-- nodes that can appear in a Scratch scipt -->
+  <spritedetails/>
+  <variables/>
+  <variable/>
   <scripts/>
   <sscript/>
   <block/>
@@ -55,7 +60,11 @@ one [two] three (four) five <six> seven
     <lnumber/> <!-- 123 -->
     <lstring/> <!-- my cat is crazy -->
     <lcolor/>  <!-- red -->
-    <lvariable/> <!-- username xhappname -->
+    <lvariable> <!-- username xhappname -->
+      <bivariable/> <!-- bi  Scratch built-in variable -->
+      <udvariable/> <!-- ud  user-defined variable -->
+      NO <prvariable/> <!-- pr  Scratch function parameter variable -->
+    </lvariable>
   </literal>
  *
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
@@ -129,6 +138,11 @@ repeat (10)
   protected int indentIn1 = -1;
   
   /**
+   * A Sprite may have user-defined variables.
+   */
+  protected StringBuilder sbVariables = null;
+  
+  /**
    * Whether or not xholonize() is currently parsing an lstring or comment where spaces should be retained,
    * or parsing something else where spaces should be dropped.
    */
@@ -141,6 +155,22 @@ repeat (10)
    * Character that starts a comment line.
    */
   protected static final String COMMENT_CHAR = ";";
+  
+  /**
+   * Set contining the names of all user-defined variables.
+   */
+  protected Set<String> userDefinedVarNameSet = null;
+  
+  /**
+   * Set contining the names of all Scratch function parameters  ex: "sides" "x" "y" .
+   */
+  protected Set<String> paramsNameSet = null;
+  
+  /**
+   * Map from a Scratch function's name to its optional set of parameter types.
+   * "%n"  "%s %n %b"
+   */
+  protected Map<String, String> functionTypeMap = null;
   
   /**
    * Map from a block's naive name, to the internal Scratch name and to the internal Snap name.
@@ -338,6 +368,9 @@ repeat (10)
       spriteScript += "\n";
     }
     initBlockNameMap();
+    userDefinedVarNameSet = new HashSet<String>();
+    paramsNameSet = new HashSet<String>();
+    functionTypeMap = new HashMap<String, String>();
     
     //test();
         
@@ -471,16 +504,23 @@ repeat (10)
   protected String xholonize() {
     spriteScriptIx = 0; // start at the beginning of the Sprite's text script
     
+    sbVariables = new StringBuilder();
     StringBuilder sb = new StringBuilder();
+    
+    String scriptsStr = xholonizeRecurse(new StringBuilder());
+    
+    sb.append("<spritedetails>\n");
+    sb.append(sbVariables.toString());
     sb
     .append("<scripts>\n")
     .append("<sscript>\n");
     
-    sb.append(xholonizeRecurse(new StringBuilder()));
+    sb.append(scriptsStr);
     
     sb
     .append("</sscript>\n")
     .append("</scripts>");
+    sb.append("</spritedetails>\n");
     String xmlStr = sb.toString();
     String xmlStrPP = null;
     if (isShouldPrettyPrint()) {
@@ -526,6 +566,7 @@ repeat (10)
     int indentIn = 0;
     int prevIndentIn = 0;
     char c = '\0';
+    boolean parsingVars = false; // whether or not currently parsing variables
     while (spriteScriptIx < spriteScript.length()) {
       c = spriteScript.charAt(spriteScriptIx);
       spriteScriptIx++;
@@ -534,22 +575,36 @@ repeat (10)
       // newline
       case '\n':
         final String blockNameOrValue = sbBlockNameOrValue.toString();
-        if ("else".equals(blockNameOrValue)) {
+        if ("variables".equals(blockNameOrValue)) {
+          parsingVars = true;
+          retainSpaces = true;
+          sbVariables
+          .append("<variables>\n");
+        }
+        else if ("else".equals(blockNameOrValue)) {
           sb
           .append("</sscript>\n");
         }
         else if (spriteScript.charAt(spriteScriptIx-2) == '\n') {
           // a blank line (2 newline characters in a row) means start a new script
-          if (indentIn < prevIndentIn) {
-            // this is the end of a nested Control block
+          if (parsingVars) {
+            sbVariables
+            .append("</variables>\n");
+            parsingVars = false;
+            retainSpaces = false;
+          }
+          else {
+            if (indentIn < prevIndentIn) {
+              // this is the end of a nested Control block
+              sb
+              .append("</sscript>\n")
+              .append("</block>\n");
+            }
             sb
             .append("</sscript>\n")
-            .append("</block>\n");
+            .append("\n")
+            .append("<sscript>\n");
           }
-          sb
-          .append("</sscript>\n")
-          .append("\n")
-          .append("<sscript>\n");
         }
         else if (blockNameOrValue.startsWith(COMMENT_CHAR)) {
           // this is not part of Scratch or Snap
@@ -558,6 +613,22 @@ repeat (10)
           .append(blockNameOrValue.substring(1))
           .append(" -->\n");
           retainSpaces = false;
+        }
+        else if (parsingVars) {
+          String[] nameVal = blockNameOrValue.split(" ");
+          if (nameVal.length == 2) {
+            sbVariables
+            .append("<variable>\n")
+            .append("<udvariable>")
+            .append(nameVal[0]) // name
+            .append("</udvariable>\n")
+            // it could be a number or string or color; Scratch/phosphorus is OK if it's just a string
+            .append("<lstring>")
+            .append(nameVal[1]) // initial value
+            .append("</lstring>\n")
+            .append("</variable>\n");
+            userDefinedVarNameSet.add(nameVal[0]);
+          }
         }
         else {
           if (indentIn < prevIndentIn) {
@@ -639,9 +710,21 @@ repeat (10)
         }
         else if (isBuiltinVariable(ellipseContent)) {
           sbBlockContents
-          .append("<lvariable>")
+          .append("<bivariable>")
           .append(ellipseContent)
-          .append("</lvariable>\n");
+          .append("</bivariable>\n");
+        }
+        /*else if (isParamVariable(ellipseContent)) {
+          sbBlockContents
+          .append("<prvariable>")
+          .append(ellipseContent)
+          .append("</prvariable>\n");
+        }*/
+        else if (isUserDefinedVariable(ellipseContent)) {
+          sbBlockContents
+          .append("<udvariable>")
+          .append(ellipseContent)
+          .append("</udvariable>\n");
         }
         else if (ellipseContent.charAt(0) >= 'a') {
           // TODO handle:  say (pick random (1) to (10))  etc.  all of these statements start with a lower-case letter
@@ -675,9 +758,22 @@ repeat (10)
         if (isBuiltinVariable(rectangleContent)) {
           // "mouse-pointer" "left-right" "color"
           sbBlockContents
-          .append("<lvariable>")
+          .append("<bivariable>")
           .append(rectangleContent)
-          .append("</lvariable>\n");
+          .append("</bivariable>\n");
+        }
+        /*else if (isParamVariable(rectangleContent)) {
+          sbBlockContents
+          .append("<prvariable>")
+          .append(rectangleContent)
+          .append("</prvariable>\n");
+        }*/
+        else if (isUserDefinedVariable(rectangleContent)) {
+          // "sides" "degrees"
+          sbBlockContents
+          .append("<udvariable>")
+          .append(rectangleContent)
+          .append("</udvariable>\n");
         }
         else {
           sbBlockContents
@@ -797,6 +893,7 @@ repeat (10)
     case "xposition":
     case "yposition":
     case "direction":
+    case "answer":
     // Xholon
     case "xhappname":
     case "xhrootname":
@@ -806,6 +903,21 @@ repeat (10)
     default: break;
     }
     return isbv;
+  }
+  
+  /**
+   * Is this a user-defined variable?
+   */
+  protected boolean isUserDefinedVariable(String content) {
+    return userDefinedVarNameSet.contains(content);
+  }
+  
+  /**
+   * Is this a Scratch function parameter variable?
+   * All function parameter variables are also user-defined variables.
+   */
+  protected boolean isParamVariable(String content) {
+    return paramsNameSet.contains(content);
   }
   
   /**
@@ -1015,6 +1127,15 @@ repeat (10)
     String s = null;
     
     switch(xhNodeName) {
+    case "spritedetails":
+      // ignore
+      break;
+    case "variables":
+      sb.append(indent).append("\"variables\": [");
+      break;
+    case "variable":
+      sb.append("\n").append(indent).append("{\n");
+      break;
     case "scripts":
       sb.append("\"scripts\": [");
       break;
@@ -1042,7 +1163,7 @@ repeat (10)
       if (s == null) {
         // assume this is a defined name (ex: DrawSquare)
         // TODO I'm prepending call as a temporary fix
-        s = "call\", \"" + xhRoleName;
+        s = "call\", \"" + xhRoleName + functionTypeMap.get(xhRoleName);
       }
       else if ("of".equals(xhRoleName)) {
         // distinguish "getAttribute:of:" from "computeFunction:of:" by type of second child node
@@ -1064,12 +1185,101 @@ repeat (10)
       sb.append(xhContent);
       break;
     case "lstring":
-      sb.append("\"").append(xhContent).append("\"");
+      if ("define".equals(node.getParentNode().getRoleName())) {
+        // xhContent is the name of a Scratch function (New Block) definition  ex: "polygon"
+        // it has an optional lstring nextSibling containing function parameters
+        if (node == node.getParentNode().getFirstChild()) {
+          // don't separately process the optional function parameters
+          if (node.hasNextSibling()) {
+            // convert define [polygon] [nsides,sx,by]  to  ["procDef", "polygon %n %s %b", ["sides", "x", "y"], [1, "", false], false]
+            String paramsStr = node.getNextSibling().getVal_String();
+            if (paramsStr != null) {
+              String[] paramsArr = paramsStr.split(",");
+              StringBuilder sbParams = new StringBuilder();
+              sbParams.append("\"").append(xhContent);
+              String functionTypeStr = "";
+              int i;
+              for (i = 0; i < paramsArr.length; i++) {
+                functionTypeStr += " %" + paramsArr[i].charAt(0);
+                //sbParams.append(" ").append("%").append(paramsArr[i].charAt(0));
+              }
+              functionTypeMap.put(xhContent, functionTypeStr);
+              sbParams.append(functionTypeStr);
+              sbParams.append("\", [");
+              for (i = 0; i < paramsArr.length; i++) {
+                if (i > 0) {
+                  sbParams.append(", ");
+                }
+                String paramName = paramsArr[i].substring(1);
+                paramsNameSet.add(paramName);
+                sbParams.append("\"").append(paramName).append("\"");
+              }
+              //sbParams.append("], [1, \"\", false], false");
+              sbParams.append("], [");
+              for (i = 0; i < paramsArr.length; i++) {
+                if (i > 0) {
+                  sbParams.append(", ");
+                }
+                char paramType = paramsArr[i].charAt(0);
+                switch (paramType) {
+                case 'n': sbParams.append("1"); break;
+                case 's': sbParams.append("\"\""); break;
+                case 'b': sbParams.append("false"); break;
+                default: break;
+                }
+              }
+              sbParams.append("], false");
+              sb.append(sbParams.toString());
+            }
+            node = node.getNextSibling(); // cause the optional params node to be ignored
+          }
+          else {
+            sb.append("\"").append(xhContent).append("\"");
+          }
+        }
+      }
+      else if ("variable".equals(node.getParentNode().getXhcName())) {
+        // this is a Scratch user-defined variable's value
+        // TODO the value could be a string, number, or boolean; is it OK to write all of these as strings?
+        sb.append("\n").append(indent).append("\"value\": \"").append(xhContent).append("\",");
+        sb.append("\n").append(indent).append("\"isPersistent\": false");
+      }
+      else {
+        sb.append("\"").append(xhContent).append("\"");
+      }
       break;
     case "lcolor":
       sb.append("\"").append(xhContent).append("\"");
       break;
-    case "lvariable":
+    //case "prvariable":
+    //{
+    //  sb.append("[\"getParam\", \"").append(xhContent).append("\", \"r\"]");
+    //  break;
+    //}
+    case "udvariable":
+    {
+      if ("variable".equals(node.getParentNode().getXhcName())) {
+        // this is a Scratch user-defined variable's name
+        sb.append(indent).append("\"name\": \"").append(xhContent).append("\"");
+      }
+      else {
+        if (isParamVariable(xhContent)) {
+          // TODO use "r" for number and string; use "b" for boolean
+          sb.append("[\"getParam\", \"").append(xhContent).append("\", \"r\"]");
+        }
+        else {
+          if (("setto".equals(node.getParentNode().getRoleName())) && (node == node.getParentNode().getFirstChild())) {
+            // this is a special case; this is the name of the variable whose value is being set
+            sb.append("\"").append(xhContent).append("\"");
+          }
+          else {
+            sb.append("[\"readVariable\", \"").append(xhContent).append("\"]");
+          }
+        }
+      }
+      break;
+    }
+    case "bivariable":
     {
       String[] arr = blockNameMap.get(xhContent);
       if (arr != null && arr.length > 1) {
@@ -1079,10 +1289,12 @@ repeat (10)
         s = xhContent;
       }
       sb.append("[\"").append(s).append("\"]");
+      
       break;
     }
-    default: break;
-    }
+    default:
+      break;
+    } // end switch
     
     IXholon childNode = node.getFirstChild();
     String childIndent = indent + "  ";
@@ -1095,7 +1307,23 @@ repeat (10)
     }
     
     switch(xhNodeName) {
+    case "spritedetails":
+      // ignore
+      break;
+    case "variables":
+      sb.append("\n").append(indent).append("],\n").append(indent);
+      break;
+    case "variable":
+      sb.append("\n").append(indent).append("}");
+      if (node.hasNextSibling()) {
+        sb.append(",");
+      }
+      else {
+        //sb.append("\n").append(indent.substring(0, indent.length()-2));
+      }
+      break;
     case "sscript":
+      paramsNameSet.clear(); // the current script might be a "define"
       sb.append("]");
       if ("scripts".equals(node.getParentNode().getXhcName())) {
         sb.append("]");
