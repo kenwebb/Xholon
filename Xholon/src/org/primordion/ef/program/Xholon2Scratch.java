@@ -380,7 +380,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     sbLocal
     .append("{\n")
     .append("  \"objName\": \"").append(nodeName).append("\",\n")
-    .append(writeSpriteVariables(new StringBuilder()))
+    .append(writeSpriteVariables(node, new StringBuilder()))
     .append(writeSpriteScripts(node, new StringBuilder()))
     .append(writeSpriteSounds(new StringBuilder()))
     .append(writeSpriteCostumes(new StringBuilder()))
@@ -395,7 +395,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     .append("  \"visible\": false,\n") // the sprite is invisible, because it exists only as something to be cloned
     .append("  \"spriteInfo\": {\n")
     .append("  }\n")
-    .append("},")
+    .append("},") // TODO don't writeout "," if this is the last Sprite
     ;
     nfSpriteCount++;
     return sbLocal.toString();
@@ -565,14 +565,16 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     return sbLocal.toString();
   }
   
-  protected String writeSpriteVariables(StringBuilder sbLocal) {
-    sbLocal
-    .append("  \"variables\": [{\n")
-    .append("    \"name\": \"name\",\n")
-    .append("    \"value\": 0,\n")
-    .append("    \"isPersistent\": false\n")
-    .append("  }],\n")
-    ;
+  protected String writeSpriteVariables(IXholon node, StringBuilder sbLocal) {
+    if (!isSprite(node)) {
+      sbLocal
+      .append("  \"variables\": [{\n")
+      .append("    \"name\": \"name\",\n")
+      .append("    \"value\": 0,\n")
+      .append("    \"isPersistent\": false\n")
+      .append("  }],\n")
+      ;
+    }
     return sbLocal.toString();
   }
   
