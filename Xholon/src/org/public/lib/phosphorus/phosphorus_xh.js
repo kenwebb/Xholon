@@ -181,7 +181,11 @@ var P = (function() {
   var IO = {};
 
   IO.PROJECT_URL = 'http://projects.scratch.mit.edu/internalapi/project/';
-  IO.ASSET_URL = 'http://cdn.assets.scratch.mit.edu/internalapi/asset/';
+  //IO.ASSET_URL = 'http://cdn.assets.scratch.mit.edu/internalapi/asset/'; // remote
+  //IO.ASSET_GET = '/get/'; // remote
+  // example:  http://cdn.assets.scratch.mit.edu/internalapi/asset/09dc888b0b7df19f70d81588ae73420e.svg/get/
+  IO.ASSET_URL = 'xholon/lib/phosphorus/'; // local
+  IO.ASSET_GET = ''; // local
   IO.SOUNDBANK_URL = 'https://cdn.rawgit.com/LLK/scratch-flash/v429/src/soundbank/';
 
   IO.FONTS = {
@@ -561,7 +565,7 @@ var P = (function() {
       if (IO.zip) {
         cb(f.asText());
       } else {
-        IO.projectRequest.add(IO.load(IO.ASSET_URL + md5 + '/get/', cb));
+        IO.projectRequest.add(IO.load(IO.ASSET_URL + md5 + IO.ASSET_GET, cb));
       }
     } else if (ext === 'wav') {
       var request = new Request;
@@ -577,7 +581,7 @@ var P = (function() {
         var ab = f.asArrayBuffer();
         cb(ab);
       } else {
-        IO.projectRequest.add(IO.load(IO.ASSET_URL + md5 + '/get/', cb, null, 'arraybuffer'));
+        IO.projectRequest.add(IO.load(IO.ASSET_URL + md5 + IO.ASSET_GET, cb, null, 'arraybuffer'));
       }
     } else {
       if (IO.zip) {
@@ -591,7 +595,7 @@ var P = (function() {
         IO.projectRequest.add(request);
       } else {
         IO.projectRequest.add(
-          IO.loadImage(IO.ASSET_URL + md5 + '/get/', function(result) {
+          IO.loadImage(IO.ASSET_URL + md5 + IO.ASSET_GET, function(result) {
             callback(result);
           }));
       }
