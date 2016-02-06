@@ -45,7 +45,7 @@ one [two] three (four) five <six> seven
  * - 
  * 
  * The following XML can be included in Xholon workbooks in the <_-.XholonClass>
-  <!-- nodes that can appear in a Scratch scipt -->
+  <!-- nodes that can appear in a Scratch script -->
   <spritedetails/>
   <variables/>
   <variable/>
@@ -63,7 +63,6 @@ one [two] three (four) five <six> seven
     <lvariable> <!-- username xhappname -->
       <bivariable/> <!-- bi  Scratch built-in variable -->
       <udvariable/> <!-- ud  user-defined variable -->
-      NO <prvariable/> <!-- pr  Scratch function parameter variable -->
     </lvariable>
   </literal>
  *
@@ -714,12 +713,6 @@ repeat (10)
           .append(ellipseContent)
           .append("</bivariable>\n");
         }
-        /*else if (isParamVariable(ellipseContent)) {
-          sbBlockContents
-          .append("<prvariable>")
-          .append(ellipseContent)
-          .append("</prvariable>\n");
-        }*/
         else if (isUserDefinedVariable(ellipseContent)) {
           sbBlockContents
           .append("<udvariable>")
@@ -762,12 +755,6 @@ repeat (10)
           .append(rectangleContent)
           .append("</bivariable>\n");
         }
-        /*else if (isParamVariable(rectangleContent)) {
-          sbBlockContents
-          .append("<prvariable>")
-          .append(rectangleContent)
-          .append("</prvariable>\n");
-        }*/
         else if (isUserDefinedVariable(rectangleContent)) {
           // "sides" "degrees"
           sbBlockContents
@@ -1163,7 +1150,11 @@ repeat (10)
       if (s == null) {
         // assume this is a defined name (ex: DrawSquare)
         // TODO I'm prepending call as a temporary fix
-        s = "call\", \"" + xhRoleName + functionTypeMap.get(xhRoleName);
+        String functionTypeStr = functionTypeMap.get(xhRoleName);
+        if (functionTypeStr == null) {
+          functionTypeStr = "";
+        }
+        s = "call\", \"" + xhRoleName + functionTypeStr;
       }
       else if ("of".equals(xhRoleName)) {
         // distinguish "getAttribute:of:" from "computeFunction:of:" by type of second child node
@@ -1234,9 +1225,10 @@ repeat (10)
             node = node.getNextSibling(); // cause the optional params node to be ignored
           }
           else {
-            sb.append("\"").append(xhContent).append("\"");
+            sb.append("\"").append(xhContent).append("\"").append(", [], [], false");
           }
-        }
+        } // end  if (node == node.getParentNode().getFirstChild()) {
+
       }
       else if ("variable".equals(node.getParentNode().getXhcName())) {
         // this is a Scratch user-defined variable's value
@@ -1251,11 +1243,6 @@ repeat (10)
     case "lcolor":
       sb.append("\"").append(xhContent).append("\"");
       break;
-    //case "prvariable":
-    //{
-    //  sb.append("[\"getParam\", \"").append(xhContent).append("\", \"r\"]");
-    //  break;
-    //}
     case "udvariable":
     {
       if ("variable".equals(node.getParentNode().getXhcName())) {
