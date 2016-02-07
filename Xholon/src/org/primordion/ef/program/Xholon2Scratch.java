@@ -190,7 +190,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
           break;
         default: break;
         }
-        compileAndRunWithPhosphorus(sb.toString(), getSelection(), width, height);
+        compileAndRunWithPhosphorus(sb.toString(), getSelection(), width, height, isWritePhosphorusCode());
       }
     }
   }
@@ -665,6 +665,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     p.phosphorusPlayer = false;
     p.selection = "#xhcanvas";
     p.writeXhXmlStr = false;
+    p.writePhosphorusCode = false;
     this.efParams = p;
   }-*/;
 
@@ -717,6 +718,10 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
   public native boolean isWriteXhXmlStr() /*-{return this.efParams.writeXhXmlStr;}-*/;
   //public native void setWriteXhXmlStr(boolean writeXhXmlStr) /*-{this.efParams.writeXhXmlStr = writeXhXmlStr;}-*/;
   
+  /** Whether or not to request phosphorus.js to write out its generated JavaScript code, mostly for debug purposes.. */
+  public native boolean isWritePhosphorusCode() /*-{return this.efParams.writePhosphorusCode;}-*/;
+  //public native void setWritePhosphorusCode(boolean writePhosphorusCode) /*-{this.efParams.writePhosphorusCode = writePhosphorusCode;}-*/;
+  
   /**
    * Compile and run the Scratch JSON project using the phosphorus code and the phosphorus player.
    * phosphorus "changeGraphicEffect:by:", "color" is not yet implemented for sprites
@@ -750,7 +755,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
    * http://phosphorus.github.io/
    * https://github.com/nathan/phosphorus
    */
-  protected native void compileAndRunWithPhosphorus(String jsonStr, String selection, int width, int height) /*-{
+  protected native void compileAndRunWithPhosphorus(String jsonStr, String selection, int width, int height, boolean writePhosphorusCode) /*-{
     var P = $wnd.P;
     
     function showError(e) {
@@ -792,6 +797,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     
     if (P) {
       P.xhInit(width,height);
+      P.setWritePhosphorusCode(writePhosphorusCode);
       var json = P.IO.parseJSONish(jsonStr);
       var callback = function(stage) {$wnd.console.log("callback");$wnd.console.log(stage);}
       var request = P.IO.loadJSONProject(json, callback, this);

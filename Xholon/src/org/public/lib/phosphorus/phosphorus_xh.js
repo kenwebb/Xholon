@@ -13,6 +13,8 @@ var P = (function() {
   var CANVAS_WIDTH_HALF = CANVAS_WIDTH / 2; // 240
   var CANVAS_HEIGHT_HALF = CANVAS_HEIGHT / 2; // 180
   
+  var writePhosphorusCode = false;
+  
   var hasTouchEvents = 'ontouchstart' in document;
 
   var inherits = function(cla, sup) {
@@ -1275,6 +1277,14 @@ var P = (function() {
   var canvasHeight = function() {
     return CANVAS_HEIGHT;
   };
+  
+  var isWritePhosphorusCode = function() {
+    return writePhosphorusCode;
+  };
+
+  var setWritePhosphorusCode = function(b) {
+    writePhosphorusCode = b;
+  };
 
   /**
    * Convert a color name into a decimal color number, for use with "penColor:"
@@ -2107,6 +2117,8 @@ var P = (function() {
     xhInit: xhInit,
     canvasWidth: canvasWidth,
     canvasHeight: canvasHeight,
+    isWritePhosphorusCode: isWritePhosphorusCode,
+    setWritePhosphorusCode: setWritePhosphorusCode,
     getDecimalColor: getDecimalColor,
     IO: IO,
     Base: Base,
@@ -3240,7 +3252,9 @@ P.compile = (function() {
         }
       }
       result += '})';
-      console.log(result);
+      if (P.isWritePhosphorusCode()) {
+        console.log(result);
+      }
       return P.runtime.scopedEval(result);
     };
 
