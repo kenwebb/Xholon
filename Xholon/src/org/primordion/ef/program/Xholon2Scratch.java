@@ -354,7 +354,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     ;
     sb.append(sbSprites.toString());
     sb
-    .append(writeSprite(root, new StringBuilder())) // write invisible root sprite with the clone script
+    //.append(writeSprite(root, new StringBuilder())) // write invisible root sprite with the clone script; NO this is already done by Stage
     .append("],\n")
     .append(writeInfo(new StringBuilder()))
     .append("}")
@@ -463,6 +463,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
       .append("      [\"changeVar:by:\", \"spriteIndex\", 1],\n")
       .append("      [\"setVar:to:\", \"name\", [\"getLine:ofList:\", [\"readVariable\", \"spriteIndex\"], \"namesList\"]]]],\n")
       .append("  [25, 300, [[\"whenClicked\"], [\"say:duration:elapsed:from:\", [\"readVariable\", \"name\"], 2]]]],\n");
+      // TODO "whenClicked" only works with touch and not with mouse (on my touch-screen laptop)
     }
     nfScriptCount++;
     return sbLocal.toString();
