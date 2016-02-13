@@ -2866,17 +2866,16 @@ P.compile = (function() {
       } else if (block[0] === 'setPenHueTo:') {
 
         var penHue = block[1];
-        if (isNaN(penHue)) {
+        if (typeof penHue === 'string') {
           // penHue is a color name  ex: "red"
           penHue = P.getDecimalColor(penHue);
           source += 'var c = ' + num(penHue) + ';\n';
           source += 'S.penColor = c;\n';
-          //source += 'var a = (c >> 24 & 0xff) / 0xff;\n'; // alpha ends up being very small, so the color is invisible
           source += 'var a = 1;\n';
           source += 'S.penCSS = "rgba(" + (c >> 16 & 0xff) + "," + (c >> 8 & 0xff) + "," + (c & 0xff) + ", " + (a || 1) + ")";\n';
         }
         else {
-          // penHue is a number
+          // penHue is a number, or a Scratch variable (a JavaScript array)
           // both 123 and "123" are recognized as numbers
           source += noRGB;
           source += 'S.penHue = ' + num(penHue) + ' * 360 / 200;\n';
