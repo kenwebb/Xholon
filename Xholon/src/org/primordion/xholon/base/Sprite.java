@@ -126,6 +126,10 @@ repeat (10)
   protected boolean writeXhXmlStr = false;
   
   /**
+   * Whether or not to write out the scripts as human-readable English text.
+   */
+  protected boolean writeEngTxt = false;
+  /**
    * The spriteScript as a Xholon subtree.
    */
   protected IXholon xhScriptRoot = null;
@@ -142,6 +146,11 @@ repeat (10)
   protected StringBuilder sbVariables = null;
   
   /**
+   * A Sprite has standard Xholon attributes (ex: "xhrolename") that may be written as user-defined variables.
+   */
+  protected StringBuilder sbStandardAttributes = null;
+  
+  /**
    * Whether or not xholonize() is currently parsing an lstring or comment where spaces should be retained,
    * or parsing something else where spaces should be dropped.
    */
@@ -149,14 +158,17 @@ repeat (10)
   
   protected static final int BLOCKNAMEMAP_VALUEIX_SCRATCH = 0;
   protected static final int BLOCKNAMEMAP_VALUEIX_SNAP    = 1;
+  protected static final int BLOCKNAMEMAP_VALUEIX_ENGLISH = 2;
   
   /**
    * Character that starts a comment line.
    */
   protected static final String COMMENT_CHAR = ";";
   
+  protected static final String ENGLISHTEXT_SEP_CHAR = "_";
+  
   /**
-   * Set contining the names of all user-defined variables.
+   * Set containing the names of all user-defined variables.
    */
   protected Set<String> userDefinedVarNameSet = null;
   
@@ -172,162 +184,162 @@ repeat (10)
   protected Map<String, String> functionTypeMap = null;
   
   /**
-   * Map from a block's naive name, to the internal Scratch name and to the internal Snap name.
+   * Map from a block's naive name, to the internal Scratch name and to the internal Snap name and to an English expression.
    * The naive name is a concatenation of all the non-bracketed words in the graphical block.
    */
   protected Map<String, String[]> blockNameMap = null;
   
   protected String[] blockNameArr = {
-  // naiveName, scratchName, snapName
+  // naiveName, scratchName, snapName, EnglishSentenceOrPhrase
   // Motion
-  "movesteps", "forward:", "forward",
-  "turnrightdegrees", "turnRight:", "turn",
-  "turnleftdegrees", "turnLeft:", "turnLeft",
-  "pointindirection", "heading:", "setHeading",
-  "pointtowards", "pointTowards:", "doFaceTowards",
-  "gotoxy", "gotoX:y:", "gotoXY",
-  "goto", "gotoSpriteOrMouse:", "doGotoObject",
-  "glidesecstoxy", "glideSecs:toX:y:elapsed:from:", "doGlide",
-  "changexby", "changeXposBy:", "changeXPosition",
-  "setxto", "xpos:", "setXPosition",
-  "changeyby", "changeYposBy:", "changeYPosition",
-  "setyto", "ypos:", "setYPosition",
-  "ifonedge,bounce", "bounceOffEdge", "bounceOffEdge",
-  "setrotationstyle", "setRotationStyle", "UNKNOWN",
-  "mouse-pointer", "_mouse_", "UNKNOWN", // a rectangle variable
-  "left-right", "left-right", "UNKNOWN", // a rectangle variable
-  "xposition", "x position", "UNKNOWN", // an ellipse variable
-  "yposition", "y position", "UNKNOWN", // an ellipse variable
-  "direction", "direction", "UNKNOWN", // an ellipse variable
+  "movesteps", "forward:", "forward", "Move forward _ steps.",
+  "turnrightdegrees", "turnRight:", "turn", "Turn right _ degrees.",
+  "turnleftdegrees", "turnLeft:", "turnLeft", "Turn left _ degrees.",
+  "pointindirection", "heading:", "setHeading", "Point in direction _.",
+  "pointtowards", "pointTowards:", "doFaceTowards", ".",
+  "gotoxy", "gotoX:y:", "gotoXY", "Go to x _ y _.",
+  "goto", "gotoSpriteOrMouse:", "doGotoObject", ".",
+  "glidesecstoxy", "glideSecs:toX:y:elapsed:from:", "doGlide", ".",
+  "changexby", "changeXposBy:", "changeXPosition", ".",
+  "setxto", "xpos:", "setXPosition", ".",
+  "changeyby", "changeYposBy:", "changeYPosition", ".",
+  "setyto", "ypos:", "setYPosition", ".",
+  "ifonedge,bounce", "bounceOffEdge", "bounceOffEdge", ".",
+  "setrotationstyle", "setRotationStyle", "UNKNOWN", ".",
+  "mouse-pointer", "_mouse_", "UNKNOWN", ".", // a rectangle variable
+  "left-right", "left-right", "UNKNOWN", ".", // a rectangle variable
+  "xposition", "x position", "UNKNOWN", ".", // an ellipse variable
+  "yposition", "y position", "UNKNOWN", ".", // an ellipse variable
+  "direction", "direction", "UNKNOWN", ".", // an ellipse variable
   
   // Looks
-  "sayforsecs", "say:duration:elapsed:from:", "doSayFor",
-  "say", "say:", "bubble",
-  "thinkforsecs", "think:duration:elapsed:from:", "doThinkFor",
-  "think", "think:", "doThink",
-  "show", "show", "show",
-  "hide", "hide", "hide",
-  "switchcostumeto", "lookLike:", "doSwitchToCostume",
-  "nextcostume", "nextCostume", "doWearNextCostume",
-  "switchbackdropto", "startScene", "UNKNOWN",
-  "changeeffectby", "changeGraphicEffect:by:", "changeEffect",
-  "seteffectto", "setGraphicEffect:to:", "setEffect",
-  "cleargraphiceffects", "filterReset", "clearEffects",
-  "changesizeby", "changeSizeBy:", "changeScale",
-  "setsizeto%", "setSizeTo:", "setScale",
-  "gotofront", "comeToFront", "comeToFront",
-  "gobacklayers", "goBackByLayers:", "goBack",
-  "color", "color", "UNKNOWN", // a rectangle variable
+  "sayforsecs", "say:duration:elapsed:from:", "doSayFor", "Say _ for _ seconds.",
+  "say", "say:", "bubble", "Say _.",
+  "thinkforsecs", "think:duration:elapsed:from:", "doThinkFor", "Think _ for _ seconds.",
+  "think", "think:", "doThink", "Think _.",
+  "show", "show", "show", "Show yourself.",
+  "hide", "hide", "hide", "Hide yourself.",
+  "switchcostumeto", "lookLike:", "doSwitchToCostume", ".",
+  "nextcostume", "nextCostume", "doWearNextCostume", ".",
+  "switchbackdropto", "startScene", "UNKNOWN", ".",
+  "changeeffectby", "changeGraphicEffect:by:", "changeEffect", ".",
+  "seteffectto", "setGraphicEffect:to:", "setEffect", ".",
+  "cleargraphiceffects", "filterReset", "clearEffects", ".",
+  "changesizeby", "changeSizeBy:", "changeScale", ".",
+  "setsizeto%", "setSizeTo:", "setScale", "Set size to _ %.",
+  "gotofront", "comeToFront", "comeToFront", ".",
+  "gobacklayers", "goBackByLayers:", "goBack", ".",
+  "color", "color", "UNKNOWN", ".", // a rectangle variable
   
   // Sound
-  "playsound", "playSound:", "playSound",
-  "playsounduntildone", "doPlaySoundAndWait", "doPlaySoundUntilDone",
-  "stopallsounds", "stopAllSounds", "doStopAllSounds",
-  "playdrumforbeats", "playDrum", "UNKNOWN",
-  "restforbeats", "rest:elapsed:from:", "doRest",
-  "playnoteforbeats", "noteOn:duration:elapsed:from:", "doPlayNote",
-  "setinstrumentto", "instrument:", "UNKNOWN",
-  "changevolumeby", "changeVolumeBy:", "UNKNOWN",
-  "setvolumeto%", "setVolumeTo:", "UNKNOWN",
-  "changetempoby", "changeTempoBy:", "doChangeTempo",
-  "settempotobpm", "setTempoTo:", "doSetTempo",
+  "playsound", "playSound:", "playSound", ".",
+  "playsounduntildone", "doPlaySoundAndWait", "doPlaySoundUntilDone", ".",
+  "stopallsounds", "stopAllSounds", "doStopAllSounds", ".",
+  "playdrumforbeats", "playDrum", "UNKNOWN", ".",
+  "restforbeats", "rest:elapsed:from:", "doRest", ".",
+  "playnoteforbeats", "noteOn:duration:elapsed:from:", "doPlayNote", ".",
+  "setinstrumentto", "instrument:", "UNKNOWN", ".",
+  "changevolumeby", "changeVolumeBy:", "UNKNOWN", ".",
+  "setvolumeto%", "setVolumeTo:", "UNKNOWN", ".",
+  "changetempoby", "changeTempoBy:", "doChangeTempo", ".",
+  "settempotobpm", "setTempoTo:", "doSetTempo", ".",
   
   // Pen
-  "clear", "clearPenTrails", "clear",
-  "stamp", "stampCostume", "doStamp",
-  "pendown", "putPenDown", "down",
-  "penup", "putPenUp", "up",
+  "clear", "clearPenTrails", "clear", "Clear.",
+  "stamp", "stampCostume", "doStamp", ".",
+  "pendown", "putPenDown", "down", "Pen down.",
+  "penup", "putPenUp", "up", "Pen up.",
   // if using "setPenHueTo:", the color must be a number from 0 to 199 in rainbow order from red to purple, so 150 is a bluish-purpleish
   // if using "penColor:", the color must be a decimal rgba value, for example 2858785 is a shade of green
   //"setpencolorto", "penColor:", "setColor", // set pen color to [COLOR]
-  "changepencolorby", "changePenHueBy:", "changeHue",
-  "setpencolorto", "setPenHueTo:", "setHue", // set pen color to (NUMBER)  ex: set pen color to (150)
-  "changepenshadeby", "changePenShadeBy:", "changeBrightness",
-  "setpenshadeto", "setPenShadeTo:", "setBrightness",
-  "changepensizeby", "changePenSizeBy:", "changeSize",
-  "setpensizeto", "penSize:", "setSize",
+  "changepencolorby", "changePenHueBy:", "changeHue", ".",
+  "setpencolorto", "setPenHueTo:", "setHue", "Set pen color to _.", // set pen color to (NUMBER)  ex: set pen color to (150)
+  "changepenshadeby", "changePenShadeBy:", "changeBrightness", ".",
+  "setpenshadeto", "setPenShadeTo:", "setBrightness", ".",
+  "changepensizeby", "changePenSizeBy:", "changeSize", ".",
+  "setpensizeto", "penSize:", "setSize", "Set pen size to _.",
   
   // Data
-  "setto", "setVar:to:", "doSetVar",
-  "changeby", "changeVar:by:", "doChangeVar",
-  "showvariable", "showVariable", "doShowVar",
-  "hidevariable", "hideVariable", "doHideVar",
-  "addto", "append:toList:", "doAddToList",
-  "deleteof", "deleteLine:ofList:", "doDeleteFromList",
-  "insertatof", "insert:at:ofList:", "doInsertInList",
-  "replaceitemofwith", "setLine:ofList:to:", "doReplaceInList",
-  "itemof", "getLine:ofList:", "reportListItem",
-  "lengthof", "lineCountOfList:", "reportListLength",
-  "contains?", "list:contains:", "reportListContainsItem",
-  "showlist", "showList:", "UNKNOWN",
-  "hidelist", "hideList:", "UNKNOWN",
+  "setto", "setVar:to:", "doSetVar", ".",
+  "changeby", "changeVar:by:", "doChangeVar", ".",
+  "showvariable", "showVariable", "doShowVar", ".",
+  "hidevariable", "hideVariable", "doHideVar", ".",
+  "addto", "append:toList:", "doAddToList", ".",
+  "deleteof", "deleteLine:ofList:", "doDeleteFromList", ".",
+  "insertatof", "insert:at:ofList:", "doInsertInList", ".",
+  "replaceitemofwith", "setLine:ofList:to:", "doReplaceInList", ".",
+  "itemof", "getLine:ofList:", "reportListItem", ".",
+  "lengthof", "lineCountOfList:", "reportListLength", ".",
+  "contains?", "list:contains:", "reportListContainsItem", ".",
+  "showlist", "showList:", "UNKNOWN", ".",
+  "hidelist", "hideList:", "UNKNOWN", ".",
   
   // Events
-  "whengreenflagclicked", "whenGreenFlag", "receiveGo",
-  "whenkeypressed", "whenKeyPressed", "receiveKey",
-  "whenthisspriteclicked", "whenClicked", "UNKNOWN",
-  "whenbackdropswitchesto", "whenSceneStarts", "UNKNOWN",
-  "when>", "whenSensorGreaterThan", "UNKNOWN",
-  "whenIreceive", "whenIReceive", "receiveMessage",
-  "broadcast", "broadcast:", "doBroadcast",
-  "broadcastandwait", "doBroadcastAndWait", "doBroadcastAndWait",
+  "whengreenflagclicked", "whenGreenFlag", "receiveGo", "When green flag clicked:",
+  "whenkeypressed", "whenKeyPressed", "receiveKey", ".",
+  "whenthisspriteclicked", "whenClicked", "UNKNOWN", ".",
+  "whenbackdropswitchesto", "whenSceneStarts", "UNKNOWN", ".",
+  "when>", "whenSensorGreaterThan", "UNKNOWN", ".",
+  "whenIreceive", "whenIReceive", "receiveMessage", "When I receive _:",
+  "broadcast", "broadcast:", "doBroadcast", "Broadcast _.",
+  "broadcastandwait", "doBroadcastAndWait", "doBroadcastAndWait", ".",
   
   // Control
-  "waitsecs", "wait:elapsed:from:", "doWait",
-  "repeat", "doRepeat", "doRepeat",
-  "forever", "doForever", "doForever",
-  "ifthen", "doIf", "doIf",
-  "ifthenelse", "doIfElse", "doIfElse",
-  "waituntil", "doWaitUntil", "doWaitUntil",
-  "repeatuntil", "doUntil", "doUntil",
-  "stop", "stopScripts", "doStopThis",
-  "whenIstartasaclone", "whenCloned", "receiveOnClone",
-  "createcloneof", "createCloneOf", "createClone",
-  "deletethisclone", "deleteClone", "removeClone",
+  "waitsecs", "wait:elapsed:from:", "doWait", "Wait _ seconds.",
+  "repeat", "doRepeat", "doRepeat", ".",
+  "forever", "doForever", "doForever", ".",
+  "ifthen", "doIf", "doIf", ".",
+  "ifthenelse", "doIfElse", "doIfElse", ".",
+  "waituntil", "doWaitUntil", "doWaitUntil", ".",
+  "repeatuntil", "doUntil", "doUntil", ".",
+  "stop", "stopScripts", "doStopThis", ".",
+  "whenIstartasaclone", "whenCloned", "receiveOnClone", ".",
+  "createcloneof", "createCloneOf", "createClone", ".",
+  "deletethisclone", "deleteClone", "removeClone", ".",
   
   // Sensing
-  "touching?", "touching:", "reportTouchingObject", // angle
-  "touchingcolor?", "touchingColor:", "reportTouchingColor", // angle
-  "coloristouching?", "color:see:", "reportColorIsTouchingColor", // angle
-  "distanceto", "distanceTo:", "reportDistanceTo", // ellipse
-  "askandwait", "doAsk", "doAsk", // block
-  "keypressed?", "keyPressed:", "reportKeyPressed", // angle
-  "mousedown?", "mousePressed", "reportMouseDown", // angle
-  "mousex", "mouseX", "reportMouseX", // ellipse
-  "mousey", "mouseY", "reportMouseY", // ellipse
-  "turnvideo", "setVideoState", "UNKNOWN",
-  "setvideotransparencyto%", "setVideoTransparency", "UNKNOWN",
-  "resettimer", "timerReset", "doResetTimer",
-  "of", "getAttribute:of:", "reportAttributeOf",
-  "dayssince2000", "timestamp", "UNKNOWN",
-  "username", "getUserName", "UNKNOWN",
+  "touching?", "touching:", "reportTouchingObject", ".", // angle
+  "touchingcolor?", "touchingColor:", "reportTouchingColor", ".", // angle
+  "coloristouching?", "color:see:", "reportColorIsTouchingColor", ".", // angle
+  "distanceto", "distanceTo:", "reportDistanceTo", ".", // ellipse
+  "askandwait", "doAsk", "doAsk", ".", // block
+  "keypressed?", "keyPressed:", "reportKeyPressed", ".", // angle
+  "mousedown?", "mousePressed", "reportMouseDown", ".", // angle
+  "mousex", "mouseX", "reportMouseX", ".", // ellipse
+  "mousey", "mouseY", "reportMouseY", ".", // ellipse
+  "turnvideo", "setVideoState", "UNKNOWN", ".",
+  "setvideotransparencyto%", "setVideoTransparency", "UNKNOWN", ".",
+  "resettimer", "timerReset", "doResetTimer", ".",
+  "of", "getAttribute:of:", "reportAttributeOf", ".",
+  "dayssince2000", "timestamp", "UNKNOWN", ".",
+  "username", "getUserName", "UNKNOWN", ".",
   
   // Operators
-  "plus", "+", "reportSum",
-  "minus", "-", "reportDifference",
-  "times", "*", "reportProduct",
-  "dividedby", "/", "reportQuotient",
-  "pickrandomto", "randomFrom:to:", "reportRandom",
-  "lt", "<", "reportLessThan",
-  "eq", "=", "reportEquals",
-  "gt", ">", "reportGreaterThan",
-  "and", "&", "reportAnd",
-  "or", "|", "reportOr",
-  "not", "not", "reportNot",
-  "join", "concatenate:with:", "reportJoinWords",
-  "letterof", "letter:of:", "reportLetter",
-  "lengthof", "stringLength:", "reportStringSize",
-  "mod", "%", "reportModulus",
-  "round", "rounded", "reportRound",
-  //"of", "computeFunction:of:", "UNKNOWN",  TODO
+  "plus", "+", "reportSum", ".",
+  "minus", "-", "reportDifference", ".",
+  "times", "*", "reportProduct", ".",
+  "dividedby", "/", "reportQuotient", ".",
+  "pickrandomto", "randomFrom:to:", "reportRandom", ".",
+  "lt", "<", "reportLessThan", ".",
+  "eq", "=", "reportEquals", ".",
+  "gt", ">", "reportGreaterThan", ".",
+  "and", "&", "reportAnd", ".",
+  "or", "|", "reportOr", ".",
+  "not", "not", "reportNot", ".",
+  "join", "concatenate:with:", "reportJoinWords", ".",
+  "letterof", "letter:of:", "reportLetter", ".",
+  "lengthof", "stringLength:", "reportStringSize", ".",
+  "mod", "%", "reportModulus", ".",
+  "round", "rounded", "reportRound", ".",
+  //"of", "computeFunction:of:", "UNKNOWN", ".",  TODO
   
   // More Blocks
-  "define", "procDef", "UNKNOWN",
+  "define", "procDef", "UNKNOWN", ".",
   
   // Xholon
-  "consolelog", "consolelog", "consolelog",
-  "xhprint", "xhprint", "xhprint",
-  "xhprintln", "xhprintln", "xhprintln"
+  "consolelog", "consolelog", "consolelog", ".",
+  "xhprint", "xhprint", "xhprint", ".",
+  "xhprintln", "xhprintln", "xhprintln", "."
   }; // end blockNameArr
   
   /**
@@ -384,12 +396,16 @@ repeat (10)
     xhScriptRoot.removeChild();
     
     // TEST 2
-    String snapXmlStr = xholonSubtree2SnapXml(xhScriptRoot);
-    consoleLog(snapXmlStr);
+    //String snapXmlStr = xholonSubtree2SnapXml(xhScriptRoot);
+    //consoleLog(snapXmlStr);
     
     // TEST 3
-    String scratchJsonStr = xholonSubtree2ScratchJson(xhScriptRoot);
-    consoleLog(scratchJsonStr);
+    //String scratchJsonStr = xholonSubtree2ScratchJson(xhScriptRoot);
+    //consoleLog(scratchJsonStr);
+    
+    // TEST 4
+    String englishTextStr = xholonSubtree2EnglishText(xhScriptRoot);
+    consoleLog(englishTextStr);
   }
   
   @Override
@@ -429,6 +445,11 @@ repeat (10)
    */
   public static final int SIGNAL_SCRIPTS_WRITEXHXML_REQ = 105;
   
+  /**
+   * Request to enable writing out the scripts as human-readable English text.
+   */
+  public static final int SIGNAL_SCRIPTS_WRITEENGTXT_REQ = 106;
+  
   public static final int SIGNAL_SCRIPTS_RSP = 201;
   
   @Override
@@ -452,6 +473,10 @@ repeat (10)
         xhScriptRoot = makeXholonSubtree(xhXmlStr);
         xhScriptRoot.removeChild(); // detach it from the main Xholon tree
       }
+      if (writeEngTxt) {
+        String englishTextStr = xholonSubtree2EnglishText(xhScriptRoot);
+        consoleLog(englishTextStr);
+      }
       String scratchJsonStr = this.xholonSubtree2ScratchJson(xhScriptRoot);
       return new Message(SIGNAL_SCRIPTS_RSP, scratchJsonStr, this, msg.getSender());
     }
@@ -468,12 +493,20 @@ repeat (10)
         xhScriptRoot = makeXholonSubtree(xhXmlStr);
         xhScriptRoot.removeChild(); // detach it from the main Xholon tree
       }
+      if (writeEngTxt) {
+        String englishTextStr = xholonSubtree2EnglishText(xhScriptRoot);
+        consoleLog(englishTextStr);
+      }
       String snapXmlStr = this.xholonSubtree2SnapXml(xhScriptRoot);
       return new Message(SIGNAL_SCRIPTS_RSP, snapXmlStr, this, msg.getSender());
     }
     
     case SIGNAL_SCRIPTS_WRITEXHXML_REQ:
       writeXhXmlStr = (boolean)msg.getData();
+      return new Message(SIGNAL_SCRIPTS_RSP, null, this, msg.getSender());
+    
+    case SIGNAL_SCRIPTS_WRITEENGTXT_REQ:
+      writeEngTxt = (boolean)msg.getData();
       return new Message(SIGNAL_SCRIPTS_RSP, null, this, msg.getSender());
     
     default:
@@ -489,11 +522,12 @@ repeat (10)
    */
   protected void initBlockNameMap() {
     blockNameMap = new HashMap<String, String[]>();
-    for (int i = 0; i < blockNameArr.length; i += 3) {
+    for (int i = 0; i < blockNameArr.length; i += 4) {
       String key = blockNameArr[i];
-      String[] value = {blockNameArr[i+1], blockNameArr[i+2]};
+      String[] value = {blockNameArr[i+1], blockNameArr[i+2], blockNameArr[i+3]};
       blockNameMap.put(key, value);
     }
+    //consoleLog(blockNameMap);
   }
   
   /**
@@ -504,9 +538,23 @@ repeat (10)
     spriteScriptIx = 0; // start at the beginning of the Sprite's text script
     
     sbVariables = new StringBuilder();
+    sbStandardAttributes = new StringBuilder();
     StringBuilder sb = new StringBuilder();
     
+    writeStandardAttributes(sbStandardAttributes);
+    
     String scriptsStr = xholonizeRecurse(new StringBuilder());
+    
+    if (sbVariables.length() == 0) {
+      // there were no user-defined Scratch variables, so provide another chance to write out standard Xholon attributes (ex: "xhrolename")
+      String statts = sbStandardAttributes.toString();
+      if ((statts != null) && (statts.length() > 0)) {
+        sbVariables
+        .append("<variables>\n")
+        .append(statts)
+        .append("</variables>\n");
+      }
+    }
     
     sb.append("<spritedetails>\n");
     sb.append(sbVariables.toString());
@@ -578,7 +626,8 @@ repeat (10)
           parsingVars = true;
           retainSpaces = true;
           sbVariables
-          .append("<variables>\n");
+          .append("<variables>\n")
+          .append(sbStandardAttributes.toString());
         }
         else if ("else".equals(blockNameOrValue)) {
           sb
@@ -616,7 +665,7 @@ repeat (10)
         else if (parsingVars) {
           String[] nameVal = blockNameOrValue.split(" ");
           if (nameVal.length == 2) {
-            sbVariables
+            /*sbVariables
             .append("<variable>\n")
             .append("<udvariable>")
             .append(nameVal[0]) // name
@@ -626,7 +675,8 @@ repeat (10)
             .append(nameVal[1]) // initial value
             .append("</lstring>\n")
             .append("</variable>\n");
-            userDefinedVarNameSet.add(nameVal[0]);
+            userDefinedVarNameSet.add(nameVal[0]);*/
+            writeAttribute(nameVal[0], nameVal[1], sbVariables); // name, initial value
           }
         }
         else {
@@ -831,6 +881,45 @@ repeat (10)
     
     return sb.toString();
   } // end xholonRecurse()
+  
+  /**
+   * Write standard Xholon attributes.
+   * TODO there should be a efParam to control which attributes get written
+   */
+  protected String writeStandardAttributes(StringBuilder sbLocal) {
+    // xhid
+    // xhname
+    
+    // xhrolename
+    String rn = this.getRoleName();
+    if ((rn != null) && (rn.length() > 0)) {
+      writeAttribute("xhrolename", rn, sbLocal);
+    }
+    
+    // xhcname
+    // xhval
+    // xhstr
+    
+    return sbLocal.toString();
+  }
+  
+  /**
+   * Write a user-defined Scratch variable, or a Xholon attribute, as a variable.
+   * Add the name to userDefinedVarNameSet.
+   */
+  protected void writeAttribute(String name, String value, StringBuilder sbLocal) {
+    sbLocal
+    .append("<variable>\n")
+    .append("<udvariable>")
+    .append(name) // name
+    .append("</udvariable>\n")
+    // it could be a number or string or color; Scratch/phosphorus is OK if it's just a string
+    .append("<lstring>")
+    .append(value) // value
+    .append("</lstring>\n")
+    .append("</variable>\n");
+    userDefinedVarNameSet.add(name);
+  }
   
   /**
    * 
@@ -1091,7 +1180,7 @@ repeat (10)
     .append(">\n");
   }
   
-    /**
+  /**
    * Walk the Xholon subtree for the Scratch/Snap code, and generate an JSON String in Scratch format.
    * @param root The root of the code subtree, typically the "scripts" node.
    */
@@ -1342,4 +1431,262 @@ repeat (10)
     
   }
   
+  /**
+   * Walk the Xholon subtree for the Scratch/Snap code, and generate an JSON String in Scratch format.
+   * @param root The root of the code subtree, typically the "scripts" node.
+   */
+  protected String xholonSubtree2EnglishText(IXholon root) {
+    StringBuilder sb = new StringBuilder();
+    String indent = "";
+    sb.append("-----> ").append(this.getName("R^^^^^")).append("\n");
+    xholonSubtree2EnglishTextRecurse(root, indent, sb);
+    //sb.append("]"); // matches initial "scripts": [
+    return sb.toString();
+  }
+  
+  /**
+   * Recursively generate Scratch JSON format.
+   */
+  protected void xholonSubtree2EnglishTextRecurse(IXholon node, String indent, StringBuilder sb) {
+    if (node == null) {return;}
+    String xhNodeName = node.getXhcName();
+    String xhRoleName = node.getRoleName();
+    String xhContent = node.getVal_String();
+    String s = null;
+    String[] engArr = null;
+    int engArrIx = 0;
+    
+    switch(xhNodeName) {
+    case "spritedetails":
+      // ignore
+      break;
+    case "variables":
+      //sb.append(indent).append("\"variables\": [");
+      break;
+    case "variable":
+      //sb.append("\n").append(indent).append("{\n");
+      break;
+    case "scripts":
+      //sb.append("\"scripts\": [");
+      break;
+    case "sscript":
+      //sb.append("\n").append(indent).append("[");
+      if ("scripts".equals(node.getParentNode().getXhcName())) {
+        //sb.append("25, 25, [");
+      }
+      break;
+    case "block":
+    case "ablock":
+    case "eblock":
+    {
+      if ("ifthen".equals(xhRoleName)) {
+        // distinguish "ifthen" from "ifthenelse" by how many children the node has (2 vs 3)
+        int numChildren = node.getNumChildren(false);
+        if (numChildren == 3) {
+          xhRoleName = "ifthenelse";
+        }
+      }
+      String[] arr = blockNameMap.get(xhRoleName);
+      if (arr != null && arr.length > 1) {
+        s = arr[BLOCKNAMEMAP_VALUEIX_ENGLISH];
+      }
+      if (s == null) {
+        // assume this is a defined name (ex: DrawSquare)
+        // TODO I'm prepending call as a temporary fix
+        String functionTypeStr = functionTypeMap.get(xhRoleName);
+        if (functionTypeStr == null) {
+          functionTypeStr = "";
+        }
+        s = "call\", \"" + xhRoleName + functionTypeStr;
+      }
+      else if ("of".equals(xhRoleName)) {
+        // distinguish "getAttribute:of:" from "computeFunction:of:" by type of second child node
+        int numChildren = node.getNumChildren(false);
+        if (numChildren == 2) {
+          // "getAttribute:of:" is the default
+          if ("lnumber".equals(node.getFirstChild().getNextSibling().getXhcName())) {
+            s = "computeFunction:of:";
+          }
+        }
+      }
+      engArr = s.split(ENGLISHTEXT_SEP_CHAR);
+      engArrIx = 0;
+      sb.append("\n").append(indent).append(engArr[engArrIx++]);
+      if (node.hasChildNodes()) {
+        //sb.append(", ");
+      }
+      break;
+    }
+    case "lnumber":
+      sb.append(xhContent);
+      break;
+    case "lstring":
+      if ("define".equals(node.getParentNode().getRoleName())) {
+        // xhContent is the name of a Scratch function (New Block) definition  ex: "polygon"
+        // it has an optional lstring nextSibling containing function parameters
+        if (node == node.getParentNode().getFirstChild()) {
+          // don't separately process the optional function parameters
+          if (node.hasNextSibling()) {
+            // convert define [polygon] [nsides,sx,by]  to  ["procDef", "polygon %n %s %b", ["sides", "x", "y"], [1, "", false], false]
+            String paramsStr = node.getNextSibling().getVal_String();
+            if (paramsStr != null) {
+              String[] paramsArr = paramsStr.split(",");
+              StringBuilder sbParams = new StringBuilder();
+              sbParams.append("\"").append(xhContent);
+              String functionTypeStr = "";
+              int i;
+              for (i = 0; i < paramsArr.length; i++) {
+                functionTypeStr += " %" + paramsArr[i].charAt(0);
+                //sbParams.append(" ").append("%").append(paramsArr[i].charAt(0));
+              }
+              functionTypeMap.put(xhContent, functionTypeStr);
+              sbParams.append(functionTypeStr);
+              sbParams.append("\", [");
+              for (i = 0; i < paramsArr.length; i++) {
+                if (i > 0) {
+                  sbParams.append(", ");
+                }
+                String paramName = paramsArr[i].substring(1);
+                paramsNameSet.add(paramName);
+                sbParams.append("\"").append(paramName).append("\"");
+              }
+              //sbParams.append("], [1, \"\", false], false");
+              sbParams.append("], [");
+              for (i = 0; i < paramsArr.length; i++) {
+                if (i > 0) {
+                  sbParams.append(", ");
+                }
+                char paramType = paramsArr[i].charAt(0);
+                switch (paramType) {
+                case 'n': sbParams.append("1"); break;
+                case 's': sbParams.append("\"\""); break;
+                case 'b': sbParams.append("false"); break;
+                default: break;
+                }
+              }
+              sbParams.append("], false");
+              sb.append(sbParams.toString());
+            }
+            node = node.getNextSibling(); // cause the optional params node to be ignored
+          }
+          else {
+            sb.append("").append(xhContent).append("").append(", [], [], false");
+          }
+        } // end  if (node == node.getParentNode().getFirstChild()) {
+
+      }
+      else if ("variable".equals(node.getParentNode().getXhcName())) {
+        // this is a Scratch user-defined variable's value
+        // TODO the value could be a string, number, or boolean; is it OK to write all of these as strings?
+        //sb.append("\n").append(indent).append("\"value\": \"").append(xhContent).append("\",");
+        //sb.append("\n").append(indent).append("\"isPersistent\": false");
+      }
+      else {
+        sb.append("\"").append(xhContent).append("\"");
+      }
+      break;
+    case "lcolor":
+      sb.append(xhContent);
+      break;
+    case "udvariable":
+    {
+      if ("variable".equals(node.getParentNode().getXhcName())) {
+        // this is a Scratch user-defined variable's name
+        //sb.append(indent).append("\"name\": \"").append(xhContent).append("\"");
+      }
+      else {
+        if (isParamVariable(xhContent)) {
+          // TODO use "r" for number and string; use "b" for boolean
+          //sb.append("[\"getParam\", \"").append(xhContent).append("\", \"r\"]");
+        }
+        else {
+          if (("setto".equals(node.getParentNode().getRoleName())) && (node == node.getParentNode().getFirstChild())) {
+            // this is a special case; this is the name of the variable whose value is being set
+            sb.append(xhContent);
+          }
+          else {
+            sb.append(xhContent);
+          }
+        }
+      }
+      break;
+    }
+    case "bivariable":
+    {
+      String[] arr = blockNameMap.get(xhContent);
+      if (arr != null && arr.length > 1) {
+        s = arr[BLOCKNAMEMAP_VALUEIX_ENGLISH];
+      }
+      if (s == null) {
+        s = xhContent;
+      }
+      sb.append(s);
+      
+      break;
+    }
+    default:
+      break;
+    } // end switch
+    
+    IXholon childNode = node.getFirstChild();
+    String childIndent = indent + "  ";
+    if ("scripts".equals(xhNodeName)) {
+      childIndent = indent;
+    }
+    while (childNode != null) {
+      xholonSubtree2EnglishTextRecurse(childNode, childIndent, sb);
+      if ((engArr != null) && (engArrIx < engArr.length)) {
+        sb.append(engArr[engArrIx++]);
+      }
+      childNode = childNode.getNextSibling();
+    }
+    
+    switch(xhNodeName) {
+    case "spritedetails":
+      // ignore
+      break;
+    case "variables":
+      //sb.append("\n").append(indent).append("],\n").append(indent);
+      break;
+    case "variable":
+      //sb.append("\n").append(indent).append("}");
+      if (node.hasNextSibling()) {
+        //sb.append(",");
+      }
+      else {
+        
+      }
+      break;
+    case "sscript":
+      paramsNameSet.clear(); // the current script might be a "define"
+      sb.append("");
+      if ("scripts".equals(node.getParentNode().getXhcName())) {
+        sb.append("");
+      }
+      if (node.hasNextSibling()) {
+        sb.append("");
+      }
+      else {
+        sb.append("\n").append(indent.substring(0, indent.length()-2));
+      }
+      break;
+    case "block":
+    case "ablock":
+    case "eblock":
+      //sb.append("]");
+      if (node.hasNextSibling()) {
+        sb.append("");
+      }
+      else {
+        sb.append("\n").append(indent.substring(0, indent.length()-2));
+      }
+      break;
+    default:
+      if (node.hasNextSibling()) {
+        sb.append("");
+      }
+      break;
+    }
+    
+  }
 }

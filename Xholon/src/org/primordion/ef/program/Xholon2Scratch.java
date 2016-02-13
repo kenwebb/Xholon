@@ -421,6 +421,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
   protected String writeSpriteScripts(IXholon node, StringBuilder sbLocal) {
     if (isSprite(node)) {
       node.sendSyncMessage(Sprite.SIGNAL_SCRIPTS_WRITEXHXML_REQ, isWriteXhXmlStr(), this);
+      node.sendSyncMessage(Sprite.SIGNAL_SCRIPTS_WRITEENGTXT_REQ, isWriteEnglishText(), this);
       // get the Sprite's script in Scratch JSON String format
       IMessage msg = node.sendSyncMessage(Sprite.SIGNAL_SCRIPTS_SCRATCHJSON_REQ, null, this);
       if (msg != null) {
@@ -667,6 +668,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     p.selection = "#xhcanvas";
     p.writeXhXmlStr = false;
     p.writePhosphorusCode = false;
+    p.writeEnglishText = false;
     this.efParams = p;
   }-*/;
 
@@ -715,13 +717,17 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
   public native String getSelection() /*-{return this.efParams.selection;}-*/;
   //public native void setSelection(String selection) /*-{this.efParams.selection = selection;}-*/;
   
-  /** Whether or not to request the Sprites to write out their generated xhXmlStr, mostly for debug purposes.. */
+  /** Whether or not to request the Sprites to write out their generated xhXmlStr, mostly for debug purposes. */
   public native boolean isWriteXhXmlStr() /*-{return this.efParams.writeXhXmlStr;}-*/;
   //public native void setWriteXhXmlStr(boolean writeXhXmlStr) /*-{this.efParams.writeXhXmlStr = writeXhXmlStr;}-*/;
   
-  /** Whether or not to request phosphorus.js to write out its generated JavaScript code, mostly for debug purposes.. */
+  /** Whether or not to request phosphorus.js to write out its generated JavaScript code, mostly for debug purposes. */
   public native boolean isWritePhosphorusCode() /*-{return this.efParams.writePhosphorusCode;}-*/;
   //public native void setWritePhosphorusCode(boolean writePhosphorusCode) /*-{this.efParams.writePhosphorusCode = writePhosphorusCode;}-*/;
+  
+  /** Whether or not to request the Sprites to write out their scripts as human-readable English text. */
+  public native boolean isWriteEnglishText() /*-{return this.efParams.writeEnglishText;}-*/;
+  //public native void setWriteEnglishText(boolean writeEnglishText) /*-{this.efParams.writeEnglishText = writeEnglishText;}-*/;
   
   /**
    * Compile and run the Scratch JSON project using the phosphorus code and the phosphorus player.
