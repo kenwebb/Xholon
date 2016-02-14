@@ -196,21 +196,21 @@ repeat (10)
   "turnrightdegrees", "turnRight:", "turn", "Turn right _ degrees.",
   "turnleftdegrees", "turnLeft:", "turnLeft", "Turn left _ degrees.",
   "pointindirection", "heading:", "setHeading", "Point in direction _.",
-  "pointtowards", "pointTowards:", "doFaceTowards", ".",
+  "pointtowards", "pointTowards:", "doFaceTowards", "Point towards _.",
   "gotoxy", "gotoX:y:", "gotoXY", "Go to x _ y _.",
-  "goto", "gotoSpriteOrMouse:", "doGotoObject", ".",
-  "glidesecstoxy", "glideSecs:toX:y:elapsed:from:", "doGlide", ".",
-  "changexby", "changeXposBy:", "changeXPosition", ".",
-  "setxto", "xpos:", "setXPosition", ".",
-  "changeyby", "changeYposBy:", "changeYPosition", ".",
-  "setyto", "ypos:", "setYPosition", ".",
-  "ifonedge,bounce", "bounceOffEdge", "bounceOffEdge", ".",
-  "setrotationstyle", "setRotationStyle", "UNKNOWN", ".",
-  "mouse-pointer", "_mouse_", "UNKNOWN", ".", // a rectangle variable
-  "left-right", "left-right", "UNKNOWN", ".", // a rectangle variable
-  "xposition", "x position", "UNKNOWN", ".", // an ellipse variable
-  "yposition", "y position", "UNKNOWN", ".", // an ellipse variable
-  "direction", "direction", "UNKNOWN", ".", // an ellipse variable
+  "goto", "gotoSpriteOrMouse:", "doGotoObject", "Go to _.",
+  "glidesecstoxy", "glideSecs:toX:y:elapsed:from:", "doGlide", "Glide _ seconds to x _ y _.",
+  "changexby", "changeXposBy:", "changeXPosition", "Change x by _.",
+  "setxto", "xpos:", "setXPosition", "Set x to _.",
+  "changeyby", "changeYposBy:", "changeYPosition", "Change y by _.",
+  "setyto", "ypos:", "setYPosition", "Set y to _.",
+  "ifonedge,bounce", "bounceOffEdge", "bounceOffEdge", "If on edge, bounce.",
+  "setrotationstyle", "setRotationStyle", "UNKNOWN", "Set rotation style _.",
+  "mouse-pointer", "_mouse_", "UNKNOWN", "mouse-pointer", // a rectangle variable
+  "left-right", "left-right", "UNKNOWN", "left-right", // a rectangle variable
+  "xposition", "x position", "UNKNOWN", "x position", // an ellipse variable
+  "yposition", "y position", "UNKNOWN", "y position", // an ellipse variable
+  "direction", "direction", "UNKNOWN", "direction", // an ellipse variable
   
   // Looks
   "sayforsecs", "say:duration:elapsed:from:", "doSayFor", "Say _ for _ seconds.",
@@ -219,60 +219,60 @@ repeat (10)
   "think", "think:", "doThink", "Think _.",
   "show", "show", "show", "Show yourself.",
   "hide", "hide", "hide", "Hide yourself.",
-  "switchcostumeto", "lookLike:", "doSwitchToCostume", ".",
-  "nextcostume", "nextCostume", "doWearNextCostume", ".",
-  "switchbackdropto", "startScene", "UNKNOWN", ".",
-  "changeeffectby", "changeGraphicEffect:by:", "changeEffect", ".",
-  "seteffectto", "setGraphicEffect:to:", "setEffect", ".",
-  "cleargraphiceffects", "filterReset", "clearEffects", ".",
-  "changesizeby", "changeSizeBy:", "changeScale", ".",
+  "switchcostumeto", "lookLike:", "doSwitchToCostume", "Switch costume to _.",
+  "nextcostume", "nextCostume", "doWearNextCostume", "Next costume.",
+  "switchbackdropto", "startScene", "UNKNOWN", "Switch backdrop to _.",
+  "changeeffectby", "changeGraphicEffect:by:", "changeEffect", "Change _ effect by _.",
+  "seteffectto", "setGraphicEffect:to:", "setEffect", "Set _ effect to _.",
+  "cleargraphiceffects", "filterReset", "clearEffects", "Clear graphic effects.",
+  "changesizeby", "changeSizeBy:", "changeScale", "Change size by _.",
   "setsizeto%", "setSizeTo:", "setScale", "Set size to _ %.",
-  "gotofront", "comeToFront", "comeToFront", ".",
-  "gobacklayers", "goBackByLayers:", "goBack", ".",
-  "color", "color", "UNKNOWN", ".", // a rectangle variable
+  "gotofront", "comeToFront", "comeToFront", "Go to front.",
+  "gobacklayers", "goBackByLayers:", "goBack", "Go back _ layers.",
+  "color", "color", "UNKNOWN", "color", // a rectangle variable
   
   // Sound
-  "playsound", "playSound:", "playSound", ".",
-  "playsounduntildone", "doPlaySoundAndWait", "doPlaySoundUntilDone", ".",
-  "stopallsounds", "stopAllSounds", "doStopAllSounds", ".",
-  "playdrumforbeats", "playDrum", "UNKNOWN", ".",
-  "restforbeats", "rest:elapsed:from:", "doRest", ".",
-  "playnoteforbeats", "noteOn:duration:elapsed:from:", "doPlayNote", ".",
-  "setinstrumentto", "instrument:", "UNKNOWN", ".",
-  "changevolumeby", "changeVolumeBy:", "UNKNOWN", ".",
-  "setvolumeto%", "setVolumeTo:", "UNKNOWN", ".",
-  "changetempoby", "changeTempoBy:", "doChangeTempo", ".",
-  "settempotobpm", "setTempoTo:", "doSetTempo", ".",
+  "playsound", "playSound:", "playSound", "Play sound _.",
+  "playsounduntildone", "doPlaySoundAndWait", "doPlaySoundUntilDone", "Play sound _ until done.",
+  "stopallsounds", "stopAllSounds", "doStopAllSounds", "Stop all sounds.",
+  "playdrumforbeats", "playDrum", "UNKNOWN", "Play drum _ for _ beats.",
+  "restforbeats", "rest:elapsed:from:", "doRest", "Rest for _ beats.",
+  "playnoteforbeats", "noteOn:duration:elapsed:from:", "doPlayNote", "Play note _ for _ beats.",
+  "setinstrumentto", "instrument:", "UNKNOWN", "Set instrument to _.",
+  "changevolumeby", "changeVolumeBy:", "UNKNOWN", "Change volume by _.",
+  "setvolumeto%", "setVolumeTo:", "UNKNOWN", "Set volume to _ %.",
+  "changetempoby", "changeTempoBy:", "doChangeTempo", "Change tempo by _.",
+  "settempotobpm", "setTempoTo:", "doSetTempo", "Set tempo to _ bpm.",
   
   // Pen
   "clear", "clearPenTrails", "clear", "Clear.",
-  "stamp", "stampCostume", "doStamp", ".",
+  "stamp", "stampCostume", "doStamp", "Stamp.",
   "pendown", "putPenDown", "down", "Pen down.",
   "penup", "putPenUp", "up", "Pen up.",
   // if using "setPenHueTo:", the color must be a number from 0 to 199 in rainbow order from red to purple, so 150 is a bluish-purpleish
   // if using "penColor:", the color must be a decimal rgba value, for example 2858785 is a shade of green
   //"setpencolorto", "penColor:", "setColor", // set pen color to [COLOR]
-  "changepencolorby", "changePenHueBy:", "changeHue", ".",
+  "changepencolorby", "changePenHueBy:", "changeHue", "Change pen color by _.",
   "setpencolorto", "setPenHueTo:", "setHue", "Set pen color to _.", // set pen color to (NUMBER)  ex: set pen color to (150)
-  "changepenshadeby", "changePenShadeBy:", "changeBrightness", ".",
-  "setpenshadeto", "setPenShadeTo:", "setBrightness", ".",
-  "changepensizeby", "changePenSizeBy:", "changeSize", ".",
+  "changepenshadeby", "changePenShadeBy:", "changeBrightness", "Change pen shade by _.",
+  "setpenshadeto", "setPenShadeTo:", "setBrightness", "Set pen shade to _.",
+  "changepensizeby", "changePenSizeBy:", "changeSize", "Change pen size by _.",
   "setpensizeto", "penSize:", "setSize", "Set pen size to _.",
   
   // Data
-  "setto", "setVar:to:", "doSetVar", ".",
-  "changeby", "changeVar:by:", "doChangeVar", ".",
-  "showvariable", "showVariable", "doShowVar", ".",
-  "hidevariable", "hideVariable", "doHideVar", ".",
-  "addto", "append:toList:", "doAddToList", ".",
-  "deleteof", "deleteLine:ofList:", "doDeleteFromList", ".",
-  "insertatof", "insert:at:ofList:", "doInsertInList", ".",
-  "replaceitemofwith", "setLine:ofList:to:", "doReplaceInList", ".",
-  "itemof", "getLine:ofList:", "reportListItem", ".",
-  "lengthof", "lineCountOfList:", "reportListLength", ".",
-  "contains?", "list:contains:", "reportListContainsItem", ".",
-  "showlist", "showList:", "UNKNOWN", ".",
-  "hidelist", "hideList:", "UNKNOWN", ".",
+  "setto", "setVar:to:", "doSetVar", "Set _ to _.",
+  "changeby", "changeVar:by:", "doChangeVar", "Change _ by _.",
+  "showvariable", "showVariable", "doShowVar", "Show variable _.",
+  "hidevariable", "hideVariable", "doHideVar", "Hide variable _.",
+  "addto", "append:toList:", "doAddToList", "Add _ to _.",
+  "deleteof", "deleteLine:ofList:", "doDeleteFromList", "Delete _ of _.",
+  "insertatof", "insert:at:ofList:", "doInsertInList", "Insert _ at _ of _.",
+  "replaceitemofwith", "setLine:ofList:to:", "doReplaceInList", "Replace item _ of _ with _.",
+  "itemof", "getLine:ofList:", "reportListItem", "item _ of _",
+  "lengthof", "lineCountOfList:", "reportListLength", "length of _.",
+  "contains?", "list:contains:", "reportListContainsItem", "_ contains _?",
+  "showlist", "showList:", "UNKNOWN", "Show list _.",
+  "hidelist", "hideList:", "UNKNOWN", "Hide list _.",
   
   // Events
   "whengreenflagclicked", "whenGreenFlag", "receiveGo", "When green flag clicked:",
@@ -286,60 +286,60 @@ repeat (10)
   
   // Control
   "waitsecs", "wait:elapsed:from:", "doWait", "Wait _ seconds.",
-  "repeat", "doRepeat", "doRepeat", ".",
-  "forever", "doForever", "doForever", ".",
-  "ifthen", "doIf", "doIf", ".",
-  "ifthenelse", "doIfElse", "doIfElse", ".",
-  "waituntil", "doWaitUntil", "doWaitUntil", ".",
-  "repeatuntil", "doUntil", "doUntil", ".",
-  "stop", "stopScripts", "doStopThis", ".",
-  "whenIstartasaclone", "whenCloned", "receiveOnClone", ".",
-  "createcloneof", "createCloneOf", "createClone", ".",
-  "deletethisclone", "deleteClone", "removeClone", ".",
+  "repeat", "doRepeat", "doRepeat", "Repeat _ times:",
+  "forever", "doForever", "doForever", "Forever:",
+  "ifthen", "doIf", "doIf", "If _ then _",
+  "ifthenelse", "doIfElse", "doIfElse", "If _ then _ else _",
+  "waituntil", "doWaitUntil", "doWaitUntil", "Wait until _.",
+  "repeatuntil", "doUntil", "doUntil", "Repeat until _:",
+  "stop", "stopScripts", "doStopThis", "Stop all.",
+  "whenIstartasaclone", "whenCloned", "receiveOnClone", "When I start as a clone:",
+  "createcloneof", "createCloneOf", "createClone", "Create clone of _.",
+  "deletethisclone", "deleteClone", "removeClone", "Delete this clone.",
   
   // Sensing
-  "touching?", "touching:", "reportTouchingObject", ".", // angle
-  "touchingcolor?", "touchingColor:", "reportTouchingColor", ".", // angle
-  "coloristouching?", "color:see:", "reportColorIsTouchingColor", ".", // angle
-  "distanceto", "distanceTo:", "reportDistanceTo", ".", // ellipse
-  "askandwait", "doAsk", "doAsk", ".", // block
-  "keypressed?", "keyPressed:", "reportKeyPressed", ".", // angle
-  "mousedown?", "mousePressed", "reportMouseDown", ".", // angle
-  "mousex", "mouseX", "reportMouseX", ".", // ellipse
-  "mousey", "mouseY", "reportMouseY", ".", // ellipse
-  "turnvideo", "setVideoState", "UNKNOWN", ".",
-  "setvideotransparencyto%", "setVideoTransparency", "UNKNOWN", ".",
-  "resettimer", "timerReset", "doResetTimer", ".",
-  "of", "getAttribute:of:", "reportAttributeOf", ".",
-  "dayssince2000", "timestamp", "UNKNOWN", ".",
-  "username", "getUserName", "UNKNOWN", ".",
+  "touching?", "touching:", "reportTouchingObject", "touching _?", // angle
+  "touchingcolor?", "touchingColor:", "reportTouchingColor", "touching color _?", // angle
+  "coloristouching?", "color:see:", "reportColorIsTouchingColor", "color _ is touching _?", // angle
+  "distanceto", "distanceTo:", "reportDistanceTo", "distance to _", // ellipse
+  "askandwait", "doAsk", "doAsk", "Ask _ and wait.", // block
+  "keypressed?", "keyPressed:", "reportKeyPressed", "key _ pressed?", // angle
+  "mousedown?", "mousePressed", "reportMouseDown", "mouse down?", // angle
+  "mousex", "mouseX", "reportMouseX", "mouse X", // ellipse
+  "mousey", "mouseY", "reportMouseY", "mouse y", // ellipse
+  "turnvideo", "setVideoState", "UNKNOWN", "Turn video _.",
+  "setvideotransparencyto%", "setVideoTransparency", "UNKNOWN", "Set video transparency to _ %.",
+  "resettimer", "timerReset", "doResetTimer", "Reset timer.",
+  "of", "getAttribute:of:", "reportAttributeOf", "_ of _",
+  "dayssince2000", "timestamp", "UNKNOWN", "days since 2000",
+  "username", "getUserName", "UNKNOWN", "username",
   
   // Operators
-  "plus", "+", "reportSum", ".",
-  "minus", "-", "reportDifference", ".",
-  "times", "*", "reportProduct", ".",
-  "dividedby", "/", "reportQuotient", ".",
-  "pickrandomto", "randomFrom:to:", "reportRandom", ".",
-  "lt", "<", "reportLessThan", ".",
-  "eq", "=", "reportEquals", ".",
-  "gt", ">", "reportGreaterThan", ".",
-  "and", "&", "reportAnd", ".",
-  "or", "|", "reportOr", ".",
-  "not", "not", "reportNot", ".",
-  "join", "concatenate:with:", "reportJoinWords", ".",
-  "letterof", "letter:of:", "reportLetter", ".",
-  "lengthof", "stringLength:", "reportStringSize", ".",
-  "mod", "%", "reportModulus", ".",
-  "round", "rounded", "reportRound", ".",
+  "plus", "+", "reportSum", "_ + _",
+  "minus", "-", "reportDifference", "_ - _",
+  "times", "*", "reportProduct", "_ * _",
+  "dividedby", "/", "reportQuotient", "_ / _",
+  "pickrandomto", "randomFrom:to:", "reportRandom", "pick random _ to _",
+  "lt", "<", "reportLessThan", "_ < _",
+  "eq", "=", "reportEquals", "_ = _",
+  "gt", ">", "reportGreaterThan", "_ > _",
+  "and", "&", "reportAnd", "_ and _",
+  "or", "|", "reportOr", "_ or _",
+  "not", "not", "reportNot", "not _",
+  "join", "concatenate:with:", "reportJoinWords", "join _ _",
+  "letterof", "letter:of:", "reportLetter", "letter _ of _",
+  "lengthof", "stringLength:", "reportStringSize", "length of _",
+  "mod", "%", "reportModulus", "_ mod _",
+  "round", "rounded", "reportRound", "round _",
   //"of", "computeFunction:of:", "UNKNOWN", ".",  TODO
   
   // More Blocks
-  "define", "procDef", "UNKNOWN", ".",
+  "define", "procDef", "UNKNOWN", "Define _:",
   
   // Xholon
-  "consolelog", "consolelog", "consolelog", ".",
-  "xhprint", "xhprint", "xhprint", ".",
-  "xhprintln", "xhprintln", "xhprintln", "."
+  "consolelog", "consolelog", "consolelog", "consolelog _.",
+  "xhprint", "xhprint", "xhprint", "xhprint _.",
+  "xhprintln", "xhprintln", "xhprintln", "xhprintln _."
   }; // end blockNameArr
   
   /**
@@ -556,7 +556,8 @@ repeat (10)
       }
     }
     
-    sb.append("<spritedetails>\n");
+    // include the full Sprite name to make the XML more human-readable
+    sb.append("<spritedetails spritename=\"").append(this.getName()).append("\">\n");
     sb.append(sbVariables.toString());
     sb
     .append("<scripts>\n")
@@ -1438,7 +1439,7 @@ repeat (10)
   protected String xholonSubtree2EnglishText(IXholon root) {
     StringBuilder sb = new StringBuilder();
     String indent = "";
-    sb.append("-----> ").append(this.getName("R^^^^^")).append("\n");
+    sb.append("-----> ").append(this.getName("R^^^^^")); //.append("\n");
     xholonSubtree2EnglishTextRecurse(root, indent, sb);
     //sb.append("]"); // matches initial "scripts": [
     return sb.toString();
@@ -1505,13 +1506,16 @@ repeat (10)
         if (numChildren == 2) {
           // "getAttribute:of:" is the default
           if ("lnumber".equals(node.getFirstChild().getNextSibling().getXhcName())) {
-            s = "computeFunction:of:";
+            s = "Compute function _ of _";
           }
         }
       }
       engArr = s.split(ENGLISHTEXT_SEP_CHAR);
       engArrIx = 0;
-      sb.append("\n").append(indent).append(engArr[engArrIx++]);
+      if ("block".equals(xhNodeName)) {
+        sb.append("\n").append(indent);
+      }
+      sb.append(engArr[engArrIx++]);
       if (node.hasChildNodes()) {
         //sb.append(", ");
       }
@@ -1629,9 +1633,20 @@ repeat (10)
     } // end switch
     
     IXholon childNode = node.getFirstChild();
-    String childIndent = indent + "  ";
-    if ("scripts".equals(xhNodeName)) {
-      childIndent = indent;
+    // determine the child indent
+    String childIndent = "";
+    switch(xhNodeName) {
+    case "scriptdetails":
+    case "scripts":
+      break;
+    case "sscript":
+      if (!"scripts".equals(node.getParentNode().getXhcName())) {
+        childIndent = indent + "  ";
+      }
+      break;
+    default:
+      childIndent = indent + "  ";
+      break;
     }
     while (childNode != null) {
       xholonSubtree2EnglishTextRecurse(childNode, childIndent, sb);
@@ -1677,7 +1692,7 @@ repeat (10)
       if (node.hasNextSibling()) {
         sb.append("");
       }
-      else {
+      else if ("block".equals(xhNodeName)) {
         sb.append("\n").append(indent.substring(0, indent.length()-2));
       }
       break;
