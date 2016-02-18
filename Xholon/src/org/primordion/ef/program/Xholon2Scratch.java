@@ -24,6 +24,7 @@ import java.util.Set;
 
 import org.client.GwtEnvironment;
 
+import org.primordion.xholon.base.AbstractScratchNode;
 import org.primordion.xholon.base.IMessage;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
@@ -405,13 +406,29 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
    * 
    */
   protected String writeStageScripts(IXholon node, StringBuilder sbLocal) {
-    // TODO also write any scripts contained within the node, if the node is a Stage
-    sbLocal
-    .append("  \"scripts\": [[25, 25, [[\"whenGreenFlag\"], [\"setVar:to:\", \"spriteIndex\", \"0\"], [\"deleteLine:ofList:\", \"all\", \"namesList\"],\n")
-    .append(sbNamesList.toString())
-    .append(sbClones.toString())
-    .append("]]],\n")
-    ;
+    if (isStage(node)) {
+      // write any scripts contained within the node, if the node is a Stage
+      node.sendSyncMessage(AbstractScratchNode.SIGNAL_SCRIPTS_WRITEXHXML_REQ, isWriteXhXmlStr(), this);
+      node.sendSyncMessage(AbstractScratchNode.SIGNAL_SCRIPTS_WRITEENGTXT_REQ, isWriteEnglishText(), this);
+      // get the Stage's script in Scratch JSON String format
+      IMessage msg = node.sendSyncMessage(AbstractScratchNode.SIGNAL_SCRIPTS_SCRATCHJSON_REQ, null, this);
+      if (msg != null) {
+        String scripts = (String)msg.getData();
+        if (scripts != null) {
+          sbLocal
+          .append(scripts)
+          .append(",\n");
+        }
+      }
+    }
+    else {
+      sbLocal
+      .append("  \"scripts\": [[25, 25, [[\"whenGreenFlag\"], [\"setVar:to:\", \"spriteIndex\", \"0\"], [\"deleteLine:ofList:\", \"all\", \"namesList\"],\n")
+      .append(sbNamesList.toString())
+      .append(sbClones.toString())
+      .append("]]],\n")
+      ;
+    }
     return sbLocal.toString();
   }
   

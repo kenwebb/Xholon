@@ -18,35 +18,64 @@
 
 package org.primordion.xholon.base;
 
-import org.primordion.xholon.app.IApplication;
-
 /**
  * Stage as understood in Scratch and Snap.
-  * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @see <a href="https://scratch.mit.edu">Scratch website</a>
  * @see <a href="http://snap.berkeley.edu">Snap website</a>
  * @since 0.9.1 (Created on January 29, 2016)
  */
-public class Stage extends XholonWithPorts {
+public class Stage extends AbstractScratchNode {
   
   /**
    * The Stage object created in phosphorus.
    */
   protected Object phosStage = null;
   
-  protected IApplication app = null;
+  /**
+   * These are the blocks that are specific to Sprites.
+   */
+  protected String[] stageBlockNameArr = {
+  // naiveName, scratchName, snapName, EnglishSentenceOrPhrase
+  // Motion none
+  // Looks
+  "switchbackdroptoandwait", "startSceneAndWait", "UNKNOWN", "Switch backdrop to _ and wait.",
+  "nextbackdrop", "nextScene", "UNKNOWN", "Next backdrop.",
+  "backdrop#", "UNKNOWN", "UNKNOWN", "backdrop #",
+  // Sound same
+  // Pen nothing Stage-specific
+  // Data same
+  // Events
+  "whenStageclicked", "whenClicked", "UNKNOWN", "When Stage clicked:"
+  // Control
+  // Sensing missing some
+  // Operators same
+  // More Blocks same
+  // Xholon same
+  };
   
   /**
    * Constructor.
    */
   public Stage() {}
   
-  @Override
-  public void postConfigure() {
-    app = this.getApp();
-    super.postConfigure();
+  /**
+   * Make the Sprite- or Stage-specific array of block names.
+   * Combine spriteBlockNameArr and blockNameArr ito one array.
+   */
+  protected String[] makeBlockNameArr() {
+    int len = blockNameArr.length + stageBlockNameArr.length;
+    String[] arr = new String[len];
+    int arrIx = 0;
+    int i;
+    for (i = 0; i < blockNameArr.length; i++) {
+      arr[arrIx++] = blockNameArr[i];
+    }
+    for (i = 0; i < stageBlockNameArr.length; i++) {
+      arr[arrIx++] = stageBlockNameArr[i];
+    }
+    return arr;
   }
   
   @Override
@@ -54,17 +83,6 @@ public class Stage extends XholonWithPorts {
     if (phosStage == null) {
       phosStage = this.findPhosStage();
     }
-    /*int cs = app.getControllerState();
-    consoleLog(app.getControllerStateName());
-    switch (cs) {
-    case IControl.CS_INITIALIZED: break;
-    case IControl.CS_RUNNING: break;
-    case IControl.CS_STEPPING: break;
-    case IControl.CS_PAUSED: break;
-    case IControl.CS_STOPPED: break;
-    default: break;
-    }*/
-    
     if (phosStage != null) {
       controlPhosStage(phosStage);
     }
