@@ -521,6 +521,10 @@ var P = (function() {
   };
 
   IO.loadMD5 = function(md5, id, callback, isAudio) {
+    if (md5.substring(0, IO.ASSET_URL.length) == IO.ASSET_URL) {
+      // this md5 name is probably specified in a Xholon <Icon>
+      md5 = md5.substring(IO.ASSET_URL.length);
+    }
     if (IO.zip) {
       var f = isAudio ? IO.zip.file(id + '.wav') : IO.zip.file(id + '.gif') || IO.zip.file(id + '.png') || IO.zip.file(id + '.jpg') || IO.zip.file(id + '.svg');
       md5 = f.name;

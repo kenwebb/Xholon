@@ -25,6 +25,7 @@ import java.util.Set;
 import org.client.GwtEnvironment;
 
 import org.primordion.xholon.base.AbstractScratchNode;
+import org.primordion.xholon.base.IDecoration;
 import org.primordion.xholon.base.IMessage;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
@@ -306,7 +307,8 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
   protected void writeClone(IXholon node) {
     if (isSprite(node)) {return;}
     String xhcName = node.getXhcName();
-    if ("Stage".equals(xhcName)) {
+    //if ("Stage".equals(xhcName)) {
+    if (isStage(node)) {
       // don't write Stage as a Sprite
       return;
     }
@@ -345,7 +347,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     .append(writeStageScripts(stageNode, new StringBuilder()))
     
     .append(writeStageSounds(new StringBuilder()))
-    .append(writeStageCostumes(new StringBuilder()))
+    .append(writeStageCostumes(stageNode, new StringBuilder()))
     .append("  \"currentCostumeIndex\": 0,\n")
     .append("  \"penLayerMD5\": \"").append(stagePenLayerMD5Default).append("\",\n")
     .append("  \"penLayerID\": ").append(stagePenLayerIDDefault).append(",\n")
@@ -365,7 +367,8 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
   protected String writeSprite(IXholon node, StringBuilder sbLocal) {
     String nodeName = node.getName(nameTemplate);
     String xhcName = node.getXhcName();
-    if ("Stage".equals(xhcName)) {
+    //if ("Stage".equals(xhcName)) {
+    if (isStage(node)) {
       // don't write Stage as a Sprite
       return "";
     }
@@ -384,7 +387,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     .append(writeSpriteVariables(node, new StringBuilder()))
     .append(writeSpriteScripts(node, new StringBuilder()))
     .append(writeSpriteSounds(new StringBuilder()))
-    .append(writeSpriteCostumes(new StringBuilder()))
+    .append(writeSpriteCostumes(node, new StringBuilder()))
     .append("  \"currentCostumeIndex\": 0,\n")
     .append("  \"scratchX\": 0,\n")
     .append("  \"scratchY\": 0,\n")
@@ -523,21 +526,35 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     ;
   }
   
-  protected String writeStageCostumes(StringBuilder sbLocal) {
+  protected String writeStageCostumes(IXholon stageNode, StringBuilder sbLocal) {
+    String baseLayerMD5 = ((IDecoration)stageNode).getIcon();
+    if (baseLayerMD5 == null) {
+      baseLayerMD5 = ((IDecoration)stageNode.getXhc()).getIcon();
+    }
+    if (baseLayerMD5 == null) {
+      baseLayerMD5 = scBaseLayerMD5Default;
+    }
     sbLocal
     .append("  \"costumes\": [");
-    writeCostume(scCostumeNameDefault, scBaseLayerIDDefault, scBaseLayerMD5Default, scBitmapResolutionDefault, scRotationCenterXDefault, scRotationCenterYDefault, sbLocal);
+    writeCostume(scCostumeNameDefault, scBaseLayerIDDefault, baseLayerMD5, scBitmapResolutionDefault, scRotationCenterXDefault, scRotationCenterYDefault, sbLocal);
     sbLocal
     .append("],\n")
     ;
     return sbLocal.toString();
   }
   
-  protected String writeSpriteCostumes(StringBuilder sbLocal) {
+  protected String writeSpriteCostumes(IXholon spriteNode, StringBuilder sbLocal) {
+    String baseLayerMD5 = ((IDecoration)spriteNode).getIcon();
+    if (baseLayerMD5 == null) {
+      baseLayerMD5 = ((IDecoration)spriteNode.getXhc()).getIcon();
+    }
+    if (baseLayerMD5 == null) {
+      baseLayerMD5 = tcBaseLayerMD5Default;
+    }
     sbLocal
     .append("  \"costumes\": [");
     //writeCostume("costume1", 1, "09dc888b0b7df19f70d81588ae73420e.svg", 1, 47, 55, sbLocal);
-    writeCostume(tcCostumeNameDefault, tcBaseLayerIDDefault, tcBaseLayerMD5Default, tcBitmapResolutionDefault, tcRotationCenterXDefault, tcRotationCenterYDefault, sbLocal);
+    writeCostume(tcCostumeNameDefault, tcBaseLayerIDDefault, baseLayerMD5, tcBitmapResolutionDefault, tcRotationCenterXDefault, tcRotationCenterYDefault, sbLocal);
     sbLocal
     .append("],\n")
     ;
@@ -550,7 +567,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     .append("    \"costumeName\": \"").append(costumeName).append("\",\n")
     .append("    \"baseLayerID\": ").append(baseLayerID).append(",\n")
     .append("    \"baseLayerMD5\": \"").append(baseLayerMD5).append("\",\n")
-    .append("    \"bitmapResolution\":").append(bitmapResolution).append(",\n")
+    .append("    \"bitmapResolution\":").append(bitmapResolution).append(",\n") // this may be different for different images
     .append("    \"rotationCenterX\":").append(rotationCenterX).append(",\n")
     .append("    \"rotationCenterY\":").append(rotationCenterY).append("\n")
     .append("  }")
@@ -614,14 +631,14 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
    * Each Sprite node (instance of Sprite.java) will likely have its own script, so these nodes should not be built using cloning.
    */
   protected boolean isSprite(IXholon node) {
-    return "Sprite".equals(node.getXhcName());
+    return node.getXhc().hasAncestor("Sprite");
   }
   
   /**
    * Each Stage node (instance of Stage.java) will likely have its own script, so these nodes should not be built using cloning.
    */
   protected boolean isStage(IXholon node) {
-    return "Stage".equals(node.getXhcName());
+    return node.getXhc().hasAncestor("Stage");
   }
   
   public String getOutFileName() {
