@@ -414,7 +414,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
       IMessage msg = node.sendSyncMessage(AbstractScratchNode.SIGNAL_SCRIPTS_SCRATCHJSON_REQ, null, this);
       if (msg != null) {
         String scripts = (String)msg.getData();
-        if (scripts != null) {
+        if ((scripts != null) && (scripts.length() > 0)) {
           sbLocal
           .append(scripts)
           .append(",\n");

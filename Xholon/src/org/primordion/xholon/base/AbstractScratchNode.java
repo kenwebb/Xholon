@@ -331,17 +331,19 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
   @Override
   public void postConfigure() {
     app = this.getApp();
-    // the script has already been read and trimmed, so final newline is missing
-    if (!scratchScript.endsWith("\n")) {
-      // add trailing newline to make parsing easier
-      scratchScript += "\n";
+    if (scratchScript != null) {
+      // the script has already been read and trimmed, so final newline is missing
+      if (!scratchScript.endsWith("\n")) {
+        // add trailing newline to make parsing easier
+        scratchScript += "\n";
+      }
+      initBlockNameMap();
+      userDefinedVarNameSet = new HashSet<String>();
+      paramsNameSet = new HashSet<String>();
+      functionTypeMap = new HashMap<String, String>();
+      
+      //test();
     }
-    initBlockNameMap();
-    userDefinedVarNameSet = new HashSet<String>();
-    paramsNameSet = new HashSet<String>();
-    functionTypeMap = new HashMap<String, String>();
-    
-    //test();
         
     super.postConfigure();
   }
@@ -374,8 +376,7 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
   @Override
   public void toXmlAttributes(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {
     super.toXmlAttributes(xholon2xml, xmlWriter);
-    String str = "";
-    str = scratchScript;
+    String str = scratchScript;
     if ((str != null) && (str.length() > 0)) {
       xmlWriter.writeStartElement("Attribute_String");
       xmlWriter.writeText(makeTextXmlEmbeddable(str));
@@ -432,16 +433,19 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
           consoleLog(xhXmlStr);
         }
       }
-      if (xhScriptRoot == null) {
-        xhScriptRoot = makeXholonSubtree(xhXmlStr);
-        xhScriptRoot.removeChild(); // detach it from the main Xholon tree
+      String scratchJsonStr = null;
+      if ((xhXmlStr != null) && (xhXmlStr.length() > 0)) {
+        if (xhScriptRoot == null) {
+          xhScriptRoot = makeXholonSubtree(xhXmlStr);
+          xhScriptRoot.removeChild(); // detach it from the main Xholon tree
+        }
+        if (writeEngTxt) {
+          String englishTextStr = xholonSubtree2EnglishText(xhScriptRoot);
+          consoleLog(englishTextStr);
+        }
+        scratchJsonStr = this.xholonSubtree2ScratchJson(xhScriptRoot);
       }
-      if (writeEngTxt) {
-        String englishTextStr = xholonSubtree2EnglishText(xhScriptRoot);
-        consoleLog(englishTextStr);
-      }
-      String scratchJsonStr = this.xholonSubtree2ScratchJson(xhScriptRoot);
-      return new Message(SIGNAL_SCRIPTS_RSP, scratchJsonStr, this, msg.getSender());
+     return new Message(SIGNAL_SCRIPTS_RSP, scratchJsonStr, this, msg.getSender());
     }
     
     case SIGNAL_SCRIPTS_SNAPXML_REQ:
@@ -500,6 +504,7 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
    * @return an XML string
    */
   protected String xholonize() {
+    if (scratchScript == null) {return "";}
     scratchScriptIx = 0; // start at the beginning of the Scratch node's text script
     
     sbVariables = new StringBuilder();
@@ -1154,7 +1159,9 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
     StringBuilder sb = new StringBuilder();
     String indent = "";
     xholonSubtree2ScratchJsonRecurse(root, indent, sb);
-    sb.append("]"); // matches initial "scripts": [
+    if (sb.length() > 0) {
+      sb.append("]"); // matches initial "scripts": [
+    }
     return sb.toString();
   }
   
