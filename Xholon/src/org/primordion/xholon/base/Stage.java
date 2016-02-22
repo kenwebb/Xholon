@@ -34,7 +34,7 @@ public class Stage extends AbstractScratchNode {
   protected Object phosStage = null;
   
   /**
-   * These are the blocks that are specific to Sprites.
+   * These blocks are specific to Sprites.
    */
   protected String[] stageBlockNameArr = {
   // naiveName, scratchName, snapName, EnglishSentenceOrPhrase

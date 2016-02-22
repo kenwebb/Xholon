@@ -63,10 +63,6 @@ public class Sprite extends AbstractScratchNode {
   "hide", "hide", "hide", "Hide yourself.",
   "switchcostumeto", "lookLike:", "doSwitchToCostume", "Switch costume to _.",
   "nextcostume", "nextCostume", "doWearNextCostume", "Next costume.",
-  //"switchbackdropto", "startScene", "UNKNOWN", "Switch backdrop to _.",
-  //"changeeffectby", "changeGraphicEffect:by:", "changeEffect", "Change _ effect by _.",
-  //"seteffectto", "setGraphicEffect:to:", "setEffect", "Set _ effect to _.",
-  //"cleargraphiceffects", "filterReset", "clearEffects", "Clear graphic effects.",
   "changesizeby", "changeSizeBy:", "changeScale", "Change size by _.",
   "setsizeto%", "setSizeTo:", "setScale", "Set size to _ %.",
   "gotofront", "comeToFront", "comeToFront", "Go to front.",
@@ -74,22 +70,8 @@ public class Sprite extends AbstractScratchNode {
   "color", "color", "UNKNOWN", "color", // a rectangle variable
   
   // Sound
-  /*
-  "playsound", "playSound:", "playSound", "Play sound _.",
-  "playsounduntildone", "doPlaySoundAndWait", "doPlaySoundUntilDone", "Play sound _ until done.",
-  "stopallsounds", "stopAllSounds", "doStopAllSounds", "Stop all sounds.",
-  "playdrumforbeats", "playDrum", "UNKNOWN", "Play drum _ for _ beats.",
-  "restforbeats", "rest:elapsed:from:", "doRest", "Rest for _ beats.",
-  "playnoteforbeats", "noteOn:duration:elapsed:from:", "doPlayNote", "Play note _ for _ beats.",
-  "setinstrumentto", "instrument:", "UNKNOWN", "Set instrument to _.",
-  "changevolumeby", "changeVolumeBy:", "UNKNOWN", "Change volume by _.",
-  "setvolumeto%", "setVolumeTo:", "UNKNOWN", "Set volume to _ %.",
-  "changetempoby", "changeTempoBy:", "doChangeTempo", "Change tempo by _.",
-  "settempotobpm", "setTempoTo:", "doSetTempo", "Set tempo to _ bpm.",
-  */
   
   // Pen
-  //"clear", "clearPenTrails", "clear", "Clear.",
   "stamp", "stampCostume", "doStamp", "Stamp.",
   "pendown", "putPenDown", "down", "Pen down.",
   "penup", "putPenUp", "up", "Pen up.",
@@ -119,26 +101,10 @@ public class Sprite extends AbstractScratchNode {
   "hidelist", "hideList:", "UNKNOWN", "Hide list _.",
   
   // Events
-  //"whengreenflagclicked", "whenGreenFlag", "receiveGo", "When green flag clicked:",
-  //"whenkeypressed", "whenKeyPressed", "receiveKey", ".",
   "whenthisspriteclicked", "whenClicked", "UNKNOWN", ".",
-  //"whenbackdropswitchesto", "whenSceneStarts", "UNKNOWN", ".",
-  //"when>", "whenSensorGreaterThan", "UNKNOWN", ".",
-  //"whenIreceive", "whenIReceive", "receiveMessage", "When I receive _:",
-  //"broadcast", "broadcast:", "doBroadcast", "Broadcast _.",
-  //"broadcastandwait", "doBroadcastAndWait", "doBroadcastAndWait", ".",
   
   // Control
-  //"waitsecs", "wait:elapsed:from:", "doWait", "Wait _ seconds.",
-  //"repeat", "doRepeat", "doRepeat", "Repeat _ times:",
-  //"forever", "doForever", "doForever", "Forever:",
-  //"ifthen", "doIf", "doIf", "If _ then _",
-  //"ifthenelse", "doIfElse", "doIfElse", "If _ then _ else _",
-  //"waituntil", "doWaitUntil", "doWaitUntil", "Wait until _.",
-  //"repeatuntil", "doUntil", "doUntil", "Repeat until _:",
-  //"stop", "stopScripts", "doStopThis", "Stop all.",
   "whenIstartasaclone", "whenCloned", "receiveOnClone", "When I start as a clone:",
-  //"createcloneof", "createCloneOf", "createClone", "Create clone of _.",
   "deletethisclone", "deleteClone", "removeClone", "Delete this clone.",
   
   // Sensing
@@ -146,50 +112,12 @@ public class Sprite extends AbstractScratchNode {
   "touchingcolor?", "touchingColor:", "reportTouchingColor", "touching color _?", // angle
   "coloristouching?", "color:see:", "reportColorIsTouchingColor", "color _ is touching _?", // angle
   "distanceto", "distanceTo:", "reportDistanceTo", "distance to _" // ellipse
-  /*
-  "askandwait", "doAsk", "doAsk", "Ask _ and wait.", // block
-  "keypressed?", "keyPressed:", "reportKeyPressed", "key _ pressed?", // angle
-  "mousedown?", "mousePressed", "reportMouseDown", "mouse down?", // angle
-  "mousex", "mouseX", "reportMouseX", "mouse X", // ellipse
-  "mousey", "mouseY", "reportMouseY", "mouse y", // ellipse
-  "turnvideo", "setVideoState", "UNKNOWN", "Turn video _.",
-  "setvideotransparencyto%", "setVideoTransparency", "UNKNOWN", "Set video transparency to _ %.",
-  "resettimer", "timerReset", "doResetTimer", "Reset timer.",
-  "of", "getAttribute:of:", "reportAttributeOf", "_ of _",
-  "dayssince2000", "timestamp", "UNKNOWN", "days since 2000",
-  "username", "getUserName", "UNKNOWN", "username"
-  */
   
   // Operators
-  /*
-  "plus", "+", "reportSum", "_ + _",
-  "minus", "-", "reportDifference", "_ - _",
-  "times", "*", "reportProduct", "_ * _",
-  "dividedby", "/", "reportQuotient", "_ / _",
-  "pickrandomto", "randomFrom:to:", "reportRandom", "pick random _ to _",
-  "lt", "<", "reportLessThan", "_ < _",
-  "eq", "=", "reportEquals", "_ = _",
-  "gt", ">", "reportGreaterThan", "_ > _",
-  "and", "&", "reportAnd", "_ and _",
-  "or", "|", "reportOr", "_ or _",
-  "not", "not", "reportNot", "not _",
-  "join", "concatenate:with:", "reportJoinWords", "join _ _",
-  "letterof", "letter:of:", "reportLetter", "letter _ of _",
-  "lengthof", "stringLength:", "reportStringSize", "length of _",
-  "mod", "%", "reportModulus", "_ mod _",
-  "round", "rounded", "reportRound", "round _",
-  //"of", "computeFunction:of:", "UNKNOWN", ".",
-  */
   
   // More Blocks
-  //"define", "procDef", "UNKNOWN", "Define _:",
   
   // Xholon
-  /*
-  "consolelog", "consolelog", "consolelog", "consolelog _.",
-  "xhprint", "xhprint", "xhprint", "xhprint _.",
-  "xhprintln", "xhprintln", "xhprintln", "xhprintln _."
-  */
   }; // end spriteBlockNameArr
   
   /**

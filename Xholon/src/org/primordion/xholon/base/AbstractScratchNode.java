@@ -149,51 +149,17 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
   protected Map<String, String[]> blockNameMap = null;
   
   /**
-   * These are the blocks that are common to all Scratch nodes.
+   * These are the blocks that are common to all Scratch nodes, including Stage and Sprite.
    */
   protected String[] blockNameArr = {
   // naiveName, scratchName, snapName, EnglishSentenceOrPhrase
-  // Motion - Stage has none of these
-  /*
-  "movesteps", "forward:", "forward", "Move forward _ steps.",
-  "turnrightdegrees", "turnRight:", "turn", "Turn right _ degrees.",
-  "turnleftdegrees", "turnLeft:", "turnLeft", "Turn left _ degrees.",
-  "pointindirection", "heading:", "setHeading", "Point in direction _.",
-  "pointtowards", "pointTowards:", "doFaceTowards", "Point towards _.",
-  "gotoxy", "gotoX:y:", "gotoXY", "Go to x _ y _.",
-  "goto", "gotoSpriteOrMouse:", "doGotoObject", "Go to _.",
-  "glidesecstoxy", "glideSecs:toX:y:elapsed:from:", "doGlide", "Glide _ seconds to x _ y _.",
-  "changexby", "changeXposBy:", "changeXPosition", "Change x by _.",
-  "setxto", "xpos:", "setXPosition", "Set x to _.",
-  "changeyby", "changeYposBy:", "changeYPosition", "Change y by _.",
-  "setyto", "ypos:", "setYPosition", "Set y to _.",
-  "ifonedge,bounce", "bounceOffEdge", "bounceOffEdge", "If on edge, bounce.",
-  "setrotationstyle", "setRotationStyle", "UNKNOWN", "Set rotation style _.",
-  "mouse-pointer", "_mouse_", "UNKNOWN", "mouse-pointer", // a rectangle variable
-  "left-right", "left-right", "UNKNOWN", "left-right", // a rectangle variable
-  "xposition", "x position", "UNKNOWN", "x position", // an ellipse variable
-  "yposition", "y position", "UNKNOWN", "y position", // an ellipse variable
-  "direction", "direction", "UNKNOWN", "direction", // an ellipse variable
-  */
+  // Motion - Stage has none of these, so there are no common blocks
   
   // Looks
-  //"sayforsecs", "say:duration:elapsed:from:", "doSayFor", "Say _ for _ seconds.",
-  //"say", "say:", "bubble", "Say _.",
-  //"thinkforsecs", "think:duration:elapsed:from:", "doThinkFor", "Think _ for _ seconds.",
-  //"think", "think:", "doThink", "Think _.",
-  //"show", "show", "show", "Show yourself.",
-  //"hide", "hide", "hide", "Hide yourself.",
-  //"switchcostumeto", "lookLike:", "doSwitchToCostume", "Switch costume to _.",
-  //"nextcostume", "nextCostume", "doWearNextCostume", "Next costume.",
   "switchbackdropto", "startScene", "UNKNOWN", "Switch backdrop to _.",
   "changeeffectby", "changeGraphicEffect:by:", "changeEffect", "Change _ effect by _.",
   "seteffectto", "setGraphicEffect:to:", "setEffect", "Set _ effect to _.",
   "cleargraphiceffects", "filterReset", "clearEffects", "Clear graphic effects.",
-  //"changesizeby", "changeSizeBy:", "changeScale", "Change size by _.",
-  //"setsizeto%", "setSizeTo:", "setScale", "Set size to _ %.",
-  //"gotofront", "comeToFront", "comeToFront", "Go to front.",
-  //"gobacklayers", "goBackByLayers:", "goBack", "Go back _ layers.",
-  //"color", "color", "UNKNOWN", "color", // a rectangle variable
   
   // Sound
   "playsound", "playSound:", "playSound", "Play sound _.",
@@ -210,20 +176,6 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
   
   // Pen
   "clear", "clearPenTrails", "clear", "Clear.",
-  /*
-  "stamp", "stampCostume", "doStamp", "Stamp.",
-  "pendown", "putPenDown", "down", "Pen down.",
-  "penup", "putPenUp", "up", "Pen up.",
-  // if using "setPenHueTo:", the color must be a number from 0 to 199 in rainbow order from red to purple, so 150 is a bluish-purpleish
-  // if using "penColor:", the color must be a decimal rgba value, for example 2858785 is a shade of green
-  //"setpencolorto", "penColor:", "setColor", // set pen color to [COLOR]
-  "changepencolorby", "changePenHueBy:", "changeHue", "Change pen color by _.",
-  "setpencolorto", "setPenHueTo:", "setHue", "Set pen color to _.", // set pen color to (NUMBER)  ex: set pen color to (150)
-  "changepenshadeby", "changePenShadeBy:", "changeBrightness", "Change pen shade by _.",
-  "setpenshadeto", "setPenShadeTo:", "setBrightness", "Set pen shade to _.",
-  "changepensizeby", "changePenSizeBy:", "changeSize", "Change pen size by _.",
-  "setpensizeto", "penSize:", "setSize", "Set pen size to _.",
-  */
   
   // Data
   "setto", "setVar:to:", "doSetVar", "Set _ to _.",
@@ -243,7 +195,6 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
   // Events
   "whengreenflagclicked", "whenGreenFlag", "receiveGo", "When green flag clicked:",
   "whenkeypressed", "whenKeyPressed", "receiveKey", ".",
-  //"whenthisspriteclicked", "whenClicked", "UNKNOWN", ".",
   "whenbackdropswitchesto", "whenSceneStarts", "UNKNOWN", ".",
   "when>", "whenSensorGreaterThan", "UNKNOWN", ".",
   "whenIreceive", "whenIReceive", "receiveMessage", "When I receive _:",
@@ -259,15 +210,9 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
   "waituntil", "doWaitUntil", "doWaitUntil", "Wait until _.",
   "repeatuntil", "doUntil", "doUntil", "Repeat until _:",
   "stop", "stopScripts", "doStopThis", "Stop all.",
-  //"whenIstartasaclone", "whenCloned", "receiveOnClone", "When I start as a clone:",
   "createcloneof", "createCloneOf", "createClone", "Create clone of _.",
-  //"deletethisclone", "deleteClone", "removeClone", "Delete this clone.",
   
   // Sensing
-  //"touching?", "touching:", "reportTouchingObject", "touching _?", // angle
-  //"touchingcolor?", "touchingColor:", "reportTouchingColor", "touching color _?", // angle
-  //"coloristouching?", "color:see:", "reportColorIsTouchingColor", "color _ is touching _?", // angle
-  //"distanceto", "distanceTo:", "reportDistanceTo", "distance to _", // ellipse
   "askandwait", "doAsk", "doAsk", "Ask _ and wait.", // block
   "keypressed?", "keyPressed:", "reportKeyPressed", "key _ pressed?", // angle
   "mousedown?", "mousePressed", "reportMouseDown", "mouse down?", // angle
@@ -297,7 +242,6 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
   "lengthof", "stringLength:", "reportStringSize", "length of _",
   "mod", "%", "reportModulus", "_ mod _",
   "round", "rounded", "reportRound", "round _",
-  //"of", "computeFunction:of:", "UNKNOWN", ".",  TODO
   
   // More Blocks
   "define", "procDef", "UNKNOWN", "Define _:",
