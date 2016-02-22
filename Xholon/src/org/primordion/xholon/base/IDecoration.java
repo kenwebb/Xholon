@@ -25,6 +25,9 @@ package org.primordion.xholon.base;
  * @since 0.8.1 (Created on March 21, 2010)
  */
 public interface IDecoration {
+  
+  /** Separator if there are 2+ icons in an <Icon> tag */
+  public static final String ICON_SEPARATOR = "~";
 
 	public abstract String getColor();
 

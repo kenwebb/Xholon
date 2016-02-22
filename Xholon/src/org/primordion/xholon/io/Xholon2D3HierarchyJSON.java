@@ -263,10 +263,23 @@ public class Xholon2D3HierarchyJSON {
       .append("\", ");
     }
     if (icon != null) {
-      sbd
-      .append("\"icon\": \"")
-      .append(icon)
-      .append("\", ");
+      if (icon.startsWith(IDecoration.ICON_SEPARATOR)) {
+        // handle 2+ icons in the same <Icon> tag
+        // example: ~one.png~two.svg
+        String[] iconArr = icon.substring(1).split(IDecoration.ICON_SEPARATOR);
+        sbd
+        .append("\"icon\": \"")
+        //.append(icon)
+        // for now just take the first icon
+        .append(iconArr[0])
+        .append("\", ");
+      }
+      else {
+        sbd
+        .append("\"icon\": \"")
+        .append(icon)
+        .append("\", ");
+      }
     }
 	  return sbd.toString();
 	}
