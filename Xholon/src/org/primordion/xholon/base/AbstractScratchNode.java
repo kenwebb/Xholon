@@ -244,6 +244,7 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
   "round", "rounded", "reportRound", "round _",
   
   // More Blocks
+  // Snap example  <block-definition s="Blah" type="command" category="other"><header></header><code></code><inputs></inputs></block-definition>
   "define", "procDef", "UNKNOWN", "Define _:",
   
   // Xholon
@@ -1019,6 +1020,9 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
     StringBuilder sb = new StringBuilder();
     String indent = "";
     xholonSubtree2SnapXmlRecurse(root, indent, sb);
+    if (sb.length() > 0) {
+      //sb.append("]"); // matches initial "scripts": [
+    }
     return sb.toString();
   }
   
@@ -1031,15 +1035,29 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
     String xhNodeName = node.getXhcName();
     String xhRoleName = node.getRoleName();
     String xhContent = node.getVal_String();
-    String tagName = null;
+    String tagName = null; // the Snap XML tag name
     String s = null;
     
     switch(xhNodeName) {
-    case "scripts": tagName = "scripts"; break;
-    case "sscript": tagName = "script"; break;
+    case "scratchdetails":
+      // ignore
+      break;
+    case "variables":
+      //sb.append(indent).append("\"variables\": [");
+      break;
+    case "variable":
+      //sb.append("\n").append(indent).append("{\n");
+      break;
+    case "scripts":
+      tagName = "scripts";
+      break;
+    case "sscript":
+      tagName = "script";
+      break;
     case "block":
     case "ablock":
     case "eblock":
+    {
       tagName = "block";
       if ("ifthen".equals(xhRoleName)) {
         // distinguish "ifthen" from "ifthenelse" by how many children the node has (2 vs 3)
@@ -1054,13 +1072,134 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
       }
       if (s == null) {
         // assume this is a defined name (ex: DrawSquare)
+        // TODO Snap uses a special tagname for this <block-definition> ???
         s = xhRoleName;
       }
+      else if ("of".equals(xhRoleName)) {
+        // distinguish "getAttribute:of:" from "computeFunction:of:" by type of second child node
+        // in Snap distinguish "reportAttributeOf" from "reportMonadic"???
+        int numChildren = node.getNumChildren(false);
+        if (numChildren == 2) {
+          // "reportAttributeOf" is the default
+          if ("lnumber".equals(node.getFirstChild().getNextSibling().getXhcName())) {
+            s = "reportMonadic"; //"computeFunction:of:";  ???
+          }
+        }
+      }
       break;
-    case "lnumber": tagName = "l"; break;
-    case "lstring": tagName = "l"; break;
-    case "lcolor": tagName = "color"; break;
-    default: break;
+    }
+    case "lnumber":
+      tagName = "l";
+      break;
+    case "lstring":
+    {
+      tagName = "l";
+      if ("define".equals(node.getParentNode().getRoleName())) {
+        // xhContent is the name of a Scratch function (New Block) definition  ex: "polygon"
+        // it has an optional lstring nextSibling containing function parameters
+        if (node == node.getParentNode().getFirstChild()) {
+          // don't separately process the optional function parameters
+          if (node.hasNextSibling()) {
+            // convert define [polygon] [nsides,sx,by]  to  ["procDef", "polygon %n %s %b", ["sides", "x", "y"], [1, "", false], false]
+            String paramsStr = node.getNextSibling().getVal_String();
+            if (paramsStr != null) {
+              String[] paramsArr = paramsStr.split(",");
+              StringBuilder sbParams = new StringBuilder();
+              sbParams.append("\"").append(xhContent);
+              String functionTypeStr = "";
+              int i;
+              for (i = 0; i < paramsArr.length; i++) {
+                functionTypeStr += " %" + paramsArr[i].charAt(0);
+                //sbParams.append(" ").append("%").append(paramsArr[i].charAt(0));
+              }
+              functionTypeMap.put(xhContent, functionTypeStr);
+              sbParams.append(functionTypeStr);
+              sbParams.append("\", [");
+              for (i = 0; i < paramsArr.length; i++) {
+                if (i > 0) {
+                  sbParams.append(", ");
+                }
+                String paramName = paramsArr[i].substring(1);
+                paramsNameSet.add(paramName);
+                sbParams.append("\"").append(paramName).append("\"");
+              }
+              //sbParams.append("], [1, \"\", false], false");
+              sbParams.append("], [");
+              for (i = 0; i < paramsArr.length; i++) {
+                if (i > 0) {
+                  sbParams.append(", ");
+                }
+                char paramType = paramsArr[i].charAt(0);
+                switch (paramType) {
+                case 'n': sbParams.append("1"); break;
+                case 's': sbParams.append("\"\""); break;
+                case 'b': sbParams.append("false"); break;
+                default: break;
+                }
+              }
+              sbParams.append("], false");
+              sb.append(sbParams.toString());
+            }
+            node = node.getNextSibling(); // cause the optional params node to be ignored
+          }
+          else {
+            sb.append("\"").append(xhContent).append("\"").append(", [], [], false");
+          }
+        } // end  if (node == node.getParentNode().getFirstChild()) {
+
+      }
+      else if ("variable".equals(node.getParentNode().getXhcName())) {
+        // this is a Scratch user-defined variable's value
+        // TODO the value could be a string, number, or boolean; is it OK to write all of these as strings?
+        sb.append("\n").append(indent).append("\"value\": \"").append(xhContent).append("\",");
+        sb.append("\n").append(indent).append("\"isPersistent\": false");
+      }
+      else {
+        sb.append("\"").append(xhContent).append("\"");
+      }
+      break;
+    }
+    case "lcolor":
+      tagName = "color";
+      break;
+    case "udvariable":
+    {
+      if ("variable".equals(node.getParentNode().getXhcName())) {
+        // this is a Scratch user-defined variable's name
+        sb.append(indent).append("\"name\": \"").append(xhContent).append("\"");
+      }
+      else {
+        if (isParamVariable(xhContent)) {
+          // TODO use "r" for number and string; use "b" for boolean
+          sb.append("[\"getParam\", \"").append(xhContent).append("\", \"r\"]");
+        }
+        else {
+          if (("setto".equals(node.getParentNode().getRoleName())) && (node == node.getParentNode().getFirstChild())) {
+            // this is a special case; this is the name of the variable whose value is being set
+            sb.append("\"").append(xhContent).append("\"");
+          }
+          else {
+            sb.append("[\"readVariable\", \"").append(xhContent).append("\"]");
+          }
+        }
+      }
+      break;
+    }
+    case "bivariable":
+    {
+      String[] arr = blockNameMap.get(xhContent);
+      if (arr != null && arr.length > 1) {
+        s = arr[BLOCKNAMEMAP_VALUEIX_SCRATCH];
+      }
+      if (s == null) {
+        s = xhContent;
+      }
+      sb.append("[\"").append(s).append("\"]");
+      
+      break;
+    }
+    default:
+      break;
     }
     
     sb
@@ -1093,7 +1232,7 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
     .append("</")
     .append(tagName)
     .append(">\n");
-  }
+  } // end xholonSubtree2SnapXmlRecurse
   
   /**
    * Walk the Xholon subtree for the Scratch/Snap code, and generate an JSON String in Scratch format.
