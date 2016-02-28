@@ -73,6 +73,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
   private StringBuilder sbSprites;
   private StringBuilder sbClones;
   private StringBuilder sbNamesList;
+  private StringBuilder sbSnapXml;
   
   /** Current date and time. */
   private Date timeNow;
@@ -170,6 +171,9 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     sbSprites = new StringBuilder();
     sbClones = new StringBuilder();
     sbNamesList = new StringBuilder();
+    if (isWriteSnapXmlStr()) {
+      sbSnapXml = new StringBuilder();
+    }
     nextIndexInLibrary = 1;
     nfScriptCount = 0;
     nfSpriteCount = 0;
@@ -193,6 +197,10 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
         }
         compileAndRunWithPhosphorus(sb.toString(), getSelection(), width, height, isWritePhosphorusCode());
       }
+    }
+    if (isWriteSnapXmlStr()) {
+      String outfnSnap = "./ef/xml/" + root.getXhcName() + "_" + root.getId() + "_" + timeStamp + ".xml";
+      writeToTarget(sbSnapXml.toString(), outfnSnap, "./ef/xml/", root);
     }
   }
   
@@ -422,6 +430,18 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
           .append(",\n");
         }
       }
+      if (isWriteSnapXmlStr()) {
+        // get the Stage's script in Snap XML String format
+        IMessage msg2 = node.sendSyncMessage(AbstractScratchNode.SIGNAL_SCRIPTS_SNAPXML_REQ, null, this);
+        if (msg2 != null) {
+          String scripts = (String)msg2.getData();
+          if ((scripts != null) && (scripts.length() > 0)) {
+            sbSnapXml
+            .append(scripts)
+            .append("\n");
+          }
+        }
+      }
     }
     else {
       sbLocal
@@ -449,6 +469,18 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
           sbLocal
           .append(scripts)
           .append(",\n");
+        }
+      }
+      if (isWriteSnapXmlStr()) {
+        // get the Sprite's script in Snap XML String format
+        IMessage msg2 = node.sendSyncMessage(AbstractScratchNode.SIGNAL_SCRIPTS_SNAPXML_REQ, null, this);
+        if (msg2 != null) {
+          String scripts = (String)msg2.getData();
+          if ((scripts != null) && (scripts.length() > 0)) {
+            sbSnapXml
+            .append(scripts)
+            .append("\n");
+          }
         }
       }
     }
@@ -733,8 +765,9 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     p.phosphorusPlayer = false;
     p.selection = "#xhcanvas";
     p.writeXhXmlStr = false;
-    p.writePhosphorusCode = false;
-    p.writeEnglishText = false;
+    p.writePhosphorusCode = false; // write phosphorus code to console.log
+    p.writeEnglishText = false; // generate and write to console.log
+    p.writeSnapXmlStr = false; // generate and write to tab
     this.efParams = p;
   }-*/;
 
@@ -794,6 +827,10 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
   /** Whether or not to request the Sprites to write out their scripts as human-readable English text. */
   public native boolean isWriteEnglishText() /*-{return this.efParams.writeEnglishText;}-*/;
   //public native void setWriteEnglishText(boolean writeEnglishText) /*-{this.efParams.writeEnglishText = writeEnglishText;}-*/;
+  
+  /** Whether or not to write to a tab in Snap XML format. */
+  public native boolean isWriteSnapXmlStr() /*-{return this.efParams.writeSnapXmlStr;}-*/;
+  //public native void setWriteSnapXmlStr(boolean writeSnapXmlStr) /*-{this.efParams.writeSnapXmlStr = writeSnapXmlStr;}-*/;
   
   /**
    * Compile and run the Scratch JSON project using the phosphorus code and the phosphorus player.
