@@ -39,15 +39,15 @@ public class Stage extends AbstractScratchNode {
   protected String[] stageBlockNameArr = {
   // naiveName, scratchName, snapName, EnglishSentenceOrPhrase
   // Motion none
-  // Looks
-  "switchbackdroptoandwait", "startSceneAndWait", "UNKNOWN", "Switch backdrop to _ and wait.",
-  "nextbackdrop", "nextScene", "UNKNOWN", "Next backdrop.",
-  "backdrop#", "UNKNOWN", "UNKNOWN", "backdrop #",
+  // Looks  the Snap names are probably the same as the costume names
+  "switchbackdroptoandwait", "startSceneAndWait", "doSwitchToCostume", "Switch backdrop to _ and wait.",
+  "nextbackdrop", "nextScene", "doWearNextCostume", "Next backdrop.",
+  "backdrop#", "UNKNOWN", "getCostumeIdx", "backdrop #",
   // Sound same
   // Pen nothing Stage-specific
   // Data same
   // Events
-  "whenStageclicked", "whenClicked", "UNKNOWN", "When Stage clicked:"
+  "whenStageclicked", "whenClicked", "receiveInteraction", "When Stage clicked:"
   // Control
   // Sensing missing some
   // Operators same

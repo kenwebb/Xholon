@@ -50,9 +50,9 @@ public class Sprite extends AbstractScratchNode {
   "setrotationstyle", "setRotationStyle", "UNKNOWN", "Set rotation style _.",
   "mouse-pointer", "_mouse_", "UNKNOWN", "mouse-pointer", // a rectangle variable
   "left-right", "left-right", "UNKNOWN", "left-right", // a rectangle variable
-  "xposition", "x position", "UNKNOWN", "x position", // an ellipse variable
-  "yposition", "y position", "UNKNOWN", "y position", // an ellipse variable
-  "direction", "direction", "UNKNOWN", "direction", // an ellipse variable
+  "xposition", "xpos", "xPosition", "x position", // an ellipse variable
+  "yposition", "ypos", "yPosition", "y position", // an ellipse variable
+  "direction", "direction", "direction", "direction", // an ellipse variable
   
   // Looks
   "sayforsecs", "say:duration:elapsed:from:", "doSayFor", "Say _ for _ seconds.",
@@ -101,7 +101,7 @@ public class Sprite extends AbstractScratchNode {
   "hidelist", "hideList:", "UNKNOWN", "Hide list _.",
   
   // Events
-  "whenthisspriteclicked", "whenClicked", "UNKNOWN", ".",
+  "whenthisspriteclicked", "whenClicked", "receiveInteraction", ".",
   
   // Control
   "whenIstartasaclone", "whenCloned", "receiveOnClone", "When I start as a clone:",
