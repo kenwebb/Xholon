@@ -27,6 +27,7 @@ import org.primordion.xholon.base.IXholon;
  * Each item of data in the blackboard is identified by a String agreed upon
  * between the users of this service.
  * <p>Example:</p>
+ * 
  * <pre>
 // store
 Map<String,String> blackboardService = (Map<String,String>)this.getService(IXholonService.XHSRV_BLACKBOARD);
@@ -34,6 +35,24 @@ blackboardService.put("SbgnPlaceCloneList", "Atp,Adp");
 // retrieve
 Map<String,String> blackboardService = (Map<String,String>)root.getService(IXholonService.XHSRV_BLACKBOARD);
 String cl = blackboardService.get("SbgnPlaceCloneList");
+ * </pre>
+ * 
+ * <p>XholonJsApi example (using Chrome Developer Tools):</p>
+ * <pre>
+var bs = xh.service("BlackboardService");
+console.log(bs.name()); //xholonMap_21
+console.log(bs.toString()); //"xholonMap_21 size:0"
+console.log(bs.obj()); //[]
+bs.append('<Attribute_String roleName="One">data1</Attribute_String>');
+bs.append('<Attribute_String roleName="Two">data2</Attribute_String>');
+console.log(bs.toString()); //"xholonMap_21 size:2"
+console.log(bs.obj()); //[One: "data1", Two: "data2"]
+console.log(bs.first().name());
+console.log(bs.first().role()); //"One"
+console.log(bs.first().text()); //"data1"
+console.log(bs.get_213_g$("One")); //"data1"
+console.log(bs.first().next().role()); //"Two"
+console.log(bs.first().next().text()); //"data2"
  * </pre>
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
