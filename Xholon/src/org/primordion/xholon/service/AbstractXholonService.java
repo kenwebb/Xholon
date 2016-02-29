@@ -154,6 +154,9 @@ public abstract class AbstractXholonService extends Xholon implements IXholonSer
 		else if ("org.primordion.xholon.service.remotenode.PeerJS".equals(implName)) {
 		  instance = new org.primordion.xholon.service.remotenode.PeerJS();
 		}
+		else if ("org.primordion.xholon.service.broadcast.Broadcaster".equals(implName)) {
+		  instance = new org.primordion.xholon.service.broadcast.Broadcaster();
+		}
 		else {
 		  //System.out.println("AbstractXholonService.createInstance( creating " + implName + " as DefaultXholonService");
 		  instance = new org.primordion.xholon.service.DefaultXholonService();

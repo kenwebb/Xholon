@@ -35,6 +35,7 @@ public interface IXholonService {
 	public static final String XHSRV_BERKELEY_DB = "BerkeleyDbService";
 	public static final String XHSRV_BLACKBOARD = "BlackboardService";
 	public static final String XHSRV_BLUEPRINTS = "BlueprintsService";
+	public static final String XHSRV_BROADCAST = "BroadcastService";
 	public static final String XHSRV_CHART_VIEWER = "ChartViewerService";
 	public static final String XHSRV_CSS = "CssService";
 	public static final String XHSRV_DATABASE = "DatabaseService";

@@ -163,6 +163,12 @@
     </XholonMap>
   </RemoteNodeService>
   
+  <BroadcastService>
+    <XholonMap>
+      <!-- users can add/delete receivers, and broadcast messages -->
+    </XholonMap>
+  </BroadcastService>
+  
   <!--<RestService>
     <XholonMap>
       <attr:Attribute_String roleName="RestService-Jersey">org.primordion.xholon.service.rest.Jersey</attr:Attribute_String>

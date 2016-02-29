@@ -479,6 +479,13 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			}
 		}
 		
+		// service.broadcast
+		else if (implName.startsWith("org.primordion.xholon.service.broadcast")) {
+			if (implName.endsWith(".Broadcaster")) {
+				newNode = new org.primordion.xholon.service.broadcast.Broadcaster();
+			}
+		}
+		
 		// service
 		else if (implName.startsWith("org.primordion.xholon.service")) {
 			if (implName.endsWith("DefaultXholonService")) {
@@ -594,6 +601,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			}
 			else if (implName.endsWith("RemoteNodeService")) {
 				newNode = new org.primordion.xholon.service.RemoteNodeService();
+			}
+			else if (implName.endsWith("BroadcastService")) {
+				newNode = new org.primordion.xholon.service.BroadcastService();
 			}
 			else if (implName.endsWith("RestService")) {
 				//newNode = new org.primordion.xholon.service.RestService();

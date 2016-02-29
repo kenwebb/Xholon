@@ -297,6 +297,8 @@
 		implName="org.primordion.xholon.service.MeteorPlatformService"/>
 	<RemoteNodeService xhType="XhtypePurePassiveObject"
 		implName="org.primordion.xholon.service.RemoteNodeService"/>
+	<BroadcastService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.BroadcastService"/>
 	<Xholon2Svg xhType="XhtypePurePassiveObject"
 		implName="org.primordion.xholon.io.Xholon2Svg"/>
 	
