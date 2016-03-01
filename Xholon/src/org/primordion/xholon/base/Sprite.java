@@ -125,6 +125,10 @@ public class Sprite extends AbstractScratchNode {
    */
   public Sprite() {}
   
+  protected String reportScratchType() {
+    return "sprite";
+  }
+  
   /**
    * Make the Sprite- or Stage-specific array of block names.
    * Combine spriteBlockNameArr and blockNameArr ito one array.

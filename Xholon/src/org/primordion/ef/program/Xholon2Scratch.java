@@ -74,6 +74,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
   private StringBuilder sbClones;
   private StringBuilder sbNamesList;
   private StringBuilder sbSnapXml;
+  private StringBuilder sbSnapXmlSprites;
   
   /** Current date and time. */
   private Date timeNow;
@@ -173,6 +174,8 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     sbNamesList = new StringBuilder();
     if (isWriteSnapXmlStr()) {
       sbSnapXml = new StringBuilder();
+      sbSnapXmlSprites = new StringBuilder();
+      sbSnapXml.append(writeSnapStart(new StringBuilder()));
     }
     nextIndexInLibrary = 1;
     nfScriptCount = 0;
@@ -200,6 +203,11 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
     }
     if (isWriteSnapXmlStr()) {
       String outfnSnap = "./ef/xml/" + root.getXhcName() + "_" + root.getId() + "_" + timeStamp + ".xml";
+      sbSnapXml.append("<sprites>\n");
+      sbSnapXml.append(sbSnapXmlSprites.toString());
+      sbSnapXml.append("</sprites>\n");
+      sbSnapXml.append("</stage>\n");
+      sbSnapXml.append(writeSnapEnd(new StringBuilder()));
       writeToTarget(sbSnapXml.toString(), outfnSnap, "./ef/xml/", root);
     }
   }
@@ -477,7 +485,7 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
         if (msg2 != null) {
           String scripts = (String)msg2.getData();
           if ((scripts != null) && (scripts.length() > 0)) {
-            sbSnapXml
+            sbSnapXmlSprites
             .append(scripts)
             .append("\n");
           }
@@ -919,5 +927,36 @@ public class Xholon2Scratch extends AbstractXholon2ExternalFormat implements IXh
       }
     }
   }-*/;
+  
+  // Snap methods
+  
+  /**
+   * Write the beginning of the Snap XML.
+   */
+  protected String writeSnapStart(StringBuilder sbLocal) {
+    sbLocal
+    .append("<project name=\"")
+    .append(modelName) //"Foxes - Square with Stage")
+    .append("\" app=\"Snap! 4.0, http://snap.berkeley.edu\" version=\"1\">\n")
+    .append("  <notes></notes>\n")
+    .append("  <thumbnail></thumbnail>\n") // TODO
+    ;
+    return sbLocal.toString();
+  }
+  
+  /**
+   * Write the end of the Snap XML.
+   */
+  protected String writeSnapEnd(StringBuilder sbLocal) {
+    sbLocal
+    .append("  <hidden></hidden>\n")
+    .append("  <headers></headers>\n")
+    .append("  <code></code>\n")
+    .append("  <blocks></blocks>\n")
+    .append("  <variables></variables>\n")
+    .append("</project>\n")
+    ;
+    return sbLocal.toString();
+  }
   
 }

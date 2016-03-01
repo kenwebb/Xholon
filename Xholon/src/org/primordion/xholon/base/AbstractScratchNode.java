@@ -65,6 +65,11 @@ import org.primordion.xholon.service.XholonHelperService;
 public abstract class AbstractScratchNode extends AbstractAvatar {
   
   /**
+   * Many Snap XML elements need an id, which are all assigned in sequential order.
+   */
+  protected static int snapId = 1;
+  
+  /**
    * The Sprite's or Stage's script in simple text syntax, that mirrors exactly the Scratch/Snap block appearance.
    */
   protected String scratchScript = null;
@@ -272,6 +277,13 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
   public String getVal_String() {
     return scratchScript;
   }
+  
+  /**
+   * Report the Scratch node type.
+   * This is used when writing the Snap XML, and can be used for other purposes.
+   * @return "sprite" or "stage"
+   */
+  protected abstract String reportScratchType();
   
   @Override
   public void postConfigure() {
@@ -1040,13 +1052,16 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
     
     switch(xhNodeName) {
     case "scratchdetails":
-      // ignore
+      // <scratchdetails scratchname="stage_44">
+      tagName = reportScratchType(); // "sprite" or "stage"
       break;
     case "variables":
       //sb.append(indent).append("\"variables\": [");
+      tagName = "variables";
       break;
     case "variable":
       //sb.append("\n").append(indent).append("{\n");
+      tagName = "variable";
       break;
     case "scripts":
       tagName = "scripts";
@@ -1095,6 +1110,7 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
     {
       tagName = "l";
       if ("define".equals(node.getParentNode().getRoleName())) {
+        tagName = "block-definition";
         // xhContent is the name of a Scratch function (New Block) definition  ex: "polygon"
         // it has an optional lstring nextSibling containing function parameters
         if (node == node.getParentNode().getFirstChild()) {
@@ -1151,11 +1167,11 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
       else if ("variable".equals(node.getParentNode().getXhcName())) {
         // this is a Scratch user-defined variable's value
         // TODO the value could be a string, number, or boolean; is it OK to write all of these as strings?
-        sb.append("\n").append(indent).append("\"value\": \"").append(xhContent).append("\",");
-        sb.append("\n").append(indent).append("\"isPersistent\": false");
+        //sb.append("\n").append(indent).append("\"value\": \"").append(xhContent).append("\",");
+        //sb.append("\n").append(indent).append("\"isPersistent\": false");
       }
       else {
-        sb.append("\"").append(xhContent).append("\"");
+        //sb.append("\"").append(xhContent).append("\""); // not needed
       }
       break;
     }
@@ -1166,7 +1182,12 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
     {
       if ("variable".equals(node.getParentNode().getXhcName())) {
         // this is a Scratch user-defined variable's name
-        sb.append(indent).append("\"name\": \"").append(xhContent).append("\"");
+        //sb.append(indent).append("\"name\": \"").append(xhContent).append("\"");
+        sb
+        .append(" name=\"")
+        .append(xhContent)
+        .append("\"")
+        .append(">\n"); // write the closing ">" on the "variable" start tag
       }
       else {
         if (isParamVariable(xhContent)) {
@@ -1176,10 +1197,12 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
         else {
           if (("setto".equals(node.getParentNode().getRoleName())) && (node == node.getParentNode().getFirstChild())) {
             // this is a special case; this is the name of the variable whose value is being set
-            sb.append("\"").append(xhContent).append("\"");
+            //sb.append("\"").append(xhContent).append("\"");
+            sb.append(indent).append("<block var=\"").append(xhContent).append("\"/>\n");
           }
           else {
-            sb.append("[\"readVariable\", \"").append(xhContent).append("\"]");
+            //sb.append("[\"readVariable\", \"").append(xhContent).append("\"]");
+            sb.append(indent).append("<block var=\"").append(xhContent).append("\"/>\n");
           }
         }
       }
@@ -1194,44 +1217,130 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
       if (s == null) {
         s = xhContent;
       }
-      sb.append("[\"").append(s).append("\"]");
-      
+      //sb.append("[\"").append(s).append("\"]");
+      sb.append(indent).append("<block s=\"").append(s).append("\"></block>\n");
       break;
     }
     default:
       break;
     }
     
-    sb
-    .append(indent)
-    .append("<")
-    .append(tagName);
-    if (s != null) {
-      sb
-      .append(" s=\"")
-      .append(s)
-      .append("\"");
-    }
-    sb
-    .append(">");
-    if (xhContent != null) {
-      sb
-      .append(xhContent);
-    }
-    else {
-      sb.append("\n");
+    if (tagName == null) {
+      consoleLog("tagName == null: " + xhNodeName + " " + xhRoleName + " " + xhContent);
       IXholon childNode = node.getFirstChild();
       while (childNode != null) {
         xholonSubtree2SnapXmlRecurse(childNode, indent + "  ", sb);
         childNode = childNode.getNextSibling();
       }
-      sb.append(indent);
     }
-    
-    sb
-    .append("</")
-    .append(tagName)
-    .append(">\n");
+    else {
+      sb
+      .append(indent)
+      .append("<")
+      .append(tagName);
+      if (s != null) {
+        sb
+        .append(" s=\"")
+        .append(s)
+        .append("\"");
+      }
+      
+      // add tag-specific XML attributes
+      switch (tagName) {
+      case "stage":
+        // <stage name="Stage" width="480" height="360" costume="1" tempo="60" threadsafe="false" lines="round" codify="false" inheritance="false" scheduled="false" id="1">
+        sb
+        .append(" name=\"Stage\"")
+        .append(" width=\"480\"")
+        .append(" height=\"360\"")
+        .append(" costume=\"1\"")
+        .append(" tempo=\"60\"")
+        .append(" threadsafe=\"false\"")
+        .append(" lines=\"round\"")
+        .append(" codify=\"false\"")
+        .append(" inheritance=\"false\"")
+        .append(" scheduled=\"false\"")
+        .append(" id=\"").append(snapId++).append("\"")
+        ;
+        break;
+      case "sprite":
+        // <sprite name="Square" idx="1" x="0" y="0" heading="90" scale="1" rotation="1" draggable="true" costume="1" color="80,80,80" pen="tip" id="13">
+        String nodeName = this.getRoleName();
+        if (nodeName == null) {
+          nodeName = this.getName();
+        }
+        sb
+        .append(" name=\"").append(nodeName).append("\"")
+        .append(" idx=\"1\"")
+        .append(" x=\"0\"")
+        .append(" y=\"0\"")
+        .append(" heading=\"90\"")
+        .append(" scale=\"1\"")
+        .append(" rotation=\"1\"")
+        .append(" draggable=\"true\"")
+        .append(" costume=\"1\"")
+        .append(" color=\"80,80,80\"")
+        .append(" pen=\"tip\"")
+        .append(" id=\"").append(snapId++).append("\"")
+        ;
+        break;
+      default:
+        break;
+      }
+      
+      switch (tagName) {
+      case "variable":
+        // delay writing ">" until the variable name is written
+        break;
+      default:
+        sb.append(">");
+        break;
+      }
+      
+      if (xhContent != null) {
+        sb
+        .append(xhContent);
+      }
+      else {
+        switch (tagName) {
+        case "variable":
+          // delay writing "\n"
+          break;
+        case "stage":
+        case "sprite":
+          sb
+          .append("\n")
+          .append(indent).append("  ").append("<costumes><list id=\"").append(snapId++).append("\"></list></costumes>\n")
+          .append(indent).append("  ").append("<sounds><list id=\"").append(snapId++).append("\"></list></sounds>\n")
+          .append(indent).append("  ").append("<variables></variables>\n")
+          .append(indent).append("  ").append("<blocks></blocks>\n")
+          ;
+          break;
+        default:
+          sb.append("\n");
+          break;
+        }
+        IXholon childNode = node.getFirstChild();
+        while (childNode != null) {
+          xholonSubtree2SnapXmlRecurse(childNode, indent + "  ", sb);
+          childNode = childNode.getNextSibling();
+        }
+        sb.append(indent);
+      }
+      
+      switch (tagName) {
+      case "stage":
+        // delay writing "stage" end tag because sprites need to be written inside the Stage; Xholon2Scratch.java will do this
+        break;
+      default:
+        sb
+        .append("</")
+        .append(tagName)
+        .append(">\n");
+        break;
+      }
+      
+    } // end else
   } // end xholonSubtree2SnapXmlRecurse
   
   /**
