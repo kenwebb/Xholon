@@ -148,6 +148,12 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
   protected Map<String, String> functionTypeMap = null;
   
   /**
+   * Whether or not real variables exist for this Sprite or Stage.
+   * This is used when writing Snap XML.
+   */
+  protected boolean existVariables = false;
+  
+  /**
    * Map from a block's naive name, to the internal Scratch name and to the internal Snap name and to an English expression.
    * The naive name is a concatenation of all the non-bracketed words in the graphical block.
    */
@@ -480,6 +486,7 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
         .append("<variables>\n")
         .append(statts)
         .append("</variables>\n");
+        existVariables = true;
       }
     }
     
@@ -553,6 +560,7 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
         if ("variables".equals(blockNameOrValue)) {
           parsingVars = true;
           retainSpaces = true;
+          existVariables = true;
           sbVariables
           .append("<variables>\n")
           .append(sbStandardAttributes.toString());
@@ -1311,10 +1319,24 @@ public abstract class AbstractScratchNode extends AbstractAvatar {
           sb
           .append("\n")
           .append(indent).append("  ").append("<costumes><list id=\"").append(snapId++).append("\"></list></costumes>\n")
-          .append(indent).append("  ").append("<sounds><list id=\"").append(snapId++).append("\"></list></sounds>\n")
-          .append(indent).append("  ").append("<variables></variables>\n")
-          .append(indent).append("  ").append("<blocks></blocks>\n")
+          .append(indent).append("  ").append("<sounds><list id=\"").append(snapId++).append("\"></list></sounds>\n");
+          if (!existVariables) {
+            // write a dummy variables tag; real variables do not exist and will not be separately written
+            sb.append(indent).append("  ").append("<variables></variables>\n");
+          }
+          sb.append(indent).append("  ").append("<blocks></blocks>\n")
           ;
+          break;
+        case "block":
+          if ("receiveInteraction".equals(s)) {
+            sb
+            .append("\n")
+            .append(indent).append("  ").append("<l><option>clicked</option></l>\n")
+            ;
+          }
+          else {
+            sb.append("\n");
+          }
           break;
         default:
           sb.append("\n");
