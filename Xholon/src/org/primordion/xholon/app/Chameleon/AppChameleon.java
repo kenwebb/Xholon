@@ -42,6 +42,22 @@ public class AppChameleon extends Application {
 		this.chartInterval = chartInterval;
 	}
 
+	@Override
+	public String getParam(String pName)
+	{
+		if ("TimeStepMultiplier".equals(pName)) {
+			return Integer.toString(XhChameleon.getTimeStepMultiplier());
+		}
+		else if ("ChartInterval".equals(pName)) {
+			return Integer.toString(getChartInterval());
+		}
+		else if ("Dt".equals(pName)) {
+			return Double.toString(XhChameleon.getDt());
+		}
+		return super.getParam(pName);
+	}
+
+	@Override
 	public boolean setParam(String pName, String pValue)
 	{
 		if ("TimeStepMultiplier".equals(pName)) {
