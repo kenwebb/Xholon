@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.primordion.xholon.base.Annotation;
+import org.primordion.xholon.base.IDecoration;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.PortInformation;
 import org.primordion.ef.AbstractXholon2ExternalFormat;
@@ -211,6 +212,13 @@ public class Xholon2RevealJs extends AbstractXholon2ExternalFormat implements IX
       // add Xholon annotations
       nodeSb.append(indent).append("<p>").append(anno).append("</p>\n");
     }
+    if (isShowIcons()) {
+      String icon = findIcon(xhNode);
+      if (icon != null) {
+        // <img src="BloodPlasma_5246_1347936037899_07.svg" alt="Bigraph example"/>
+        nodeSb.append(indent).append("<img src=\"").append(icon).append("\" alt=\"").append("icon").append("\"/>\n");
+      }
+    }
     if (isShowAttributes()) {
       writeNodeAttributes(xhNode, indent);
     }
@@ -352,6 +360,22 @@ public class Xholon2RevealJs extends AbstractXholon2ExternalFormat implements IX
   }
   
   /**
+   * Try to find a Xholon Icon for a node.
+   * @param xhNode 
+   * @return an icon, or null
+   */
+  protected String findIcon(IXholon xhNode) {
+    String icon = ((IDecoration)xhNode).getIcon();
+    if (icon == null) {
+      icon = ((IDecoration)xhNode.getXhc()).getIcon();
+    }
+    if (icon == null) {
+      icon = ((IDecoration)xhNode.getXhc().getMechanism()).getIcon();
+    }
+    return icon;
+  }
+  
+  /**
    * Make a JavaScript object with all the parameters for this external format.
    */
   protected native void makeEfParams() /*-{
@@ -362,6 +386,7 @@ public class Xholon2RevealJs extends AbstractXholon2ExternalFormat implements IX
     p.showHierarchy = 2; // 1=RevealJs-way 2=Xholon-way
     p.showNodeName = true;
     p.showAnnotations = true;
+    p.showIcons = false;
     p.showAttributes = false;
     p.showPorts = 2; // 0=don't show  1=getPorts1  2=getPorts2
     p.showPortName = true;
@@ -391,6 +416,9 @@ public class Xholon2RevealJs extends AbstractXholon2ExternalFormat implements IX
   
   public native boolean isShowAnnotations() /*-{return this.efParams.showAnnotations;}-*/;
   //public native void setShowAnnotations(boolean showAnnotations) /*-{this.efParams.showAnnotations = showAnnotations;}-*/;
+  
+  public native boolean isShowIcons() /*-{return this.efParams.showIcons;}-*/;
+  //public native void setShowIcons(boolean showIcons) /*-{this.efParams.showIcons = showIcons;}-*/;
   
   public native boolean isShowAttributes() /*-{return this.efParams.showAttributes;}-*/;
   //public native void setShowAttributes(boolean showAttributes) /*-{this.efParams.showAttributes = showAttributes;}-*/;
