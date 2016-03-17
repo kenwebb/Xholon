@@ -198,6 +198,9 @@ public class Xholon2D3CirclePack implements EventListener {
     marble = "", // alternative content, in place of the standard text
     supportTouch = false,
     useIcons = false,
+    iconPos = "outside",
+    useAnno = false,
+    annoPos = "outside",
     _jsdata = false;
     
     if (efParams) {
@@ -219,6 +222,9 @@ public class Xholon2D3CirclePack implements EventListener {
       if (efParams.selection) {selection = efParams.selection;}
       supportTouch = efParams.supportTouch;
       useIcons = efParams.useIcons;
+      iconPos = efParams.iconPos;
+      useAnno = efParams.useAnno;
+      annoPos = efParams.annoPos;
       _jsdata = efParams._jsdata;
     }
     
@@ -398,6 +404,17 @@ public class Xholon2D3CirclePack implements EventListener {
         return d.icon;
       }).append("image")
         .attr("xlink:href", function(d) {
+          switch (iconPos) {
+          case "inside":
+            d.iconwh = Math.sqrt(Math.pow((d.r * 2), 2) / 2);
+            d.iconxy = d.iconwh / (-2);
+            break;
+          case "outside":
+          default:
+            d.iconxy = d.r * (-1);
+            d.iconwh = d.r * 2;
+            break;
+          }
           var dicon = d.icon;
           if (dicon.substring(0,7) == "system:") {
             dicon = dicon.substring(7);
@@ -405,10 +422,27 @@ public class Xholon2D3CirclePack implements EventListener {
           }
           return dicon;
         })
-        .attr("x", function(d) {return d.r * (-1);}) // -8)
-        .attr("y", function(d) {return d.r * (-1);}) // -8)
-        .attr("width", function(d) {return d.r * 2;}) // 16)
-        .attr("height", function(d) {return d.r * 2;}) //16);
+        .attr("x", function(d) {return d.iconxy;}) //{return d.r * (-1);})
+        .attr("y", function(d) {return d.iconxy;}) //{return d.r * (-1);})
+        .attr("width", function(d) {return d.iconwh;}) //{return d.r * 2;})
+        .attr("height", function(d) {return d.iconwh;}) //{return d.r * 2;})
+    }
+    
+    // annotations
+    if (useAnno) {
+      node.filter(function(d) {
+        return d.anno;
+      }).append("text")
+        .attr("dy", ".05em")
+        .attr("x", function(d) {return d.r * (-1);})
+        .attr("y", function(d) {return d.r * (-1);})
+        .classed("annotext", true)
+        //.text("This is a line of text to test dislay of Xholon annotations.")
+        .text(function(d) {
+          return d.anno;
+        })
+      svg.selectAll("text.annotext")
+        .call(wrap, 150);
     }
     
     if (marble) {
@@ -989,6 +1023,31 @@ public class Xholon2D3CirclePack implements EventListener {
       xhnode._jsdata.posy = y;
       if (w) {xhnode._jsdata.posw = w;}
       if (h) {xhnode._jsdata.posh = h;}
+    }
+    
+    // from "Wrapping Long Labels" https://bl.ocks.org/mbostock/7555321
+    function wrap(text, width) {
+      text.each(function() {
+        var text = $wnd.d3.select(this),
+            words = text.text().split(/\s+/).reverse(),
+            word,
+            line = [],
+            lineNumber = 0,
+            lineHeight = 1.1, // ems
+            y = text.attr("y"),
+            dy = parseFloat(text.attr("dy")),
+            tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+        while (word = words.pop()) {
+          line.push(word);
+          tspan.text(line.join(" "));
+          if (tspan.node().getComputedTextLength() > width) {
+            line.pop();
+            tspan.text(line.join(" "));
+            line = [word];
+            tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+          }
+        }
+      });
     }
     
 	}-*/;

@@ -71,6 +71,7 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
 	  xholon2json.setIncludeClass(isIncludeClass());
 	  xholon2json.setUseSymbols(isUseSymbols());
 	  xholon2json.setUseIcons(isUseIcons());
+	  xholon2json.setUseAnno(isUseAnno());
 	  xholon2json.writeAll();
 	  jsonStr = xholon2json.getJsonStr();
 	  int numNodes = xholon2json.getNumNodes();
@@ -136,7 +137,10 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
     p.shapeParams = "5,5"; // rect rx,ry
     p.maxSvg = 50; // max allowable number of SVG subtrees, to prevent running out of memory
     p.useIcons = false;
+    p.iconPos = "outside"; // "outside", "inside", "background", n s e w nw ne sw se   ex: "outside nw"
     p.useSymbols = false;
+    p.useAnno = false; // whether or not to show Xholon annotations
+    p.annoPos = "outside"; // "outside", "inside", "tooltip", n s e w nw ne sw se   ex: "outside nw"
     p.maxChars = 1;
     p.marble = ''; // '{"type":"default","maxChars":4}'
     p.supportTouch = false; // Hammer.js
@@ -179,6 +183,15 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
   
   public native boolean isUseIcons() /*-{return this.efParams.useIcons;}-*/;
   //public native void setUseIcons(boolean useIcons) /*-{this.efParams.useIcons = useIcons;}-*/;
+  
+  public native String getIconPos() /*-{return this.efParams.iconPos;}-*/;
+  //public native void setIconPos(String iconPos) /*-{this.efParams.iconPos = iconPos;}-*/;
+  
+  public native boolean isUseAnno() /*-{return this.efParams.useAnno;}-*/;
+  //public native void setUseAnno(boolean useAnno) /*-{this.efParams.useAnno = useAnno;}-*/;
+  
+  public native String getAnnoPos() /*-{return this.efParams.annoPos;}-*/;
+  //public native void setAnnoPos(String annoPos) /*-{this.efParams.annoPos = annoPos;}-*/;
   
   public native boolean is_jsdata() /*-{return this.efParams._jsdata;}-*/;
   //public native void set_jsdata(boolean _jsdata) /*-{this.efParams._jsdata = _jsdata;}-*/;

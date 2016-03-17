@@ -1,9 +1,12 @@
 package org.primordion.xholon.io;
 
+import org.primordion.xholon.base.Annotation;
 import org.primordion.xholon.base.IDecoration;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
 import org.primordion.xholon.common.mechanism.CeStateMachineEntity;
+import org.primordion.xholon.service.IXholonService;
+import org.primordion.xholon.service.XholonDirectoryService;
 
 /**
  * Get the structure of a Xholon model in D3 Hierarchy JSON format.
@@ -53,6 +56,14 @@ public class Xholon2D3HierarchyJSON {
 	 * Also, sometimes icons may have been specified, but they shouldn't be used.
 	 */
 	private boolean useIcons = false;
+	
+	/**
+	 * Whether or not to check for and use annotations.
+	 */
+	private boolean useAnno = false;
+	
+	/** Annotation service. */
+  protected IXholon annService = null;
 	
 	/** Whether to include "xhclass" in JSON output. */
 	private boolean includeClass = false;
@@ -108,6 +119,13 @@ public class Xholon2D3HierarchyJSON {
 		hasUserDefinedColor = false;
 		if (isShouldIncludeDecorations()) {
 		  sb.append(getDecorationStr(node));
+		}
+		
+		if (useAnno) {
+		  String anno = findAnnotation(node);
+      if (anno != null) {
+        sb.append("\"anno\": \"").append(anno).append("\", ");
+      }
 		}
 		
 		// only show nested state machine nodes if should show them, or if root is a StateMachineCE
@@ -357,6 +375,25 @@ public class Xholon2D3HierarchyJSON {
 		return icon;
 	}
 	
+  /**
+   * Try to find a Xholon annotation for a node.
+   * @param xhNode 
+   * @return an annotation, or null
+   */
+  protected String findAnnotation(IXholon node) {
+    if (annService == null) {
+      annService = node.getService(IXholonService.XHSRV_XHOLON_DIRECTORY);
+    }
+    if (annService != null) {
+      IXholon ann = (IXholon)((XholonDirectoryService)annService)
+        .get(Annotation.makeUniqueKey(node));
+      if (ann != null) {
+        return ann.getVal_String();
+      }
+    }
+    return null;
+  }
+  	
 	// shouldShowStateMachineEntities
 	public boolean isShouldShowStateMachineEntities() {
 	  return shouldShowStateMachineEntities;
@@ -403,5 +440,9 @@ public class Xholon2D3HierarchyJSON {
 	// includeClass
 	public boolean isIncludeClass() {return includeClass;}
 	public void setIncludeClass(boolean includeClass) {this.includeClass = includeClass;}
+	
+	// useAnno
+	public boolean isUseAnno() {return useAnno;}
+	public void setUseAnno(boolean useAnno) {this.useAnno = useAnno;}
 	
 }

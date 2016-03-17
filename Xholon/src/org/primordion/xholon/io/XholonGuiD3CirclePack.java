@@ -60,6 +60,7 @@ public class XholonGuiD3CirclePack extends AbstractXholonGui {
 	    xholon2json.setIncludeClass(isIncludeClass(efParams));
 	    xholon2json.setUseSymbols(isUseSymbols(efParams));
 	    xholon2json.setUseIcons(isUseIcons(efParams));
+	    xholon2json.setUseAnno(isUseAnno(efParams));
 	  }
 	  xholon2json.writeAll();
 	  String jsonStr = xholon2json.getJsonStr();
@@ -193,5 +194,7 @@ public class XholonGuiD3CirclePack extends AbstractXholonGui {
   protected native boolean isUseSymbols(JavaScriptObject efParams) /*-{return efParams.useSymbols;}-*/;
   
   protected native boolean isUseIcons(JavaScriptObject efParams) /*-{return efParams.useIcons;}-*/;
+	
+	protected native boolean isUseAnno(JavaScriptObject efParams) /*-{return efParams.useAnno;}-*/;
 	
 }
