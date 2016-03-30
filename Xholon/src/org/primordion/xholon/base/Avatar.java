@@ -217,7 +217,7 @@ public class Avatar extends AbstractAvatar {
    * ex: {"lang":"en-US", "voice":"Google UK English Female", "volume":1.0, "rate":1.2, "pitch":1.0}
    */
   //protected String speechParams = null; // ???
-  protected String ssuLang = null; // ex: "en-US"
+  protected String ssuLang = "en-US"; // default ex: "en-US"
   protected Object ssuVoice = null; // ex: new SpeechSynthesisVoice("Google UK English Female")
   protected float ssuVolume = SSU_FLOAT_DEFAULT;
   protected float ssuRate = SSU_FLOAT_DEFAULT;
@@ -976,6 +976,9 @@ public class Avatar extends AbstractAvatar {
 
     String[] data = null;
     if (cmd.indexOf('"') == -1) {
+      data = cmd.split(" ", 4);
+    }
+    else if (cmd.startsWith("param speech")) { // or just cmd.startsWith("param")
       data = cmd.split(" ", 4);
     }
     else if (cmd.startsWith("xport")) {
@@ -2857,6 +2860,7 @@ xport hello _other,Newick,true,true,true,{}
           // ex: {"lang":"en-US", "voice":"Google UK English Female", "volume":1.0, "rate":1.2, "pitch":1.0}
           speech = true;
           try {
+            if (valueRest == null) {valueRest = "";}
             JSONObject json = JSONParser.parseStrict(value + valueRest).isObject();
             if (json != null) {
               if (json.containsKey("lang")) {
