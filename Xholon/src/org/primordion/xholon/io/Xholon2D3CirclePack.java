@@ -404,16 +404,20 @@ public class Xholon2D3CirclePack implements EventListener {
         return d.icon;
       }).append("image")
         .attr("xlink:href", function(d) {
-          switch (iconPos) {
+          var iconArr = iconPos.split(" ");
+          switch (iconArr[0]) {
           case "inside":
-            d.iconwh = Math.sqrt(Math.pow((d.r * 2), 2) / 2);
-            d.iconxy = d.iconwh / (-2);
+            d.spclwh = Math.sqrt(Math.pow((d.r * 2), 2) / 2);
+            d.spclx = d.spcly = d.spclwh / (-2);
             break;
           case "outside":
           default:
-            d.iconxy = d.r * (-1);
-            d.iconwh = d.r * 2;
+            d.spclwh = d.r * 2;
+            d.spclx = d.spcly = d.r * (-1);
             break;
+          }
+          if (iconArr.length > 1) {
+            handleCardinalDirections(d, iconArr[1]);
           }
           var dicon = d.icon;
           if (dicon.substring(0,7) == "system:") {
@@ -422,10 +426,13 @@ public class Xholon2D3CirclePack implements EventListener {
           }
           return dicon;
         })
-        .attr("x", function(d) {return d.iconxy;}) //{return d.r * (-1);})
-        .attr("y", function(d) {return d.iconxy;}) //{return d.r * (-1);})
-        .attr("width", function(d) {return d.iconwh;}) //{return d.r * 2;})
-        .attr("height", function(d) {return d.iconwh;}) //{return d.r * 2;})
+        .attr("x", function(d) {return d.spclx;}) //{return d.r * (-1);})
+        .attr("y", function(d) {return d.spcly;}) //{return d.r * (-1);})
+        .attr("width", function(d) {return d.spclwh;}) //{return d.r * 2;})
+        .attr("height", function(d) {return d.spclwh;}) //{return d.r * 2;})
+        // TODO viewBox and preserveAspectRatio don't work correctly yet
+        //.attr("viewBox", function(d) {return "" + d.spclx + " " + d.spcly + " " + d.spclwh + " " + d.spclwh;})
+        //.attr("preserveAspectRatio", function(d) {return "xMinYMin meet";}) // "defer ..." ?
     }
     
     // annotations
@@ -433,16 +440,32 @@ public class Xholon2D3CirclePack implements EventListener {
       node.filter(function(d) {
         return d.anno;
       }).append("text")
-        .attr("dy", ".05em")
-        .attr("x", function(d) {return d.r * (-1);})
-        .attr("y", function(d) {return d.r * (-1);})
+        .attr("dy", function(d) {
+          var annoArr = annoPos.split(" ");
+          switch (annoArr[0]) {
+          case "inside":
+            d.spclwh = Math.sqrt(Math.pow((d.r * 2), 2) / 2);
+            d.spclx = d.spcly = d.spclwh / (-2);
+            break;
+          case "outside":
+          default:
+            d.spclwh = d.r * 2;
+            d.spclx = d.spcly = d.r * (-1);
+            break;
+          }
+          if (annoArr.length > 1) {
+            handleCardinalDirections(d, annoArr[1]);
+          }
+          return ".02em"; //".05em";
+        })
+        .attr("x", function(d) {return d.spclx;}) //{return d.r * (-1);})
+        .attr("y", function(d) {return d.spcly;}) //{return d.r * (-1);})
         .classed("annotext", true)
-        //.text("This is a line of text to test dislay of Xholon annotations.")
         .text(function(d) {
           return d.anno;
         })
       svg.selectAll("text.annotext")
-        .call(wrap, 150);
+        .call(wrap, 100); //150);
     }
     
     if (marble) {
@@ -1050,6 +1073,33 @@ public class Xholon2D3CirclePack implements EventListener {
       });
     }
     
-	}-*/;
+    // Handle cardinal directions, if specified for icon or anno.
+    // cardir cardinal direction
+    function handleCardinalDirections(d, cardir) {
+      // all of these cardinal directions are half-size (spclwh), and each is positioned at a different place (spclx spcly)
+      // nw  n ne
+      // w   m e
+      // sw  s se
+      var wh = d.spclwh / 2; // icon or anno wh
+      var x = d.spclx; // icon or anno x
+      var y = d.spcly; // icon or anno y
+      switch (cardir) {
+      // top row
+      case "nw": break;
+      case "n":  d.spclx = x + (wh / 2); break;
+      case "ne": d.spclx = x + wh; break;
+      // middle row
+      case "w": d.spcly = y + (wh / 2); break;
+      case "m": d.spclx = x + (wh / 2); d.spcly = y + (wh / 2); break;
+      case "e": d.spclx = x + wh; d.spcly = y + (wh / 2); break;
+      // bottom row
+      case "sw": d.spcly = y + (wh / 2); break;
+      case "s":  d.spclx = x + (wh / 2); d.spcly = y + wh; break;
+      case "se": d.spclx = x + wh; d.spcly = y + wh; break;
+      default: break;
+      }
+    }
+    
+	}-*/;  // end protected native void createD3(...)
 	
 }
