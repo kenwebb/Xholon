@@ -202,6 +202,24 @@ public abstract class AbstractRemoteNode extends XholonWithPorts implements IRem
       setOnDataTextAction((Boolean)msg.getData());
       return new Message(SIG_ON_DATA_RESP, null, this, msg.getSender());
     
+    case SIG_DISCONNECT_REQ:
+    {
+      this.closeConnection();
+      return new Message(SIG_DISCONNECT_RESP, null, this, msg.getSender());
+    }
+
+    case SIG_RECONNECT_REQ:
+    {
+      // TODO
+      return new Message(SIG_RECONNECT_RESP, null, this, msg.getSender());
+    }
+
+    case SIG_DESTROY_REQ:
+    {
+      this.destroy();
+      return new Message(SIG_DESTROY_RESP, null, this, msg.getSender());
+    }
+
     default:
     {
       return super.processReceivedSyncMessage(msg);
@@ -293,6 +311,11 @@ public abstract class AbstractRemoteNode extends XholonWithPorts implements IRem
    * Close the data connection.
    */
   protected void closeConnection() {}
+  
+  /**
+   * Destroy the connection.
+   */
+  protected void destroy() {}
   
   /**
    * Serialize a IXholon node as XML, or as another format.
