@@ -150,13 +150,29 @@ public class PeerJS extends AbstractRemoteNode implements IRemoteNode {
     }
     this.peer = new $wnd.Peer(localid, listenParams); //{key: key, debug: debug});
     var myself = this;
-    this.peer.on('connection', function(connection) {
-      if (connection.label != "file") { // Peerjs Chat also tries to set up a "file" connection
-        myself.connexn = connection; // cache the connection object so I can send messages on it
-        connection.on('data', function(data) {
+    this.peer.on('connection', function(dataConnection) {
+      if (dataConnection.label != "file") { // Peerjs Chat also tries to set up a "file" dataConnection
+        myself.connexn = dataConnection; // cache the dataConnection object so I can send messages on it
+        dataConnection.on('data', function(data) {
           myself.@org.primordion.xholon.service.remotenode.PeerJS::rxRemote(Ljava/lang/Object;Lorg/primordion/xholon/base/IXholon;)(data, reffedNode);
         });
       }
+    });
+    this.peer.on('open', function(id) {
+      $wnd.console.log("this.peer.on('open') id=" + id);
+    });
+    this.peer.on('call', function(mediaConnection) {
+      $wnd.console.log("this.peer.on('call') mediaConnection=");
+      $wnd.console.log(mediaConnection);
+    });
+    this.peer.on('close', function() {
+      $wnd.console.log("this.peer.on('close')");
+    });
+    this.peer.on('disconnected', function() {
+      $wnd.console.log("this.peer.on('disconnected')");
+    });
+    this.peer.on('error', function(err) {
+      $wnd.console.log("this.peer.on('error') err.type=" + err.type);
     });
   }-*/;
   
@@ -182,6 +198,16 @@ public class PeerJS extends AbstractRemoteNode implements IRemoteNode {
     this.connexn.on('data', function(data) {
       myself.@org.primordion.xholon.service.remotenode.PeerJS::rxRemote(Ljava/lang/Object;Lorg/primordion/xholon/base/IXholon;)(data, reffingNode);
     });
+    this.connexn.on('open', function() {
+      $wnd.console.log("this.connexn.on('open')");
+    });
+    this.connexn.on('close', function() {
+      $wnd.console.log("this.connexn.on('close')");
+    });
+    this.connexn.on('error', function(err) {
+      $wnd.console.log("this.connexn.on('error') err=");
+      $wnd.console.log(err);
+    });
   }-*/;
     
   /**
@@ -191,6 +217,14 @@ public class PeerJS extends AbstractRemoteNode implements IRemoteNode {
   protected native void closeConnection() /*-{
     if (typeof this.connexn === "undefined") {return;}
     this.connexn.close();
+  }-*/;
+  
+  /**
+   * Destroy
+   */
+  @Override
+  protected native void destroy() /*-{
+    // TODO
   }-*/;
   
   /**
@@ -225,9 +259,10 @@ public class PeerJS extends AbstractRemoteNode implements IRemoteNode {
   private static final String showPeer = "Show Peer";
   private static final String showConnection = "Show Connection";
   private static final String showThisNode = "Show This Node";
+  private static final String showUtil = "Show util";
   
   /** action list */
-  private String[] actions = {showPeer, showConnection, showThisNode};
+  private String[] actions = {showPeer, showConnection, showThisNode, showUtil};
   
   @Override
   public String[] getActionList()
@@ -248,13 +283,16 @@ public class PeerJS extends AbstractRemoteNode implements IRemoteNode {
     if (showPeer.equals(action)) {
       showPeer();
     }
-    if (showConnection.equals(action)) {
+    else if (showConnection.equals(action)) {
       showConnection();
     }
-    if (showThisNode.equals(action)) {
+    else if (showThisNode.equals(action)) {
       this.println("onDataJsonSync   " + this.isOnDataJsonSync());
       this.println("onDataTextSync   " + this.isOnDataTextSync());
       this.println("onDataTextAction " + this.isOnDataTextAction());
+    }
+    else if (showUtil.equals(action)) {
+      showUtil();
     }
   }
   
@@ -268,7 +306,10 @@ public class PeerJS extends AbstractRemoteNode implements IRemoteNode {
     }
     this.println("A peer object exists.");
     this.println(" id " + this.peer.id);
-    this.println(" connections " + this.peer.connections);
+    this.println(" connections ");
+    for (var prop in this.peer.connections) {
+      this.println("obj." + prop + " = " + this.peer.connections[prop][0].label);
+    }
     this.println(" disconnected " + this.peer.disconnected);
     this.println(" destroyed " + this.peer.destroyed);
   }-*/;
@@ -283,10 +324,24 @@ public class PeerJS extends AbstractRemoteNode implements IRemoteNode {
     }
     this.println("A connection object exists.");
     this.println(" label " + this.connexn.label);
+    this.println(" metadata " + this.connexn.metadata);
     this.println(" peer  " + this.connexn.peer);
+    this.println(" reliable  " + this.connexn.reliable);
     this.println(" serialization " + this.connexn.serialization);
     this.println(" type  " + this.connexn.type);
     this.println(" bufferSize " + this.connexn.bufferSize);
+  }-*/;
+  
+  /**
+   * Show the information available using the PeerJS util object.
+   */
+  protected native void showUtil() /*-{
+    this.println("util");
+    this.println(" browser = " + $wnd.util.browser);
+    this.println(" supports.data = " + $wnd.util.supports.data);
+    this.println(" supports.audioVideo = " + $wnd.util.supports.audioVideo);
+    this.println(" supports.binary = " + $wnd.util.supports.binary);
+    this.println(" supports.reliable = " + $wnd.util.supports.reliable);
   }-*/;
   
 }
