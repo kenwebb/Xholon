@@ -538,6 +538,30 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       return this;
     });
     
+    // cloneLastChild
+    api.cloneLastChild = $entry(function() {
+      $wnd.xh.service('XholonHelperService').call(-2024, this, this);
+      return this;
+    });
+    
+    // cloneFirstChild
+    api.cloneFirstChild = $entry(function() {
+      $wnd.xh.service('XholonHelperService').call(-2025, this, this);
+      return this;
+    });
+    
+    // cloneAfter
+    api.cloneAfter = $entry(function() {
+      $wnd.xh.service('XholonHelperService').call(-2026, this, this);
+      return this;
+    });
+    
+    // cloneBefore
+    api.cloneBefore = $entry(function() {
+      $wnd.xh.service('XholonHelperService').call(-2027, this, this);
+      return this;
+    });
+    
     // id
     api.id = $entry(function() {
       return this.@org.primordion.xholon.base.IXholon::getId()();

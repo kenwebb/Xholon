@@ -184,4 +184,31 @@ public interface ICutCopyPaste extends IXholon {
 	 * @param xmlString 
 	 */
 	public void pasteAfterFromDrop(IXholon node, String xmlString);
+	
+	// clone
+	
+	/**
+	 * Clone an existing node, and make the clone that node's last child.
+	 * @param node 
+	 */
+	public void cloneLastChild(IXholon node);
+	
+	/**
+	 * Clone an existing node, and make the clone that node's first child.
+	 * @param node 
+	 */
+	public void cloneFirstChild(IXholon node);
+	
+	/**
+	 * Clone an existing node, and position the clone after that node.
+	 * @param node 
+	 */
+	public void cloneAfter(IXholon node);
+	
+	/**
+	 * Clone an existing node, and position the clone before that node.
+	 * @param node 
+	 */
+	public void cloneBefore(IXholon node);
+	
 }

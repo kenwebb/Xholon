@@ -485,6 +485,26 @@ public class CutCopyPaste extends Xholon implements ICutCopyPaste {
 		myRootXhNode.postConfigure();
 	}
 	
+	public void cloneLastChild(IXholon node) {
+	  String cloneStr = copySelf(node);
+	  pasteLastChild(node, cloneStr);
+	}
+	
+	public void cloneFirstChild(IXholon node) {
+	  String cloneStr = copySelf(node);
+	  pasteFirstChild(node, cloneStr);
+	}
+	
+	public void cloneAfter(IXholon node) {
+	  String cloneStr = copySelf(node);
+	  pasteAfter(node, cloneStr);
+	}
+	
+	public void cloneBefore(IXholon node) {
+	  String cloneStr = copySelf(node);
+	  pasteBefore(node, cloneStr);
+	}
+	
 	/**
 	 * Fix the siblings of a node so they all have the same parent.
 	 * @param node A node that may have next siblings that have the wrong parent.

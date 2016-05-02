@@ -262,6 +262,30 @@ public interface ISignal {
 	 * This is used by the "Movie Script Parser" XholonWorkbook.
 	 */
   public static final int ACTION_PASTE_MERGE_FROMROLENAMESTRING = -2023;
+  
+  /**
+   * cloneLastChild
+   * Clone an existing node, and make the clone that node's last child.
+   */
+  public static final int ACTION_CLONE_LASTCHILD = -2024;
+	
+  /**
+   * cloneFirstChild
+   * Clone an existing node, and make the clone that node's first child.
+   */
+  public static final int ACTION_CLONE_FIRSTCHILD = -2025;
+	
+  /**
+   * cloneAfter
+   * Clone an existing node, and position the clone after that node.
+   */
+  public static final int ACTION_CLONE_AFTER = -2026;
+	
+  /**
+   * cloneBefore
+   * Clone an existing node, and position the clone before that node.
+   */
+  public static final int ACTION_CLONE_BEFORE = -2027;
 	
 	// XML Data Transfer signals
 	

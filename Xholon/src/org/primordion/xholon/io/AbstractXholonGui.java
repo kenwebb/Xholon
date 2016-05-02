@@ -396,6 +396,26 @@ public abstract class AbstractXholonGui implements IXholonGui {
         //currentSelectionField.setText((String)node.handleNodeSelection());
       }
     });
+    editSubMenu.addItem("Clone Last Child", new Command() {
+      public void execute() {
+        sendXholonHelperService(ISignal.ACTION_CLONE_LASTCHILD, node, null);
+      }
+    });
+    editSubMenu.addItem("Clone First Child", new Command() {
+      public void execute() {
+        sendXholonHelperService(ISignal.ACTION_CLONE_FIRSTCHILD, node, null);
+      }
+    });
+    editSubMenu.addItem("Clone After", new Command() {
+      public void execute() {
+        sendXholonHelperService(ISignal.ACTION_CLONE_AFTER, node, null);
+      }
+    });
+    editSubMenu.addItem("Clone Before", new Command() {
+      public void execute() {
+        sendXholonHelperService(ISignal.ACTION_CLONE_BEFORE, node, null);
+      }
+    });
     editSubMenu.addItem("XQuery Thru Clipboard", new Command() {
       public void execute() {
         

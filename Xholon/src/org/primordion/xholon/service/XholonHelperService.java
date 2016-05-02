@@ -210,6 +210,18 @@ public class XholonHelperService extends AbstractXholonService
 		case ISignal.ACTION_PASTE_MERGE_FROMROLENAMESTRING:
 			pasteMergeFromRolenamestring(msg.getSender(), msg.getData());
 			break;
+		case ISignal.ACTION_CLONE_LASTCHILD:
+		  cloneLastChild((IXholon)msg.getData());
+		  break;
+		case ISignal.ACTION_CLONE_FIRSTCHILD:
+		  cloneFirstChild((IXholon)msg.getData());
+		  break;
+		case ISignal.ACTION_CLONE_AFTER:
+		  cloneAfter((IXholon)msg.getData());
+		  break;
+		case ISignal.ACTION_CLONE_BEFORE:
+		  cloneBefore((IXholon)msg.getData());
+		  break;
 		default:
 			return super.processReceivedSyncMessage(msg);
 		}
@@ -553,6 +565,22 @@ public class XholonHelperService extends AbstractXholonService
 	public void pasteMerge(IXholon node, String xmlString)
 	{
 		cutCopyPasteInstance().pasteMerge(node, xmlString);
+	}
+	
+	public void cloneLastChild(IXholon node) {
+	  cutCopyPasteInstance().cloneLastChild(node);
+	}
+	
+	public void cloneFirstChild(IXholon node) {
+	  cutCopyPasteInstance().cloneFirstChild(node);
+	}
+	
+	public void cloneAfter(IXholon node) {
+	  cutCopyPasteInstance().cloneAfter(node);
+	}
+	
+	public void cloneBefore(IXholon node) {
+	  cutCopyPasteInstance().cloneBefore(node);
 	}
 	
 	/**

@@ -948,13 +948,6 @@ public class Avatar extends AbstractAvatar {
    * be able to use a list of things wherever appropriate (ex: take one,two,three)
    * be able to use ALL wherever appropriate (ex: put * in Car)
    * 
-   * clone - similar to "take", but it takes a clone/copy instead of the original object
-   * 3 options:
-   *  - create a copy
-   *  - create an XML serialization of the object
-   *  - create an iflang script that can be used to create the object
-   * clone THING    clone THING xml   clone THING iflang|script
-   * 
    * freeze unfreeze
    * serialize to or deserialize from XML or iflang
    * 
@@ -1041,6 +1034,14 @@ public class Avatar extends AbstractAvatar {
         .append(" (ex: ")
         .append(data[0])
         .append(" Car).");
+      }
+      break;
+    case "clone":
+      if (len == 2) {
+        clone(data[1], null);
+      }
+      else if (len == 3) {
+        clone(data[1], data[2]);
       }
       break;
     case "drop": // leave discard
@@ -1289,6 +1290,14 @@ public class Avatar extends AbstractAvatar {
       }
       else {
         takeAll();
+      }
+      break;
+    case "takeclone":
+      if (len == 2) {
+        takeClone(data[1], null);
+      }
+      else if (len == 3) {
+        takeClone(data[1], data[2]);
       }
       break;
     case "unfollow": // stop following the leader
@@ -1601,6 +1610,72 @@ public class Avatar extends AbstractAvatar {
       // TODO pass the pos
       String[] data = {thing, "add", pos};
       meteorService.sendSyncMessage(IMeteorPlatformService.SIG_COLL_INSERT_REQ, data, contextNode);
+    }
+  }
+  
+  /**
+   * Clone
+   * example:  this.remove() is required
+<script>
+var a = this.parent();
+this.remove();
+a.action("clone hello;");
+</script>
+   * @param thing The node that should be cloned.
+   * @param where "after" or "before" the thing
+   */
+  protected void clone(String thing, String where) {
+    IXholon node = findNode(thing, contextNode);
+    if (node != null) {
+      switch (where) {
+      case "before":
+        ((XholonHelperService)app.getService(IXholonService.XHSRV_XHOLON_HELPER)).cloneBefore(node);
+        break;
+      case "after":
+      default: // null
+        ((XholonHelperService)app.getService(IXholonService.XHSRV_XHOLON_HELPER)).cloneAfter(node);
+        break;
+      }
+    }
+  }
+  
+  /**
+   * Take a clone
+   * example:
+<script>
+var a = this.parent();
+a.action("takeclone hello;");
+</script>
+
+   * @param thing The node that should be cloned.
+   * @param where As "last" or "first" child of the thing
+   */
+  protected void takeClone(String thing, String where) {
+    IXholon node = findNode(thing, contextNode);
+    if (node != null) {
+      switch (where) {
+      case "first":
+        {
+        ((XholonHelperService)app.getService(IXholonService.XHSRV_XHOLON_HELPER)).cloneFirstChild(node);
+        IXholon clonedNode = node.getFirstChild();
+        if (clonedNode != null) {
+          clonedNode.removeChild();
+          clonedNode.appendChild(this);
+        }
+        break;
+        }
+      case "last":
+      default: // null
+        {
+        ((XholonHelperService)app.getService(IXholonService.XHSRV_XHOLON_HELPER)).cloneLastChild(node);
+        IXholon clonedNode = node.getLastChild();
+        if (clonedNode != null) {
+          clonedNode.removeChild();
+          clonedNode.appendChild(this);
+        }
+        break;
+        }
+      }
     }
   }
   
@@ -2130,6 +2205,7 @@ public class Avatar extends AbstractAvatar {
     .append("\nbecome THING role ROLE")
     .append("\nbreakpoint")
     .append("\nbuild|append|prepend|before|after THING [role ROLE]")
+    .append("\nclone THING [after|before]")
     .append("\n[COMMENT]")
     .append("\ndrop [THING]")
     .append("\nenter [*]THING")
@@ -2154,6 +2230,7 @@ public class Avatar extends AbstractAvatar {
     .append("\nset THING NAME VALUE")
     .append("\nsmash THING")
     .append("\ntake [THING]")
+    .append("\ntakeclone THING [last|first]")
     .append("\nunbuild|eat THING")
     .append("\nunfollow")
     .append("\nunlead")
