@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="author" content="Ken Webb" />
+    <meta name="copyright" content="MIT License, Copyright (C) 2016 Ken Webb" />
+    <title>Xholon WebRTC Apps</title>
+  </head>
+  
+  <body>
+    <h3>Xholon WebRTC Apps</h3>
+    <div style="font-size: 10px;"><p>Please note that the apps linked to from this page, require a modern browser, such as a recent version of Google Chrome or Firefox.</p></div>
+    <p>I am trying various WebRTC scenarios, using 2 Xholon apps. One app uses ten provinces in Canada, while the other app uses 10 cantons in Switzerland. Each app revision tests something different.</p>
+    <!-- see my notebook for April 29, 2016 -->
+    
+    <h3>Scenario 01 (github rev 1)</h3>
+    <p>Ontario and St Gallen send messages to each other.</p>
+    <p><a href="XholonWebRTC.html?app=3872b340823c982c39fa73288a1d9d17/497e3b69b9e55625a2c72570395aa51b65b4fd66&src=gist&gui=clsc">WebRTC complex Canada</a>
+    </p>
+    <p><a href="XholonWebRTC.html?app=bbb22a5cd9599e94f70a207118cf3ec5/00f5013877b18228800d868bc1265d4f7ea70481&src=gist&gui=clsc">WebRTC complex Schweiz</a>
+    </p>
+    <p>Optionally paste the following into Avatar, after moving Avatar to Ontario.</p>
+    <pre>
+&lt;script>
+var a = this.parent();
+a.action("script;\nbuild cup;\ntake cup;\ngo port0;\nlook;\ndrop cup;\ngo port0;\n");
+&lt;/script>
+    </pre>
+    
+    <h3>Scenario 02 (github rev 3)</h3>
+    <p>Ontario and St Gallen, plus Quebec and Graubunden, send messages to each other. Both connections work at the same time.</p>
+    <p><a href="XholonWebRTC.html?app=3872b340823c982c39fa73288a1d9d17/84f444212dbca0a8a29476e1252dfdc6364fd26d&src=gist&gui=clsc">WebRTC complex Canada</a>
+    </p>
+    <p><a href="XholonWebRTC.html?app=bbb22a5cd9599e94f70a207118cf3ec5/e5e1707e0159d14693d44c416e37a1aca284ec51&src=gist&gui=clsc">WebRTC complex Schweiz</a>
+    </p>
+    
+    <h3>Scenario 03 (github rev 3)</h3>
+    <p>this scenario didn't work</p>
+    
+    <h3>Scenario 04 (github rev 4)</h3>
+    <p><a href="XholonWebRTC.html?app=3872b340823c982c39fa73288a1d9d17/904696941b67b5d29b8d8c9a7735488b7d622452&src=gist&gui=clsc">WebRTC complex Canada (gist)</a>
+    or <a href="XholonWebRTC.html?app=WebRTC%20complex%20Canada&src=lstr&gui=clsc">WebRTC complex Canada (localstorage)</a></p>
+    <p><a href="XholonWebRTC.html?app=bbb22a5cd9599e94f70a207118cf3ec5/43e68d648dd30ace2dd51e3c317c68a8e0507666&src=gist&gui=clsc">WebRTC complex Schweiz (gist)</a>
+    or <a href="XholonWebRTC.html?app=WebRTC%20complex%20Schweiz&src=lstr&gui=clsc">WebRTC complex Schweiz (localstorage)</a></p>
+    
+    <p><a href="PeerjsChat.html">PeerJS Chat</a></p>
+    
+    <h3>Scenario 05</h3>
+    <p>
+    Schweiz will create a container node with some arbitrary contents.
+    Avatar will move from Canada to Schweiz, will take a container node, will return to Canada, and will smash the container to reveal the contents.
+    </p>
+    
+    <p>Sample Schweiz content:</p>
+    <pre>
+&lt;container>
+  &lt;Ort roleName="das Heim">
+    &lt;Ort roleName="das Haus">
+      &lt;Ort roleName="der Keller"/>
+      <!-- erste -->
+      &lt;Ort roleName="die Küche"/>
+      &lt;Ort roleName="das Wohnzimmer"/>
+      &lt;Ort roleName="das Esszimmer"/>
+      &lt;Ort roleName="das Pianozimmer"/>
+      &lt;Ort roleName="das Badezimmer"/>
+      <!-- zweite -->
+      &lt;Ort roleName="das Schlafzimmer" multiplicity="3"/>
+      &lt;Ort roleName="das Badezimmer">
+        &lt;Ort roleName="die Dusche"/>
+        &lt;Ort roleName="die Badewanne"/>
+      &lt;/Ort>
+    &lt;/Ort>
+    &lt;Ort roleName="der Garten"/>
+    &lt;Ort roleName="die Veranda"/>
+    &lt;Ort roleName="die Garage"/>
+  &lt;/Ort>
+&lt;/container>
+    </pre>
+    
+    <p>Sample Canada content:</p>
+    <pre>
+&lt;script>
+var a = this.parent();
+a.action("script;\ngo port0;\ntake container;\ngo port0;\ndrop container;\nsmash container;\n");
+&lt;/script>
+    </pre>
+    
+    <!-- TODO provide links to the Xholon editor for each app -->
+    <h3>Links to the Xholon editor for each app</h3>
+    <p><a href="wb/editwb.html?app=3872b340823c982c39fa73288a1d9d17&src=gist">WebRTC complex Canada (gist)</a></p>
+    <p><a href="wb/editwb.html?app=bbb22a5cd9599e94f70a207118cf3ec5&src=gist">WebRTC complex Schweiz (gist)</a></p>
+    <p><a href="wb/editwb.html?app=WebRTC%20complex%20Canada&src=lstr">WebRTC complex Canada (localstorage)</a></p>
+    <p><a href="wb/editwb.html?app=WebRTC%20complex%20Schweiz&src=lstr">WebRTC complex Schweiz (localstorage)</a></p>
+    
+    <hr/>
+    <p>Ken Webb</p>
+    <div class="license"  style="font-size: 9px;"><p>Xholon GWT is a <a href="index.html">Xholon</a> project. Copyright (C) 2016 Ken Webb</p></div>
+    <div class="aatt" style="font-size: 9px;"><pre style="font-size: 9px;">
+  @QWERTYUIk
+  OPASmDFGHe
+  primordion
+  JKLZcXCVB.
+    </pre></div>
+  </body>
+</html>
