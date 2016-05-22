@@ -62,18 +62,19 @@ function connect(c) {
     $('#connections').append(chatbox);
 
     c.on('data', function(data) {
-      messages.append('<div><span class="peer">' + c.peer + '</span>: ' + data +
-        '</div>');
-        });
-        c.on('close', function() {
-          alert(c.peer + ' has left the chat.');
-          chatbox.remove();
-          if ($('.connection').length === 0) {
-            $('.filler').show();
-          }
-          delete connectedPeers[c.peer];
-        });
-  } else if (c.label === 'file') {
+      messages.append('<div><span class="peer">' + c.peer + '</span>: ' + data + '</div>');
+    });
+    
+    c.on('close', function() {
+      alert(c.peer + ' has left the chat.');
+      chatbox.remove();
+      if ($('.connection').length === 0) {
+        $('.filler').show();
+      }
+      delete connectedPeers[c.peer];
+    });
+  }
+  else if (c.label === 'file') {
     c.on('data', function(data) {
       // If we're getting a file, create a URL for it.
       if (data.constructor === ArrayBuffer) {
@@ -118,14 +119,22 @@ $(document).ready(function() {
         serialization: 'none',
         metadata: {message: 'hi i want to chat with you!'}
       });
+      
       c.on('open', function() {
         connect(c);
       });
+      
       c.on('error', function(err) { alert(err); });
-      var f = peer.connect(requestedPeer, { label: 'file', reliable: true });
+      
+      var f = peer.connect(requestedPeer, {
+        label: 'file',
+        reliable: true
+      });
+      
       f.on('open', function() {
         connect(f);
       });
+      
       f.on('error', function(err) { alert(err); });
     }
     connectedPeers[requestedPeer] = 1;
@@ -178,7 +187,6 @@ $(document).ready(function() {
 });
 
 // Make sure things clean up properly.
-
 window.onunload = window.onbeforeunload = function(e) {
   if (!!peer && !peer.destroyed) {
     peer.destroy();
