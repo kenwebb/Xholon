@@ -381,6 +381,19 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			}
 		}
 		
+		// mech.spreadsheet
+		else if (implName.startsWith("org.primordion.xholon.mech.spreadsheet")) {
+		  if (implName.endsWith("Spreadsheet")) {
+			  newNode = new org.primordion.xholon.mech.spreadsheet.Spreadsheet();
+			}
+		  if (implName.endsWith("SpreadsheetRow")) {
+			  newNode = new org.primordion.xholon.mech.spreadsheet.SpreadsheetRow();
+			}
+		  if (implName.endsWith("SpreadsheetCell")) {
+			  newNode = new org.primordion.xholon.mech.spreadsheet.SpreadsheetCell();
+			}
+    }
+    
 		// mech.mathml
 		else if (implName.startsWith("org.primordion.xholon.mech.mathml")) {
 		  if (implName.endsWith("content.JavaMath")) {

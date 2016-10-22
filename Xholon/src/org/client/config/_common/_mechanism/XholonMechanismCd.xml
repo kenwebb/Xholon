@@ -134,6 +134,14 @@
 	<Script xhType="XhtypePureActiveObject" implName="org.primordion.xholon.base.Behavior_gwtjs"/>
 	<script xhType="XhtypePureActiveObject" implName="org.primordion.xholon.base.Behavior_gwtjs"/>
 	
+	<!-- SpreadsheetEntity -->
+	<Workbook xhType="XhtypePureActiveObject" implName="org.primordion.xholon.app.Chameleon.XhChameleon"/>
+	<Spreadsheet xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.spreadsheet.Spreadsheet"/>
+	<SpreadsheetRow xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.spreadsheet.SpreadsheetRow"/>
+	<SpreadsheetCell xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.spreadsheet.SpreadsheetCell"/>
+	<Srw xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.spreadsheet.SpreadsheetRow"/>
+	<Scl xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.spreadsheet.SpreadsheetCell"/>
+	
 	<!-- ScxmlEntity -->
 	<!-- StateMachineEntity -->
 	<Activity><Icon>images/StateMachineEntity/action.png</Icon></Activity>

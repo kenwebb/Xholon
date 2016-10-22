@@ -240,6 +240,19 @@ Uses IDs in range 1013000 - 1013099 .
   <script/>
 </Script>
 
+<!--
+This can be used as part of an Inheritance Hierarchy.
+Uses IDs in range 1014600 - 1014699
+-->
+<SpreadsheetEntity xmlns="http://www.primordion.com/namespace/SpreadsheetEntity" id="1014600">
+  <Workbook/> <!-- an optional workbook contains one or more spreadsheets -->
+  <Spreadsheet/> <!-- the spreadsheet itself -->
+  <SpreadsheetRow/> <!-- a row in a spreadsheet -->
+  <SpreadsheetCell/> <!-- a cell in a spreadsheet -->
+  <Srw/> <!-- a row in a spreadsheet; short name -->
+  <Scl/> <!-- a cell in a spreadsheet; short name -->
+</SpreadsheetEntity>
+
 <!-- This can be used as part of an Inheritance Hierarchy.
 Uses IDs in range 1000000 - 1000099 .
 -->

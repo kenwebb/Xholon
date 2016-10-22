@@ -79,6 +79,7 @@ __________   ________   _____________________
 1014300      1014399    Script
 1014400      1014499    Avatar
 1014500      1014599    RemoteNode
+1014600      1014699    Spreadsheet
 
 The following XML is an alphabetical list of all Xholon Mechanisms and Viewers.
 -->
@@ -171,7 +172,7 @@ The following XML is an alphabetical list of all Xholon Mechanisms and Viewers.
 		<ToolTip>An OrNode enables just one of its children at a time.</ToolTip>
 	</XholonMechanism>
 	
-    <XholonMechanism roleName="PetriNetEntity">
+	<XholonMechanism roleName="PetriNetEntity">
 		<NamespaceUri>http://www.primordion.com/namespace/PetriNetEntity</NamespaceUri>
 		<DefaultPrefix>pn</DefaultPrefix>
 		<RangeStart>1013000</RangeStart>
@@ -205,6 +206,13 @@ The following XML is an alphabetical list of all Xholon Mechanisms and Viewers.
 		<DefaultPrefix>scrpt</DefaultPrefix>
 		<RangeStart>1014300</RangeStart>
 		<RangeEnd>1014399</RangeEnd>
+	</XholonMechanism>
+	
+	<XholonMechanism roleName="SpreadsheetEntity">
+		<NamespaceUri>http://www.primordion.com/namespace/SpreadsheetEntity</NamespaceUri>
+		<DefaultPrefix>sprdsht</DefaultPrefix>
+		<RangeStart>1014600</RangeStart>
+		<RangeEnd>1014699</RangeEnd>
 	</XholonMechanism>
 	
 	<XholonMechanism roleName="StateMachineEntity">
