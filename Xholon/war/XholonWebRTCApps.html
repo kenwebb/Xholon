@@ -84,6 +84,13 @@ var a = this.parent();
 a.action("script;\ngo port0;\ntake container;\ngo port0;\ndrop container;\nsmash container;\n");
 &lt;/script>
     </pre>
+    <p>OR just take a clone</p>
+    <pre>
+&lt;script>
+var a = this.parent();
+a.action("script;\ngo port0;\ntakeclone container;\ngo port0;\ndrop container;\nsmash container;\n");
+&lt;/script>
+    </pre>
     
     <!-- TODO provide links to the Xholon editor for each app -->
     <h3>Links to the Xholon editor for each app</h3>
