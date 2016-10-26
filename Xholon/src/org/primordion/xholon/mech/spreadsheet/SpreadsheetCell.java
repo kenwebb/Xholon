@@ -30,6 +30,7 @@ import org.primordion.xholon.util.Misc;
  * Has a value and an optional formula/function.
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
+ * @see <a href="https://github.com/handsontable/formula-parser">handsontable JS library website</a>
  * @since 0.9.1 (Created on Oct 14, 2016)
  */
 public class SpreadsheetCell extends XholonWithPorts implements IJavaTypes {
@@ -63,24 +64,28 @@ public class SpreadsheetCell extends XholonWithPorts implements IJavaTypes {
   @Override
   public void setVal(int ival) {
     this.value = new Integer(ival);
+    //this.value = ival; // this also works
     this.println(this.value + " " + this.value.getClass().getName());
   }
   
   @Override
   public void setVal(double dval) {
     this.value = new Double(dval);
+    //this.value = dval; // this also works
     this.println(this.value + " " + this.value.getClass().getName());
   }
   
   @Override
   public void setVal(float fval) {
     this.value = new Double(fval);
+    //this.value = fval; // this also works
     this.println(this.value + " " + this.value.getClass().getName());
   }
   
   @Override
   public void setVal(boolean bval) {
     this.value = new Boolean(bval);
+    //this.value = bval; // this also works
     this.println(this.value + " " + this.value.getClass().getName());
   }
   
@@ -92,7 +97,7 @@ public class SpreadsheetCell extends XholonWithPorts implements IJavaTypes {
   /**
    * The current value of this cell (ex: 43 "Hello World" "12345" true 123.456)
    */
-  protected Object value = null;
+  protected Object value = ""; //null;
   public Object getValue() {return value;}
   
   @Override

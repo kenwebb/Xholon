@@ -47,6 +47,7 @@ import org.primordion.xholon.service.XholonHelperService;
  * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
+ * @see <a href="https://github.com/handsontable/formula-parser">handsontable JS library website</a>
  * @since 0.9.1 (Created on Oct 14, 2016)
  */
 public class Spreadsheet extends XholonWithPorts {
@@ -190,7 +191,30 @@ public class Spreadsheet extends XholonWithPorts {
     }
     //$wnd.console.log(this.parser);
     
-    // TODO implement this.parser.on(...)
+    //this.parser.switchCellData = function(cellData) {
+    function switchCellData(cellData) {
+      switch (typeof cellData) {
+      case "number": break;
+      case "string": break;
+      case "boolean": break;
+      case "object":
+        // assume this is a Java object
+        var clazz = cellData.@java.lang.Object::getClass()();
+        $wnd.console.log(clazz);
+        var clazzName = clazz.@java.lang.Class::getSimpleName()();
+        $wnd.console.log(clazzName);
+        switch(clazzName) {
+        case "Integer": cellData = cellData.@java.lang.Integer::intValue()(); break;
+        case "Double": cellData = cellData.@java.lang.Double::doubleValue()(); break;
+        case "Boolean": cellData = cellData.@java.lang.Boolean::booleanValue()(); break;
+        case "String": break; // Java String
+        default: break;
+        }
+        break;
+      default: break;
+      }
+      return cellData;
+    }
     
     this.parser.on('callVariable', function(name, done) {
       $wnd.console.log("on callVariable " + name);
@@ -198,6 +222,21 @@ public class Spreadsheet extends XholonWithPorts {
     
     this.parser.on('callCellValue', function(cellCoord, done) {
       $wnd.console.log("on callCellValue " + cellCoord.row.index + "," + cellCoord.column.index);
+      var xhRow = $this.first();
+      // get to the starting row, if cellCoord.row.index > 0
+      for (var i = 0; i < cellCoord.row.index; i++) {
+        xhRow = xhRow.next();
+      }
+      $wnd.console.log(xhRow.name());
+      var xhCell = xhRow.first();
+      // get to the starting column, if cellCoord.column.index > 0
+      for (var j = 0; j < cellCoord.column.index; j++) {
+        xhCell = xhCell.next();
+      }
+      $wnd.console.log(xhCell.name());
+      var cellData = xhCell.obj();
+      cellData = switchCellData(cellData);
+      done(cellData);
     });
     
     this.parser.on('callRangeValue', function(startCellCoord, endCellCoord, done) {
@@ -206,7 +245,7 @@ public class Spreadsheet extends XholonWithPorts {
       $wnd.console.log($this.toString());
       $wnd.console.log($this.name());
       
-      var xhRow = $this.first(); // TODO it may not be the first row
+      var xhRow = $this.first();
       // get to the starting row, if startCellCoord.row.index > 0
       for (var i = 0; i < startCellCoord.row.index; i++) {
         xhRow = xhRow.next();
@@ -214,7 +253,7 @@ public class Spreadsheet extends XholonWithPorts {
       $wnd.console.log(xhRow.name());
       var fragment = [];
       for (var row = startCellCoord.row.index; row <= endCellCoord.row.index; row++) {
-        var xhCell = xhRow.first(); // TODO it may not be the first cell in the row
+        var xhCell = xhRow.first();
         // get to the starting column, if startCellCoord.column.index > 0
         for (var j = 0; j < startCellCoord.column.index; j++) {
           xhCell = xhCell.next();
@@ -226,24 +265,7 @@ public class Spreadsheet extends XholonWithPorts {
           var cellData = xhCell.obj(); // TODO this is a Java Integer Double Boolean String; convert it to a JS type
           $wnd.console.log(cellData);
           $wnd.console.log(typeof cellData);
-          var clazzName = null;
-          if (typeof cellData == "string") {
-            clazzName = "string";
-          }
-          else { // assume this is a Java object
-            var clazz = cellData.@java.lang.Object::getClass()();
-            $wnd.console.log(clazz);
-            clazzName = clazz.@java.lang.Class::getSimpleName()();
-            $wnd.console.log(clazzName);
-          }
-          switch(clazzName) {
-          case "Integer": cellData = cellData.@java.lang.Integer::intValue()(); break;
-          case "Double": cellData = cellData.@java.lang.Double::doubleValue()(); break;
-          case "Boolean": cellData = cellData.@java.lang.Boolean::booleanValue()(); break;
-          case "String": break; // Java String
-          case "string": break; // JavaScript string
-          default: break;
-          }
+          cellData = switchCellData(cellData);
           //$wnd.console.log(cellData);
           colFragment.push(cellData);
           xhCell = xhCell.next();
