@@ -44,6 +44,10 @@ import org.primordion.xholon.service.XholonHelperService;
  * TODO:
  * - cells should keep this Spreadsheet node informed of changes; only invoke act() if this node knows about changes
  * - handle imported CSV data that contains "" as text delimiter
+ * - get #ERROR! when try to sum columns that contain null or ""
+ * - handle parser.on('callVariable'
+ *  - this could be any Xholon string including an xpath expression
+ * - handle references to cells in other spreadsheets
  * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
@@ -86,7 +90,7 @@ public class Spreadsheet extends XholonWithPorts {
   
   @Override
   public void postConfigure() {
-    this.println(val);
+    //this.println(val);
     this.setupParser();
     xholonHelperService = this.getService("XholonHelperService");
     if (val != null) {
@@ -100,14 +104,14 @@ public class Spreadsheet extends XholonWithPorts {
         String[] cells = rows[i].split(fieldDelimiter);
         int colNameAscii = (int)'A'; // TODO handle more than just 26 values (A-Z)
         for (int j = 0; j < cells.length; j++) {
-          this.println(cells[j].trim());
+          //this.println(cells[j].trim());
           xmlStr += "<Scl roleName=\"" + (char)colNameAscii + "\">" + cells[j].trim() + "</Scl>";
           colNameAscii++;
         }
         xmlStr += "</Srw>";
       }
       xmlStr += "</_-.sdata>";
-      this.println(xmlStr);
+      //this.println(xmlStr);
       ((XholonHelperService)xholonHelperService).pasteLastChild(this, xmlStr);
     }
     // DO NOT CALL f.postConfigure(); pasteLastChild() has already done this
@@ -166,7 +170,7 @@ public class Spreadsheet extends XholonWithPorts {
       row = row.getNextSibling();
     }
     html += "</table>\n";
-    this.println(html);
+    //this.println(html);
     return html;
   }
   
@@ -182,16 +186,14 @@ public class Spreadsheet extends XholonWithPorts {
    */
   protected native void setupParser() /*-{
     this.parser = null;
-    $wnd.console.log("Spreadsheet setupParser()");
+    //$wnd.console.log("Spreadsheet setupParser()");
     var $this = this;
-    $wnd.console.log($this);
-    $wnd.console.log($this.name());
+    //$wnd.console.log($this);
+    //$wnd.console.log($this.name());
     if ($wnd.formulaParser) {
       this.parser = new $wnd.formulaParser.Parser();
     }
-    //$wnd.console.log(this.parser);
     
-    //this.parser.switchCellData = function(cellData) {
     function switchCellData(cellData) {
       switch (typeof cellData) {
       case "number": break;
@@ -200,9 +202,9 @@ public class Spreadsheet extends XholonWithPorts {
       case "object":
         // assume this is a Java object
         var clazz = cellData.@java.lang.Object::getClass()();
-        $wnd.console.log(clazz);
+        //$wnd.console.log(clazz);
         var clazzName = clazz.@java.lang.Class::getSimpleName()();
-        $wnd.console.log(clazzName);
+        //$wnd.console.log(clazzName);
         switch(clazzName) {
         case "Integer": cellData = cellData.@java.lang.Integer::intValue()(); break;
         case "Double": cellData = cellData.@java.lang.Double::doubleValue()(); break;
@@ -217,40 +219,40 @@ public class Spreadsheet extends XholonWithPorts {
     }
     
     this.parser.on('callVariable', function(name, done) {
-      $wnd.console.log("on callVariable " + name);
+      //$wnd.console.log("on callVariable " + name);
     });
     
     this.parser.on('callCellValue', function(cellCoord, done) {
-      $wnd.console.log("on callCellValue " + cellCoord.row.index + "," + cellCoord.column.index);
+      //$wnd.console.log("on callCellValue " + cellCoord.row.index + "," + cellCoord.column.index);
       var xhRow = $this.first();
       // get to the starting row, if cellCoord.row.index > 0
       for (var i = 0; i < cellCoord.row.index; i++) {
         xhRow = xhRow.next();
       }
-      $wnd.console.log(xhRow.name());
+      //$wnd.console.log(xhRow.name());
       var xhCell = xhRow.first();
       // get to the starting column, if cellCoord.column.index > 0
       for (var j = 0; j < cellCoord.column.index; j++) {
         xhCell = xhCell.next();
       }
-      $wnd.console.log(xhCell.name());
+      //$wnd.console.log(xhCell.name());
       var cellData = xhCell.obj();
       cellData = switchCellData(cellData);
       done(cellData);
     });
     
     this.parser.on('callRangeValue', function(startCellCoord, endCellCoord, done) {
-      $wnd.console.log("on callRangeValue " + startCellCoord.row.index + "," + startCellCoord.column.index + " " + endCellCoord.row.index + "," + endCellCoord.column.index);
-      $wnd.console.log($this); // "this" is window
-      $wnd.console.log($this.toString());
-      $wnd.console.log($this.name());
+      //$wnd.console.log("on callRangeValue " + startCellCoord.row.index + "," + startCellCoord.column.index + " " + endCellCoord.row.index + "," + endCellCoord.column.index);
+      //$wnd.console.log($this); // "this" is window
+      //$wnd.console.log($this.toString());
+      //$wnd.console.log($this.name());
       
       var xhRow = $this.first();
       // get to the starting row, if startCellCoord.row.index > 0
       for (var i = 0; i < startCellCoord.row.index; i++) {
         xhRow = xhRow.next();
       }
-      $wnd.console.log(xhRow.name());
+      //$wnd.console.log(xhRow.name());
       var fragment = [];
       for (var row = startCellCoord.row.index; row <= endCellCoord.row.index; row++) {
         var xhCell = xhRow.first();
@@ -258,15 +260,14 @@ public class Spreadsheet extends XholonWithPorts {
         for (var j = 0; j < startCellCoord.column.index; j++) {
           xhCell = xhCell.next();
         }
-        $wnd.console.log(xhCell.name());
+        //$wnd.console.log(xhCell.name());
         var colFragment = [];
 
         for (var col = startCellCoord.column.index; col <= endCellCoord.column.index; col++) {
           var cellData = xhCell.obj(); // TODO this is a Java Integer Double Boolean String; convert it to a JS type
-          $wnd.console.log(cellData);
-          $wnd.console.log(typeof cellData);
-          cellData = switchCellData(cellData);
           //$wnd.console.log(cellData);
+          //$wnd.console.log(typeof cellData);
+          cellData = switchCellData(cellData);
           colFragment.push(cellData);
           xhCell = xhCell.next();
         }

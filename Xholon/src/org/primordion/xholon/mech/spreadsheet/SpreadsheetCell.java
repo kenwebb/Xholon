@@ -65,28 +65,28 @@ public class SpreadsheetCell extends XholonWithPorts implements IJavaTypes {
   public void setVal(int ival) {
     this.value = new Integer(ival);
     //this.value = ival; // this also works
-    this.println(this.value + " " + this.value.getClass().getName());
+    //this.println(this.value + " " + this.value.getClass().getName());
   }
   
   @Override
   public void setVal(double dval) {
     this.value = new Double(dval);
     //this.value = dval; // this also works
-    this.println(this.value + " " + this.value.getClass().getName());
+    //this.println(this.value + " " + this.value.getClass().getName());
   }
   
   @Override
   public void setVal(float fval) {
     this.value = new Double(fval);
     //this.value = fval; // this also works
-    this.println(this.value + " " + this.value.getClass().getName());
+    //this.println(this.value + " " + this.value.getClass().getName());
   }
   
   @Override
   public void setVal(boolean bval) {
     this.value = new Boolean(bval);
     //this.value = bval; // this also works
-    this.println(this.value + " " + this.value.getClass().getName());
+    //this.println(this.value + " " + this.value.getClass().getName());
   }
   
   /**
@@ -105,19 +105,18 @@ public class SpreadsheetCell extends XholonWithPorts implements IJavaTypes {
   
   @Override
   public void postConfigure() {
-    this.println(this.getName() + ": " + this.sval);
+    //this.println(this.getName() + ": " + this.sval);
     if ((this.sval != null) && (this.sval.length() > 0)) {
       if ((this.sval.length() > 1) && (this.sval.charAt(0) == '=')) {
         // the sval is a formula
         this.formula = this.sval.substring(1);
         this.formula2Value(this.formula);
-        this.println(this.value + " " + this.value.getClass().getName());
+        //this.println(this.value + " " + this.value.getClass().getName());
       }
       else {
         // the sval is a simple value
-        // TODO determine the type (String, int, etc.)
         str2Value(this.sval);
-        this.println(this.value + " " + this.value.getClass().getName());
+        //this.println(this.value + " " + this.value.getClass().getName());
       }
     }
     super.postConfigure();
@@ -155,8 +154,6 @@ public class SpreadsheetCell extends XholonWithPorts implements IJavaTypes {
    * parser.parse('SUM(1, 6, 7)'); // It returns `Object {error: null, result: 14}`
    */
   protected native JavaScriptObject parseFormula(String formula, JavaScriptObject parser) /*-{
-    //$wnd.console.log("SpreadsheetCell");
-    //$wnd.console.log(parser);
     var obj = null;
     if (parser != null) {
       obj = parser.parse(formula);
