@@ -49,6 +49,27 @@ import org.primordion.xholon.service.XholonHelperService;
  *  - this could be any Xholon string including an xpath expression
  * - handle references to cells in other spreadsheets
  * 
+ * - be able to paste a new Spreadsheet into any Xholon app, and have the new spreadsheet work correctly
+ *  - note that I have to use XholonSpreadsheet.html rather than Xholon.html
+ *  - Spreadsheet with a single CSV content:
+<pre>
+<Spreadsheet roleName="One">
+2,4,8,=SUM(A1:C1)
+</Spreadsheet>
+</pre>
+ *  - Spreadsheet with child SpreadsheetRow and SpreadsheetCell nodes:
+<pre>
+<Spreadsheet roleName="Two">
+  <SpreadsheetRow>
+    <SpreadsheetCell>2</SpreadsheetCell>
+    <SpreadsheetCell>4</SpreadsheetCell>
+    <SpreadsheetCell>8</SpreadsheetCell>
+    <SpreadsheetCell>=SUM(A1:C1)</SpreadsheetCell>
+  </SpreadsheetRow>
+</Spreadsheet>
+</pre>
+ * - 
+ * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @see <a href="https://github.com/handsontable/formula-parser">handsontable JS library website</a>
@@ -93,8 +114,15 @@ public class Spreadsheet extends XholonWithPorts {
     //this.println(val);
     this.setupParser();
     xholonHelperService = this.getService("XholonHelperService");
-    if (val != null) {
-      // parse the val into rows and cells
+    if (val == null) {
+      // call f.postConfigure() which presumably is a SpreadsheetRow containing one or more SpreadsheetCell nodes
+      IXholon f = this.getFirstChild();
+      if (f != null) {
+        f.postConfigure();
+      }
+    }
+    else {
+      // parse the CSV val into rows and cells
       String xmlStr = "<_-.sdata>";
       int rowNum = 1;
       String[] rows = val.split("\n");
@@ -113,12 +141,8 @@ public class Spreadsheet extends XholonWithPorts {
       xmlStr += "</_-.sdata>";
       //this.println(xmlStr);
       ((XholonHelperService)xholonHelperService).pasteLastChild(this, xmlStr);
+      // DO NOT CALL f.postConfigure(); pasteLastChild() has already done this
     }
-    // DO NOT CALL f.postConfigure(); pasteLastChild() has already done this
-    /*IXholon f = this.getFirstChild();
-    if (f != null) {
-      f.postConfigure();
-    }*/
     IXholon n = this.getNextSibling();
     if (n != null) {
       n.postConfigure();
@@ -127,9 +151,12 @@ public class Spreadsheet extends XholonWithPorts {
   
   @Override
   public void act() {
-    /*if (shouldAct) {
-      super.act();
-    }*/
+    if (shouldAct) {
+      IXholon f = this.getFirstChild();
+      if (f != null) {
+        f.act();
+      }
+    }
     this.writeHtmlTable(this.makeHtmlTable());
     IXholon n = this.getNextSibling();
     if (n != null) {

@@ -119,14 +119,20 @@ public class SpreadsheetCell extends XholonWithPorts implements IJavaTypes {
         //this.println(this.value + " " + this.value.getClass().getName());
       }
     }
+    if (this.roleName == null) {
+      int colNameAscii = (int)'A' + (this.getId() - this.getParentNode().getFirstChild().getId());
+      this.roleName = String.valueOf((char)colNameAscii);
+    }
     super.postConfigure();
   }
   
-  /*@Override
+  @Override
   public void act() {
-    this.formula2Value(this.formula); // causes #ERROR!
+    if (this.formula != null) {
+      this.formula2Value(this.formula);
+    }
     super.act();
-  }*/
+  }
   
   /**
    * Calculate or recalculate the formula, if this cell has a formula.

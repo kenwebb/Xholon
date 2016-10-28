@@ -49,4 +49,19 @@ public class SpreadsheetRow extends XholonWithPorts {
     return roleName;
   }
   
+  @Override
+  public void postConfigure() {
+    if (this.roleName == null) {
+      //int rowNameAscii = 1 + this.getId() - this.getParentNode().getFirstChild().getId();
+      int rowNameInt = 1;
+      IXholon node = this.getParentNode().getFirstChild();
+      while ((node != null) && (node != this)) {
+        rowNameInt++;
+        node = node.getNextSibling();
+      }
+      this.roleName = String.valueOf(rowNameInt);
+    }
+    super.postConfigure();
+  }
+  
 }
