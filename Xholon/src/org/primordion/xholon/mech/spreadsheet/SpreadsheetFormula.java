@@ -92,9 +92,12 @@ public class SpreadsheetFormula extends XholonWithPorts {
    * @param formula An Excel-style formula.
    */
   protected void formula2Value(String formula) {
-    JavaScriptObject jso = this.parseFormula(formula, getParser());
+    JavaScriptObject p = getParser();
+    if (p == null) {return;}
+    JavaScriptObject jso = this.parseFormula(formula, p);
     //this.consoleLog(this.getParseError(jso));
     //this.consoleLog(this.getParseResult(jso));
+    if (jso == null) {return;}
     if (this.getParseError(jso) == null) {
       this.getParentNode().setVal_Object(this.getParseResult(jso));
     }

@@ -22,8 +22,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.XholonWithPorts;
 import org.primordion.xholon.service.XholonHelperService;
-//import org.primordion.xholon.io.xml.IXholon2Xml;
-//import org.primordion.xholon.io.xml.IXmlWriter;
 
 /**
  * Spreadsheet
@@ -64,7 +62,9 @@ import org.primordion.xholon.service.XholonHelperService;
     <SpreadsheetCell>2</SpreadsheetCell>
     <SpreadsheetCell>4</SpreadsheetCell>
     <SpreadsheetCell>8</SpreadsheetCell>
-    <SpreadsheetCell>=SUM(A1:C1)</SpreadsheetCell>
+    <SpreadsheetCell>
+      <SpreadsheetFormula>=SUM(A1:C1)</SpreadsheetFormula>
+    </SpreadsheetCell>
   </SpreadsheetRow>
 </Spreadsheet>
 </pre>
@@ -116,47 +116,52 @@ public class Spreadsheet extends XholonWithPorts {
     //this.println(val);
     this.spreadsheetName = this.getName("r_c_i^"); // use underscore instead of colon
     this.setupParser();
-    xholonHelperService = this.getService("XholonHelperService");
-    if (val == null) {
-      // call f.postConfigure() which presumably is a SpreadsheetRow containing one or more SpreadsheetCell nodes
-      IXholon f = this.getFirstChild();
-      if (f != null) {
-        f.postConfigure();
-      }
+    if (this.getParser() == null) {
+      shouldAct = false;
     }
-    else {
-      // parse the CSV val into rows and cells
-      String xmlStr = "<_-.sdata>";
-      int rowNum = 1;
-      String[] rows = val.split("\n");
-      for (int i = 0; i < rows.length; i++) {
-        xmlStr += "<Srw roleName=\"" + rowNum++ + "\">";
-        // TODO be able to handle formulas and other text that contain embedded commas; how do I handle this in Avatar.java?
-        String[] cells = rows[i].split(fieldDelimiter);
-        int colNameAscii = (int)'A'; // TODO handle more than just 26 values (A-Z)
-        for (int j = 0; j < cells.length; j++) {
-          //this.println(cells[j].trim());
-          String str = cells[j].trim();
-          xmlStr += "<Scl roleName=\"" + (char)colNameAscii + "\">";
-          if ((str.length() > 1) && (str.charAt(0) == '=')) {
-            // this is a formula
-            xmlStr += "<Sfr>" + str + "</Sfr>";
-          }
-          else {
-            // this is a value
-            xmlStr += str;
-          }
-          xmlStr += "</Scl>";
-          colNameAscii++;
+    if (shouldAct) {
+      xholonHelperService = this.getService("XholonHelperService");
+      if (val == null) {
+        // call f.postConfigure() which presumably is a SpreadsheetRow containing one or more SpreadsheetCell nodes
+        IXholon f = this.getFirstChild();
+        if (f != null) {
+          f.postConfigure();
         }
-        xmlStr += "</Srw>";
       }
-      xmlStr += "</_-.sdata>";
-      //this.println(xmlStr);
-      ((XholonHelperService)xholonHelperService).pasteLastChild(this, xmlStr);
-      // DO NOT CALL f.postConfigure(); pasteLastChild() has already done this
+      else {
+        // parse the CSV val into rows and cells
+        String xmlStr = "<_-.sdata>";
+        int rowNum = 1;
+        String[] rows = val.split("\n");
+        for (int i = 0; i < rows.length; i++) {
+          xmlStr += "<Srw roleName=\"" + rowNum++ + "\">";
+          // TODO be able to handle formulas and other text that contain embedded commas; how do I handle this in Avatar.java?
+          String[] cells = rows[i].split(fieldDelimiter);
+          int colNameAscii = (int)'A'; // TODO handle more than just 26 values (A-Z)
+          for (int j = 0; j < cells.length; j++) {
+            //this.println(cells[j].trim());
+            String str = cells[j].trim();
+            xmlStr += "<Scl roleName=\"" + (char)colNameAscii + "\">";
+            if ((str.length() > 1) && (str.charAt(0) == '=')) {
+              // this is a formula
+              xmlStr += "<Sfr>" + str + "</Sfr>";
+            }
+            else {
+              // this is a value
+              xmlStr += str;
+            }
+            xmlStr += "</Scl>";
+            colNameAscii++;
+          }
+          xmlStr += "</Srw>";
+        }
+        xmlStr += "</_-.sdata>";
+        //this.println(xmlStr);
+        ((XholonHelperService)xholonHelperService).pasteLastChild(this, xmlStr);
+        // DO NOT CALL f.postConfigure(); pasteLastChild() has already done this
+      }
+      this.writeHtmlTable(this.makeHtmlTable(this.spreadsheetName), this.spreadsheetName);
     }
-    this.writeHtmlTable(this.makeHtmlTable(this.spreadsheetName), this.spreadsheetName);
     IXholon n = this.getNextSibling();
     if (n != null) {
       n.postConfigure();
@@ -170,8 +175,8 @@ public class Spreadsheet extends XholonWithPorts {
       if (f != null) {
         f.act();
       }
+      this.writeHtmlTable(this.makeHtmlTable(this.spreadsheetName), this.spreadsheetName);
     }
-    this.writeHtmlTable(this.makeHtmlTable(this.spreadsheetName), this.spreadsheetName);
     IXholon n = this.getNextSibling();
     if (n != null) {
       n.act();
@@ -227,7 +232,7 @@ public class Spreadsheet extends XholonWithPorts {
     html += "  </tbody>\n";
     html += "</table>\n";
     html += "</div>\n";
-    this.println(html);
+    //this.println(html);
     return html;
   }
   
@@ -258,6 +263,10 @@ public class Spreadsheet extends XholonWithPorts {
     //$wnd.console.log($this.name());
     if ($wnd.formulaParser) {
       this.parser = new $wnd.formulaParser.Parser();
+    }
+    if (!this.parser) {
+      $this.println("The Excel formula parser is missing. Make sure you are using XholonSpreadsheet.html instead of Xholon.html.");
+      return;
     }
     
     // source: http://stackoverflow.com/questions/472418/why-is-4-not-an-instance-of-number/472465
