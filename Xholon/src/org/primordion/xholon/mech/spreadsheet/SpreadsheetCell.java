@@ -139,8 +139,8 @@ public class SpreadsheetCell extends XholonWithPorts implements IJavaTypes {
    */
   protected void formula2Value(String formula) {
     JavaScriptObject jso = this.parseFormula(formula, getParser());
-    this.consoleLog(this.getParseError(jso));
-    this.consoleLog(this.getParseResult(jso));
+    //this.consoleLog(this.getParseError(jso));
+    //this.consoleLog(this.getParseResult(jso));
     if (this.getParseError(jso) == null) {
       this.value = this.getParseResult(jso);
     }
