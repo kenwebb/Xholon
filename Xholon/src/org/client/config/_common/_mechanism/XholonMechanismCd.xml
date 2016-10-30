@@ -139,8 +139,10 @@
 	<Spreadsheet xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.spreadsheet.Spreadsheet"/>
 	<SpreadsheetRow xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.spreadsheet.SpreadsheetRow"/>
 	<SpreadsheetCell xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.spreadsheet.SpreadsheetCell"/>
+	<SpreadsheetFormula xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.spreadsheet.SpreadsheetFormula"/>
 	<Srw xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.spreadsheet.SpreadsheetRow"/>
 	<Scl xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.spreadsheet.SpreadsheetCell"/>
+	<Sfr xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.spreadsheet.SpreadsheetFormula"/>
 	
 	<!-- ScxmlEntity -->
 	<!-- StateMachineEntity -->

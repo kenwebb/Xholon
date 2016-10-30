@@ -136,7 +136,17 @@ public class Spreadsheet extends XholonWithPorts {
         int colNameAscii = (int)'A'; // TODO handle more than just 26 values (A-Z)
         for (int j = 0; j < cells.length; j++) {
           //this.println(cells[j].trim());
-          xmlStr += "<Scl roleName=\"" + (char)colNameAscii + "\">" + cells[j].trim() + "</Scl>";
+          String str = cells[j].trim();
+          xmlStr += "<Scl roleName=\"" + (char)colNameAscii + "\">";
+          if ((str.length() > 1) && (str.charAt(0) == '=')) {
+            // this is a formula
+            xmlStr += "<Sfr>" + str + "</Sfr>";
+          }
+          else {
+            // this is a value
+            xmlStr += str;
+          }
+          xmlStr += "</Scl>";
           colNameAscii++;
         }
         xmlStr += "</Srw>";
@@ -184,10 +194,11 @@ public class Spreadsheet extends XholonWithPorts {
   
   /**
    * Convert the Xholon spreadsheet structure into a HTML table.
+   * @param spreadsheetName 
    */
   protected String makeHtmlTable(String spreadsheetName) {
     String html = "<div>\n";
-    html += "<hr />";
+    html += "<hr />\n";
     html += "<h3>" + spreadsheetName + "</h3>\n";
     html += "<table>\n";
     IXholon row = this.getFirstChild();
@@ -196,7 +207,7 @@ public class Spreadsheet extends XholonWithPorts {
     while (hcell != null) {
       html += "      <th>";
       html += "" + hcell.getRoleName();
-      html += "</th>";
+      html += "</th>\n";
       hcell = hcell.getNextSibling();
     }
     html += "    <tr>\n  </thead>\n";
@@ -249,12 +260,29 @@ public class Spreadsheet extends XholonWithPorts {
       this.parser = new $wnd.formulaParser.Parser();
     }
     
+    // source: http://stackoverflow.com/questions/472418/why-is-4-not-an-instance-of-number/472465
+    function typeOf(value) {
+      var type = typeof value;
+      switch(type) {
+        case 'object':
+          var t = Object.prototype.toString.call(value).match(/^\[object (.*)\]$/)[1];
+          return value === null ? 'null' : t;
+        case 'function':
+          return 'Function';
+        default:
+          return type;
+      }
+    }
+    
     function switchCellData(cellData) {
-      switch (typeof cellData) {
+      switch (typeOf(cellData)) {
       case "number": break;
       case "string": break;
       case "boolean": break;
-      case "object":
+      case "Number": cellData = cellData.valueOf(); break;
+      case "String": cellData = cellData.valueOf(); break;
+      case "Boolean": cellData = cellData.valueOf(); break;
+      case "Object":
         // assume this is a Java object
         var clazz = cellData.@java.lang.Object::getClass()();
         //$wnd.console.log(clazz);

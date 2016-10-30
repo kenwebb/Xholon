@@ -249,8 +249,10 @@ Uses IDs in range 1014600 - 1014699
   <Spreadsheet/> <!-- the spreadsheet itself -->
   <SpreadsheetRow/> <!-- a row in a spreadsheet -->
   <SpreadsheetCell/> <!-- a cell in a spreadsheet -->
+  <SpreadsheetFormula/> <!-- a cell formula in a spreadsheet -->
   <Srw/> <!-- a row in a spreadsheet; short name -->
   <Scl/> <!-- a cell in a spreadsheet; short name -->
+  <Sfr/> <!-- a cell formula in a spreadsheet; short name -->
 </SpreadsheetEntity>
 
 <!-- This can be used as part of an Inheritance Hierarchy.

@@ -35,16 +35,12 @@ public class SpreadsheetRow extends XholonWithPorts {
    */
   private String roleName = null;
   
-  /*
-   * @see org.primordion.xholon.base.Xholon#setRoleName(java.lang.String)
-   */
+  @Override
   public void setRoleName(String roleName) {
     this.roleName = roleName;
   }
   
-  /*
-   * @see org.primordion.xholon.base.Xholon#getRoleName()
-   */
+  @Override
   public String getRoleName() {
     return roleName;
   }
@@ -52,7 +48,6 @@ public class SpreadsheetRow extends XholonWithPorts {
   @Override
   public void postConfigure() {
     if (this.roleName == null) {
-      //int rowNameAscii = 1 + this.getId() - this.getParentNode().getFirstChild().getId();
       int rowNameInt = 1;
       IXholon node = this.getParentNode().getFirstChild();
       while ((node != null) && (node != this)) {
