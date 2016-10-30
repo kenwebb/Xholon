@@ -109,9 +109,12 @@ public class Spreadsheet extends XholonWithPorts {
   
   protected String textDelimiter = "\""; // " '
   
+  protected String spreadsheetName = null;
+  
   @Override
   public void postConfigure() {
     //this.println(val);
+    this.spreadsheetName = this.getName("r_c_i^"); // use underscore instead of colon
     this.setupParser();
     xholonHelperService = this.getService("XholonHelperService");
     if (val == null) {
@@ -143,6 +146,7 @@ public class Spreadsheet extends XholonWithPorts {
       ((XholonHelperService)xholonHelperService).pasteLastChild(this, xmlStr);
       // DO NOT CALL f.postConfigure(); pasteLastChild() has already done this
     }
+    this.writeHtmlTable(this.makeHtmlTable(this.spreadsheetName), this.spreadsheetName);
     IXholon n = this.getNextSibling();
     if (n != null) {
       n.postConfigure();
@@ -157,7 +161,7 @@ public class Spreadsheet extends XholonWithPorts {
         f.act();
       }
     }
-    this.writeHtmlTable(this.makeHtmlTable());
+    this.writeHtmlTable(this.makeHtmlTable(this.spreadsheetName), this.spreadsheetName);
     IXholon n = this.getNextSibling();
     if (n != null) {
       n.act();
@@ -181,30 +185,54 @@ public class Spreadsheet extends XholonWithPorts {
   /**
    * Convert the Xholon spreadsheet structure into a HTML table.
    */
-  protected String makeHtmlTable() {
-    String html = "<table>\n";
+  protected String makeHtmlTable(String spreadsheetName) {
+    String html = "<div>\n";
+    html += "<hr />";
+    html += "<h3>" + spreadsheetName + "</h3>\n";
+    html += "<table>\n";
     IXholon row = this.getFirstChild();
+    IXholon hcell = row.getFirstChild();
+    html += "  <thead>\n    <tr>\n";
+    while (hcell != null) {
+      html += "      <th>";
+      html += "" + hcell.getRoleName();
+      html += "</th>";
+      hcell = hcell.getNextSibling();
+    }
+    html += "    <tr>\n  </thead>\n";
+    html += "  <tbody>\n";
     while (row != null) {
-      html += "  <tr>\n";
+      html += "    <tr>\n";
       IXholon cell = row.getFirstChild();
       while (cell != null) {
-        html += "    <td>";
+        html += "      <td>";
         html += "" + cell.getVal_Object();
         html += "</td>\n";
         cell = cell.getNextSibling();
       }
-      html += "  </tr>\n";
+      html += "    </tr>\n";
       row = row.getNextSibling();
     }
+    html += "  </tbody>\n";
     html += "</table>\n";
-    //this.println(html);
+    html += "</div>\n";
+    this.println(html);
     return html;
   }
   
-  protected native void writeHtmlTable(String html) /*-{
+  /**
+   * Write this spreadsheet as an HTML table.
+   * @param html 
+   * @param spreadsheetName 
+   */
+  protected native void writeHtmlTable(String html, String spreadsheetName) /*-{
     var ele = $doc.querySelector("#xhappspecific");
-    var div = $doc.createElement('div');
-    ele.appendChild(div);
+    var div = ele.querySelector("#" + spreadsheetName);
+    if (div == null) {
+      div = $doc.createElement('div');
+      div.id = spreadsheetName;
+      ele.appendChild(div);
+    }
     div.innerHTML = html;
   }-*/;
   
