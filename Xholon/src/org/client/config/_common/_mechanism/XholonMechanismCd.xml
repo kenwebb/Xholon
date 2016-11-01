@@ -135,13 +135,20 @@
 	<script xhType="XhtypePureActiveObject" implName="org.primordion.xholon.base.Behavior_gwtjs"/>
 	
 	<!-- SpreadsheetEntity -->
+	<SpreadsheetEntity>
+	  <Color>#556B2F</Color> <!-- DarkOliveGreen -->
+	</SpreadsheetEntity>
 	<Workbook xhType="XhtypePureActiveObject" implName="org.primordion.xholon.app.Chameleon.XhChameleon"/>
 	<Spreadsheet xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.spreadsheet.Spreadsheet"/>
 	<SpreadsheetRow xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.spreadsheet.SpreadsheetRow"/>
-	<SpreadsheetCell xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.spreadsheet.SpreadsheetCell"/>
+	<SpreadsheetCell xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.spreadsheet.SpreadsheetCell">
+	  <Color>#9f9f2d</Color> <!-- Beige #F5F5DC(too light) #9f9f2d(dark)-->
+	</SpreadsheetCell>
 	<SpreadsheetFormula xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.spreadsheet.SpreadsheetFormula"/>
 	<Srw xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.spreadsheet.SpreadsheetRow"/>
-	<Scl xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.spreadsheet.SpreadsheetCell"/>
+	<Scl xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.spreadsheet.SpreadsheetCell">
+	  <Color>#9f9f2d</Color> <!-- Beige #F5F5DC(too light) #9f9f2d(dark)-->
+	</Scl>
 	<Sfr xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.spreadsheet.SpreadsheetFormula"/>
 	
 	<!-- ScxmlEntity -->
