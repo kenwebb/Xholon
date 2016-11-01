@@ -20,6 +20,8 @@ package org.primordion.xholon.mech.spreadsheet;
 
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.XholonWithPorts;
+import org.primordion.xholon.io.xml.IXholon2Xml;
+import org.primordion.xholon.io.xml.IXmlWriter;
 
 /**
  * SpreadsheetRow
@@ -48,15 +50,47 @@ public class SpreadsheetRow extends XholonWithPorts {
   @Override
   public void postConfigure() {
     if (this.roleName == null) {
-      int rowNameInt = 1;
-      IXholon node = this.getParentNode().getFirstChild();
-      while ((node != null) && (node != this)) {
-        rowNameInt++;
-        node = node.getNextSibling();
-      }
-      this.roleName = String.valueOf(rowNameInt);
+      this.roleName = calcStandardRoleName();
     }
     super.postConfigure();
+  }
+  
+  /**
+   * Calculate the standard/expected roleName (the name of this row).
+   * @return the String value of an int >= 1.
+   */
+  protected String calcStandardRoleName() {
+    int rowNameInt = 1;
+    IXholon node = this.getParentNode().getFirstChild();
+    while ((node != null) && (node != this)) {
+      rowNameInt++;
+      node = node.getNextSibling();
+    }
+    return String.valueOf(rowNameInt);
+  }
+  
+  @Override
+  public void toXml(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {
+    xmlWriter.writeStartElement(this.getXhcName());
+    if ((this.roleName != null) && (!calcStandardRoleName().equals(this.roleName))) {
+      // this is a user-specified roleName
+      xmlWriter.writeAttribute("roleName", this.roleName);
+    }
+    // write children
+    IXholon childNode = getFirstChild();
+    while (childNode != null) {
+      childNode.toXml(xholon2xml, xmlWriter);
+      childNode = childNode.getNextSibling();
+    }
+    xmlWriter.writeEndElement(this.getXhcName());
+  }
+  
+  @Override
+  public void toXmlAttributes(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {}
+
+  @Override
+  public String toString() {
+    return this.getName();
   }
   
 }

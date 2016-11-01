@@ -21,6 +21,8 @@ package org.primordion.xholon.mech.spreadsheet;
 import com.google.gwt.core.client.JavaScriptObject;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.XholonWithPorts;
+import org.primordion.xholon.io.xml.IXholon2Xml;
+import org.primordion.xholon.io.xml.IXmlWriter;
 import org.primordion.xholon.service.XholonHelperService;
 
 /**
@@ -378,4 +380,23 @@ public class Spreadsheet extends XholonWithPorts {
   }-*/;
 
   
+  @Override
+  public void toXml(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {
+    xmlWriter.writeStartElement(this.getXhcName());
+    if (this.roleName != null) {
+      // this is a user-specified roleName
+      xmlWriter.writeAttribute("roleName", this.roleName);
+    }
+    // write children
+    IXholon childNode = getFirstChild();
+    while (childNode != null) {
+      childNode.toXml(xholon2xml, xmlWriter);
+      childNode = childNode.getNextSibling();
+    }
+    xmlWriter.writeEndElement(this.getXhcName());
+  }
+  
+  @Override
+  public void toXmlAttributes(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {}
+
 }

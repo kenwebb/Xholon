@@ -21,6 +21,8 @@ package org.primordion.xholon.mech.spreadsheet;
 import com.google.gwt.core.client.JavaScriptObject;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.XholonWithPorts;
+import org.primordion.xholon.io.xml.IXholon2Xml;
+import org.primordion.xholon.io.xml.IXmlWriter;
 
 /**
  * SpreadsheetFormula
@@ -146,6 +148,17 @@ public class SpreadsheetFormula extends XholonWithPorts {
   protected native Object getParseResult(JavaScriptObject jso) /*-{
     return jso.result;
   }-*/;
+  
+  @Override
+  public void toXml(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {
+    xmlWriter.writeStartElement(this.getXhcName());
+    //xholon2xml.writeSpecial(this);
+    xmlWriter.writeText("=" + this.formula);
+    xmlWriter.writeEndElement(this.getXhcName());
+  }
+  
+  @Override
+  public void toXmlAttributes(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {}
 
   @Override
   public String toString() {

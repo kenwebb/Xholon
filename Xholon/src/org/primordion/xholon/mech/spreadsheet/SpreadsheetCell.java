@@ -20,6 +20,9 @@ package org.primordion.xholon.mech.spreadsheet;
 
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.XholonWithPorts;
+import org.primordion.xholon.io.xml.IXholon2Xml;
+import org.primordion.xholon.io.xml.IXmlWriter;
+
 
 /**
  * SpreadsheetCell
@@ -96,12 +99,48 @@ public class SpreadsheetCell extends XholonWithPorts {
   @Override
   public void postConfigure() {
     if (this.roleName == null) {
-      int colNameAscii = (int)'A' + (this.getId() - this.getParentNode().getFirstChild().getId());
-      this.roleName = String.valueOf((char)colNameAscii);
+      this.roleName = calcStandardRoleName();
     }
     super.postConfigure();
   }
   
+  /**
+   * Calculate the standard/expected roleName (the name of this cell).
+   * @return the String value of an Ascii char.
+   */
+  protected String calcStandardRoleName() {
+    //int colNameAscii = (int)'A' + (this.getId() - this.getParentNode().getFirstChild().getId());
+    //return String.valueOf((char)colNameAscii);
+    
+    int colNameAscii = (int)'A';
+    IXholon node = this.getParentNode().getFirstChild();
+    while ((node != null) && (node != this)) {
+      colNameAscii++;
+      node = node.getNextSibling();
+    }
+    return String.valueOf((char)colNameAscii);
+  }
+  
+  @Override
+  public void toXml(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {
+    xmlWriter.writeStartElement(this.getXhcName());
+    if ((this.roleName != null) && (!calcStandardRoleName().equals(this.roleName))) {
+      // this is a user-specified roleName
+      xmlWriter.writeAttribute("roleName", this.roleName);
+    }
+    xmlWriter.writeText(this.value.toString());
+    // write children
+    IXholon childNode = getFirstChild();
+    while (childNode != null) {
+      childNode.toXml(xholon2xml, xmlWriter);
+      childNode = childNode.getNextSibling();
+    }
+    xmlWriter.writeEndElement(this.getXhcName());
+  }
+  
+  @Override
+  public void toXmlAttributes(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {}
+
   @Override
   public String toString() {
     return this.getName() + " " + this.value;
