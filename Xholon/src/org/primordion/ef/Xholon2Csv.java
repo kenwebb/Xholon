@@ -154,7 +154,13 @@ public class Xholon2Csv extends AbstractXholon2ExternalFormat implements IXholon
 			}
 		}*/
 		sb = new StringBuilder();
-		xholon2Writer(root, sb);
+		//if (root.getClass().getName().endsWith(".Spreadsheet")) {
+		if ("Spreadsheet".equals(root.getXhcName())) {
+		  spreadsheet2Sb(root, sb);
+		}
+		else {
+		  xholon2Writer(root, sb);
+		}
 		writeToTarget(sb.toString(), outFileName, outPath, root);
 		/* GWT
 		if (shouldPrettyPrint) {
@@ -174,6 +180,39 @@ public class Xholon2Csv extends AbstractXholon2ExternalFormat implements IXholon
 		//if (shouldClose) {
 		//	MiscIo.closeOutputFile(out);
 		//}
+	}
+	
+	/**
+	 * Write a Spreadsheet subtree as CSV.
+	 */
+	protected void spreadsheet2Sb(IXholon xhNode, StringBuilder sprSb) {
+	  sprSb.append("<").append(xhNode.getXhcName());
+	  if (xhNode.getRoleName() != null) {
+	    sprSb.append(" roleName=\"").append(xhNode.getRoleName()).append("\"");
+	  }
+	  sprSb.append(">\n");
+	  // SpreadsheetRow
+	  IXholon row = xhNode.getFirstChild();
+	  while (row != null) {
+	    // SpreadsheetCell
+	    IXholon cell = row.getFirstChild();
+      while (cell != null) {
+        if (cell.getFirstChild() == null) {
+          sprSb.append(cell.getVal_Object());
+        }
+        else {
+          // SpreadsheetFormula
+          sprSb.append(cell.getFirstChild().getVal_String());
+        }
+        cell = cell.getNextSibling();
+        if (cell != null) {
+          sprSb.append(",");
+        }
+      }
+      sprSb.append("\n");
+	    row = row.getNextSibling();
+	  }
+	  sprSb.append("</").append(xhNode.getXhcName()).append(">\n");
 	}
 	
 	/**
