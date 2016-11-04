@@ -398,6 +398,7 @@ A typical service has:
 		<MeteorPlatformService/>
 		<RemoteNodeService/>
 		<BroadcastService/>
+		<SpreadsheetService/>
 		
 		<!-- others, plus anything else in Xholon that can be a service -->
 		<Xholon2Svg/>

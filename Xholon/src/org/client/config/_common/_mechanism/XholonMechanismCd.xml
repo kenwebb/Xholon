@@ -316,6 +316,8 @@
 		implName="org.primordion.xholon.service.RemoteNodeService"/>
 	<BroadcastService xhType="XhtypePurePassiveObject"
 		implName="org.primordion.xholon.service.BroadcastService"/>
+  <SpreadsheetService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.SpreadsheetService"/>
 	<Xholon2Svg xhType="XhtypePurePassiveObject"
 		implName="org.primordion.xholon.io.Xholon2Svg"/>
 	

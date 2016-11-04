@@ -68,6 +68,7 @@ public interface IXholonService {
 	public static final String XHSRV_RECORD_PLAYBACK = "RecordPlaybackService";
 	public static final String XHSRV_SBML = "SbmlService";
 	public static final String XHSRV_SEMANTIC_WEB = "SemanticWebService";
+	public static final String XHSRV_SPREADSHEET = "SpreadsheetService";
 	public static final String XHSRV_SPRING_FRAMEWORK = "SpringFrameworkService";
 	public static final String XHSRV_SVG_VIEW = "SvgViewService";
 	public static final String XHSRV_TEXT_TREE_VIEWER = "TextTreeViewerService";

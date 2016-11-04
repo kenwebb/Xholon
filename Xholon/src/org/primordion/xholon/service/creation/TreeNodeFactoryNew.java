@@ -621,6 +621,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			else if (implName.endsWith("BroadcastService")) {
 				newNode = new org.primordion.xholon.service.BroadcastService();
 			}
+			else if (implName.endsWith("SpreadsheetService")) {
+				newNode = new org.primordion.xholon.service.SpreadsheetService();
+			}
 			else if (implName.endsWith("RestService")) {
 				//newNode = new org.primordion.xholon.service.RestService();
 			}

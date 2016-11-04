@@ -169,6 +169,12 @@
     </XholonMap>
   </BroadcastService>
   
+  <SpreadsheetService>
+    <XholonMap>
+      <attr:Attribute_String roleName="SpreadsheetService-FormulaParser">org.primordion.xholon.service.spreadsheet.FormulaParser</attr:Attribute_String>
+    </XholonMap>
+  </SpreadsheetService>
+  
   <!--<RestService>
     <XholonMap>
       <attr:Attribute_String roleName="RestService-Jersey">org.primordion.xholon.service.rest.Jersey</attr:Attribute_String>
