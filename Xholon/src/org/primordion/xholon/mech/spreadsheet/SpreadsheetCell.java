@@ -27,6 +27,20 @@ import org.primordion.xholon.io.xml.IXmlWriter;
 /**
  * SpreadsheetCell
  * Has a value.
+ * 
+ * To change the value in a Cell:
+<XingSclbehavior implName="org.primordion.xholon.base.Behavior_gwtjs"><![CDATA[
+var me, beh = {
+postConfigure: function() {
+  me = this.cnode.parent();
+  me.println(me.obj());
+  me.val(Number(me.obj()) + 1);
+  me.println(me.obj());
+  this.cnode.remove();
+}
+}
+]]></XingSclbehavior>
+ * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @see <a href="https://github.com/handsontable/formula-parser">handsontable JS library website</a>
@@ -51,32 +65,32 @@ public class SpreadsheetCell extends XholonWithPorts {
   
   @Override
   public void setVal(String sval) {
-    this.value = sval.trim();
-    //this.println(this.value + " S " + this.value.getClass().getName());
+    //this.value = sval.trim();
+    this.setVal_Object(sval.trim());
   }
   
   @Override
   public void setVal(int ival) {
-    this.value = new Integer(ival);
-    //this.println(this.value + " i " + this.value.getClass().getName());
+    //this.value = new Integer(ival);
+    this.setVal_Object(new Integer(ival));
   }
   
   @Override
   public void setVal(double dval) {
-    this.value = new Double(dval);
-    //this.println(this.value + " d " + this.value.getClass().getName());
+    //this.value = new Double(dval);
+    this.setVal_Object(new Double(dval));
   }
   
   @Override
   public void setVal(float fval) {
-    this.value = new Double(fval);
-    //this.println(this.value + " f " + this.value.getClass().getName());
+    //this.value = new Double(fval);
+    this.setVal_Object(new Double(fval));
   }
   
   @Override
   public void setVal(boolean bval) {
-    this.value = new Boolean(bval);
-    //this.println(this.value + " b " + this.value.getClass().getName());
+    //this.value = new Boolean(bval);
+    this.setVal_Object(new Boolean(bval));
   }
   
   /**
@@ -89,12 +103,16 @@ public class SpreadsheetCell extends XholonWithPorts {
   public Object getVal_Object() {return this.value;}
   
   @Override
-  // this is intended for use by SpreadsheetFormula
-  public void setVal(Object obj) {this.value = obj;}
+  public void setVal(Object obj) {
+    this.value = obj;
+    this.getParentNode().getParentNode().doAction("hasChanged");
+  }
   
   @Override
-  // this is intended for use by SpreadsheetFormula
-  public void setVal_Object(Object obj) {this.value = obj;}
+  public void setVal_Object(Object obj) {
+    this.value = obj;
+    this.getParentNode().getParentNode().doAction("hasChanged");
+  }
   
   @Override
   public void postConfigure() {

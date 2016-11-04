@@ -19,10 +19,12 @@
 package org.primordion.xholon.mech.spreadsheet;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import org.primordion.xholon.base.IMessage;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.XholonWithPorts;
 import org.primordion.xholon.io.xml.IXholon2Xml;
 import org.primordion.xholon.io.xml.IXmlWriter;
+import org.primordion.xholon.service.spreadsheet.ISpreadsheetService;
 import org.primordion.xholon.service.XholonHelperService;
 
 /**
@@ -41,15 +43,34 @@ import org.primordion.xholon.service.XholonHelperService;
 </Spreadsheet>
 </pre>
  * 
+ * 
+<pre>
+<script><![CDATA[
+// Test formula-parser variables
+var xh = $wnd.xh;
+var spr = xh.root().xpath("descendant::Spreadsheet");
+if (spr && spr.parser) {
+  spr.parser.setVariable('foo', [1,1,2,2,2]);
+  var x = spr.parser.parse('COUNTIN(foo,1)');
+  xh.root().println(x.error + " " + x.result); // null 2
+  var y = spr.parser.parse('COUNTIN(foo,2)');
+  xh.root().println(y.error + " " + y.result); // null 3
+  
+  //var encodedXpathExpr = encode("descendant::Spreadsheet[@roleName='test01']/Row[@roleName='5']/Cell[@roleName='B']");
+  // the following name is an encoded XPath expression
+  var z = spr.parser.parse('SUM(XPATHdescendant_COLN__COLN_Spreadsheet_OPEN__AMPR_roleName_EQUL__QUOT_test_ZERO__ONEE__QUOT__CLOS__SLSH_Row_OPEN__AMPR_roleName_EQUL__QUOT__FIVE__QUOT__CLOS__SLSH_Cell_OPEN__AMPR_roleName_EQUL__QUOT_B_QUOT__CLOS_)');
+  xh.root().println(z.error + " " + z.result); // #NAME? null
+  
+}
+]]></script>
+</pre>
+ * 
  * TODO:
- * - cells should keep this Spreadsheet node informed of changes; only invoke act() if this node knows about changes
  * - handle imported CSV data that contains "" as text delimiter
  * - get #ERROR! when try to sum columns that contain null or ""
- * - handle parser.on('callVariable'
- *  - this could be any Xholon string including an xpath expression
  * - handle references to cells in other spreadsheets
  * 
- * - be able to paste a new Spreadsheet into any Xholon app, and have the new spreadsheet work correctly
+ * - able to paste a new Spreadsheet into any Xholon app, and have the new spreadsheet work correctly
  *  - note that I have to use XholonSpreadsheet.html rather than Xholon.html
  *  - Spreadsheet with a single CSV content:
 <pre>
@@ -117,7 +138,20 @@ public class Spreadsheet extends XholonWithPorts {
   public void postConfigure() {
     //this.println(val);
     this.spreadsheetName = this.getName("r_c_i^"); // use underscore instead of colon
-    this.setupParser();
+    
+    // TODO use SpreadsheeetService to get singleton parser
+    IXholon service = this.getService("SpreadsheetService-FormulaParser");
+    if (service == null) {
+      this.consoleLog("unable to create SpreadsheetService");
+    }
+    else {
+      IMessage msg = service.sendSyncMessage(ISpreadsheetService.SIG_GET_FORMULA_PARSER_REQ, null, this);
+      Object parser = msg.getData();
+      //this.consoleLog(parser);
+      this.setParser(parser);
+      //this.consoleLog(this.getParser());
+    }
+    //this.setupParser(); // TODO use the service instead of calling this.setupParser()
     if (this.getParser() == null) {
       shouldAct = false;
     }
@@ -163,6 +197,7 @@ public class Spreadsheet extends XholonWithPorts {
         // DO NOT CALL f.postConfigure(); pasteLastChild() has already done this
       }
       this.writeHtmlTable(this.makeHtmlTable(this.spreadsheetName), this.spreadsheetName);
+      shouldAct = false;
     }
     IXholon n = this.getNextSibling();
     if (n != null) {
@@ -178,10 +213,18 @@ public class Spreadsheet extends XholonWithPorts {
         f.act();
       }
       this.writeHtmlTable(this.makeHtmlTable(this.spreadsheetName), this.spreadsheetName);
+      shouldAct = false;
     }
     IXholon n = this.getNextSibling();
     if (n != null) {
       n.act();
+    }
+  }
+  
+  @Override
+  public void doAction(String action) {
+    if ("hasChanged".equals(action)) {
+      shouldAct = true;
     }
   }
   
@@ -254,131 +297,13 @@ public class Spreadsheet extends XholonWithPorts {
     div.innerHTML = html;
   }-*/;
   
-  /**
-   * Setup the handsontable parser.
-   */
-  protected native void setupParser() /*-{
-    this.parser = null;
-    //$wnd.console.log("Spreadsheet setupParser()");
-    var $this = this;
-    //$wnd.console.log($this);
-    //$wnd.console.log($this.name());
-    if ($wnd.formulaParser) {
-      this.parser = new $wnd.formulaParser.Parser();
-    }
-    if (!this.parser) {
-      $this.println("The Excel formula parser is missing. Make sure you are using XholonSpreadsheet.html instead of Xholon.html.");
-      return;
-    }
-    
-    // source: http://stackoverflow.com/questions/472418/why-is-4-not-an-instance-of-number/472465
-    function typeOf(value) {
-      var type = typeof value;
-      switch(type) {
-        case 'object':
-          var t = Object.prototype.toString.call(value).match(/^\[object (.*)\]$/)[1];
-          return value === null ? 'null' : t;
-        case 'function':
-          return 'Function';
-        default:
-          return type;
-      }
-    }
-    
-    function switchCellData(cellData) {
-      switch (typeOf(cellData)) {
-      case "number": break;
-      case "string": break;
-      case "boolean": break;
-      case "Number": cellData = cellData.valueOf(); break;
-      case "String": cellData = cellData.valueOf(); break;
-      case "Boolean": cellData = cellData.valueOf(); break;
-      case "Object":
-        // assume this is a Java object
-        var clazz = cellData.@java.lang.Object::getClass()();
-        //$wnd.console.log(clazz);
-        var clazzName = clazz.@java.lang.Class::getSimpleName()();
-        //$wnd.console.log(clazzName);
-        switch(clazzName) {
-        case "Integer": cellData = cellData.@java.lang.Integer::intValue()(); break;
-        case "Double": cellData = cellData.@java.lang.Double::doubleValue()(); break;
-        case "Boolean": cellData = cellData.@java.lang.Boolean::booleanValue()(); break;
-        case "String": break; // Java String
-        default: break;
-        }
-        break;
-      default: break;
-      }
-      return cellData;
-    }
-    
-    this.parser.on('callVariable', function(name, done) {
-      //$wnd.console.log("on callVariable " + name);
-    });
-    
-    this.parser.on('callCellValue', function(cellCoord, done) {
-      //$wnd.console.log("on callCellValue " + cellCoord.row.index + "," + cellCoord.column.index);
-      var xhRow = $this.first();
-      // get to the starting row, if cellCoord.row.index > 0
-      for (var i = 0; i < cellCoord.row.index; i++) {
-        xhRow = xhRow.next();
-      }
-      //$wnd.console.log(xhRow.name());
-      var xhCell = xhRow.first();
-      // get to the starting column, if cellCoord.column.index > 0
-      for (var j = 0; j < cellCoord.column.index; j++) {
-        xhCell = xhCell.next();
-      }
-      //$wnd.console.log(xhCell.name());
-      var cellData = xhCell.obj();
-      cellData = switchCellData(cellData);
-      done(cellData);
-    });
-    
-    this.parser.on('callRangeValue', function(startCellCoord, endCellCoord, done) {
-      //$wnd.console.log("on callRangeValue " + startCellCoord.row.index + "," + startCellCoord.column.index + " " + endCellCoord.row.index + "," + endCellCoord.column.index);
-      //$wnd.console.log($this); // "this" is window
-      //$wnd.console.log($this.toString());
-      //$wnd.console.log($this.name());
-      
-      var xhRow = $this.first();
-      // get to the starting row, if startCellCoord.row.index > 0
-      for (var i = 0; i < startCellCoord.row.index; i++) {
-        xhRow = xhRow.next();
-      }
-      //$wnd.console.log(xhRow.name());
-      var fragment = [];
-      for (var row = startCellCoord.row.index; row <= endCellCoord.row.index; row++) {
-        var xhCell = xhRow.first();
-        // get to the starting column, if startCellCoord.column.index > 0
-        for (var j = 0; j < startCellCoord.column.index; j++) {
-          xhCell = xhCell.next();
-        }
-        //$wnd.console.log(xhCell.name());
-        var colFragment = [];
-
-        for (var col = startCellCoord.column.index; col <= endCellCoord.column.index; col++) {
-          var cellData = xhCell.obj(); // TODO this is a Java Integer Double Boolean String; convert it to a JS type
-          //$wnd.console.log(cellData);
-          //$wnd.console.log(typeof cellData);
-          cellData = switchCellData(cellData);
-          colFragment.push(cellData);
-          xhCell = xhCell.next();
-        }
-        fragment.push(colFragment);
-        xhRow = xhRow.next();
-      }
-      if (fragment) {
-        done(fragment);
-      }
-      
-    });
-  }-*/;
-  
   public native JavaScriptObject getParser() /*-{
     return this.parser;
   }-*/;
-
+  
+  protected native void setParser(Object parser) /*-{
+    this.parser = parser;
+  }-*/;
   
   @Override
   public void toXml(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {

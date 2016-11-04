@@ -28,6 +28,18 @@ import org.primordion.xholon.io.xml.IXmlWriter;
  * SpreadsheetFormula
  * Typically, an instance of this class will be the only child (optional) of a SpreadsheetCell node.
  * 
+ * To change the value in a Formula:
+<pre>
+<script><![CDATA[
+var xh = $wnd.xh;
+var root = xh.root();
+var sfr = root.xpath("descendant::Spreadsheet/Srw[4]/Scl[2]/Sfr");
+root.println(sfr.text());
+sfr.text(sfr.text() + "+5");
+root.println(sfr.text());
+]]></script>
+</pre>
+ * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @see <a href="https://github.com/handsontable/formula-parser">handsontable JS library website</a>
@@ -50,15 +62,21 @@ public class SpreadsheetFormula extends XholonWithPorts {
     return roleName;
   }
   
-  // value of the String between the start/end SpreadsheetFormula tags
-  protected String sval = null;
+  @Override
+  public String getVal_String() {
+    return formula;
+  }
   
   @Override
-  public String getVal_String() {return sval;}
+  public void setVal(String formula) {
+    this.formula = formula.trim();
+    this.getParentNode().getParentNode().getParentNode().doAction("hasChanged");
+  }
   
   @Override
-  public void setVal(String sval) {
-    this.sval = sval.trim();
+  public void setVal_String(String formula) {
+    this.formula = formula.trim();
+    this.getParentNode().getParentNode().getParentNode().doAction("hasChanged");
   }
   
   /**
@@ -68,24 +86,22 @@ public class SpreadsheetFormula extends XholonWithPorts {
   
   @Override
   public void postConfigure() {
-    if ((this.sval != null) && (this.sval.length() > 0)) {
-      if ((this.sval.length() > 1) && (this.sval.charAt(0) == '=')) {
-        // the sval is a formula
-        this.formula = this.sval.substring(1);
+    if ((this.formula != null) && (this.formula.length() > 1)) {
+      if (this.formula.charAt(0) == '=') {
+        this.formula = this.formula.substring(1);
         this.formula2Value(this.formula);
       }
       else {
         // TODO this is an error
       }
     }
+    
     super.postConfigure();
   }
   
   @Override
   public void act() {
-    if (this.formula != null) {
-      this.formula2Value(this.formula);
-    }
+    this.formula2Value(this.formula);
     super.act();
   }
   
@@ -94,6 +110,7 @@ public class SpreadsheetFormula extends XholonWithPorts {
    * @param formula An Excel-style formula.
    */
   protected void formula2Value(String formula) {
+    if (formula == null) {return;}
     JavaScriptObject p = getParser();
     if (p == null) {return;}
     JavaScriptObject jso = this.parseFormula(formula, p);
@@ -152,7 +169,6 @@ public class SpreadsheetFormula extends XholonWithPorts {
   @Override
   public void toXml(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {
     xmlWriter.writeStartElement(this.getXhcName());
-    //xholon2xml.writeSpecial(this);
     xmlWriter.writeText("=" + this.formula);
     xmlWriter.writeEndElement(this.getXhcName());
   }
