@@ -134,18 +134,20 @@ public class Spreadsheet extends XholonWithPorts {
   
   protected String spreadsheetName = null;
   
+  protected IXholon spreadsheetService = null;
+  
   @Override
   public void postConfigure() {
     //this.println(val);
     this.spreadsheetName = this.getName("r_c_i^"); // use underscore instead of colon
     
-    // TODO use SpreadsheeetService to get singleton parser
-    IXholon service = this.getService("SpreadsheetService-FormulaParser");
-    if (service == null) {
+    // use SpreadsheeetService to get singleton parser
+    this.spreadsheetService = this.getService("SpreadsheetService-FormulaParser");
+    if (this.spreadsheetService == null) {
       this.consoleLog("unable to create SpreadsheetService");
     }
     else {
-      IMessage msg = service.sendSyncMessage(ISpreadsheetService.SIG_GET_FORMULA_PARSER_REQ, null, this);
+      IMessage msg = this.spreadsheetService.sendSyncMessage(ISpreadsheetService.SIG_GET_FORMULA_PARSER_REQ, null, this);
       Object parser = msg.getData();
       //this.consoleLog(parser);
       this.setParser(parser);
@@ -156,6 +158,7 @@ public class Spreadsheet extends XholonWithPorts {
       shouldAct = false;
     }
     if (shouldAct) {
+      shouldAct = false;
       xholonHelperService = this.getService("XholonHelperService");
       if (val == null) {
         // call f.postConfigure() which presumably is a SpreadsheetRow containing one or more SpreadsheetCell nodes
@@ -197,7 +200,7 @@ public class Spreadsheet extends XholonWithPorts {
         // DO NOT CALL f.postConfigure(); pasteLastChild() has already done this
       }
       this.writeHtmlTable(this.makeHtmlTable(this.spreadsheetName), this.spreadsheetName);
-      shouldAct = false;
+      //shouldAct = false;
     }
     IXholon n = this.getNextSibling();
     if (n != null) {
@@ -208,12 +211,13 @@ public class Spreadsheet extends XholonWithPorts {
   @Override
   public void act() {
     if (shouldAct) {
+      shouldAct = false;
       IXholon f = this.getFirstChild();
       if (f != null) {
         f.act();
       }
       this.writeHtmlTable(this.makeHtmlTable(this.spreadsheetName), this.spreadsheetName);
-      shouldAct = false;
+      //shouldAct = false;
     }
     IXholon n = this.getNextSibling();
     if (n != null) {
@@ -304,6 +308,10 @@ public class Spreadsheet extends XholonWithPorts {
   protected native void setParser(Object parser) /*-{
     this.parser = parser;
   }-*/;
+  
+  public IXholon getSpreadsheetService() {
+    return spreadsheetService;
+  }
   
   @Override
   public void toXml(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {

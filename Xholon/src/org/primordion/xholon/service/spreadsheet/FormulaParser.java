@@ -68,6 +68,10 @@ public class FormulaParser extends Xholon implements ISpreadsheetService {
       }
       return new Message(SIG_SPREADSHEET_RESP, this.parser, this, msg.getSender());
     }
+    case SIG_ENCODE_XPATH_REQ:
+    {
+      return new Message(SIG_SPREADSHEET_RESP, this.encodeXPath((String)msg.getData()), this, msg.getSender());
+    }
     default:
     {
       return super.processReceivedSyncMessage(msg);
@@ -84,14 +88,15 @@ public class FormulaParser extends Xholon implements ISpreadsheetService {
   protected native JavaScriptObject setupParser(IXholon spreadsheetInstance) /*-{
     var parser = null;
     //$wnd.console.log("Spreadsheet setupParser()");
-    var $this = spreadsheetInstance;
-    //$wnd.console.log($this);
-    //$wnd.console.log($this.name());
+    var $thisSprInst = spreadsheetInstance;
+    var $this = this;
+    //$wnd.console.log($thisSprInst);
+    //$wnd.console.log($thisSprInst.name());
     if ($wnd.formulaParser) {
       parser = new $wnd.formulaParser.Parser();
     }
     if (!parser) {
-      $this.println("The Excel formula parser is missing. Make sure you are using XholonSpreadsheet.html instead of Xholon.html.");
+      $thisSprInst.println("The Excel formula parser is missing. Make sure you are using XholonSpreadsheet.html instead of Xholon.html.");
       return;
     }
     
@@ -136,111 +141,32 @@ public class FormulaParser extends Xholon implements ISpreadsheetService {
       return cellData;
     }
     
-    // encode an XPath expression, so it can be used as a formula-parser variable name
-    // encode("descendant::Spreadsheet[@roleName='test01']/Row[@roleName='5']/Cell[@roleName='B']");
-    // "descendant_COLN__COLN_Spreadsheet_OPEN__AMPR_roleName_EQUL__QUOT_test_ZERO__ONEE__QUOT__CLOS__SLSH_Row_OPEN__AMPR_
-    //  roleName_EQUL__QUOT__FIVE__QUOT__CLOS__SLSH_Cell_OPEN__AMPR_roleName_EQUL__QUOT_B_QUOT__CLOS_"
-    function encode(inn) {
-      var out = "";
-      var ix = 0;
-      while (ix < inn.length) {
-        var achar = inn.charAt(ix);
-        switch (achar) {
-        case "_":  out += "__"; break;
-        case ".":  out += "_DOTT_"; break;
-        case "/":  out += "_SLSH_"; break;
-        case "*":  out += "_STAR_"; break;
-        case "[":  out += "_OPEN_"; break;
-        case "]":  out += "_CLOS_"; break;
-        case "-":  out += "_DASH_"; break;
-        case ":":  out += "_COLN_"; break;
-        case "@":  out += "_AMPR_"; break;
-        case "'":  out += "_QUOT_"; break;
-        case "=":  out += "_EQUL_"; break;
-        case "0":  out += "_ZERO_"; break;
-        case "1":  out += "_ONEE_"; break;
-        case "2":  out += "_TWOO_"; break;
-        case "3":  out += "_THRE_"; break;
-        case "4":  out += "_FOUR_"; break;
-        case "5":  out += "_FIVE_"; break;
-        case "6":  out += "_SIXX_"; break;
-        case "7":  out += "_SEVN_"; break;
-        case "8":  out += "_EIGH_"; break;
-        case "9":  out += "_NINE_"; break;
-        default: out += achar; break;
-        }
-        ix++;
-      }
-      return out;
-    }
-    
-    // decode back to a standard XPath expression
-    function decode(inn) {
-      var out = "";
-      var ix = 0;
-      while (ix < inn.length) {
-        var achar = inn.charAt(ix);
-        switch (achar) {
-        case "_":
-          if (inn.charAt(ix+1) == "_") {
-            out += "_";
-            ix += 2;
-          }
-          else {
-            var token = inn.substring(ix+1, ix+5); // all tokens are the same length
-            //console.log(token);
-            switch (token) {
-            case "DOTT": out += "."; break;
-            case "SLSH": out += "/"; break;
-            case "STAR": out += "*"; break;
-            case "OPEN": out += "["; break;
-            case "CLOS": out += "]"; break;
-            case "DASH": out += "-"; break;
-            case "COLN": out += ":"; break;
-            case "AMPR": out += "@"; break;
-            case "QUOT": out += "'"; break;
-            case "EQUL": out += "="; break;
-            case "ZERO": out += "0"; break;
-            case "ONEE": out += "1"; break;
-            case "TWOO": out += "2"; break;
-            case "THRE": out += "3"; break;
-            case "FOUR": out += "4"; break;
-            case "FIVE": out += "5"; break;
-            case "SIXX": out += "6"; break;
-            case "SEVN": out += "7"; break;
-            case "EIGH": out += "8"; break;
-            case "NINE": out += "9"; break;
-            default: console.log("decode error " + token); break;
-            }
-            ix += 6;
-          }
-          break;
-        default:
-          out += achar;
-          ix++;
-          break;
-        } // end switch
-      } // end while
-      return out;
-    } // end function
-    
     // variable name rules in Jison parser
     // [A-Za-z]{1,}[A-Za-z_0-9]+    {return 'VARIABLE';}
     // [A-Za-z_]+                   {return 'VARIABLE';}
     parser.on('callVariable', function(name, done) {
-      $wnd.console.log("on callVariable " + name);
+      //$wnd.console.log("on callVariable " + name);
+      var val = null;
       if (name.substring(0,5).toLowerCase() == "xpath") {
         // this is an XPath expression
-        // TODO
-        var xpathExpr = decode(name.substring(5));
-        $wnd.console.log("this is an XPath expression");
-        $wnd.console.log(xpathExpr);
+        //var xpathExpr = decode(name.substring(5));
+        name = name.substring(5);
+        var xpathExpr = $this.@org.primordion.xholon.service.spreadsheet.FormulaParser::decodeXPath(Ljava/lang/String;)(name);
+        //$wnd.console.log("this is an XPath expression");
+        //$wnd.console.log(xpathExpr);
+        var node = $thisSprInst.xpath(xpathExpr);
+        //$wnd.console.log(node);
+        if (node) {
+          val = node.obj();
+          //$wnd.console.log(val);
+        }
       }
+      done(val);
     });
     
     parser.on('callCellValue', function(cellCoord, done) {
       //$wnd.console.log("on callCellValue " + cellCoord.row.index + "," + cellCoord.column.index);
-      var xhRow = $this.first();
+      var xhRow = $thisSprInst.first();
       // get to the starting row, if cellCoord.row.index > 0
       for (var i = 0; i < cellCoord.row.index; i++) {
         xhRow = xhRow.next();
@@ -259,11 +185,11 @@ public class FormulaParser extends Xholon implements ISpreadsheetService {
     
     parser.on('callRangeValue', function(startCellCoord, endCellCoord, done) {
       //$wnd.console.log("on callRangeValue " + startCellCoord.row.index + "," + startCellCoord.column.index + " " + endCellCoord.row.index + "," + endCellCoord.column.index);
-      //$wnd.console.log($this); // "this" is window
-      //$wnd.console.log($this.toString());
-      //$wnd.console.log($this.name());
+      //$wnd.console.log($thisSprInst); // "this" is window
+      //$wnd.console.log($thisSprInst.toString());
+      //$wnd.console.log($thisSprInst.name());
       
-      var xhRow = $this.first();
+      var xhRow = $thisSprInst.first();
       // get to the starting row, if startCellCoord.row.index > 0
       for (var i = 0; i < startCellCoord.row.index; i++) {
         xhRow = xhRow.next();
@@ -297,6 +223,105 @@ public class FormulaParser extends Xholon implements ISpreadsheetService {
     });
     
     return parser;
+  }-*/;
+  
+  /**
+   * Encode an XPath expression, so it can be used as a formula-parser variable name
+   * Example:
+encode("XPATHdescendant::Spreadsheet[@roleName='test01']/Row[@roleName='5']/Cell[@roleName='B']");
+   * The result would be:
+"descendant_COLN__COLN_Spreadsheet_OPEN__AMPR_roleName_EQUL__QUOT_test_ZERO__ONEE__QUOT__CLOS__SLSH_Row_OPEN__AMPR_
+roleName_EQUL__QUOT__FIVE__QUOT__CLOS__SLSH_Cell_OPEN__AMPR_roleName_EQUL__QUOT_B_QUOT__CLOS_"
+   *
+   * @param inn an XPath expression.
+   * @return an encoded XPath expression.
+   */
+  public native String encodeXPath(String inn) /*-{
+    var out = "";
+    var ix = 0;
+    while (ix < inn.length) {
+      var achar = inn.charAt(ix);
+      switch (achar) {
+      case "_":  out += "__"; break;
+      case ".":  out += "_DOTT_"; break;
+      case "/":  out += "_SLSH_"; break;
+      case "*":  out += "_STAR_"; break;
+      case "[":  out += "_OPEN_"; break;
+      case "]":  out += "_CLOS_"; break;
+      case "-":  out += "_DASH_"; break;
+      case ":":  out += "_COLN_"; break;
+      case "@":  out += "_AMPR_"; break;
+      case "'":  out += "_QUOT_"; break;
+      case "=":  out += "_EQUL_"; break;
+      case "0":  out += "_ZERO_"; break;
+      case "1":  out += "_ONEE_"; break;
+      case "2":  out += "_TWOO_"; break;
+      case "3":  out += "_THRE_"; break;
+      case "4":  out += "_FOUR_"; break;
+      case "5":  out += "_FIVE_"; break;
+      case "6":  out += "_SIXX_"; break;
+      case "7":  out += "_SEVN_"; break;
+      case "8":  out += "_EIGH_"; break;
+      case "9":  out += "_NINE_"; break;
+      default: out += achar; break;
+      }
+      ix++;
+    }
+    return out;
+  }-*/;
+  
+  /**
+   * Decode back to a standard XPath expression.
+   * @param an encoded XPath expression.
+   * @return the original XPath expression.
+   */
+  public native String decodeXPath(String inn) /*-{
+    var out = "";
+    var ix = 0;
+    while (ix < inn.length) {
+      var achar = inn.charAt(ix);
+      switch (achar) {
+      case "_":
+        if (inn.charAt(ix+1) == "_") {
+          out += "_";
+          ix += 2;
+        }
+        else {
+          var token = inn.substring(ix+1, ix+5); // all tokens are the same length
+          //console.log(token);
+          switch (token) {
+          case "DOTT": out += "."; break;
+          case "SLSH": out += "/"; break;
+          case "STAR": out += "*"; break;
+          case "OPEN": out += "["; break;
+          case "CLOS": out += "]"; break;
+          case "DASH": out += "-"; break;
+          case "COLN": out += ":"; break;
+          case "AMPR": out += "@"; break;
+          case "QUOT": out += "'"; break;
+          case "EQUL": out += "="; break;
+          case "ZERO": out += "0"; break;
+          case "ONEE": out += "1"; break;
+          case "TWOO": out += "2"; break;
+          case "THRE": out += "3"; break;
+          case "FOUR": out += "4"; break;
+          case "FIVE": out += "5"; break;
+          case "SIXX": out += "6"; break;
+          case "SEVN": out += "7"; break;
+          case "EIGH": out += "8"; break;
+          case "NINE": out += "9"; break;
+          default: console.log("decode error " + token); break;
+          }
+          ix += 6;
+        }
+        break;
+      default:
+        out += achar;
+        ix++;
+        break;
+      } // end switch
+    } // end while
+    return out;
   }-*/;
   
   @Override

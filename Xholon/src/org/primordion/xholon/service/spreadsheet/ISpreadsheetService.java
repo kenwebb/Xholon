@@ -35,6 +35,11 @@ public interface ISpreadsheetService {
    * Get a formula parser.
    */
   public static final int SIG_GET_FORMULA_PARSER_REQ = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 101; // -3898
+  
+  /**
+   * Encode an XPath expression, to enable formula-parser to treat it as a spreadsheet variable.
+   */
+  public static final int SIG_ENCODE_XPATH_REQ = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 102; // -3897
     
   // RESPONSES
   // ---------

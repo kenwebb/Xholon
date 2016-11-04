@@ -19,10 +19,12 @@
 package org.primordion.xholon.mech.spreadsheet;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import org.primordion.xholon.base.IMessage;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.XholonWithPorts;
 import org.primordion.xholon.io.xml.IXholon2Xml;
 import org.primordion.xholon.io.xml.IXmlWriter;
+import org.primordion.xholon.service.spreadsheet.ISpreadsheetService;
 
 /**
  * SpreadsheetFormula
@@ -89,6 +91,14 @@ public class SpreadsheetFormula extends XholonWithPorts {
     if ((this.formula != null) && (this.formula.length() > 1)) {
       if (this.formula.charAt(0) == '=') {
         this.formula = this.formula.substring(1);
+        if (this.formula.indexOf("XPATH") != -1) {
+          IXholon sprService = ((Spreadsheet)this.getParentNode().getParentNode().getParentNode()).getSpreadsheetService();
+          if (sprService != null) {
+            //this.consoleLog(this.formula);
+            this.formula = (String)((IMessage)sprService.sendSyncMessage(ISpreadsheetService.SIG_ENCODE_XPATH_REQ, this.formula, this)).getData();
+            //this.consoleLog(this.formula);
+          }
+        }
         this.formula2Value(this.formula);
       }
       else {
