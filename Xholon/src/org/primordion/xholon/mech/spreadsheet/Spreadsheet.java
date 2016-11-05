@@ -43,6 +43,52 @@ import org.primordion.xholon.service.XholonHelperService;
 </Spreadsheet>
 </pre>
  * 
+<pre>
+<Spreadsheet roleName="CellModel">
+  <!-- http://127.0.0.1:8888/XholonSpreadsheet.html?app=Cell&gui=clsc -->
+  <Srw>
+    <Scl roleName="Glucose2">
+      <Sfr>=INT(SUM(XPATH/descendant::ExtraCellularSolution/Glucose/attribute::double))</Sfr>
+    </Scl>
+    <Scl roleName="Glucose8">
+      <Sfr>=INT(SUM(XPATH/descendant::Cytosol/Glucose/attribute::double))</Sfr>
+    </Scl>
+    <Scl roleName="Glucose_6_Phosphate">
+      <Sfr>=INT(SUM(XPATH/descendant::Cytosol/Glucose_6_Phosphate/attribute::double))</Sfr>
+    </Scl>
+    <Scl roleName="Fructose_6_Phosphate">
+      <Sfr>=INT(SUM(XPATH/descendant::Cytosol/Fructose_6_Phosphate/attribute::double))</Sfr>
+    </Scl>
+    <Scl roleName="Fructose_1x6_Biphosphate">
+      <Sfr>=INT(SUM(XPATH/descendant::Cytosol/Fructose_1x6_Biphosphate/attribute::double))</Sfr>
+    </Scl>
+    <Scl roleName="DihydroxyacetonePhosphate">
+      <Sfr>=INT(SUM(XPATH/descendant::Cytosol/DihydroxyacetonePhosphate/attribute::double))</Sfr>
+    </Scl>
+    <Scl roleName="Glyceraldehyde_3_Phosphate">
+      <Sfr>=INT(SUM(XPATH/descendant::Cytosol/Glyceraldehyde_3_Phosphate/attribute::double))</Sfr>
+    </Scl>
+    <Scl roleName="X1x3_BisphosphoGlycerate">
+      <Sfr>=INT(SUM(XPATH/descendant::Cytosol/X1x3_BisphosphoGlycerate/attribute::double))</Sfr>
+    </Scl>
+    <Scl roleName="X3_PhosphoGlycerate">
+      <Sfr>=INT(SUM(XPATH/descendant::Cytosol/X3_PhosphoGlycerate/attribute::double))</Sfr>
+    </Scl>
+    <Scl roleName="X2_PhosphoGlycerate">
+      <Sfr>=INT(SUM(XPATH/descendant::Cytosol/X2_PhosphoGlycerate/attribute::double))</Sfr>
+    </Scl>
+    <Scl roleName="PhosphoEnolPyruvate">
+      <Sfr>=INT(SUM(XPATH/descendant::Cytosol/PhosphoEnolPyruvate/attribute::double))</Sfr>
+    </Scl>
+    <Scl roleName="Pyruvate">
+      <Sfr>=INT(SUM(XPATH/descendant::Cytosol/Pyruvate/attribute::double))</Sfr>
+    </Scl>
+    <Scl roleName="SUM">
+      <Sfr>=INT(SUM(A1:L1))</Sfr>
+    </Scl>
+  </Srw>
+</Spreadsheet>
+</pre>
  * 
 <pre>
 <script><![CDATA[
