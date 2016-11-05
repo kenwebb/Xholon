@@ -149,7 +149,7 @@ public class FormulaParser extends Xholon implements ISpreadsheetService {
       var val = null;
       if (name.substring(0,5).toLowerCase() == "xpath") {
         // this is an XPath expression
-        //var xpathExpr = decode(name.substring(5));
+        // ex: <Sfr>=INT(SUM(XPATH/descendant::Cytosol/Glucose/attribute::double))</Sfr>
         name = name.substring(5);
         var xpathExpr = $this.@org.primordion.xholon.service.spreadsheet.FormulaParser::decodeXPath(Ljava/lang/String;)(name);
         //$wnd.console.log("this is an XPath expression");
