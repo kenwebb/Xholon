@@ -21,6 +21,13 @@ package org.primordion.xholon.base;
 import java.util.List;
 import java.util.Vector;
 
+import org.primordion.xholon.base.Attribute.Attribute_boolean;
+import org.primordion.xholon.base.Attribute.Attribute_char;
+import org.primordion.xholon.base.Attribute.Attribute_double;
+import org.primordion.xholon.base.Attribute.Attribute_float;
+import org.primordion.xholon.base.Attribute.Attribute_int;
+import org.primordion.xholon.base.Attribute.Attribute_Object;
+import org.primordion.xholon.base.Attribute.Attribute_String;
 import org.primordion.xholon.util.ClassHelper;
 import org.primordion.xholon.util.Misc;
 import org.primordion.xholon.util.MiscRandom;
@@ -176,6 +183,7 @@ public class XPath extends AbstractXPath {
 					// process later after get predicates
 					break;
 				case IXPath.AXIS_ATTRIBUTE:
+				  /*
 					// assume it's a port that references a IXholon
 					if ("port".equals(locationStep)) {
 						if (predicates != null) {
@@ -196,6 +204,78 @@ public class XPath extends AbstractXPath {
 					else {
 					  contextNode = contextNode.getApp().getAppSpecificObjectVal(contextNode,
 					      (Class<IXholon>)contextNode.getClass(), locationStep);
+					}*/
+					switch (locationStep) {
+					case "port":
+					  // assume it's a port that references a IXholon
+						if (predicates != null) {
+							// subtract 1 from XPath index to convert from 1-based to 0-based
+							int portNum = Misc.atoi(predicates, 1) - 1; // ex: [2]
+							contextNode = contextNode.getPort(portNum);
+						}
+					  break;
+					case "replication":
+					  // assume it's a Port instance that references a replication
+					  if (predicates != null) {
+							// subtract 1 from XPath index to convert from 1-based to 0-based
+							int portNum = Misc.atoi(predicates, 1) - 1; // ex: [2]
+							contextNode = contextNode.getPort(portNum);
+						}
+					  break;
+					case "boolean":
+					{
+					  boolean val = contextNode.getVal_boolean();
+					  contextNode = new Attribute_boolean();
+					  contextNode.setVal(val);
+					  break;
+					}
+					case "char":
+					{
+					  char val = contextNode.getVal_char();
+					  contextNode = new Attribute_char();
+					  contextNode.setVal(val);
+					  break;
+					}
+					case "double":
+					{
+					  double val = contextNode.getVal();
+					  contextNode = new Attribute_double();
+					  contextNode.setVal(val);
+					  break;
+					}
+					case "float":
+					{
+					  float val = contextNode.getVal_float();
+					  contextNode = new Attribute_float();
+					  contextNode.setVal(val);
+					  break;
+					}
+					case "int":
+					{
+					  int val = contextNode.getVal_int();
+					  contextNode = new Attribute_int();
+					  contextNode.setVal(val);
+					  break;
+					}
+					case "Object":
+					{
+					  Object val = contextNode.getVal_Object();
+					  contextNode = new Attribute_Object();
+					  contextNode.setVal(val);
+					  break;
+					}
+					case "String":
+					{
+					  String val = contextNode.getVal_String();
+					  contextNode = new Attribute_String();
+					  contextNode.setVal(val);
+					  break;
+					}
+					default:
+					  // assume it's a non-port scalar port with an arbitrary name (ex: "atmosphere")
+					  contextNode = contextNode.getApp().getAppSpecificObjectVal(contextNode,
+					      (Class<IXholon>)contextNode.getClass(), locationStep);
+					  break;
 					}
 					predicates = null; // prevent it from being re-evaluated
 					break;
