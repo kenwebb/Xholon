@@ -202,7 +202,7 @@ public class Xholon2Csv extends AbstractXholon2ExternalFormat implements IXholon
         }
         else {
           // SpreadsheetFormula
-          sprSb.append(cell.getFirstChild().getVal_String());
+          sprSb.append("=" + cell.getFirstChild().getVal_String());
         }
         cell = cell.getNextSibling();
         if (cell != null) {
