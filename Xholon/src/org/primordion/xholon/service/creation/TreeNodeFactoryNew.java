@@ -486,6 +486,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			else if (implName.endsWith("XholonModule")) {
 				newNode = new org.primordion.xholon.script.XholonModule();
 			}
+			else if (implName.endsWith("GridGenerator")) {
+				newNode = new org.primordion.xholon.script.GridGenerator();
+			}
 		}
 		
 		// service.mathscieng
@@ -760,6 +763,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 				return true;
 			}
 			if (implName.endsWith("XholonModule")) {
+				return true;
+			}
+			if (implName.endsWith("GridGenerator")) {
 				return true;
 			}
 		}
