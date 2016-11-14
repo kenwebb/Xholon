@@ -193,6 +193,8 @@ public abstract class GridPanel extends Xholon implements IGridPanel {
       canvas.setHeight(height + "px");
       canvas.setCoordinateSpaceWidth(width);
       canvas.setCoordinateSpaceHeight(height);
+      canvas.getElement().setId(gridOwner.getName());
+      canvas.getElement().addClassName(gridOwner.getXhcName() + "Canvas");
       RootPanel.get("xhcanvas").add(canvas);
       context = canvas.getContext2d();
       
