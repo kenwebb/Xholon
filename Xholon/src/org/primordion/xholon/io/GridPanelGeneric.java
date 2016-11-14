@@ -131,7 +131,8 @@ public class GridPanelGeneric extends GridPanel implements IGridPanel {
 	}
 	
 	public void setGridCellColor(int rgbColor) {
-	  String rgbColorStr = "rgb(" + (rgbColor << 8) + "," + (rgbColor << 16) + "," + (rgbColor << 24) + ")";
+	  //String rgbColorStr = "rgb(" + (rgbColor << 8) + "," + (rgbColor << 16) + "," + (rgbColor << 24) + ")";
+	  String rgbColorStr = "rgb(" + ((rgbColor >> 16) & 0xff) + "," + ((rgbColor >> 8) & 0xff) + "," + (rgbColor & 0xff) + ")";
 		this.gridCellColor = CssColor.make(rgbColorStr);
 	}
 	
