@@ -54,11 +54,21 @@ public class GridGenerator extends XholonScript {
   private String columnColor = DEFAULT_COLUMN_COLOR;
   private String useGridViewer = DEFAULT_USE_GRID_VIEWER ? "true" : "false";
   private String gridViewerParams = DEFAULT_GRID_VIEWER_PARAMS;
+  private String caption = null;
   
   private String nameGrid = null;
   private String nameRow = null;
   private String nameCol = null;
   
+  // users will not normally need to change the following two
+  private String gridEntityImplName = "org.primordion.xholon.base.GridEntity";
+  private String gridPanelClassName = "org.primordion.xholon.io.GridPanelGeneric";
+  
+  /**
+   * Optional style tag that should be added to HTML head
+   */
+  private String cssStyle = null; //"div#xhcanvas>canvas {border: 10px solid #FFFFFF;}";
+
   @Override
   public void postConfigure()
   {
@@ -66,6 +76,9 @@ public class GridGenerator extends XholonScript {
     nameRow = names[1];
     nameCol = names[2];
     generate();
+    if (cssStyle != null) {
+      style(cssStyle);
+    }
     super.postConfigure();
     this.removeChild();
   }
@@ -83,39 +96,45 @@ public class GridGenerator extends XholonScript {
         String ihStr = new StringBuilder()
         .append("<")
         .append(nameGrid)
-        .append(" xhType='XhtypeGridEntity' implName='org.primordion.xholon.base.GridEntity'></")
+        .append(" xhType='XhtypeGridEntity' implName='")
+        .append(gridEntityImplName)
+        .append("'></")
         .append(nameGrid)
         .append(">")
         .toString();
-        this.println(ihStr);
+        //this.println(ihStr);
         service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, ihStr, xhcRoot); // -2013
         ihStr = new StringBuilder()
         .append("<")
         .append(nameRow)
-        .append(" xhType='XhtypeGridEntity' implName='org.primordion.xholon.base.GridEntity'></")
+        .append(" xhType='XhtypeGridEntity' implName='")
+        .append(gridEntityImplName)
+        .append("'></")
         .append(nameRow)
         .append(">")
         .toString();
-        this.println(ihStr);
+        //this.println(ihStr);
         service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, ihStr, xhcRoot); // -2013
         ihStr = new StringBuilder()
         .append("<")
         .append(nameCol)
         .append("/>")
         .toString();
-        this.println(ihStr);
+        //this.println(ihStr);
         service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, ihStr, xhcRoot); // -2013
         // CD
         String cdStr = new StringBuilder()
         .append("<xholonClassDetails><")
         .append(nameCol)
-        .append(" xhType='XhtypeGridEntityActivePassive' implName='org.primordion.xholon.base.GridEntity'><config instruction='")
+        .append(" xhType='XhtypeGridEntityActivePassive' implName='")
+        .append(gridEntityImplName)
+        .append("'><config instruction='")
         .append(gridType)
         .append("'></config></")
         .append(nameCol)
         .append("></xholonClassDetails>")
         .toString();
-        this.println(cdStr);
+        //this.println(cdStr);
         service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, cdStr, xhcRoot); // -2013
       }
       // CSH
@@ -140,32 +159,65 @@ public class GridGenerator extends XholonScript {
       .append(nameGrid)
       .append(">")
       .toString();
-      this.println(cshStr);
+      //this.println(cshStr);
       service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, cshStr, this.getParentNode()); // -2013
       IGrid grid = (IGrid)this.getParentNode().getLastChild();
       // grid viewer
       app.setParam("UseGridViewer", useGridViewer);
-      app.setParam("GridPanelClassName", "org.primordion.xholon.io.GridPanelGeneric");
+      app.setParam("GridPanelClassName", gridPanelClassName);
       app.setParam("GridViewerParams", gridViewerParams);
       IMessage rspMsg = app.sendSyncMessage(-1001, "createGridViewer", this); // -1001 see Application.processReceivedSyncMessage()
       IXholon view = app.getFirstChild().getNextSibling();
       service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, "<GridViewer></GridViewer>", view); // -2013
       // set default background color for grid;  -1001 see Application.processReceivedSyncMessage()
-      app.sendSyncMessage(-1001, "setGridCellColor," + rspMsg.getData() + "," + getGrid_columnColor(grid), this);
+      Object rdata = rspMsg.getData();
+      String ccolor = getGrid_columnColor(grid);
+      String sdata = new StringBuilder()
+      .append("setGridCellColor,")
+      .append(rdata)
+      .append(",")
+      .append(ccolor)
+      .toString();
+      //this.consoleLog(rdata);
+      //this.consoleLog(ccolor);
+      //this.consoleLog(sdata);
+      app.sendSyncMessage(-1001, sdata, this);
+      if (caption != null) {
+        this.caption(caption);
+      }
     }
   }
   
   /**
-   * 
-   * TODO if the columnColor ends in "0" (ex: "FFFF00"), then trailing "0" characters are lost
+   * Get the grid's column color.
+   * @param grid an IGrid instance
+   * @return a color String (ex: "FFFF01")
    */
   protected native String getGrid_columnColor(IGrid grid) /*-{
     return grid.columnColor;
   }-*/;
   
-  /*
-   * @see org.primordion.xholon.base.Xholon#setAttributeVal(java.lang.String, java.lang.String)
-   */
+  protected native void style(String cssStyle) /*-{
+    $wnd.xh.css.style(cssStyle);
+  }-*/;
+  
+  protected native void caption(String caption) /*-{
+    var div = $doc.querySelector("div#xhcanvas");
+    // I have no choice but to repeat the "div#xhcanvas" below
+    var canvas = div.querySelector("div#xhcanvas>canvas:last-of-type");
+    if (canvas) {
+      var figure = $doc.createElement('figure');
+      div.insertBefore(figure, canvas);
+      figure.appendChild(canvas);
+      var figcaption = $doc.createElement('figcaption');
+      if (caption == "ID") {caption = canvas.id;}
+      else if (caption == "CLASS") {caption = canvas.className;}
+      figcaption.innerHTML = caption;
+      figure.appendChild(figcaption);
+    }
+  }-*/;
+  
+  @Override
   public int setAttributeVal(String attrName, String attrVal) {
     if ("rows".equals(attrName)) {
       this.rows = Integer.parseInt(attrVal);
@@ -191,47 +243,19 @@ public class GridGenerator extends XholonScript {
     else if ("gridViewerParams".equals(attrName)) {
       this.gridViewerParams = attrVal;
     }
+    else if ("cssStyle".equals(attrName)) {
+      this.cssStyle = attrVal;
+    }
+    else if ("gridEntityImplName".equals(attrName)) {
+      this.gridEntityImplName = attrVal;
+    }
+    else if ("gridPanelClassName".equals(attrName)) {
+      this.gridPanelClassName = attrVal;
+    }
+    else if ("caption".equals(attrName)) {
+      this.caption = attrVal;
+    }
     return 0;
-  }
-  
-  /**
-   * Make a set of data plotter params, if they don't already exist.
-   * @param app
-   */
-  /*protected void makeDataPlotterParams(IApplication app) {
-    if (dataPlotterParams == null) {
-      String modelName = app.getModelName();
-      if (modelName == null) {
-        modelName = "Title";
-      }
-      modelName.replace(',', '_'); // replace any commas, which are used as separators
-      dataPlotterParams = modelName + DEFAULT_PARTIAL_DATAPLOTTERPARAMS;
-    }
-  }*/
-  
-  /**
-   * Write a Plot script to an XML writer.
-   * This has to be a static method,
-   * because Plot nodes typically remove themselves from the tree,
-   * and are therefore not available later to write themselves out.
-   * @param xmlWriter
-   * @param app
-   */
-  public static void writeXml(IXholon2Xml xholon2xml, IXmlWriter xmlWriter, IApplication app) {
-    /*xmlWriter.writeStartElement("Plot");
-    xmlWriter.writeAttribute("mode", "ifNotAlready");
-    String dp = "google2";
-    if (app.getUseDataPlotter()) {
-      if (app.getUseGnuplot()) {dp="gnuplot";}
-      //else if (app.getUseGoogle()) {dp="google";}
-      else if (app.getUseGoogle2()) {dp="google2";}
-      else if (app.getUseC3()) {dp="c3";}
-      else if (app.getUseNVD3()) {dp="nvd3";}
-    }
-    xmlWriter.writeAttribute("dataPlotter", dp);
-    xmlWriter.writeAttribute("dataPlotterParams", app.getDataPlotterParams());
-    xholon2xml.writeSpecial(app);
-    xmlWriter.writeEndElement("Plot");*/
   }
   
 }
