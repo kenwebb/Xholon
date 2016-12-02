@@ -653,6 +653,7 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
     });
     
     // TextArea  handle ENTER key
+    // TODO bug - TextArea.wrap(commandPaneTAE), in devmode, fails on assertion that the element is attached
     TextArea.wrap(commandPaneTAE).addKeyDownHandler(new KeyDownHandler() {
       @Override
       public void onKeyDown(KeyDownEvent event) {
