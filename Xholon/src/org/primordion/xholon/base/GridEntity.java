@@ -40,7 +40,8 @@ public class GridEntity extends AbstractGrid implements IGrid {
 	public void setRoleName(String roleName) {}
 	
 	public String toString() {
-		String outStr = getName();
+	  // OLD
+		/*String outStr = getName();
 		if ((port != null) && (port.length > 0)) {
 			outStr += " [";
 			for (int i = 0; i < port.length; i++) {
@@ -50,6 +51,37 @@ public class GridEntity extends AbstractGrid implements IGrid {
 			}
 			outStr += "]";
 		}
-		return outStr;
+		return outStr;*/
+		
+		// NEW
+		StringBuilder sb = new StringBuilder()
+		.append(getName())
+		.append(" row:")
+		.append(getRow())
+		.append(" col:")
+		.append(getCol());
+		if ((port != null) && (port.length > 0)) {
+			sb.append(" [");
+			for (int i = 0; i < port.length; i++) {
+				if (port[i] != null) {
+					sb
+					.append(" port:")
+					.append(port[i].getName());
+				}
+			}
+			sb.append("]");
+		}
+		if (hasChildNodes()) {
+			sb
+			.append(" children:");
+			IXholon node = getFirstChild();
+			while (node != null) {
+				sb
+				.append(" ")
+				.append(node.getName());
+				node = node.getNextSibling();
+			}
+		}
+		return sb.toString();
 	}
 }
