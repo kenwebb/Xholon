@@ -66,7 +66,8 @@ public abstract class AbstractGrid extends XholonWithPorts implements IGrid {
 	// normally called on the grid owner, the parent of Row
 	public int getNeighType() {
 		int nType = NEIGHBORHOOD_MOORE; // at least one grid is of this type
-		AbstractGrid row = (AbstractGrid)getFirstChild();
+		//AbstractGrid row = (AbstractGrid)getFirstChild();
+		IXholon row = getFirstChild();
 		if (row == null) {
 		  // when user requests attributes or other menu items, it may be called on GridCell or Row, so check for row == null
 		  return nType;
