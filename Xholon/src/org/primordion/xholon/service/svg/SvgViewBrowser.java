@@ -1038,11 +1038,16 @@ public class SvgViewBrowser extends Xholon implements ISvgView, EventListener {
         }
         else {
           rememberNodeSelection(node, event.getCtrlKey());
-          println(node.handleNodeSelection());
+          //println(node.handleNodeSelection());
+          println(this.handleNodeSelection(node, node.getName()));
         }
       }
       return;
     }
+  }
+  
+  public String handleNodeSelection(IXholon node, String nodeName) {
+    return getApp().handleNodeSelection(node, nodeName);
   }
   
   protected String findIdScheme(String nodeName) {
