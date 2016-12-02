@@ -206,8 +206,10 @@ public class GridGenerator extends XholonScript {
     // I have no choice but to repeat the "div#xhcanvas" below
     var canvas = div.querySelector("div#xhcanvas>canvas:last-of-type");
     if (canvas) {
+      var figureDiv = $doc.createElement('div');
       var figure = $doc.createElement('figure');
-      div.insertBefore(figure, canvas);
+      figureDiv.appendChild(figure);
+      div.insertBefore(figureDiv, canvas);
       figure.appendChild(canvas);
       var figcaption = $doc.createElement('figcaption');
       if (caption == "ID") {caption = canvas.id;}
