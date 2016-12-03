@@ -430,6 +430,10 @@ public class Xholon2D3CirclePack implements EventListener {
         .attr("y", function(d) {return d.spcly;}) //{return d.r * (-1);})
         .attr("width", function(d) {return d.spclwh;}) //{return d.r * 2;})
         .attr("height", function(d) {return d.spclwh;}) //{return d.r * 2;})
+        .style("opacity", function(d) {
+          if (d.opacity == 0) {return 1.0;} // this probably involves a dummy circle
+          return d.opacity;
+        });
         // TODO viewBox and preserveAspectRatio don't work correctly yet
         //.attr("viewBox", function(d) {return "" + d.spclx + " " + d.spcly + " " + d.spclwh + " " + d.spclwh;})
         //.attr("preserveAspectRatio", function(d) {return "xMinYMin meet";}) // "defer ..." ?
