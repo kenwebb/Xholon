@@ -397,6 +397,22 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			}
     }
     
+		// mech.story
+		else if (implName.startsWith("org.primordion.xholon.mech.story")) {
+		  if (implName.endsWith("StorySystem")) {
+			  newNode = new org.primordion.xholon.mech.story.StorySystem();
+			}
+		  else if (implName.endsWith("Screenplay")) {
+			  newNode = new org.primordion.xholon.mech.story.Screenplay();
+			}
+		  else if (implName.endsWith("Scenes")) {
+			  newNode = new org.primordion.xholon.mech.story.Scenes();
+			}
+		  else if (implName.endsWith("Director")) {
+			  newNode = new org.primordion.xholon.mech.story.Director();
+			}
+    }
+    
 		// mech.mathml
 		else if (implName.startsWith("org.primordion.xholon.mech.mathml")) {
 		  if (implName.endsWith("content.JavaMath")) {
@@ -488,6 +504,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			}
 			else if (implName.endsWith("GridGenerator")) {
 				newNode = new org.primordion.xholon.script.GridGenerator();
+			}
+			else if (implName.endsWith("MechanismEnabler")) {
+				newNode = new org.primordion.xholon.script.MechanismEnabler();
 			}
 		}
 		
@@ -766,6 +785,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 				return true;
 			}
 			if (implName.endsWith("GridGenerator")) {
+				return true;
+			}
+			if (implName.endsWith("MechanismEnabler")) {
 				return true;
 			}
 		}

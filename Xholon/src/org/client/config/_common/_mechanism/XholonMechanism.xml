@@ -295,6 +295,29 @@ Uses IDs in range 1000000 - 1000099 .
 	<Target/> <!-- the target of a transition -->
 </StateMachineEntity>
 
+<!--
+This can be used as part of an Inheritance Hierarchy.
+Uses IDs in range 1014700 - 1014799
+Story - a movie, tv show, novel, children's story, etc.
+The StoryMechanism can be enabled using script.MechanismEnabler.java
+-->
+<!--<StoryEntity xmlns="http://www.primordion.com/namespace/Story" id="1014700">
+  <StorySystem/>
+  <Screenplay/>
+  <Story/>
+  <Scene/>
+  <Scenes/>
+  <AvatarScript/>
+  <SceneLocation/>
+  <Character>
+    <Protagonist/>
+    <Antagonist/>
+  </Character>
+  <Characters/>
+  <Narrator/>
+  <Director/>
+</StoryEntity>-->
+
 <!-- Represents Uid nodes. Can be used to store a Xholon uid. -->
 <Uid xmlns="http://www.primordion.com/namespace/Uid" id="1010200"/>
 
