@@ -34,6 +34,11 @@ public class Director extends XholonWithPorts {
   
   private String sceneLocationRoot = "Universe";
   
+  /**
+   * If speech is supported, multiply scene.duration by this number to accomodate the extra time that speech takes.
+   */
+  private double speechMultiplier = 1.0;
+
   @Override
   public void setRoleName(String roleName) {
     this.roleName = roleName;
@@ -46,7 +51,7 @@ public class Director extends XholonWithPorts {
   
   @Override
   public void postConfigure() {
-    this.directorbehaviorPostConfigure(sceneLocationRoot);
+    this.directorbehaviorPostConfigure(sceneLocationRoot, speechMultiplier);
     super.postConfigure();
   }
   
@@ -56,8 +61,7 @@ public class Director extends XholonWithPorts {
     super.act();
   }
   
-  // TODO the internal functions may need to be this.func rather than var func
-  protected native void directorbehaviorPostConfigure(String sceneLocationRoot) /*-{
+  protected native void directorbehaviorPostConfigure(String sceneLocationRoot, double speechMultiplier) /*-{
     var avatarCache;
     
     this.countdown = 0;
@@ -139,7 +143,8 @@ public class Director extends XholonWithPorts {
         }
         $this.countdown = 2; //scene.duration
         if (scene.duration) {
-          $this.countdown = scene.duration;
+          // optionally multiply by some number to accomodate the extra time that speech takes
+          $this.countdown = scene.duration * speechMultiplier;
         }
         fadeCache();
         var ascript = scene.first();
@@ -262,6 +267,9 @@ public class Director extends XholonWithPorts {
   public int setAttributeVal(String attrName, String attrVal) {
     if ("sceneLocationRoot".equals(attrName)) {
       this.sceneLocationRoot = attrVal;
+    }
+    else if ("speechMultiplier".equals(attrName)) {
+      this.speechMultiplier = Double.parseDouble(attrVal);
     }
     return 0;
   }

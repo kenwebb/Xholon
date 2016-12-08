@@ -75,6 +75,11 @@ public class Screenplay extends XholonWithPorts {
   
   private String timewords = "NIGHT, DAY, EVENING";
   
+  /**
+   * Whether or not to support speech.
+   */
+  private boolean speech = false;
+  
   // a JSON string
   private String options = null;
   
@@ -129,11 +134,11 @@ public class Screenplay extends XholonWithPorts {
         node = nextSib;
       }
     }
-    this.screenplaybehaviorPostConfigure(sceneLocationRoot, timewords, options);
+    this.screenplaybehaviorPostConfigure(sceneLocationRoot, timewords, speech, options);
     super.postConfigure();
   }
   
-  protected native void screenplaybehaviorPostConfigure(String sceneLocationRoot, String timewords, String options) /*-{
+  protected native void screenplaybehaviorPostConfigure(String sceneLocationRoot, String timewords, boolean speech, String options) /*-{
   var $this = this;
   if (this.text() == null) {
     this.println("The text of the screenplay is missing.");
@@ -425,8 +430,12 @@ public class Screenplay extends XholonWithPorts {
         if (sceneObj.seqNum > sceneObj[cprn].prevSeqNum) {
           sceneObj[cprn].text += 'wait ' + (sceneObj.seqNum - sceneObj[cprn].prevSeqNum) + ';\n';
         }
-        sceneObj[cprn].text += 'out caption,anim ' + text.replace(/;/g, ',') + ';\n';
-        //sceneObj[cprn].text += 'out caption,speech,anim ' + text.replace(/;/g, ',') + ';\n'; // SPEECH
+        if (speech) {
+          sceneObj[cprn].text += 'out caption,speech,anim ' + text.replace(/;/g, ',') + ';\n'; // SPEECH
+        }
+        else {
+          sceneObj[cprn].text += 'out caption,anim '        + text.replace(/;/g, ',') + ';\n';
+        }
         sceneObj.seqNum++;
         sceneObj[cprn].prevSeqNum = sceneObj.seqNum;
       }
@@ -477,8 +486,11 @@ public class Screenplay extends XholonWithPorts {
     if ("sceneLocationRoot".equals(attrName)) {
       this.sceneLocationRoot = attrVal;
     }
-    if ("timewords".equals(attrName)) {
+    else if ("timewords".equals(attrName)) {
       this.timewords = attrVal;
+    }
+    else if ("speech".equals(attrName)) {
+      this.speech = Boolean.parseBoolean(attrVal);
     }
     return 0;
   }
