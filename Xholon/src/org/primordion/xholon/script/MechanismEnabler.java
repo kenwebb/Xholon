@@ -48,6 +48,7 @@ public class MechanismEnabler extends XholonScript {
   
   private static final String DEFAULT_MECHANISM = "Story";
   private static final String DEFAULT_MECHANISM_COLOR = null; //"Orange";
+  private static final String DEFAULT_CHARACTER_COLOR = "rgba(255,255,255,1.0)";
   
   /**
    * constructor
@@ -62,6 +63,8 @@ public class MechanismEnabler extends XholonScript {
   private String mechanism = DEFAULT_MECHANISM;
   
   private String mechanismColor = DEFAULT_MECHANISM_COLOR;
+  
+  private String characterColor = DEFAULT_CHARACTER_COLOR;
 
   /*@Override
   public void configure()
@@ -139,7 +142,15 @@ public class MechanismEnabler extends XholonScript {
 	      cdSb
 	      .append("<StorySystem xhType=\"XhtypePureActiveObject\" implName=\"org.primordion.xholon.mech.story.StorySystem\"/>\n")
 	      .append("<Screenplay xhType=\"XhtypePureActiveObject\" implName=\"org.primordion.xholon.mech.story.Screenplay\"/>\n")
-	      .append("<Character xhType=\"XhtypePureActiveObject\" implName=\"org.primordion.xholon.base.Avatar\"><Color>rgba(255,255,255,1.0)</Color></Character>\n")
+	      .append("<Character xhType=\"XhtypePureActiveObject\" implName=\"org.primordion.xholon.base.Avatar\">");
+	      if ((characterColor != null) && (characterColor.length() > 0)) {
+	        cdSb
+	        .append("<Color>")
+	        .append(characterColor)
+	        .append("</Color>");
+	      }
+	      cdSb
+	      .append("</Character>\n")
         .append("<Narrator xhType=\"XhtypePureActiveObject\" implName=\"org.primordion.xholon.base.Avatar\"/>\n")
 	      .append("<Scenes xhType=\"XhtypePureActiveObject\" implName=\"org.primordion.xholon.mech.story.Scenes\"/>\n")
 	      .append("<Director xhType=\"XhtypePureActiveObject\" implName=\"org.primordion.xholon.mech.story.Director\"/>\n")
@@ -158,6 +169,9 @@ public class MechanismEnabler extends XholonScript {
     }
     else if ("color".equals(attrName)) {
       this.mechanismColor = attrVal;
+    }
+    else if ("characterColor".equals(attrName)) {
+      this.characterColor = attrVal;
     }
     else if ("go".equals(attrName)) {
       this.enable();
