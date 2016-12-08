@@ -137,9 +137,9 @@ public class Director extends XholonWithPorts {
         if (scene.encloses && animate) {
           animate.attr("AnimRoot", scene.encloses);
         }
-        this.countdown = 2; //scene.duration
+        $this.countdown = 2; //scene.duration
         if (scene.duration) {
-          this.countdown = scene.duration;
+          $this.countdown = scene.duration;
         }
         fadeCache();
         var ascript = scene.first();
@@ -178,8 +178,8 @@ public class Director extends XholonWithPorts {
     var highlightCurrentPlace = function(person) {
       var pplace = person.parent();
       var pplaceName = pplace.name().replace(/ /g, '\\ ').replace(/:/g, '\\:'); // escape invalid characters " " and ":"
-      this.highlightSelStr = "svg>g>g#" + pplaceName + ">circle";
-      this.highlightCountdown = 1; // delay one timestep to give people a chance to get to the new place
+      $this.highlightSelStr = "svg>g>g#" + pplaceName + ">circle";
+      $this.highlightCountdown = 1; // delay one timestep to give people a chance to get to the new place
     }
 
     var movePerson = function(person, scene) {
@@ -189,7 +189,7 @@ public class Director extends XholonWithPorts {
         var prnArr = $wnd.xh.movie.makePlaceRoleName(scene.role().substring(2), 0, $wnd.xh.movie.timewordsXsn, false);
         var prn = prnArr[0];
         if (prnArr[1] != "SAME") {
-          this.timeword = prnArr[1];
+          $this.timeword = prnArr[1];
         }
         // place double quotes around the xpathExpr, in case prn contains spaces
         var xpathExpr = "go " + '"' + "xpath(../" + sceneLocationRoot + "/" + prn + ")" + '"' + ";";
@@ -200,7 +200,7 @@ public class Director extends XholonWithPorts {
         var prnArr = $wnd.xh.movie.makePlaceRoleName(scene.role().substring(2), 0, $wnd.xh.movie.timewordsXsn, false);
         var prn = prnArr[0];
         if (prnArr[1] != "SAME") {
-          this.timeword = prnArr[1];
+          $this.timeword = prnArr[1];
         }
         if (prn != person.parent().role()) {
           //var xpathExpr = "go " + '"' + "xpath(../" + prn + ")" + '"' + ";";

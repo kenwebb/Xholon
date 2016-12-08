@@ -25,8 +25,8 @@ import org.primordion.xholon.base.XholonWithPorts;
  * Screenplay
  * 
  * Example of JSON for use in various functions:
-[
-  { "addIconsToPlaces":
+{
+  "addIconsToPlaces":
     [
       ["Beach", null, "images/losttv/640px-20100726_Kalamitsi_Beach_Ionian_Sea_Lefkada_island_Greece.png"],
       ["Beach", "Crash site", "images/losttv/MV5BMTQ4ODYyNDAwNF5BMl5BanBnXkFtZTgwODgyNDY2MjE@._V1_.png"],
@@ -38,30 +38,30 @@ import org.primordion.xholon.base.XholonWithPorts;
       ["Beach area", "Bamboo forest", "images/losttv/MV5BNmQ4YzA3OTktYmIwOS00OTI5LWIyNGUtYzA1Njc0YTVjZmQzXkEyXkFqcGdeQXVyNTY1MDAxMzc@._V1_.png"],
       ["Overgrown grass field", null, "images/losttv/640px-Setaria_verticillata_W_IMG_1085.png"],
       ["Tree trunk", null, "images/losttv/Yellow_birch_trunk.png"]
-    ]
-  },
-  { "outputPersonNames":
-    [
-      ["Jack", "images/losttv/MV5BMjE2MTUxNTQzM15BMl5BanBnXkFtZTcwODM3NjI5OQ@@._V1._SX100_SY140_.png"],
-      ["Sayid", "images/losttv/MV5BMTc3OTIzMDAzOF5BMl5BanBnXkFtZTcwOTQ4MDIyMw@@._V1._SX100_SY140_.png"],
-      ["Claire", "images/losttv/MV5BMTU3NzEwMzY0Ml5BMl5BanBnXkFtZTcwMjU2ODg4OQ@@._V1._SX100_SY140_.png"],
-      ["Kate", "images/losttv/MV5BMTc3NjgxOTAwMV5BMl5BanBnXkFtZTcwNTQ5Nzg4OQ@@._V1_UY98_CR5,0,67,98_AL_.png"],
-      ["Hurley", "images/losttv/MV5BMTc5NDE2NDEwOF5BMl5BanBnXkFtZTcwMDM4Nzg4OQ@@._V1._SX100_SY140_.png"],
-      ["Boone", "images/losttv/MV5BMjM0NDY4MjAxM15BMl5BanBnXkFtZTcwNDU3NDk4OQ@@._V1._SX100_SY140_.png"],
-      ["Shannon", "images/losttv/MV5BMTQ1MzAwOTAxMl5BMl5BanBnXkFtZTcwOTk2NDk4OQ@@._V1._SX100_SY140_.png"],
-      ["Charlie", "images/losttv/MV5BNDI1OTIyODE0M15BMl5BanBnXkFtZTcwMzA5ODg4OQ@@._V1._SX100_SY140_.png"],
-      ["Jin", "images/losttv/MV5BMTg5MjUyNzkzMl5BMl5BanBnXkFtZTcwODA1ODg4OQ@@._V1._SX100_SY140_.png"],
-      ["Sun", "images/losttv/MV5BMTc1NDM4MDAzOF5BMl5BanBnXkFtZTcwMDc1ODg4OQ@@._V1._SX100_SY140_.png"],
-      ["Walt", "images/losttv/MV5BNjExODgyMDU1N15BMl5BanBnXkFtZTcwNzE3NDk4OQ@@._V1._SX100_SY140_.png"],
-      ["Michael", "images/losttv/MV5BMTcyNjU1ODYxM15BMl5BanBnXkFtZTcwMjI1NDk4OQ@@._V1._SX100_SY140_.png"],
-      ["Rose", "images/losttv/MV5BMTQ0MTYyNzM2N15BMl5BanBnXkFtZTcwMTQ4NDk4OQ@@._V1._SX100_SY140_.png"],
-      ["Sawyer", "images/losttv/MV5BMTM1NDEyNjcxOV5BMl5BanBnXkFtZTcwMTI4NjcxMw@@._V1._SX100_SY140_.png"],
-      ["Flight Attendant #1", "images/losttv/MV5BMjAxMTQwMzY4MV5BMl5BanBnXkFtZTcwOTA3NzE5OQ@@._V1._SX100_SY140_.png"],
-      ["Locke", "images/losttv/MV5BMjI1Njk0ODQ3N15BMl5BanBnXkFtZTcwNzUwMjI0Mw@@._V1._SX100_SY140_.png"],
-      ["NARRATOR", "images/losttv/zelda5_circ.png"]
-    ]
-  }
-]
+    ],
+  "formatPersonName":
+    ["BOONE","CHARLIE","CLAIRE","HURLEY","JACK","JIN","KATE","LOCKE","MAN","MICHAEL","PILOT","ROSE","SAYID","SAWYER","SHANNON","SUN","WALT","FLIGHT ATTENDANT #1","FLIGHT ATTENDANT #2","FLIGHT ATTENDANT #3"],
+  "outputPersonNames":
+    {
+    "Jack": "images/losttv/MV5BMjE2MTUxNTQzM15BMl5BanBnXkFtZTcwODM3NjI5OQ@@._V1._SX100_SY140_.png",
+    "Sayid": "images/losttv/MV5BMTc3OTIzMDAzOF5BMl5BanBnXkFtZTcwOTQ4MDIyMw@@._V1._SX100_SY140_.png",
+    "Claire": "images/losttv/MV5BMTU3NzEwMzY0Ml5BMl5BanBnXkFtZTcwMjU2ODg4OQ@@._V1._SX100_SY140_.png",
+    "Kate": "images/losttv/MV5BMTc3NjgxOTAwMV5BMl5BanBnXkFtZTcwNTQ5Nzg4OQ@@._V1_UY98_CR5,0,67,98_AL_.png",
+    "Hurley": "images/losttv/MV5BMTc5NDE2NDEwOF5BMl5BanBnXkFtZTcwMDM4Nzg4OQ@@._V1._SX100_SY140_.png",
+    "Boone": "images/losttv/MV5BMjM0NDY4MjAxM15BMl5BanBnXkFtZTcwNDU3NDk4OQ@@._V1._SX100_SY140_.png",
+    "Shannon": "images/losttv/MV5BMTQ1MzAwOTAxMl5BMl5BanBnXkFtZTcwOTk2NDk4OQ@@._V1._SX100_SY140_.png",
+    "Charlie": "images/losttv/MV5BNDI1OTIyODE0M15BMl5BanBnXkFtZTcwMzA5ODg4OQ@@._V1._SX100_SY140_.png",
+    "Jin": "images/losttv/MV5BMTg5MjUyNzkzMl5BMl5BanBnXkFtZTcwODA1ODg4OQ@@._V1._SX100_SY140_.png",
+    "Sun": "images/losttv/MV5BMTc1NDM4MDAzOF5BMl5BanBnXkFtZTcwMDc1ODg4OQ@@._V1._SX100_SY140_.png",
+    "Walt": "images/losttv/MV5BNjExODgyMDU1N15BMl5BanBnXkFtZTcwNzE3NDk4OQ@@._V1._SX100_SY140_.png",
+    "Michael": "images/losttv/MV5BMTcyNjU1ODYxM15BMl5BanBnXkFtZTcwMjI1NDk4OQ@@._V1._SX100_SY140_.png",
+    "Rose": "images/losttv/MV5BMTQ0MTYyNzM2N15BMl5BanBnXkFtZTcwMTQ4NDk4OQ@@._V1._SX100_SY140_.png",
+    "Sawyer": "images/losttv/MV5BMTM1NDEyNjcxOV5BMl5BanBnXkFtZTcwMTI4NjcxMw@@._V1._SX100_SY140_.png",
+    "Flight Attendant #1": "images/losttv/MV5BMjAxMTQwMzY4MV5BMl5BanBnXkFtZTcwOTA3NzE5OQ@@._V1._SX100_SY140_.png",
+    "Locke": "images/losttv/MV5BMjI1Njk0ODQ3N15BMl5BanBnXkFtZTcwNzUwMjI0Mw@@._V1._SX100_SY140_.png",
+    "NARRATOR": "images/losttv/zelda5_circ.png"
+    }
+}
  * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
@@ -72,6 +72,8 @@ public class Screenplay extends XholonWithPorts {
   private String roleName = null;
   
   private String sceneLocationRoot = "Universe";
+  
+  private String timewords = "NIGHT, DAY, EVENING";
   
   // a JSON string
   private String options = null;
@@ -122,14 +124,16 @@ public class Screenplay extends XholonWithPorts {
           default: break;
           }
         }
-        node = node.getNextSibling();
+        IXholon nextSib = node.getNextSibling();
+        node.removeChild();
+        node = nextSib;
       }
     }
-    this.screenplaybehaviorPostConfigure(sceneLocationRoot, options);
+    this.screenplaybehaviorPostConfigure(sceneLocationRoot, timewords, options);
     super.postConfigure();
   }
   
-  protected native void screenplaybehaviorPostConfigure(String sceneLocationRoot, String options) /*-{
+  protected native void screenplaybehaviorPostConfigure(String sceneLocationRoot, String timewords, String options) /*-{
   var $this = this;
   if (this.text() == null) {
     this.println("The text of the screenplay is missing.");
@@ -149,8 +153,8 @@ public class Screenplay extends XholonWithPorts {
   var service = $wnd.xh.service("XholonHelperService");
   
   var timewordsArr = ["NIGHT", "DAY"];
-  if (this.timewords) {
-    timewordsArr = this.timewords.split(",");
+  if (timewords) {
+    timewordsArr = timewords.split(",");
   }
   timewordsXsn = $wnd.xh.util.newXholonSortedNode().obj(timewordsArr[0]);
   for (var i = 1; i < timewordsArr.length; i++) {
@@ -163,29 +167,25 @@ public class Screenplay extends XholonWithPorts {
     return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
   }
   
+  var addIconsToPlacesArr = null;
+  var formatPersonNameArr = null;
+  var outputPersonNamesObj = null;
+  if (options) {
+    var json = $wnd.JSON.parse(options);
+    if (json) {
+      addIconsToPlacesArr = json["addIconsToPlaces"];
+      formatPersonNameArr = json["formatPersonName"];
+      outputPersonNamesObj = json["outputPersonNames"];
+    }
+  }
+  
   var addIconsToPlaces = function() {
-    if (options) {
-      var json = $wnd.JSON.parse(options);
-      if (json) {
-        outerArr = json["addIconsToPlaces"];
-        if (outerArr) {
-          for (var i = 0; i < outerArr.length; i++) {
-            var innerArr = outerArr[i];
-            addIconToPlace(innerArr[0], innerArr[1], innerArr[2]);
-          }
-        }
+    if (addIconsToPlacesArr) {
+      for (var i = 0; i < addIconsToPlacesArr.length; i++) {
+        var innerArr = addIconsToPlacesArr[i];
+        addIconToPlace(innerArr[0], innerArr[1], innerArr[2]);
       }
     }
-    //addIconToPlace("Beach", null, "images/losttv/640px-20100726_Kalamitsi_Beach_Ionian_Sea_Lefkada_island_Greece.png");
-    //addIconToPlace("Beach", "Crash site", "images/losttv/MV5BMTQ4ODYyNDAwNF5BMl5BanBnXkFtZTgwODgyNDY2MjE@._V1_.png");
-    //addIconToPlace("Front section of the plane", null, "images/losttv/MV5BOGZlZDRhYjMtYWEyYy00MDk3LTkzNTItZDNiMzc2YmZjNGE2XkEyXkFqcGdeQXVyNTY1MDAxMzc@._V1_.png");
-    //addIconToPlace("Plane", null, "images/losttv/AAEAAQAAAAAAAAMiAAAAJGVlYTU5Y2YyLWQwMzYtNDlmZS04MDdlLWI0ZjJjZWRhYjk4ZQ.png");
-    //addIconToPlace("Jungle", null, "images/losttv/Tioman_Rainforest.png");
-    //addIconToPlace("Beach area", null, "images/losttv/mokuleia-beach-2.png");
-    //addIconToPlace("Mountain", null, "images/losttv/hawa49879.png");
-    //addIconToPlace("Beach area", "Bamboo forest", "images/losttv/MV5BNmQ4YzA3OTktYmIwOS00OTI5LWIyNGUtYzA1Njc0YTVjZmQzXkEyXkFqcGdeQXVyNTY1MDAxMzc@._V1_.png");
-    //addIconToPlace("Overgrown grass field", null, "images/losttv/640px-Setaria_verticillata_W_IMG_1085.png");
-    //addIconToPlace("Tree trunk", null, "images/losttv/Yellow_birch_trunk.png");
   }
 
   var addIconToPlace = function(placeRoleName1, placeRoleName2, iconUrl) {
@@ -200,128 +200,48 @@ public class Screenplay extends XholonWithPorts {
   }
 
   var formatPersonName = function(wordArr) {
-    // In Lost, I need to manually process the individual person names, because the movie script includes lots of other similar non-name text
-    switch (wordArr[0]) {
-      case "":
-        return "NARRATOR"; // TODO handle this properly
-      case "BOONE":
-      case "CHARLIE":
-      case "CLAIRE":
-      //case "FEMALE": //FEMALE VOICE
-      case "HURLEY":
-      case "JACK":
-      case "JIN":
-      case "KATE":
-      case "LOCKE":
-      case "MICHAEL":
-      case "ROSE":
-      case "SAYID":
-      case "SAWYER":
-      case "SHANNON":
-      case "SUN":
-      case "WALT":
-        return wordArr[0].capitalize();
-      //case "MALE": //MALE VOICE
-      case "MAN":
-        if (wordArr.length > 1) {
-          return "UNKNOWN PERSON";
-        }
-        break;
-      case "PILOT":
-        if (wordArr.length > 1) {
-          return "UNKNOWN PERSON";
-        }
-        break;
-      case "FLIGHT": // FLIGHT ATTENDANT #1  or #3
-        if (wordArr[1] == "ATTENDANT") {
-          break;
+    var wordsOrig = wordArr.join(" ");
+    switch (wordsOrig) {
+    case "":
+      return "NARRATOR"; // TODO handle this properly
+    default:
+      if (formatPersonNameArr && formatPersonNameArr.length > 0) {
+        // there is an explicit list of words that should be recognized as names
+        if (formatPersonNameArr.indexOf(wordsOrig) != -1) {
+          return capitalize(wordArr);
         }
         else {
-          return "UNKNOWN PERSON";
+          // this person is not in the list of recognized names
+          return "UNKNOWN PERSON"; // TODO handle this properly
         }
-      default:
-        return "UNKNOWN PERSON"; // TODO handle this properly
+      }
+      else {
+        // there is no explicit list of names
+        return capitalize(wordArr);
+      }
     }
-    for (var j = 0; j < wordArr.length; j++) {
-      wordArr[j] = wordArr[j].capitalize();
+  }
+  
+  var capitalize = function(wordArr) {
+    for (var i = 0; i < wordArr.length; i++) {
+      wordArr[i] = wordArr[i].capitalize();
     }
-    var pname = wordArr.join(" ");
-    return pname;
+    var str = wordArr.join(" ");
+    return str;
   }
 
   var outputPersonNames = function() {
-    var iconsObj = null;
-    if (options) {
-      var json = $wnd.JSON.parse(options);
-      if (json) {
-        var iconsObj = json["outputPersonNames"];
-      }
-    }
     var personArr = personXsn.toArray();
     var personXmlStr = "";
     for (var i = 0; i < personArr.length; i++) {
       var wordStr = personArr[i].obj();
       personXmlStr += '<Character roleName="' + wordStr + '">';
-      if (iconsObj) {
-        var iconName = iconsObj[wordStr];
+      if (outputPersonNamesObj) {
+        var iconName = outputPersonNamesObj[wordStr];
         if (iconName) {
           personXmlStr += "<Icon>" + iconName + "</Icon>";
         }
       }
-      
-      // the icons are all originally from https://images-na.ssl-images-amazon.com/images/
-      //if (wordStr == "Jack") {
-      //  personXmlStr += "<Icon>" + "images/losttv/MV5BMjE2MTUxNTQzM15BMl5BanBnXkFtZTcwODM3NjI5OQ@@._V1._SX100_SY140_.png" + "</Icon>";
-      //}
-      //else if (wordStr == "Sayid") {
-      //  personXmlStr += "<Icon>" + "images/losttv/MV5BMTc3OTIzMDAzOF5BMl5BanBnXkFtZTcwOTQ4MDIyMw@@._V1._SX100_SY140_.png" + "</Icon>";
-      //}
-      //else if (wordStr == "Claire") {
-      //  personXmlStr += "<Icon>" + "images/losttv/MV5BMTU3NzEwMzY0Ml5BMl5BanBnXkFtZTcwMjU2ODg4OQ@@._V1._SX100_SY140_.png" + "</Icon>";
-      //}
-      //else if (wordStr == "Kate") {
-      //  personXmlStr += "<Icon>" + "images/losttv/MV5BMTc3NjgxOTAwMV5BMl5BanBnXkFtZTcwNTQ5Nzg4OQ@@._V1_UY98_CR5,0,67,98_AL_.png" + "</Icon>";
-      //}
-      //else if (wordStr == "Hurley") {
-      //  personXmlStr += "<Icon>" + "images/losttv/MV5BMTc5NDE2NDEwOF5BMl5BanBnXkFtZTcwMDM4Nzg4OQ@@._V1._SX100_SY140_.png" + "</Icon>";
-      //}
-      //else if (wordStr == "Boone") {
-      //  personXmlStr += "<Icon>" + "images/losttv/MV5BMjM0NDY4MjAxM15BMl5BanBnXkFtZTcwNDU3NDk4OQ@@._V1._SX100_SY140_.png" + "</Icon>";
-      //}
-      //else if (wordStr == "Shannon") {
-      //  personXmlStr += "<Icon>" + "images/losttv/MV5BMTQ1MzAwOTAxMl5BMl5BanBnXkFtZTcwOTk2NDk4OQ@@._V1._SX100_SY140_.png" + "</Icon>";
-      //}
-      //else if (wordStr == "Charlie") {
-      //  personXmlStr += "<Icon>" + "images/losttv/MV5BNDI1OTIyODE0M15BMl5BanBnXkFtZTcwMzA5ODg4OQ@@._V1._SX100_SY140_.png" + "</Icon>";
-      //}
-      //else if (wordStr == "Jin") {
-      //  personXmlStr += "<Icon>" + "images/losttv/MV5BMTg5MjUyNzkzMl5BMl5BanBnXkFtZTcwODA1ODg4OQ@@._V1._SX100_SY140_.png" + "</Icon>";
-      //}
-      //else if (wordStr == "Sun") {
-      //  personXmlStr += "<Icon>" + "images/losttv/MV5BMTc1NDM4MDAzOF5BMl5BanBnXkFtZTcwMDc1ODg4OQ@@._V1._SX100_SY140_.png" + "</Icon>";
-      //}
-      //else if (wordStr == "Walt") {
-      //  personXmlStr += "<Icon>" + "images/losttv/MV5BNjExODgyMDU1N15BMl5BanBnXkFtZTcwNzE3NDk4OQ@@._V1._SX100_SY140_.png" + "</Icon>";
-      //}
-      //else if (wordStr == "Michael") {
-      //  personXmlStr += "<Icon>" + "images/losttv/MV5BMTcyNjU1ODYxM15BMl5BanBnXkFtZTcwMjI1NDk4OQ@@._V1._SX100_SY140_.png" + "</Icon>";
-      //}
-      //else if (wordStr == "Rose") {
-      //  personXmlStr += "<Icon>" + "images/losttv/MV5BMTQ0MTYyNzM2N15BMl5BanBnXkFtZTcwMTQ4NDk4OQ@@._V1._SX100_SY140_.png" + "</Icon>";
-      //}
-      //else if (wordStr == "Sawyer") {
-      //  personXmlStr += "<Icon>" + "images/losttv/MV5BMTM1NDEyNjcxOV5BMl5BanBnXkFtZTcwMTI4NjcxMw@@._V1._SX100_SY140_.png" + "</Icon>";
-      //}
-      //else if (wordStr == "Flight Attendant #1") {
-      //  personXmlStr += "<Icon>" + "images/losttv/MV5BMjAxMTQwMzY4MV5BMl5BanBnXkFtZTcwOTA3NzE5OQ@@._V1._SX100_SY140_.png" + "</Icon>";
-      //}
-      //else if (wordStr == "Locke") {
-      //  personXmlStr += "<Icon>" + "images/losttv/MV5BMjI1Njk0ODQ3N15BMl5BanBnXkFtZTcwNzUwMjI0Mw@@._V1._SX100_SY140_.png" + "</Icon>";
-      //}
-      //else if (wordStr == "NARRATOR") {
-      //  personXmlStr += "<Icon>" + "images/losttv/zelda5_circ.png" + "</Icon>";
-      //}
-      
       personXmlStr += '</Character>\n';
     }
     personXmlStr = '<_-.characters>\n' + personXmlStr + '</_-.characters>\n';
@@ -556,6 +476,9 @@ public class Screenplay extends XholonWithPorts {
   public int setAttributeVal(String attrName, String attrVal) {
     if ("sceneLocationRoot".equals(attrName)) {
       this.sceneLocationRoot = attrVal;
+    }
+    if ("timewords".equals(attrName)) {
+      this.timewords = attrVal;
     }
     return 0;
   }
