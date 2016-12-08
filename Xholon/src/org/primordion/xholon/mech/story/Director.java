@@ -32,6 +32,8 @@ public class Director extends XholonWithPorts {
   
   private String roleName = null;
   
+  private String sceneLocationRoot = "Universe";
+  
   @Override
   public void setRoleName(String roleName) {
     this.roleName = roleName;
@@ -44,7 +46,7 @@ public class Director extends XholonWithPorts {
   
   @Override
   public void postConfigure() {
-    this.directorbehaviorPostConfigure();
+    this.directorbehaviorPostConfigure(sceneLocationRoot);
     super.postConfigure();
   }
   
@@ -55,7 +57,7 @@ public class Director extends XholonWithPorts {
   }
   
   // TODO the internal functions may need to be this.func rather than var func
-  protected native void directorbehaviorPostConfigure() /*-{
+  protected native void directorbehaviorPostConfigure(String sceneLocationRoot) /*-{
     var avatarCache;
     
     this.countdown = 0;
@@ -190,7 +192,7 @@ public class Director extends XholonWithPorts {
           this.timeword = prnArr[1];
         }
         // place double quotes around the xpathExpr, in case prn contains spaces
-        var xpathExpr = "go " + '"' + "xpath(../Universe/" + prn + ")" + '"' + ";";
+        var xpathExpr = "go " + '"' + "xpath(../" + sceneLocationRoot + "/" + prn + ")" + '"' + ";";
         person.action(xpathExpr);
       }
       else {
@@ -202,7 +204,7 @@ public class Director extends XholonWithPorts {
         }
         if (prn != person.parent().role()) {
           //var xpathExpr = "go " + '"' + "xpath(../" + prn + ")" + '"' + ";";
-          var xpathExpr = "go " + '"' + "xpath(ancestor::Universe/" + prn + ")" + '"' + ";";
+          var xpathExpr = "go " + '"' + "xpath(ancestor::" + sceneLocationRoot + "/" + prn + ")" + '"' + ";";
           person.action(xpathExpr);
         }
       }
@@ -211,7 +213,7 @@ public class Director extends XholonWithPorts {
     // rgba() to rgb() + opacity (for use in Movie Script Parser)
     // ex: rgba(20,220,60,1.0) becomes rgb(20,220,60) and 1.0
     var rgba2rgbOpacity = function(node) {
-      var color = node.xhc().parent().color();
+      var color = node.xhc().color(); //.parent().color();
       if ((color != null) && (color.substring(0,5) == "rgba(")) {
         var rgba = color.substring(5, color.length - 1).split(",");
         var rgb = "rgb(" + rgba[0] + "," + rgba[1] + "," + rgba[2] + ")";
@@ -255,6 +257,14 @@ public class Director extends XholonWithPorts {
     }
 
   }-*/;
+  
+  @Override
+  public int setAttributeVal(String attrName, String attrVal) {
+    if ("sceneLocationRoot".equals(attrName)) {
+      this.sceneLocationRoot = attrVal;
+    }
+    return 0;
+  }
 
   @Override
   public String toString() {

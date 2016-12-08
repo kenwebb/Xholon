@@ -55,7 +55,7 @@ public class MechanismEnabler extends XholonScript {
   public MechanismEnabler() {
     // this code must be run immediately, before the rest of the CSH tree is instantiated
     // BUT mechanism and mechanismColor will not have had a chance to be set
-    this.enable();
+    //this.enable();
   }
   
   // the name of the mechanism
@@ -139,7 +139,7 @@ public class MechanismEnabler extends XholonScript {
 	      cdSb
 	      .append("<StorySystem xhType=\"XhtypePureActiveObject\" implName=\"org.primordion.xholon.mech.story.StorySystem\"/>\n")
 	      .append("<Screenplay xhType=\"XhtypePureActiveObject\" implName=\"org.primordion.xholon.mech.story.Screenplay\"/>\n")
-	      .append("<Character xhType=\"XhtypePureActiveObject\" implName=\"org.primordion.xholon.base.Avatar\"/>\n")
+	      .append("<Character xhType=\"XhtypePureActiveObject\" implName=\"org.primordion.xholon.base.Avatar\"><Color>rgba(255,255,255,1.0)</Color></Character>\n")
         .append("<Narrator xhType=\"XhtypePureActiveObject\" implName=\"org.primordion.xholon.base.Avatar\"/>\n")
 	      .append("<Scenes xhType=\"XhtypePureActiveObject\" implName=\"org.primordion.xholon.mech.story.Scenes\"/>\n")
 	      .append("<Director xhType=\"XhtypePureActiveObject\" implName=\"org.primordion.xholon.mech.story.Director\"/>\n")
@@ -158,6 +158,9 @@ public class MechanismEnabler extends XholonScript {
     }
     else if ("color".equals(attrName)) {
       this.mechanismColor = attrVal;
+    }
+    else if ("go".equals(attrName)) {
+      this.enable();
     }
     return 0;
   }
