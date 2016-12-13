@@ -32,6 +32,8 @@ public class Scenes extends XholonWithPorts {
   
   private String roleName = null;
   
+  private boolean scenesNumbered = false;
+  
   @Override
   public void setRoleName(String roleName) {
     this.roleName = roleName;
@@ -44,17 +46,31 @@ public class Scenes extends XholonWithPorts {
   
   @Override
   public void postConfigure() {
-    this.scenesbehaviorPostConfigure();
+    scenesNumbered = this.numberScenes();
     super.postConfigure();
   }
   
-  protected native void scenesbehaviorPostConfigure() /*-{
+  @Override
+  public void act() {
+    if (!scenesNumbered) {
+      scenesNumbered = this.numberScenes();
+    }
+    super.act();
+  }
+  
+  /**
+   * Scenes should only be numbered once.
+   */
+  protected native boolean numberScenes() /*-{
     var $this = this;
     var numberScenes = function() {
       // 0    20   21   35   36   50   extra     more extra
       // 2460-2473 3251-325f 32b1-32bf 2474-249b 249c-24fe
       var scene = $this.first();
       var sceneNum = 0x2460;
+      if ((scene == null) || (scene.role() && (scene.role().charAt(0) == sceneNum))) {
+        return false;
+      }
       while (scene) {
         scene.role(String.fromCharCode(sceneNum) + " " + scene.role());
         scene = scene.next();
@@ -78,9 +94,10 @@ public class Scenes extends XholonWithPorts {
           break;
         }
       }
+      return true;
     }
     
-    numberScenes();
+    return numberScenes();
   }-*/;
 
   @Override

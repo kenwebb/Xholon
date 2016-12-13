@@ -62,7 +62,7 @@ public class Director extends XholonWithPorts {
   }
   
   protected native void directorbehaviorPostConfigure(String sceneLocationRoot, double speechMultiplier) /*-{
-    var avatarCache;
+    this.avatarCache = null;
     
     this.countdown = 0;
     var $this = this;
@@ -72,10 +72,13 @@ public class Director extends XholonWithPorts {
     this.timeword = null;
     var animate = this.xpath("../../Animate");
     
-    var cacheAvatars = function() {
-      avatarCache = {};
+    this.cacheAvatars = function() {
       var people = $this.xpath("../Characters");
-      cacheAvatarsRecurse(people.first());
+      var person = people.first();
+      if (person) {
+        $this.avatarCache = {};
+        cacheAvatarsRecurse(person);
+      }
     }
 
     var cacheAvatarsRecurse = function(node) {
@@ -85,24 +88,25 @@ public class Director extends XholonWithPorts {
         }
         else {
           rgba2rgbOpacity(node);
-          avatarCache[node.role()] = node;
+          $this.avatarCache[node.role()] = node;
         }
         node = node.next();
       }
     }
-
+    
+    // TODO does this function actually do anything useful ?
     var refreshCache = function() {
       // refresh the cache by iterating thru the existing object properties
-      for (var prop in avatarCache) {
+      for (var prop in $this.avatarCache) {
         var pname = prop;
-        var pval = avatarCache[pname];
+        var pval = $this.avatarCache[pname];
         if (typeof pval != "function") {
           var newPname = pval.role();
           if (pname != newPname) {
             // update the property in the object
             // delete avatarCache[pname]; // should I delete the existing item (it's safe to do this)?
             //  But someone might have multiple names?
-            avatarCache[newPname] = pval;
+            $this.avatarCache[newPname] = pval;
           }
         }
       }
@@ -110,9 +114,9 @@ public class Director extends XholonWithPorts {
 
     var fadeCache = function() {
       // fade color/opacity of all Avatars in the cache by iterating thru the existing object properties
-      for (var prop in avatarCache) {
+      for (var prop in $this.avatarCache) {
         var pname = prop;
-        var pval = avatarCache[pname];
+        var pval = $this.avatarCache[pname];
         if (typeof pval != "function") {
           // fade the color or the opacity
           //pval.color($wnd.d3.rgb(pval.color()).brighter(0.2).toString());
@@ -149,7 +153,7 @@ public class Director extends XholonWithPorts {
         fadeCache();
         var ascript = scene.first();
         while (ascript) {
-          var a = avatarCache[ascript.avatar];
+          var a = $this.avatarCache[ascript.avatar];
           if (a) {
             movePerson(a, scene);
             a.action("param transcript false;");
@@ -160,7 +164,7 @@ public class Director extends XholonWithPorts {
           else {
             refreshCache();
             // try again to get "a"
-            a = avatarCache[ascript.avatar];
+            a = $this.avatarCache[ascript.avatar];
             if (a) {
               a.action("param transcript false;");
               a.action("script;" + ascript.first().text());
@@ -170,7 +174,7 @@ public class Director extends XholonWithPorts {
         }
         ascript = scene.first();
         if (ascript) {
-          var a = avatarCache[ascript.avatar];
+          var a = $this.avatarCache[ascript.avatar];
           if (a) {
             highlightCurrentPlace(a);
           }
@@ -228,17 +232,31 @@ public class Director extends XholonWithPorts {
       }
     }
     
-    cacheAvatars();
-    this.newScene();
+    this.cacheAvatars();
+    if (this.avatarCache != null) {
+      this.newScene();
+    }
   }-*/;
 
   protected native void directorbehaviorAct() /*-{
+    if (this.avatarCache == null) {
+      this.cacheAvatars();
+    }
+    if (this.avatarCache == null) {
+      return;
+    }
     if (this.highlightSelStr != null) {
       if (this.highlightCountdown == 1) {
         this.highlightCountdown = 0;
       }
       else {
-        var place = $doc.querySelector(this.highlightSelStr);
+        var place = null;
+        try {
+          // handle Uncaught DOMException: Failed to execute 'querySelector' on 'Document': 'svg>g>g#(present)\ day\:sceneLocation_75>circle' is not a valid selector.
+          place = $doc.querySelector(this.highlightSelStr);
+        } catch (e) {
+          // caught the DOMException
+        }
         if (place) {
           place.style.strokeWidth = "2"; // make the stroke visible
           // "NIGHT,DAY,EVENING,MORNING,DAWN,DUSK,EARLY,LATE,CONTINUOUS,SAME,SATURDAY"

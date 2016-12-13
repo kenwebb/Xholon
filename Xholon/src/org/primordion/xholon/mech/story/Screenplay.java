@@ -69,7 +69,17 @@ import org.primordion.xholon.base.XholonWithPorts;
  */
 public class Screenplay extends XholonWithPorts {
   
+  private static final String SCREENPLAY_FORMAT_IMSDB    = "imsdb"; // DEFAULT
+  private static final String SCREENPLAY_FORMAT_FOUNTAIN = "fountain";
+  
   private String roleName = null;
+  
+  /**
+   * Format of the screenplay text.
+   * imsdb    - HTML <b> format used at http://www.imsdb.com/
+   * fountain - format defined at http://fountain.io/
+   */
+  private String format = SCREENPLAY_FORMAT_IMSDB;
   
   private String sceneLocationRoot = "Universe";
   
@@ -82,6 +92,12 @@ public class Screenplay extends XholonWithPorts {
   
   // a JSON string
   private String options = null;
+  
+  private Object fountainTokenized = null;
+  
+  public Screenplay() {
+    requireFountain();
+  }
   
   @Override
   public void setRoleName(String roleName) {
@@ -124,8 +140,8 @@ public class Screenplay extends XholonWithPorts {
         String rname = node.getRoleName();
         if (rname != null) {
           switch (rname) {
-          case "screenplay": this.setVal(node.getVal_String()); break;
-          case "options": this.options = node.getVal_String(); break;
+          case "screenplay": this.setVal(node.getVal_String());   break;
+          case "options":    this.options = node.getVal_String(); break;
           default: break;
           }
         }
@@ -134,13 +150,57 @@ public class Screenplay extends XholonWithPorts {
         node = nextSib;
       }
     }
-    this.screenplaybehaviorPostConfigure(sceneLocationRoot, timewords, speech, options);
+    switch (format) {
+    case SCREENPLAY_FORMAT_IMSDB:
+      this.parseScreenplay(format, sceneLocationRoot, timewords, speech, options, null);
+      break;
+    case SCREENPLAY_FORMAT_FOUNTAIN:
+      this.fountainTokenized = this.tokenizeFountain(val);
+      if (this.fountainTokenized != null) {
+        this.parseScreenplay(format, sceneLocationRoot, timewords, speech, options, this.fountainTokenized);
+      }
+      break;
+    default:
+      break;
+    }
     super.postConfigure();
   }
   
-  protected native void screenplaybehaviorPostConfigure(String sceneLocationRoot, String timewords, boolean speech, String options) /*-{
+  @Override
+  public void act() {
+    switch (format) {
+    case SCREENPLAY_FORMAT_IMSDB:
+      break;
+    case SCREENPLAY_FORMAT_FOUNTAIN:
+      // this code should only be run once
+      if (this.fountainTokenized == null) {
+        this.fountainTokenized = this.tokenizeFountain(val);
+        if (this.fountainTokenized != null) {
+          this.parseScreenplay(format, sceneLocationRoot, timewords, speech, options, this.fountainTokenized);
+        }
+      }
+      break;
+    default:
+      break;
+    }
+    super.act();
+  }
+  
+  /**
+   * Parse the screenplay.
+   */
+  protected native void parseScreenplay(String format, String sceneLocationRoot, String timewords, boolean speech, String options, Object fountainTokenized) /*-{
+  var debugStr = "";
+  
+  // DEBUG
+  var debugFlow = function(str) {
+    debugStr += str + "\n";
+  }
+  
+  debugFlow("parseScreenplay start");
+  
   var $this = this;
-  if (this.text() == null) {
+  if ((format == "imsdb") && (this.text() == null)) {
     this.println("The text of the screenplay is missing.");
     return;
   }
@@ -184,27 +244,14 @@ public class Screenplay extends XholonWithPorts {
     }
   }
   
-  var addIconsToPlaces = function() {
-    if (addIconsToPlacesArr) {
-      for (var i = 0; i < addIconsToPlacesArr.length; i++) {
-        var innerArr = addIconsToPlacesArr[i];
-        addIconToPlace(innerArr[0], innerArr[1], innerArr[2]);
-      }
-    }
+  // DEBUG
+  var debugFlow = function(str) {
+    debugStr += str + "\n";
   }
-
-  var addIconToPlace = function(placeRoleName1, placeRoleName2, iconUrl) {
-    var place = $this.xpath("ancestor::StorySystem/Story/" + sceneLocationRoot + "/SceneLocation[@roleName='" + placeRoleName1 + "']");
-    if (place == null) {return;}
-    if (placeRoleName2 != null) {
-      place = place.xpath("SceneLocation[@roleName='" + placeRoleName2 + "']");
-      if (place == null) {return;}
-    }
-    var iconStr = "<Icon>" + iconUrl + "</Icon>";
-    service.call(-2019, iconStr, place); // ISignal.ACTION_PASTE_MERGE_FROMSTRING = -2019
-  }
-
+  
+  // PARSE
   var formatPersonName = function(wordArr) {
+    debugFlow("formatPersonName");
     var wordsOrig = wordArr.join(" ");
     switch (wordsOrig) {
     case "":
@@ -227,6 +274,7 @@ public class Screenplay extends XholonWithPorts {
     }
   }
   
+  // PARSE
   var capitalize = function(wordArr) {
     for (var i = 0; i < wordArr.length; i++) {
       wordArr[i] = wordArr[i].capitalize();
@@ -234,70 +282,10 @@ public class Screenplay extends XholonWithPorts {
     var str = wordArr.join(" ");
     return str;
   }
-
-  var outputPersonNames = function() {
-    var personArr = personXsn.toArray();
-    var personXmlStr = "";
-    for (var i = 0; i < personArr.length; i++) {
-      var wordStr = personArr[i].obj();
-      personXmlStr += '<Character roleName="' + wordStr + '">';
-      if (outputPersonNamesObj) {
-        var iconName = outputPersonNamesObj[wordStr];
-        if (iconName) {
-          personXmlStr += "<Icon>" + iconName + "</Icon>";
-        }
-      }
-      personXmlStr += '</Character>\n';
-    }
-    personXmlStr = '<_-.characters>\n' + personXmlStr + '</_-.characters>\n';
-    $this.println(personXmlStr);
-    var peopleNode = $this.xpath("ancestor::StorySystem/Story/Characters");
-    if (peopleNode) {
-      peopleNode.append(personXmlStr);
-    }
-    
-    var p = peopleNode.first();
-    while (p) {
-      p.action('param caption #xhanim>span:nth-child(2);param anim grow 1.1;');
-      p = p.next();
-    }
-  }
-
-  var outputScenes = function() {
-    // outputScenes is only called once
-    if (scenesXmlStr.length > 0) {
-      if (avatarScriptActive) {
-        avatarScriptActive = false;
-      }
-      if (sceneObj) {
-        // write out the last scene
-        scenesXmlStr += '<Scene roleName="' + sceneObj.slug + '" duration="' + sceneObj.seqNum + '">\n';
-        if (sceneObj.anno.length > 0) {
-          scenesXmlStr += ' <Annotation>' + sceneObj.anno + '</Annotation>\n';
-        }
-        //if (avatarScriptActive) { // commented out Dec 1, 2016
-          for (var personName in sceneObj) {
-            if (typeof sceneObj[personName] === "object") {
-              scenesXmlStr += '\n <AvatarScript avatar="' + personName + '"><Attribute_String><' + '!' + '[CDATA[\n';
-              scenesXmlStr += sceneObj[personName].text;
-              scenesXmlStr += ' ]' + ']' + '></Attribute_String></AvatarScript>\n';
-            }
-          }
-          avatarScriptActive = false;
-        //}
-        scenesXmlStr += "</Scene>\n\n";
-      }
-      
-    }
-    scenesXmlStr = "<_-.scenes>\n\n" + scenesXmlStr + "</_-.scenes>\n";
-    $this.println(scenesXmlStr);
-    var scenesNode = $this.xpath("ancestor::StorySystem/Story/Scenes");
-    if (scenesNode) {
-      scenesNode.append(scenesXmlStr);
-    }
-  }
-
+  
+  // PARSE IMSDB
   var processElement = function(el) {
+    debugFlow("processElement");
     if (!el) {return;}
     switch(el.nodeName) {
     case "B":
@@ -307,8 +295,10 @@ public class Screenplay extends XholonWithPorts {
       break;
     }
   }
-
+  
+  // PARSE IMSDB
   var processB = function(el) {
+    debugFlow("processB");
     var str = el.firstChild.nodeValue.trim();
     trimmedScriptText += str + "\n"; // write out a trimmed version of the text
     if (!storyNode.role()) {
@@ -344,22 +334,62 @@ public class Screenplay extends XholonWithPorts {
       break;  
     }
   }
-
+  
+  // PARSE FOUNTAIN
+  var processSceneHeading = function(str) {
+    debugFlow("processSceneHeading");
+    var arr = str.split(" ");
+    switch (arr[0]) {
+    case "INT.":
+      processScene(str);
+      processPlace(str, 5); //.substring(5));
+      break;
+    case "INT./EXT.":
+      processScene(str);
+      processPlace(str, 10); //.substring(10));
+      break;
+    case "EXT.":
+      processScene(str);
+      processPlace(str, 5); //.substring(5));
+      break;
+    case "EXT./INT.":
+      processScene(str);
+      processPlace(str, 10); //.substring(10));
+      break;
+    case "ANGLE":
+      
+      break;
+    case "CLOSEUP":
+      
+      break;
+    default:
+      //processPerson(arr);
+      $wnd.console.log("processSceneHeading unknown arr[0]: " + arr[0]);
+      break;  
+    }
+  }
+  
+  // PARSE
   var processPerson = function(arr) {
+    debugFlow("processPerson");
     // the contents of the array is probably the name of a person or other character
     var len = arr.length;
     if (len == 0) {return;}
-    // remove abbreviations at end of word arr  (V.O.) (O.S.) (O.C.) others?
-    if (len > 1) {
-      switch (arr[len-1]) {
-        // TODO there may be several of these in sequence  (V.O.) (CONT'D)
+    // remove abbreviations at end of word arr; possibly more than one abbreviations
+    var looking4Abbrevs = true;
+    while (looking4Abbrevs && (len > 1)) {
+      switch (arr[len-1].toUpperCase()) {
         case "(V.O.)":
         case "(O.S.)":
         case "(O.C.)":
         case "(CONT'D)": // or (cont'd)
+        case "(V.0.)": // a common error that uses zero instead of oh
+        case "(V.O.)(CONT'D)": // a combination with no space between the two
           arr.pop();
+          len = arr.length;
           break;
         default:
+          looking4Abbrevs = false;
           break;
       }
     }
@@ -379,8 +409,10 @@ public class Screenplay extends XholonWithPorts {
       sceneObj.currentPersonRoleName = personName;
     }
   }
-
+  
+  // PARSE
   var processPlace = function(sceneName, startPos) {
+    debugFlow("processPlace");
     // create and use a modified sceneName
     var modSceneName = $wnd.xh.movie.makePlaceRoleName(sceneName, startPos, timewordsXsn, true);
     if (modSceneName.length > 0) {
@@ -390,8 +422,10 @@ public class Screenplay extends XholonWithPorts {
       service.call(-2023, data, placesNode); // ISignal.ACTION_PASTE_MERGE_FROMROLENAMESTRING = -2023
     }
   }
-
+  
+  // PARSE
   var processScene = function(slug) {
+    debugFlow("processScene");
     // the scene "slug" line (INT or EXT, location, time)
     if (!slug || slug.length == 0) {return;}
     if (sceneObj) {
@@ -417,9 +451,11 @@ public class Screenplay extends XholonWithPorts {
     sceneObj.seqNum = 0;
     sceneObj.anno = "";
   }
-
-  var processTextNode = function(tn) {
-    var text = tn.nodeValue;
+  
+  // PARSE
+  var processTextNode = function(text) {
+    debugFlow("processTextNode");
+    //var text = tn.nodeValue;
     text = removeCrLfs(text);
     if (text.length == 0) {return;}
     trimmedScriptText += text.trim() + "\n"; // to write out a trimmed version of the text
@@ -444,45 +480,203 @@ public class Screenplay extends XholonWithPorts {
       sceneObj.anno += text;
     }
   }
-
+  
+  // PARSE
   var removeCrLfs = function(str) {
     // replace whitespace (CR, LF, duplicate spaces) with a single space
     // trim white space from front and back
     str = str.replace(/\s+/g, ' ').trim();
     return str;
   }
-
-  var toString = function() {
-    return $this.text();
-  }
-
-  var el = $wnd.document.createElement("div");
-  el.innerHTML = this.text();
-  var pre = el.querySelector("pre");
   
-  var node = pre.firstChild;
-  while (node) {
-    switch (node.nodeType) {
-      case 1: // Element b
-        processElement(node);
-        break;
-      case 3: // TextNode
-        processTextNode(node);
-        break;
-      default:
-        break;
+  // NOT USED
+  //var toString = function() {
+  //  return $this.text();
+  //}
+  
+  // PARSE IMSDB start
+  if (format == "imsdb") {
+    debugFlow("PARSE IMSDB start");
+    var el = $wnd.document.createElement("div");
+    el.innerHTML = this.text();
+    var pre = el.querySelector("pre");
+    var node = pre.firstChild;
+    while (node) {
+      switch (node.nodeType) {
+        case 1: // Element b
+          processElement(node);
+          break;
+        case 3: // TextNode
+          processTextNode(node.nodeValue);
+          break;
+        default:
+          break;
+      }
+      node = node.nextSibling;
     }
-    node = node.nextSibling;
   }
-
+  // PARSE FOUNTAIN start
+  else if (format == "fountain") {
+    var tokens = fountainTokenized.tokens;
+    $wnd.console.log(tokens.length);
+    for (var i = 0; i < tokens.length; i++) {
+      var token = tokens[i];
+      if (token.text) {
+        token.text = token.text.replace("&", "&amp;");
+      }
+      // TODO also replace < with &lt;  ???
+      switch (token.type) {
+        case 'scene_heading':
+          processSceneHeading(token.text);
+          break;
+        case 'character':
+          processPerson(token.text.split(" "));
+          break;
+        case 'dialogue':
+          processTextNode(token.text);
+          break;
+        case 'dialogue_end':
+          
+          break;
+        case 'dual_dialogue_end':
+          
+          break;
+        case 'action':
+          processTextNode(token.text);
+          break;
+        default:
+          break;
+      }
+    }
+  }
+  
+  // OUTPUT
+  var outputPersonNames = function() {
+    debugFlow("outputPersonNames");
+    var personArr = personXsn.toArray();
+    var personXmlStr = "";
+    for (var i = 0; i < personArr.length; i++) {
+      var wordStr = personArr[i].obj();
+      personXmlStr += '<Character roleName="' + wordStr + '">';
+      if (outputPersonNamesObj) {
+        var iconName = outputPersonNamesObj[wordStr];
+        if (iconName) {
+          personXmlStr += "<Icon>" + iconName + "</Icon>";
+        }
+      }
+      personXmlStr += '</Character>\n';
+    }
+    personXmlStr = '<_-.characters>\n' + personXmlStr + '</_-.characters>\n';
+    $this.println(personXmlStr);
+    var peopleNode = $this.xpath("ancestor::StorySystem/Story/Characters");
+    if (peopleNode) {
+      peopleNode.append(personXmlStr);
+    }
+    
+    var p = peopleNode.first();
+    while (p) {
+      p.action('param caption #xhanim>span:nth-child(2);param anim grow 1.1;');
+      p = p.next();
+    }
+  }
+  
+  // OUTPUT
+  var outputScenes = function() {
+    debugFlow("outputScenes");
+    // outputScenes is only called once
+    if (scenesXmlStr.length > 0) {
+      if (avatarScriptActive) {
+        avatarScriptActive = false;
+      }
+      if (sceneObj) {
+        // write out the last scene
+        scenesXmlStr += '<Scene roleName="' + sceneObj.slug + '" duration="' + sceneObj.seqNum + '">\n';
+        if (sceneObj.anno.length > 0) {
+          scenesXmlStr += ' <Annotation>' + sceneObj.anno + '</Annotation>\n';
+        }
+        //if (avatarScriptActive) { // commented out Dec 1, 2016
+          for (var personName in sceneObj) {
+            if (typeof sceneObj[personName] === "object") {
+              scenesXmlStr += '\n <AvatarScript avatar="' + personName + '"><Attribute_String><' + '!' + '[CDATA[\n';
+              scenesXmlStr += sceneObj[personName].text;
+              scenesXmlStr += ' ]' + ']' + '></Attribute_String></AvatarScript>\n';
+            }
+          }
+          avatarScriptActive = false;
+        //}
+        scenesXmlStr += "</Scene>\n\n";
+      }
+      
+    }
+    scenesXmlStr = "<_-.scenes>\n\n" + scenesXmlStr + "</_-.scenes>\n";
+    $this.println(scenesXmlStr);
+    var scenesNode = $this.xpath("ancestor::StorySystem/Story/Scenes");
+    if (scenesNode) {
+      scenesNode.append(scenesXmlStr);
+    }
+  }
+  
+  // OUTPUT
+  var addIconsToPlaces = function() {
+    debugFlow("addIconsToPlaces");
+    if (addIconsToPlacesArr) {
+      for (var i = 0; i < addIconsToPlacesArr.length; i++) {
+        var innerArr = addIconsToPlacesArr[i];
+        addIconToPlace(innerArr[0], innerArr[1], innerArr[2]);
+      }
+    }
+  }
+  
+  // OUTPUT
+  var addIconToPlace = function(placeRoleName1, placeRoleName2, iconUrl) {
+    debugFlow("addIconToPlace");
+    var place = $this.xpath("ancestor::StorySystem/Story/" + sceneLocationRoot + "/SceneLocation[@roleName='" + placeRoleName1 + "']");
+    if (place == null) {return;}
+    if (placeRoleName2 != null) {
+      place = place.xpath("SceneLocation[@roleName='" + placeRoleName2 + "']");
+      if (place == null) {return;}
+    }
+    var iconStr = "<Icon>" + iconUrl + "</Icon>";
+    service.call(-2019, iconStr, place); // ISignal.ACTION_PASTE_MERGE_FROMSTRING = -2019
+  }
+  
+  // OUTPUT
   outputPersonNames();
   outputScenes();
   addIconsToPlaces();
-  $wnd.console.log(trimmedScriptText);
+  //$wnd.console.log(trimmedScriptText);
+  
+  // DEBUG
+  $wnd.console.log(debugStr);
+  }-*/;
+  
+  /**
+   * Let fountain.js tokenize the screenplay that's in fountain format.
+   * @param script The fountain-format screenplay script.
+   * @return A JavaScript Object, containing an array of tokenized parts of the script.
+   */
+  protected native String tokenizeFountain(String script) /*-{
+    $wnd.console.log("tokenizeFountain() is trying to find fountain ...");
+    var parsed = null;
+    if ($wnd.fountain) {
+      parsed = $wnd.fountain.parse(script, true);
+      $wnd.console.log(parsed);
+    }
+    return parsed;
   }-*/;
 
+  /**
+   * Load the fountain JavaScript file.
+   */
+  protected native void requireFountain() /*-{
+    $wnd.xh.require("fountain");
+  }-*/;
+  
   @Override
   public int setAttributeVal(String attrName, String attrVal) {
+    if ("format".equals(attrName)) {
+      this.format = attrVal;
+    }
     if ("sceneLocationRoot".equals(attrName)) {
       this.sceneLocationRoot = attrVal;
     }
