@@ -3266,6 +3266,19 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 			this.decoration = {};
 		}
 	  this.decoration.color = color;
+	  if (color == null) {return;}
+	  // handle rgba(red,green,blue,alpha)  example: "rgba(255,255,255,1.0)"
+	  if ((color.substring(0,5) == "rgba(") && (color.charAt(color.length-1) == ")")) {
+	    var arr = color.substring(5,color.length-1).split(",");
+	    if (arr.length == 4) {
+	      this.decoration.opacity = arr[3];
+	    }
+	  }
+	  // handle #rrggbbaa  example: "#FFFFFFFF"
+	  else if ((color.charAt(0) == "#") && (color.length == 9)) {
+	    var opacity = Number("0x" + color.substring(7,9)) / 255;
+	    this.decoration.opacity = opacity;
+	  }
 	}-*/;
 
   @Override
