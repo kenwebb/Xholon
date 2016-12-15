@@ -213,48 +213,50 @@
       callback = toks;
       toks = undefined;
     }
-      
+    
     var tokens = tokenize(script)
       , i      = tokens.length, token
       , title, title_page = [], html = [], output;
-
+    
+    
     while (i--) {
       token = tokens[i];
-      token.text = inline.lexer(token.text);
+      // avoid returning modified token text to Xholon
+      var tokenText = inline.lexer(token.text);
       
       // original fountain code
       switch (token.type) {
-        case 'title': title_page.push('<h1>' + token.text + '</h1>'); title = token.text.replace('<br />', ' ').replace(/<(?:.|\n)*?>/g, ''); break;
-        case 'credit': title_page.push('<p class=\"credit\">' + token.text + '</p>'); break;
-        case 'author': title_page.push('<p class=\"authors\">' + token.text + '</p>'); break;
-        case 'authors': title_page.push('<p class=\"authors\">' + token.text + '</p>'); break;
-        case 'source': title_page.push('<p class=\"source\">' + token.text + '</p>'); break;
-        case 'notes': title_page.push('<p class=\"notes\">' + token.text + '</p>'); break;
-        case 'draft_date': title_page.push('<p class=\"draft-date\">' + token.text + '</p>'); break;
-        case 'date': title_page.push('<p class=\"date\">' + token.text + '</p>'); break;
-        case 'contact': title_page.push('<p class=\"contact\">' + token.text + '</p>'); break;
-        case 'copyright': title_page.push('<p class=\"copyright\">' + token.text + '</p>'); break;
+        case 'title': title_page.push('<h1>' + tokenText + '</h1>'); title = tokenText.replace('<br />', ' ').replace(/<(?:.|\n)*?>/g, ''); break;
+        case 'credit': title_page.push('<p class=\"credit\">' + tokenText + '</p>'); break;
+        case 'author': title_page.push('<p class=\"authors\">' + tokenText + '</p>'); break;
+        case 'authors': title_page.push('<p class=\"authors\">' + tokenText + '</p>'); break;
+        case 'source': title_page.push('<p class=\"source\">' + tokenText + '</p>'); break;
+        case 'notes': title_page.push('<p class=\"notes\">' + tokenText + '</p>'); break;
+        case 'draft_date': title_page.push('<p class=\"draft-date\">' + tokenText + '</p>'); break;
+        case 'date': title_page.push('<p class=\"date\">' + tokenText + '</p>'); break;
+        case 'contact': title_page.push('<p class=\"contact\">' + tokenText + '</p>'); break;
+        case 'copyright': title_page.push('<p class=\"copyright\">' + tokenText + '</p>'); break;
 
-        case 'scene_heading': html.push('<h3' + (token.scene_number ? ' id=\"' + token.scene_number + '\">' : '>') + token.text + '</h3>'); break;
-        case 'transition': html.push('<h2>' + token.text + '</h2>'); break;
+        case 'scene_heading': html.push('<h3' + (token.scene_number ? ' id=\"' + token.scene_number + '\">' : '>') + tokenText + '</h3>'); break;
+        case 'transition': html.push('<h2>' + tokenText + '</h2>'); break;
 
         case 'dual_dialogue_begin': html.push('<div class=\"dual-dialogue\">'); break;
         case 'dialogue_begin': html.push('<div class=\"dialogue' + (token.dual ? ' ' + token.dual : '') + '\">'); break;
-        case 'character': html.push('<h4>' + token.text + '</h4>'); break;
-        case 'parenthetical': html.push('<p class=\"parenthetical\">' + token.text + '</p>'); break;
-        case 'dialogue': html.push('<p>' + token.text + '</p>'); break;
+        case 'character': html.push('<h4>' + tokenText + '</h4>'); break;
+        case 'parenthetical': html.push('<p class=\"parenthetical\">' + tokenText + '</p>'); break;
+        case 'dialogue': html.push('<p>' + tokenText + '</p>'); break;
         case 'dialogue_end': html.push('</div> '); break;
         case 'dual_dialogue_end': html.push('</div> '); break;
 
-        case 'section': html.push('<p class=\"section\" data-depth=\"' + token.depth + '\">' + token.text + '</p>'); break;
-        case 'synopsis': html.push('<p class=\"synopsis\">' + token.text + '</p>'); break;
+        case 'section': html.push('<p class=\"section\" data-depth=\"' + token.depth + '\">' + tokenText + '</p>'); break;
+        case 'synopsis': html.push('<p class=\"synopsis\">' + tokenText + '</p>'); break;
 
-        case 'note': html.push('<!-- ' + token.text + '-->'); break;
+        case 'note': html.push('<!-- ' + tokenText + '-->'); break;
         case 'boneyard_begin': html.push('<!-- '); break;
         case 'boneyard_end': html.push(' -->'); break;
 
-        case 'action': html.push('<p>' + token.text + '</p>'); break;
-        case 'centered': html.push('<p class=\"centered\">' + token.text + '</p>'); break;
+        case 'action': html.push('<p>' + tokenText + '</p>'); break;
+        case 'centered': html.push('<p class=\"centered\">' + tokenText + '</p>'); break;
         
         case 'page_break': html.push('<hr />'); break;
         case 'line_break': html.push('<br />'); break;

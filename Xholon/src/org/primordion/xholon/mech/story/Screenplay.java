@@ -339,32 +339,26 @@ public class Screenplay extends XholonWithPorts {
   var processSceneHeading = function(str) {
     debugFlow("processSceneHeading");
     var arr = str.split(" ");
-    switch (arr[0]) {
+    switch (arr[0].toUpperCase()) {
+    case "INT":
     case "INT.":
-      processScene(str);
-      processPlace(str, 5); //.substring(5));
-      break;
+    case "INT/EXT":
+    case "INT./EXT":
     case "INT./EXT.":
-      processScene(str);
-      processPlace(str, 10); //.substring(10));
-      break;
+    case "I/E":
+    case "I/E.":
+    case "EXT":
     case "EXT.":
+    //case "EXT./INT.": // not specified for Fountain
+    case "EST":
+    case "EST.":
       processScene(str);
-      processPlace(str, 5); //.substring(5));
-      break;
-    case "EXT./INT.":
-      processScene(str);
-      processPlace(str, 10); //.substring(10));
-      break;
-    case "ANGLE":
-      
-      break;
-    case "CLOSEUP":
-      
+      processPlace(str, arr[0].length+1);
       break;
     default:
-      //processPerson(arr);
-      $wnd.console.log("processSceneHeading unknown arr[0]: " + arr[0]);
+      // ex: .THIS IS A SCENE HEADING
+      processScene(str);
+      processPlace(str, 0);
       break;  
     }
   }
@@ -477,6 +471,10 @@ public class Screenplay extends XholonWithPorts {
       }
     }
     else if (sceneObj) {
+      if (sceneObj.anno.length > 0) {
+        // separate existing text from new text with a space character
+        sceneObj.anno += " ";
+      }
       sceneObj.anno += text;
     }
   }
@@ -523,27 +521,56 @@ public class Screenplay extends XholonWithPorts {
       var token = tokens[i];
       if (token.text) {
         token.text = token.text.replace("&", "&amp;");
+        // TODO also replace < with &lt;  ???
       }
-      // TODO also replace < with &lt;  ???
       switch (token.type) {
+        // title types
+        case 'title': break;
+        case 'credit': break;
+        case 'author': break;
+        case 'authors': break;
+        case 'source': break;
+        case 'notes': break;
+        case 'draft_date': break;
+        case 'date': break;
+        case 'contact': break;
+        case 'copyright': break;
+        // 
         case 'scene_heading':
+          if (scenesXmlStr.length == 0) {
+            // give scenesXmlStr some content, so processPerson() will work correctly in the first scene
+            scenesXmlStr = "\n";
+          }
           processSceneHeading(token.text);
           break;
+        case 'transition': break;
+        case 'dual_dialogue_begin': break;
+        case 'dialogue_begin': break;
         case 'character':
           processPerson(token.text.split(" "));
+          break;
+        case 'parenthetical':
+          processTextNode(token.text);
           break;
         case 'dialogue':
           processTextNode(token.text);
           break;
-        case 'dialogue_end':
-          
-          break;
-        case 'dual_dialogue_end':
-          
-          break;
+        case 'dialogue_end': break;
+        case 'dual_dialogue_end': break;
+        case 'section': break;
+        case 'synopsis': break;
+        case 'note': break;
+        case 'boneyard_begin': break;
+        case 'boneyard_end': break;
         case 'action':
           processTextNode(token.text);
           break;
+        case 'centered':
+          // an action
+          processTextNode(token.text);
+          break;
+        case 'page_break': break;
+        case 'line_break': break;
         default:
           break;
       }
