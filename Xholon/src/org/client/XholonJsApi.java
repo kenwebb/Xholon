@@ -27,6 +27,7 @@ import org.primordion.xholon.app.IApplication;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.ReflectionFactory;
 import org.primordion.xholon.base.Xholon;
+import org.primordion.xholon.util.ClassHelper;
 
 /**
  * Xholon JavaScript API.
@@ -119,6 +120,11 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
     db.setPopupPosition(left, top);
     db.show();
     return db.getElement();
+  }
+  
+  public static boolean isXholonNode(Object obj) {
+    Class clazz = obj.getClass();
+    return ClassHelper.isAssignableFrom(Xholon.class, clazz);
   }
   
   public static native void consoleLog(String s) /*-{
@@ -370,6 +376,82 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
         $wnd.console.log( x + " = " + amount.toFixed(4) + " MB");
       }
       $wnd.console.log( "Total: " + total.toFixed(4) + " MB");
+    });
+    
+    // isXholonNode
+    // Determine if obj is an instance of a Java class that descends from Xholon.java.
+    // xh.isXholonNode(xh.root());  //returns true
+    // xh.isXholonNode(13);         //returns false
+    $wnd.xh.isXholonNode = $entry(function(obj) {
+      return @org.client.XholonJsApi::isXholonNode(Ljava/lang/Object;)(obj);
+    });
+    
+    // links
+    // Use JavaScript to return an array of all links/references from a specified node to other Xholon nodes.
+    // @param node An IXholon object.
+    // @param placeGraph Whether or not to include place-graph links (parent, first, next, xhc, app)
+    // @param linkGraph Whether or not to include link-graph links (ports, etc.)
+    $wnd.xh.links = $entry(function(node, placeGraph, linkGraph) {
+      if (placeGraph === undefined) {var placeGraph = true;}
+      if (linkGraph === undefined) {var linkGraph = true;}
+      var outArr = [];
+      var obj = {};
+      obj.fieldName = "this";
+      obj.fieldNameIndex = -1;
+      obj.fieldNameIndexStr = "-1";
+      obj.reffedNode = node;
+      obj.xpathExpression = "./";
+      outArr.push(obj);
+      for (var prop in node) {
+        var pname = prop;
+        if (pname == null) {continue;}
+        if (pname == "constructor") {continue;}
+        var pval = node[pname];
+        if (pval == null) {continue;}
+        if (typeof pval == "object") {
+          if (Array.isArray(pval)) {
+            // this may be an array of ports
+            if (!linkGraph) {continue;}
+            for (var i = 0; i < pval.length; i++) {
+              if (pval[i] && $wnd.xh.isXholonNode(pval[i])) {
+                if (pval[i] == node.port(i)) {
+                  pname = "port";
+                }
+                var obj = {};
+                obj.fieldName = pname;
+                obj.fieldNameIndex = i;
+                obj.fieldNameIndexStr = "" + i;
+                obj.reffedNode = pval[i];
+                obj.xpathExpression = $wnd.xh.xpathExpr(pval[i], $wnd.xh.root());
+                if (!obj.xpathExpression) {
+                  obj.xpathExpression = $wnd.xh.xpathExpr(pval[i], $wnd.xh.app());
+                }
+                outArr.push(obj);
+              }
+            }
+          }
+          else {
+            if (!$wnd.xh.isXholonNode(pval)) {continue;}
+            if (pval == node.parent()) {if (placeGraph) {pname = "parent";} else {continue;}}
+            else if (pval == node.first()) {if (placeGraph) {pname = "first";} else {continue;}}
+            else if (pval == node.next()) {if (placeGraph) {pname = "next";} else {continue;}}
+            else if (pval == node.xhc()) {if (placeGraph) {pname = "xhc";} else {continue;}}
+            else if (pval == $wnd.xh.app()) {if (placeGraph) {pname = "app";} else {continue;}}
+            else if (!linkGraph) {continue;}
+            var obj = {};
+            obj.fieldName = pname;
+            obj.fieldNameIndex = -1;
+            obj.fieldNameIndexStr = "-1";
+            obj.reffedNode = pval;
+            obj.xpathExpression = $wnd.xh.xpathExpr(pval, $wnd.xh.root());
+            if (!obj.xpathExpression) {
+              obj.xpathExpression = $wnd.xh.xpathExpr(pval[i], $wnd.xh.app());
+            }
+            outArr.push(obj);
+          }
+        }
+      }
+      return outArr;
     });
 
     // html.toggle
