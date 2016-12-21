@@ -522,6 +522,7 @@ public class Screenplay extends XholonWithPorts {
       if (token.text) {
         token.text = token.text.replace("&", "&amp;");
         // TODO also replace < with &lt;  ???
+        token.text = token.text.trim();
       }
       switch (token.type) {
         // title types
