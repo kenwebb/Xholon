@@ -439,9 +439,15 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
     tab += " ";
     boolean rc = false;
     int nodeNum = 0;
-    List<PortInformation> portList = node.getAllPorts();
+    //List<PortInformation> portList = node.getAllPorts();
+    List<PortInformation> portList = node.getLinks(false, true);
     for (int i = 0; i < portList.size(); i++) {
-      if (writeLink(nodeNum, node, nodeId, (PortInformation)portList.get(i), "", false, tab)) {
+      PortInformation pi = (PortInformation)portList.get(i);
+      String linkLabel = "";
+      if (isShouldShowLinkLabels()) {
+        linkLabel = " [label=\"" + pi.getFieldName() + "\"]";
+      }
+      if (writeLink(nodeNum, node, nodeId, pi, linkLabel, false, tab)) {
         rc = true;
       }
       nodeNum++;
@@ -740,6 +746,7 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
     p.nameTemplateNodeLabel = "R^^^^^";
     p.shouldQuoteLabels = true;
     p.shouldShowLinks = true;
+    p.shouldShowLinkLabels = false;
     p.shouldSpecifyLayout = false;
     p.maxLabelLen = -1;
     p.shouldColor = true;
@@ -814,6 +821,10 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
   /** Whether or not to draw edges between nodes. */
   public native boolean isShouldShowLinks() /*-{return this.efParams.shouldShowLinks;}-*/;
   //public native void setShouldShowLinks(boolean shouldShowLinks) /*-{this.efParams.shouldShowLinks = shouldShowLinks;}-*/;
+
+  /** Whether or not to show labels on edges. */
+  public native boolean isShouldShowLinkLabels() /*-{return this.efParams.shouldShowLinkLabels;}-*/;
+  //public native void setShouldShowLinkLabels(boolean shouldShowLinkLabels) /*-{this.efParams.shouldShowLinkLabels = shouldShowLinkLabels;}-*/;
 
   /** Whether or not to specify the layout engine. */
   public native boolean isShouldSpecifyLayout() /*-{return this.efParams.shouldSpecifyLayout;}-*/;

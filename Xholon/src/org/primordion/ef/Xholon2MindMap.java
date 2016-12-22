@@ -294,8 +294,9 @@ public class Xholon2MindMap extends AbstractXholon2ExternalFormat implements IXh
 	protected void writeLinks(IXholon node)
 	{
 	  if (isShouldShowLinks() == false) {return;}
-		int nodeNum = 0;
-		List<PortInformation> portList = node.getAllPorts();
+	  int nodeNum = 0;
+		//List<PortInformation> portList = node.getAllPorts();
+		List<PortInformation> portList = node.getLinks(false, true);
 		for (int i = 0; i < portList.size(); i++) {
 			writeLink(nodeNum, node, (PortInformation)portList.get(i), false);
 			nodeNum++;
