@@ -863,6 +863,14 @@ public abstract IXholon getPort(int portNum);
 public abstract List getAllPorts();
 
 /**
+ * Use JavaScript to return an array of all links/references from this node to other Xholon nodes.
+ * @param placeGraph Whether or not to include place-graph links (parent, first, next, xhc, app)
+ * @param linkGraph Whether or not to include link-graph links (ports, etc.)
+ * @return A list of PortInformation objects.
+ */
+public abstract List getLinks(boolean placeGraph, boolean linkGraph);
+
+/**
  * Is this port bound to anything?
  * If a port is bound, then it will be possible for the local IXholon to send a message to,
  * or get/set a val on, a remote IXholon.

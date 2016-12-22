@@ -18,6 +18,8 @@
 
 package org.primordion.xholon.base;
 
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 //import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.TextAreaElement;
@@ -2561,6 +2563,33 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 		Class<IXholon> clazz = (Class<IXholon>)node.getClass();
 		return getApp().getAppSpecificObjectVals(this, clazz);
 	}
+	
+	@Override
+	public List getLinks(boolean placeGraph, boolean linkGraph) {
+	  List list = new ArrayList();
+	  JsArray<JavaScriptObject> arr = this.getLinksNative(placeGraph, linkGraph);
+	  for (int i = 0; i < arr.length(); i++) {
+	    JavaScriptObject obj = arr.get(i);
+	    String fieldName = (String)getJsoPropertyValue(obj, "fieldName");
+	    int fieldNameIndex = getJsoPropertyValueInt(obj, "fieldNameIndex");
+	    IXholon reffedNode = (IXholon)getJsoPropertyValue(obj, "reffedNode");
+	    String xpathExpression = (String)getJsoPropertyValue(obj, "xpathExpression");
+	    list.add(new PortInformation(fieldName, fieldNameIndex, reffedNode, xpathExpression));
+	  }
+	  return list;
+	}
+	
+	protected native JsArray<JavaScriptObject> getLinksNative(boolean placeGraph, boolean linkGraph) /*-{
+	  return this.links(placeGraph, linkGraph);
+	}-*/;
+	
+	protected final native Object getJsoPropertyValue(JavaScriptObject obj, String jsoPropertyName) /*-{
+		return obj[jsoPropertyName];
+	}-*/;
+	
+	protected final native int getJsoPropertyValueInt(JavaScriptObject obj, String jsoPropertyName) /*-{
+		return obj[jsoPropertyName];
+	}-*/;
 	
 	/*
 	 * @see org.primordion.xholon.base.IXholon#isBound(org.primordion.xholon.base.IXholon)

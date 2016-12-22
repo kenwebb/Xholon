@@ -386,81 +386,6 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       return @org.client.XholonJsApi::isXholonNode(Ljava/lang/Object;)(obj);
     });
     
-    // links
-    // Use JavaScript to return an array of all links/references from a specified node to other Xholon nodes.
-    // @param node An IXholon object.
-    // @param placeGraph Whether or not to include place-graph links (parent, first, next, xhc, app)
-    // @param linkGraph Whether or not to include link-graph links (ports, etc.)
-    // @return An array of objects. This is the same format as calling: node.ports()[0].obj();
-    $wnd.xh.links = $entry(function(node, placeGraph, linkGraph) {
-      if (placeGraph === undefined) {var placeGraph = true;}
-      if (linkGraph === undefined) {var linkGraph = true;}
-      var outArr = [];
-      var fillLinkObj = function(fn, fni, rn, xe) {
-        var obj = {};
-        obj.fieldName = fn;
-        obj.fieldNameIndex = fni;
-        obj.fieldNameIndexStr = "" + fni;
-        obj.reffedNode = rn;
-        if (!xe) {
-          var xe = null;
-          if (rn == $wnd.xh.root()) {
-            xe = "./";
-          }
-          else {
-            xe = $wnd.xh.xpathExpr(rn, $wnd.xh.root());
-            if (!xe) {
-              // TODO the generated xpathExpr is wrong when $wnd.xh.app() is used
-              xe = $wnd.xh.xpathExpr(rn, $wnd.xh.app());
-            }
-            xe = "ancestor::" + xe;
-          }
-        }
-        obj.xpathExpression = xe;
-        return obj;
-      };
-      outArr.push(fillLinkObj("this", -1, node, "./"));
-      if (placeGraph) {
-        if (node.parent()) {outArr.push(fillLinkObj("parent", -1, node.parent(), null));}
-        if (node.first()) {outArr.push(fillLinkObj("first", -1, node.first(), null));}
-        if (node.next()) {outArr.push(fillLinkObj("next", -1, node.next(), null));}
-        if (node.xhc()) {outArr.push(fillLinkObj("xhc", -1, node.xhc(), null));}
-      }
-      if (linkGraph) {
-        for (var prop in node) {
-          var pname = prop;
-          if (pname == null) {continue;}
-          if (pname == "constructor") {continue;}
-          var pval = node[pname];
-          if (pval == null) {continue;}
-          if (typeof pval == "object") {
-            if (Array.isArray(pval)) {
-              // this may be an array of ports
-              if (!linkGraph) {continue;}
-              for (var i = 0; i < pval.length; i++) {
-                if (pval[i] && $wnd.xh.isXholonNode(pval[i])) {
-                  if (pval[i] == node.port(i)) {
-                    pname = "port";
-                  }
-                  outArr.push(fillLinkObj(pname, i, pval[i], null));
-                }
-              }
-            }
-            else {
-              if (!$wnd.xh.isXholonNode(pval)) {continue;}
-              else if (pval == node.parent()) {continue;}
-              else if (pval == node.first()) {continue;}
-              else if (pval == node.next()) {continue;}
-              else if (pval == node.xhc()) {continue;}
-              else if (pval == $wnd.xh.app()) {if (placeGraph) {pname = "app";} else {continue;}}
-              outArr.push(fillLinkObj(pname, -1, pval, null));
-            }
-          }
-        }
-      }
-      return outArr;
-    });
-
     // html.toggle
     $wnd.xh.html.toggle = $entry(function(elementId) {
       @org.client.HtmlElementCache::toggleElementDisplay(Ljava/lang/String;)(elementId);
@@ -869,6 +794,81 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       return app.@org.primordion.xholon.app.Application::getAppSpecificObjectValNames(Lorg/primordion/xholon/base/IXholon;Ljava/lang/Class;)(node, clazz);
     });
     
+    // links
+    // Use JavaScript to return an array of all links/references from this node to other Xholon nodes.
+    // @param placeGraph Whether or not to include place-graph links (parent, first, next, xhc, app)
+    // @param linkGraph Whether or not to include link-graph links (ports, etc.)
+    // @return An array of objects. This is the same format as calling: node.ports()[0].obj();
+    api.links = $entry(function(placeGraph, linkGraph) {
+      var node = this;
+      if (placeGraph === undefined) {var placeGraph = true;}
+      if (linkGraph === undefined) {var linkGraph = true;}
+      var outArr = [];
+      var fillLinkObj = function(fn, fni, rn, xe) {
+        var obj = {};
+        obj.fieldName = fn;
+        obj.fieldNameIndex = fni;
+        obj.fieldNameIndexStr = "" + fni;
+        obj.reffedNode = rn;
+        if (!xe) {
+          var xe = null;
+          if (rn == $wnd.xh.root()) {
+            xe = "./";
+          }
+          else {
+            xe = $wnd.xh.xpathExpr(rn, $wnd.xh.root());
+            if (!xe) {
+              // TODO the generated xpathExpr is wrong when $wnd.xh.app() is used
+              xe = $wnd.xh.xpathExpr(rn, $wnd.xh.app());
+            }
+            xe = "ancestor::" + xe;
+          }
+        }
+        obj.xpathExpression = xe;
+        return obj;
+      };
+      //outArr.push(fillLinkObj("this", -1, node, "./"));
+      if (placeGraph) {
+        if (node.parent()) {outArr.push(fillLinkObj("parent", -1, node.parent(), null));}
+        if (node.first()) {outArr.push(fillLinkObj("first", -1, node.first(), null));}
+        if (node.next()) {outArr.push(fillLinkObj("next", -1, node.next(), null));}
+        if (node.xhc()) {outArr.push(fillLinkObj("xhc", -1, node.xhc(), null));}
+      }
+      if (linkGraph) {
+        for (var prop in node) {
+          var pname = prop;
+          if (pname == null) {continue;}
+          if (pname == "constructor") {continue;}
+          var pval = node[pname];
+          if (pval == null) {continue;}
+          if (typeof pval == "object") {
+            if (Array.isArray(pval)) {
+              // this may be an array of ports
+              if (!linkGraph) {continue;}
+              for (var i = 0; i < pval.length; i++) {
+                if (pval[i] && $wnd.xh.isXholonNode(pval[i])) {
+                  if (pval[i] == node.port(i)) {
+                    pname = "port";
+                  }
+                  outArr.push(fillLinkObj(pname, i, pval[i], null));
+                }
+              }
+            }
+            else {
+              if (!$wnd.xh.isXholonNode(pval)) {continue;}
+              else if (pval == node.parent()) {continue;}
+              else if (pval == node.first()) {continue;}
+              else if (pval == node.next()) {continue;}
+              else if (pval == node.xhc()) {continue;}
+              else if (pval == $wnd.xh.app()) {if (placeGraph) {pname = "app";} else {continue;}}
+              outArr.push(fillLinkObj(pname, -1, pval, null));
+            }
+          }
+        }
+      }
+      return outArr;
+    });
+
     // attr
     api.attr = $entry(function(attrName, attrVal) {
       var node = this;
