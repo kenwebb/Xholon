@@ -508,6 +508,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			else if (implName.endsWith("MechanismEnabler")) {
 				newNode = new org.primordion.xholon.script.MechanismEnabler();
 			}
+			else if (implName.endsWith("RelationshipBuilder")) {
+				newNode = new org.primordion.xholon.script.RelationshipBuilder();
+			}
 		}
 		
 		// service.mathscieng
@@ -788,6 +791,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 				return true;
 			}
 			if (implName.endsWith("MechanismEnabler")) {
+				return true;
+			}
+			if (implName.endsWith("RelationshipBuilder")) {
 				return true;
 			}
 		}
