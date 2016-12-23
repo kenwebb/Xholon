@@ -18,8 +18,6 @@
 
 package org.primordion.xholon.script;
 
-//import org.primordion.xholon.base.IXholon;
-
 /**
  * This is a sample Xholon script, written in normal compiled Java.
  * It's located in the common default package for Java scripts.
@@ -33,6 +31,12 @@ Luke,school,Churchill
 ]]></RelationshipBuilder>
 </Organizations>
  * </pre>
+ * 
+ * To confirm that the relationships have been created:
+ *   $wnd.console.log($wnd.xh.root().xpath("descendant::Person[@roleName='Ken']").links());
+ * 
+ * TODO
+ * - allow just a node to be specified, that will cause only the node to be created with no relationship
  * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
@@ -88,26 +92,37 @@ public class RelationshipBuilder extends XholonScript {
     var arr = me.text.split("\n");
     for (var i = 0; i < arr.length; i++) {
       var itemArr = arr[i].split(sep);
+      if (itemArr.length == 0) {continue;}
+      if (itemArr.length == 2) {continue;}
       var txtNodeA = itemArr[0].trim();
-      var txtRel = itemArr[1].trim();
-      var txtNodeB = itemArr[2].trim();
+      var txtRel = null;
+      var txtNodeB = null;
+      if (itemArr.length == 3) {
+        txtRel = itemArr[1].trim();
+        txtNodeB = itemArr[2].trim();
+      }
       // if nodeA and nodeB have different types, then assume that nodeA has already been created
-      if ((typesArr[0] == typesArr[1]) && (nodeNames.indexOf(txtNodeA) === -1)) {
+      if (txtNodeA && (typesArr[0] == typesArr[1]) && (nodeNames.indexOf(txtNodeA) === -1)) {
         nodeNames.push(txtNodeA);
         meParent.append("<" + typesArr[0] + ' roleName="' + txtNodeA + '"/>');
       }
-      if (nodeNames.indexOf(txtNodeB) === -1) {
+      if (txtNodeB && nodeNames.indexOf(txtNodeB) === -1) {
         nodeNames.push(txtNodeB);
         meParent.append("<" + typesArr[1] + ' roleName="' + txtNodeB + '"/>');
       }
       var nodeA = null;
-      if (typesArr[0] == typesArr[1]) {
-        nodeA = meParent.xpath(typesArr[0] + "[@roleName='" + txtNodeA + "']");
+      if (txtNodeA) {
+        if (typesArr[0] == typesArr[1]) {
+          nodeA = meParent.xpath(typesArr[0] + "[@roleName='" + txtNodeA + "']");
+        }
+        else {
+          nodeA = $wnd.xh.root().xpath("descendant::" + typesArr[0] + "[@roleName='" + txtNodeA + "']");
+        }
       }
-      else {
-        nodeA = $wnd.xh.root().xpath("descendant::" + typesArr[0] + "[@roleName='" + txtNodeA + "']");
+      var nodeB = null;
+      if (txtNodeB) {
+        nodeB = meParent.xpath(typesArr[1] + "[@roleName='" + txtNodeB + "']");
       }
-      var nodeB = meParent.xpath(typesArr[1] + "[@roleName='" + txtNodeB + "']");
       if (nodeA && nodeB) {
         if (!nodeA[txtRel]) {
           nodeA[txtRel] = [];
@@ -115,9 +130,6 @@ public class RelationshipBuilder extends XholonScript {
         nodeA[txtRel].push(nodeB);
       }
     }
-    // to confirm the links:
-    //$wnd.console.log($wnd.xh.root().xpath("descendant::Person[@roleName='Ken']").links());
-    //$wnd.console.log($wnd.xh.root().xpath("descendant::Person[@roleName='Carolyn']").links());
   }-*/;
   
   @Override
