@@ -55,6 +55,7 @@ public interface IXholonService {
 	public static final String XHSRV_MATHSCIENG = "MathSciEngService";
 	public static final String XHSRV_MEDIA = "MediaService";
 	public static final String XHSRV_METEOR_PLATFORM = "MeteorPlatformService";
+	public static final String XHSRV_NATURAL_LANGUAGE = "NaturalLanguageService";
 	public static final String XHSRV_NETLOGO = "NetLogoService";
 	public static final String XHSRV_NODE_SELECTION = "NodeSelectionService";
 	public static final String XHSRV_NOSQL = "NoSqlService";

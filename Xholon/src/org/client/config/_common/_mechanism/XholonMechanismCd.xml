@@ -75,6 +75,9 @@
 	<!-- Listener -->
 	<!-- LongRunner -->
 	
+	<!-- NaturalLanguage -->
+	<GoogleNL xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.naturallanguage.GoogleNL"/>
+	
 	<!-- NoSql -->
   <Neo4jClient xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.nosql.Neo4jClient"/>
 	
@@ -332,6 +335,8 @@
 		implName="org.primordion.xholon.service.BroadcastService"/>
   <SpreadsheetService xhType="XhtypePurePassiveObject"
 		implName="org.primordion.xholon.service.SpreadsheetService"/>
+	<NaturalLanguageService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.NaturalLanguageService"/>
 	<Xholon2Svg xhType="XhtypePurePassiveObject"
 		implName="org.primordion.xholon.io.Xholon2Svg"/>
 	

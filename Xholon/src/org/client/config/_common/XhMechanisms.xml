@@ -81,6 +81,7 @@ __________   ________   _____________________
 1014500      1014599    RemoteNode
 1014600      1014699    Spreadsheet
 1014700      1014799    Story
+1014800      1014899    NaturalLanguage
 
 The following XML is an alphabetical list of all Xholon Mechanisms and Viewers.
 -->
@@ -156,6 +157,13 @@ The following XML is an alphabetical list of all Xholon Mechanisms and Viewers.
 		<RangeEnd>1010399</RangeEnd>
 	</XholonMechanism>
 	
+	<XholonMechanism roleName="NaturalLanguage">
+		<NamespaceUri>http://www.primordion.com/namespace/NaturalLanguage</NamespaceUri>
+		<DefaultPrefix>nl</DefaultPrefix>
+		<RangeStart>1014800</RangeStart>
+		<RangeEnd>1014899</RangeEnd>
+	</XholonMechanism>
+
 	<XholonMechanism roleName="NoSql">
     <NamespaceUri>http://www.primordion.com/namespace/NoSql</NamespaceUri>
     <DefaultPrefix>nosql</DefaultPrefix>
