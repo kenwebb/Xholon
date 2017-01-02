@@ -64,7 +64,7 @@
         <pathelement location="${gwt.sdk}/validation-api-1.0.0.GA.jar" />
         <pathelement location="${gwt.sdk}/validation-api-1.0.0.GA-sources.jar" />
       </classpath>
-      <jvmarg value="-Xmx512M"/>
+      <jvmarg value="-Xmx640M"/>
       <arg value="-startupUrl"/>
       <arg value="Xholon.html"/>
       <arg line="-war"/>
