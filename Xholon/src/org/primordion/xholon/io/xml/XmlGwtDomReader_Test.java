@@ -13,29 +13,29 @@ public class XmlGwtDomReader_Test {
 	 * @throws Exception
 	 */
 	public void test1(String xmlString) throws Exception {
-		System.out.println("\n" + xmlString);
+		consoleLog("\n" + xmlString);
 		
 		IXmlReader xmlReader = XmlReaderFactory_gwt.getXmlReader(xmlString);
 		
 		int event = xmlReader.getEventType();
 		while (event != IXmlReader.END_DOCUMENT) {
 			switch(event) {
-			case IXmlReader.CDSECT: System.out.println("CDSECT"); break;
-			case IXmlReader.COMMENT: System.out.println("COMMENT"); break;
-			case IXmlReader.DOCDECL: System.out.println("DOCDECL"); break;
-			case IXmlReader.END_DOCUMENT: System.out.println("END_DOCUMENT"); break;
+			case IXmlReader.CDSECT: consoleLog("CDSECT"); break;
+			case IXmlReader.COMMENT: consoleLog("COMMENT"); break;
+			case IXmlReader.DOCDECL: consoleLog("DOCDECL"); break;
+			case IXmlReader.END_DOCUMENT: consoleLog("END_DOCUMENT"); break;
 			case IXmlReader.END_TAG:
-				System.out.println("END_TAG " + xmlReader.getName());
+				consoleLog("END_TAG " + xmlReader.getName());
 				if ("#document".equals(xmlReader.getName())) {
-					System.out.println("     #document");
+					consoleLog("     #document");
 				}
 				break;
-			case IXmlReader.ENTITY_REF: System.out.println("ENTITY_REF"); break;
-			case IXmlReader.IGNORABLE_WHITESPACE: System.out.println("IGNORABLE_WHITESPACE"); break;
-			case IXmlReader.NULL_EVENT: System.out.println("NULL_EVENT"); break;
-			case IXmlReader.OTHER_TYPE: System.out.println("OTHER_TYPE"); break;
-			case IXmlReader.PROCESSING_INSTRUCTION: System.out.println("PROCESSING_INSTRUCTION"); break;
-			case IXmlReader.START_DOCUMENT: System.out.println("START_DOCUMENT"); break;
+			case IXmlReader.ENTITY_REF: consoleLog("ENTITY_REF"); break;
+			case IXmlReader.IGNORABLE_WHITESPACE: consoleLog("IGNORABLE_WHITESPACE"); break;
+			case IXmlReader.NULL_EVENT: consoleLog("NULL_EVENT"); break;
+			case IXmlReader.OTHER_TYPE: consoleLog("OTHER_TYPE"); break;
+			case IXmlReader.PROCESSING_INSTRUCTION: consoleLog("PROCESSING_INSTRUCTION"); break;
+			case IXmlReader.START_DOCUMENT: consoleLog("START_DOCUMENT"); break;
 			case IXmlReader.START_TAG:
 				String tagName = xmlReader.getName();
 				String attrs = "";
@@ -43,20 +43,24 @@ public class XmlGwtDomReader_Test {
 				for (int i = 0; i < attrCount; i++) {
 					attrs += " " + xmlReader.getAttributeName(i) + "=" + xmlReader.getAttributeValue(i);
 				}
-				System.out.println("START_TAG " + tagName + attrs);
+				consoleLog("START_TAG " + tagName + attrs);
 				break;
 			case IXmlReader.TEXT:
 				String text = xmlReader.getText().trim();
 				if (text.length() > 0) {
-					System.out.println("TEXT " + text);
+					consoleLog("TEXT " + text);
 				}
 				break;
-			default: System.out.println("no such event type: " + event);break;
+			default: consoleLog("no such event type: " + event);break;
 			}
 			event = xmlReader.next();
 		}
-		System.out.println("END_DOCUMENT");
+		consoleLog("END_DOCUMENT");
 	}
+	
+	protected native void consoleLog(String str) /*-{
+	  $wnd.console.log(str);
+	}-*/;
 	
 	public static void main(String[] args) throws Exception {
 		XmlGwtDomReader_Test t = new XmlGwtDomReader_Test();
