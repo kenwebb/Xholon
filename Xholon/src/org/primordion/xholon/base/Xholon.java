@@ -3101,6 +3101,7 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 	
 	@Override
 	public String makeTextXmlEmbeddable(String str) {
+	  if (str == null) {return "";}
 		for (int i = 0; i < str.length(); i++) {
 			switch (str.charAt(i)) {
 			case '<':
