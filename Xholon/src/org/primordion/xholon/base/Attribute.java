@@ -191,7 +191,10 @@ public abstract class Attribute extends Xholon implements IAttribute {
 	 */
 	public void toXmlAttributes(IXholon2Xml xholon2xml, IXmlWriter xmlWriter)
 	{
-		xmlWriter.writeAttribute("roleName", this.getRoleName());
+	  String rn = this.getRoleName();
+	  if (rn != null) {
+		  xmlWriter.writeAttribute("roleName", rn);
+		}
 	}
 	
 	/**
