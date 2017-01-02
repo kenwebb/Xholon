@@ -58,6 +58,8 @@ public class GoogleNL extends XholonWithPorts implements INaturalLanguage {
       return new Message(SIG_ANALYZE_SYNTAX_RESP, this.analyzeSyntax(msg.getData()), this, msg.getSender());
     case SIG_ANALYZE_SENTIMENT_REQ:
       return new Message(SIG_ANALYZE_SENTIMENT_RESP, this.analyzeSentiment(msg.getData()), this, msg.getSender());
+    case SIG_IMPORT_TOKENS_REQ:
+      return new Message(SIG_IMPORT_TOKENS_RESP, this.importTokens(msg.getData()), this, msg.getSender());
     default:
       return super.processReceivedSyncMessage(msg);
     } // end switch
@@ -72,7 +74,7 @@ public class GoogleNL extends XholonWithPorts implements INaturalLanguage {
   protected native String analyzeEntities(Object jso) /*-{
     var dests = jso.xhDestinations;
     $wnd.console.log(dests);
-    var entities = jso.googleEntityResponse.entities;
+    var entities = jso.googleJson.entities;
     $wnd.console.log(entities);
     for (var i = 0; i < entities.length; i++) {
       var entity = entities[i];
@@ -110,6 +112,58 @@ public class GoogleNL extends XholonWithPorts implements INaturalLanguage {
   protected native String analyzeSentiment(Object jso) /*-{
     
     return "analyzing sentiment ...";
+  }-*/;
+
+  /**
+   * Import Tokens into a Xholon tree.
+   */
+  protected native String importTokens(Object jso) /*-{
+    var dests = jso.xhDestinations;
+    $wnd.console.log(dests);
+    //     .jso_0_g$.googleEntityResponse.tokens
+    var tokens = jso.googleJson.tokens;
+    $wnd.console.log(tokens);
+    var pnode = dests["TOKEN"];
+    if (pnode) {
+      var lastTokenNode = pnode.last(); // new token nodes will be appended after this one
+      for (var i = 0; i < tokens.length; i++) {
+        var token = tokens[i];
+        $wnd.console.log(token.text.content + "," + token.partOfSpeech.tag + " ");
+        // convert index from zero-based to one-based
+        var textContent = token.text.content;
+        if (token.partOfSpeech.tag == "PUNCT") {
+          switch (textContent) {
+          case '"': textContent = 'QUOT';
+          default: break;
+          }
+        }
+        var xmlStr = '<' + token.partOfSpeech.tag + ' roleName="' + textContent
+          + '" edgeLabel="' + token.dependencyEdge.label.toLowerCase()
+          + '" headTokenXpath="../Token[' + (token.dependencyEdge.headTokenIndex+1) + ']"' + '/>';
+        $wnd.console.log(xmlStr);
+        pnode.append(xmlStr);
+      }
+      // generate a headToken port from each headTokenXpath
+      var tokenNode = null;
+      if (lastTokenNode) {
+        tokenNode = lastTokenNode.next();
+      }
+      else {
+        tokenNode = pnode.first();
+      }
+      while (tokenNode) {
+        //tokenNode.headToken = tokenNode.xpath(tokenNode.headTokenXpath);
+        var remoteNode = tokenNode.xpath(tokenNode.headTokenXpath);
+        if (remoteNode) {
+          //tokenNode[tokenNode.edgeLabel] = remoteNode;
+          // reverse the direction of the link
+          remoteNode[tokenNode.edgeLabel] = tokenNode;
+        }
+        tokenNode = tokenNode.next();
+      }
+    }
+    
+    return "importing tokens ...";
   }-*/;
 
 }

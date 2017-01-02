@@ -41,4 +41,8 @@ public interface INaturalLanguage {
   public static final int SIG_ANALYZE_SENTIMENT_REQ  = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 103; // -3896
   public static final int SIG_ANALYZE_SENTIMENT_RESP = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 203; // -3796
   
+  // Import Google Natural Language API tokens into a Xholon tree
+  public static final int SIG_IMPORT_TOKENS_REQ  = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 104; // -3895
+  public static final int SIG_IMPORT_TOKENS_RESP = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 204; // -3795
+  
 }
