@@ -24,10 +24,10 @@ public class XmlGwtDomReader extends XmlReader {
 	private Document document = null;
 	
 	/** The current node in the DOM. The node currently pointed to by the DOM cursor. */
-	private Node currentNode = null;
+	protected Node currentNode = null;
 	
 	/** The attributes of the currentNode. */
-	private NamedNodeMap currentNodeAttributes = null;
+	protected NamedNodeMap currentNodeAttributes = null;
 	
 	/** The IXholonReader (Stax) event currently associated with the currentNode. */
 	private int eventType = IXmlReader.START_DOCUMENT;
@@ -166,8 +166,8 @@ public class XmlGwtDomReader extends XmlReader {
 			break;
 		case Node.CDATA_SECTION_NODE:	
 			System.out.println("==> CDATA_SECTION_NODE");
-		  //CDATASection cdata = (CDATASection)currentNode;
-	    //System.out.println("The CDATA has text: [" + cdata.getData() + "]");
+			//CDATASection cdata = (CDATASection)currentNode;
+			//System.out.println("The CDATA has text: [" + cdata.getData() + "]");
 			//eventType = CDSECT;
 			eventType = TEXT; // CDATASection is a subclass of Text so this should work
 			break;
@@ -214,7 +214,11 @@ public class XmlGwtDomReader extends XmlReader {
 	public String getName() {
 		if (currentNode == null) {return null;}
 		// get just the local part of the name, excluding the prefix
-		return currentNode.getNodeName();
+		String fullName = currentNode.getNodeName();
+		if (fullName != null && fullName.indexOf(":") != -1) {
+			return fullName.split(":", 2)[1];
+		}
+		return fullName;
 	}
 
 	@Override
@@ -247,7 +251,7 @@ public class XmlGwtDomReader extends XmlReader {
 	@Override
 	public int getAttributeCount() {
 		if (currentNodeAttributes == null) {
-		  return 0;
+			return 0;
 		}
 		int count = currentNodeAttributes.getLength();
 		return count;
@@ -255,12 +259,8 @@ public class XmlGwtDomReader extends XmlReader {
 
 	@Override
 	public String getPrefix() {
-	  String prefix = currentNode.getPrefix();
-	  // IE9 returns an empty string if there's no prefix; other browsers return null
-	  if ((prefix != null) && (prefix.length() == 0)) {
-	    prefix = null;
-	  }
-		return prefix;
+		String prefix = currentNode.getPrefix();
+		return isRequiredPrefix(prefix) ? prefix : null;
 	}
 
 	@Override
@@ -271,6 +271,20 @@ public class XmlGwtDomReader extends XmlReader {
 	@Override
 	public Object getUnderlyingReader() {
 		return in;
+	}
+
+	/**
+	 * Is this a required prefix?
+	 * @param prefix
+	 * @return true or false
+	 */
+	protected boolean isRequiredPrefix(String prefix) {
+		switch (prefix) {
+		case "attr":
+		case "xi":
+			return true;
+		default: return false;
+		}
 	}
 
 }
