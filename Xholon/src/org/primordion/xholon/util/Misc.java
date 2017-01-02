@@ -284,6 +284,12 @@ public class Misc implements IJavaTypes {
 			if (ix > 0) { // have found at least one digit, so it could be a numeric type
 				if ((ix == s.length()) || (s.charAt(ix) == ContainmentData.CD_VARIABLE)) { // the entire string consists of digits
 					javaType = JAVACLASS_int;
+					// test if it's too large a positive or negative number to be an int
+					try {
+					  Integer.parseInt(s);
+					} catch (NumberFormatException e) {
+					  javaType = JAVACLASS_double;
+					}
 				}
 				else if ((ix + 1 == s.length()) && ((s.charAt(ix) == 'L') || (s.charAt(ix) == 'l'))) {
 					javaType = JAVACLASS_long;
