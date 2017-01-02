@@ -203,10 +203,22 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
     // param
     $wnd.xh.param = $entry(function(pName, pValue) {
       if (pValue === undefined) {
-        return app.@org.primordion.xholon.app.Application::getParam(Ljava/lang/String;)(pName)
+        var response = app.@org.primordion.xholon.app.Application::getParam(Ljava/lang/String;)(pName)
+        if (response == null) {
+          return app[pName] ? app[pName] : null;
+        }
+        else {
+          return response;
+        }
       }
       else {
-        app.@org.primordion.xholon.app.Application::setParam(Ljava/lang/String;Ljava/lang/String;)(pName, pValue);
+        $wnd.console.log(pName + " " + pValue);
+        var response = app.@org.primordion.xholon.app.Application::setParam(Ljava/lang/String;Ljava/lang/String;)(pName, pValue);
+        $wnd.console.log(response);
+        if (response == false) {
+          app[pName] = pValue;
+        }
+        return response;
       }
     });
     
@@ -835,6 +847,9 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
         if (node.xhc()) {outArr.push(fillLinkObj("xhc", -1, node.xhc(), null));}
       }
       if (linkGraph) {
+        var parentFound = false; // be able to differentiate standard "parent" from a separate link to the parent
+        var firstChildFound = false;
+        var nextSiblingFound = false; // be able to differentiate standard "nextSibling" from a separate link to the next sibling
         for (var prop in node) {
           var pname = prop;
           if (pname == null) {continue;}
@@ -856,9 +871,21 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
             }
             else {
               if (!$wnd.xh.isXholonNode(pval)) {continue;}
-              else if (pval == node.parent()) {continue;}
-              else if (pval == node.first()) {continue;}
-              else if (pval == node.next()) {continue;}
+              else if (!parentFound && pval == node.parent()) {
+                // I've found the standard link to the parent; I assume that the standard link is the first such link
+                parentFound = true;
+                continue;
+              }
+              else if (!firstChildFound && pval == node.first()) {
+                // I've found the standard link to the first child; I assume that the standard link is the first such link
+                firstChildFound = true;
+                continue;
+              }
+              else if (!nextSiblingFound && pval == node.next()) {
+                // I've found the standard link to the next sibling; I assume that the standard link is the first such link
+                nextSiblingFound = true;
+                continue;
+              }
               else if (pval == node.xhc()) {continue;}
               else if (pval == $wnd.xh.app()) {if (placeGraph) {pname = "app";} else {continue;}}
               outArr.push(fillLinkObj(pname, -1, pval, null));
