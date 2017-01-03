@@ -163,6 +163,9 @@ public abstract class AbstractXholonService extends Xholon implements IXholonSer
 		else if ("org.primordion.xholon.service.naturallanguage.GoogleNL".equals(implName)) {
 		  instance = new org.primordion.xholon.service.naturallanguage.GoogleNL();
 		}
+		else if ("org.primordion.xholon.service.naturallanguage.OpenCalais".equals(implName)) {
+		  instance = new org.primordion.xholon.service.naturallanguage.OpenCalais();
+		}
 		else {
 		  //System.out.println("AbstractXholonService.createInstance( creating " + implName + " as DefaultXholonService");
 		  instance = new org.primordion.xholon.service.DefaultXholonService();

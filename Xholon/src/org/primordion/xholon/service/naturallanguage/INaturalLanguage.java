@@ -25,6 +25,7 @@ import org.primordion.xholon.base.ISignal;
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @see <a href="">Google natural-language API</a>
+ * @see <a href="">Open Calais</a>
  * @since 0.9.1 (Created on December 23, 2016)
  */
 public interface INaturalLanguage {
@@ -44,5 +45,9 @@ public interface INaturalLanguage {
   // Import Google Natural Language API tokens into a Xholon tree
   public static final int SIG_IMPORT_TOKENS_REQ  = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 104; // -3895
   public static final int SIG_IMPORT_TOKENS_RESP = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 204; // -3795
+  
+  // Open Calais (or other) - test
+  public static final int SIG_TEST_REQ  = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 301; // -3698
+  public static final int SIG_TEST_RESP = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 401; // -3598
   
 }

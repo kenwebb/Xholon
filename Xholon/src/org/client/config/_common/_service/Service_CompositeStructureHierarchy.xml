@@ -178,6 +178,7 @@
   <NaturalLanguageService>
     <XholonMap>
       <attr:Attribute_String roleName="NaturalLanguageService-GoogleNL">org.primordion.xholon.service.naturallanguage.GoogleNL</attr:Attribute_String>
+      <attr:Attribute_String roleName="NaturalLanguageService-OpenCalais">org.primordion.xholon.service.naturallanguage.OpenCalais</attr:Attribute_String>
     </XholonMap>
   </NaturalLanguageService>
   
