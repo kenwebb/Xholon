@@ -48,7 +48,6 @@ public class OpenCalais extends XholonWithPorts implements INaturalLanguage {
   } // end processReceivedSyncMessage()
   
   protected Object test(IMessage msg) {
-    //String[] data = ((String)msg.getData()).split("|");
     String[] data = splitNative((String)msg.getData(), "|");
     int testNum = Integer.parseInt(data[0]);
     IXholon sender = msg.getSender();
@@ -64,36 +63,135 @@ public class OpenCalais extends XholonWithPorts implements INaturalLanguage {
     }
     case 2:
     {
-      // return all values of <rdf:Description rdf:about
-      // assume sender is rdf:RDF node
-      /*IXholon node = sender.getFirstChild();
-      while (node != null) {
-        String attrVal = getAttrVal(node, "rdf:about");
-        this.println(attrVal);
-        node = node.getNextSibling();
-      }
-      return null;*/
       Object descrObj = this.makeDescriptionsObject(sender);
       Object typesObj = this.makeTypesObject(sender);
       consoleLog(typesObj);
       this.makePortsAndAttrs(sender, sender.getNextSibling(), descrObj);
       return descrObj;
     }
+    case 3:
+    {
+      Object descrObj = this.step1(sender, sender.getNextSibling());
+      this.step2(sender, sender.getNextSibling(), descrObj);
+      return descrObj;
+    }
     } // end switch
     return null;
   }
+  
+  /**
+   * test 3, step 1
+   */
+  protected native Object step1(IXholon rdfRoot, IXholon newsStoryRoot) /*-{
+    var xhcRoot = rdfRoot.xhc().parent();
+    var descrObj = {};
+    var typesObj = {};
+    var descrNode = rdfRoot.first(); // this should be a rdf:Description node
+    while (descrNode) {
+      // Find the rdf:type node, if it exists
+      var typeNode = descrNode.first(); // is it always the first child of descrNode ?
+      var rdfType = "Description"; // the default value
+      if (typeNode && (typeNode.xhc().name() == "type")) {
+        var rdfTypeFull = typeNode["rdf:resource"];
+        if (rdfTypeFull) {
+          rdfTypeFull = rdfTypeFull.trim();
+          var pos = rdfTypeFull.lastIndexOf("/");
+          rdfType = rdfTypeFull.substring(pos+1);
+          // Create new IH class nodes, if they don't already exist
+          if (!typesObj[rdfType]) {
+            typesObj[rdfType] = rdfTypeFull;
+            var ihXml = "<_-.XholonClass>\n";
+            ihXml += "  <" + rdfType + "OC/>\n"; // append "OC" to mark this as a Open Calais type
+            ihXml += "  <" + rdfType + "OCs/>\n"; // pluralized container name
+            ihXml += "</_-.XholonClass>\n";
+            xhcRoot.append(ihXml);
+            // TODO append an instance of the pluralized container to newsStoryRoot
+          }
+        }
+        else {$wnd.console.log("WARNING rdf:resource not found for " + typeNode.toString());}
+      }
+      else {$wnd.console.log("WARNING type node not found for " + descrNode.toString());}
+            
+      // Create new CSH node as child of NewsStory
+      var cshXml = "<" + rdfType + "OC/>\n"; // append "OC" to mark this as a Open Calais type
+      // TODO should append to the appropriate newsStoryRoot container
+      newsStoryRoot.append(cshXml);
+      var newsStoryNode = newsStoryRoot.last();
+      
+      // Add new NewsStory node to Description[about] object
+      var about = descrNode["rdf:about"];
+      if (about) {
+        if (!descrObj[about]) {
+          descrObj[about] = newsStoryNode;
+        }
+        else {$wnd.console.log("WARNING duplicate about attribute " + about);}
+      }
+      else {$wnd.console.log("WARNING rdf:about not found for " + descrNode.toString());}
+      
+      descrNode = descrNode.next();
+    }
+    return descrObj;
+  }-*/;
+  
+  /**
+   * test 3, step 2
+   */
+  protected native Object step2(IXholon rdfRoot, IXholon newsStoryRoot, Object descrObj) /*-{
+    var descrNode = rdfRoot.first(); // this should be a rdf:Description node
+    var newsStoryNode = newsStoryRoot.first(); // there should be a corresponding newsStoryNode for each descrNode
+    while (descrNode && newsStoryNode) {
+      var cnode = descrNode.first(); // this should be an rdf:type node
+      while (cnode) {
+        var cnodeXhcName = cnode.xhc().name();
+        var resource = cnode["rdf:resource"];
+        if (resource && (cnodeXhcName != "docId")) {
+          var remoteNode = descrObj[resource];
+          if (remoteNode) {
+            // add a new port to the Description node
+            $wnd.console.log(cnodeXhcName + " link from " + newsStoryNode.name() + " to " + remoteNode.name());
+            //descrNode[cnodeXhcName] = remoteNode;
+            newsStoryNode[cnodeXhcName] = remoteNode;
+          }
+          else {
+            $wnd.console.log("  " + cnode.name() + " rdf:resource " + resource + " links to nothing");
+          }
+        }
+        else {
+          // assume that this cnode contains a String value
+          var str = cnode.text();
+          if (str) {
+            var attrName = cnodeXhcName;
+            if (attrName == "name") {
+              // I have to change the name because of a potential conflict with later calling descrNode.name()
+              attrName = "c:name";
+              // Optionally make a roleName from c:name
+              newsStoryNode.role(str);
+            }
+            //descrNode[attrName] = str;
+            newsStoryNode[attrName] = str;
+          }
+        }
+        var nextCnode = cnode.next();
+        //cnode.remove(); // remove cnode from the Xholon tree
+        cnode = nextCnode;
+      }
+      $wnd.console.log(newsStoryNode);
+      descrNode = descrNode.next();
+      newsStoryNode = newsStoryNode.next();
+    }
+    return null;
+  }-*/;
   
   protected native String[] splitNative(String str, String delim) /*-{
     return str.split(delim);
   }-*/;
   
-  //private native String getAttrVal(IXholon node, String attr) /*-{
-  //  return node[attr];
-  //}-*/;
-  
-  protected native Object makeDescriptionsObject(IXholon parentNode) /*-{
+  /**
+   * test 2
+   */
+  protected native Object makeDescriptionsObject(IXholon rootRdfNode) /*-{
     var obj = {};
-    var node = parentNode.first(); // this should be a rdf:Description node
+    var node = rootRdfNode.first(); // this should be a rdf:Description node
     while (node) {
       var about = node["rdf:about"];
       if (about) {
@@ -110,7 +208,9 @@ public class OpenCalais extends XholonWithPorts implements INaturalLanguage {
     return obj;
   }-*/;
   
-  // makeIhStr()
+  /**
+   * test 2
+   */
   protected native Object makeTypesObject(IXholon rootRdfNode) /*-{
     var xhcRoot = rootRdfNode.xhc().parent();
     var obj = {};
@@ -140,6 +240,9 @@ public class OpenCalais extends XholonWithPorts implements INaturalLanguage {
     return obj;
   }-*/;
   
+  /**
+   * test 2
+   */
   protected native void makePortsAndAttrs(IXholon parentNode, IXholon newsStoryRoot, Object descrptsObj) /*-{
     var node = parentNode.first(); // this should be a rdf:Description node
     while (node) {
@@ -194,6 +297,9 @@ public class OpenCalais extends XholonWithPorts implements INaturalLanguage {
     }
   }-*/;
   
+  /**
+   * test 1
+   */
   protected native String makeSyncAjaxCall(String url, String msgText, String conType, String accessToken)/*-{
     //$.support.cors = true;  OpenCalais01.js does this
     var xhReq = new XMLHttpRequest();
