@@ -50,4 +50,8 @@ public interface INaturalLanguage {
   public static final int SIG_TEST_REQ  = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 301; // -3698
   public static final int SIG_TEST_RESP = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 401; // -3598
   
+  // Open Calais - process RDF, and build a more Xholon-like subtree
+  public static final int SIG_PROCESS_RDF_REQ  = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 302; // -3697
+  public static final int SIG_PROCESS_RDF_RESP = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 402; // -3597
+    
 }

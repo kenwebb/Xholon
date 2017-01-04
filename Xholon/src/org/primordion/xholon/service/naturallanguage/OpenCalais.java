@@ -25,12 +25,17 @@ import org.primordion.xholon.base.XholonWithPorts;
 import org.primordion.xholon.util.ClassHelper;
 
 /**
- * A NaturalLanguage concrete class.
+ * Open Calais - A NaturalLanguage concrete class.
  * 
+ * TODO
+ * - use a better way to locate and name the top of the "NewsStory" subtree
+ * - make the code work whether the node and attribute names include prefixes, no prefixes, concatenated names
+ * - use another signal name instead of _TEST_
+ * - fix "links to nothing" warnings
  * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
- * @see <a href="https://cloud.google.com/natural-language/">Open Calais site</a>
+ * @see <a href="http://www.opencalais.com">Open Calais site</a>
  * @since 0.9.1 (Created on January 2, 2017)
  */
 public class OpenCalais extends XholonWithPorts implements INaturalLanguage {
@@ -42,6 +47,8 @@ public class OpenCalais extends XholonWithPorts implements INaturalLanguage {
     switch (msg.getSignal()) {
     case SIG_TEST_REQ:
       return new Message(SIG_TEST_RESP, this.test(msg), this, msg.getSender());
+    case SIG_PROCESS_RDF_REQ:
+      return new Message(SIG_PROCESS_RDF_RESP, this.processRdf(msg), this, msg.getSender());
     default:
       return super.processReceivedSyncMessage(msg);
     } // end switch
@@ -69,20 +76,28 @@ public class OpenCalais extends XholonWithPorts implements INaturalLanguage {
       this.makePortsAndAttrs(sender, sender.getNextSibling(), descrObj);
       return descrObj;
     }
-    case 3:
+    /*case 3:
     {
       Object descrObj = this.step1(sender, sender.getNextSibling());
       this.step2(sender, sender.getNextSibling(), descrObj);
       return descrObj;
-    }
+    }*/
     } // end switch
     return null;
+  }
+  
+  protected Object processRdf(IMessage msg) {
+    Object data = msg.getData();
+    IXholon sender = msg.getSender();
+    Object descrObj = this.processRdfStep1(sender, sender.getNextSibling());
+    this.processRdfStep2(sender, sender.getNextSibling(), descrObj);
+    return descrObj;
   }
   
   /**
    * test 3, step 1
    */
-  protected native Object step1(IXholon rdfRoot, IXholon newsStoryRoot) /*-{
+  protected native Object processRdfStep1(IXholon rdfRoot, IXholon newsStoryRoot) /*-{
     var xhcRoot = rdfRoot.xhc().parent();
     var descrObj = {};
     var typesObj = {};
@@ -136,7 +151,7 @@ public class OpenCalais extends XholonWithPorts implements INaturalLanguage {
   /**
    * test 3, step 2
    */
-  protected native Object step2(IXholon rdfRoot, IXholon newsStoryRoot, Object descrObj) /*-{
+  protected native Object processRdfStep2(IXholon rdfRoot, IXholon newsStoryRoot, Object descrObj) /*-{
     var descrNode = rdfRoot.first(); // this should be a rdf:Description node
     var newsStoryNode = newsStoryRoot.first(); // there should be a corresponding newsStoryNode for each descrNode
     while (descrNode && newsStoryNode) {
@@ -148,12 +163,12 @@ public class OpenCalais extends XholonWithPorts implements INaturalLanguage {
           var remoteNode = descrObj[resource];
           if (remoteNode) {
             // add a new port to the Description node
-            $wnd.console.log(cnodeXhcName + " link from " + newsStoryNode.name() + " to " + remoteNode.name());
+            //$wnd.console.log(cnodeXhcName + " link from " + newsStoryNode.name() + " to " + remoteNode.name());
             //descrNode[cnodeXhcName] = remoteNode;
             newsStoryNode[cnodeXhcName] = remoteNode;
           }
           else {
-            $wnd.console.log("  " + cnode.name() + " rdf:resource " + resource + " links to nothing");
+            $wnd.console.log("WARNING " + cnode.name() + " rdf:resource " + resource + " links to nothing");
           }
         }
         else {
@@ -161,12 +176,38 @@ public class OpenCalais extends XholonWithPorts implements INaturalLanguage {
           var str = cnode.text();
           if (str) {
             var attrName = cnodeXhcName;
-            if (attrName == "name") {
+            
+            switch (attrName) {
+            case "name":
               // I have to change the name because of a potential conflict with later calling descrNode.name()
               attrName = "c:name";
               // Optionally make a roleName from c:name
-              newsStoryNode.role(str);
+              if (str) {newsStoryNode.role(str);}
+              break;
+            case "relevance":
+              // RelevanceInfo type
+              if (str) {newsStoryNode.role("relevance " + str);}
+              break;
+            case "exact":
+              // InstanceInfo type  (remove single and double quotes)
+              if (str) {newsStoryNode.role(str.replace(/["']/g, "").substring(0,15));}
+              break;
+            case "detection":
+              // InstanceInfo type
+              if (str) {newsStoryNode.anno(str);}
+              break;
+            case "quotation":
+              // Quotation type  (remove single and double quotes)
+              if (str) {newsStoryNode.role(str.replace(/["']/g, "").substring(0,15));}
+              break;
+            case "aggregate":
+              // Confidence type
+              if (str) {newsStoryNode.role("aggregate " + str);}
+              break;
+            default:
+              break;
             }
+            
             //descrNode[attrName] = str;
             newsStoryNode[attrName] = str;
           }
@@ -175,9 +216,12 @@ public class OpenCalais extends XholonWithPorts implements INaturalLanguage {
         //cnode.remove(); // remove cnode from the Xholon tree
         cnode = nextCnode;
       }
-      $wnd.console.log(newsStoryNode);
+      //$wnd.console.log(newsStoryNode);
       descrNode = descrNode.next();
       newsStoryNode = newsStoryNode.next();
+      if ((descrNode && !newsStoryNode) || (!descrNode && newsStoryNode)) {
+        $wnd.console.log("WARNING unequal numbers of descrNode and newsStoryNode");
+      }
     }
     return null;
   }-*/;
