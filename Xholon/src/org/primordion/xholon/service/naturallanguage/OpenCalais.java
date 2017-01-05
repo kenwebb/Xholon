@@ -54,6 +54,9 @@ public class OpenCalais extends XholonWithPorts implements INaturalLanguage {
     } // end switch
   } // end processReceivedSyncMessage()
   
+  /**
+   * One a numbered test.
+   */
   protected Object test(IMessage msg) {
     String[] data = splitNative((String)msg.getData(), "|");
     int testNum = Integer.parseInt(data[0]);
@@ -68,24 +71,23 @@ public class OpenCalais extends XholonWithPorts implements INaturalLanguage {
       String str = makeSyncAjaxCall(url, data[1], "POST", accessToken);
       return str;
     }
-    case 2:
+    /*case 2:
     {
       Object descrObj = this.makeDescriptionsObject(sender);
       Object typesObj = this.makeTypesObject(sender);
       consoleLog(typesObj);
       this.makePortsAndAttrs(sender, sender.getNextSibling(), descrObj);
       return descrObj;
-    }
-    /*case 3:
-    {
-      Object descrObj = this.step1(sender, sender.getNextSibling());
-      this.step2(sender, sender.getNextSibling(), descrObj);
-      return descrObj;
     }*/
     } // end switch
     return null;
   }
   
+  /**
+   * Process a Xholon RDF subtree, and produce a Xholon story subtree.
+   * @param msg
+   * @return An object that maps RDF descriptions to Xholon story nodes.
+   */
   protected Object processRdf(IMessage msg) {
     Object data = msg.getData();
     IXholon sender = msg.getSender();
@@ -95,7 +97,9 @@ public class OpenCalais extends XholonWithPorts implements INaturalLanguage {
   }
   
   /**
-   * test 3, step 1
+   * Process RDF, step 1
+   * @param rdfRoot root node in the RDF subtree
+   * @param newsStoryRoot root node in the Xholon story subtree
    */
   protected native Object processRdfStep1(IXholon rdfRoot, IXholon newsStoryRoot) /*-{
     var xhcRoot = rdfRoot.xhc().parent();
@@ -149,7 +153,10 @@ public class OpenCalais extends XholonWithPorts implements INaturalLanguage {
   }-*/;
   
   /**
-   * test 3, step 2
+   * Process RDF, step 2
+   * @param rdfRoot root node in the RDF subtree
+   * @param newsStoryRoot root node in the Xholon story subtree
+   * @param descrObj an object that maps RDF descriptions to Xholon story nodes
    */
   protected native Object processRdfStep2(IXholon rdfRoot, IXholon newsStoryRoot, Object descrObj) /*-{
     var descrNode = rdfRoot.first(); // this should be a rdf:Description node
@@ -228,117 +235,6 @@ public class OpenCalais extends XholonWithPorts implements INaturalLanguage {
   
   protected native String[] splitNative(String str, String delim) /*-{
     return str.split(delim);
-  }-*/;
-  
-  /**
-   * test 2
-   */
-  protected native Object makeDescriptionsObject(IXholon rootRdfNode) /*-{
-    var obj = {};
-    var node = rootRdfNode.first(); // this should be a rdf:Description node
-    while (node) {
-      var about = node["rdf:about"];
-      if (about) {
-        if (obj[about]) {
-          // this about-URI already exists
-          $wnd.console.log(about + " already exists");
-        }
-        else {
-          obj[about] = node;
-        }
-      }
-      node = node.next();
-    }
-    return obj;
-  }-*/;
-  
-  /**
-   * test 2
-   */
-  protected native Object makeTypesObject(IXholon rootRdfNode) /*-{
-    var xhcRoot = rootRdfNode.xhc().parent();
-    var obj = {};
-    var classXml = "<_-.XholonClass>\n";
-    var node = rootRdfNode.first(); // this should be a rdf:Description node
-    while (node) {
-      var rdfTypeNode = node.first();
-      if (rdfTypeNode && (rdfTypeNode.xhc().name() == "type")) {
-        var rdfTypeFull = rdfTypeNode["rdf:resource"];
-        if (rdfTypeFull) {
-          rdfTypeFull = rdfTypeFull.trim();
-          var pos = rdfTypeFull.lastIndexOf("/");
-          var rdfType = rdfTypeFull.substring(pos+1);
-          if (!obj[rdfType]) {
-            obj[rdfType] = rdfTypeFull;
-            classXml += "  <" + rdfType + "OC/>\n"; // append "OC" to mark this as a Open Calais type
-            classXml += "  <" + rdfType + "OCs/>\n"; // pluralized container name
-            // TODO append an instance of the pluralized container to newsStoryRoot
-          }
-        }
-      }
-      node = node.next();
-    }
-    classXml += "</_-.XholonClass>\n";
-    $wnd.console.log(classXml);
-    xhcRoot.append(classXml);
-    return obj;
-  }-*/;
-  
-  /**
-   * test 2
-   */
-  protected native void makePortsAndAttrs(IXholon parentNode, IXholon newsStoryRoot, Object descrptsObj) /*-{
-    var node = parentNode.first(); // this should be a rdf:Description node
-    while (node) {
-      var newsStoryNode = null;
-      var cnode = node.first(); // this should be an rdf:type node
-      if (cnode && (cnode.xhc().name() == "type")) {
-        var rdfTypeFull = cnode["rdf:resource"];
-        if (rdfTypeFull) {
-          rdfTypeFull = rdfTypeFull.trim();
-          var pos = rdfTypeFull.lastIndexOf("/");
-          var rdfType = rdfTypeFull.substring(pos+1);
-          var xmlStr = "<" + rdfType + "OC/>\n"; // append "OC" to mark this as a Open Calais type
-          // TODO should append to the appropriate newsStoryRoot container
-          newsStoryRoot.append(xmlStr);
-          newsStoryNode = newsStoryRoot.last();
-        }
-      }
-      while (cnode) {
-        var cnodeXhcName = cnode.xhc().name();
-        var resource = cnode["rdf:resource"];
-        if (resource && (cnodeXhcName != "docId")) {
-          var remoteNode = descrptsObj[resource];
-          if (remoteNode) {
-            // add a new port to the Description node
-            $wnd.console.log(cnodeXhcName + " link from " + node.name() + " to " + remoteNode.name());
-            node[cnodeXhcName] = remoteNode;
-            newsStoryNode[cnodeXhcName] = remoteNode; // TODO it should point to the child of NewsStory
-          }
-          else {
-            $wnd.console.log("  " + cnode.name() + " rdf:resource " + resource + " links to nothing");
-          }
-        }
-        else {
-          // assume that this cnode contains a String value
-          var str = cnode.text();
-          if (str) {
-            var attrName = cnodeXhcName;
-            if (attrName == "name") {
-              // I have to change the name because of a potential conflict with later calling node.name()
-              attrName = "c:name";
-            }
-            node[attrName] = str;
-            newsStoryNode[attrName] = str;
-          }
-        }
-        var nextCnode = cnode.next();
-        //cnode.remove(); // remove cnode from the Xholon tree
-        cnode = nextCnode;
-      }
-      $wnd.console.log(node);
-      node = node.next();
-    }
   }-*/;
   
   /**
