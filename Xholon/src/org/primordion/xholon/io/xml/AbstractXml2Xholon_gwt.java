@@ -326,9 +326,36 @@ public abstract class AbstractXml2Xholon_gwt extends Xholon implements IXml2Xhol
       }
       */
     }
+    else if (uri.charAt(0) == '#') {
+      String content = this.handleUrlFragment(uri);
+      IXholon subtree = xmlString2Xholon_internal(content, parentXholon);
+      return subtree;
+    }
 	  else {}
 	  return null;
 	}
+	
+	/**
+	 * Handle a URL fragment.
+	 * "A URL fragment is a name preceded by a hash mark (#),
+	 *  which specifies an internal target location (an ID of an HTML element) within the current document."
+	 * @param urlFragment (ex: "#AUrlFragment")
+	 * @return the inner text of the HTML element
+	 */
+	protected native String handleUrlFragment(String urlFragment) /*-{
+	  var content = '<Attribute_String><![CDATA[\n';
+	  var ele = $doc.querySelector(urlFragment);
+	  if (ele) {
+	    if (ele.value) { // textarea
+	      content += ele.value;
+	    }
+	    else if (ele.textContent) {
+	      content += ele.textContent;
+	    }
+	  }
+	  content += ']]></Attribute_String>\n';
+	  return content;
+	}-*/;
 	
 	private native String makeSyncAjaxCall(String url, String msgText, String conType)/*-{
     var xhReq = new XMLHttpRequest();

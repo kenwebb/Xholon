@@ -117,6 +117,10 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 						if (uri.indexOf("://") != -1) {
 							// this is a URI starting with http:// file:// etc.
 						}
+						else if (uri.charAt(0) == '#') {
+							// this is a URL fragement that points to an element in the HTML page (ex: "#AUrlFragment")
+							// let xmlUri2Xholon_internal() take care of this
+						}
 						else if (app.isUseGwt()) {
 						  // assume that the uri does not start with . or / (ex: config/...)
 						  uri = GwtEnvironment.gwtHostPageBaseURL + uri;
