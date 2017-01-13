@@ -367,6 +367,7 @@ public class SvgViewBrowser extends Xholon implements ISvgView, EventListener {
     // Note: this Element class is NOT the same Element class declared above as an import
     // That Element (com.google.gwt.dom.client.Element) is the superclass of this Element
     com.google.gwt.user.client.Element svg = (com.google.gwt.user.client.Element)diagram.cast();
+    if (svg == null) {return;}
     
     // Fix attributes in the SVG image.
     initFromXml(this.getSvgAttributesUri());
@@ -513,6 +514,7 @@ public class SvgViewBrowser extends Xholon implements ISvgView, EventListener {
    * @param svgElement An instance of an SvgElement subclass.
    */
   protected void createSvgViewables(Object svgElement) {
+    if (svgElement == null) {return;}
     if (("text".equals(((Element)svgElement).getNodeName()))
         || ("tspan".equals(((Element)svgElement).getNodeName()))) {
       String svgId = ((Element)svgElement).getId();

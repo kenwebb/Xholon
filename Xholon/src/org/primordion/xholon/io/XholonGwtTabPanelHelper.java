@@ -83,6 +83,7 @@ public class XholonGwtTabPanelHelper {
   public static int addTab(Object content, String tabText, String tooltip, boolean isHtml) {
     int index = -1;
     RootPanel rp = RootPanel.get("xhtabs");
+    if (rp == null) {return index;}
     TabLayoutPanel tabPanel = null;
     if (rp.getWidgetCount() == 0) {
       // make the TabLayoutPanel, and wrap it in a Grid with a resize button
@@ -142,6 +143,7 @@ public class XholonGwtTabPanelHelper {
    *   If -1, then the currently selected tab will be updated.
    */
   public static void updateTabHeader(String tabText, String tooltip, int index) {
+    if (resizePanel == null) {return;}
     TabLayoutPanel tabPanel = (TabLayoutPanel)resizePanel.getWidget();
     
     // construct tab header text, optionally with a tooltip
@@ -202,12 +204,14 @@ public class XholonGwtTabPanelHelper {
    */
   public static void clearConsoleContents() {
     RootPanel xhconsole = RootPanel.get("xhconsole");
+    if (xhconsole == null) {return;}
     for (int i = 0; i < xhconsole.getWidgetCount(); i++) {
       xhconsole.getWidget(i).removeFromParent();
     }
   }
   
   public static void selectTab(int index) {
+    if (resizePanel == null) {return;}
     TabLayoutPanel tabPanel = (TabLayoutPanel)resizePanel.getWidget();
     tabPanel.selectTab(index, false);
   }

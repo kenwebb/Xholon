@@ -303,7 +303,13 @@ public class XholonGuiClassic extends AbstractXholonGui { //DockPanel {
     topVp.add(toolbar);
     panel.add(topVp, DockPanel.NORTH);
     
-    RootPanel.get("xhgui").add(panel);
+    RootPanel xhgui = RootPanel.get("xhgui");
+    if (xhgui == null ) {
+      node.consoleLog("WARNING xhgui element does not exist");
+    }
+    else {
+      xhgui.add(panel);
+    }
     
     //((Application)app).clearConsole();
     // clear the contents of the xhconsole

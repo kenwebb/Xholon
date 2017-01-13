@@ -1148,8 +1148,11 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 	 */
 	protected void print2Console(String str, boolean scroll) {
 	  if (str.startsWith(PRINT2CONSOLE_IGNORE_ME)) {return;}
-	  Element element = HtmlElementCache.xhout.getFirstChildElement();
-    if (element != null) {
+	  Element element = HtmlElementCache.xhout;
+	  if (element != null) {
+      element = element.getFirstChildElement();
+    }
+	  if (element != null) {
       TextAreaElement textfield = element.cast();
       textfield.setValue(textfield.getValue() + str);
       // optionally scroll to the bottom of the text area

@@ -73,10 +73,20 @@ public class Xholon implements EntryPoint {
     resultField.setStylePrimaryName("xh-TextArea");
     // TODO resultField.setSpellcheck(false); // spellcheck="false"   use JSNI ?
     resultField.setText("loading ...");
-    RootPanel.get("xhconsole").add(resultField);
+    RootPanel xhconsole = RootPanel.get("xhconsole");
+    if (xhconsole == null) {
+      this.consoleLog("WARNING xhconsole element does not exist");
+    }
+    else {
+      xhconsole.add(resultField);
+    }
     
     testXholon(resultField);
   }
+  
+  protected native void consoleLog(String str) /*-{
+    $wnd.console.log(str);
+  }-*/;
   
   /**
    * Generate reflection info for system and mechanism classes that may be used as nodes,
