@@ -2601,8 +2601,16 @@ public abstract class Application extends AbstractApplication implements IApplic
 	 */
 	public String getParam(String pName)
 	{
-	  return ReflectionFactory.instance().getParam(pName, this);
+	  String pValue = ReflectionFactory.instance().getParam(pName, this);
+	  if (pValue == null) {
+	    pValue = this.getParamNative(pName);
+	  }
+	  return pValue;
 	}
+	
+	protected native String getParamNative(String pName) /*-{
+	  return this[pName] ? this[pName] : null;
+	}-*/;
 	
 	/*
 	 * @see org.primordion.xholon.app.IApplication#resetViewers()
@@ -3136,6 +3144,31 @@ public abstract class Application extends AbstractApplication implements IApplic
 	 * @see org.primordion.xholon.app.IApplication#image()
 	 */
 	public void image() {
+	  // check if the optional #xhsvg tag in the HTML document contains SVG text, and process the text if it exists
+	  /* example:
+<div id="xhsvg" style="display: none;">
+&lt;svg width="100" height="25" xmlns="http://www.w3.org/2000/svg">
+  &lt;g>
+    &lt;title>Click to advance the story&lt;/title>
+    &lt;rect id="StorySystem/StorySystembehavior" fill="#98FB98" height="25" width="100" x="10" y="0"/>
+    &lt;text x="21" y="17" style="pointer-events:none;">Start/Pause&lt;/text>
+  &lt;/g>
+&lt;/svg>
+</div>
+	  */
+	  RootPanel xhsvg = RootPanel.get("xhsvg");
+	  if (xhsvg != null) {
+	    String svgStr0 = xhsvg.getElement().getInnerText();
+	    if (svgStr0 != null) {
+	      svgStr0 = svgStr0.trim();
+	      if ((svgStr0.length() != 0) && (svgStr0.startsWith("<svg"))) {
+	        xhsvg.getElement().setInnerText("");
+	        makeSvgClient(svgStr0);
+	        xhsvg.getElement().getStyle().clearDisplay();
+	      }
+	    }
+	  }
+	  
 	  if (imageFile == null) {return;}
 	  if ("default.svg".equals(imageFile)) {
 	    String svgStr1 = null;
@@ -3514,7 +3547,10 @@ ${MODELNAME_DEFAULT},${SVGURI_DEFAULT},,,./,${VIEWABLES_CREATE}
 	public void clearConsole() {
     //Element element = Document.get().getElementById("xhout");
     //element = element.getFirstChildElement();
-    Element element = HtmlElementCache.xhout.getFirstChildElement();
+    Element element = HtmlElementCache.xhout;
+    if (element != null) {
+      element = element.getFirstChildElement();
+    }
     if (element != null) {
         TextAreaElement textfield = element.cast();
         textfield.setValue("");
