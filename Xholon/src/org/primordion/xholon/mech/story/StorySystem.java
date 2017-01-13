@@ -30,6 +30,11 @@ import org.primordion.xholon.base.XholonWithPorts;
  */
 public class StorySystem extends XholonWithPorts {
   
+  private static final String SUBTITLES_BOTTOM = "bottom"; // default
+  private static final String SUBTITLES_TOP    = "top";
+  
+  private String subtitles = SUBTITLES_BOTTOM;
+  
   private String roleName = null;
   
   @Override
@@ -44,30 +49,43 @@ public class StorySystem extends XholonWithPorts {
   
   @Override
   public void postConfigure() {
-    this.storySystembehaviorPostConfigure();
+    this.storySystembehaviorPostConfigure(subtitles);
     super.postConfigure();
   }
   
-  protected native void storySystembehaviorPostConfigure() /*-{
+  protected native void storySystembehaviorPostConfigure(String subtitles) /*-{
     $wnd.xh.param("AppM","true");
     
     // SVG caption
     $wnd.xh.svg = {};
     $wnd.xh.svg.caption = $doc.createElement("span");
     $wnd.xh.svg.caption.textContent = $wnd.xh.param("ModelName");
+    $wnd.xh.svg.caption.id = "caption";
 
     $wnd.xh.svg.scenenum = $doc.createElement("span");
     $wnd.xh.svg.scenenum.textContent = "0";
-    
-    var div = $doc.querySelector("#xhanim");
-    
-    div.appendChild($wnd.xh.svg.scenenum);
-    div.appendChild($wnd.xh.svg.caption);
+    $wnd.xh.svg.scenenum.id = "scenenum";
     
     // create a new div for this animation
     var one = $doc.createElement("div");
     one.setAttribute("id", "one");
-    div.appendChild(one);
+    
+    var div = $doc.querySelector("#xhanim");
+    if (div == null) {
+      $wnd.console.log("WARNING #xhanim element does not exist");
+    }
+    else {
+      if (subtitles == "top") {
+        div.appendChild($wnd.xh.svg.scenenum);
+        div.appendChild($wnd.xh.svg.caption);
+        div.appendChild(one);
+      }
+      else { // "bottom"
+        div.appendChild(one);
+        div.appendChild($wnd.xh.svg.scenenum);
+        div.appendChild($wnd.xh.svg.caption);
+      }
+    }
     
     // Make a Place roleName, given a full Scene roleName.
     // The returned roleName is partly capitalized.
@@ -130,6 +148,14 @@ public class StorySystem extends XholonWithPorts {
       
     }
   }-*/;
+
+  @Override
+  public int setAttributeVal(String attrName, String attrVal) {
+    if ("subtitles".equals(attrName)) {
+      this.subtitles = attrVal;
+    }
+    return 0;
+  }
 
   @Override
   public String toString() {

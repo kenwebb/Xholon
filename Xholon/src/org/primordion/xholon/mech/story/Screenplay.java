@@ -72,6 +72,11 @@ public class Screenplay extends XholonWithPorts {
   private static final String SCREENPLAY_FORMAT_IMSDB    = "imsdb"; // DEFAULT
   private static final String SCREENPLAY_FORMAT_FOUNTAIN = "fountain";
   
+  private static final String SCREENPLAY_TRUNCATE_NONE    = "none"; // DEFAULT  do not truncate; show entire string no matter how long
+  private static final String SCREENPLAY_TRUNCATE_ALL     = "all";  // truncate all; show nothing
+  private static final String SCREENPLAY_TRUNCATE_MAXLEN  = "maxlen"; // truncate text beyond a maximum length
+  private static final String SCREENPLAY_TRUNCATE_SPLIT   = "split"; // split text into separate pieces
+  
   private String roleName = null;
   
   /**
@@ -94,6 +99,9 @@ public class Screenplay extends XholonWithPorts {
   private String options = null;
   
   private Object fountainTokenized = null;
+  
+  private String truncate = SCREENPLAY_TRUNCATE_NONE;
+  private int maxlen = 120; // used in truncate == SCREENPLAY_TRUNCATE_MAXLEN
   
   public Screenplay() {
     requireFountain();
@@ -152,12 +160,12 @@ public class Screenplay extends XholonWithPorts {
     }
     switch (format) {
     case SCREENPLAY_FORMAT_IMSDB:
-      this.parseScreenplay(format, sceneLocationRoot, timewords, speech, options, null);
+      this.parseScreenplay(format, sceneLocationRoot, timewords, speech, options, null, truncate, maxlen);
       break;
     case SCREENPLAY_FORMAT_FOUNTAIN:
       this.fountainTokenized = this.tokenizeFountain(val);
       if (this.fountainTokenized != null) {
-        this.parseScreenplay(format, sceneLocationRoot, timewords, speech, options, this.fountainTokenized);
+        this.parseScreenplay(format, sceneLocationRoot, timewords, speech, options, this.fountainTokenized, truncate, maxlen);
       }
       break;
     default:
@@ -176,7 +184,7 @@ public class Screenplay extends XholonWithPorts {
       if (this.fountainTokenized == null) {
         this.fountainTokenized = this.tokenizeFountain(val);
         if (this.fountainTokenized != null) {
-          this.parseScreenplay(format, sceneLocationRoot, timewords, speech, options, this.fountainTokenized);
+          this.parseScreenplay(format, sceneLocationRoot, timewords, speech, options, this.fountainTokenized, truncate, maxlen);
         }
       }
       break;
@@ -189,7 +197,7 @@ public class Screenplay extends XholonWithPorts {
   /**
    * Parse the screenplay.
    */
-  protected native void parseScreenplay(String format, String sceneLocationRoot, String timewords, boolean speech, String options, Object fountainTokenized) /*-{
+  protected native void parseScreenplay(String format, String sceneLocationRoot, String timewords, boolean speech, String options, Object fountainTokenized, String truncate, int maxlen) /*-{
   var debugStr = "";
   
   // DEBUG
@@ -448,6 +456,26 @@ public class Screenplay extends XholonWithPorts {
   
   // PARSE
   var processTextNode = function(text) {
+    switch (truncate) {
+    case "all":
+      // truncate everything; show nothing
+      break;
+    case "split":
+      // TODO
+      break;
+    case "maxlen":
+      text = text.substring(0, maxlen);
+      processTruncatedTextNode(text);
+      break;
+    case "none":
+    default:
+      processTruncatedTextNode(text);
+      break;
+    }
+  }
+  
+  // PARSE
+  var processTruncatedTextNode = function(text) {
     debugFlow("processTextNode");
     //var text = tn.nodeValue;
     text = removeCrLfs(text);
@@ -526,7 +554,12 @@ public class Screenplay extends XholonWithPorts {
       }
       switch (token.type) {
         // title types
-        case 'title': break;
+        case 'title':
+          if (token.text) {
+            $wnd.xh.param("ModelName", token.text);
+            $wnd.xh.svg.caption.textContent = $wnd.xh.param("ModelName");
+          }
+          break;
         case 'credit': break;
         case 'author': break;
         case 'authors': break;
@@ -603,7 +636,7 @@ public class Screenplay extends XholonWithPorts {
     
     var p = peopleNode.first();
     while (p) {
-      p.action('param caption #xhanim>span:nth-child(2);param anim grow 1.1;');
+      p.action('param caption #xhanim>#caption;param anim grow 1.1;');
       p = p.next();
     }
   }
@@ -705,7 +738,7 @@ public class Screenplay extends XholonWithPorts {
     if ("format".equals(attrName)) {
       this.format = attrVal;
     }
-    if ("sceneLocationRoot".equals(attrName)) {
+    else if ("sceneLocationRoot".equals(attrName)) {
       this.sceneLocationRoot = attrVal;
     }
     else if ("timewords".equals(attrName)) {
@@ -713,6 +746,12 @@ public class Screenplay extends XholonWithPorts {
     }
     else if ("speech".equals(attrName)) {
       this.speech = Boolean.parseBoolean(attrVal);
+    }
+    else if ("truncate".equals(attrName)) {
+      this.truncate = attrVal;
+    }
+    else if ("maxlen".equals(attrName)) {
+      this.maxlen = Integer.parseInt(attrVal);
     }
     return 0;
   }
