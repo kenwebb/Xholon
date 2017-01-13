@@ -244,7 +244,14 @@ public class XholonWorkbook extends Xholon {
 		
 		// composite structure hierarchy (csh)
 		else if (tagName.endsWith("System")) {
-			sendXholonHelperService(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, subTree, contextNode);
+		  // TODO "DelayWorkbookCSH"
+		  String delayWorkbookCSH = app.getParam("DelayWorkbookCSH");
+		  if ((delayWorkbookCSH != null) && ("true".equals(delayWorkbookCSH))) {
+		    storeWorkbookCSH(subTree);
+		  }
+		  else {
+			  sendXholonHelperService(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, subTree, contextNode);
+			}
 		}
 		
 		// SVG <SvgClient></SvgClient>
@@ -297,6 +304,17 @@ public class XholonWorkbook extends Xholon {
 			// ?
 		}
 	}
+	
+	/**
+	 * Store the CSH for possible later processing, rather than processing it now.
+	 * @param subTree the CSH content to store
+	 */
+	protected native void storeWorkbookCSH(String subTree) /*-{
+	  if (!$wnd.xh.stored) {
+	    $wnd.xh.stored = {};
+	  }
+	  $wnd.xh.stored.csh = subTree;
+	}-*/;
 	
 	/**
 	 * Append a behavior XholonClass to the inheritance hierarchy.
