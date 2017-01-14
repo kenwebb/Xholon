@@ -32,6 +32,7 @@ import com.google.gwt.json.client.JSONParser;
 //import com.google.gwt.json.client.JSONString;
 //import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.storage.client.Storage;
+import com.google.gwt.user.client.Window.Location;
 
 import org.primordion.xholon.app.IApplication;
 import org.primordion.xholon.base.Attribute;
@@ -325,6 +326,14 @@ public abstract class AbstractXml2Xholon_gwt extends Xholon implements IXml2Xhol
           e.printStackTrace();
       }
       */
+    }
+    else if (uri.startsWith("urlparam:")) {
+      // ex: http://127.0.0.1:8888/XholonFountain.html?app=b6466f990af1f8d4ebf895b41c5b8445&src=gist&gui=none&urlparam:screenplay=https://gist.githubusercontent.com/kenwebb/b6466f990af1f8d4ebf895b41c5b8445/raw/de6c7db0e91421ed4b89f480fe9ae650be00ece0/zHow_to_Wax_Your_Skis.xml
+      // uri ex: "urlparam:screenplay"
+      String urlparamValue = Location.getParameter(uri);
+      if ((urlparamValue != null) && (urlparamValue.length() > 0)) {
+        return this.xmlUri2Xholon_internal(urlparamValue, parentXholon);
+      }
     }
     else if (uri.charAt(0) == '#') {
       String content = this.handleUrlFragment(uri);
