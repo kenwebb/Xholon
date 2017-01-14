@@ -1,0 +1,26 @@
+/** CSS for XholonFountain*.html */
+body {
+  color: black;
+  background: aliceblue;
+  font-size: 100%;
+}
+span#caption {
+  font-family: Georgia, serif;
+  font-size: 1.5em;
+}
+textarea#screenplay {
+  border-style: none;
+}
+div#xhsvg {
+  margin: 0.5em 0em 0em 0em;
+}
+div#xhsvg>div {
+  display: inline;
+  margin-left: 0em;
+}
+div#xhsvg>div>svg>g>rect {
+  fill: #98FB98;
+}
+div#xhsvg>div>svg>g>path {
+  fill: grey;
+}
