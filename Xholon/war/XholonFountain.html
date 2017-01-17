@@ -79,47 +79,39 @@
     </noscript>
 
     <!-- Each of the following can have sub-div elements. -->
-    <div id="xhtop">
+    <!--<div id="xhtop">
       <h3 id="xholontitle" style="display: inline;">Xholon</h3>
       <span id="timestep" style="padding-left: 20px; font-size: 13px;">0</span>:<span id="maxprocessloops" style="font-size: 13px;">&infin;</span>
-    </div>
+    </div>-->
     
     <!-- default GWT-based GUI -->
-    <div id="xhgui"></div>
+    <!--<div id="xhgui"></div>-->
     
     <!-- reserved for app-specific use -->
-    <div id="xhappspecific"></div>
+    <!--<div id="xhappspecific"></div>-->
     
-    <div id="xhconsole">
-    </div>
+    <!--<div id="xhconsole">
+    </div>-->
     
     <!-- text: much of which could use CodeMirror/Ace -->
-    <div id="xhtabs"></div>
+    <!--<div id="xhtabs"></div>-->
     
     <!-- data: line chart, pie chart, other Google charts, etc. -->
-    <div id="xhchart"></div>
+    <!--<div id="xhchart"></div>-->
     
     <!-- HTML5 canvas -->
-    <div id="xhcanvas"></div>
+    <!--<!--<div id="xhcanvas"></div>-->
     
     <!-- structure: network, tree, Google/D3 Treemap, D3 charts/graphs, etc. -->
-    <div id="xhgraph">
+    <!--<div id="xhgraph">
       <div id="networkview"></div>
       <div id="treeview"></div>
       <div id="xhtreemap"></div>
-    </div>
+    </div>-->
     
-    <!-- SVG and other animations, such as those with Animate.java
-         Each separate animation should have its own child div -->
-    <div id="xhanim"></div>
-    
-    <img id="initialimg" src="images/XholonFountain01.png"/>
-    
-    <!-- static SVG images -->
-    <div id="xhsvg"></div>
-    
-    <p>Paste your <a href="http://fountain.io">Fountain</a> screenplay below, and press the <strong>Start</strong> button.</p>
-    <textarea id="screenplay" rows="20" cols="150">
+    <div id="xhleft">
+      <p>Paste your <a href="http://fountain.io">Fountain</a> screenplay below, and press the <strong>&#9654;</strong> (Start) button.</p>
+      <textarea id="screenplay" rows="65" cols="110">
 Title: My Screenplay
 Credit: written by
 Author: Ken
@@ -138,22 +130,34 @@ WOMAN
 Paste a fountain-formatted screenplay in the text area.
 
 > _**THE END**_ <
-    </textarea>
+      </textarea>
+    </div>
+    
+    <div id="xhright">
+      <!-- SVG and other animations, such as those with Animate.java
+           Each separate animation should have its own child div -->
+      <div id="xhanim" style="text-align: center;"></div>
+      
+      <!--<img id="initialimg" src="images/XholonFountain01.png"/>-->
+      
+      <!-- static SVG images -->
+      <div id="xhsvg"></div>
+    </div>
     
     <!-- PNG, etc. -->
-    <div id="xhimg"></div>
+    <!--<div id="xhimg"></div>-->
     
     <!-- Include Zepto with a script tag near the end of your page. -->
     <!--<script src="zepto.min.js"></script>-->
     
-    <div id="xhunittest">
+    <!--<div id="xhunittest">
       <div id="qunit"></div>
       <div id="qunit-fixture"></div>
-    </div>
+    </div>-->
     
     <div id="xhfooter">
     <hr/>
-    <div class="license" style="font-size: 9px;"><p>Xholon GWT is a <a href="index.html">Xholon</a> project. Copyright (C) 2013 - 2017 Ken Webb</p></div>
+    <div class="license" style="font-size: 9px;"><p>Xholon Screenplay Visualizer is a <a href="index.html">Xholon</a> project. Copyright (C) 2013 - 2017 Ken Webb</p></div>
     <div class="aatt" style="font-size: 9px;"><pre style="font-size: 9px;">
   @QWERTYUIk
   OPASmDFGHe
@@ -163,6 +167,11 @@ Paste a fountain-formatted screenplay in the text area.
     </div>
     
     <link type="text/css" rel="stylesheet" href="XholonFountain.css">
+    <!--<style>
+div#xhleft, div#xhright {
+  display: inline-block;
+}
+    </style>-->
 
   </body>
 </html>

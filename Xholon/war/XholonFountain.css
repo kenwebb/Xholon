@@ -4,19 +4,31 @@ body {
   background: aliceblue;
   font-size: 100%;
 }
+div#xhanim {
+  /** line-height: 50px; */
+  height: 900px;
+}
 span#caption {
   font-family: Georgia, serif;
   font-size: 1.5em;
+  vertical-align: middle;
+  line-height: 1;
 }
 textarea#screenplay {
   border-style: none;
 }
+div#xhsvg>div>svg {
+  /** margin: 0.5em 0em 0em 0em; */
+  /** margin: 0 auto; */
+}
 div#xhsvg {
-  margin: 0.5em 0em 0em 0em;
+  /** width: 800px; */
 }
 div#xhsvg>div {
-  display: inline;
-  margin-left: 0em;
+  /** display: inline; */
+  /** margin-left: 0em; */
+  width: 150px;
+  margin: 0 auto;
 }
 div#xhsvg>div>svg>g>rect {
   fill: #98FB98;
@@ -26,3 +38,10 @@ div#xhsvg>div>svg>g>path {
   stroke-width: 1px;
   /* stroke: rgb(169,169,169); this has to be done within the path element */
 }
+div#xhleft, div#xhright {
+  display: inline-block;
+}
+div#xhright {
+  width: 900px;
+}
+
