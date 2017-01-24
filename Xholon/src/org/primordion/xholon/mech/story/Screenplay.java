@@ -456,6 +456,7 @@ public class Screenplay extends XholonWithPorts {
   
   // PARSE
   var processTextNode = function(text) {
+    text = removeCrLfs(text);
     switch (truncate) {
     case "all":
       // truncate everything; show nothing
@@ -465,6 +466,11 @@ public class Screenplay extends XholonWithPorts {
       break;
     case "maxlen":
       text = text.substring(0, maxlen);
+      processTruncatedTextNode(text);
+      break;
+    case "maxlen2":
+      // use CSS to make the extra long lines wrap
+      text = text.substring(0, maxlen*2);
       processTruncatedTextNode(text);
       break;
     case "none":
@@ -477,8 +483,6 @@ public class Screenplay extends XholonWithPorts {
   // PARSE
   var processTruncatedTextNode = function(text) {
     debugFlow("processTextNode");
-    //var text = tn.nodeValue;
-    text = removeCrLfs(text);
     if (text.length == 0) {return;}
     trimmedScriptText += text.trim() + "\n"; // to write out a trimmed version of the text
     if (avatarScriptActive) {
