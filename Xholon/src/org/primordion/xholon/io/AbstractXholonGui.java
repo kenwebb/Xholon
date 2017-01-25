@@ -81,7 +81,7 @@ public abstract class AbstractXholonGui implements IXholonGui {
     + "<li>Select <strong>Information</strong> from the Help menu for (optional) details about the application currently running.</li>"
     + "<li>Right-click any node to open a context menu.</li>"
     + "</ul>"
-    + "<p>Copyright (C) 2005 - 2016 Ken Webb</p>"
+    + "<p>Copyright (C) 2005 - 2017 Ken Webb</p>"
     + "<p>Xholon library is licensed under GNU Lesser General Public License.</p>"
     + "<p><center><a href=\"http://www.primordion.com/Xholon/gwt/\">www.primordion.com/Xholon/gwt/</a><center></p>"
     + "<center><a href=\"http://www.primordion.com/Xholon/wiki/index.html\">Xholon wiki</a><center>"
