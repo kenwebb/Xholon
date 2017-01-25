@@ -112,6 +112,10 @@ public class Avatar extends AbstractAvatar {
   
   protected static final int SIG_FOLLOWLEADERTECH_CANON = 101;
   
+  protected static final int SPEECHOUT_NO_EFFECT = 0;
+  protected static final int SPEECHOUT_ALWAYS    = 1;
+  protected static final int SPEECHOUT_NEVER     = 2;
+  
   /* MOVED TO AbstractAvatar
   // Variables
   public String roleName = null;
@@ -407,6 +411,7 @@ public class Avatar extends AbstractAvatar {
       this.getFirstChild().removeChild();
     }
     setStartContextNode();
+    this.setSpeechOut(SPEECHOUT_NO_EFFECT);
     super.postConfigure();
   }
   
@@ -724,6 +729,7 @@ public class Avatar extends AbstractAvatar {
   
   @Override
   public void doAction(String action) {
+    //this.consoleLog("" + app.getTimeStep() + " " + this.getName() + " " + action.substring(0, action.length() > 40 ? 40 : action.length()));
     String responseStr = processCommands(action);
     if (transcript && (responseStr != null) && (responseStr.length() > 0)) {
       this.println(" " + responseStr);
@@ -2503,10 +2509,14 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
    */
   protected void out(String destinations, String text) {
     String[] dests = destinations.split(",");
+    boolean hasSpoken = false;
     for (int i = 0; i < dests.length; i++) {
       switch (dests[i]) {
       case "speech":
-        this.speak(outPrefix + text, ssuLang, ssuVoice, ssuVolume, ssuRate, ssuPitch);
+        if (this.getSpeechOut() != SPEECHOUT_NEVER) {
+          this.speak(outPrefix + text, ssuLang, ssuVoice, ssuVolume, ssuRate, ssuPitch);
+        }
+        hasSpoken = true;
         break;
       case "caption":
         if (captionEle != null) {
@@ -2541,6 +2551,9 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
         }
         break;
       }
+    }
+    if (!hasSpoken && (this.getSpeechOut() == SPEECHOUT_ALWAYS)) {
+      this.speak(outPrefix + text, ssuLang, ssuVoice, ssuVolume, ssuRate, ssuPitch);
     }
   }
   
@@ -3316,6 +3329,23 @@ var voices = $wnd.responsiveVoice.getVoices();
       }
     }
     return null;
+  }-*/;
+  
+  /**
+   * Get the current value of the optional JavaScript variable speechOut.
+   */
+  protected native int getSpeechOut() /*-{
+    if (!this.speechOut) {
+      this.speechOut = 0; // no effect (default)
+    }
+    return this.speechOut;
+  }-*/;
+  
+  /**
+   * Get the current value of the optional JavaScript variable speechOut.
+   */
+  protected native void setSpeechOut(int speechOut) /*-{
+    this.speechOut = speechOut;
   }-*/;
   
 }
