@@ -195,6 +195,7 @@ public class Xholon2D3CirclePack implements EventListener {
     shapeParams = "5,5"; // rect rx,ry
     maxSvg = 50, // max allowable number of SVG subtrees, to prevent running out of memory
     maxChars = 1, // max allowable number of chars in the standard text
+    fontSizeMultiplier = 1.75, // used to control the font-size of leaf nodes
     marble = "", // alternative content, in place of the standard text
     supportTouch = false,
     useIcons = false,
@@ -213,6 +214,7 @@ public class Xholon2D3CirclePack implements EventListener {
       shapeParams = efParams.shapeParams;
       maxSvg = efParams.maxSvg;
       maxChars = efParams.maxChars;
+      fontSizeMultiplier = efParams.fontSizeMultiplier;
       marble = efParams.marble;
       if (marble) {
         marble = $wnd.JSON.parse(marble);
@@ -382,7 +384,7 @@ public class Xholon2D3CirclePack implements EventListener {
       .attr("dy", ".3em")
       .style("text-anchor", "middle")
       .style("font-size", function(d) {
-        return (d.r * 1.75 / maxChars) + "px";
+        return (d.r * fontSizeMultiplier / maxChars) + "px";
       })
       .classed("marblesymbol", function() {
         if (marble) {return true;}
@@ -391,8 +393,14 @@ public class Xholon2D3CirclePack implements EventListener {
       .text(function(d) {
         if (d.symbol) {return d.symbol;}
         var dname = d.name.substring(0, maxChars);
-        if ((dname.charAt(0) == ":") && (d.name.length > maxChars)) {
-          dname = d.name.substring(1, maxChars+1);
+        var posColon = dname.indexOf(":");
+        if (posColon != -1) {
+          if ((posColon == 0) && (d.name.length > maxChars)) {
+            dname = d.name.substring(1, maxChars+1);
+          }
+          else {
+            dname = dname.substring(0, posColon);
+          }
         }
         return dname;
       });
@@ -551,8 +559,14 @@ public class Xholon2D3CirclePack implements EventListener {
         .text(function(d) {
           if (d.symbol) {return d.symbol;}
           var dname = d.name.substring(0, maxChars);
-          if ((dname.charAt(0) == ":") && (d.name.length > maxChars)) {
-            dname = d.name.substring(1, maxChars+1);
+          var posColon = dname.indexOf(":");
+          if (posColon != -1) {
+            if ((posColon == 0) && (d.name.length > maxChars)) {
+              dname = d.name.substring(1, maxChars+1);
+            }
+            else {
+              dname = dname.substring(0, posColon);
+            }
           }
           return dname;
         });
