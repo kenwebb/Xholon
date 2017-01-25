@@ -142,6 +142,7 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
     p.useAnno = false; // whether or not to show Xholon annotations
     p.annoPos = "outside"; // "outside", "inside", "tooltip", n s e w nw ne sw se   ex: "outside nw"
     p.maxChars = 1;
+    p.fontSizeMultiplier = 1.75;
     p.marble = ''; // '{"type":"default","maxChars":4}'
     p.supportTouch = false; // Hammer.js
     p._jsdata = false;
