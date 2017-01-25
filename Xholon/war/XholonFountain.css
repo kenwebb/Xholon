@@ -44,4 +44,7 @@ div#xhleft, div#xhright {
 div#xhright {
   width: 900px;
 }
+g[id*="sceneLocation"]>text {
+  fill:Navy;
+}
 
