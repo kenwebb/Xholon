@@ -142,8 +142,24 @@ public class Director extends XholonWithPorts {
       }
       if (scene) {
         //$this.println(scene);
+        // note that first 2 chars of scene.role() are special char and space
         $wnd.xh.svg.scenenum.textContent = scene.role().charAt(0);
-        var prnArr = $wnd.xh.movie.makePlaceRoleName(scene.role().substring(2), 0, $wnd.xh.movie.timewordsXsn, false);
+        var sceneRole = scene.role().substring(2);
+        var prnArr = $wnd.xh.movie.makePlaceRoleName(sceneRole, 0, $wnd.xh.movie.timewordsXsn, false);
+        
+        // scroll the textarea to show the first line of the new scene
+        var sceneRoleUC = sceneRole.toUpperCase();
+        $wnd.console.log(sceneRoleUC);
+        // window.find() is a non-standard feature; it works in Chrome
+        if ($wnd.find) {
+          var rc = $wnd.find(sceneRoleUC, true); // case-sensitive search
+          $wnd.console.log(rc);
+          if (!rc) {
+            var rc = $wnd.find(sceneRoleUC, true, true); // try with backward search
+            $wnd.console.log(rc);
+          }
+        }
+        
         if (scene.encloses && animate) {
           var prn = prnArr[0];
           switch (scene.encloses) {
