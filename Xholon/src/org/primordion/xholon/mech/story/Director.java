@@ -71,6 +71,7 @@ public class Director extends XholonWithPorts {
     this.highlightCountdown = 0;
     this.timeword = null;
     var animate = this.xpath("../../Animate");
+    var animRootOriginal = animate.attr("AnimRoot");
     
     this.cacheAvatars = function() {
       var people = $this.xpath("../Characters");
@@ -140,10 +141,34 @@ public class Director extends XholonWithPorts {
         }
       }
       if (scene) {
-        $this.println(scene);
+        //$this.println(scene);
         $wnd.xh.svg.scenenum.textContent = scene.role().charAt(0);
+        var prnArr = $wnd.xh.movie.makePlaceRoleName(scene.role().substring(2), 0, $wnd.xh.movie.timewordsXsn, false);
         if (scene.encloses && animate) {
-          animate.attr("AnimRoot", scene.encloses);
+          var prn = prnArr[0];
+          switch (scene.encloses) {
+          case "child":
+          case "child_zoom":
+            // use the current immediate child of sceneLocationRoot
+            // ./TheSystem/StorySystem/Story/Universe|SceneLocation[@roleName='Wills bedroom']/SceneLocation[@roleName='Night (1973)']
+            var slashPos = prn.indexOf("/");
+            if (slashPos != -1) {
+              // we only want the highest level SceneLocation
+              prn = prn.substring(0, slashPos);
+            }
+            var animRoot = animRootOriginal + "/" + prn;
+            animate.attr("AnimRoot", animRoot);
+            break;
+          case "descendant":
+          case "descendant_zoom":
+            var animRoot = animRootOriginal + "/" + prn;
+            animate.attr("AnimRoot", animRoot);
+            break;
+          case "root":
+            animate.attr("AnimRoot", animRootOriginal);
+            break;
+          default: break; // null or other
+          }
         }
         $this.countdown = 2; //scene.duration
         if (scene.duration) {
@@ -155,9 +180,11 @@ public class Director extends XholonWithPorts {
         while (ascript) {
           var a = $this.avatarCache[ascript.avatar];
           if (a) {
-            movePerson(a, scene);
-            a.action("param transcript false;");
-            a.action("script;" + ascript.first().text());
+            movePerson(a, scene, prnArr);
+            if (ascript.first()) {
+              a.action("param transcript false;");
+              a.action("script;" + ascript.first().text());
+            }
             //a.color($wnd.d3.rgb(a.color()).darker(0.2).toString()); // doesn't work with rgba()
             rgba2rgbOpacity(a); // set color and opacity back to default values
           }
@@ -166,8 +193,10 @@ public class Director extends XholonWithPorts {
             // try again to get "a"
             a = $this.avatarCache[ascript.avatar];
             if (a) {
-              a.action("param transcript false;");
-              a.action("script;" + ascript.first().text());
+              if (ascript.first()) {
+                a.action("param transcript false;");
+                a.action("script;" + ascript.first().text());
+              }
             }
           }
           ascript = ascript.next();
@@ -191,11 +220,11 @@ public class Director extends XholonWithPorts {
       $this.highlightCountdown = 1; // delay one timestep to give people a chance to get to the new place
     }
 
-    var movePerson = function(person, scene) {
+    var movePerson = function(person, scene, prnArr) {
       var sourceXhcName = person.parent().xhc().name();
       // note that first 2 chars of scene.role() are special char and space
       if (sourceXhcName == "Characters") {
-        var prnArr = $wnd.xh.movie.makePlaceRoleName(scene.role().substring(2), 0, $wnd.xh.movie.timewordsXsn, false);
+        //var prnArr = $wnd.xh.movie.makePlaceRoleName(scene.role().substring(2), 0, $wnd.xh.movie.timewordsXsn, false);
         var prn = prnArr[0];
         if (prnArr[1] != "SAME") {
           $this.timeword = prnArr[1];
@@ -206,7 +235,7 @@ public class Director extends XholonWithPorts {
       }
       else {
         // move from current place, to possibly a new place
-        var prnArr = $wnd.xh.movie.makePlaceRoleName(scene.role().substring(2), 0, $wnd.xh.movie.timewordsXsn, false);
+        //var prnArr = $wnd.xh.movie.makePlaceRoleName(scene.role().substring(2), 0, $wnd.xh.movie.timewordsXsn, false);
         var prn = prnArr[0];
         if (prnArr[1] != "SAME") {
           $this.timeword = prnArr[1];

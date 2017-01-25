@@ -103,6 +103,18 @@ public class Screenplay extends XholonWithPorts {
   private String truncate = SCREENPLAY_TRUNCATE_NONE;
   private int maxlen = 120; // used in truncate == SCREENPLAY_TRUNCATE_MAXLEN
   
+  /**
+   * Optionally used in <Scene> to specify which is the enclosing Xholon container for that scene.
+   * This value works with sceneLocationRoot.
+   * Possible values are:
+   *  null OR "root"    use sceneLocationRoot for every scene (the default)
+   *  "child"           use the current immediate child of sceneLocationRoot
+   *  "descendant"      use the current most-nested sceneLocation
+   *  "child_zoom"      zoom between sceneLocationRoot and the current immediate child of sceneLocationRoot
+   *  "descendant_zoom" zoom between sceneLocationRoot and the current most-nested sceneLocation
+   */
+  private String encloses = null;
+  
   public Screenplay() {
     requireFountain();
   }
@@ -160,12 +172,12 @@ public class Screenplay extends XholonWithPorts {
     }
     switch (format) {
     case SCREENPLAY_FORMAT_IMSDB:
-      this.parseScreenplay(format, sceneLocationRoot, timewords, speech, options, null, truncate, maxlen);
+      this.parseScreenplay(format, sceneLocationRoot, timewords, speech, options, null, truncate, maxlen, encloses);
       break;
     case SCREENPLAY_FORMAT_FOUNTAIN:
       this.fountainTokenized = this.tokenizeFountain(val);
       if (this.fountainTokenized != null) {
-        this.parseScreenplay(format, sceneLocationRoot, timewords, speech, options, this.fountainTokenized, truncate, maxlen);
+        this.parseScreenplay(format, sceneLocationRoot, timewords, speech, options, this.fountainTokenized, truncate, maxlen, encloses);
       }
       break;
     default:
@@ -184,7 +196,7 @@ public class Screenplay extends XholonWithPorts {
       if (this.fountainTokenized == null) {
         this.fountainTokenized = this.tokenizeFountain(val);
         if (this.fountainTokenized != null) {
-          this.parseScreenplay(format, sceneLocationRoot, timewords, speech, options, this.fountainTokenized, truncate, maxlen);
+          this.parseScreenplay(format, sceneLocationRoot, timewords, speech, options, this.fountainTokenized, truncate, maxlen, encloses);
         }
       }
       break;
@@ -197,7 +209,7 @@ public class Screenplay extends XholonWithPorts {
   /**
    * Parse the screenplay.
    */
-  protected native void parseScreenplay(String format, String sceneLocationRoot, String timewords, boolean speech, String options, Object fountainTokenized, String truncate, int maxlen) /*-{
+  protected native void parseScreenplay(String format, String sceneLocationRoot, String timewords, boolean speech, String options, Object fountainTokenized, String truncate, int maxlen, String encloses) /*-{
   var debugStr = "";
   
   // DEBUG
@@ -224,6 +236,7 @@ public class Screenplay extends XholonWithPorts {
   var sceneObj = null;
   var trimmedScriptText = "";
   var service = $wnd.xh.service("XholonHelperService");
+  var zoomDuration = 1; // 1 or 2   for use with child_zoom and descendant_zoom
   
   var timewordsArr = ["NIGHT", "DAY"];
   if (timewords) {
@@ -431,27 +444,66 @@ public class Screenplay extends XholonWithPorts {
     // the scene "slug" line (INT or EXT, location, time)
     if (!slug || slug.length == 0) {return;}
     if (sceneObj) {
-      // write out the complete scene
-      scenesXmlStr += '<Scene roleName="' + sceneObj.slug + '" duration="' + sceneObj.seqNum + '">\n';
-      if (sceneObj.anno.length > 0) {
-        scenesXmlStr += ' <Annotation>' + sceneObj.anno + '</Annotation>\n';
-      }
-      if (avatarScriptActive) {
-        for (var personName in sceneObj) {
-          if (typeof sceneObj[personName] === "object") {
-            scenesXmlStr += '\n <AvatarScript avatar="' + personName + '"><Attribute_String><' + '!' + '[CDATA[\n';
-            scenesXmlStr += sceneObj[personName].text;
-            scenesXmlStr += ' ]' + ']' + '></Attribute_String></AvatarScript>\n';
-          }
-        }
-        avatarScriptActive = false;
-      }
-      scenesXmlStr += "</Scene>\n\n";
+      processSceneCommon();
     }
     sceneObj = {};
     sceneObj.slug = slug;
     sceneObj.seqNum = 0;
     sceneObj.anno = "";
+  }
+  
+  // PARSE, OUTPUT
+  var processSceneCommon = function() {
+    // write out the complete scene
+    var enclosesStr = "";
+    if (encloses) {
+      enclosesStr = '" encloses="' + encloses;
+      switch (encloses) {
+      case "child_zoom":
+      case "descendant_zoom":
+        scenesXmlStr += '<Scene roleName="' + sceneObj.slug + '" duration="' + zoomDuration + '" encloses="root' + '">\n';
+        for (var personName in sceneObj) {
+          if (typeof sceneObj[personName] === "object") {
+            scenesXmlStr += ' <AvatarScript avatar="' + personName + '">';
+            scenesXmlStr += '</AvatarScript>\n';
+          }
+        }
+        scenesXmlStr += "</Scene>\n";
+        break;
+      default: break;
+      }
+    }
+    scenesXmlStr += '<Scene roleName="' + sceneObj.slug + '" duration="' + sceneObj.seqNum + enclosesStr + '">\n';
+    if (sceneObj.anno.length > 0) {
+      scenesXmlStr += ' <Annotation>' + sceneObj.anno + '</Annotation>\n';
+    }
+    if (avatarScriptActive) {
+      for (var personName in sceneObj) {
+        if (typeof sceneObj[personName] === "object") {
+          scenesXmlStr += '\n <AvatarScript avatar="' + personName + '"><Attribute_String><' + '!' + '[CDATA[\n';
+          scenesXmlStr += sceneObj[personName].text;
+          scenesXmlStr += ' ]' + ']' + '></Attribute_String></AvatarScript>\n';
+        }
+      }
+      avatarScriptActive = false;
+    }
+    scenesXmlStr += "</Scene>\n\n";
+    if (encloses) {
+      switch (encloses) {
+      case "child_zoom":
+      case "descendant_zoom":
+        scenesXmlStr += '<Scene roleName="' + sceneObj.slug + '" duration="' + zoomDuration + '" encloses="root' + '">\n';
+        for (var personName in sceneObj) {
+          if (typeof sceneObj[personName] === "object") {
+            scenesXmlStr += ' <AvatarScript avatar="' + personName + '">';
+            scenesXmlStr += '</AvatarScript>\n';
+          }
+        }
+        scenesXmlStr += "</Scene>\n\n";
+        break;
+      default: break;
+      }
+    }
   }
   
   // PARSE
@@ -548,7 +600,6 @@ public class Screenplay extends XholonWithPorts {
   // PARSE FOUNTAIN start
   else if (format == "fountain") {
     var tokens = fountainTokenized.tokens;
-    $wnd.console.log(tokens.length);
     for (var i = 0; i < tokens.length; i++) {
       var token = tokens[i];
       if (token.text) {
@@ -654,27 +705,14 @@ public class Screenplay extends XholonWithPorts {
         avatarScriptActive = false;
       }
       if (sceneObj) {
-        // write out the last scene
-        scenesXmlStr += '<Scene roleName="' + sceneObj.slug + '" duration="' + sceneObj.seqNum + '">\n';
-        if (sceneObj.anno.length > 0) {
-          scenesXmlStr += ' <Annotation>' + sceneObj.anno + '</Annotation>\n';
-        }
-        //if (avatarScriptActive) { // commented out Dec 1, 2016
-          for (var personName in sceneObj) {
-            if (typeof sceneObj[personName] === "object") {
-              scenesXmlStr += '\n <AvatarScript avatar="' + personName + '"><Attribute_String><' + '!' + '[CDATA[\n';
-              scenesXmlStr += sceneObj[personName].text;
-              scenesXmlStr += ' ]' + ']' + '></Attribute_String></AvatarScript>\n';
-            }
-          }
-          avatarScriptActive = false;
-        //}
-        scenesXmlStr += "</Scene>\n\n";
+        avatarScriptActive = true; // ???
+        processSceneCommon();
       }
       
     }
     scenesXmlStr = "<_-.scenes>\n\n" + scenesXmlStr + "</_-.scenes>\n";
     $this.println(scenesXmlStr);
+    //$wnd.console.log(scenesXmlStr);
     var scenesNode = $this.xpath("ancestor::StorySystem/Story/Scenes");
     if (scenesNode) {
       scenesNode.append(scenesXmlStr);
@@ -725,7 +763,7 @@ public class Screenplay extends XholonWithPorts {
     var parsed = null;
     if ($wnd.fountain) {
       parsed = $wnd.fountain.parse(script, true);
-      $wnd.console.log(parsed);
+      //$wnd.console.log(parsed);
     }
     return parsed;
   }-*/;
@@ -756,6 +794,9 @@ public class Screenplay extends XholonWithPorts {
     }
     else if ("maxlen".equals(attrName)) {
       this.maxlen = Integer.parseInt(attrVal);
+    }
+    else if ("encloses".equals(attrName)) {
+      this.encloses = attrVal;
     }
     return 0;
   }

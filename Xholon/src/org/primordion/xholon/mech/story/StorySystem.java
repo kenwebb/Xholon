@@ -111,6 +111,7 @@ public class StorySystem extends XholonWithPorts {
       else {
         sceneName = sceneName.substring(startPos);
       }
+      sceneName = sceneName.trim();
       var arr = sceneName.split(" - ");
       var len = arr.length;
       var timeword = null;

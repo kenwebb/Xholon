@@ -87,7 +87,8 @@ public class Scenes extends XholonWithPorts {
           break;
         case 0x24fe:
           // no more enclosed numbers or characters available
-          scene = null;
+          //scene = null;
+          sceneNum = 0x2460; // restart the sequence
           break;
         default:
           sceneNum++;
