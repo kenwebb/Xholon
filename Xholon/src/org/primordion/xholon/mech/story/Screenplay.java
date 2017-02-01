@@ -115,8 +115,22 @@ public class Screenplay extends XholonWithPorts {
    */
   private String encloses = null;
   
+  /**
+   * Optionally generate faces for Character nodes.
+   * Posssible values are:
+   *  "null" = null
+   *  "facesjs" use the faces.js library
+   */
+  private String faces = null;
+  
+  /**
+   * Max number of letters to show from a Character name, when using faces. 
+   */
+  private int maxChars = 20;
+  
   public Screenplay() {
     requireFountain();
+    requireFacesjs();
   }
   
   @Override
@@ -203,8 +217,70 @@ public class Screenplay extends XholonWithPorts {
     default:
       break;
     }
+    if (this.faces != null) {
+      // this code should only be run once
+      boolean rc = this.generateFaces(this.faces, this.maxChars);
+      if (rc) {
+        // faces have been generated, so prevent them from being generated again
+        this.faces = null;
+      }
+    }
     super.act();
   }
+  
+  /**
+   * Generate faces.
+   */
+  protected boolean generateFaces(String faces, int maxChars) {
+    switch (faces) {
+    case "facesjs":
+      // use the faces.js library
+      return generateFacesFacesjs(faces, maxChars);
+    default: return false;
+    }
+  }
+  
+  /**
+   * Generate faces using the faces.js library.
+   * TODO don't generate a new face if the Character node already has an icon.
+   */
+  protected native boolean generateFacesFacesjs(String faces, int maxChars) /*-{
+    if (!$wnd.faces) {return false;}
+    var service = $wnd.xh.service("XholonHelperService");
+    var animate = $wnd.xh.root().xpath("descendant::Animate");
+    if (animate) {
+      var efParams = animate.obj();
+      // TODO get maxChars from efParams ???
+      $wnd.console.log(efParams);
+    }
+    var addFaceToEachCharacterNode = function(node) {
+      if (node.xhc().name() == "Character") {
+        if (!node.icon()) {
+          var face = $wnd.faces.generate();
+          var svgStr = $wnd.faces.display(null, face, false, true, node.name("R^^^^^").substring(0, maxChars));
+          svgStr = svgStr.replace(/"/g, "'");
+          svgStr = svgStr.replace(/</g, "&lt;");
+          svgStr = "data:image/svg+xml," + svgStr;
+          $wnd.console.log(svgStr);
+          //node.icon(svgStr);
+          var iconStr = "<Icon>" + svgStr + "</Icon>";
+          service.call(-2019, iconStr, node); // ISignal.ACTION_PASTE_MERGE_FROMSTRING = -2019
+          // TODO changing the color has no effect
+          //var colorStr = "<Color>" + "rgba(255,255,255,0.0)" + "</Color>";
+          //service.call(-2019, colorStr, node);
+        }
+      }
+      else {
+        node = node.first();
+        while (node) {
+          addFaceToEachCharacterNode(node, svgStr);
+          node = node.next();
+        }
+      }
+    }
+    addFaceToEachCharacterNode($wnd.xh.root());
+    return true;
+  }-*/;
   
   /**
    * Parse the screenplay.
@@ -265,10 +341,10 @@ public class Screenplay extends XholonWithPorts {
     }
   }
   
-  // DEBUG
-  var debugFlow = function(str) {
-    debugStr += str + "\n";
-  }
+  // DEBUG  duplicate code
+  //var debugFlow = function(str) {
+  //  debugStr += str + "\n";
+  //}
   
   // PARSE
   var formatPersonName = function(wordArr) {
@@ -769,10 +845,18 @@ public class Screenplay extends XholonWithPorts {
   }-*/;
 
   /**
-   * Load the fountain JavaScript file.
+   * Load the fountain JavaScript library.
    */
   protected native void requireFountain() /*-{
     $wnd.xh.require("fountain");
+  }-*/;
+  
+  /**
+   * Load the faces JavaScript library.
+   * This library may or may not be used.
+   */
+  protected native void requireFacesjs() /*-{
+    $wnd.xh.require("faces");
   }-*/;
   
   @Override
@@ -797,6 +881,17 @@ public class Screenplay extends XholonWithPorts {
     }
     else if ("encloses".equals(attrName)) {
       this.encloses = attrVal;
+    }
+    else if ("faces".equals(attrName)) {
+      if ("null".equals(attrVal)) {
+        this.faces = null;
+      }
+      else {
+        this.faces = attrVal;
+      }
+    }
+    else if ("maxChars".equals(attrName)) {
+      this.maxChars = Integer.parseInt(attrVal);
     }
     return 0;
   }
