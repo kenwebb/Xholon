@@ -391,8 +391,40 @@
   function saveToWindow(content) {
     var uriContent = 'data:text/plain;charset=utf-8;base64,' + Base64.encode(content);
     // Note: it's not possible to successfully specify a filename for the file
-    window.open(uriContent, '_blank', 'width=' + 500
-        + ',height=' + 400 + ',status=yes,resizable=yes,menubar,scrollbars');
+    var winName = '_blank';
+    var winFeatures = 'width=' + 500 + ', height=' + 400 + ', status=yes, resizable=yes, menubar=yes, scrollbars=yes';
+    // "width=1000, height=800, status=yes, resizable=yes, menubar=yes, scrollbars=yes"
+    //window.open(uriContent, '_blank', 'width=' + 500
+    //    + ',height=' + 400 + ',status=yes,resizable=yes,menubar,scrollbars'); // OLD
+    console.log(content); // this works (Nov 29)
+    //console.log(uriContent);
+    //console.log(winName);
+    //console.log(winFeatures);
+    
+    // this fails in Chrome (as of Nov 29, 2016)
+    this.open(uriContent, winName, winFeatures);
+    
+    // testing; nothing useful here (Nov 29)
+    /*try {
+      var windowObjectReference = this.open(uriContent, winName, winFeatures);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      console.log("finally");
+      console.log(windowObjectReference);
+      console.log(windowObjectReference.closed);
+      console.log(windowObjectReference.frames);
+      console.log(windowObjectReference.opener);
+      console.log(windowObjectReference.parent);
+      console.log(windowObjectReference.self);
+      console.log(windowObjectReference.top);
+      console.log(windowObjectReference.window);
+      if ((windowObjectReference == null) || windowObjectReference.closed) {
+        console.log(content);
+      }
+    }*/
+    
+    // window.open("http://www.primordion.com", "_blank", "width=500, height=400, status=yes, resizable=yes, menubar=yes, scrollbars=yes");  works from Devtools
   }
   
   /**
@@ -432,9 +464,11 @@
     uri +="&gui=" + gui;
     // window name must not contain whitespace or dash; replace with underscore
     var winName = modelName.replace(/\s/g, "_").replace(/-/g, "_");
+    var winFeatures = "width=1000, height=800, status=yes, resizable=yes, menubar=yes, scrollbars=yes";
     //console.log(uri);
     //console.log(winName);
-    window.open(uri, winName, "width=1000, height=800, status=yes, resizable=yes, menubar=yes, scrollbars=yes");
+    //console.log(winFeatures);
+    window.open(uri, winName, winFeatures);
   }
   
   /**
@@ -832,6 +866,25 @@
       saveAsGist(content);
       changesSavedAsGist = true;
     });
+    
+    if (typeof Clipboard !== 'undefined') {
+      var clipboard = new Clipboard('button.toclipboard', {
+        text: function() {
+          var content = assembleXmlContent();
+          return content;
+        }
+      });
+      clipboard.on('success', function(e) {
+        console.log('successfully saved to clipboard');
+      });
+      clipboard.on('error', function(e) {
+        console.log('unable to save to clipboard');
+        console.log(e);
+      });
+    }
+    else {
+      console.log("Clipboard not defined");
+    }
     
     /*$('button.selectall').click(function() {
       $.each(editor, function(index, anEditor) {
