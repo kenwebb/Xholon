@@ -487,10 +487,10 @@ var faces = (function () {
         paper.setAttribute("xmlns", "http://www.w3.org/2000/svg");
         paper.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
         // none of the following changes make any difference
-        paper.setAttribute("width",  "350"); //"100%");
-        paper.setAttribute("height", "570"); //"100%");
-        paper.setAttribute("viewBox", "0 0 350 570"); //400 600");
-        paper.setAttribute("preserveAspectRatio", "xMidYMid meet"); //"xMinYMin meet");
+        paper.setAttribute("width",  "100%"); // "350"
+        paper.setAttribute("height", "100%"); // "570"
+        paper.setAttribute("viewBox", "0 0 350 570"); // 400 600
+        paper.setAttribute("preserveAspectRatio", "xMinYMin meet"); // "xMidYMid meet"
         if (displaySvg && container) {
           container.appendChild(paper);
         }
