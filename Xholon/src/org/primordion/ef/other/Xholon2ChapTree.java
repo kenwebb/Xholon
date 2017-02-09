@@ -37,7 +37,7 @@ public class Xholon2ChapTree extends Xholon2ChapNetwork implements IXholon2Graph
 	 * Constructor.
 	 */
 	public Xholon2ChapTree() {
-	  super(false, true);
+	  super(false, true, 99, "treeview");
 	}
   
 }

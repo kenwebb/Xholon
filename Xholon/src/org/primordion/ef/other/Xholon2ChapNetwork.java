@@ -38,6 +38,7 @@ import org.primordion.xholon.service.ef.IXholon2GraphFormat;
  * @see <a href="chap.almende.com/visualization/network/">CHAP Network</a>
  * @see <a href="almende.github.io/chap-links-library/index.html">CHAP doc and examples</a>
  * @see <a href="almende.github.io/chap-links-library/js/network/doc/">CHAP doc</a>
+ * @see <a href="http://visjs.org/"> new version (2017)</a>>
  */
 @SuppressWarnings("serial")
 public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements IXholon2GraphFormat {
@@ -89,30 +90,15 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
 	/**
 	 * Whether or not to show port links between nodes.
 	 */
-	protected boolean showNetwork = true;
+	//protected boolean showNetwork = true;
 	
 	/**
 	 * Whether or not to show hierarchical parent-child relationships.
 	 */
-	protected boolean showTree = false;
+	//protected boolean showTree = false;
 	
-	//protected String width = "600px";
-	
-	//protected String height = "600px";
-	
-	/**
-	 * The length of a link.
-	 */
-	//protected int linksLength = 50; // 100
-	
-	/**
-	 * Whether or not a link should show the name of the port.
-	 */
-	//protected boolean showPortName = false;
-	
-	//protected String nodesStyle = "dot"; // rect text image
-	
-	//protected String stabilize = "false";
+	protected String linksTableLable = "text"; // "text" OR "label"
+	protected String nodesTableLable = "text"; // "text" OR "label"
 	
 	/**
 	 * Constructor.
@@ -122,9 +108,16 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
 	/**
 	 * Constructor.
 	 */
-	public Xholon2ChapNetwork(boolean showNetwork, boolean showTree) {
-	  this.showNetwork = showNetwork;
-	  this.showTree = showTree;
+	public Xholon2ChapNetwork(boolean showNetwork, boolean showTree, int maxTreeLevels, String viewElementId) {
+	  this.setShowNetwork(showNetwork);
+	  this.setShowTree(showTree);
+	  this.setMaxTreeLevels(maxTreeLevels);
+	  this.viewElementId = viewElementId;
+		if ("treeview".equals(this.viewElementId)) {
+		  setLinksLength(100);
+		  outPath = "./ef/chtree/";
+		}
+		
 	}
 	
 	@Override
@@ -145,12 +138,6 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
 		this.modelName = modelName;
 		this.root = root;
 		
-		if (showTree) {
-		  setLinksLength(100);
-		  viewElementId = "treeview";
-		  outPath = "./ef/chtree/";
-		}
-		
 		// TODO why are there 2 "var nodesTable" and 2 "var linksTable" ?
 		this.startSb = new StringBuilder(128)
 		.append("var nodesTable = null;\n")
@@ -166,30 +153,61 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
 		.append("// links\n")
 		.append("var linksTable = [];\n");
 		
-		this.optionsSb = new StringBuilder(SB_INITIAL_CAPACITY)
-		.append("// options\n")
-		.append("var options = {\n")
-		.append("  'width': '" + getWidth() + "',\n")
-		.append("  'height': '" + getHeight() + "',\n")
-		.append("  'links': {\n")
-		.append("    'length': " + getLinksLength() + "\n")
-		.append("  },\n")
-		.append("  'nodes': {\n")
-		.append("    'style': '" + getNodesStyle() + "'\n")
-		.append("  },\n")
-		.append("  'stabilize': " + getStabilize() + "\n")
-		.append("};\n");
+		if ("network-min".equals(this.getJsLibName())) { // old library
+		  this.optionsSb = new StringBuilder(SB_INITIAL_CAPACITY)
+		  .append("// options\n")
+		  .append("var options = {\n")
+		  .append("  'width': '" + getWidth() + "',\n")
+		  .append("  'height': '" + getHeight() + "',\n")
+		  .append("  'links': {\n")
+		  .append("    'length': " + getLinksLength() + "\n")
+		  .append("  },\n")
+		  .append("  'nodes': {\n")
+		  .append("    'style': '" + getNodesStyle() + "'\n")
+		  .append("  },\n")
+		  .append("  'stabilize': " + getStabilize() + "\n")
+		  .append("};\n");
+		  
+		  this.endSb = new StringBuilder(128)
+		  .append("network = new links.Network(document.getElementById('")
+		  .append(viewElementId)
+		  .append("'));\n")
+		  .append("network.draw(nodesTable, linksTable, options);\n")
+		  .append("}\n")
+		  .append("draw();\n");
+		}
+		/*
+var container = document.getElementById('mynetwork');
+var data = {nodes: nodesTable,edges: linksTable};
+var network = new vis.Network(container, data, options);
+		*/
+		else { // vis-network.min  new library
+		  this.optionsSb = new StringBuilder(SB_INITIAL_CAPACITY)
+		  .append("// options\n")
+		  .append("var options = {\n")
+		  .append("  'width': '" + getWidth() + "',\n")
+		  .append("  'height': '" + getHeight() + "',\n")
+		  .append("  'edges': {\n")
+		  .append("    'length': " + getLinksLength() + "\n")
+		  .append("  },\n")
+		  .append("  'nodes': {\n")
+		  .append("    'shape': '" + getNodesStyle() + "'\n")
+		  .append("  },\n")
+		  .append("  'autoResize': " + getStabilize() + "\n")
+		  .append("};\n");
+		  
+		  this.endSb = new StringBuilder(128)
+		  .append("var container = document.getElementById('")
+		  .append(viewElementId)
+		  .append("');\n")
+		  .append("var data = {nodes: nodesTable, edges: linksTable};\n")
+		  .append("network = new vis.Network(container, data, options);\n")
+		  .append("}\n")
+		  .append("draw();\n");
+		}
 		
-		this.endSb = new StringBuilder(128)
-		.append("network = new links.Network(document.getElementById('")
-		.append(viewElementId)
-		.append("'));\n")
-		.append("network.draw(nodesTable, linksTable, options);\n")
-		.append("}\n")
-		.append("draw();\n");
-		
-		if (!isDefinedChapLinksNetwork()) {
-      loadChapLinksNetwork();
+		if (!isDefinedChapLinksNetwork(this.getJsLibName())) {
+		  loadChapLinksNetwork();
       return true; // do not return false; that just causes an error message
     }
 		
@@ -198,9 +216,15 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
 
 	@Override
 	public void writeAll() {
-	  if (!isDefinedChapLinksNetwork()) {return;}
-		writeNode(root);
-		sb = new StringBuilder()
+	  if (!isDefinedChapLinksNetwork(this.getJsLibName())) {
+	    return;
+	  }
+	  if ("vis-network.min".equals(this.getJsLibName())) {
+	    linksTableLable = "label";
+	    nodesTableLable = "label";
+	  }
+	  writeNode(root);
+	  sb = new StringBuilder()
 		.append("// ")
 		.append(modelName)
 		.append("\n// see http://almende.github.io/chap-links-library/network.html")
@@ -210,7 +234,7 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
 		.append(linkSb.toString())
 		.append(optionsSb.toString())
 		.append(endSb.toString());
-		
+
 		writeToTarget(sb.toString(), outFileName, outPath, root);
 		
 		if (root.getApp().isUseGwt()) {
@@ -225,10 +249,14 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
 	@Override
 	public void writeNode(IXholon xhNode) {
 		// xhNode details
+		String nodeName = xhNode.getName(getNameTemplate());
+		if ((getMaxChars() != -1) && (nodeName.length() > getMaxChars())) {
+		  nodeName = nodeName.substring(0, getMaxChars());
+		}
 		nodeSb.append("nodesTable.push({'id': ")
 		.append(xhNode.getId())
-		.append(", 'text': '")
-		.append(xhNode.getName())
+		.append(", '" + nodesTableLable + "': '")
+		.append(nodeName)
 		.append("'});\n");
 		// xhNode outgoing edges
 		writeEdges(xhNode);
@@ -243,9 +271,9 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public void writeEdges(IXholon xhNode) {
-	  System.out.println("writeEdges");
+	  //System.out.println("writeEdges");
 	  // show network
-	  if (showNetwork) {
+	  if (isShowNetwork()) {
 		  List<PortInformation> portList =
 				  new org.primordion.xholon.base.ReflectionJavaMicro().getAllPorts(xhNode, false);
 		  for (int i = 0; i < portList.size(); i++) {
@@ -254,30 +282,42 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
 			  .append(xhNode.getId())
 			  .append(", 'to': ")
 			  .append(pi.getReffedNode().getId())
-			  .append(", 'text': '");
+			  .append(", '" + linksTableLable + "': '");
 			  if (isShowPortName()) {
 			    linkSb.append(pi.getFieldName());
 			  }
 			  else {
 			    linkSb.append("");
 			  }
-			  linkSb.append("', 'style': 'arrow-end'")
-			  .append("});\n");
+			  if ("network-min".equals(this.getJsLibName())) {
+			    linkSb.append("', 'style': 'arrow-end'");
+			  }
+			  else {
+  			  // {from: 1, to: 3, arrows:'to'}
+			    linkSb.append("', 'arrows': 'to'");
+			  }
+			  linkSb.append("});\n");
 		  }
 		}
 		
 		// show tree
-		if (showTree) {
-		  if (xhNode != root) {
+		if (isShowTree()) {
+		  if ((xhNode != root)
+		      && ((xhNode.isLeaf() && (getMaxTreeLevels() > 0)) || (getMaxTreeLevels() > 1)) ) {
 		    IXholon pNode = xhNode.getParentNode();
-	      linkSb.append("linksTable.push({'from': ")
+		    linkSb.append("linksTable.push({'from': ")
 			  .append(pNode.getId())
 			  .append(", 'to': ")
 			  .append(xhNode.getId())
-			  .append(", 'text': '")
-			  .append("")
-			  .append("', 'style': undefined")
-			  .append("});\n");
+			  .append(", '" + linksTableLable + "': '")
+			  .append("");
+			  if ("network-min".equals(this.getJsLibName())) {
+			    linkSb.append("', 'style': undefined");
+			  }
+			  else {
+			    linkSb.append("'");
+			  }
+			  linkSb.append("});\n");
 		  }
 		}
 		
@@ -292,39 +332,24 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
 	  HtmlScriptHelper.fromString(scriptContent, true);
 	}
 	
-	//protected native void pasteScript(String scriptId, String scriptContent)
-	/*-{
-	  // add script
-    var script = $doc.createElement('script');
-    script.setAttribute('id', scriptId);
-    script.setAttribute('type', 'text/javascript');
-    try {
-      // fails with IE
-      script.appendChild(document.createTextNode(scriptContent));      
-    } catch(e) {
-      script.text = scriptContent;
-    }
-    
-    $doc.getElementsByTagName('head')[0].appendChild(script);
-	}-*/
-	//;
-	
 	/**
    * Load CHAP Links Network library asynchronously.
    */
   protected void loadChapLinksNetwork() {
-    require(this);
+    require(this, this.getJsLibName());
   }
   
   /**
    * use requirejs
    */
-  protected native void require(final IXholon2GraphFormat xh2Chap) /*-{
+  protected native void require(final IXholon2GraphFormat xh2Chap, String jsLibName) /*-{
+    if (!(jsLibName == "network-min")) {return;}
     $wnd.requirejs.config({
       enforceDefine: false,
       paths: {
         network: [
-          "xholon/lib/network-min"
+          //"xholon/lib/network-min"
+          "xholon/lib/" + jsLibName
         ]
       }
     });
@@ -337,37 +362,55 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
    * Is $wnd.links.Network defined.
    * @return it is defined (true), it's not defined (false)
    */
-  protected native boolean isDefinedChapLinksNetwork() /*-{
-    return (typeof $wnd.links != "undefined") && (typeof $wnd.links.Network != "undefined");
+  protected native boolean isDefinedChapLinksNetwork(String jsLibName) /*-{
+    if (jsLibName == "network-min") {
+      return (typeof $wnd.links != "undefined") && (typeof $wnd.links.Network != "undefined");
+    }
+    else { // vis-network.min
+      //return (typeof $wnd.vis != "undefined") && (typeof $wnd.vis.Network != "undefined");
+      return true;
+    }
   }-*/;
   
-  public boolean isShowNetwork() {
-    return this.showNetwork;
-  }
+  public native boolean isShowNetwork() /*-{return this.efParams.showNetwork;}-*/;
+  public native void setShowNetwork(boolean showNetwork) /*-{this.efParams.showNetwork = showNetwork;}-*/;
   
-  public void setShowNetwork(boolean showNetwork) {
-    this.showNetwork = showNetwork;
-  }
+  public native boolean isShowTree() /*-{return this.efParams.showTree;}-*/;
+  public native void setShowTree(boolean showTree) /*-{this.efParams.showTree = showTree;}-*/;
   
-  public boolean isShowTree() {
-    return this.showTree;
-  }
+  /** Number of tree levels to show, if showTree == true */
+  public native int getMaxTreeLevels() /*-{return this.efParams.maxTreeLevels;}-*/;
+  public native void setMaxTreeLevels(int maxTreeLevels) /*-{this.efParams.maxTreeLevels = maxTreeLevels;}-*/;
+
+  /** Node name template */
+  public native String getNameTemplate() /*-{return this.efParams.nameTemplate;}-*/;
+  public native void setNameTemplate(String nameTemplate) /*-{this.efParams.nameTemplate = nameTemplate;}-*/;
   
-  public void setShowTree(boolean showTree) {
-    this.showTree = showTree;
-  }
+  /** Number of characters to show in the node name */
+  public native int getMaxChars() /*-{return this.efParams.maxChars;}-*/;
+  public native void setMaxChars(int maxChars) /*-{this.efParams.maxChars = maxChars;}-*/;
+
+  /** Name of the Network JavaScript library */
+  public native String getJsLibName() /*-{return this.efParams.jsLibName;}-*/;
+  public native void setJsLibName(String jsLibName) /*-{this.efParams.jsLibName = jsLibName;}-*/;
   
   /**
    * Make a JavaScript object with all the parameters for this external format.
    */
   protected native void makeEfParams() /*-{
     var p = {};
+    p.showNetwork = true;
+    p.showTree = false;
+    p.maxTreeLevels = 1;
     p.width = "600px";
     p.height = "600px";
+    p.nameTemplate = "R^^^^^";
+    p.maxChars = -1; // -1 1 3
     p.linksLength = 50;
     p.showPortName = false;
     p.nodesStyle = "dot";
     p.stabilize = "false";
+    p.jsLibName = "network-min"; // network-min OR vis-network.min
     this.efParams = p;
   }-*/;
 
