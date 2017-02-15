@@ -357,7 +357,8 @@ public class Xholon2Neo4jCypher extends AbstractXholon2ExternalFormat implements
       .append(node.getId());
     }
     else {
-      String v = node.getName(getCshNameTemplate());
+      // replace spaces with "_" or other specified character
+      String v = node.getName(getCshNameTemplate()).replace(" ", getReplaceSpacesWith());
       // handle prefixed Attribute_ nodes  ex: "attr:attr:Attribute_String_30"
       if (v.startsWith("attr:")) {
         v = v.substring(5);
@@ -936,6 +937,7 @@ public class Xholon2Neo4jCypher extends AbstractXholon2ExternalFormat implements
     p.cntrlVariableName = "cntrl";
     p.cshVariableName = "csh";
     p.cshNameTemplate = "^^c_i^";
+    p.replaceSpacesWith = "_"; // Cypher cannot handle spaces in name; convert to "_" or " " or "-"
     p.useCshVariableName = false;
     p.restApi = true;
     this.efParams = p;
@@ -1017,6 +1019,10 @@ public class Xholon2Neo4jCypher extends AbstractXholon2ExternalFormat implements
   // "^^c_i^"
   public native String getCshNameTemplate() /*-{return this.efParams.cshNameTemplate;}-*/;
   //public native void setCshNameTemplate(String cshNameTemplate) /*-{this.efParams.cshNameTemplate = cshNameTemplate;}-*/;
+
+  // "^^c_i^"
+  public native String getReplaceSpacesWith() /*-{return this.efParams.replaceSpacesWith;}-*/;
+  //public native void setReplaceSpacesWith(String replaceSpacesWith) /*-{this.efParams.replaceSpacesWith = replaceSpacesWith;}-*/;
 
   // true (cshVariableName), false (cshNameTemplate)
   public native boolean isUseCshVariableName() /*-{return this.efParams.useCshVariableName;}-*/;
