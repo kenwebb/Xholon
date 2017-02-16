@@ -52,17 +52,17 @@ import org.primordion.ef.AbstractXholon2ExternalFormat;
 @SuppressWarnings("serial")
 public class Xholon2ArangoJson extends AbstractXholon2ExternalFormat implements IXholon2GraphFormat {
   
-  private static final String CSH_VARIABLE_NAME = "csh"; // Composite Structure Hierarchy domain-specific nodes
-  private static final String SRV_VARIABLE_NAME = "srv"; // Service hierarchy nodes
-  private static final String MECH_VARIABLE_NAME = "mech"; // Mechanism hierarchy nodes
-  private static final String CNTRL_VARIABLE_NAME = "cntrl"; // Control hierarchy nodes
+  //private static final String CSH_VARIABLE_NAME   = "csh"; // Composite Structure Hierarchy domain-specific nodes
+  //private static final String SRV_VARIABLE_NAME   = "srv"; // Service hierarchy nodes
+  //private static final String MECH_VARIABLE_NAME  = "mech"; // Mechanism hierarchy nodes
+  //private static final String CNTRL_VARIABLE_NAME = "cntrl"; // Control hierarchy nodes
   
   private static final String JSON_KEY  = "\"_key\":";
   private static final String JSON_FROM = "\"_from\":";
   private static final String JSON_TO   = "\"_to\":";
-  // "_id" ?
+  private static final String JSON_XHNAME     = "\"xhName\":";
   private static final String JSON_XHRELTYPE  = "\"xhRelType\":";
-  private static final String JSON_INDEX  = "\"index\":";
+  private static final String JSON_INDEX      = "\"index\":";
   private static final String JSON_FIELDNAME  = "\"fieldName\":";
   
   private String outFileName;
@@ -123,14 +123,18 @@ public class Xholon2ArangoJson extends AbstractXholon2ExternalFormat implements 
     sbNode = new StringBuilder();
     sbRel = new StringBuilder();
     writeHeaderComment();
-    sbNode.append("[\n");
+    sbNode.append("[\n"); // start of ArangoDB Documents
     writeNode(root);
     writeXholonServices();
     writeControlNodes();
     writeXholonClassNodes();
     writeMechanismNodes();
     writeApplication();
-    sbNode.append(sbRel.toString());
+    sbNode.append("\n]\n");
+    sbNode.append("\n[\n"); // start of ArangoDB Edges
+    String rel = sbRel.toString();
+    rel = rel.substring(rel.indexOf("{")); // move past initial "," if any
+    sbNode.append(rel);
     sbNode.append("\n]");
     String sbNodeStr = sbNode.toString();
     writeToTarget(sbNodeStr, outFileName, outPath, root);
@@ -161,28 +165,45 @@ public class Xholon2ArangoJson extends AbstractXholon2ExternalFormat implements 
       sbNode.append(",\n");
     }
     sbNode.append("{");
+    String cshKey = getCshVariableName() + node.getId();
     String cshName = makeArangoCshVariable(node);
-    sbNode.append(JSON_KEY).append("\"").append(cshName).append("\"");
+    sbNode
+    .append(JSON_KEY)
+    .append("\"")
+    .append(cshKey)
+    .append("\"");
+    sbNode
+    .append(",")
+    .append(JSON_XHNAME)
+    .append("\"")
+    .append(cshName)
+    .append("\"");
     writeNodeAttributes(node);
     // store node's XholonClass
     xholonClassSet.add(node.getXhc());
     // write XHC relationship from CSH node to IH node
     if (isXhcNodes()) {
-      writeRelationship(cshName, XhRelTypes.XHC, null, makeArangoIhVariable(node.getXhc(), true));
+      //writeRelationship(cshName, XhRelTypes.XHC, null, makeArangoIhVariable(node.getXhc(), true));
+      writeRelationship(this.getCshVariableName() + node.getId(), XhRelTypes.XHC, null, makeArangoIhVariable(node.getXhc(), false));
     }
     // write child nodes
     sbNode.append("}");
     IXholon childNode = node.getFirstChild();
-    String childName = makeArangoCshVariable(childNode);
+    String childName = null;
+    if (childNode != null) {
+      childName = this.getCshVariableName() + childNode.getId(); //makeArangoCshVariable(childNode);
+    }
     if (isFirstChildRelationships() && (childNode != null)) {
-      writeRelationship(cshName, XhRelTypes.FIRST_CHILD, null, childName);
+      //writeRelationship(cshName, XhRelTypes.FIRST_CHILD, null, childName);
+      writeRelationship(this.getCshVariableName() + node.getId(), XhRelTypes.FIRST_CHILD, null, childName);
     }
     writePorts(node);
     while (childNode != null) {
       writeNode(childNode);
       childNode = childNode.getNextSibling();
       if (isNextSiblingRelationships() && (childNode != null)) {
-        String childNameNext = makeArangoCshVariable(childNode);
+        String childNameNext = this.getCshVariableName() + childNode.getId(); //makeArangoCshVariable(childNode);
+        //writeRelationship(childName, XhRelTypes.NEXT_SIBLING, null, childNameNext);
         writeRelationship(childName, XhRelTypes.NEXT_SIBLING, null, childNameNext);
         childName = childNameNext;
       }
@@ -202,11 +223,15 @@ public class Xholon2ArangoJson extends AbstractXholon2ExternalFormat implements 
     .append(",\n{")
     .append(JSON_FROM)
     .append("\"")
+    .append(this.getArangoCollectionName())
+    .append("/")
     .append(fromNodeName)
     .append("\",");
     sbRel
     .append(JSON_TO)
     .append("\"")
+    .append(this.getArangoCollectionName())
+    .append("/")
     .append(toNodeName)
     .append("\",");
     sbRel
@@ -403,9 +428,9 @@ public class Xholon2ArangoJson extends AbstractXholon2ExternalFormat implements 
     if (!isServiceNodes()) {return;}
     IXholon node = root.getRootNode().getNextSibling();
     if (node != null) {
-      setCshVariableName(SRV_VARIABLE_NAME); // "srv"
+      setCshVariableName(getSrvVariableName()); // "srv"
       writeNode(node);
-      setCshVariableName(CSH_VARIABLE_NAME); // set it back to "csh"
+      setCshVariableName(getCshVariableName()); // set it back to "csh"
     }
   }
   
@@ -442,7 +467,7 @@ public class Xholon2ArangoJson extends AbstractXholon2ExternalFormat implements 
     xholonClassSet.add(node.getXhc());
     // write XHC relationship from CSH node to IH node
     if (isXhcNodes()) {
-      writeRelationship(cntrlVarName, XhRelTypes.XHC, null, makeArangoIhVariable(node.getXhc(), true));
+      writeRelationship(cntrlVarName, XhRelTypes.XHC, null, makeArangoIhVariable(node.getXhc(), false));
     }
     // firstChild
     IXholon child = node.getFirstChild();
@@ -471,10 +496,13 @@ public class Xholon2ArangoJson extends AbstractXholon2ExternalFormat implements 
     //Iterator it = node.getAllPorts().iterator();
     Iterator it = node.getLinks(false, true).iterator();
     StringBuilder sbPort = new StringBuilder();
-    String nodeName = makeArangoCshVariable(node);
+    String nodeName = this.getCshVariableName() + node.getId(); //makeArangoCshVariable(node);
     while (it.hasNext()) {
       PortInformation pi = (PortInformation)it.next();
-      String reffedName = makeArangoCshVariable(pi.getReffedNode());
+      String reffedName = ""; //makeArangoCshVariable(pi.getReffedNode());
+      if (pi.getReffedNode() != null) {
+        reffedName = this.getCshVariableName() + pi.getReffedNode().getId();
+      }
       StringBuilder sbPortProps = new StringBuilder();
       if ((reffedName.length() > 0) && (!reffedName.startsWith("unknownClassName"))) {
         if ("port".equals(pi.getFieldName())) {
@@ -538,10 +566,17 @@ public class Xholon2ArangoJson extends AbstractXholon2ExternalFormat implements 
 {"_key":"ih0:XholonClass","id":0,"xhType":1,"implName":"org.primordion.cellontro.app.XhCell"},
    */
   protected void writeXholonClassNodeDetails(IXholonClass node, IXholonClass childOrSibling) {
-    String ihVarName = makeArangoIhVariable(node, true);
+    String ihVarName = node.getLocalPart(); //makeArangoIhVariable(node, true);
+    String ihKey = makeArangoIhVariable(node, false);
     sbNode
     .append(",\n{")
     .append(JSON_KEY)
+    .append("\"")
+    .append(ihKey)
+    .append("\"");
+    sbNode
+    .append(",")
+    .append(JSON_XHNAME)
     .append("\"")
     .append(ihVarName)
     .append("\"");
@@ -576,18 +611,18 @@ public class Xholon2ArangoJson extends AbstractXholon2ExternalFormat implements 
       // store XholonClass node's Mechanism
       mechanismSet.add(node.getMechanism());
       // write MECH relationship from IH node to MECH node
-      writeRelationship(ihVarName, XhRelTypes.MECH, null, makeArangoMechVariable(node.getMechanism()));
+      writeRelationship(ihKey, XhRelTypes.MECH, null, makeArangoMechVariable(node.getMechanism()));
     }    
     if (node != app.getXhcRoot()) { // don't write out parent and nextSibling of the xhcRoot node itself
       // write this node's nextSibling
       if (childOrSibling != null) {
-        writeRelationship(ihVarName, XhRelTypes.NEXT_SIBLING, null,  makeArangoIhVariable(childOrSibling, true));
+        writeRelationship(ihKey, XhRelTypes.NEXT_SIBLING, null,  makeArangoIhVariable(childOrSibling, false));
       }
     }
     else {
       // write first child of the xhcRoot
       if (childOrSibling != null) {
-        writeRelationship(ihVarName, XhRelTypes.FIRST_CHILD, null, makeArangoIhVariable(childOrSibling, true));
+        writeRelationship(ihKey, XhRelTypes.FIRST_CHILD, null, makeArangoIhVariable(childOrSibling, false));
       }
     }
     sbNode.append("}");
@@ -754,7 +789,7 @@ public class Xholon2ArangoJson extends AbstractXholon2ExternalFormat implements 
         makeArangoCshVariable(app.getRoot()));
     if (isXhcNodes()) {
       writeRelationship("app:Application", XhRelTypes.PORT, "\"fieldName\": \"xhcRoot\"",
-          makeArangoIhVariable(app.getXhcRoot(), true));
+          makeArangoIhVariable(app.getXhcRoot(), false));
     }
     if (isServiceNodes()) {
       writeRelationship("app:Application", XhRelTypes.PORT, "\"fieldName\": \"srvRoot\"",
@@ -820,6 +855,7 @@ public class Xholon2ArangoJson extends AbstractXholon2ExternalFormat implements 
     p.stateMachines = false;
     p.headerComment = false;
     p.decorations = true;
+    p.arangoCollectionName = "mydoc";
     p.ihVariableName = "ih";
     p.mechVariableName = "mech";
     p.srvVariableName = "srv";
@@ -887,6 +923,10 @@ public class Xholon2ArangoJson extends AbstractXholon2ExternalFormat implements 
   // xhc and mech nodes may contain decorations
   public native boolean isDecorations() /*-{return this.efParams.decorations;}-*/;
   //public native void setDecorations(boolean decorations) /*-{this.efParams.decorations = decorations;}-*/;
+
+  // Arango collection name (used as first part of the _id in edge collections)
+  public native String getArangoCollectionName() /*-{return this.efParams.arangoCollectionName;}-*/;
+  //public native void setArangoCollectionName(String arangoCollectionName) /*-{this.efParams.arangoCollectionName = arangoCollectionName;}-*/;
 
   // Arango variable for Xholon IH nodes
   public native String getIhVariableName() /*-{return this.efParams.ihVariableName;}-*/;
