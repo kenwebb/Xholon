@@ -1,0 +1,11 @@
+[
+{"_key":"201","_from":"a_meeting_at_the_Pentagon_on_Monday","_to":"People","xhRelType":"FIRST_CHILD"},
+{"_key":"202","_from":"People","_to":"James_Mattis","xhRelType":"FIRST_CHILD"},
+{"_key":"203","_from":"People","_to":"Topics","xhRelType":"PORT","fieldName":"discussed"},
+{"_key":"204","_from":"James_Mattis","_to":"Harjit_Sajjan","xhRelType":"NEXT_SIBLING"},
+{"_key":"205","_from":"People","_to":"Topics","xhRelType":"NEXT_SIBLING"},
+{"_key":"206","_from":"Topics","_to":"ongoing_commitment_to_NATO","xhRelType":"FIRST_CHILD"},
+{"_key":"207","_from":"ongoing_commitment_to_NATO","_to":"defence_spending_levels","xhRelType":"NEXT_SIBLING"},
+{"_key":"208","_from":"defence_spending_levels","_to":"Canada_peacekeeping_plans","xhRelType":"NEXT_SIBLING"},
+{"_key":"209","_from":"Canada_peacekeeping_plans","_to":"fighter_jet_procurement","xhRelType":"NEXT_SIBLING"}
+]

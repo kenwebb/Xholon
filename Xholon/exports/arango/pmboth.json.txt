@@ -1,0 +1,25 @@
+[
+{"_key":"csh101","xhName":"a_meeting_at_the_Pentagon_on_Monday"},
+{"_key":"csh102","xhName":"People"},
+{"_key":"csh103","xhName":"James_Mattis"},
+{"_key":"csh104","xhName":"Harjit_Sajjan"},
+{"_key":"csh105","xhName":"Topics"},
+{"_key":"csh106","xhName":"ongoing_commitment_to_NATO"},
+{"_key":"csh107","xhName":"defence_spending_levels"},
+{"_key":"csh108","xhName":"Canada_peacekeeping_plans"},
+{"_key":"csh109","xhName":"fighter_jet_procurement"},
+
+{"_key":"e201","_from":"pmdoc/csh101","_to":"pmdoc/csh102","xhRelType":"FIRST_CHILD"},
+{"_key":"e202","_from":"pmdoc/csh102","_to":"pmdoc/csh103","xhRelType":"FIRST_CHILD"},
+{"_key":"e203","_from":"pmdoc/csh102","_to":"pmdoc/csh105","xhRelType":"PORT","fieldName":"discussed"},
+{"_key":"e204","_from":"pmdoc/csh103","_to":"pmdoc/csh104","xhRelType":"NEXT_SIBLING"},
+{"_key":"e205","_from":"pmdoc/csh102","_to":"pmdoc/csh105","xhRelType":"NEXT_SIBLING"},
+{"_key":"e206","_from":"pmdoc/csh105","_to":"pmdoc/csh106","xhRelType":"FIRST_CHILD"},
+{"_key":"e207","_from":"pmdoc/csh106","_to":"pmdoc/csh107","xhRelType":"NEXT_SIBLING"},
+{"_key":"e208","_from":"pmdoc/csh107","_to":"pmdoc/csh108","xhRelType":"NEXT_SIBLING"},
+{"_key":"e209","_from":"pmdoc/csh108","_to":"pmdoc/csh109","xhRelType":"NEXT_SIBLING"}
+]
+
+arangoimp --file "pmdoc.json" --collection "pmdoc" --create-collection true
+
+arangoimp --file "pmedge.json" --collection "pmedge" --create-collection true --create-collection-type edge
