@@ -264,6 +264,7 @@ public class MeteorPlatformService extends AbstractXholonService implements IMet
           appName = URL.decodeQueryString(appName);
         }
       }
+      //createMongoCollection(this.getCollName()); // I probably don't want to do this explicitly on the client
       return this;
     }
     return null;
@@ -341,6 +342,8 @@ public class MeteorPlatformService extends AbstractXholonService implements IMet
       }
       if (isExistsMeteor()) {
         robj = fetchAllAppItems(collName, appn);
+        consoleLog("MeteorPlatformService SIG_COLL_FETCH_ALLAPPITEMS_REQ ");
+        consoleLog(robj);
       }
       return new Message(SIG_METEOR_RESP, robj, this, msg.getSender());
     }
@@ -414,6 +417,7 @@ public class MeteorPlatformService extends AbstractXholonService implements IMet
       if (isExistsMeteor() && (msg.getData() != null)) {
         robj = null;
         this.setCollName((String)msg.getData());
+        //createMongoCollection(this.getCollName());  // I probably don't want to do this explicitly on the client
       }
       return new Message(SIG_METEOR_RESP, robj, this, msg.getSender());
     }
@@ -556,7 +560,17 @@ public class MeteorPlatformService extends AbstractXholonService implements IMet
   protected native void insertItem(String collName, Object obj, String sessionId) /*-{
     obj.sessionId = sessionId;
     $wnd.console.log(obj);
-    $wnd[collName].insert(obj);
+	  if (typeof $wnd[collName] === "undefined") {
+	    $wnd.console.log("MeteorPlatformService.insertItem() $wnd[" + collName + "] is undefined");
+	  }
+	  else {
+	    $wnd.console.log("MeteorPlatformService.insertItem() $wnd[" + collName + "] before");
+	    $wnd.console.log(obj);
+	    $wnd.console.log($wnd[collName].insert);
+      var insertRC = $wnd[collName].insert(obj);
+      $wnd.console.log(insertRC);
+      $wnd.console.log("MeteorPlatformService.insertItem() $wnd[" + collName + "] after");
+    }
   }-*/;
   
   /**
@@ -577,6 +591,8 @@ public class MeteorPlatformService extends AbstractXholonService implements IMet
 	    }
 	    else {
 	      items = fetchAllAppItems(collName, appName);
+	      consoleLog("MeteorPlatformService.processMeteorQ() 1 ");
+	      consoleLog(items);
 	    }
 	    for (int i = indexNextRead; i < items.length(); i++) {
 	      JavaScriptObject item = items.get(i);
@@ -675,76 +691,148 @@ public class MeteorPlatformService extends AbstractXholonService implements IMet
 	  node[attrName] = attrValue;
 	}-*/;
 	
+	/**
+	 * Create a named Mongo Collection, if it doesn't already exist.
+	 * I probably don't want to do this explicitly on the client; it should be sdet on the server ?
+	 * @param collName (ex: "Test02")
+	 */
+	protected native void createMongoCollection(String collName) /*-{
+	  if ((typeof $wnd[collName] === "undefined") && ($wnd.Mongo)) {
+	    $wnd[collName] = new $wnd.Mongo.Collection(collName);
+	  }
+	}-*/;
+	
 	protected native int collLength(String collName) /*-{
-	  return $wnd[collName].find().fetch().length;
+	  if (typeof $wnd[collName] === "undefined") {
+	    $wnd.console.log("MeteorPlatformService.collLength() $wnd[" + collName + "] is undefined");
+	    return 0;
+	  }
+	  else {
+	    return $wnd[collName].find().fetch().length;
+	  }
 	}-*/;
 	
 	protected native Object fetchItem(String collName, int itemIndex) /*-{
-	  return $wnd[collName].find().fetch()[itemIndex];
+	  if (typeof $wnd[collName] === "undefined") {
+	    $wnd.console.log("MeteorPlatformService.fetchItem1() $wnd[" + collName + "] is undefined");
+	    return null;
+	  }
+	  else {
+	    return $wnd[collName].find().fetch()[itemIndex];
+	  }
 	}-*/;
 	
 	protected native Object fetchItem(String collName, String meteorId) /*-{
-	  return $wnd[collName].findOne(meteorId);
+	  if (typeof $wnd[collName] === "undefined") {
+	    $wnd.console.log("MeteorPlatformService.fetchItem2() $wnd[" + collName + "] is undefined");
+	    return null;
+	  }
+	  else {
+	    return $wnd[collName].findOne(meteorId);
+	  }
 	}-*/;
 	
 	protected native JsArray fetchAllItems(String collName) /*-{
-	  return $wnd[collName].find().fetch();
+	  if (typeof $wnd[collName] === "undefined") {
+	    $wnd.console.log("MeteorPlatformService.fetchAllItems() $wnd[" + collName + "] is undefined");
+	    return [];
+	  }
+	  else {
+	    return $wnd[collName].find().fetch();
+	  }
 	}-*/;
 	
 	/*
    * Fetch all items from the specified Collection, for the specified sessionId.
 	 */
 	protected native JsArray fetchAllSessionItems(String collName, String sessionId) /*-{
-	  var mongoSelector = {sessionId: sessionId};
-	  return $wnd[collName].find(mongoSelector).fetch();
+	  if (typeof $wnd[collName] === "undefined") {
+	    $wnd.console.log("MeteorPlatformService.fetchAllSessionItems() $wnd[" + collName + "] is undefined");
+	    return [];
+	  }
+	  else {
+	    var mongoSelector = {sessionId: sessionId};
+	    return $wnd[collName].find(mongoSelector).fetch();
+	  }
 	}-*/;
 	
 	/*
    * Fetch all items from the specified Collection, for the specified appName.
 	 */
 	protected native JsArray fetchAllAppItems(String collName, String appName) /*-{
-	  var mongoSelector = {app: appName};
-	  if (appName == null) {
-	    mongoSelector = {app: {$exists: false}};
+	  if (typeof $wnd[collName] === "undefined") {
+	    $wnd.console.log("MeteorPlatformService.fetchAllAppItems() $wnd[" + collName + "] is undefined");
+	    return [];
 	  }
-	  return $wnd[collName].find(mongoSelector).fetch();
+	  else {
+	    var mongoSelector = {app: appName};
+	    if (appName == null) {
+	      mongoSelector = {app: {$exists: false}};
+	    }
+	    return $wnd[collName].find(mongoSelector).fetch();
+	  }
 	}-*/;
 	
 	protected native void removeItem(String collName, String meteorId) /*-{
-	  $wnd[collName].remove(meteorId);
+	  if (typeof $wnd[collName] === "undefined") {
+	    $wnd.console.log("MeteorPlatformService.removeItem() $wnd[" + collName + "] is undefined");
+	  }
+	  else {
+	    $wnd[collName].remove(meteorId);
+	  }
 	}-*/;
 	
 	protected native void removeAllItems(String collName) /*-{
-	  var items = $wnd[collName].find().fetch();
-	  for (var i = 0; i < items.length; i++) {
-	    var id = items[i]._id;
-	    $wnd[collName].remove(id);
+	  if (typeof $wnd[collName] === "undefined") {
+	    $wnd.console.log("MeteorPlatformService.removeAllItems() $wnd[" + collName + "] is undefined");
+	  }
+	  else {
+	    var items = $wnd[collName].find().fetch();
+	    for (var i = 0; i < items.length; i++) {
+	      var id = items[i]._id;
+	      $wnd[collName].remove(id);
+	    }
 	  }
 	}-*/;
 	
 	protected native void removeAllSessionItems(String collName, String sessionId) /*-{
-	  var mongoSelector = {sessionId: sessionId};
-	  var items = $wnd[collName].find(mongoSelector).fetch();
-	  for (var i = 0; i < items.length; i++) {
-	    var id = items[i]._id;
-	    $wnd[collName].remove(id);
+	  if (typeof $wnd[collName] === "undefined") {
+	    $wnd.console.log("MeteorPlatformService.removeAllSessionItems() $wnd[" + collName + "] is undefined");
+	  }
+	  else {
+	    var mongoSelector = {sessionId: sessionId};
+	    var items = $wnd[collName].find(mongoSelector).fetch();
+	    for (var i = 0; i < items.length; i++) {
+	      var id = items[i]._id;
+	      $wnd[collName].remove(id);
+	    }
 	  }
 	}-*/;
 	
 	protected native void removeAllAppItems(String collName, String appName) /*-{
-	  var mongoSelector = {app: appName};
-	  var items = $wnd[collName].find(mongoSelector).fetch();
-	  for (var i = 0; i < items.length; i++) {
-	    var id = items[i]._id;
-	    $wnd[collName].remove(id);
+	  if (typeof $wnd[collName] === "undefined") {
+	    $wnd.console.log("MeteorPlatformService.removeAllAppItems() $wnd[" + collName + "] is undefined");
+	  }
+	  else {
+	    var mongoSelector = {app: appName};
+	    var items = $wnd[collName].find(mongoSelector).fetch();
+	    for (var i = 0; i < items.length; i++) {
+	      var id = items[i]._id;
+	      $wnd[collName].remove(id);
+	    }
 	  }
 	}-*/;
 	
 	protected native void updateItem(String collName, String meteorId, Object obj, String sessionId) /*-{
-	  obj.sessionId = sessionId;
-    $wnd.console.log(obj);
-    // TODO
-    //$wnd[collName].update(meteorId, obj);
+	  if (typeof $wnd[collName] === "undefined") {
+	    $wnd.console.log("MeteorPlatformService.updateItem() $wnd[" + collName + "] is undefined");
+	  }
+	  else {
+	    obj.sessionId = sessionId;
+      $wnd.console.log(obj);
+      // TODO
+      //$wnd[collName].update(meteorId, obj);
+    }
 	}-*/;
 	
 	/**
