@@ -1,0 +1,220 @@
+Xholon -> ArangoDB -> GraphQL
+Ken Webb
+March 1, 2017
+
+(1) Load Cell Model
+http://127.0.0.1:8888/Xholon.html?app=Cell&gui=clsc
+
+(2) Export in ArangoDB JSON format
+_nosql,ArangoJson
+extraCellularSpace_0 {"ihPortProperties":false,"cshPortRelationships":true,"firstChildRelationships":true,"nextSiblingRelationships":true,"parentNodeRelationships":false,"xhcNodes":false,"mechNodes":false,"controlNodes":false,"viewNodes":false,"serviceNodes":false,"appNode":false,"appProperties":false,"relationships":true,"properties":false,"appSpecificProperties":false,"stateMachines":false,"headerComment":false,"decorations":false,"arangoCollectionName":"cell","ihVariableName":"ih","mechVariableName":"mech","srvVariableName":"srv","cntrlVariableName":"cntrl","cshVariableName":"csh","cshNameTemplate":"^^c_i^","replaceSpacesWith":"_","useCshVariableName":false,"restApi":false}
+
+[
+{"_key":"csh0","xhName":"extraCellularSpace_0"},
+{"_key":"csh1","xhName":"extraCellularSolution_1"},
+{"_key":"csh2","xhName":"glucose_2"},
+{"_key":"csh3","xhName":"eukaryoticCell_3"},
+{"_key":"csh4","xhName":"cellMembrane_4"},
+{"_key":"csh5","xhName":"cellBilayer_5"},
+{"_key":"csh6","xhName":"cytoplasm_6"},
+{"_key":"csh7","xhName":"cytosol_7"},
+{"_key":"csh8","xhName":"glucose_8"},
+{"_key":"csh9","xhName":"glucose_6_Phosphate_9"},
+{"_key":"csh10","xhName":"fructose_6_Phosphate_10"},
+{"_key":"csh11","xhName":"fructose_1x6_Biphosphate_11"},
+{"_key":"csh12","xhName":"dihydroxyacetonePhosphate_12"},
+{"_key":"csh13","xhName":"glyceraldehyde_3_Phosphate_13"},
+{"_key":"csh14","xhName":"x1x3_BisphosphoGlycerate_14"},
+{"_key":"csh15","xhName":"x3_PhosphoGlycerate_15"},
+{"_key":"csh16","xhName":"x2_PhosphoGlycerate_16"},
+{"_key":"csh17","xhName":"phosphoEnolPyruvate_17"},
+{"_key":"csh18","xhName":"pyruvate_18"},
+{"_key":"csh19","xhName":"hexokinase_19"},
+{"_key":"csh20","xhName":"phosphoGlucoIsomerase_20"},
+{"_key":"csh21","xhName":"phosphoFructokinase_21"},
+{"_key":"csh22","xhName":"aldolase_22"},
+{"_key":"csh23","xhName":"triosePhosphateIsomerase_23"},
+{"_key":"csh24","xhName":"glyceraldehyde_3_phosphateDehydrogenase_24"},
+{"_key":"csh25","xhName":"phosphoGlycerokinase_25"},
+{"_key":"csh26","xhName":"phosphoGlyceromutase_26"},
+{"_key":"csh27","xhName":"enolase_27"},
+{"_key":"csh28","xhName":"pyruvateKinase_28"}
+]
+
+[
+{"_from":"cell/csh0","_to":"cell/csh1","xhRelType":"FIRST_CHILD"},
+{"_from":"cell/csh1","_to":"cell/csh2","xhRelType":"FIRST_CHILD"},
+{"_from":"cell/csh1","_to":"cell/csh3","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh3","_to":"cell/csh4","xhRelType":"FIRST_CHILD"},
+{"_from":"cell/csh4","_to":"cell/csh5","xhRelType":"FIRST_CHILD"},
+{"_from":"cell/csh5","_to":"cell/csh2","xhRelType":"PORT"},
+{"_from":"cell/csh5","_to":"cell/csh8","xhRelType":"PORT","index":4},
+{"_from":"cell/csh4","_to":"cell/csh6","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh6","_to":"cell/csh7","xhRelType":"FIRST_CHILD"},
+{"_from":"cell/csh7","_to":"cell/csh8","xhRelType":"FIRST_CHILD"},
+{"_from":"cell/csh8","_to":"cell/csh9","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh9","_to":"cell/csh10","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh10","_to":"cell/csh11","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh11","_to":"cell/csh12","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh12","_to":"cell/csh13","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh13","_to":"cell/csh14","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh14","_to":"cell/csh15","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh15","_to":"cell/csh16","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh16","_to":"cell/csh17","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh17","_to":"cell/csh18","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh7","_to":"cell/csh19","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh19","_to":"cell/csh8","xhRelType":"PORT"},
+{"_from":"cell/csh19","_to":"cell/csh9","xhRelType":"PORT","index":3},
+{"_from":"cell/csh19","_to":"cell/csh20","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh20","_to":"cell/csh9","xhRelType":"PORT"},
+{"_from":"cell/csh20","_to":"cell/csh10","xhRelType":"PORT","index":3},
+{"_from":"cell/csh20","_to":"cell/csh21","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh21","_to":"cell/csh10","xhRelType":"PORT"},
+{"_from":"cell/csh21","_to":"cell/csh11","xhRelType":"PORT","index":3},
+{"_from":"cell/csh21","_to":"cell/csh22","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh22","_to":"cell/csh11","xhRelType":"PORT"},
+{"_from":"cell/csh22","_to":"cell/csh13","xhRelType":"PORT","index":3},
+{"_from":"cell/csh22","_to":"cell/csh12","xhRelType":"PORT","index":4},
+{"_from":"cell/csh22","_to":"cell/csh23","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh23","_to":"cell/csh12","xhRelType":"PORT"},
+{"_from":"cell/csh23","_to":"cell/csh13","xhRelType":"PORT","index":3},
+{"_from":"cell/csh23","_to":"cell/csh24","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh24","_to":"cell/csh13","xhRelType":"PORT"},
+{"_from":"cell/csh24","_to":"cell/csh14","xhRelType":"PORT","index":3},
+{"_from":"cell/csh24","_to":"cell/csh25","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh25","_to":"cell/csh14","xhRelType":"PORT"},
+{"_from":"cell/csh25","_to":"cell/csh15","xhRelType":"PORT","index":3},
+{"_from":"cell/csh25","_to":"cell/csh26","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh26","_to":"cell/csh15","xhRelType":"PORT"},
+{"_from":"cell/csh26","_to":"cell/csh16","xhRelType":"PORT","index":3},
+{"_from":"cell/csh26","_to":"cell/csh27","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh27","_to":"cell/csh16","xhRelType":"PORT"},
+{"_from":"cell/csh27","_to":"cell/csh17","xhRelType":"PORT","index":3},
+{"_from":"cell/csh27","_to":"cell/csh28","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh28","_to":"cell/csh17","xhRelType":"PORT"},
+{"_from":"cell/csh28","_to":"cell/csh18","xhRelType":"PORT","index":3}
+]
+
+(3) Save documents and edges as 2 separate files to ~/gwtspace/Xholon/Xholon/exports/arango
+celldoc.json
+celledge.json
+
+(4) Load these 2 files into ArangoDB
+cd ~/gwtspace/Xholon/Xholon/exports/arango
+arangoimp --file "celldoc.json" --collection "celldoc" --create-collection true
+arangoimp --file "celledge.json" --collection "celledge" --create-collection true --create-collection-type edge
+
+(5) Start ArangoDB web tool in web browser
+http://localhost:8529/_db/_system/_admin/aardvark/index.html
+
+(6) Do ArangoDB AQL queries (https://docs.arangodb.com/3.1/AQL/)
+
+FOR doc IN celldoc
+    RETURN doc
+
+FOR doc IN celldoc
+    FILTER doc.pheneVal > 1
+    SORT doc.xhName
+    RETURN { xhName: doc.xhName, pheneVal: doc.pheneVal }
+
+(7) Create ArangoDB visible graph
+
+(8) GraphQL
+
+
+
+Xholon export with properties
+-----------------------------
+_nosql,ArangoJson
+extraCellularSpace_0 {"ihPortProperties":false,"cshPortRelationships":true,"firstChildRelationships":true,"nextSiblingRelationships":true,"parentNodeRelationships":false,"xhcNodes":false,"mechNodes":false,"controlNodes":false,"viewNodes":false,"serviceNodes":false,"appNode":false,"appProperties":false,"relationships":true,"properties":true,"appSpecificProperties":true,"stateMachines":false,"headerComment":false,"decorations":false,"arangoCollectionName":"cell","ihVariableName":"ih","mechVariableName":"mech","srvVariableName":"srv","cntrlVariableName":"cntrl","cshVariableName":"csh","cshNameTemplate":"^^c_i^","replaceSpacesWith":"_","useCshVariableName":false,"restApi":false}
+
+[
+{"_key":"csh0","xhName":"extraCellularSpace_0","numReactants":4,"numProducts":4,"numModifiers":2},
+{"_key":"csh1","xhName":"extraCellularSolution_1","numReactants":4,"numProducts":4,"numModifiers":2},
+{"_key":"csh2","xhName":"glucose_2","val":100000,"pheneVal":100000,"numReactants":4,"numProducts":4,"numModifiers":2},
+{"_key":"csh3","xhName":"eukaryoticCell_3","numReactants":4,"numProducts":4,"numModifiers":2},
+{"_key":"csh4","xhName":"cellMembrane_4","numReactants":4,"numProducts":4,"numModifiers":2},
+{"_key":"csh5","xhName":"cellBilayer_5","numReactants":4,"numProducts":4,"numModifiers":2},
+{"_key":"csh6","xhName":"cytoplasm_6","numReactants":4,"numProducts":4,"numModifiers":2},
+{"_key":"csh7","xhName":"cytosol_7","numReactants":4,"numProducts":4,"numModifiers":2},
+{"_key":"csh8","xhName":"glucose_8","val":51009.046417748184,"pheneVal":51009.046417748184,"numReactants":4,"numProducts":4,"numModifiers":2},
+{"_key":"csh9","xhName":"glucose_6_Phosphate_9","val":144372.47394189303,"pheneVal":144372.47394189303,"numReactants":4,"numProducts":4,"numModifiers":2},
+{"_key":"csh10","xhName":"fructose_6_Phosphate_10","val":86557.89410804509,"pheneVal":86557.89410804509,"numReactants":4,"numProducts":4,"numModifiers":2},
+{"_key":"csh11","xhName":"fructose_1x6_Biphosphate_11","val":86454.9265126771,"pheneVal":86454.9265126771,"numReactants":4,"numProducts":4,"numModifiers":2},
+{"_key":"csh12","xhName":"dihydroxyacetonePhosphate_12","val":2046.7189671743902,"pheneVal":2046.7189671743902,"numReactants":4,"numProducts":4,"numModifiers":2},
+{"_key":"csh13","xhName":"glyceraldehyde_3_Phosphate_13","val":122313.54521161264,"pheneVal":122313.54521161264,"numReactants":4,"numProducts":4,"numModifiers":2},
+{"_key":"csh14","xhName":"x1x3_BisphosphoGlycerate_14","val":102333.91436162658,"pheneVal":102333.91436162658,"numReactants":4,"numProducts":4,"numModifiers":2},
+{"_key":"csh15","xhName":"x3_PhosphoGlycerate_15","val":26254.358373823332,"pheneVal":26254.358373823332,"numReactants":4,"numProducts":4,"numModifiers":2},
+{"_key":"csh16","xhName":"x2_PhosphoGlycerate_16","val":239562.20171948127,"pheneVal":239562.20171948127,"numReactants":4,"numProducts":4,"numModifiers":2},
+{"_key":"csh17","xhName":"phosphoEnolPyruvate_17","val":89324.37425501985,"pheneVal":89324.37425501985,"numReactants":4,"numProducts":4,"numModifiers":2},
+{"_key":"csh18","xhName":"pyruvate_18","val":181376.2051505348,"pheneVal":181376.2051505348,"numReactants":4,"numProducts":4,"numModifiers":2},
+{"_key":"csh19","xhName":"hexokinase_19","val":1,"pheneVal":1,"numReactants":3,"numProducts":3,"numModifiers":2},
+{"_key":"csh20","xhName":"phosphoGlucoIsomerase_20","val":1,"pheneVal":1,"numReactants":3,"numProducts":3,"numModifiers":2},
+{"_key":"csh21","xhName":"phosphoFructokinase_21","val":1,"pheneVal":1,"numReactants":3,"numProducts":3,"numModifiers":2},
+{"_key":"csh22","xhName":"aldolase_22","val":1,"pheneVal":1,"numReactants":3,"numProducts":3,"numModifiers":2},
+{"_key":"csh23","xhName":"triosePhosphateIsomerase_23","val":1,"pheneVal":1,"numReactants":3,"numProducts":3,"numModifiers":2},
+{"_key":"csh24","xhName":"glyceraldehyde_3_phosphateDehydrogenase_24","val":1,"pheneVal":1,"numReactants":3,"numProducts":3,"numModifiers":2},
+{"_key":"csh25","xhName":"phosphoGlycerokinase_25","val":1,"pheneVal":1,"numReactants":3,"numProducts":3,"numModifiers":2},
+{"_key":"csh26","xhName":"phosphoGlyceromutase_26","val":1,"pheneVal":1,"numReactants":3,"numProducts":3,"numModifiers":2},
+{"_key":"csh27","xhName":"enolase_27","val":1,"pheneVal":1,"numReactants":3,"numProducts":3,"numModifiers":2},
+{"_key":"csh28","xhName":"pyruvateKinase_28","val":1,"pheneVal":1,"numReactants":3,"numProducts":3,"numModifiers":2}
+]
+
+[
+{"_from":"cell/csh0","_to":"cell/csh1","xhRelType":"FIRST_CHILD"},
+{"_from":"cell/csh1","_to":"cell/csh2","xhRelType":"FIRST_CHILD"},
+{"_from":"cell/csh1","_to":"cell/csh3","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh3","_to":"cell/csh4","xhRelType":"FIRST_CHILD"},
+{"_from":"cell/csh4","_to":"cell/csh5","xhRelType":"FIRST_CHILD"},
+{"_from":"cell/csh5","_to":"cell/csh2","xhRelType":"PORT"},
+{"_from":"cell/csh5","_to":"cell/csh8","xhRelType":"PORT","index":4},
+{"_from":"cell/csh4","_to":"cell/csh6","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh6","_to":"cell/csh7","xhRelType":"FIRST_CHILD"},
+{"_from":"cell/csh7","_to":"cell/csh8","xhRelType":"FIRST_CHILD"},
+{"_from":"cell/csh8","_to":"cell/csh9","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh9","_to":"cell/csh10","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh10","_to":"cell/csh11","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh11","_to":"cell/csh12","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh12","_to":"cell/csh13","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh13","_to":"cell/csh14","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh14","_to":"cell/csh15","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh15","_to":"cell/csh16","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh16","_to":"cell/csh17","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh17","_to":"cell/csh18","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh7","_to":"cell/csh19","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh19","_to":"cell/csh8","xhRelType":"PORT"},
+{"_from":"cell/csh19","_to":"cell/csh9","xhRelType":"PORT","index":3},
+{"_from":"cell/csh19","_to":"cell/csh20","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh20","_to":"cell/csh9","xhRelType":"PORT"},
+{"_from":"cell/csh20","_to":"cell/csh10","xhRelType":"PORT","index":3},
+{"_from":"cell/csh20","_to":"cell/csh21","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh21","_to":"cell/csh10","xhRelType":"PORT"},
+{"_from":"cell/csh21","_to":"cell/csh11","xhRelType":"PORT","index":3},
+{"_from":"cell/csh21","_to":"cell/csh22","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh22","_to":"cell/csh11","xhRelType":"PORT"},
+{"_from":"cell/csh22","_to":"cell/csh13","xhRelType":"PORT","index":3},
+{"_from":"cell/csh22","_to":"cell/csh12","xhRelType":"PORT","index":4},
+{"_from":"cell/csh22","_to":"cell/csh23","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh23","_to":"cell/csh12","xhRelType":"PORT"},
+{"_from":"cell/csh23","_to":"cell/csh13","xhRelType":"PORT","index":3},
+{"_from":"cell/csh23","_to":"cell/csh24","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh24","_to":"cell/csh13","xhRelType":"PORT"},
+{"_from":"cell/csh24","_to":"cell/csh14","xhRelType":"PORT","index":3},
+{"_from":"cell/csh24","_to":"cell/csh25","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh25","_to":"cell/csh14","xhRelType":"PORT"},
+{"_from":"cell/csh25","_to":"cell/csh15","xhRelType":"PORT","index":3},
+{"_from":"cell/csh25","_to":"cell/csh26","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh26","_to":"cell/csh15","xhRelType":"PORT"},
+{"_from":"cell/csh26","_to":"cell/csh16","xhRelType":"PORT","index":3},
+{"_from":"cell/csh26","_to":"cell/csh27","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh27","_to":"cell/csh16","xhRelType":"PORT"},
+{"_from":"cell/csh27","_to":"cell/csh17","xhRelType":"PORT","index":3},
+{"_from":"cell/csh27","_to":"cell/csh28","xhRelType":"NEXT_SIBLING"},
+{"_from":"cell/csh28","_to":"cell/csh17","xhRelType":"PORT"},
+{"_from":"cell/csh28","_to":"cell/csh18","xhRelType":"PORT","index":3}
+]
+
+
+arangosh
+db._drop("celldoc")
+db._drop("celledge")
