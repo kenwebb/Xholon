@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 
 import org.primordion.xholon.app.IApplication;
+import org.primordion.xholon.app.HtmlApplication;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.io.IXholonGui;
 import org.primordion.xholon.io.XholonGuiClassic;
@@ -282,6 +283,9 @@ public class Xholon implements EntryPoint {
     else if ("Glycolysis".equals(appName)) {Glycolysis(withGui);}
     else if ("YeastGlyPritchardKel".equals(appName)) {YeastGlyPritchardKel(withGui);}
     
+    // HtmlApplication
+    else if ("HtmlApplication".equals(appName)) {HtmlApplication();}
+    
     // gist (ex: "gist3377945")
     else if ((appName.startsWith("gist")) && (appName.length() > 4)) {gist(withGui, appName);}
     
@@ -294,6 +298,17 @@ public class Xholon implements EntryPoint {
     
   }
   
+  /**
+   * HtmlApplication - incomplete
+   */
+  private void HtmlApplication() {
+    //HtmlApplication htmlApp = GWT.create(org.primordion.xholon.app.HtmlApplication.class);
+    //htmlApp.usage();
+    //String[] arr = {"--help"};
+    //htmlApp.gwtMain(arr);
+    this.consoleLog("WARNING HtmlApplication is under construction.");
+  }
+    
   /**
    * Chameleon
    */
