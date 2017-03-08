@@ -133,7 +133,10 @@ Uses IDs in range 1014000 - 1014099
 </NoSql>
 
 <!-- represents instances of the Java OrNode class -->
-<OrNode xmlns="http://www.primordion.com/namespace/OrNode" id="1003000"/>
+<OrNode xmlns="http://www.primordion.com/namespace/OrNode" id="1003000">
+  <OrNodeNext/>
+  <OrNodeRandom/>
+</OrNode>
 
 <!-- Petri net (place/transition net)
 Chemical Reaction Network (CRN)

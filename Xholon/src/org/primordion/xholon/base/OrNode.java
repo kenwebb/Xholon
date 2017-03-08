@@ -127,6 +127,7 @@ public class OrNode extends Xholon implements IOrNode {
 	 */
 	public void preAct() {
 		if (onlyChild != null) {
+      updateOnlyChild(0);
 			// set onlyChild's nextSibling to null, to prevent its siblings from being invoked
 			IXholon nextSib = onlyChild.getNextSibling();
 			onlyChild.setNextSibling(null);
@@ -143,6 +144,7 @@ public class OrNode extends Xholon implements IOrNode {
 	 */
 	public void act() {
 		if (onlyChild != null) {
+      updateOnlyChild(1);
 			// set onlyChild's nextSibling to null, to prevent its siblings from being invoked
 			IXholon nextSib = onlyChild.getNextSibling();
 			onlyChild.setNextSibling(null);
@@ -159,6 +161,7 @@ public class OrNode extends Xholon implements IOrNode {
 	 */
 	public void postAct() {
 		if (onlyChild != null) {
+      updateOnlyChild(2);
 			// set onlyChild's nextSibling to null, to prevent its siblings from being invoked
 			IXholon nextSib = onlyChild.getNextSibling();
 			onlyChild.setNextSibling(null);
@@ -169,6 +172,11 @@ public class OrNode extends Xholon implements IOrNode {
 			nextSibling.postAct();
 		}
 	}
+	
+	/**
+	 * Subclasses of OrNode (such as OrNodeNext) may need to override this method.
+	 */
+	protected void updateOnlyChild(int ranActMethodIx) {}
 
 	/*
 	 * @see org.primordion.xholon.base.Xholon#processReceivedMessage(org.primordion.xholon.base.Message)

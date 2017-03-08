@@ -83,6 +83,8 @@
 	
 	<!-- OrNode -->
 	<OrNode xhType="XhtypePureContainer" implName="org.primordion.xholon.base.OrNode"/>
+	<OrNodeNext xhType="XhtypePureContainer" implName="org.primordion.xholon.base.OrNodeNext"/>
+	<OrNodeRandom xhType="XhtypePureContainer" implName="org.primordion.xholon.base.OrNodeRandom"/>
 	
 	<!-- PetriNetEntity -->
 	<PetriNet xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.petrinet.PetriNet"/>
