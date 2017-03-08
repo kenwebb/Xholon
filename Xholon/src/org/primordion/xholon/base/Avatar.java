@@ -3032,12 +3032,14 @@ xport hello _other,Newick,true,true,true,{}
       case "false": chatbot = null; break;
       default: break;
       }
+      break;
     case "takenotes":
       switch (value) {
       case "true": takenotes = true; break;
       case "false": takenotes = false; break;
       default: break;
       }
+      break;
     default:
       break;
     }
