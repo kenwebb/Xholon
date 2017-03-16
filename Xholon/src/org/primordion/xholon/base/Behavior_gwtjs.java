@@ -169,14 +169,22 @@ public class Behavior_gwtjs extends Xholon {
 	public void postConfigure() {
 		super.postConfigure();
 		if (scriptLanguage == null) {
-			getLogger().error("You must specify a scripting language for the Behavior. ex: lang=\"javascript\" ");
-			removeChild();
+			consoleLog("You must specify a scripting language for the Behavior. ex: lang=\"javascript\" ");
+			this.removeChild();
 			return;
 		}
 		if (scriptContent == null) {
-			getLogger().error("You must specify some script content for the Behavior.");
-			this.removeChild();
-			return;
+		  consoleLog("INFO No script content specified for the Behavior instance ...");
+		  String defaultContent = this.getXhc().getDefaultContent();
+		  if ((defaultContent != null) && (defaultContent.length() > 0)) {
+		    consoleLog("... INFO The Behavior class can provide the script content.");
+		    scriptContent = defaultContent;
+		  }
+		  else {
+			  consoleLog("... WARNING You must specify some script content for the Behavior, either in the instance or in the class.");
+			  this.removeChild();
+			  return;
+			}
 		}
 		beh = configureJso(this, scriptContent);
 		if (beh == null) {

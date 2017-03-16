@@ -1189,7 +1189,14 @@ public class XholonClass extends Xholon implements IXholonClass, IDecoration {
 	 * @see org.primordion.xholon.base.IXholonClass#getDefaultContent()
 	 */
 	public String getDefaultContent() {
-		return defaultContent;
+	  XholonClass iXhc = this;
+	  String dc = iXhc.defaultContent;
+		while (!iXhc.isRootNode() && ((dc == null) || (dc.length() == 0))) {
+			if (iXhc.isRootNode()) {break;}
+			iXhc = (XholonClass)iXhc.getParentNode();
+			dc = iXhc.defaultContent;
+		}
+		return dc;
 	}
 
 	/*
