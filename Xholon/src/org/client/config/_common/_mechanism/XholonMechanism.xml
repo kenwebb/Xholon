@@ -121,6 +121,8 @@
 <!-- NaturalLanguage - concrete classes managed by the NaturalLanguageService -->
 <NaturalLanguage xmlns="http://www.primordion.com/namespace/NaturalLanguage" id="1014800">
   <GoogleNL/>
+  <OpenCalais/>
+  <Sentimood/>
 </NaturalLanguage>
 
 <!--
