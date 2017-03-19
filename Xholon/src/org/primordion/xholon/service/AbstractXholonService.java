@@ -169,6 +169,9 @@ public abstract class AbstractXholonService extends Xholon implements IXholonSer
 		else if ("org.primordion.xholon.service.naturallanguage.Sentimood".equals(implName)) {
 		  instance = new org.primordion.xholon.service.naturallanguage.Sentimood();
 		}
+		else if ("org.primordion.xholon.service.naturallanguage.SentiEmoLex".equals(implName)) {
+		  instance = new org.primordion.xholon.service.naturallanguage.SentiEmoLex();
+		}
 		else {
 		  //System.out.println("AbstractXholonService.createInstance( creating " + implName + " as DefaultXholonService");
 		  instance = new org.primordion.xholon.service.DefaultXholonService();

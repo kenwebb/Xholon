@@ -182,6 +182,7 @@
       <attr:Attribute_String roleName="NaturalLanguageService-GoogleNL">org.primordion.xholon.service.naturallanguage.GoogleNL</attr:Attribute_String>
       <attr:Attribute_String roleName="NaturalLanguageService-OpenCalais">org.primordion.xholon.service.naturallanguage.OpenCalais</attr:Attribute_String>
       <attr:Attribute_String roleName="NaturalLanguageService-Sentimood">org.primordion.xholon.service.naturallanguage.Sentimood</attr:Attribute_String>
+      <attr:Attribute_String roleName="NaturalLanguageService-SentiEmoLex">org.primordion.xholon.service.naturallanguage.SentiEmoLex</attr:Attribute_String>
     </XholonMap>
   </NaturalLanguageService>
   
