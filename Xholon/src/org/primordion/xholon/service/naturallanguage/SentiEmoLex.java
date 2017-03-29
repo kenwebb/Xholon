@@ -52,7 +52,7 @@ public class SentiEmoLex extends XholonWithPorts implements INaturalLanguage {
     }
     switch (msg.getSignal()) {
     case SIG_ANALYZE_SENTIMENT_REQ:
-      return new Message(SIG_ANALYZE_SENTIMENT_RESP, this.analyzeSentiment(msg.getData(), this.sentiEmoLex), this, msg.getSender());
+      return new Message(SIG_ANALYZE_SENTIMENT_RESP, this.analyzeSentiment((String)msg.getData(), this.sentiEmoLex), this, msg.getSender());
     default:
       return super.processReceivedSyncMessage(msg);
     } // end switch
@@ -61,7 +61,7 @@ public class SentiEmoLex extends XholonWithPorts implements INaturalLanguage {
   /**
    * Analyze Sentiment
    */
-  protected native String analyzeSentiment(Object jso, Object sentiEmoLex) /*-{
+  protected native String analyzeSentimentOLD(Object jso, Object sentiEmoLex) /*-{
     $wnd.console.log("analyzing sentiment ...");
     $wnd.console.log(jso);
     var result = "NO RESULT";
@@ -70,6 +70,26 @@ public class SentiEmoLex extends XholonWithPorts implements INaturalLanguage {
     }
     $wnd.console.log(result);
     return result;
+  }-*/;
+  
+  protected native Object analyzeSentiment(String str, Object sentiEmoLex) /*-{
+    var resultsObj = {anger:0,fear:0,anticipation:0,trust:0,surprise:0,sadness:0,joy:0,disgust:0,negative:0,positive:0};
+    if (!str) {return resultsObj;}
+    if (!sentiEmoLex) {return resultsObj;}
+    // trim, make lowercase, and remove trailing and other punctuation
+    str = str.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").trim();
+    var arr = str.split(" ");
+    for (var i = 0; i < arr.length; i++) {
+      var word = arr[i];
+      var resultArr = sentiEmoLex[word];
+      if (resultArr) {
+        for (var j = 0; j < resultArr.length; j++) {
+          var senti = resultArr[j].sentiment;
+          resultsObj[senti]++;
+        }
+      }
+    }
+    return resultsObj;
   }-*/;
   
   /**
