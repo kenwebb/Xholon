@@ -36,14 +36,14 @@ import org.primordion.xholon.util.ClassHelper;
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.9.1 (Created on February 28, 2016)
  */
-public class Broadcaster extends Xholon implements IObservable, IBroadcastService {
+public class Broadcaster extends Xholon implements IBroadcaster, IBroadcastService {
   
   protected String roleName = null;
   protected int sendMsgType = SENDMSG_TYPE_ASYNC;
   
   /** Broadcast receivers that register themselves with this Broadcaster, to receive messages. */
   protected List receivers = null;
-	
+  
   public Broadcaster() {
     receivers = new ArrayList();
   }
@@ -75,63 +75,86 @@ public class Broadcaster extends Xholon implements IObservable, IBroadcastServic
   }
   
   @Override
-	public void addObserver(IXholon r) {
-		receivers.add(r);
-	}
-	
-	@Override
-	public int countObservers() {
-	  return receivers.size();
-	}
-	
-	@Override
-	public void deleteObserver(IXholon r) {
-	  receivers.remove(r);
-	}
-	
-	@Override
-	public void deleteObservers() {
-	  receivers.clear();
-	}
-	
-	@Override
-	public void notifyObservers() {
-	  // use the other notify method instead
-	  // send message to all observers/receivers
-	  for (int i = 0; i < receivers.size(); i++) {
-			IXholon receiver = (IXholon)receivers.get(i);
-			receiver.sendMessage(SIGNAL_BROADCAST, null, this);
-		}
-	}
-	
-	@Override
-	public void notifyObservers(Object arg) {
-	  // send message to all observers/receivers
-	  for (int i = 0; i < receivers.size(); i++) {
-			IXholon receiver = (IXholon)receivers.get(i);
-			switch (sendMsgType) {
-			case SENDMSG_TYPE_SYNC:
-			  receiver.sendSyncMessage(SIGNAL_BROADCAST, arg, this);
-			  break;
-			case SENDMSG_TYPE_SYSTEM:
-			  receiver.sendSystemMessage(SIGNAL_BROADCAST, arg, this);
-			  break;
-			case SENDMSG_TYPE_ASYNC:
-			default:
-			  receiver.sendMessage(SIGNAL_BROADCAST, arg, this);
-			  break;
-			}
-		}
-	}
-	
-	@Override
-	public boolean hasChanged() {
-	  return false;
-	}
-	
-	@Override
-	public Object getChangedData() {
-	  return null;
-	}
-	
+  public void addObserver(IXholon r) {
+    receivers.add(r);
+  }
+  
+  @Override
+  public int countObservers() {
+    return receivers.size();
+  }
+  
+  @Override
+  public void deleteObserver(IXholon r) {
+    receivers.remove(r);
+  }
+  
+  @Override
+  public void deleteObservers() {
+    receivers.clear();
+  }
+  
+  @Override
+  public void notifyObservers() {
+    // use the other notify method instead
+    // send message to all observers/receivers
+    for (int i = 0; i < receivers.size(); i++) {
+      IXholon receiver = (IXholon)receivers.get(i);
+      receiver.sendMessage(SIGNAL_BROADCAST, null, this);
+    }
+  }
+  
+  @Override
+  public void notifyObservers(Object arg) {
+    // send message to all observers/receivers
+    for (int i = 0; i < receivers.size(); i++) {
+      IXholon receiver = (IXholon)receivers.get(i);
+      switch (sendMsgType) {
+      case SENDMSG_TYPE_SYNC:
+        receiver.sendSyncMessage(SIGNAL_BROADCAST, arg, this);
+        break;
+      case SENDMSG_TYPE_SYSTEM:
+        receiver.sendSystemMessage(SIGNAL_BROADCAST, arg, this);
+        break;
+      case SENDMSG_TYPE_ASYNC:
+      default:
+        receiver.sendMessage(SIGNAL_BROADCAST, arg, this);
+        break;
+      }
+    }
+  }
+  
+  @Override
+  public void notifyObserverChildren(Object arg) {
+    for (int i = 0; i < receivers.size(); i++) {
+      IXholon receiver = (IXholon)receivers.get(i);
+      IXholon node = receiver.getFirstChild();
+      while (node != null) {
+        switch (sendMsgType) {
+        case SENDMSG_TYPE_SYNC:
+          node.sendSyncMessage(SIGNAL_BROADCAST, arg, this);
+          break;
+        case SENDMSG_TYPE_SYSTEM:
+          node.sendSystemMessage(SIGNAL_BROADCAST, arg, this);
+          break;
+        case SENDMSG_TYPE_ASYNC:
+        default:
+          node.sendMessage(SIGNAL_BROADCAST, arg, this);
+          break;
+        }
+        node = node.getNextSibling();
+      }
+    }
+  }
+  
+  @Override
+  public boolean hasChanged() {
+    return false;
+  }
+  
+  @Override
+  public Object getChangedData() {
+    return null;
+  }
+  
 }

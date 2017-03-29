@@ -19,12 +19,13 @@
 package org.primordion.xholon.service;
 
 import org.primordion.xholon.base.IMessage;
-import org.primordion.xholon.base.IObservable;
+//import org.primordion.xholon.base.IObservable;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
 import org.primordion.xholon.base.Message;
 import org.primordion.xholon.base.XholonMap;
 import org.primordion.xholon.service.broadcast.IBroadcastService;
+import org.primordion.xholon.service.broadcast.IBroadcaster;
 
 /**
  * Broadcast Service.
@@ -84,12 +85,12 @@ public class BroadcastService extends AbstractXholonService implements IBroadcas
    */
   protected Object processReceivedCommon(IMessage msg) {
     String data = (String)msg.getData();
-    IObservable broadcaster = (IObservable)map.get(data);
+    IBroadcaster broadcaster = (IBroadcaster)map.get(data);
     
     switch (msg.getSignal()) {
     case SIG_ADD_BROADCAST_RECEIVER_REQ:
       if (broadcaster == null) {
-        broadcaster = (IObservable)createInstance("org.primordion.xholon.service.broadcast.Broadcaster");
+        broadcaster = (IBroadcaster)createInstance("org.primordion.xholon.service.broadcast.Broadcaster");
         broadcaster.setId(getNextId());
         IXholonClass bcXholonClass = getApp().getClassNode("XholonServiceImpl");
         broadcaster.setXhc(bcXholonClass);
@@ -119,6 +120,24 @@ public class BroadcastService extends AbstractXholonService implements IBroadcas
       if (broadcaster != null) {
         broadcaster.setVal(SENDMSG_TYPE_SYSTEM);
         broadcaster.notifyObservers(data);
+      }
+      break;
+    case SIG_BROADCAST_TO_CHILDREN_REQ:
+      if (broadcaster != null) {
+        broadcaster.setVal(SENDMSG_TYPE_ASYNC);
+        broadcaster.notifyObserverChildren(data);
+      }
+      break;
+    case SIG_BROADCAST_TO_CHILDREN_SYNC_REQ:
+      if (broadcaster != null) {
+        broadcaster.setVal(SENDMSG_TYPE_SYNC);
+        broadcaster.notifyObserverChildren(data);
+      }
+      break;
+    case SIG_BROADCAST_TO_CHILDREN_SYSTEM_REQ:
+      if (broadcaster != null) {
+        broadcaster.setVal(SENDMSG_TYPE_SYSTEM);
+        broadcaster.notifyObserverChildren(data);
       }
       break;
     default:

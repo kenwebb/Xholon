@@ -56,6 +56,21 @@ public interface IBroadcastService {
    */
   public static final int SIG_BROADCAST_SYSTEM_REQ = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 105; // -3894
   
+  /**
+   * Send a regular async message to each child of each node in a list of broadcast receivers, but NOT to the broadcast receiver itself.
+   */
+  public static final int SIG_BROADCAST_TO_CHILDREN_REQ = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 106; // -3893
+  
+  /**
+   * Send a sync message to each child of each node in a list of broadcast receivers, but NOT to the broadcast receiver itself.
+   */
+  public static final int SIG_BROADCAST_TO_CHILDREN_SYNC_REQ = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 107; // -3892
+  
+  /**
+   * Send a system message to each child of each node in a list of broadcast receivers, but NOT to the broadcast receiver itself.
+   */
+  public static final int SIG_BROADCAST_TO_CHILDREN_SYSTEM_REQ = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 108; // -3891
+  
   // RESPONSES
   // ---------
   
@@ -77,5 +92,4 @@ public interface IBroadcastService {
   public static final int SENDMSG_TYPE_SYNC   = 2; // sendSyncMessage()
   public static final int SENDMSG_TYPE_SYSTEM = 3; // sendSystemMessage()
   
-
 }
