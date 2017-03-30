@@ -2735,12 +2735,18 @@ public abstract class Application extends AbstractApplication implements IApplic
 	  view.appendChild("Interactions", null);
 		StringTokenizer st = new StringTokenizer(getInteractionParams(), ",");
 		try {
+			// original set of params "32,true,localhost,60001"
 			interaction.setOutputFormat(Integer.parseInt(st.nextToken()));
 			interaction.setShowStates(Misc.booleanValue(st.nextToken()));
 			interaction.setSocketHost(st.nextToken());
 			interaction.setSocketPort(Integer.parseInt(st.nextToken()));
+			// new set of optional params 2017 ",true,true,15,20"
+			if (st.hasMoreTokens()) {interaction.setExcludeSystemMessages(Misc.booleanValue(st.nextToken()));}
+			if (st.hasMoreTokens()) {interaction.setExcludeAdditionalSystemMessages(Misc.booleanValue(st.nextToken()));}
+			if (st.hasMoreTokens()) {interaction.setMaxNameLen(Integer.parseInt(st.nextToken()));}
+			if (st.hasMoreTokens()) {interaction.setMaxDataLen(Integer.parseInt(st.nextToken()));}
 		} catch (NumberFormatException e) {
-			logger.error("Application initViewers() Interactions", e);
+			consoleLog("Application initViewers() Interactions: " + e.toString());
 		}
 	}
 
