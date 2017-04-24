@@ -98,6 +98,19 @@ public abstract class XholonWithPorts extends Xholon {
 	public void setPort(int portNum, IXholon portRef)
 	{
 		if (port != null) {
+		  if (portNum == SETPORT_PORTNUM_NEXT) {
+		    portNum = port.length;
+		    for (int ix = 0; ix < port.length; ix++) {
+		      if (port[ix] == null) {
+		        portNum = ix;
+		        break;
+		      }
+		      else if (port[ix] == portRef) {
+		        // this is a duplicate
+		        return;
+		      }
+		    }
+		  }
 		  if (port.length > portNum) {
 				port[portNum] = portRef;
 			}
@@ -106,7 +119,9 @@ public abstract class XholonWithPorts extends Xholon {
 		    IXholon[] oldPort = port;
 		    setPorts();
 		    System.arraycopy(oldPort, 0, port, 0, oldPort.length);
-		    port[portNum] = portRef;
+		    if (port.length > portNum) {
+		    	port[portNum] = portRef;
+		    }
 			}
 		}
 	}

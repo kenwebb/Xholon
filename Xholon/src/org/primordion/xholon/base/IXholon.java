@@ -92,6 +92,9 @@ public static final String GETNAME_ROLENAME_OR_CLASSNAME = "R^^^^^"; // but not 
 public static final String GETNAME_TOSTRING      = "S^^^^^";
 public static final int GETNAME_SIZE_TEMPLATE = 6; // number of characters in a template string
 
+/** Use the next available port number, when calling setPort(portNum, portRef) */
+public static final int SETPORT_PORTNUM_NEXT = -1;
+
 /** Default authority of the base Uniform Resource Identifier (URI), for use with getUri() setUri(String). */
 //public static final String URI_BASE_AUTH_DEFAULT = "http://primordion.org/"; //"http://dbpedia.org/";
 
