@@ -1586,6 +1586,28 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 				break;
 			}
 		}
+		else if (attrName.equals("id")) {
+		  classType = Misc.getJavaDataType(attrVal);
+			switch(classType) {
+			case IJavaTypes.JAVACLASS_double:
+				setVal(Misc.atod(attrVal, 0));
+				break;
+			case IJavaTypes.JAVACLASS_float:
+				setVal(Misc.atof(attrVal, 0));
+				break;
+			case IJavaTypes.JAVACLASS_int:
+				setId(Misc.atoi(attrVal, 0));
+				break;
+			case IJavaTypes.JAVACLASS_long:
+				setVal(Misc.atol(attrVal, 0));
+				break;
+			case IJavaTypes.JAVACLASS_String:
+				setVal(attrVal);
+				break;
+			default:
+				break;
+			}
+		}
 		else {
 		  // TODO don't handle namespaced attrName (ex: "xmlns:xi")
 	    setAttributeValNative(attrName, attrVal);
