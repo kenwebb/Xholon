@@ -1990,6 +1990,35 @@ a.action("takeclone hello;");
       return;
     }
     
+    else if (portName.startsWith("link")) {
+      // link0 link1 etc.
+      if ((portName.length() > 4) && (Misc.getNumericValue(portName.charAt(4)) != -1)) {
+        int portNum = Misc.atoi(portName, 4);
+        List linksList = contextNode.getLinks(false, true);
+        if (portNum < linksList.size()) {
+          PortInformation pi = (PortInformation)linksList.get(portNum);
+          IXholon reffedNode = null;
+          if (pi != null) {
+            reffedNode = pi.getReffedNode();
+          }
+          if (reffedNode == null) {
+            sb.append("Can't go ").append(portName).append(": can't find reffedNode");
+          }
+          else {
+            moveto(reffedNode, null);
+          }
+        }
+        else {
+          sb.append("Can't go ").append(portName).append(": index out of bounds");
+        }
+      }
+      else {
+        // ex: linkx
+        sb.append("Can't go ").append(portName);
+      }
+      return;
+    }
+    
     else if (portName.startsWith("xpath")) {
       IXholon node = evalXPathCmdArg(portName, contextNode);
       if (node != null) {
@@ -2220,7 +2249,7 @@ a.action("takeclone hello;");
     .append("\nflip parent|prev|next|first")
     .append("\nfollow LEADER_THING [unison|mirror|canon]")
     .append("\nget THING NAME")
-    .append("\ngo portName|next|prev|N|E|S|W|NE|SE|SW|NW|port0|portN|xpath")
+    .append("\ngo portName|next|prev|N|E|S|W|NE|SE|SW|NW|port0|portN|xpath|linkN")
     .append("\ngroup THING1[,THINGi,...,THINGn] in|on|under THING2")
     .append("\nhelp")
     .append("\nif xpath command [elseif xpath command] [else command]")

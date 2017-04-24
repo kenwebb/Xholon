@@ -1904,7 +1904,17 @@ public abstract class Application extends AbstractApplication implements IApplic
 	  "S":"step",
 	  "T":"take",
 	  "V":"vanish",
-	  "W":"who;where"
+	  "W":"who;where",
+	  "0":"go link0",
+	  "1":"go link1",
+	  "2":"go link2",
+	  "3":"go link3",
+	  "4":"go link4",
+	  "5":"go link5",
+	  "6":"go link6",
+	  "7":"go link7",
+	  "8":"go link8",
+	  "9":"go link9",
 	  };
 	}-*/;
 	
