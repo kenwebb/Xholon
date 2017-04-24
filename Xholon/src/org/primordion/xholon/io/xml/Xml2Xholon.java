@@ -75,19 +75,30 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 				else {
 				  tagName = xmlReader.getName();
 					if ("attribute".equals(tagName)) {
-						// ex: <attribute name="output" value="255.0"/>
-						currentXholon = newXholon("Attribute_attribute", parentXholon, xmlReader);
-						//currentXholon.setRoleName(xmlReader.getAttributeValue(0)); // name="xxx"
-						//currentXholon.setVal(xmlReader.getAttributeValue(1)); // value="yyy"
-						for (int i = 0; i < xmlReader.getAttributeCount(); i++) {
-							String attrName = xmlReader.getAttributeName(i);
-							String attrValue = xmlReader.getAttributeValue(i);
-							if ("name".equals(attrName)) { // name="xxx"
-								currentXholon.setRoleName(attrValue);
-							}
-							else if ("value".equals(attrName)) { // value="yyy"
-								currentXholon.setVal(attrValue);
-							}
+					  if ("attributes".equals(parentXholon.getXhcName())) {
+					    // this is a GEXF attribute tag
+					    currentXholon = newXholon("attributeGEXF", parentXholon, xmlReader);
+					    for (int i = 0; i < xmlReader.getAttributeCount(); i++) {
+							  String attrName = xmlReader.getAttributeName(i);
+							  String attrValue = xmlReader.getAttributeValue(i);
+							  currentXholon.setAttributeVal(attrName, attrValue);
+						  }
+					  }
+					  else {
+						  // ex: <attribute name="output" value="255.0"/>
+						  currentXholon = newXholon("Attribute_attribute", parentXholon, xmlReader);
+						  //currentXholon.setRoleName(xmlReader.getAttributeValue(0)); // name="xxx"
+						  //currentXholon.setVal(xmlReader.getAttributeValue(1)); // value="yyy"
+						  for (int i = 0; i < xmlReader.getAttributeCount(); i++) {
+							  String attrName = xmlReader.getAttributeName(i);
+							  String attrValue = xmlReader.getAttributeValue(i);
+							  if ("name".equals(attrName)) { // name="xxx"
+								  currentXholon.setRoleName(attrValue);
+							  }
+							  else if ("value".equals(attrName)) { // value="yyy"
+								  currentXholon.setVal(attrValue);
+							  }
+						  }
 						}
 					}
 					else if (("include".equals(tagName) && (xmlReader.getPrefix().equals(xincludePrefix)))
