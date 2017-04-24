@@ -469,6 +469,13 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			}
 		}
 		
+		// mech.gexf
+		else if (implName.startsWith("org.primordion.xholon.mech.gexf")) {
+			if (implName.endsWith("Gexf")) {
+				newNode = new org.primordion.xholon.mech.gexf.Gexf();
+			}
+		}
+		
 		// script
 		// remember to add the script to the isClassFindable() method as well
 		else if (implName.startsWith("org.primordion.xholon.script")) {

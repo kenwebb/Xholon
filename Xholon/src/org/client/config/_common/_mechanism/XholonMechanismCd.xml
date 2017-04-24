@@ -75,6 +75,19 @@
 	<!-- Listener -->
 	<!-- LongRunner -->
 	
+	<!-- Gexf GEXF -->
+	<gexf xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.gexf.Gexf"/>
+  <attributeGEXF xhType="XhtypePureActiveObject" implName="org.primordion.xholon.app.Chameleon.XhChameleon"/>
+  <attributes xhType="XhtypePureActiveObject" implName="org.primordion.xholon.app.Chameleon.XhChameleon"/>
+  <attvalue xhType="XhtypePureActiveObject" implName="org.primordion.xholon.app.Chameleon.XhChameleon"/>
+  <attvalues xhType="XhtypePureActiveObject" implName="org.primordion.xholon.app.Chameleon.XhChameleon"/>
+  <!--<default xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Attribute$Attribute_String"/>-->
+  <edge xhType="XhtypePureActiveObject" implName="org.primordion.xholon.app.Chameleon.XhChameleon"/>
+  <edges xhType="XhtypePureActiveObject" implName="org.primordion.xholon.app.Chameleon.XhChameleon"/>
+  <graph xhType="XhtypePureActiveObject" implName="org.primordion.xholon.app.Chameleon.XhChameleon"/>
+  <node xhType="XhtypePureActiveObject" implName="org.primordion.xholon.app.Chameleon.XhChameleon"/>
+  <nodes xhType="XhtypePureActiveObject" implName="org.primordion.xholon.app.Chameleon.XhChameleon"/>
+	
 	<!-- NaturalLanguage -->
 	<GoogleNL xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.naturallanguage.GoogleNL"/>
 	

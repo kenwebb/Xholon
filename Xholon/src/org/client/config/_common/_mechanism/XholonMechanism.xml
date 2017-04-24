@@ -113,6 +113,20 @@
 	<Application/> <!-- set privately by xholons that implement IApplication -->
 </Control>
 
+<!-- Gexf GEXF -->
+<gexf xmlns="http://www.primordion.com/namespace/gexf" id="1014900">
+  <attributeGEXF/>
+  <attributes/>
+  <attvalue/>
+  <attvalues/>
+  <edge/>
+  <edges/>
+  <graph/>
+  <node/>
+  <nodes/>
+</gexf>
+<default superClass="Attribute_Object"/>
+
 <!-- Represents Listener nodes. -->
 <Listener xmlns="http://www.primordion.com/namespace/Listener" id="1010300">
 	<ListenerList/> <!-- a list of listeners -->

@@ -82,6 +82,7 @@ __________   ________   _____________________
 1014600      1014699    Spreadsheet
 1014700      1014799    Story
 1014800      1014899    NaturalLanguage
+1014900      1014999    Gexf
 
 The following XML is an alphabetical list of all Xholon Mechanisms and Viewers.
 -->
@@ -150,6 +151,13 @@ The following XML is an alphabetical list of all Xholon Mechanisms and Viewers.
 		<Color>0x00FF00</Color>
 	</XholonViewer>
 	
+	<XholonMechanism roleName="gexf">
+		<NamespaceUri>http://www.primordion.com/namespace/gexf</NamespaceUri>
+		<DefaultPrefix>gexf</DefaultPrefix>
+		<RangeStart>1014900</RangeStart>
+		<RangeEnd>1014999</RangeEnd>
+	</XholonMechanism>
+
 	<XholonMechanism roleName="Listener">
 		<NamespaceUri>http://www.primordion.com/namespace/Listener</NamespaceUri>
 		<DefaultPrefix>lstn</DefaultPrefix>
