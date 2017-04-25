@@ -733,8 +733,7 @@ public class Xholon2GraphML extends AbstractXholon2ExternalFormat implements IXh
 			sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 			sb.append("<graphml xmlns=\"http://graphml.graphdrawing.org/xmlns\"\n");
 			sb.append("  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n");
-			sb.append("  xsi:schemaLocation=\"http://graphml.graphdrawing.org/xmlns\n");
-			sb.append("  http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd\">\n\n");
+			sb.append("  xsi:schemaLocation=\"http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd\">\n\n");
 		//} catch(IOException e) {
 		//	Xholon.getLogger().error("", e);
 		//}
