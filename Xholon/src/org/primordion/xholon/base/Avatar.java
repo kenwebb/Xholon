@@ -755,7 +755,7 @@ public class Avatar extends AbstractAvatar {
     String str = "";
     int xmlActionIx = 0;
     // optionally set xmlActionIx to the current value of this.actionIx
-    if (this.hasAncestor(app.getSrvRoot().getName())) {
+    if ((app != null) && (this.hasAncestor(app.getSrvRoot().getName()))) {
       // this Avatar is probably about to be sent to another app using RemoteNodeService
       xmlActionIx = this.actionIx + 1;
     }
