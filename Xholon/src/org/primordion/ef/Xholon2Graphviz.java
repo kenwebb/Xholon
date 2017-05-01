@@ -546,26 +546,60 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
   protected String makeColor(IXholon node) {
     IXholon xhcNode = node.getXhc();
     if (isShouldColor()) {
-      String color = null;
-      while ((xhcNode != null) && (xhcNode instanceof IXholonClass)) {
-        color = ((IDecoration)xhcNode).getColor();
-        if (color == null) {
-          color = ((IDecoration)((IXholonClass)xhcNode).getMechanism()).getColor();
+      String color = ((IDecoration)node).getColor();
+      if (color == null) {
+        while ((xhcNode != null) && (xhcNode instanceof IXholonClass)) {
+          color = ((IDecoration)xhcNode).getColor();
+          if (color == null) {
+            color = ((IDecoration)((IXholonClass)xhcNode).getMechanism()).getColor();
+          }
+          if (color != null) {
+            break;
+          }
+          xhcNode = xhcNode.getParentNode();
         }
-        if (color != null) {
-          break;
-        }
-        xhcNode = xhcNode.getParentNode();
       }
       if ((color != null) && (color.length() > 2)) {
         // convert 0x2E8B57 to #2E8B57
         if (color.startsWith("0x")) {
           color = "#" + color.substring(2);
         }
+        else if (color.startsWith("rgb(")) {
+          //int[] arr = separateValuesRgb(color, 4);
+          //color = "#" + Integer.toHexString(arr[0]) + Integer.toHexString(arr[1]) + Integer.toHexString(arr[2]);
+          color = this.reassemble(this.separateValuesRgb(color, 4));
+        }
+        else if (color.startsWith("rgba(")) {
+          //int[] arr = separateValuesRgb(color, 5);
+          //color = "#" + Integer.toHexString(arr[0]) + Integer.toHexString(arr[1]) + Integer.toHexString(arr[2]);
+          color = this.reassemble(this.separateValuesRgb(color, 5));
+        }
         return "fillcolor=\"" + color + "\"";
       }
     }
     return null;
+  }
+  
+  /**
+   * Return an array of r,g,b values, given an "rgb(r,g,b)" or "rgba(r,g,b,a)" string.
+   * All values are base 10.
+   */
+  protected int[] separateValuesRgb(String rgb, int startPos) {
+    int[] arr = new int[3];
+    String[] vals = rgb.substring(startPos, rgb.length() - 1 ).split(",");
+    arr[0] = Integer.parseInt(vals[0].trim());
+    arr[1] = Integer.parseInt(vals[1].trim());
+    arr[2] = Integer.parseInt(vals[2].trim());
+    return arr;
+  }
+  
+  /*
+   * Reassemble an array of base 10 r,g,b values, into a "#" hex string.
+   */
+  protected String reassemble(int[] arr) {
+    String hex = "#" + (arr[0] < 16 ? "0" : "") + Integer.toHexString(arr[0]) + (arr[1] < 16 ? "0" : "") +
+         Integer.toHexString(arr[1]) + (arr[2] < 16 ? "0" : "") + Integer.toHexString(arr[2]);
+    return hex;
   }
   
   /**
