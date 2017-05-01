@@ -97,6 +97,9 @@ public abstract class XholonWithPorts extends Xholon {
 	
 	public void setPort(int portNum, IXholon portRef)
 	{
+	  if (port == null) {
+	    setPorts();
+	  }
 		if (port != null) {
 		  if (portNum == SETPORT_PORTNUM_NEXT) {
 		    portNum = port.length;
@@ -117,8 +120,9 @@ public abstract class XholonWithPorts extends Xholon {
 			else {
 			  // resize the port array to the current value of app.MaxPorts
 		    IXholon[] oldPort = port;
+		    int oldPortLen = oldPort.length;
 		    setPorts();
-		    System.arraycopy(oldPort, 0, port, 0, oldPort.length);
+		    System.arraycopy(oldPort, 0, port, 0, oldPortLen);
 		    if (port.length > portNum) {
 		    	port[portNum] = portRef;
 		    }
@@ -163,9 +167,20 @@ public abstract class XholonWithPorts extends Xholon {
 		}
 		// is this an active object?
 		if (iXhc.isActiveObject() || (iXhc.getXhType() == IXholonClass.XhtypeConfigContainer)) {
-			int maxPorts = getApp().getMaxPorts();
+		  // OLD
+			/*int maxPorts = getApp().getMaxPorts();
 			if (maxPorts > 0) {
 				port = new IXholon[maxPorts];
+			}*/
+			
+			// NEW April 28, 2017
+			int maxPorts = getApp().getMaxPorts(); // an initial port creation
+			if (port != null) {
+			  maxPorts = this.port.length + getApp().getPortsIncrement(); // a subsequent port resizing
+			}
+			if ((maxPorts > 0) && (maxPorts <= getApp().getAbsoluteMaxPorts())) {
+			  port = new IXholon[maxPorts];
+			  consoleLog("XholonWithPorts.setPorts() port.length: " + port.length);
 			}
 		}
 	}

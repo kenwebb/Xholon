@@ -44,9 +44,11 @@ import org.primordion.xholon.util.Misc;
 public class ReflectionJavaMicro implements IReflection {
 
   public boolean setParam(String pName, String pValue, Object obj) {
+    if ((pName == null) || (pName.length() == 0)) {return false;}
     Application app = (Application)obj;
     switch (pName.charAt(0)) {
     case 'A':
+      if ("AbsoluteMaxPorts".equals(pName)) {app.setAbsoluteMaxPorts(Integer.parseInt(pValue)); return true;}
       if ("AllowConfigSrv".equals(pName)) {app.setAllowConfigSrv(Misc.booleanValue(pValue)); return true;}
       if ("AppM".equals(pName)) {app.setAppM(Misc.booleanValue(pValue)); return true;}
       if ("AttributePostConfigAction".equals(pName)) {app.setAttributePostConfigAction(Integer.parseInt(pValue)); return true;}
@@ -99,7 +101,15 @@ public class ReflectionJavaMicro implements IReflection {
     case 'M':
       if ("ModelName".equals(pName)) {app.setModelName(pValue); return true;}
       if ("MaxProcessLoops".equals(pName)) {app.setMaxProcessLoops(Integer.parseInt(pValue)); return true;}
-      if ("MaxPorts".equals(pName)) {app.setMaxPorts(Integer.parseInt(pValue)); return true;}
+      if ("MaxPorts".equals(pName)) {
+        String[] portsParamArr = pValue.split(",");
+        app.setMaxPorts(Integer.parseInt(portsParamArr[0]));
+        if (portsParamArr.length > 1) {
+          app.setPortsIncrement(Integer.parseInt(portsParamArr[1]));
+        }
+        // for now, don't allow setting app.absoluteMaxPorts
+        return true;
+      }
       if ("MaxXholons".equals(pName)) {app.setMaxXholons(Integer.parseInt(pValue)); return true;}
       if ("MaxXholonClasses".equals(pName)) {app.setMaxXholonClasses(Integer.parseInt(pValue)); return true;}
       if ("MaxStateMachineEntities".equals(pName)) {app.setMaxStateMachineEntities(Integer.parseInt(pValue)); return true;}
@@ -109,6 +119,7 @@ public class ReflectionJavaMicro implements IReflection {
     case 'O':
       break;
     case 'P':
+      if ("PortsIncrement".equals(pName)) {app.setPortsIncrement(Integer.parseInt(pValue)); return true;}
       break;
     case 'Q':
       break;
@@ -166,9 +177,11 @@ public class ReflectionJavaMicro implements IReflection {
   
   public String getParam(String pName, Object obj)
   {
+    if ((pName == null) || (pName.length() == 0)) {return null;}
     Application app = (Application)obj;
     switch (pName.charAt(0)) {
     case 'A':
+      if ("AbsoluteMaxPorts".equals(pName)) {return Integer.toString(app.getAbsoluteMaxPorts());}
       if ("AllowConfigSrv".equals(pName)) {return Boolean.toString(app.isAllowConfigSrv());}
       if ("AppM".equals(pName)) {return Boolean.toString(app.getAppM());}
       //if ("AttributePostConfigAction".equals(pName)) {app.setAttributePostConfigAction(Integer.parseInt(pValue)); return true;}
@@ -233,6 +246,7 @@ public class ReflectionJavaMicro implements IReflection {
     case 'O':
       break;
     case 'P':
+      if ("PortsIncrement".equals(pName)) {return Integer.toString(app.getPortsIncrement());}
       break;
     case 'Q':
       break;

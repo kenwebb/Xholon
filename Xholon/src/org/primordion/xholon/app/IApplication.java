@@ -403,6 +403,8 @@ public interface IApplication extends IXholon {
 	public abstract IXholon2Gui invokeXholon2Gui(IXholon guiRoot, String guiFileName);
 	
 	public abstract int getMaxPorts();
+	public abstract int getPortsIncrement();
+	public abstract int getAbsoluteMaxPorts();
 	public abstract int getAttributePostConfigAction();
 	public abstract ITreeNodeFactory getFactory();
 	public abstract IQueue getMsgQ();

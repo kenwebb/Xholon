@@ -317,6 +317,15 @@ public abstract class Application extends AbstractApplication implements IApplic
 	/** Maximum number of ports that a xholon instance can have. */
 	protected int maxPorts = 0;
 	
+	/** Mainly for use by Xholon.setPort() when resizing a port array. */
+	protected int portsIncrement = 1;
+	
+	/**
+	 * Absolute maximum number of ports that a xholon instance can have.
+	 * This is mostly designed to prevent errors or intentional attacks.
+	*/
+	protected int absoluteMaxPorts = 10000;
+	
 	/** xincludePath */
 	//protected String xincludePath = "/config/_common/"; // Java Standard Edition
 	//protected String xincludePath = "./config/_common/"; // Java Standard Edition
@@ -867,6 +876,8 @@ public abstract class Application extends AbstractApplication implements IApplic
 	
 	/** maxPorts */
 	public void setMaxPorts(int maxPorts) {this.maxPorts = maxPorts;}
+	public void setPortsIncrement(int portsIncrement) {this.portsIncrement = portsIncrement;}
+	public void setAbsoluteMaxPorts(int absoluteMaxPorts) {this.absoluteMaxPorts = absoluteMaxPorts;}
 	
 	/** xincludePath */
 	public void setXincludePath(String xincludePath)
@@ -1095,6 +1106,8 @@ public abstract class Application extends AbstractApplication implements IApplic
 	
 	/** @return Maximum number of ports for any xholon in the model. */
 	public int getMaxPorts() {return maxPorts;}
+	public int getPortsIncrement() {return portsIncrement;}
+	public int getAbsoluteMaxPorts() {return absoluteMaxPorts;}
 	
 	/** @return XInclude path (for InheritanceHierarchy only; could be different in ContainmentHierarchy. */
 	public String getXincludePath() {return xincludePath;}
