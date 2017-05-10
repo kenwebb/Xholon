@@ -409,7 +409,12 @@ public abstract class XholonWithPorts extends Xholon {
 					if (!rc) {
 					  //System.out.println("    4");
 						// setter didn't work, so try to set the field directly
-						ReflectionFactory.instance().setAttributeObjectVal(this, portName, portRef);
+						rc = ReflectionFactory.instance().setAttributeObjectVal(this, portName, portRef);
+						if (!rc) {
+						  // for use in a XholonWorkbook where a CSH node has a <port> child
+						  // ex: <port name="manager" connector="../Employee[@roleName='103']"/>
+						  this.setAttributeObjectValNative(this, portName, portRef);
+						}
 					}
 				//}
 			}
@@ -427,6 +432,10 @@ public abstract class XholonWithPorts extends Xholon {
 		instructIx++;
 		return instructIx;
 	}
+	
+	protected native void setAttributeObjectValNative(IXholon node, String portName, IXholon portRef) /*-{
+	  node[portName] = portRef;
+	}-*/;
 	
 	/*
 	 * @see org.primordion.xholon.base.Xholon#postConfigure()
