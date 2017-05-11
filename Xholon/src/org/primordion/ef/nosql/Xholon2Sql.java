@@ -52,15 +52,20 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
   static final private int ATTRSTATE_VALUES       = 3;
   
   // indexes into the sqlDataType String array
-  static final private int SQLDATATYPE_STRING = 0; //"varchar(80)";
-  static final private int SQLDATATYPE_INT = 1; //"int";
+  static final private int SQLDATATYPE_STRING = 0;
+  static final private int SQLDATATYPE_INT = 1;
   static final private int SQLDATATYPE_FLOAT = 2;
   static final private int SQLDATATYPE_DOUBLE = 3;
   static final private int SQLDATATYPE_LONG = 4;
   static final private int SQLDATATYPE_BOOLEAN = 5;
   
   static final private String[] SQLDATATYPE_MYSQL = {"varchar(80)", "int", "float", "double", "bigint", "bool"};
-  static final private String[] SQLDATATYPE_POSTGRESQL = {"TODO", "TODO", "TODO", "TODO", "TODO", "TODO"};
+  static final private String[] SQLDATATYPE_POSTGRESQL = {"varchar(80)", "integer", "real", "double precision", "bigint", "boolean"};
+  
+  // indexes into idRoleXhcNames and idRoleXhcFormats
+  static final private int IDROLEXHC_ID   = 0;
+  static final private int IDROLEXHC_ROLE = 1;
+  static final private int IDROLEXHC_XHC  = 2;
   
   private String outFileName;
   private String outPath = "./ef/sql/";
@@ -69,6 +74,9 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
   private StringBuilder sbOut;
   private StringBuilder sbCurrentNode;
   private int sbCurrentNodeAttrState = ATTRSTATE_INITIAL;
+  
+  private String[] idRoleXhcNames = {null, null, null};
+  private String[] idRoleXhcFormats = {null, null, null};
   
   /** Current date and time. */
   private Date timeNow;
@@ -118,7 +126,21 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
       this.regenerateIDs(root, 0);
     }
     
+    // make sure that each String[] item has a value, which may be null
+    idRoleXhcNames = fixIdRoleXhcArr(this.getIdRoleXhcNames().split(","));
+    idRoleXhcFormats = fixIdRoleXhcArr(this.getIdRoleXhcFormats().split(","));
+    
     return true;
+  }
+  
+  protected String[] fixIdRoleXhcArr(String[] inArr) {
+    String[] outArr = {null, null, null};
+    for (int i = 0; i < inArr.length; i++) {
+      if ((inArr[i] != null) && (inArr[i].trim().length() > 0)) {
+        outArr[i] = inArr[i].trim();
+      }
+    }
+    return outArr;
   }
   
   protected void regenerateIDs(IXholon node, int newID) {
@@ -151,7 +173,6 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
     String xhClassName = xhClass.getName();
     sbCurrentNode = this.findStringBuilder(xhClass);
     if (sbCurrentNode == null) {
-      // for MySQL
       sbCurrentNode = this.newStringBuilder(xhClass, new StringBuilder());
       
       if (isDropTables()) {
@@ -166,36 +187,124 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
         .append("CREATE TABLE ")
         .append("IF NOT EXISTS ")
         .append(xhClassName)
-        .append(" (\n")
-        .append(" ID ").append(sqlDataType[SQLDATATYPE_INT]).append(" NOT NULL auto_increment")
-        .append(",\n roleName ").append(sqlDataType[SQLDATATYPE_STRING]).append(" NOT NULL default ''")
-        .append(",\n xhcName ").append(sqlDataType[SQLDATATYPE_STRING]).append(" NOT NULL default ''");
+        .append(" (\n");
+        String prefix = " ";
+        if (idRoleXhcNames[IDROLEXHC_ID] != null) {
+          sbCurrentNode.append(prefix).append(idRoleXhcNames[IDROLEXHC_ID]).append(" ");
+          if ("^^^^i^".equals(idRoleXhcFormats[IDROLEXHC_ID])) {
+            sbCurrentNode.append(sqlDataType[SQLDATATYPE_INT]);
+          }
+          else {
+            // the ID could be a STRING "r:c_i^"
+            sbCurrentNode.append(sqlDataType[SQLDATATYPE_STRING]);
+          }
+          sbCurrentNode.append(" NOT NULL auto_increment");
+          prefix = ",\n ";
+        }
+        if (idRoleXhcNames[IDROLEXHC_ROLE] != null) {
+          sbCurrentNode.append(prefix).append(idRoleXhcNames[IDROLEXHC_ROLE]).append(" ").append(sqlDataType[SQLDATATYPE_STRING]).append(" NOT NULL default ''");
+          prefix = ",\n ";
+        }
+        if (idRoleXhcNames[IDROLEXHC_XHC] != null) {
+          sbCurrentNode.append(prefix).append(idRoleXhcNames[IDROLEXHC_XHC]).append(" ").append(sqlDataType[SQLDATATYPE_STRING]).append(" NOT NULL default ''");
+          prefix = ",\n ";
+        }
+        if (isTimeStep()) {
+          sbCurrentNode.append(prefix).append("timeStep ").append(sqlDataType[SQLDATATYPE_INT]).append(" NOT NULL");
+        }
         sbCurrentNodeAttrState = ATTRSTATE_CREATE_TABLE;
         writeNodeAttributes(xhNode);
+        if (isParent() && (xhNode.getParentNode() != root)) {
+          // include the ID of xhNode's parent
+          // TODO MySQL foreign key constraint:
+          //   FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)  or
+          //   CONSTRAINT FK_PersonOrder FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)
+          sbCurrentNode.append(prefix).append("parent").append(idRoleXhcNames[IDROLEXHC_ID]).append(" ");
+          if ("^^^^i^".equals(idRoleXhcFormats[IDROLEXHC_ID])) {
+            sbCurrentNode.append(sqlDataType[SQLDATATYPE_INT]);
+          }
+          else {
+            // the ID could be a STRING "r:c_i^"
+            sbCurrentNode.append(sqlDataType[SQLDATATYPE_STRING]);
+          }
+        }
         sbCurrentNode
-        .append(",\n PRIMARY KEY  (ID)\n")
+        .append(",\n PRIMARY KEY  (")
+        .append(this.getPrimaryKey());
+        if (isTimeStep()) {
+          sbCurrentNode.append(", timeStep");
+        }
+        sbCurrentNode
+        .append(")\n")
         .append(");\n");
       }
     }
-    //INSERT INTO cw_Votes (ID, vote_item, vote_councillor, vote_result) VALUES
-    // (NULL, 1, 3, 1);
     if (isInsertRows()) {
       sbCurrentNode.append("INSERT INTO ")
       .append(xhClassName)
-      .append(" (ID, roleName, xhcName");
+      .append(" (");
+      String prefix = "";
+      if (idRoleXhcNames[IDROLEXHC_ID] != null) {
+        sbCurrentNode.append(idRoleXhcNames[IDROLEXHC_ID]);
+        prefix = ", ";
+      }
+      if (idRoleXhcNames[IDROLEXHC_ROLE] != null) {
+        sbCurrentNode.append(prefix).append(idRoleXhcNames[IDROLEXHC_ROLE]);
+        prefix = ", ";
+      }
+      if (idRoleXhcNames[IDROLEXHC_XHC] != null) {
+        sbCurrentNode.append(prefix).append(idRoleXhcNames[IDROLEXHC_XHC]);
+        prefix = ", ";
+      }
+      if (isTimeStep()) {
+        sbCurrentNode.append(prefix).append("timeStep");
+      }
       sbCurrentNodeAttrState = ATTRSTATE_INSERT_INTO;
       writeNodeAttributes(xhNode);
+      if (isParent() && (xhNode.getParentNode() != root)) {
+        // include the ID of xhNode's parent
+        sbCurrentNode.append(prefix).append("parent").append(idRoleXhcNames[IDROLEXHC_ID]);
+      }
       sbCurrentNode
       .append(") VALUES\n")
-      .append(" (")
-      .append(xhNode.getId())
-      .append(", '")
-      .append((xhNode.getRoleName() != null) ? xhNode.getRoleName() : "")
-      .append("', '")
-      .append(xhNode.getXhc().getName())
-      .append("'");
+      .append(" (");
+      
+      prefix = "";
+      if (idRoleXhcNames[IDROLEXHC_ID] != null) {
+        if ("^^^^i^".equals(idRoleXhcFormats[IDROLEXHC_ID])) {
+          // the ID is an integer
+          sbCurrentNode.append(xhNode.getName(idRoleXhcFormats[IDROLEXHC_ID]));
+        }
+        else {
+          // the ID is a String
+          sbCurrentNode.append("'").append(xhNode.getName(idRoleXhcFormats[IDROLEXHC_ID])).append("'");
+        }
+        prefix = ", ";
+      }
+      if (idRoleXhcNames[IDROLEXHC_ROLE] != null) {
+        sbCurrentNode.append(prefix).append("'").append(xhNode.getName(idRoleXhcFormats[IDROLEXHC_ROLE])).append("'");
+        prefix = ", ";
+      }
+      if (idRoleXhcNames[IDROLEXHC_XHC] != null) {
+        sbCurrentNode.append(prefix).append("'").append(xhNode.getName(idRoleXhcFormats[IDROLEXHC_XHC])).append("'");
+        prefix = ", ";
+      }
+      
+      if (isTimeStep()) {
+        sbCurrentNode.append(prefix).append(root.getApp().getTimeStep());
+      }
       sbCurrentNodeAttrState = ATTRSTATE_VALUES;
       writeNodeAttributes(xhNode);
+      if (isParent() && (xhNode.getParentNode() != root)) {
+        if ("^^^^i^".equals(idRoleXhcFormats[IDROLEXHC_ID])) {
+          // the ID is an integer
+          sbCurrentNode.append(prefix).append(xhNode.getParentNode().getName(idRoleXhcFormats[IDROLEXHC_ID]));
+        }
+        else {
+          // the ID is a String
+          sbCurrentNode.append(prefix).append("'").append(xhNode.getParentNode().getName(idRoleXhcFormats[IDROLEXHC_ID])).append("'");
+        }
+      }
       sbCurrentNode.append(");\n");
     }
     // recurse through all children
@@ -266,9 +375,11 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
     p.insertRows = true; // whether or not to write out INSERT statements
     p.deletePrevious = true; // whether or not to call deleteStringBuilder() at end of the export
     p.parent = true; // whether or not to write parent node as an INSERT field
-    p.keyName = "ID,roleName,xhcName"; // "ID" or "id" or "key" or whatever
-    p.keyFormat = "^^^^i^,r^^^^^,^^C^^^"; // 
+    p.idRoleXhcNames = "ID,roleName,xhcName"; // "ID" or "id" or "key" or whatever
+    p.idRoleXhcFormats = "^^^^i^,r^^^^^,^^C^^^"; // 
+    p.primaryKey = "ID"; // OR "ID,roleName,xhcName"; but exclude other possible constituents of the primary key such as "timeStep"
     p.regenerateIDs = false; // whether or not to regenerate all Xholon CSH IDs before doing the export; to ensure uniqueness of ID field
+    p.timeStep = false; // whether or not to include the current Xholon TimeStep
     
     // old
     p.shouldShowLinks = true;
@@ -300,14 +411,20 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
   public native boolean isParent() /*-{return this.efParams.parent;}-*/;
   //public native void setParent(boolean parent) /*-{this.efParams.parent = parent;}-*/;
 
-  public native String getKeyName() /*-{return this.efParams.keyName;}-*/;
-  //public native void setKeyName(String keyName) /*-{this.efParams.keyName = keyName;}-*/;
+  public native String getIdRoleXhcNames() /*-{return this.efParams.idRoleXhcNames;}-*/;
+  //public native void setIdRoleXhcNames(String idRoleXhcNames) /*-{this.efParams.idRoleXhcNames = idRoleXhcNames;}-*/;
 
-  public native String getKeyFormat() /*-{return this.efParams.keyFormat;}-*/;
-  //public native void setKeyFormat(String keyFormat) /*-{this.efParams.keyFormat = keyFormat;}-*/;
+  public native String getIdRoleXhcFormats() /*-{return this.efParams.idRoleXhcFormats;}-*/;
+  //public native void setIdRoleXhcFormats(String idRoleXhcFormats) /*-{this.efParams.idRoleXhcFormats = idRoleXhcFormats;}-*/;
+
+  public native String getPrimaryKey() /*-{return this.efParams.primaryKey;}-*/;
+  //public native void setPrimaryKey(String primaryKey) /*-{this.efParams.primaryKey = primaryKey;}-*/;
 
   public native boolean isRegenerateIDs() /*-{return this.efParams.regenerateIDs;}-*/;
   //public native void setRegenerateIDs(boolean regenerateIDs) /*-{this.efParams.regenerateIDs = regenerateIDs;}-*/;
+
+  public native boolean isTimeStep() /*-{return this.efParams.timeStep;}-*/;
+  //public native void setTimeStep(boolean timeStep) /*-{this.efParams.timeStep = timeStep;}-*/;
 
   /** Whether or not to show links between nodes. */
   public native boolean isShouldShowLinks() /*-{return this.efParams.shouldShowLinks;}-*/;
