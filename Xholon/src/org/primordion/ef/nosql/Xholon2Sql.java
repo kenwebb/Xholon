@@ -214,7 +214,7 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
         }
         sbCurrentNodeAttrState = ATTRSTATE_CREATE_TABLE;
         writeNodeAttributes(xhNode);
-        if (isParent() && (xhNode.getParentNode() != root)) {
+        if (isParent() && (xhNode != root)) {
           // include the ID of xhNode's parent
           // TODO MySQL foreign key constraint:
           //   FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)  or
@@ -227,6 +227,9 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
             // the ID could be a STRING "r:c_i^"
             sbCurrentNode.append(sqlDataType[SQLDATATYPE_STRING]);
           }
+        }
+        if (isShouldShowLinks()) {
+          this.writeLinks(xhNode);
         }
         sbCurrentNode
         .append(",\n PRIMARY KEY  (")
@@ -261,10 +264,13 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
       }
       sbCurrentNodeAttrState = ATTRSTATE_INSERT_INTO;
       writeNodeAttributes(xhNode);
-      if (isParent() && (xhNode.getParentNode() != root)) {
+      if (isParent() && (xhNode != root)) {
         // include the ID of xhNode's parent
         sbCurrentNode.append(prefix).append("parent").append(idRoleXhcNames[IDROLEXHC_ID]);
       }
+      if (isShouldShowLinks()) {
+          this.writeLinks(xhNode);
+        }
       sbCurrentNode
       .append(") VALUES\n")
       .append(" (");
@@ -295,7 +301,7 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
       }
       sbCurrentNodeAttrState = ATTRSTATE_VALUES;
       writeNodeAttributes(xhNode);
-      if (isParent() && (xhNode.getParentNode() != root)) {
+      if (isParent() && (xhNode != root)) {
         if ("^^^^i^".equals(idRoleXhcFormats[IDROLEXHC_ID])) {
           // the ID is an integer
           sbCurrentNode.append(prefix).append(xhNode.getParentNode().getName(idRoleXhcFormats[IDROLEXHC_ID]));
@@ -304,6 +310,9 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
           // the ID is a String
           sbCurrentNode.append(prefix).append("'").append(xhNode.getParentNode().getName(idRoleXhcFormats[IDROLEXHC_ID])).append("'");
         }
+      }
+      if (isShouldShowLinks()) {
+        this.writeLinks(xhNode);
       }
       sbCurrentNode.append(");\n");
     }
@@ -363,6 +372,75 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
   }
   
   /**
+   * Write edges from this node to any others, where Xholon has connected ports.
+   * @param node The current node.
+   */
+  @SuppressWarnings("unchecked")
+  protected void writeLinks(IXholon xhNode) {
+    List<PortInformation> portList = xhNode.getLinks(false, true);
+    for (int i = 0; i < portList.size(); i++) {
+      PortInformation pi = (PortInformation)portList.get(i);
+      String linkLabel = pi.getFieldName();
+      writeLink(xhNode, pi);
+    }
+  }
+  
+  protected void writeLink(IXholon xhNode, final PortInformation pi) {
+    IXholon remoteNode = pi.getReffedNode();
+    if (remoteNode == null) {return;}
+    if (!remoteNode.hasAncestor(root.getName())) {
+      // remoteNode is outside the scope (not a descendant) of root
+      return;
+    }
+
+    switch (sbCurrentNodeAttrState) {
+    case ATTRSTATE_CREATE_TABLE:
+      // port0 int|varchar(80)
+      sbCurrentNode
+      .append(",\n ")
+      .append(pi.getLocalNameNoBrackets())
+      .append(" ");
+      if ("^^^^i^".equals(idRoleXhcFormats[IDROLEXHC_ID])) {
+        // the ID is an integer
+        sbCurrentNode.append(sqlDataType[SQLDATATYPE_INT]);
+      }
+      else {
+        // the ID is a String
+        sbCurrentNode.append(sqlDataType[SQLDATATYPE_STRING]);
+      }
+      sbCurrentNode
+      // MySQL syntax for foreign keys
+      .append(" /* ")
+      .append("FOREIGN KEY (")
+      .append(pi.getLocalNameNoBrackets())
+      .append(") REFERENCES ")
+      .append(remoteNode.getXhc().getName())
+      .append("(")
+      .append(remoteNode.getName(idRoleXhcFormats[IDROLEXHC_ID]))
+      .append(") */ ");
+      break;
+    case ATTRSTATE_INSERT_INTO:
+      // port0
+      sbCurrentNode.append(", ").append(pi.getLocalNameNoBrackets());
+      break;
+    case ATTRSTATE_VALUES:
+      // 17|'abc_17'
+      sbCurrentNode.append(", ");
+      if ("^^^^i^".equals(idRoleXhcFormats[IDROLEXHC_ID])) {
+        // the ID is an integer
+        sbCurrentNode.append(remoteNode.getName(idRoleXhcFormats[IDROLEXHC_ID]));
+      }
+      else {
+        // the ID is a String
+        sbCurrentNode.append("'").append(remoteNode.getName(idRoleXhcFormats[IDROLEXHC_ID])).append("'");
+      }
+      break;
+    default:
+      break;
+    }
+  }
+  
+  /**
    * Make a JavaScript object with all the parameters for this external format.
    */
   protected native void makeEfParams() /*-{
@@ -384,11 +462,10 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
     // old
     p.shouldShowLinks = true;
     p.shouldShowStateMachineEntities = false;
-    //p.nameTemplate = "r:C^^^";
     p.showXhc = false;
     p.fileNameExtension = ".sql";
-    p.shouldWriteVal = false;
-    p.shouldWriteAllPorts = false;
+    //p.shouldWriteVal = false;
+    //p.shouldWriteAllPorts = false;
     
     this.efParams = p;
   }-*/;
@@ -487,8 +564,6 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
 
   @Override
   public void writeStartDocument() {
-    this.writeComment("TODO writeStartDocument()\n");
-    
     StringBuilder commentSb = new StringBuilder()
     .append("\nTo view this file, download an open-source relational database product such as mysql or postgresql.\n")
     .append("\nAutomatically generated by Xholon version 0.9.1, using Xholon2Sql.java\n")
@@ -532,8 +607,8 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
   @Override
   // This is for use by Xholon.toXmlAttributes() only
   public void writeAttribute(String name, String value) {
-    if ("Val".equalsIgnoreCase(name) && !isShouldWriteVal()) {return;}
-    if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
+    //if ("Val".equalsIgnoreCase(name) && !isShouldWriteVal()) {return;}
+    //if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
     switch (sbCurrentNodeAttrState) {
     case ATTRSTATE_CREATE_TABLE:
       sbCurrentNode
