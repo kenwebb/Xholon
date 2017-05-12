@@ -182,6 +182,19 @@ public class PortInformation extends Xholon {
 	}
 	
 	/**
+	 * Get the local name of the port.
+	 * @return Field name with optional index.
+	 * ex: "port0" or "hello" or "whatever4"
+	 */
+	public String getLocalNameNoBrackets() {
+		String str = fieldName;
+		if (fieldNameIndex != PORTINFO_NOTANARRAY) {
+			str += fieldNameIndex;
+		}
+		return str;
+	}
+	
+	/**
 	 * This is for use by the XholonJsApi.
 	 * A JavaScript receiver of a PortInformation object can call this method
 	 * to get a JavaScript object with 5 properties.
