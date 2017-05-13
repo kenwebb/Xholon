@@ -214,6 +214,10 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
         }
         sbCurrentNodeAttrState = ATTRSTATE_CREATE_TABLE;
         writeNodeAttributes(xhNode);
+        StringBuilder sbForeignKeys = null;
+        if (this.isForeignKeys()) {
+          sbForeignKeys = new StringBuilder();
+        }
         if (isParent() && (xhNode != root)) {
           // include the ID of xhNode's parent
           // TODO MySQL foreign key constraint:
@@ -227,9 +231,20 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
             // the ID could be a STRING "r:c_i^"
             sbCurrentNode.append(sqlDataType[SQLDATATYPE_STRING]);
           }
+          if (this.isParentForeignKeys()) {
+            sbForeignKeys
+            .append(",\n")
+            .append(this.makeForeignKey(xhNode.getParentNode(), "parent" + idRoleXhcNames[IDROLEXHC_ID]));
+          }
+          else {
+            sbCurrentNode
+            .append(" /* ")
+            .append(this.makeForeignKey(xhNode.getParentNode(), "parent" + idRoleXhcNames[IDROLEXHC_ID]))
+            .append(" */ ");
+          }
         }
         if (isShouldShowLinks()) {
-          this.writeLinks(xhNode);
+          this.writeLinks(xhNode, sbForeignKeys);
         }
         sbCurrentNode
         .append(",\n PRIMARY KEY  (")
@@ -238,7 +253,16 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
           sbCurrentNode.append(", timeStep");
         }
         sbCurrentNode
-        .append(")\n")
+        .append(")");
+        if (this.isForeignKeys()) {
+          sbCurrentNode
+          .append(sbForeignKeys.toString());
+        }
+        else {
+          sbCurrentNode
+          .append("\n");
+        }
+        sbCurrentNode
         .append(");\n");
       }
     }
@@ -269,7 +293,7 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
         sbCurrentNode.append(prefix).append("parent").append(idRoleXhcNames[IDROLEXHC_ID]);
       }
       if (isShouldShowLinks()) {
-          this.writeLinks(xhNode);
+          this.writeLinks(xhNode, null);
         }
       sbCurrentNode
       .append(") VALUES\n")
@@ -312,7 +336,7 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
         }
       }
       if (isShouldShowLinks()) {
-        this.writeLinks(xhNode);
+        this.writeLinks(xhNode, null);
       }
       sbCurrentNode.append(");\n");
     }
@@ -376,23 +400,22 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
    * @param node The current node.
    */
   @SuppressWarnings("unchecked")
-  protected void writeLinks(IXholon xhNode) {
+  protected void writeLinks(IXholon xhNode, StringBuilder sbForeignKeys) {
     List<PortInformation> portList = xhNode.getLinks(false, true);
     for (int i = 0; i < portList.size(); i++) {
       PortInformation pi = (PortInformation)portList.get(i);
       String linkLabel = pi.getFieldName();
-      writeLink(xhNode, pi);
+      writeLink(xhNode, pi, sbForeignKeys);
     }
   }
   
-  protected void writeLink(IXholon xhNode, final PortInformation pi) {
+  protected void writeLink(IXholon xhNode, final PortInformation pi, StringBuilder sbForeignKeys) {
     IXholon remoteNode = pi.getReffedNode();
     if (remoteNode == null) {return;}
     if (!remoteNode.hasAncestor(root.getName())) {
       // remoteNode is outside the scope (not a descendant) of root
       return;
     }
-
     switch (sbCurrentNodeAttrState) {
     case ATTRSTATE_CREATE_TABLE:
       // port0 int|varchar(80)
@@ -408,16 +431,19 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
         // the ID is a String
         sbCurrentNode.append(sqlDataType[SQLDATATYPE_STRING]);
       }
-      sbCurrentNode
-      // MySQL syntax for foreign keys
-      .append(" /* ")
-      .append("FOREIGN KEY (")
-      .append(pi.getLocalNameNoBrackets())
-      .append(") REFERENCES ")
-      .append(remoteNode.getXhc().getName())
-      .append("(")
-      .append(remoteNode.getName(idRoleXhcFormats[IDROLEXHC_ID]))
-      .append(") */ ");
+      String fk = this.makeForeignKey(remoteNode, pi.getLocalNameNoBrackets());
+      if (isForeignKeys()) {
+        // MySQL vs PostgreSQL - they can both use the same syntax
+        sbForeignKeys.append(",\n")
+        .append(fk);
+      }
+      else {
+        // write the foreign key as a comment
+        sbCurrentNode
+        .append(" /* ")
+        .append(fk)
+        .append(" */ ");
+      }
       break;
     case ATTRSTATE_INSERT_INTO:
       // port0
@@ -440,6 +466,18 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
     }
   }
   
+  protected String makeForeignKey(IXholon remoteNode, String localName) {
+    return new StringBuilder()
+    .append(" FOREIGN KEY (")
+    .append(localName)
+    .append(") REFERENCES ")
+    .append(remoteNode.getXhc().getName())
+    .append("(")
+    .append(idRoleXhcNames[IDROLEXHC_ID])
+    .append(")")
+    .toString();
+  }
+  
   /**
    * Make a JavaScript object with all the parameters for this external format.
    */
@@ -458,6 +496,8 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
     p.primaryKey = "ID"; // OR "ID,roleName,xhcName"; but exclude other possible constituents of the primary key such as "timeStep"
     p.regenerateIDs = false; // whether or not to regenerate all Xholon CSH IDs before doing the export; to ensure uniqueness of ID field
     p.timeStep = false; // whether or not to include the current Xholon TimeStep
+    p.foreignKeys = true; // whether or not to write out foreign key constraints
+    p.parentForeignKeys = true; // whether or not to write out parent as a foreign key constraint
     
     // old
     p.shouldShowLinks = true;
@@ -502,6 +542,12 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
 
   public native boolean isTimeStep() /*-{return this.efParams.timeStep;}-*/;
   //public native void setTimeStep(boolean timeStep) /*-{this.efParams.timeStep = timeStep;}-*/;
+
+  public native boolean isForeignKeys() /*-{return this.efParams.foreignKeys;}-*/;
+  //public native void setForeignKeys(boolean foreignKeys) /*-{this.efParams.foreignKeys = foreignKeys;}-*/;
+
+  public native boolean isParentForeignKeys() /*-{return this.efParams.parentForeignKeys;}-*/;
+  //public native void setParentForeignKeys(boolean parentForeignKeys) /*-{this.efParams.parentForeignKeys = parentForeignKeys;}-*/;
 
   /** Whether or not to show links between nodes. */
   public native boolean isShouldShowLinks() /*-{return this.efParams.shouldShowLinks;}-*/;
@@ -574,7 +620,13 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
     .append("model: ")
     .append(this.modelName)
     .append("\n")
-    .append("www.primordion.com/Xholon\n");
+    .append("www.primordion.com/Xholon\n")
+    .append("In MySQL, you will need to temporarily disable foreign keys while loading in this file:\n")
+    .append("SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS;\n")
+    .append("SET FOREIGN_KEY_CHECKS=0;\n")
+    .append("source thenameofthisfile.sql;\n")
+    .append("SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;\n")
+    ;
     this.writeComment(commentSb.toString());
     
   }
