@@ -67,12 +67,16 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
   static final private int IDROLEXHC_ROLE = 1;
   static final private int IDROLEXHC_XHC  = 2;
   
+  static final private String IH_ROOT_NAME = "XholonClass";
+  
   private String outFileName;
   private String outPath = "./ef/sql/";
   private String modelName;
   private IXholon root;
+  private IXholonClass xhcRoot;
   private StringBuilder sbOut;
   private StringBuilder sbCurrentNode;
+  private StringBuilder sbIhOut;
   private int sbCurrentNodeAttrState = ATTRSTATE_INITIAL;
   
   private String[] idRoleXhcNames = {null, null, null};
@@ -108,6 +112,7 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
     }
     this.modelName = modelName;
     this.root = root;
+    this.xhcRoot = root.getApp().getXhcRoot();
     
     // SQL Target
     if ("MySQL".equals(getSqlTarget())) {
@@ -155,9 +160,14 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
   @Override
   public void writeAll() {
     sbOut = new StringBuilder();
+    sbIhOut = new StringBuilder();
     this.writeStartDocument();
+    if (this.isIhNodes()) {
+      this.writeIhNodes(root.getApp().getXhcRoot());
+    }
     this.writeNode(root);
     this.writeFromXhcStringBuilder(root.getApp().getXhcRoot());
+    sbOut.append(sbIhOut.toString());
     this.writeEndDocument();
     this.writeToTarget(sbOut.toString(), outFileName, outPath, root);
   }
@@ -189,6 +199,7 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
         .append(xhClassName)
         .append(" (\n");
         String prefix = " ";
+        // ID
         if (idRoleXhcNames[IDROLEXHC_ID] != null) {
           sbCurrentNode.append(prefix).append(idRoleXhcNames[IDROLEXHC_ID]).append(" ");
           if ("^^^^i^".equals(idRoleXhcFormats[IDROLEXHC_ID])) {
@@ -198,15 +209,49 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
             // the ID could be a STRING "r:c_i^"
             sbCurrentNode.append(sqlDataType[SQLDATATYPE_STRING]);
           }
-          sbCurrentNode.append(" NOT NULL auto_increment");
+          sbCurrentNode.append(" NOT NULL")
+          //.append(" auto_increment")
+          ;
           prefix = ",\n ";
         }
+        // ROLE
         if (idRoleXhcNames[IDROLEXHC_ROLE] != null) {
-          sbCurrentNode.append(prefix).append(idRoleXhcNames[IDROLEXHC_ROLE]).append(" ").append(sqlDataType[SQLDATATYPE_STRING]).append(" NOT NULL default ''");
+          sbCurrentNode.append(prefix).append(idRoleXhcNames[IDROLEXHC_ROLE]).append(" ").append(sqlDataType[SQLDATATYPE_STRING]).append(" NOT NULL")
+          //.append(" default ''")
+          ;
           prefix = ",\n ";
         }
+        StringBuilder sbForeignKeys = null;
+        if (this.isForeignKeys()) {
+          sbForeignKeys = new StringBuilder();
+        }
+        // XHC
         if (idRoleXhcNames[IDROLEXHC_XHC] != null) {
-          sbCurrentNode.append(prefix).append(idRoleXhcNames[IDROLEXHC_XHC]).append(" ").append(sqlDataType[SQLDATATYPE_STRING]).append(" NOT NULL default ''");
+          sbCurrentNode
+          .append(prefix)
+          .append(idRoleXhcNames[IDROLEXHC_XHC])
+          .append(" ");
+          if ("^^^^i^".equals(idRoleXhcFormats[IDROLEXHC_XHC])) {
+            sbCurrentNode.append(sqlDataType[SQLDATATYPE_INT]);
+            if (this.isForeignKeys()) {
+              sbForeignKeys
+              .append(",\n")
+              .append(" FOREIGN KEY (")
+              .append(idRoleXhcNames[IDROLEXHC_XHC])
+              .append(") REFERENCES ")
+              .append(IH_ROOT_NAME)
+              .append("(")
+              .append(idRoleXhcNames[IDROLEXHC_ID])
+              .append(")")
+              ;
+            }
+          }
+          else {
+            sbCurrentNode.append(sqlDataType[SQLDATATYPE_STRING]);
+          }
+          sbCurrentNode.append(" NOT NULL")
+          //.append(" default ''")
+          ;
           prefix = ",\n ";
         }
         if (isTimeStep()) {
@@ -214,10 +259,7 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
         }
         sbCurrentNodeAttrState = ATTRSTATE_CREATE_TABLE;
         writeNodeAttributes(xhNode);
-        StringBuilder sbForeignKeys = null;
-        if (this.isForeignKeys()) {
-          sbForeignKeys = new StringBuilder();
-        }
+        // PARENT
         if (isParent() && (xhNode != root)) {
           // include the ID of xhNode's parent
           // TODO MySQL foreign key constraint:
@@ -247,7 +289,7 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
           this.writeLinks(xhNode, sbForeignKeys);
         }
         sbCurrentNode
-        .append(",\n PRIMARY KEY  (")
+        .append(",\n PRIMARY KEY (")
         .append(this.getPrimaryKey());
         if (isTimeStep()) {
           sbCurrentNode.append(", timeStep");
@@ -300,6 +342,7 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
       .append(" (");
       
       prefix = "";
+      // ID
       if (idRoleXhcNames[IDROLEXHC_ID] != null) {
         if ("^^^^i^".equals(idRoleXhcFormats[IDROLEXHC_ID])) {
           // the ID is an integer
@@ -311,12 +354,21 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
         }
         prefix = ", ";
       }
+      // ROLE
       if (idRoleXhcNames[IDROLEXHC_ROLE] != null) {
         sbCurrentNode.append(prefix).append("'").append(xhNode.getName(idRoleXhcFormats[IDROLEXHC_ROLE])).append("'");
         prefix = ", ";
       }
+      // XHC
       if (idRoleXhcNames[IDROLEXHC_XHC] != null) {
-        sbCurrentNode.append(prefix).append("'").append(xhNode.getName(idRoleXhcFormats[IDROLEXHC_XHC])).append("'");
+        if ("^^^^i^".equals(idRoleXhcFormats[IDROLEXHC_XHC])) {
+          // the XHC Name/ID is an integer
+          sbCurrentNode.append(prefix).append(xhNode.getXhcId());
+        }
+        else {
+          // the XHC Name/ID is a String
+          sbCurrentNode.append(prefix).append("'").append(xhNode.getName(idRoleXhcFormats[IDROLEXHC_XHC])).append("'");
+        }
         prefix = ", ";
       }
       
@@ -345,6 +397,133 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
     while (childNode != null) {
       writeNode(childNode);
       childNode = childNode.getNextSibling();
+    }
+  }
+  
+  protected void writeIhNodes(IXholon xhcNode) {
+    if (isDropTables()) {
+      sbIhOut
+      .append("DROP TABLE ")
+      .append("IF EXISTS ")
+      .append(IH_ROOT_NAME)
+      .append(";\n");
+    }
+    if (isCreateTables()) {
+      String prefix = " ";
+      sbIhOut
+      .append("CREATE TABLE ")
+      .append("IF NOT EXISTS ")
+      .append(IH_ROOT_NAME)
+      .append(" (\n")
+      .append(prefix)
+      .append(idRoleXhcNames[IDROLEXHC_ID])
+      .append(" ")
+      .append(sqlDataType[SQLDATATYPE_INT])
+      .append(" NOT NULL");
+      prefix = ",\n ";
+      sbIhOut
+      .append(prefix)
+      .append("xhcName")
+      .append(" ")
+      .append(sqlDataType[SQLDATATYPE_STRING]);
+      sbIhOut
+      .append(prefix)
+      .append("parent")
+      .append(idRoleXhcNames[IDROLEXHC_ID])
+      .append(" ")
+      .append(sqlDataType[SQLDATATYPE_INT]);
+      sbIhOut
+      .append(prefix)
+      .append("PRIMARY KEY (")
+      .append(idRoleXhcNames[IDROLEXHC_ID])
+      .append(")");
+      // FOREIGN KEY points to parent
+      if (this.isForeignKeys()) {
+        sbIhOut
+        .append(prefix)
+        .append("FOREIGN KEY (")
+        .append("parent")
+        .append(idRoleXhcNames[IDROLEXHC_ID])
+        .append(") REFERENCES ")
+        .append(IH_ROOT_NAME)
+        .append("(")
+        .append(idRoleXhcNames[IDROLEXHC_ID])
+        .append(")")
+        ;
+      }
+      sbIhOut
+      .append(");\n");
+    }
+    if (isInsertRows()) {
+      // INSERT INTO tbl_name (a,b,c) VALUES(1,2,3),(4,5,6),(7,8,9);
+      sbIhOut.append("INSERT INTO ")
+      .append(IH_ROOT_NAME)
+      .append(" (");
+      String prefix = "";
+      if (idRoleXhcNames[IDROLEXHC_ID] != null) {
+        sbIhOut.append(idRoleXhcNames[IDROLEXHC_ID]);
+        prefix = ", ";
+      }
+      if (idRoleXhcNames[IDROLEXHC_XHC] != null) {
+        sbIhOut.append(prefix).append("xhcName");
+        prefix = ", ";
+      }
+      
+      // include the ID of xhNode's parent
+      sbIhOut
+      .append(prefix)
+      .append("parent")
+      .append(idRoleXhcNames[IDROLEXHC_ID])
+      ;
+      
+      sbIhOut
+      .append(") VALUES\n");
+
+      writeIhNode(xhcNode, "");
+      sbIhOut
+      .append(";\n");
+    }
+  }
+  
+  /**
+   * Write an inheritance hierarchy (IH) node, and its child nodes.
+   * Optionally only include app-specific IH nodes.
+   * @param xhcNode The current node in the hierarchy.
+   */
+  protected void writeIhNode(IXholon xhcNode, String prefix) {
+    if (isMechanismIhNodes() || (xhcNode.getId() < IMechanism.MECHANISM_ID_START)) {
+      sbIhOut
+      .append(prefix)
+      .append(" (")
+      .append(xhcNode.getId())
+      .append(", '")
+      .append(xhcNode.getName())
+      .append("', ");
+      if (xhcNode == xhcRoot) {
+        sbIhOut.append(0);
+      }
+      else {
+        sbIhOut.append(xhcNode.getParentNode().getId());
+      }
+      sbIhOut
+      .append(")");
+      if (xhcNode.hasChildNodes()) {
+        IXholon childXhcNode = xhcNode.getFirstChild();
+        while (childXhcNode != null) {
+          writeIhNode(childXhcNode, ",\n");
+          childXhcNode = childXhcNode.getNextSibling();
+        }
+      }
+    }
+    else {
+      // this is a mechanism node that should not be shown, but should still be navigated
+      if (xhcNode.hasChildNodes()) {
+        IXholon childXhcNode = xhcNode.getFirstChild();
+        while (childXhcNode != null) {
+          writeIhNode(childXhcNode, ",\n");
+          childXhcNode = childXhcNode.getNextSibling();
+        }
+      }
     }
   }
   
@@ -491,18 +670,19 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
     p.insertRows = true; // whether or not to write out INSERT statements
     p.deletePrevious = true; // whether or not to call deleteStringBuilder() at end of the export
     p.parent = true; // whether or not to write parent node as an INSERT field
-    p.idRoleXhcNames = "ID,roleName,xhcName"; // "ID" or "id" or "key" or whatever
-    p.idRoleXhcFormats = "^^^^i^,r^^^^^,^^C^^^"; // 
+    p.idRoleXhcNames = "ID,roleName,xhcID"; // "ID,roleName,xhcName" or "ID" or "id" or "key" or whatever
+    p.idRoleXhcFormats = "^^^^i^,r^^^^^,^^^^i^"; // "^^^^i^,r^^^^^,^^C^^^"
     p.primaryKey = "ID"; // OR "ID,roleName,xhcName"; but exclude other possible constituents of the primary key such as "timeStep"
     p.regenerateIDs = false; // whether or not to regenerate all Xholon CSH IDs before doing the export; to ensure uniqueness of ID field
     p.timeStep = false; // whether or not to include the current Xholon TimeStep
     p.foreignKeys = true; // whether or not to write out foreign key constraints
     p.parentForeignKeys = true; // whether or not to write out parent as a foreign key constraint
+    p.ihNodes = true; // whether or not to write out IH nodes
+    p.mechanismIhNodes = true; // whether or not to write out IH nodes that belong to a Mechanism
     
     // old
     p.shouldShowLinks = true;
     p.shouldShowStateMachineEntities = false;
-    p.showXhc = false;
     p.fileNameExtension = ".sql";
     //p.shouldWriteVal = false;
     //p.shouldWriteAllPorts = false;
@@ -561,9 +741,13 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
   //public native String getNameTemplate() /*-{return this.efParams.nameTemplate;}-*/;
   //public native void setNameTemplate(String nameTemplate) /*-{this.efParams.nameTemplate = nameTemplate;}-*/;
 
-  /** Whether or not to include an edge from IXholon to IXholonClass. */
-  public native boolean isShowXhc() /*-{return this.efParams.showXhc;}-*/;
-  //public native void setShowXhc(boolean showXhc) /*-{this.efParams.showXhc = showXhc;}-*/;
+  /** Whether or not to include IH nodes. */
+  public native boolean isIhNodes() /*-{return this.efParams.ihNodes;}-*/;
+  //public native void setIhNodes(boolean ihNodes) /*-{this.efParams.ihNodes = ihNodes;}-*/;
+
+  /** Whether or not to include Mechanism IH nodes. */
+  public native boolean isMechanismIhNodes() /*-{return this.efParams.mechanismIhNodes;}-*/;
+  //public native void setMechanismIhNodes(boolean mechanismIhNodes) /*-{this.efParams.mechanismIhNodes = mechanismIhNodes;}-*/;
 
   /** SQL files can be .sql or maybe something else */
   public native String getFileNameExtension() /*-{return this.efParams.fileNameExtension;}-*/;
