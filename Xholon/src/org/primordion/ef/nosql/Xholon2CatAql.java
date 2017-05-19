@@ -19,9 +19,7 @@
 package org.primordion.ef.nosql;
 
 import java.util.Date;
-//import java.util.HashSet;
 import java.util.List;
-//import java.util.Set;
 
 import org.primordion.ef.AbstractXholon2ExternalFormat;
 import org.primordion.xholon.base.IMechanism;
@@ -47,7 +45,7 @@ import org.primordion.xholon.util.Misc;
 @SuppressWarnings("serial")
 public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXholon2ExternalFormat, IXmlWriter {
   
-  static final private String IH_ROOT_NAME = "XholonClass";
+  //static final private String IH_ROOT_NAME = "XholonClass";
   
   private String outFileName;
   private String outPath = "./ef/aql/";
@@ -58,9 +56,6 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
   private StringBuilder sbOut;
   //private StringBuilder sbCurrentNode;
   private StringBuilder sbIhOut;
-  
-  private String[] idRoleXhcNames = {null, null, null};
-  private String[] idRoleXhcFormats = {null, null, null};
   
   /** Current date and time. */
   private Date timeNow;
@@ -112,10 +107,6 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
       this.regenerateIDs(root, 0);
     }
     
-    // make sure that each String[] item has a value, which may be null
-    idRoleXhcNames = fixIdRoleXhcArr(this.getIdRoleXhcNames().split(","));
-    idRoleXhcFormats = fixIdRoleXhcArr(this.getIdRoleXhcFormats().split(","));
-    
     sbSEntities = new StringBuilder().append(indent).append("entities");
     sbSForeignKeys = new StringBuilder().append(indent).append("foreign_keys");
     sbSPathEquations = new StringBuilder().append(indent).append("path_equations");
@@ -126,19 +117,11 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
     sbIGenerators = new StringBuilder().append(indent).append("generators");
     sbIEquations = new StringBuilder().append(indent).append("equations");
     sbIOptions = new StringBuilder().append(indent).append("options");
-    sbICompPrec = new StringBuilder().append(indent).append(indent).append("completion_precedence = \"zero succ plus");
+    if (this.getCompletionPrecedence()) {
+      sbICompPrec = new StringBuilder().append(indent).append(indent).append("completion_precedence = \"zero succ plus");
+    }
     
     return true;
-  }
-  
-  protected String[] fixIdRoleXhcArr(String[] inArr) {
-    String[] outArr = {null, null, null};
-    for (int i = 0; i < inArr.length; i++) {
-      if ((inArr[i] != null) && (inArr[i].trim().length() > 0)) {
-        outArr[i] = inArr[i].trim();
-      }
-    }
-    return outArr;
   }
   
   protected void regenerateIDs(IXholon node, int newID) {
@@ -155,12 +138,18 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
     sbOut = new StringBuilder();
     sbIhOut = new StringBuilder();
     this.writeStartDocument();
-    this.writeTypeside();
+    switch (this.getTypeside()) {
+    case "default": this.writeTypesideDefault(); break;
+    case "java": this.writeTypesideJava(); break;
+    default: break;
+    }
     if (this.isIhNodes()) {
       this.writeIhNodes(root.getApp().getXhcRoot());
     }
     this.writeNode(root);
-    //this.writeFromXhcStringBuilder(root.getApp().getXhcRoot());
+      if (this.isDeletePrevious()) {
+      this.deleteXholonClassVisited(root.getApp().getXhcRoot());
+    }
     //sbOut.append(sbIhOut.toString());
     sbOut
     .append("\nschema S = literal : Ty {\n")
@@ -169,37 +158,65 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
     .append(sbSPathEquations.toString()).append("\n")
     .append(sbSAttributes.toString()).append("\n")
     .append(sbSObservationEquations.toString()).append("\n")
-    .append(sbSOptions.toString()).append("\n").append(indent).append(indent).append("prover = completion\n")
-    .append("}\n")
-    ;
+    .append(sbSOptions.toString()).append("\n");
+    if (this.getProver().length() > 0) {
+      sbOut.append(indent).append(indent).append("prover = ").append(this.getProver()).append("\n");
+    }
+    sbOut.append("}\n");
     sbOut
     .append("\ninstance I = literal : S {\n")
     .append(sbIGenerators.toString()).append("\n")
     .append(sbIEquations.toString()).append("\n")
-    .append(sbIOptions.toString()).append("\n").append(indent).append(indent).append("prover = completion\n")
-    .append(sbICompPrec.toString()).append("\"\n")
-    .append("}\n")
-    ;
+    .append(sbIOptions.toString()).append("\n");
+    if (this.getProver().length() > 0) {
+      sbOut.append(indent).append(indent).append("prover = ").append(this.getProver()).append("\n");
+    }
+    if (this.getCompletionPrecedence()) {
+      sbOut.append(sbICompPrec.toString()).append("\"\n");
+    }
+    sbOut.append("}\n");
     this.writeEndDocument();
     this.writeToTarget(sbOut.toString(), outFileName, outPath, root);
   }
   
-  protected void writeTypeside() {
+  protected void writeTypesideDefault() {
     sbOut
     .append("typeside Ty = literal {\n")
     .append("  types\n")
     .append("    string\n")
-    .append("    nat\n")
+    .append("    int\n")
     .append("  constants\n")
-    .append("    zero : nat\n")
+    .append("    zero : int\n")
     .append("  functions\n")
-    .append("    succ : nat -> nat\n")
-    .append("    plus : nat, nat -> nat\n")
+    .append("    succ : int -> int\n")
+    .append("    plus : int, int -> int\n")
     .append("  equations\n")
     .append("    forall x. plus(zero, x) = x\n")
     .append("    forall x, y. plus(succ(x),y) = succ(plus(x,y))\n")
     .append("  options\n")
     .append("    prover = completion\n")
+    .append("}\n");
+  }
+  
+  protected void writeTypesideJava() {
+    sbOut
+    .append("typeside Ty = literal {\n")
+    .append("  java_types\n")
+    .append("    string = \"java.lang.String\"\n")
+    .append("    int = \"java.lang.Integer\"\n")
+    .append("    float = \"java.lang.Float\"\n")
+    .append("    double = \"java.lang.Double\"\n")
+    .append("    boolean = \"java.lang.Boolean\"\n")
+    .append("  java_constants\n")
+    .append("    string = \"return input[0]\"\n")
+    .append("    int = \"return java.lang.Integer.parseInt(input[0])\"\n")
+    .append("    float = \"return java.lang.Float.parseFloat(input[0])\"\n")
+    .append("    double = \"return java.lang.Double.parseDouble(input[0])\"\n")
+    .append("    boolean = \"return java.lang.Boolean.parseBoolean(input[0])\"\n")
+    .append("  java_functions\n")
+    .append("    plus : int,int -> int = \"return (input[0] + input[1]).intValue()\"\n")
+    .append("    plusf : float,float -> float = \"return input[0] + input[1]\"\n")
+    .append("    plusd : double,double -> double = \"return input[0] + input[1]\"\n")
     .append("}\n");
   }
     
@@ -210,28 +227,28 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
         && xhNode != root) {
       return;
     }
-    // TODO only write to schema if this XholonClass hasn't been written before
-    sbSEntities
-    .append("\n")
-    .append(indent)
-    .append(indent)
-    .append(xhNode.getXhcName())
-    ;
+    // only write to schema if this XholonClass hasn't been written before
+    if (!this.isXholonClassVisited(xhNode.getXhc())) {
+      sbSEntities
+      .append("\n")
+      .append(indent)
+      .append(indent)
+      .append(xhNode.getXhcName());
+    }
     sbIGenerators
     .append("\n")
     .append(indent)
     .append(indent)
-    .append(xhNode.getName("^^c_i^"))
+    .append(xhNode.getName(this.getInstanceNameTemplate()))
     .append(" : ")
-    .append(xhNode.getXhcName())
-    ;
-    sbICompPrec
-    .append(" ")
-    .append(xhNode.getName("^^c_i^"))
-    ;
+    .append(xhNode.getXhcName());
+    if (this.getCompletionPrecedence()) {
+      sbICompPrec.append(" ").append(xhNode.getName(this.getInstanceNameTemplate()));
+    }
     this.currentNode = xhNode;
     this.writeNodeAttributes(xhNode);
     this.writeLinks(xhNode);
+    this.setXholonClassVisited(xhNode.getXhc(), true);
     // recurse through all children
     IXholon childNode = xhNode.getFirstChild();
     while (childNode != null) {
@@ -271,41 +288,32 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
     }
   }
   
-  /**
-   * Find StringBuilder for the specified IXholonClass.
-   * @return a pre-existing instance of StringBuilder or null.
-   */
-  protected native StringBuilder findStringBuilder(IXholonClass xhClass) /*-{
-    return xhClass.stringBuilder;
-  }-*/;
-  
-  /**
-   * Save a new StringBuilder for the specified IXholonClass.
-   * @return the new StringBuilder so the caller can use it to chain functions.
-   */
-  protected native StringBuilder newStringBuilder(IXholonClass xhClass, StringBuilder newSb) /*-{
-    xhClass.stringBuilder = newSb;
-    return newSb;
-  }-*/;
-  
-  /**
-   * Delete StringBuilder for the specified IXholonClass.
-   */
-  protected native void deleteStringBuilder(IXholonClass xhClass) /*-{
-    delete xhClass.stringBuilder;
-  }-*/;
-  
-  protected void writeFromXhcStringBuilder(IXholonClass xhClass) {
-    StringBuilder sb = this.findStringBuilder(xhClass);
-    if ((sb != null) && (sb.length() > 0)) {
-      sbOut.append(sb.toString()).append("\n");
-      if (isDeletePrevious()) {
-        this.deleteStringBuilder(xhClass);
-      }
+  protected native boolean isXholonClassVisited(IXholonClass xhClass) /*-{
+    var visited = xhClass.xholon2CatAql;
+    if (visited == null) {
+      visited = false;
     }
+    return visited;
+  }-*/;
+  
+  protected native boolean setXholonClassVisited(IXholonClass xhClass, boolean b) /*-{
+    xhClass.xholon2CatAql = b;
+  }-*/;
+  
+  /**
+   * Delete boolean for the specified IXholonClass.
+   */
+  protected native void deleteXholonClassVisitedNative(IXholonClass xhClass) /*-{
+    if (xhClass.xholon2CatAql) {
+      delete xhClass.xholon2CatAql;
+    }
+  }-*/;
+  
+  protected void deleteXholonClassVisited(IXholonClass xhClass) {
+    this.deleteXholonClassVisitedNative(xhClass);
     IXholonClass childNode = (IXholonClass)xhClass.getFirstChild();
     while (childNode != null) {
-      writeFromXhcStringBuilder(childNode);
+      deleteXholonClassVisited(childNode);
       childNode = (IXholonClass)childNode.getNextSibling();
     }
   }
@@ -339,30 +347,19 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
       // remoteNode is outside the scope (not a descendant) of root
       return;
     }
-    String linkName = xhNode.getName("^^c_i^") + "_" + pi.getLocalNameNoBrackets();
-    sbSForeignKeys
-    .append("\n").append(indent).append(indent)
-    .append(linkName)
-    .append(" : ")
-    .append(xhNode.getXhcName())
-    .append(" -> ")
-    .append(remoteNode.getXhcName())
-    ;
-    sbICompPrec
-    .append(" ")
-    .append(linkName);
-  }
-  
-  protected String makeForeignKey(IXholon remoteNode, String localName) {
-    return new StringBuilder()
-    .append(" FOREIGN KEY (")
-    .append(localName)
-    .append(") REFERENCES ")
-    .append(remoteNode.getXhc().getName())
-    .append("(")
-    //.append(idRoleXhcNames[IDROLEXHC_ID])
-    .append(")")
-    .toString();
+    String linkName = xhNode.getName(this.getSchemaNameTemplate()) + "_" + pi.getLocalNameNoBrackets();
+    if (!this.isXholonClassVisited(xhNode.getXhc())) {
+      sbSForeignKeys
+      .append("\n").append(indent).append(indent)
+      .append(linkName)
+      .append(" : ")
+      .append(xhNode.getXhcName())
+      .append(" -> ")
+      .append(remoteNode.getXhcName());
+    }
+    if (this.getCompletionPrecedence()) {
+      sbICompPrec.append(" ").append(linkName);
+    }
   }
   
   /**
@@ -371,22 +368,21 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
   protected native void makeEfParams() /*-{
     var p = {};
     
-    // new
-    //p.sqlTarget = "MySQL"; // "MySQL" or "PostgreSQL" or a comma-delimited string of data type names
-    //p.dropTables = true; // whether or not to write out DROP TABLE statements
-    p.createTables = true; // whether or not to write out CREATE TABLE statements
-    p.insertRows = true; // whether or not to write out INSERT statements
-    p.deletePrevious = true; // whether or not to call deleteStringBuilder() at end of the export
-    p.parent = true; // whether or not to write parent node as an INSERT field
-    p.idRoleXhcNames = "ID,roleName,xhcID"; // "ID,roleName,xhcName" or "ID" or "id" or "key" or whatever
-    p.idRoleXhcFormats = "^^^^i^,r^^^^^,^^^^i^"; // "^^^^i^,r^^^^^,^^C^^^"
-    p.primaryKey = "ID"; // OR "ID,roleName,xhcName"; but exclude other possible constituents of the primary key such as "timeStep"
+    // new for Xholon2Sql
+    p.deletePrevious = true; // whether or not to call deleteXholonClassVisited() at end of the export
+    //p.parent = true; // whether or not to write parent node as an INSERT field
     p.regenerateIDs = false; // whether or not to regenerate all Xholon CSH IDs before doing the export; to ensure uniqueness of ID field
-    p.timeStep = false; // whether or not to include the current Xholon TimeStep
-    p.foreignKeys = true; // whether or not to write out foreign key constraints
-    p.parentForeignKeys = true; // whether or not to write out parent as a foreign key constraint
-    p.ihNodes = true; // whether or not to write out IH nodes
-    p.mechanismIhNodes = true; // whether or not to write out IH nodes that belong to a Mechanism
+    //p.timeStep = false; // whether or not to include the current Xholon TimeStep
+    //p.foreignKeys = true; // whether or not to write out foreign key constraints
+    //p.parentForeignKeys = true; // whether or not to write out parent as a foreign key constraint
+    p.ihNodes = false; // whether or not to write out IH nodes
+    p.mechanismIhNodes = false; // whether or not to write out IH nodes that belong to a Mechanism
+    
+    p.typeside = "java"; // "default" or "java"
+    p.prover = ""; // "" or "completion"
+    //p.completion_precedence = false; // only true if prover == "completion"
+    p.schemaNameTemplate = "^^c^^^"; // "^^c^^^" is schema-based
+    p.instanceNameTemplate = "^^c_i^"; // "^^c_i^" is instance-based
     
     // old
     p.shouldShowLinks = true;
@@ -398,43 +394,22 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
     this.efParams = p;
   }-*/;
 
-  //public native String getSqlTarget() /*-{return this.efParams.sqlTarget;}-*/;
-  //public native void setSqlTarget(String sqlTarget) /*-{this.efParams.sqlTarget = sqlTarget;}-*/;
-
-  public native boolean isDropTables() /*-{return this.efParams.dropTables;}-*/;
-  //public native void setDropTables(boolean dropTables) /*-{this.efParams.dropTables = dropTables;}-*/;
-
-  public native boolean isCreateTables() /*-{return this.efParams.createTables;}-*/;
-  //public native void setCreateTables(boolean createTables) /*-{this.efParams.createTables = createTables;}-*/;
-
-  public native boolean isInsertRows() /*-{return this.efParams.insertRows;}-*/;
-  //public native void setInsertRows(boolean insertRows) /*-{this.efParams.insertRows = insertRows;}-*/;
-
   public native boolean isDeletePrevious() /*-{return this.efParams.deletePrevious;}-*/;
   //public native void setDeletePrevious(boolean deletePrevious) /*-{this.efParams.deletePrevious = deletePrevious;}-*/;
 
-  public native boolean isParent() /*-{return this.efParams.parent;}-*/;
+  //public native boolean isParent() /*-{return this.efParams.parent;}-*/;
   //public native void setParent(boolean parent) /*-{this.efParams.parent = parent;}-*/;
-
-  public native String getIdRoleXhcNames() /*-{return this.efParams.idRoleXhcNames;}-*/;
-  //public native void setIdRoleXhcNames(String idRoleXhcNames) /*-{this.efParams.idRoleXhcNames = idRoleXhcNames;}-*/;
-
-  public native String getIdRoleXhcFormats() /*-{return this.efParams.idRoleXhcFormats;}-*/;
-  //public native void setIdRoleXhcFormats(String idRoleXhcFormats) /*-{this.efParams.idRoleXhcFormats = idRoleXhcFormats;}-*/;
-
-  public native String getPrimaryKey() /*-{return this.efParams.primaryKey;}-*/;
-  //public native void setPrimaryKey(String primaryKey) /*-{this.efParams.primaryKey = primaryKey;}-*/;
 
   public native boolean isRegenerateIDs() /*-{return this.efParams.regenerateIDs;}-*/;
   //public native void setRegenerateIDs(boolean regenerateIDs) /*-{this.efParams.regenerateIDs = regenerateIDs;}-*/;
 
-  public native boolean isTimeStep() /*-{return this.efParams.timeStep;}-*/;
+  //public native boolean isTimeStep() /*-{return this.efParams.timeStep;}-*/;
   //public native void setTimeStep(boolean timeStep) /*-{this.efParams.timeStep = timeStep;}-*/;
 
-  public native boolean isForeignKeys() /*-{return this.efParams.foreignKeys;}-*/;
+  //public native boolean isForeignKeys() /*-{return this.efParams.foreignKeys;}-*/;
   //public native void setForeignKeys(boolean foreignKeys) /*-{this.efParams.foreignKeys = foreignKeys;}-*/;
 
-  public native boolean isParentForeignKeys() /*-{return this.efParams.parentForeignKeys;}-*/;
+  //public native boolean isParentForeignKeys() /*-{return this.efParams.parentForeignKeys;}-*/;
   //public native void setParentForeignKeys(boolean parentForeignKeys) /*-{this.efParams.parentForeignKeys = parentForeignKeys;}-*/;
 
   /** Whether or not to show links between nodes. */
@@ -445,9 +420,13 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
   public native boolean isShouldShowStateMachineEntities() /*-{return this.efParams.shouldShowStateMachineEntities;}-*/;
   //public native void setShouldShowStateMachineEntities(boolean shouldShowStateMachineEntities) /*-{this.efParams.shouldShowStateMachineEntities = shouldShowStateMachineEntities;}-*/;
 
-  /** Template to use when writing out node names. */
-  //public native String getNameTemplate() /*-{return this.efParams.nameTemplate;}-*/;
-  //public native void setNameTemplate(String nameTemplate) /*-{this.efParams.nameTemplate = nameTemplate;}-*/;
+  /** Template to use when writing out node names for a schema. */
+  public native String getSchemaNameTemplate() /*-{return this.efParams.schemaNameTemplate;}-*/;
+  //public native void setSchemaNameTemplate(String schemaNameTemplate) /*-{this.efParams.schemaNameTemplate = schemaNameTemplate;}-*/;
+
+  /** Template to use when writing out node names for an instance. */
+  public native String getInstanceNameTemplate() /*-{return this.efParams.instanceNameTemplate;}-*/;
+  //public native void setInstanceNameTemplate(String instanceNameTemplate) /*-{this.efParams.instanceNameTemplate = instanceNameTemplate;}-*/;
 
   /** Whether or not to include IH nodes. */
   public native boolean isIhNodes() /*-{return this.efParams.ihNodes;}-*/;
@@ -456,6 +435,19 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
   /** Whether or not to include Mechanism IH nodes. */
   public native boolean isMechanismIhNodes() /*-{return this.efParams.mechanismIhNodes;}-*/;
   //public native void setMechanismIhNodes(boolean mechanismIhNodes) /*-{this.efParams.mechanismIhNodes = mechanismIhNodes;}-*/;
+
+  public native String getTypeside() /*-{return this.efParams.typeside;}-*/;
+  //public native void setTypeside(String typeside) /*-{this.efParams.typeside = typeside;}-*/;
+
+  public native String getProver() /*-{return this.efParams.prover;}-*/;
+  //public native void setProver(String prover) /*-{this.efParams.prover = prover;}-*/;
+  
+  public boolean getCompletionPrecedence() {
+    if ("completion".equals(this.getProver())) {
+      return true;
+    }
+    return false;
+  }
 
   /** SQL files can be .sql or maybe something else */
   public native String getFileNameExtension() /*-{return this.efParams.fileNameExtension;}-*/;
@@ -546,38 +538,59 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
   public void writeAttribute(String name, String value) {
     //if ("Val".equalsIgnoreCase(name) && !isShouldWriteVal()) {return;}
     //if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
-    String attrName = currentNode.getName("^^c_i^") + "_" + name;
-    sbSAttributes
+    String attrName = currentNode.getName(this.getSchemaNameTemplate()) + "_" + name;
+    if (!this.isXholonClassVisited(currentNode.getXhc())) {
+      sbSAttributes
+      .append("\n").append(indent).append(indent)
+      .append(attrName)
+      .append(" : ")
+      .append(currentNode.getXhcName())
+      .append(" -> ");
+    }
+    sbIEquations
+    // glucose_pheneVal(glucose_2) = 100123
     .append("\n").append(indent).append(indent)
     .append(attrName)
-    .append(" : ")
-    .append(currentNode.getXhcName())
-    .append(" -> ");
+    .append("(")
+    .append(currentNode.getName(this.getInstanceNameTemplate()))
+    .append(") = ");
+    String schemaType = "";
     switch (Misc.getJavaDataType(value)) {
     case IJavaTypes.JAVACLASS_String:
-      sbSAttributes.append("string");
+      schemaType = "string";
+      sbIEquations.append("\"").append(value).append("\"");
       break;
     case IJavaTypes.JAVACLASS_int:
-      sbSAttributes.append("nat");
+      schemaType = "int";
+      sbIEquations.append(value);
       break;
     case IJavaTypes.JAVACLASS_float:
-      sbSAttributes.append("nat");
+      schemaType = "float";
+      sbIEquations.append("\"").append(value).append("\"");
       break;
     case IJavaTypes.JAVACLASS_double:
-      sbSAttributes.append("nat");
+      schemaType = "double";
+      sbIEquations.append("\"").append(value).append("\"");
       break;
     case IJavaTypes.JAVACLASS_long:
-      sbSAttributes.append("nat");
+      schemaType = "long";
+      sbIEquations.append(value);
       break;
     case IJavaTypes.JAVACLASS_boolean:
-      sbSAttributes.append("boolean"); // ???
+      schemaType = "boolean";
+      sbIEquations.append(value);
       break;
     default:
       break;
     }
-    sbICompPrec
-    .append(" ")
-    .append(attrName);
+    if (!this.isXholonClassVisited(currentNode.getXhc())) {
+      sbSAttributes.append(schemaType);
+    }
+    if (this.getCompletionPrecedence()) {
+      sbICompPrec
+      .append(" ")
+      .append(attrName);
+    }
   }
   
   @Override
