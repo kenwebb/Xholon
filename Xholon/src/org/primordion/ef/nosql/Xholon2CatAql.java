@@ -247,7 +247,13 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
     }
     this.currentNode = xhNode;
     this.writeNodeAttributes(xhNode);
-    this.writeLinks(xhNode);
+    if (this.isShouldShowLinks()) {
+      this.writeLinks(xhNode);
+    }
+    if (isParent() && (xhNode != root)) {
+      // optionally write parent node
+      this.writeParent(xhNode);
+    }
     this.setXholonClassVisited(xhNode.getXhc(), true);
     // recurse through all children
     IXholon childNode = xhNode.getFirstChild();
@@ -255,6 +261,36 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
       writeNode(childNode);
       childNode = childNode.getNextSibling();
     }
+  }
+  
+  /**
+   * Write parent node as a schema foreign_key:
+   * hello_parent : Hello -> HelloWorldSystem
+   * 
+   * and as an instance equation:
+   * hello_parent(hello_2) = helloWorldSystem_0
+   */
+  protected void writeParent(IXholon xhNode) {
+    if (!this.isXholonClassVisited(xhNode.getXhc())) {
+      sbSForeignKeys
+      .append("\n")
+      .append(indent)
+      .append(indent)
+      .append(xhNode.getName(this.getSchemaNameTemplate()))
+      .append("_parent : ")
+      .append(xhNode.getXhcName())
+      .append(" -> ")
+      .append(xhNode.getParentNode().getXhcName());
+    }
+    sbIEquations
+    .append("\n")
+    .append(indent)
+    .append(indent)
+    .append(xhNode.getName(this.getSchemaNameTemplate()))
+    .append("_parent(")
+    .append(xhNode.getName(this.getInstanceNameTemplate()))
+    .append(") = ")
+    .append(xhNode.getParentNode().getName(this.getInstanceNameTemplate()));    
   }
   
   protected void writeIhNodes(IXholon xhcNode) {
@@ -370,7 +406,7 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
     
     // new for Xholon2Sql
     p.deletePrevious = true; // whether or not to call deleteXholonClassVisited() at end of the export
-    //p.parent = true; // whether or not to write parent node as an INSERT field
+    p.parent = true; // whether or not to write parent node as a foreign_key and equation
     p.regenerateIDs = false; // whether or not to regenerate all Xholon CSH IDs before doing the export; to ensure uniqueness of ID field
     //p.timeStep = false; // whether or not to include the current Xholon TimeStep
     //p.foreignKeys = true; // whether or not to write out foreign key constraints
@@ -388,8 +424,8 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
     p.shouldShowLinks = true;
     p.shouldShowStateMachineEntities = false;
     p.fileNameExtension = ".aql";
-    //p.shouldWriteVal = false;
-    //p.shouldWriteAllPorts = false;
+    p.shouldWriteVal = false;
+    p.shouldWriteAllPorts = false;
     
     this.efParams = p;
   }-*/;
@@ -397,7 +433,7 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
   public native boolean isDeletePrevious() /*-{return this.efParams.deletePrevious;}-*/;
   //public native void setDeletePrevious(boolean deletePrevious) /*-{this.efParams.deletePrevious = deletePrevious;}-*/;
 
-  //public native boolean isParent() /*-{return this.efParams.parent;}-*/;
+  public native boolean isParent() /*-{return this.efParams.parent;}-*/;
   //public native void setParent(boolean parent) /*-{this.efParams.parent = parent;}-*/;
 
   public native boolean isRegenerateIDs() /*-{return this.efParams.regenerateIDs;}-*/;
@@ -536,8 +572,8 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
   @Override
   // This is for use by Xholon.toXmlAttributes() only
   public void writeAttribute(String name, String value) {
-    //if ("Val".equalsIgnoreCase(name) && !isShouldWriteVal()) {return;}
-    //if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
+    if ("Val".equalsIgnoreCase(name) && !isShouldWriteVal()) {return;}
+    if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
     String attrName = currentNode.getName(this.getSchemaNameTemplate()) + "_" + name;
     if (!this.isXholonClassVisited(currentNode.getXhc())) {
       sbSAttributes
