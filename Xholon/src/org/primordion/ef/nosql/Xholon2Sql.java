@@ -684,8 +684,8 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
     p.shouldShowLinks = true;
     p.shouldShowStateMachineEntities = false;
     p.fileNameExtension = ".sql";
-    //p.shouldWriteVal = false;
-    //p.shouldWriteAllPorts = false;
+    p.shouldWriteVal = false;
+    p.shouldWriteAllPorts = false;
     
     this.efParams = p;
   }-*/;
@@ -843,8 +843,8 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
   @Override
   // This is for use by Xholon.toXmlAttributes() only
   public void writeAttribute(String name, String value) {
-    //if ("Val".equalsIgnoreCase(name) && !isShouldWriteVal()) {return;}
-    //if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
+    if ("Val".equalsIgnoreCase(name) && !isShouldWriteVal()) {return;}
+    if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
     switch (sbCurrentNodeAttrState) {
     case ATTRSTATE_CREATE_TABLE:
       sbCurrentNode
