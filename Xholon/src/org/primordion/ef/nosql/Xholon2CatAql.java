@@ -109,7 +109,11 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
     
     sbSEntities = new StringBuilder().append(indent).append("entities");
     sbSForeignKeys = new StringBuilder().append(indent).append("foreign_keys");
-    sbSPathEquations = new StringBuilder().append(indent).append("path_equations");
+    sbSPathEquations = new StringBuilder().append(indent).append("path_equations")
+    .append("\n").append(indent).append(indent)
+    .append("// If you run this with the AQL tool, and if the content includes infinite paths, then you may need to add one or more path_equations to prevent an error.")
+    .append("\n").append(indent).append(indent)
+    .append("// For example: hello_port0.world_port0 = Hello");
     sbSAttributes = new StringBuilder().append(indent).append("attributes");
     sbSObservationEquations = new StringBuilder().append(indent).append("observation_equations");
     sbSOptions = new StringBuilder().append(indent).append("options");
@@ -233,7 +237,8 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
       .append("\n")
       .append(indent)
       .append(indent)
-      .append(xhNode.getXhcName());
+      //.append(xhNode.getXhcName())
+      .append(xhNode.getXhc().getName(IXholonClass.GETNAME_REPLACE));
     }
     sbIGenerators
     .append("\n")
@@ -241,7 +246,8 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
     .append(indent)
     .append(xhNode.getName(this.getInstanceNameTemplate()))
     .append(" : ")
-    .append(xhNode.getXhcName());
+    //.append(xhNode.getXhcName())
+    .append(xhNode.getXhc().getName(IXholonClass.GETNAME_REPLACE));
     if (this.getCompletionPrecedence()) {
       sbICompPrec.append(" ").append(xhNode.getName(this.getInstanceNameTemplate()));
     }
@@ -278,9 +284,11 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
       .append(indent)
       .append(xhNode.getName(this.getSchemaNameTemplate()))
       .append("_parent : ")
-      .append(xhNode.getXhcName())
+      //.append(xhNode.getXhcName())
+      .append(xhNode.getXhc().getName(IXholonClass.GETNAME_REPLACE))
       .append(" -> ")
-      .append(xhNode.getParentNode().getXhcName());
+      //.append(xhNode.getParentNode().getXhcName())
+      .append(xhNode.getParentNode().getXhc().getName(IXholonClass.GETNAME_REPLACE));
     }
     sbIEquations
     .append("\n")
@@ -385,14 +393,27 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
     }
     String linkName = xhNode.getName(this.getSchemaNameTemplate()) + "_" + pi.getLocalNameNoBrackets();
     if (!this.isXholonClassVisited(xhNode.getXhc())) {
+      // pitchClassName_n : PitchClassName -> PitchClass
       sbSForeignKeys
       .append("\n").append(indent).append(indent)
       .append(linkName)
       .append(" : ")
-      .append(xhNode.getXhcName())
+      //.append(xhNode.getXhcName())
+      .append(xhNode.getXhc().getName(IXholonClass.GETNAME_REPLACE))
       .append(" -> ")
-      .append(remoteNode.getXhcName());
+      //.append(remoteNode.getXhcName())
+      .append(remoteNode.getXhc().getName(IXholonClass.GETNAME_REPLACE));
     }
+    // pitchClassName_n(pitchClassName_60) = pitchClass_47
+    sbIEquations
+    .append("\n")
+    .append(indent)
+    .append(indent)
+    .append(linkName)
+    .append("(")
+    .append(xhNode.getName(this.getInstanceNameTemplate()))
+    .append(") = ")
+    .append(remoteNode.getName(this.getInstanceNameTemplate()));
     if (this.getCompletionPrecedence()) {
       sbICompPrec.append(" ").append(linkName);
     }
@@ -580,7 +601,8 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
       .append("\n").append(indent).append(indent)
       .append(attrName)
       .append(" : ")
-      .append(currentNode.getXhcName())
+      //.append(currentNode.getXhcName())
+      .append(currentNode.getXhc().getName(IXholonClass.GETNAME_REPLACE))
       .append(" -> ");
     }
     sbIEquations
