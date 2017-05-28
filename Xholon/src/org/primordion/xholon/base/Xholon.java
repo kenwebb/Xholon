@@ -1306,6 +1306,15 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 						nameBuffer += xhc.getLocalPart();
 					}
 					break;
+				case 'D':
+				case 'd':
+					if (xhc == null) {
+						nameBuffer += this.getClass().getName() + "_"; //"UnknownClassName_";
+					}
+					else {
+						nameBuffer += xhc.getName(String.valueOf(ch));
+					}
+					break;
 				case '^': break;
 				default: nameBuffer += ch; break;
 				}
@@ -2443,7 +2452,7 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 	
 	@Override
 	/**
-	 * TODO include non-port ports
+	 * TODO include non-port ports; see 
 	 * but don't call getAllPorts() which is too slow when used in D3 Circle Pack
 	 */
 	public List<IXholon> searchForReferencingNodes()
@@ -2480,6 +2489,51 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 		// don't search nextSibling if this is xhRoot and nextSibling is srvRoot
 		if ((nextSibling != null) && (this.id != 0)) {
 			((Xholon)nextSibling).searchForReferencingNodesRecurse(reffedNode, reffingNodes);
+		}
+	}
+	
+	@Override
+	public List<IXholon> searchForLinkingNodes()
+	{
+	  List<IXholon> reffingNodes = new ArrayList<IXholon>();
+		IXholon myRoot = getRootNode();
+		if (myRoot.getClass() != Control.class) {
+			((Xholon)myRoot).searchForLinkingNodesRecurse(this, reffingNodes);
+		}
+		return reffingNodes;
+	}
+	
+	/**
+	 * Search for instances of Xholon with ports that reference this instance.
+	 * @param reffingNodes A list that is being filled with references.
+	 */
+	public void searchForLinkingNodesRecurse(Xholon reffedNode, List<IXholon> reffingNodes)
+	{
+	  /**IXholon[] port = getPort();
+	  if (port != null) {
+	    for (int i = 0; i < port.length; i++) {
+			  if (port[i] != null) {
+				  if (port[i] == reffedNode) {
+					  reffingNodes.add(this);
+					}
+				}
+			}
+		}*/
+		
+		JsArray<JavaScriptObject> arr = this.getLinksNative(false, true);
+	  for (int i = 0; i < arr.length(); i++) {
+	    JavaScriptObject obj = arr.get(i);
+	    if ((IXholon)getJsoPropertyValue(obj, "reffedNode") == reffedNode) {
+	      reffingNodes.add(this);
+	    }
+	  }
+		
+		if (firstChild != null) {
+			((Xholon)firstChild).searchForLinkingNodesRecurse(reffedNode, reffingNodes);
+		}
+		// don't search nextSibling if this is xhRoot and nextSibling is srvRoot
+		if ((nextSibling != null) && (this.id != 0)) {
+			((Xholon)nextSibling).searchForLinkingNodesRecurse(reffedNode, reffingNodes);
 		}
 	}
 	

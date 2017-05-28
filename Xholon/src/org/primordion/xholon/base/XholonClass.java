@@ -152,6 +152,41 @@ public class XholonClass extends Xholon implements IXholonClass, IDecoration {
 			return name;
 		}
 	}
+	
+	@Override
+	public String getName(String template) {
+		switch (template) {
+		case IXholonClass.GETNAME_REPLACE: // "D" same letters as in Xholon.getName(template)
+			return getReplacementName(name);
+		case IXholonClass.GETNAME_REPLACE_LOWER: // "d"
+			String rName = getReplacementName(name);
+			return rName.substring(0,1).toLowerCase() + rName.substring(1);
+		default:
+			return getName();
+		}
+	}
+	
+	/**
+	 * Get a replacement name for this XholonClass.
+	 * Users can set one or more replacement names by assigning a JavaScript Object to $wnd.xh.xhcReplacementNames.
+	 * This method returns a value from that Object, or the input name that's an argument to this function.
+	 * example of creating the jso in Google Developer Tools: xh.xhcReplacementNames = {LetterName: "LletterNname"};
+	 * longer example:
+xh.xhcReplacementNames = {Hexokinase: "Enzyme", PhosphoGlucoIsomerase: "Enzyme", PhosphoFructokinase: "Enzyme", Aldolase: "Enzyme", TriosePhosphateIsomerase: "Enzyme", Glyceraldehyde_3_phosphateDehydrogenase: "Enzyme", PhosphoGlycerokinase: "Enzyme", PhosphoGlyceromutase: "Enzyme", Enolase: "Enzyme", PyruvateKinase: "Enzyme", PyruvateDecarboxylase: "Enzyme", LactateDehydrogenase: "Enzyme", AlcoholDehydrogenase: "Enzyme", PyruvateCarboxylase: "Enzyme", PhosphoenolPyruvateCarboxykinase: "Enzyme", Fructose_1x6_bisphosphatase: "Enzyme", Glucose_6_phosphatase: "Enzyme", Glucose: "SmallMolecule", Glucose_6_Phosphate: "SmallMolecule", Fructose_6_Phosphate: "SmallMolecule", Fructose_1x6_Biphosphate: "SmallMolecule", DihydroxyacetonePhosphate: "SmallMolecule", Glyceraldehyde_3_Phosphate: "SmallMolecule", X1x3_BisphosphoGlycerate: "SmallMolecule", X3_PhosphoGlycerate: "SmallMolecule", X2_PhosphoGlycerate: "SmallMolecule", PhosphoEnolPyruvate: "SmallMolecule", Pyruvate: "SmallMolecule"};
+	 * 
+	 * @param name
+	 * @return 
+	 */
+	protected native String getReplacementName(String defaultName) /*-{
+	  var jso = $wnd.xh.xhcReplacementNames;
+	  if (jso) {
+	    var replacementName = jso[defaultName];
+	    if (replacementName) {
+	      return replacementName;
+	    }
+	  }
+	  return defaultName;
+	}-*/;
 
 	/* 
 	 * @see org.primordion.xholon.base.IXholonClass#setName(java.lang.String)

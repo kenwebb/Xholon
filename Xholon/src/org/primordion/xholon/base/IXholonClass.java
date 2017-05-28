@@ -119,6 +119,12 @@ public interface IXholonClass extends IXholon {
 	 */
 	public static final String URI_APPSPECIFIC_DEFAULT = URI_APPSPECIFIC_AUTH_DEFAULT + URI_APPSPECIFIC_PATH_DEFAULT;
 	
+	// getName(String) templates
+	public static final String GETNAME_DEFAULT       = "C"; // use IXholonClass.getName()
+	public static final String GETNAME_DEFAULT_LOWER = "c";
+	public static final String GETNAME_REPLACE       = "D"; // use $wnd.xh.xhcReplacementNames
+	public static final String GETNAME_REPLACE_LOWER = "d";
+	
 	//                               Mechanism (Formalism)
 	// 
 	// Mechanism (Formalism) types. Each mechanism corresponds to a Java class.

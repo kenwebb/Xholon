@@ -1254,6 +1254,13 @@ public abstract void terminate();
 public abstract List<IXholon> searchForReferencingNodes();
 
 /**
+ * Search for instances of Xholon with ports that reference this instance. (expensive in time)
+ * This method makes calls to getLinks() to also obtain non-port ports.
+ * @return A List with instances of referencing nodes.
+ */
+public abstract List<IXholon> searchForLinkingNodes();
+
+/**
  * Do the UML2 Activity identified by the activityId.
  * This is code called during a state Transition, or while entering, exiting, or within a State.
  * @param activityId An ID that uniquely identifies an activity to invoke.
