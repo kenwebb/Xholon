@@ -159,6 +159,15 @@ public class Xholon2D3CirclePack implements EventListener {
     return node.searchForReferencingNodes().toArray();
   }
   
+	/**
+   * Get all referencing nodes as an array, using the getLinks() method, to obtain non-port ports.
+   * @param node
+   * @return An array of IXholon objects, or an empty array.
+   */
+  public static Object[] searchForLinkingNodes(IXholon node) {
+    return node.searchForLinkingNodes().toArray();
+  }
+  
   /**
    * Get a named system image, as defined in the Xholon RCImages class.
    * @param The name of an image (ex: "Control_control_play_blue").
@@ -202,7 +211,8 @@ public class Xholon2D3CirclePack implements EventListener {
     iconPos = "outside",
     useAnno = false,
     annoPos = "outside",
-    _jsdata = false;
+    _jsdata = false
+    nonportPorts = false;
     
     if (efParams) {
       sort = efParams.sort;
@@ -228,6 +238,7 @@ public class Xholon2D3CirclePack implements EventListener {
       useAnno = efParams.useAnno;
       annoPos = efParams.annoPos;
       _jsdata = efParams._jsdata;
+      nonportPorts = efParams.nonportPorts;
     }
     
     var zoom = $wnd.d3.behavior.zoom()
@@ -893,11 +904,23 @@ public class Xholon2D3CirclePack implements EventListener {
         findAndStyleReferencedNode(xhcTitle);
         
         // toggle the Xholon node's ports
-        var ports = node.ports();
+        var ports = null;
+        if (nonportPorts) { // May 28 2017
+          ports = node.links(false, true);
+        }
+        else {
+          ports = node.ports();
+        }
         if (ports && ports.length) {
           // this is an ActiveObject node in the CSH
           for (var i = 0; i < ports.length; i++) {
-            var portInfo = ports[i].obj();
+            var portInfo = null;
+            if (nonportPorts) { // May 28 2017
+              portInfo = ports[i];
+            }
+            else {
+              portInfo = ports[i].obj();
+            }
             var reffedNode = portInfo.reffedNode;
             if (reffedNode) {
               var title = titles.filter(function(d, i) {
@@ -910,7 +933,13 @@ public class Xholon2D3CirclePack implements EventListener {
         
         // toggle other IXholon nodes that reference this node
         // use a different way of highlighting; highlight the stroke color
-        var reffingNodes = @org.primordion.xholon.io.Xholon2D3CirclePack::searchForReferencingNodes(Lorg/primordion/xholon/base/IXholon;)(node);
+        var reffingNodes = null;
+        if (nonportPorts) { // May 28 2017
+          reffingNodes = @org.primordion.xholon.io.Xholon2D3CirclePack::searchForLinkingNodes(Lorg/primordion/xholon/base/IXholon;)(node);
+        }
+        else {
+          reffingNodes = @org.primordion.xholon.io.Xholon2D3CirclePack::searchForReferencingNodes(Lorg/primordion/xholon/base/IXholon;)(node);
+        }
         if (reffingNodes && reffingNodes.length) {
           for (var i = 0; i < reffingNodes.length; i++) {
             var reffingNode = reffingNodes[i];
@@ -927,7 +956,13 @@ public class Xholon2D3CirclePack implements EventListener {
         // this is a XholonClass node
         // toggle IXholon nodes that reference this XholonClassnode
         // highlight the stroke color
-        var reffingNodes = @org.primordion.xholon.io.Xholon2D3CirclePack::searchForReferencingNodes(Lorg/primordion/xholon/base/IXholon;)(node);
+        var reffingNodes = null;
+        if (nonportPorts) { // May 28 2017
+          reffingNodes = @org.primordion.xholon.io.Xholon2D3CirclePack::searchForLinkingNodes(Lorg/primordion/xholon/base/IXholon;)(node);
+        }
+        else {
+          reffingNodes = @org.primordion.xholon.io.Xholon2D3CirclePack::searchForReferencingNodes(Lorg/primordion/xholon/base/IXholon;)(node);
+        }
         if (reffingNodes && reffingNodes.length) {
           for (var i = 0; i < reffingNodes.length; i++) {
             var reffingNode = reffingNodes[i];

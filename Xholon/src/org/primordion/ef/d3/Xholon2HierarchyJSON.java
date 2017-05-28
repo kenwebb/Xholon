@@ -146,6 +146,7 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
     p.marble = ''; // '{"type":"default","maxChars":4}'
     p.supportTouch = false; // Hammer.js
     p._jsdata = false;
+    p.nonportPorts = true; // whether or not to call node.links() rather than node.ports()
     this.efParams = p;
   }-*/;
 
@@ -196,5 +197,8 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
   
   public native boolean is_jsdata() /*-{return this.efParams._jsdata;}-*/;
   //public native void set_jsdata(boolean _jsdata) /*-{this.efParams._jsdata = _jsdata;}-*/;
+    
+  public native boolean isNonportPorts() /*-{return this.efParams.nonportPorts;}-*/;
+  //public native void setNonportPorts(boolean nonportPorts) /*-{this.efParams.nonportPorts = nonportPorts;}-*/;
     
 }
