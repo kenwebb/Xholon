@@ -1,0 +1,21 @@
+// see my second email to Ryan and his response
+typeside Ty = literal {}
+schema S = literal : Ty {
+  entities
+    A
+    B
+  foreign_keys
+    x : A -> B
+  path_equations
+  attributes
+  observation_equations
+  options
+}
+instance I = literal : S {
+  generators
+    //b0 : B
+    a0 : A
+  equations
+    //x(a0) = b0
+  options
+}
