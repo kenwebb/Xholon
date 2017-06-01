@@ -19,7 +19,9 @@
 package org.primordion.ef.nosql;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.primordion.ef.AbstractXholon2ExternalFormat;
 import org.primordion.xholon.base.IMechanism;
@@ -69,13 +71,22 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
   private StringBuilder sbSObservationEquations; // observation_equations
   private StringBuilder sbSOptions; // options
   
+  // schema Set that will help to avoid duplicates
+  private Set<String> setSEntities = new HashSet<String>();
+  
   // instance I content
   private StringBuilder sbIGenerators; // generators
   private StringBuilder sbIEquations; // equations
   private StringBuilder sbIOptions; // options
   private StringBuilder sbICompPrec; // completion_precedence
   
+  // graph G content
+  private StringBuilder sbGNodes; // nodes
+  private StringBuilder sbGEdges; // edges
+  private int edgeNum = 0;
+  
   private String indent = "  ";
+  private String indent2 = indent + indent;
   
   /**
    * Constructor.
@@ -110,9 +121,9 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
     sbSEntities = new StringBuilder().append(indent).append("entities");
     sbSForeignKeys = new StringBuilder().append(indent).append("foreign_keys");
     sbSPathEquations = new StringBuilder().append(indent).append("path_equations")
-    .append("\n").append(indent).append(indent)
+    .append("\n").append(indent2)
     .append("// If you run this with the AQL tool, and if the content includes infinite paths, then you may need to add one or more path_equations to prevent an error.")
-    .append("\n").append(indent).append(indent)
+    .append("\n").append(indent2)
     .append("// For example: hello_port0.world_port0 = Hello");
     sbSAttributes = new StringBuilder().append(indent).append("attributes");
     sbSObservationEquations = new StringBuilder().append(indent).append("observation_equations");
@@ -122,7 +133,11 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
     sbIEquations = new StringBuilder().append(indent).append("equations");
     sbIOptions = new StringBuilder().append(indent).append("options");
     if (this.getCompletionPrecedence()) {
-      sbICompPrec = new StringBuilder().append(indent).append(indent).append("completion_precedence = \"zero succ plus");
+      sbICompPrec = new StringBuilder().append(indent2).append("completion_precedence = \"zero succ plus");
+    }
+    if (this.isGraph()) {
+      sbGNodes = new StringBuilder().append(indent).append("nodes");
+      sbGEdges = new StringBuilder().append(indent).append("edges");
     }
     
     return true;
@@ -164,7 +179,7 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
     .append(sbSObservationEquations.toString()).append("\n")
     .append(sbSOptions.toString()).append("\n");
     if (this.getProver().length() > 0) {
-      sbOut.append(indent).append(indent).append("prover = ").append(this.getProver()).append("\n");
+      sbOut.append(indent2).append("prover = ").append(this.getProver()).append("\n");
     }
     sbOut.append("}\n");
     sbOut
@@ -173,12 +188,20 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
     .append(sbIEquations.toString()).append("\n")
     .append(sbIOptions.toString()).append("\n");
     if (this.getProver().length() > 0) {
-      sbOut.append(indent).append(indent).append("prover = ").append(this.getProver()).append("\n");
+      sbOut.append(indent2).append("prover = ").append(this.getProver()).append("\n");
     }
     if (this.getCompletionPrecedence()) {
       sbOut.append(sbICompPrec.toString()).append("\"\n");
     }
     sbOut.append("}\n");
+    if (this.isGraph()) {
+      // graph G = literal {
+      sbOut
+      .append("\ngraph G = literal {\n")
+      .append(sbGNodes.toString()).append("\n")
+      .append(sbGEdges.toString()).append("\n")
+      .append("}\n");
+    }
     this.writeEndDocument();
     this.writeToTarget(sbOut.toString(), outFileName, outPath, root);
   }
@@ -232,18 +255,17 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
       return;
     }
     // only write to schema if this XholonClass hasn't been written before
-    if (!this.isXholonClassVisited(xhNode.getXhc())) {
+    String rName = xhNode.getXhc().getName(IXholonClass.GETNAME_REPLACE);
+    if (!this.isXholonClassVisited(xhNode.getXhc()) && (!setSEntities.contains(rName))) {
       sbSEntities
       .append("\n")
-      .append(indent)
-      .append(indent)
+      .append(indent2)
       //.append(xhNode.getXhcName())
-      .append(xhNode.getXhc().getName(IXholonClass.GETNAME_REPLACE));
+      .append(rName);
     }
     sbIGenerators
     .append("\n")
-    .append(indent)
-    .append(indent)
+    .append(indent2)
     .append(xhNode.getName(this.getInstanceNameTemplate()))
     .append(" : ")
     //.append(xhNode.getXhcName())
@@ -260,7 +282,11 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
       // optionally write parent node
       this.writeParent(xhNode);
     }
+    if (this.isGraph()) {
+      sbGNodes.append("\n").append(indent2).append(xhNode.getName(this.getInstanceNameTemplate()));
+    }
     this.setXholonClassVisited(xhNode.getXhc(), true);
+    setSEntities.add(rName);
     // recurse through all children
     IXholon childNode = xhNode.getFirstChild();
     while (childNode != null) {
@@ -277,23 +303,23 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
    * hello_parent(hello_2) = helloWorldSystem_0
    */
   protected void writeParent(IXholon xhNode) {
-    if (!this.isXholonClassVisited(xhNode.getXhc())) {
+    //if (!this.isXholonClassVisited(xhNode.getXhc())) {
+    String rName = xhNode.getXhc().getName(IXholonClass.GETNAME_REPLACE);
+    if (!this.isXholonClassVisited(xhNode.getXhc()) && (!setSEntities.contains(rName))) {
       sbSForeignKeys
       .append("\n")
-      .append(indent)
-      .append(indent)
+      .append(indent2)
       .append(xhNode.getName(this.getSchemaNameTemplate()))
       .append("_parent : ")
       //.append(xhNode.getXhcName())
-      .append(xhNode.getXhc().getName(IXholonClass.GETNAME_REPLACE))
+      .append(rName)
       .append(" -> ")
       //.append(xhNode.getParentNode().getXhcName())
       .append(xhNode.getParentNode().getXhc().getName(IXholonClass.GETNAME_REPLACE));
     }
     sbIEquations
     .append("\n")
-    .append(indent)
-    .append(indent)
+    .append(indent2)
     .append(xhNode.getName(this.getSchemaNameTemplate()))
     .append("_parent(")
     .append(xhNode.getName(this.getInstanceNameTemplate()))
@@ -392,14 +418,16 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
       return;
     }
     String linkName = xhNode.getName(this.getSchemaNameTemplate()) + "_" + pi.getLocalNameNoBrackets();
-    if (!this.isXholonClassVisited(xhNode.getXhc())) {
+    //if (!this.isXholonClassVisited(xhNode.getXhc())) {
+    String rName = xhNode.getXhc().getName(IXholonClass.GETNAME_REPLACE);
+    if (!this.isXholonClassVisited(xhNode.getXhc()) && (!setSEntities.contains(rName))) {
       // pitchClassName_n : PitchClassName -> PitchClass
       sbSForeignKeys
-      .append("\n").append(indent).append(indent)
+      .append("\n").append(indent2)
       .append(linkName)
       .append(" : ")
       //.append(xhNode.getXhcName())
-      .append(xhNode.getXhc().getName(IXholonClass.GETNAME_REPLACE))
+      .append(rName)
       .append(" -> ")
       //.append(remoteNode.getXhcName())
       .append(remoteNode.getXhc().getName(IXholonClass.GETNAME_REPLACE));
@@ -407,8 +435,7 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
     // pitchClassName_n(pitchClassName_60) = pitchClass_47
     sbIEquations
     .append("\n")
-    .append(indent)
-    .append(indent)
+    .append(indent2)
     .append(linkName)
     .append("(")
     .append(xhNode.getName(this.getInstanceNameTemplate()))
@@ -416,6 +443,20 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
     .append(remoteNode.getName(this.getInstanceNameTemplate()));
     if (this.getCompletionPrecedence()) {
       sbICompPrec.append(" ").append(linkName);
+    }
+    if (this.isGraph()) {
+      // e1 : n1 -> n2
+      sbGEdges
+      .append("\n").append(indent2)
+      //.append(linkName)
+      .append("e")
+      .append(edgeNum++)
+      .append("_")
+      .append(pi.getLocalNameNoBrackets())
+      .append(" : ")
+      .append(xhNode.getName(this.getInstanceNameTemplate()))
+      .append(" -> ")
+      .append(remoteNode.getName(this.getInstanceNameTemplate()));
     }
   }
   
@@ -440,6 +481,7 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
     //p.completion_precedence = false; // only true if prover == "completion"
     p.schemaNameTemplate = "^^c^^^"; // "^^c^^^" is schema-based
     p.instanceNameTemplate = "^^c_i^"; // "^^c_i^" is instance-based
+    p.graph = false; // whether or not to create an AQL instance graph
     
     // old
     p.shouldShowLinks = true;
@@ -499,6 +541,9 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
   public native String getProver() /*-{return this.efParams.prover;}-*/;
   //public native void setProver(String prover) /*-{this.efParams.prover = prover;}-*/;
   
+  public native boolean isGraph() /*-{return this.efParams.graph;}-*/;
+  //public native void setGraph(boolean graph) /*-{this.efParams.graph = graph;}-*/;
+
   public boolean getCompletionPrecedence() {
     if ("completion".equals(this.getProver())) {
       return true;
@@ -596,18 +641,20 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
     if ("Val".equalsIgnoreCase(name) && !isShouldWriteVal()) {return;}
     if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
     String attrName = currentNode.getName(this.getSchemaNameTemplate()) + "_" + name;
-    if (!this.isXholonClassVisited(currentNode.getXhc())) {
+    //if (!this.isXholonClassVisited(currentNode.getXhc())) {
+    String rName = currentNode.getXhc().getName(IXholonClass.GETNAME_REPLACE);
+    if (!this.isXholonClassVisited(currentNode.getXhc()) && (!setSEntities.contains(rName))) {
       sbSAttributes
-      .append("\n").append(indent).append(indent)
+      .append("\n").append(indent2)
       .append(attrName)
       .append(" : ")
       //.append(currentNode.getXhcName())
-      .append(currentNode.getXhc().getName(IXholonClass.GETNAME_REPLACE))
+      .append(rName)
       .append(" -> ");
     }
     sbIEquations
     // glucose_pheneVal(glucose_2) = 100123
-    .append("\n").append(indent).append(indent)
+    .append("\n").append(indent2)
     .append(attrName)
     .append("(")
     .append(currentNode.getName(this.getInstanceNameTemplate()))
@@ -641,7 +688,8 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
     default:
       break;
     }
-    if (!this.isXholonClassVisited(currentNode.getXhc())) {
+    //if (!this.isXholonClassVisited(currentNode.getXhc())) {
+    if (!this.isXholonClassVisited(currentNode.getXhc()) && (!setSEntities.contains(rName))) {
       sbSAttributes.append(schemaType);
     }
     if (this.getCompletionPrecedence()) {
