@@ -67,6 +67,10 @@
 	
 	<!-- Bpmn_Entity -->
 	
+	<!-- Category Theory -->
+  <CatTheory  xhType="XhtypePureActiveObject" implName="org.primordion.xholon.app.Chameleon.XhChameleon"/>
+  <CatAql  xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.catt.CatAql"/>
+	
 	<!-- Control -->
 	<Control xhType="XhtypePureActiveObject" implName="org.primordion.xholon.base.Control"/>
 	

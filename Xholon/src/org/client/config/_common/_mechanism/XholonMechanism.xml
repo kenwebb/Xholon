@@ -108,6 +108,11 @@
 	
 </BusApp>
 
+<!-- Category Theory -->
+<CatTheory xmlns="http://www.primordion.com/namespace/CatTheory" id="1015900">
+  <CatAql/>
+</CatTheory>
+
 <!-- represents the top level Control structure -->
 <Control xmlns="http://www.primordion.com/namespace/Control" id="1002000">
 	<Application/> <!-- set privately by xholons that implement IApplication -->
