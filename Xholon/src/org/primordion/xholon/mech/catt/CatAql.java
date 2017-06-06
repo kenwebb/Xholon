@@ -18,14 +18,17 @@
 
 package org.primordion.xholon.mech.catt;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.primordion.xholon.app.IApplication;
 import org.primordion.xholon.base.IMessage;
 import org.primordion.xholon.base.ISignal;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
+import org.primordion.xholon.base.Xholon;
 import org.primordion.xholon.base.XholonWithPorts;
 import org.primordion.xholon.io.xml.IXholon2Xml;
 import org.primordion.xholon.io.xml.IXmlWriter;
@@ -81,6 +84,8 @@ public class CatAql extends XholonWithPorts {
   static final private String TERM_INSTANCE_MULTI_EQUATIONS = "multi equations";
   static final private String TERM_INSTANCE_OPTIONS = "options";
   
+  static final private String TERM_COMMENT = "//";
+  
   // TODO other terms and states
   
   private StringBuilder sbIh = null;
@@ -91,8 +96,13 @@ public class CatAql extends XholonWithPorts {
   
   private IApplication app = null;
   private IXholon xholonHelperService = null;
+  private IXholon xhRoot = null;
+  private IXholonClass xhcRoot = null;
   
   private String roleName = null;
+  
+  private Map<String,String> xhClassNameReplacementMap = null;
+  private Map<String,IXholon> aqlGenerator2XhNodeMap = null;
   
   @Override
   public void setRoleName(String roleName) {
@@ -142,6 +152,10 @@ public class CatAql extends XholonWithPorts {
   @Override
   public void postConfigure() {
     this.app = this.getApp();
+    this.xhRoot = app.getRoot();
+    this.xhcRoot = app.getXhcRoot();
+    this.xhClassNameReplacementMap = new HashMap<String,String>();
+    this.aqlGenerator2XhNodeMap = new HashMap<String,IXholon>();
     sbIh = new StringBuilder().append("<_-.XholonClass>\n").append("<CatTheorySystem/>\n");
     sbCd = new StringBuilder().append("<xholonClassDetails>\n");
     sbCsh = new StringBuilder().append("<CatTheorySystem>\n");
@@ -150,11 +164,11 @@ public class CatAql extends XholonWithPorts {
     //sbIh.append("</_-.XholonClass>\n");
     //sbCd.append("</xholonClassDetails>\n");
     //sbCsh.append("</CatTheorySystem>\n");
-    this.println("<XholonWorkbook>\n");
-    this.println(sbIh.toString());
-    this.println(sbCd.toString());
-    this.println(sbCsh.toString());
-    this.println("</XholonWorkbook>\n");
+    //this.println("<XholonWorkbook>\n");
+    //this.println(sbIh.toString());
+    //this.println(sbCd.toString());
+    //this.println(sbCsh.toString());
+    //this.println("</XholonWorkbook>\n");
     super.postConfigure();
   }
   
@@ -181,14 +195,14 @@ public class CatAql extends XholonWithPorts {
     
     sbIh.append("</_-.XholonClass>\n");
     sbCd.append("</xholonClassDetails>\n");
-    IXholonClass xhcRoot = app.getXhcRoot();
+    //IXholonClass xhcRoot = app.getXhcRoot();
 		sendXholonHelperService(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, sbIh.toString(), xhcRoot);
 		sendXholonHelperService(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, sbCd.toString(), xhcRoot);
     
     sbCsh.append("</CatTheorySystem>\n");
     // paste in the System node and its collection/set children
     // specific instances will subsequently be pasted as children of the collecttion/set nodes
-    IXholon xhRoot = app.getRoot();
+    //IXholon xhRoot = app.getRoot();
 		sendXholonHelperService(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, sbCsh.toString(), xhRoot);
 		
     // instance
@@ -212,14 +226,14 @@ public class CatAql extends XholonWithPorts {
       case TERM_TYPESIDE_IMPORTS: break;
       case TERM_TYPESIDE_TYPES:
         state = TERM_TYPESIDE_TYPES;
-        this.println("types");
+        //this.println("types");
         if (tokens.length > 1) {
           parseLineTypesideTypes(tokens, 1);
         }
         break;
       case TERM_TYPESIDE_CONSTANTS:
         state = TERM_TYPESIDE_CONSTANTS;
-        this.println("constants");
+        //this.println("constants");
         if (tokens.length > 1) {
           parseLineTypesideConstants(tokens, 1);
         }
@@ -235,6 +249,9 @@ public class CatAql extends XholonWithPorts {
       case TERM_TYPESIDE_OPTIONS:
         state = TERM_TYPESIDE_OPTIONS;
         //this.println("options");
+        break;
+      case TERM_COMMENT:
+        // ignore rest of this line
         break;
       default:
         switch (state) {
@@ -253,7 +270,7 @@ public class CatAql extends XholonWithPorts {
    */
   protected void parseLineTypesideTypes(String[] tokens, int startIx) {
     for (int i = startIx; i < tokens.length; i++) {
-      this.println("  " + tokens[i]);
+      //this.println("  " + tokens[i]);
       String xhcName = makeXholonClassName(tokens[i]);
       sbIh.append(indent).append("<").append(xhcName).append("/>\n")
       .append(indent).append("<").append(xhcName).append("s/>\n");
@@ -270,10 +287,10 @@ public class CatAql extends XholonWithPorts {
       String token = tokens[i];
       if (":".equals(token)) {
         token = tokens[i+1];
-        this.println("  TYPE=" + token);
+        //this.println("  TYPE=" + token);
         break;
       }
-      this.println("  " + token);
+      //this.println("  " + token);
     }
   }
   
@@ -290,30 +307,33 @@ public class CatAql extends XholonWithPorts {
       case TERM_SCHEMA_IMPORTS: break;
       case TERM_SCHEMA_ENTITIES:
         state = TERM_SCHEMA_ENTITIES;
-        this.println("entities");
+        //this.println("entities");
         if (tokens.length > 1) {
           parseLineSchemaEntities(tokens, 1);
         }
         break;
       case TERM_SCHEMA_FOREIGN_KEYS:
         state = TERM_SCHEMA_FOREIGN_KEYS;
-        this.println("foreign_keys");
+        //this.println("foreign_keys");
         break;
       case TERM_SCHEMA_ATTRIBUTES:
         state = TERM_SCHEMA_ATTRIBUTES;
-        this.println("attributes");
+        //this.println("attributes");
         break;
       case TERM_SCHEMA_PATH_EQUATIONS:
         state = TERM_SCHEMA_PATH_EQUATIONS;
-        this.println("path_equations");
+        //this.println("path_equations");
         break;
       case TERM_SCHEMA_OBSERVATION_EQUATIONS:
         state = TERM_SCHEMA_OBSERVATION_EQUATIONS;
-        this.println("observation_equations");
+        //this.println("observation_equations");
         break;
       case TERM_SCHEMA_OPTIONS:
         state = TERM_SCHEMA_OPTIONS;
-        this.println("options");
+        //this.println("options");
+        break;
+      case TERM_COMMENT:
+        // ignore rest of this line
         break;
       default:
         switch (state) {
@@ -332,7 +352,7 @@ public class CatAql extends XholonWithPorts {
    */
   protected void parseLineSchemaEntities(String[] tokens, int startIx) {
     for (int i = startIx; i < tokens.length; i++) {
-      this.println("  " + tokens[i]);
+      //this.println("  " + tokens[i]);
       String xhcName = makeXholonClassName(tokens[i]);
       sbIh.append(indent).append("<").append(xhcName).append("/>\n")
       .append(indent).append("<").append(xhcName).append("s/>\n");
@@ -361,9 +381,141 @@ public class CatAql extends XholonWithPorts {
   protected void parseInstance(String inst) {
     //this.println("parseInstance:\n" + inst + "\n");
     String[] lines = inst.split("\n");
+    String state = TERM_INSTANCE_NULL;
     for (int i = 0; i < lines.length; i++) {
-      
+      String line = lines[i].trim();
+      String[] tokens = line.split("\\s+");
+      if (tokens.length == 0) {continue;}
+      switch (tokens[0]) {
+      case TERM_INSTANCE_IMPORTS: break;
+      case TERM_INSTANCE_GENERATORS:
+        state = TERM_INSTANCE_GENERATORS;
+        //this.println("generators");
+        if (tokens.length > 1) {
+          parseLineInstanceGenerators(tokens, 1);
+        }
+        break;
+      case TERM_INSTANCE_EQUATIONS:
+        state = TERM_INSTANCE_EQUATIONS;
+        //this.println("equations");
+        break;
+      case TERM_INSTANCE_MULTI_EQUATIONS:
+        state = TERM_INSTANCE_MULTI_EQUATIONS;
+        //this.println("multi_equations");
+        break;
+      case TERM_INSTANCE_OPTIONS:
+        state = TERM_INSTANCE_OPTIONS;
+        //this.println("options");
+        break;
+      case TERM_COMMENT:
+        // ignore rest of this line
+        break;
+      default:
+        switch (state) {
+        case TERM_INSTANCE_GENERATORS: parseLineInstanceGenerators(tokens, 0); break;
+        case TERM_INSTANCE_EQUATIONS: parseLineInstanceEquations(tokens, 0); break;
+        default: break;
+        }
+        break;
+      } // end switch(tokens[0])
+    } // end for
+  } // end method
+  
+  /**
+   * a b c : Employee
+   * m s : Department
+   * d : Dummy
+   */
+  protected void parseLineInstanceGenerators(String[] tokens, int startIx) {
+    if (tokens.length - startIx < 3) {return;}
+    if (!":".equals(tokens[tokens.length - 2])) {return;}
+    String xhcName = makeXholonClassName(tokens[tokens.length - 1]);
+    IXholon xhSetNode = ((Xholon)xhRoot).getXPath().evaluate("descendant::" + xhcName + "s", xhRoot);
+    if (xhSetNode == null) {return;}
+    for (int i = startIx; i < (tokens.length - 2); i++) {
+      //this.println("  " + tokens[i]);
+      //String str = "<" + xhcName + " roleName=\"" + tokens[i] + "\"/>";
+      String str = new StringBuilder()
+      .append("<")
+      .append(xhcName)
+      .append(" roleName=\"")
+      .append(tokens[i])
+      .append("\"/>")
+      .toString();
+      sendXholonHelperService(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, str, xhSetNode);
+      IXholon node = xhSetNode.getLastChild();
+      this.aqlGenerator2XhNodeMap.put(tokens[i], node);
     }
+  }
+  
+  /**
+   * first(a) = Al
+   * first(b) = Bob
+   * last(b) = Bo
+   * first(c) = Carl 
+   * name(m)  = Math
+   * name(s) = CS
+   * TODO handle other equation types
+   * manager(a) = b
+   */
+  protected void parseLineInstanceEquations(String[] tokens, int startIx) {
+    if (tokens.length != 3) {return;}
+    String[] arr = this.splitParentheses(tokens[0]);
+    // a.first_ = "Al"
+    String attributeNameArr0 = makeXholonAttributeName(arr[0]);
+    //this.println(arr[1] + "." + attributeNameArr0 + " " + tokens[1] + " \"" + tokens[2] + "\"");
+    IXholon node = this.aqlGenerator2XhNodeMap.get(arr[1]);
+    if (node != null) {
+      IXholon pnode = node.getParentNode();
+      // if pnode has a port/foreign_key called makeXholonAttributeName(arr[0]),
+      // then token[2] is the aqlName of a Xholon remoteNode which I can find in the Map
+      if (this.hasPort(pnode, attributeNameArr0)) {
+        IXholon remoteNode = this.aqlGenerator2XhNodeMap.get(tokens[2]);
+        if (remoteNode != null) {
+          setInstancePort(node, attributeNameArr0, remoteNode);
+        }
+      }
+      else {
+        this.setInstanceAttribute(node, attributeNameArr0, tokens[2]);
+      }
+    }
+  }
+  
+  protected native void setInstanceAttribute(IXholon node, String attrName, String attrValue) /*-{
+    node[attrName] = attrValue;
+  }-*/;
+  
+  protected native boolean hasPort(IXholon node, String portName) /*-{
+    var rc = false;
+    if ((typeof node[portName] == "object") && (node[portName] != null)) {
+      return true;
+    }
+    return rc;
+  }-*/;
+  
+  protected native void setInstancePort(IXholon node, String portName, IXholon remoteNode) /*-{
+    node[portName] = remoteNode;
+  }-*/;
+  
+  /**
+   * @param "one(two)"
+   * @return "one","two"
+   */
+  protected String[] splitParentheses(String str) {
+    String[] arr = new String[2];
+    arr[0] = arr[1] = "";
+    int ix = 0;
+    for (int i = 0; i < str.length(); i++) {
+      char ch = str.charAt(i);
+      switch (ch) {
+      case '(': ix = 1; break;
+      case ')': break;
+      default:
+        arr[ix] += ch;
+        break;
+      }
+    }
+    return arr;
   }
   
   /**
@@ -375,12 +527,21 @@ public class CatAql extends XholonWithPorts {
    * @return 
    */
   protected String makeXholonClassName(String inName) {
+    String outName = this.xhClassNameReplacementMap.get(inName);
+    if (outName != null) {
+      return outName;
+    }
+    
     IXholonClass ixhc = this.getClassNode(inName);
     if (ixhc != null) {
-      return inName + "_";
+      outName = inName + "_";
+      this.xhClassNameReplacementMap.put(inName, outName);
+      return outName;
     }
     else {
-      return inName;
+      outName = inName;
+      this.xhClassNameReplacementMap.put(inName, outName);
+      return outName;
     }
   }
   
@@ -432,7 +593,7 @@ public class CatAql extends XholonWithPorts {
     return 0;
   }
   
-  @Override
+  /*@Override
   public void toXml(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {
     if (this.getXhc().hasAncestor("CatAql")) {
       // write start element
@@ -450,9 +611,9 @@ public class CatAql extends XholonWithPorts {
     else {
       super.toXml(xholon2xml, xmlWriter);
     }
-  }
+  }*/
   
-  @Override
-  public void toXmlAttributes(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {}
+  //@Override
+  //public void toXmlAttributes(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {}
   
 }
