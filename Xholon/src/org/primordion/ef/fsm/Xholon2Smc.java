@@ -34,6 +34,7 @@ import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @author Thanks to David Atuahene-amankwa for several enhancements (December 29, 2007)
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
+ * @see <a href="http://smc.sourceforge.net/">SMC website</a>
  * @since 0.7 (Created on August 14, 2007)
  * 
  */
