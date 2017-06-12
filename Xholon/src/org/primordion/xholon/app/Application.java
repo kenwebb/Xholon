@@ -3867,8 +3867,20 @@ ${MODELNAME_DEFAULT},${SVGURI_DEFAULT},,,./,${VIEWABLES_CREATE}
 	 */
 	public Object getAppSpecificAttribute(IXholon node, Class<IXholon> clazz, String attrName) {
 	  //return null;
-	  return SystemMechSpecific.instance.getAppSpecificAttribute(node, clazz, attrName);
+	  Object attr = SystemMechSpecific.instance.getAppSpecificAttribute(node, clazz, attrName);
+	  if (attr == null) {
+	    attr = getAppSpecificAttributeNative(node, attrName);
+	  }
+	  return attr;
 	}
+	
+	protected native Object getAppSpecificAttributeNative(IXholon node, String attrName) /*-{
+	  var attrVal = node[attrName];
+	  if (!attrVal) {
+	    attrVal = null; // make sure it does not return a value of undefined
+	  }
+	  return attrVal;
+	}-*/;
 	
 	/*
 	 * @see org.primordion.xholon.app.IApplication#setAppSpecificAttribute(IXholon, Class, java.lang.String, Object)
