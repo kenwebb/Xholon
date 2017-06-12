@@ -81,10 +81,29 @@ public class CatAql extends XholonWithPorts {
   static final private String TERM_INSTANCE_IMPORTS = "imports";
   static final private String TERM_INSTANCE_GENERATORS = "generators";
   static final private String TERM_INSTANCE_EQUATIONS = "equations";
-  static final private String TERM_INSTANCE_MULTI_EQUATIONS = "multi equations";
+  static final private String TERM_INSTANCE_MULTI_EQUATIONS = "multi_equations";
   static final private String TERM_INSTANCE_OPTIONS = "options";
   
   static final private String TERM_COMMENT = "//";
+  
+  static final private String DEFAULT_XHCNAME_SYSTEM = "CatTheorySystem";
+  static final private String DEFAULT_XHCNAME_SCHEMA = "CatTheorySchema";
+  static final private String DEFAULT_XHCNAME_INSTANCE = "CatTheoryInstance";
+  static final private String DEFAULT_SCHEMA_NODE_SUFFIX = "s"; // "s" "Set" "Schema" ""  example: "Employee" becomes "Employees"
+  
+  private String xhcName_System = DEFAULT_XHCNAME_SYSTEM;
+  private String xhcName_Schema = DEFAULT_XHCNAME_SCHEMA;
+  private String xhcName_Instance = DEFAULT_XHCNAME_INSTANCE;
+  private String schemaNodeSuffix = DEFAULT_SCHEMA_NODE_SUFFIX;
+  private boolean separateSchemaInstance = true;
+  private boolean pointToSchema = false; // whether or not an instance should point to the corresponding Set in the schema
+  private boolean schemaRoleNameNoSuffix = true; // TODO whether or not a schema (set) node has a roleName, and that the roleName is the xhc name without the suffix
+  
+  // exports
+  private boolean exportGraphviz = false;
+  private boolean exportSql = false;
+  private boolean exportXml = false;
+  private boolean exportYaml = false;
   
   // TODO other terms and states
   
@@ -103,6 +122,17 @@ public class CatAql extends XholonWithPorts {
   
   private Map<String,String> xhClassNameReplacementMap = null;
   private Map<String,IXholon> aqlGenerator2XhNodeMap = null;
+  
+  /**
+   * Whether or not to parse the AQL instance kind.
+   */
+  private boolean instances = true;
+  
+  /**
+   * Whether or not to retain the schema nodes in the final Xholon tree.
+   * This variable only has meaning if separateSchemaInstance = true .
+   */
+  private boolean schemas = true;
   
   @Override
   public void setRoleName(String roleName) {
@@ -151,24 +181,42 @@ public class CatAql extends XholonWithPorts {
   
   @Override
   public void postConfigure() {
-    this.app = this.getApp();
-    this.xhRoot = app.getRoot();
-    this.xhcRoot = app.getXhcRoot();
-    this.xhClassNameReplacementMap = new HashMap<String,String>();
-    this.aqlGenerator2XhNodeMap = new HashMap<String,IXholon>();
-    sbIh = new StringBuilder().append("<_-.XholonClass>\n").append("<CatTheorySystem/>\n");
-    sbCd = new StringBuilder().append("<xholonClassDetails>\n");
-    sbCsh = new StringBuilder().append("<CatTheorySystem>\n");
-    //this.println(val);
-    parseAqlContent(val.trim());
-    //sbIh.append("</_-.XholonClass>\n");
-    //sbCd.append("</xholonClassDetails>\n");
-    //sbCsh.append("</CatTheorySystem>\n");
-    //this.println("<XholonWorkbook>\n");
-    //this.println(sbIh.toString());
-    //this.println(sbCd.toString());
-    //this.println(sbCsh.toString());
-    //this.println("</XholonWorkbook>\n");
+    this.val = this.val.trim();
+    if (this.val.length() > 100) {
+      this.app = this.getApp();
+      this.xhRoot = app.getRoot();
+      this.xhcRoot = app.getXhcRoot();
+      this.xhClassNameReplacementMap = new HashMap<String,String>();
+      this.aqlGenerator2XhNodeMap = new HashMap<String,IXholon>();
+      sbIh = new StringBuilder();
+      sbCd = new StringBuilder();
+      sbCsh = new StringBuilder();
+      //this.println(val);
+      parseAqlContent(val);
+      //sbIh.append("</_-.XholonClass>\n");
+      //sbCd.append("</xholonClassDetails>\n");
+      //sbCsh.append("</CatTheorySystem>\n");
+      //this.println("<XholonWorkbook>\n");
+      //this.println(sbIh.toString());
+      //this.println(sbCd.toString());
+      //this.println(sbCsh.toString());
+      //this.println("</XholonWorkbook>\n");
+      if (this.exportXml) {
+        this.exportXml(xhcName_System, xhcName_Instance);
+      }
+      if (this.exportYaml) {
+        this.exportYaml(xhcName_System, xhcName_Instance);
+      }
+      if (this.exportSql) {
+        this.exportSql(xhcName_System, xhcName_Instance);
+      }
+      if (this.exportGraphviz) {
+        this.exportGraphviz(xhcName_System);
+      }
+    }
+    else {
+      this.println("CatAql does not contain any usable AQL content.");
+    }
     super.postConfigure();
   }
   
@@ -178,39 +226,97 @@ public class CatAql extends XholonWithPorts {
     super.act();
   }
   
+  /**
+   * Parse the AQL content.
+   * This approach is temporary.
+   * It parses exactly one "typeside", then exactly one "schema", and then exactly one "instance".
+   */
   protected void parseAqlContent(String aqlContent) {
+    sbIh.append("<_-.XholonClass>\n").append("<").append(xhcName_System).append("/>\n");
+    if (separateSchemaInstance) {
+      sbIh.append("<").append(xhcName_Schema).append("/>\n");
+      sbIh.append("<").append(xhcName_Instance).append("/>\n");
+    }
+    sbCd.append("<xholonClassDetails>\n");
+    sbCsh.append("<").append(xhcName_System).append(">\n");
+    
     // typeside
     int posStart = aqlContent.indexOf(KIND_TYPESIDE, 0);
     if (posStart == -1) {return;}
-    int posEnd = aqlContent.indexOf("}", posStart);
+    // "}" must be at the start of a new line
+    int posEnd = aqlContent.indexOf("\n}", posStart);
     if (posEnd == -1) {return;}
     parseTypeside(aqlContent.substring(posStart,posEnd));
     
     // schema
     posStart = aqlContent.indexOf(KIND_SCHEMA, posEnd);
     if (posStart == -1) {return;}
-    posEnd = aqlContent.indexOf("}", posStart);
+    // "}" must be at the start of a new line
+    posEnd = aqlContent.indexOf("\n}", posStart);
     if (posEnd == -1) {return;}
     parseSchema(aqlContent.substring(posStart,posEnd));
     
     sbIh.append("</_-.XholonClass>\n");
     sbCd.append("</xholonClassDetails>\n");
-    //IXholonClass xhcRoot = app.getXhcRoot();
-		sendXholonHelperService(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, sbIh.toString(), xhcRoot);
-		sendXholonHelperService(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, sbCd.toString(), xhcRoot);
+    sendXholonHelperService(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, sbIh.toString(), xhcRoot);
+    sendXholonHelperService(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, sbCd.toString(), xhcRoot);
     
-    sbCsh.append("</CatTheorySystem>\n");
+    sbCsh.append("</").append(xhcName_System).append(">\n");
     // paste in the System node and its collection/set children
     // specific instances will subsequently be pasted as children of the collecttion/set nodes
-    //IXholon xhRoot = app.getRoot();
-		sendXholonHelperService(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, sbCsh.toString(), xhRoot);
-		
+    sendXholonHelperService(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, sbCsh.toString(), xhRoot);
+    
     // instance
-    posStart = aqlContent.indexOf(KIND_INSTANCE, posEnd);
-    if (posStart == -1) {return;}
-    posEnd = aqlContent.indexOf("}", posStart);
-    if (posEnd == -1) {return;}
-    parseInstance(aqlContent.substring(posStart,posEnd));
+    if (instances) {
+      posStart = aqlContent.indexOf(KIND_INSTANCE, posEnd);
+      if (posStart == -1) {return;}
+      // the content within "multi_equations" contains "{" and "}" within and at end of each line; so look for "}" preceded by "\n"
+      posEnd = aqlContent.indexOf("\n}", posStart) + 1;
+      if (posEnd == -1) {return;}
+      parseInstance(aqlContent.substring(posStart,posEnd));
+    }
+    
+    if (separateSchemaInstance) {
+      // move the Instance nodes, and the Schema nodes, into separate subtrees
+      IXholon cattSystem = ((Xholon)xhRoot).getXPath().evaluate("descendant::" + xhcName_System, xhRoot);
+      if (cattSystem != null) {
+        IXholon sNode = null;
+        if (this.schemas) {
+          String sStr = new StringBuilder()
+          .append("<").append(xhcName_Schema).append("/>")
+          .toString();
+          sendXholonHelperService(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, sStr, cattSystem);
+          sNode = cattSystem.getLastChild();
+        }
+        
+        String iStr = new StringBuilder()
+        .append("<").append(xhcName_Instance).append("/>")
+        .toString();
+        sendXholonHelperService(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, iStr, cattSystem);
+        IXholon iNode = cattSystem.getLastChild();
+        
+        IXholon schemaNode = cattSystem.getFirstChild();
+        while ((schemaNode != null) && (schemaNode != sNode) && (schemaNode != iNode)) {
+          this.consoleLog(schemaNode.getName());
+          IXholon instanceNode = schemaNode.getFirstChild();
+          while (instanceNode != null) {
+            // move the instanceNode
+            this.consoleLog(instanceNode.getName());
+            IXholon instanceNodeNext = instanceNode.getNextSibling();
+            instanceNode.removeChild();
+            instanceNode.appendChild(iNode);
+            instanceNode = instanceNodeNext;
+          }
+          // move the schemaNode
+          IXholon schemaNodeNext = schemaNode.getNextSibling();
+          schemaNode.removeChild();
+          if (this.schemas) {
+            schemaNode.appendChild(sNode);
+          }
+          schemaNode = schemaNodeNext;
+        }
+      }
+    }
   }
   
   protected void parseTypeside(String ts) {
@@ -246,6 +352,15 @@ public class CatAql extends XholonWithPorts {
         state = TERM_TYPESIDE_EQUATIONS;
         //this.println("equations");
         break;
+      case TERM_TYPESIDE_JAVA_TYPES:
+        state = TERM_TYPESIDE_JAVA_TYPES;
+        break;
+      case TERM_TYPESIDE_JAVA_CONSTANTS:
+        state = TERM_TYPESIDE_JAVA_CONSTANTS;
+        break;
+      case TERM_TYPESIDE_JAVA_FUNCTIONS:
+        state = TERM_TYPESIDE_JAVA_FUNCTIONS;
+        break;
       case TERM_TYPESIDE_OPTIONS:
         state = TERM_TYPESIDE_OPTIONS;
         //this.println("options");
@@ -257,6 +372,7 @@ public class CatAql extends XholonWithPorts {
         switch (state) {
         case TERM_TYPESIDE_TYPES: parseLineTypesideTypes(tokens, 0); break;
         case TERM_TYPESIDE_CONSTANTS: parseLineTypesideConstants(tokens, 0); break;
+        case TERM_TYPESIDE_JAVA_TYPES: parseLineTypesideJavaTypes(tokens, 0); break;
         default: break;
         }
         break;
@@ -266,15 +382,17 @@ public class CatAql extends XholonWithPorts {
   
   /**
    * string 
- 	 * nat
+   * nat
    */
   protected void parseLineTypesideTypes(String[] tokens, int startIx) {
     for (int i = startIx; i < tokens.length; i++) {
       //this.println("  " + tokens[i]);
       String xhcName = makeXholonClassName(tokens[i]);
-      sbIh.append(indent).append("<").append(xhcName).append("/>\n")
-      .append(indent).append("<").append(xhcName).append("s/>\n");
-      sbCsh.append(indent).append("<").append(xhcName).append("s/>\n");
+      sbIh.append(indent).append("<").append(xhcName).append("/>\n");
+      //sbIh.append(indent).append("<").append(xhcName).append(schemaNodeSuffix).append("/>\n");
+      sbCsh.append(indent).append("<").append(xhcName)
+      //.append(schemaNodeSuffix)
+      .append("/>\n");
     }
   }
   
@@ -293,7 +411,23 @@ public class CatAql extends XholonWithPorts {
       //this.println("  " + token);
     }
   }
-  
+
+  /**
+   * string = "java.lang.String"    <Attribute_String/>
+   * Integer = "java.lang.Integer"  <Attribute_int/>
+   * String = "java.lang.String"
+   * Double = "java.lang.Double"    <Attribute_double/>
+   * Boolean = "java.lang.String" 
+   * Date = "java.lang.String"
+   */
+  protected void parseLineTypesideJavaTypes(String[] tokens, int startIx) {
+    String xhcName = makeXholonClassName(tokens[0]);
+    sbIh.append(indent).append("<").append(xhcName).append("/>\n");
+    //shIh.append(indent).append("<").append(xhcName).append(schemaNodeSuffix).append("/>\n");
+    sbCsh.append(indent).append("<").append(xhcName)
+    //.append(schemaNodeSuffix)
+    .append("/>\n");
+  }
   protected void parseSchema(String sch) {
     //this.println("parseSchema:\n" + sch + "\n");
     sbIh.append("<!-- schema entities -->\n");
@@ -339,6 +473,7 @@ public class CatAql extends XholonWithPorts {
         switch (state) {
         case TERM_SCHEMA_ENTITIES: parseLineSchemaEntities(tokens, 0); break;
         case TERM_SCHEMA_FOREIGN_KEYS: parseLineSchemaForeignKeys(tokens, 0); break;
+        case TERM_SCHEMA_ATTRIBUTES: parseLinesSchemaAttributes(tokens, 0); break;
         default: break;
         }
         break;
@@ -348,17 +483,21 @@ public class CatAql extends XholonWithPorts {
   
   /**
    * Employee
- 	 * Department
+   * Department
    */
   protected void parseLineSchemaEntities(String[] tokens, int startIx) {
     for (int i = startIx; i < tokens.length; i++) {
       //this.println("  " + tokens[i]);
       String xhcName = makeXholonClassName(tokens[i]);
       sbIh.append(indent).append("<").append(xhcName).append("/>\n")
-      .append(indent).append("<").append(xhcName).append("s/>\n");
+      .append(indent).append("<").append(xhcName).append(schemaNodeSuffix).append("/>\n");
       sbCd.append(indent).append("<").append(xhcName).append(" xhType=\"XhtypePureActiveObject\"").append("/>\n")
-      .append(indent).append("<").append(xhcName).append("s xhType=\"XhtypePureActiveObject\"").append("/>\n");
-      sbCsh.append(indent).append("<").append(xhcName).append("s/>\n");
+      .append(indent).append("<").append(xhcName).append(schemaNodeSuffix).append(" xhType=\"XhtypePureActiveObject\"").append("/>\n");
+      sbCsh.append(indent).append("<").append(xhcName).append(schemaNodeSuffix);
+      if (schemaRoleNameNoSuffix) {
+        sbCsh.append(" roleName=\"").append(xhcName).append("\"");
+      }
+      sbCsh.append("/>\n");
     }
   }
   
@@ -368,14 +507,36 @@ public class CatAql extends XholonWithPorts {
    * secretary : Department -> Employee
    */
   protected void parseLineSchemaForeignKeys(String[] tokens, int startIx) {
-    //for (int i = startIx; i < tokens.length; i++) {
-      //this.println("  " + tokens[i]);
+    sbCd.append(indent)
+    .append("<").append(makeXholonClassName(tokens[2])).append(schemaNodeSuffix).append(">")
+    .append("<port name=\"").append(makeXholonAttributeName(tokens[0])).append("\" connector=\"").append("../")
+    .append(makeXholonClassName(tokens[4])).append(schemaNodeSuffix).append("\"/>")
+    .append("</").append(makeXholonClassName(tokens[2])).append(schemaNodeSuffix).append(">\n");
+  }
+  
+  /**
+   * first last      : Employee -> string
+   * age             : Employee -> nat
+   * cummulative_age : Employee -> nat
+   * name            : Department -> string
+   */
+  protected void parseLinesSchemaAttributes(String[] tokens, int startIx) {
+    if (tokens.length - startIx < 5) {return;}
+    if (!"->".equals(tokens[tokens.length - 2])) {return;}
+    if (!":".equals(tokens[tokens.length - 4])) {return;}
+    String xhcName = makeXholonClassName(tokens[tokens.length - 3]);
+    
+    String xhcTypeName = makeXholonClassName(tokens[tokens.length - 1]);
+    
+    for (int i = startIx; i < (tokens.length - 4); i++) {
       sbCd.append(indent)
-      .append("<").append(makeXholonClassName(tokens[2])).append("s>")
-      // <port name="manager" connector="."/>
-      .append("<port name=\"").append(makeXholonAttributeName(tokens[0])).append("\" connector=\"").append("../").append(makeXholonClassName(tokens[4])).append("s\"/>")
-      .append("</").append(makeXholonClassName(tokens[2])).append("s>\n");
-    //}
+      .append("<").append(xhcName).append(schemaNodeSuffix).append(">")
+      .append("<port name=\"").append(makeXholonAttributeName(tokens[i])).append("\" connector=\"").append("../")
+      .append(xhcTypeName)
+      //.append(schemaNodeSuffix)
+      .append("\"/>")
+      .append("</").append(xhcName).append(schemaNodeSuffix).append(">\n");
+    }
   }
   
   protected void parseInstance(String inst) {
@@ -414,6 +575,7 @@ public class CatAql extends XholonWithPorts {
         switch (state) {
         case TERM_INSTANCE_GENERATORS: parseLineInstanceGenerators(tokens, 0); break;
         case TERM_INSTANCE_EQUATIONS: parseLineInstanceEquations(tokens, 0); break;
+        case TERM_INSTANCE_MULTI_EQUATIONS: parseLineInstanceMultiEquations(line.split("\\s+", 3), 0); break;
         default: break;
         }
         break;
@@ -430,17 +592,23 @@ public class CatAql extends XholonWithPorts {
     if (tokens.length - startIx < 3) {return;}
     if (!":".equals(tokens[tokens.length - 2])) {return;}
     String xhcName = makeXholonClassName(tokens[tokens.length - 1]);
-    IXholon xhSetNode = ((Xholon)xhRoot).getXPath().evaluate("descendant::" + xhcName + "s", xhRoot);
+    IXholon xhSetNode = ((Xholon)xhRoot).getXPath().evaluate("descendant::" + xhcName + schemaNodeSuffix, xhRoot);
     if (xhSetNode == null) {return;}
     for (int i = startIx; i < (tokens.length - 2); i++) {
       //this.println("  " + tokens[i]);
       //String str = "<" + xhcName + " roleName=\"" + tokens[i] + "\"/>";
+      String endStr = "/>";
+      if (pointToSchema) {
+        // create a port that refs the node's parent
+        endStr = "><port name=\"schema\" connector=\"../\"/></" + xhcName + ">";
+      }
       String str = new StringBuilder()
       .append("<")
       .append(xhcName)
       .append(" roleName=\"")
       .append(tokens[i])
-      .append("\"/>")
+      .append("\"")
+      .append(endStr)
       .toString();
       sendXholonHelperService(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, str, xhSetNode);
       IXholon node = xhSetNode.getLastChild();
@@ -449,35 +617,79 @@ public class CatAql extends XholonWithPorts {
   }
   
   /**
+   * Handle parentheses notation:
    * first(a) = Al
    * first(b) = Bob
    * last(b) = Bo
    * first(c) = Carl 
    * name(m)  = Math
    * name(s) = CS
-   * TODO handle other equation types
+   * 
+   * Handle other equation types:
    * manager(a) = b
+   * 
+   * Handle dot notation:
+   * ps1.strategy_id = "1"
+   * a.first = Al
+   * a.manager = b
    */
   protected void parseLineInstanceEquations(String[] tokens, int startIx) {
     if (tokens.length != 3) {return;}
-    String[] arr = this.splitParentheses(tokens[0]);
+    String[] arr = null;
+    if (tokens[0].indexOf("(") == -1) {
+      // a.first = Al
+      arr = this.splitDot(tokens[0]);
+    }
+    else {
+      // first(a) = Al
+      arr = this.splitParentheses(tokens[0]);
+    }
     // a.first_ = "Al"
     String attributeNameArr0 = makeXholonAttributeName(arr[0]);
     //this.println(arr[1] + "." + attributeNameArr0 + " " + tokens[1] + " \"" + tokens[2] + "\"");
     IXholon node = this.aqlGenerator2XhNodeMap.get(arr[1]);
     if (node != null) {
       IXholon pnode = node.getParentNode();
-      // if pnode has a port/foreign_key called makeXholonAttributeName(arr[0]),
-      // then token[2] is the aqlName of a Xholon remoteNode which I can find in the Map
+      // Remove embedded double and single quote marks.
+      String tokens2 = tokens[2].replace("\"", "").replace("'", "");
+      // If pnode has a port/foreign_key called makeXholonAttributeName(arr[0]),
+      // Then token[2] is the aqlName of a Xholon remoteNode which I can find in the Map.
       if (this.hasPort(pnode, attributeNameArr0)) {
-        IXholon remoteNode = this.aqlGenerator2XhNodeMap.get(tokens[2]);
-        if (remoteNode != null) {
+        IXholon remoteNode = this.aqlGenerator2XhNodeMap.get(tokens2);
+        if (remoteNode == null) {
+          // the port is probably to a AQL type such as "string" or "nat"
+          this.setInstanceAttribute(node, attributeNameArr0, tokens2);
+        }
+        else {
           setInstancePort(node, attributeNameArr0, remoteNode);
         }
       }
       else {
-        this.setInstanceAttribute(node, attributeNameArr0, tokens[2]);
+        this.setInstanceAttribute(node, attributeNameArr0, tokens2);
       }
+    }
+  }
+  
+  /**
+   * Handle a "multi_equations" line. This is shorthand for multiple "equations" lines.
+   * client_id -> {cc1 "1", cc2 "2", cc3 "3"}  CONVERT TO client_id(cc1) = "1"
+   * client_name -> {cc1 Tom, cc2 Dick, cc3 Harry}
+   * client_description -> {cc1 "Tom Client", cc2 "Dick Client", cc3 "Harry Client"}
+   * abc -> {d E}
+   */
+  protected void parseLineInstanceMultiEquations(String[] tokens, int startIx) {
+    if (tokens.length != 3) {return;}
+    if (tokens[2].startsWith("{")) {tokens[2] = tokens[2].substring(1);} else {return;}
+    if (tokens[2].endsWith("}")) {tokens[2] = tokens[2].substring(0, tokens[2].length()-1);} else {return;}
+    String[] items = tokens[2].split(",");
+    for (int i = 0; i < items.length; i++) {
+      // convert into the format required by this.parseLineInstanceEquations(a,b)
+      String[] eqTokens = new String[3];
+      String[] item = items[i].trim().split(" ", 2);
+      eqTokens[0] = tokens[0] + "(" + item[0] + ")";
+      eqTokens[1] = "=";
+      eqTokens[2] = item[1];
+      this.parseLineInstanceEquations(eqTokens, 0);
     }
   }
   
@@ -486,11 +698,11 @@ public class CatAql extends XholonWithPorts {
   }-*/;
   
   protected native boolean hasPort(IXholon node, String portName) /*-{
-    var rc = false;
-    if ((typeof node[portName] == "object") && (node[portName] != null)) {
+    var p = node[portName];
+    if ((typeof p == "object") && (p != null)) {
       return true;
     }
-    return rc;
+    return false;
   }-*/;
   
   protected native void setInstancePort(IXholon node, String portName, IXholon remoteNode) /*-{
@@ -510,6 +722,26 @@ public class CatAql extends XholonWithPorts {
       switch (ch) {
       case '(': ix = 1; break;
       case ')': break;
+      default:
+        arr[ix] += ch;
+        break;
+      }
+    }
+    return arr;
+  }
+  
+  /**
+   * @param "two.one"
+   * @return "one","two"
+   */
+  protected String[] splitDot(String str) {
+    String[] arr = new String[2];
+    arr[0] = arr[1] = "";
+    int ix = 1;
+    for (int i = 0; i < str.length(); i++) {
+      char ch = str.charAt(i);
+      switch (ch) {
+      case '.': ix = 0; break;
       default:
         arr[ix] += ch;
         break;
@@ -562,58 +794,90 @@ public class CatAql extends XholonWithPorts {
     }
   }-*/;
   
-	/**
-	 * Send a synchronous message to the XholonHelperService.
-	 * @param signal
-	 * @param data
-	 * @param sender
-	 * @return A response message.
-	 */
-	protected IMessage sendXholonHelperService(int signal, Object data, IXholon sender)
-	{
-		// send the request to the XholonHelperService by sending it a sync message
-		if (xholonHelperService == null) {
-			xholonHelperService = app.getService(IXholonService.XHSRV_XHOLON_HELPER);
-		}
-		if (xholonHelperService == null) {
-			return null;
-		}
-		else {
-			if (sender == null) {sender = app;}
-			return xholonHelperService.sendSyncMessage(signal, data, sender);
-		}
-	}
-	  
+  /**
+   * Send a synchronous message to the XholonHelperService.
+   * @param signal
+   * @param data
+   * @param sender
+   * @return A response message.
+   */
+  protected IMessage sendXholonHelperService(int signal, Object data, IXholon sender)
+  {
+    // send the request to the XholonHelperService by sending it a sync message
+    if (xholonHelperService == null) {
+      xholonHelperService = app.getService(IXholonService.XHSRV_XHOLON_HELPER);
+    }
+    if (xholonHelperService == null) {
+      return null;
+    }
+    else {
+      if (sender == null) {sender = app;}
+      return xholonHelperService.sendSyncMessage(signal, data, sender);
+    }
+  }
+  
+  protected native void exportGraphviz(String xhcName_System) /*-{
+    $wnd.xh.xport("Graphviz", $wnd.xh.root().parent().xpath("Chameleon/" + xhcName_System), '{"shouldShowLinkLabels":true,"shouldSpecifyShape":true,"shouldSpecifyArrowhead":true,"shouldDisplayGraph":true}');
+  }-*/;
+  
+  protected native void exportSql(String xhcName_System, String xhcName_Instance) /*-{
+    $wnd.xh.xport("_nosql,Sql", $wnd.xh.root().parent().xpath("Chameleon/" + xhcName_System + "/" + xhcName_Instance ),'{"parent":false,"idRoleXhcNames":"ID,,xhcID","idRoleXhcFormats":"^^^^i^,,^^^^i^","parentForeignKeys":false,"mechanismIhNodes":false}');
+  }-*/;
+  
+  protected native void exportXml(String xhcName_System, String xhcName_Instance) /*-{
+    $wnd.xh.xport("Xml", $wnd.xh.root().parent().xpath("Chameleon/" + xhcName_System),'{"writeStartDocument":false,"writePorts":true,"shouldWriteVal":false,"shouldWriteAllPorts":false}');
+  }-*/;
+  
+  protected native void exportYaml(String xhcName_System, String xhcName_Instance) /*-{
+    $wnd.xh.xport("Yaml", $wnd.xh.root().parent().xpath("Chameleon/" + xhcName_System),'{"writeStartDocument":true,"shouldWriteVal":false,"shouldWriteAllPorts":false}');
+  }-*/;
+  
   @Override
   public int setAttributeVal(String attrName, String attrVal) {
     if ("val".equals(attrName)) {
       // this is the AQL content
       this.val = attrVal;
     }
+    else if ("instances".equals(attrName)) {
+      this.instances = Boolean.parseBoolean(attrVal);
+    }
+    else if ("schemas".equals(attrName)) {
+      this.schemas = Boolean.parseBoolean(attrVal);
+    }
+    else if ("xhcName_System".equals(attrName)) {
+      this.xhcName_System = attrVal;
+    }
+    else if ("xhcName_Schema".equals(attrName)) {
+      this.xhcName_Schema = attrVal;
+    }
+    else if ("xhcName_Instance".equals(attrName)) {
+      this.xhcName_Instance = attrVal;
+    }
+    else if (("schemaNodeSuffix".equals(attrName)) || ("setNodeSuffix".equals(attrName))) { // TODO change name from "set" to "schema", or allow both "set" and "schema"
+      this.schemaNodeSuffix = attrVal;
+    }
+    else if ("pointToSchema".equals(attrName)) {
+      this.pointToSchema = Boolean.parseBoolean(attrVal);
+    }
+    else if ("separateSchemaInstance".equals(attrName)) {
+      this.separateSchemaInstance = Boolean.parseBoolean(attrVal);
+    }
+    else if ("schemaRoleNameNoSuffix".equals(attrName)) {
+      this.schemaRoleNameNoSuffix = Boolean.parseBoolean(attrVal);
+    }
+    else if ("exportGraphviz".equals(attrName)) {
+      this.exportGraphviz = Boolean.parseBoolean(attrVal);
+    }
+    else if ("exportSql".equals(attrName)) {
+      this.exportSql = Boolean.parseBoolean(attrVal);
+    }
+    else if ("exportYaml".equals(attrName)) {
+      this.exportYaml = Boolean.parseBoolean(attrVal);
+    }
+    else if ("exportXml".equals(attrName)) {
+      this.exportXml = Boolean.parseBoolean(attrVal);
+    }
     return 0;
   }
-  
-  /*@Override
-  public void toXml(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {
-    if (this.getXhc().hasAncestor("CatAql")) {
-      // write start element
-      xmlWriter.writeStartElement(this.getXhcName());
-      xholon2xml.writeSpecial(this);
-      // write children
-      IXholon childNode = getFirstChild();
-      while (childNode != null) {
-        childNode.toXml(xholon2xml, xmlWriter);
-        childNode = childNode.getNextSibling();
-      }
-      // write end element
-      xmlWriter.writeEndElement(this.getXhcName());
-    }
-    else {
-      super.toXml(xholon2xml, xmlWriter);
-    }
-  }*/
-  
-  //@Override
-  //public void toXmlAttributes(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {}
-  
+    
 }
