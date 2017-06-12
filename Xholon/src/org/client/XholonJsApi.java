@@ -62,9 +62,9 @@ public class XholonJsApi {
   
   /**
    * Get an XPath 1.0 compliant expression that uniquely identifies a path
-	 * from an ancestor node to a descendant node.
-	 *
-	 * Example:
+   * from an ancestor node to a descendant node.
+   *
+   * Example:
 console.log(xh.xpathExpr(xh.root().first(), xh.root()));
   "HelloWorldSystem/Hello"
    *
@@ -74,8 +74,8 @@ var descendant = ancestor.xpath("School[@roleName='Hilson']");
 $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
   "City/School[@roleName='Hilson']"
    *
-	 * @param descendant A Xholon node that is a descendant of ancestor.
-	 * @param ancestor A Xholon node that is an ancestor of descendant.
+   * @param descendant A Xholon node that is a descendant of ancestor.
+   * @param ancestor A Xholon node that is an ancestor of descendant.
    */
   public static String xpathExpr(IXholon descendant, IXholon ancestor) {
     if (descendant == null) {return null;}
@@ -149,13 +149,13 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
   public static native void exportTopLevelApi(IApplication app) /*-{
     
     if (typeof $wnd.xh == "undefined") {
-  	  $wnd.xh = {};
-  	}
-  	//xh = $wnd.xh; // make xh available from within Xholon; GWT already has a xh function
-  	$wnd.xh.html = {};
-  	$wnd.xh.css = {};
-  	
-  	// app
+      $wnd.xh = {};
+    }
+    //xh = $wnd.xh; // make xh available from within Xholon; GWT already has a xh function
+    $wnd.xh.html = {};
+    $wnd.xh.css = {};
+    
+    // app
     $wnd.xh.app = $entry(function() {
       return app.@org.primordion.xholon.app.Application::getApp()();
     });
@@ -423,9 +423,9 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       var params = $wnd.location.search.substr(1).split('&');
       for (var i = 0; i < params.length; i++) {
         var p = params[i].split('=');
-	      if (p[0] == searchParam) {
-	        return decodeURIComponent(p[1]);
-	      }
+        if (p[0] == searchParam) {
+          return decodeURIComponent(p[1]);
+        }
       }
       return null;
     });
@@ -924,6 +924,35 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       var clazz = node.@org.primordion.xholon.base.IXholon::getClass()();
       var app = $wnd.xh.app();
       return app.@org.primordion.xholon.app.Application::getAppSpecificAttributes(Lorg/primordion/xholon/base/IXholon;Ljava/lang/Class;Z)(node, clazz, returnAll);
+    });
+    
+    // attrz
+    // example of returned Object: {first_: "Bob", last_: "Bo"}
+    api.attrz = $entry(function(javaAttrs, jsAttrs, returnAll) {
+      var obj = {};
+      var node = this;
+      if (javaAttrs === undefined) {var javaAttrs = true;}
+      if (jsAttrs === undefined) {var jsAttrs = true;}
+      if (returnAll === undefined) {var returnAll = false;}
+      if (javaAttrs) {
+        var javaArr = node.attrs(returnAll); // can pass in true or false
+        for (var jvi = 0; jvi < javaArr.length; jvi++) {
+          var jvName = javaArr[jvi][0];
+          var jvVal = javaArr[jvi][1];
+          if ((jvVal != null) && (typeof jvVal != "object")) {
+            obj[jvName] = jvVal;
+          }
+        }
+      }
+      if (jsAttrs) {
+        var service = $wnd.xh.service("XholonCreationService");
+        var msg = service.call(-3896, node, node);
+        var jsObj = msg.data;
+        for (var jsi in jsObj) {
+          obj[jsi] = jsObj[jsi];
+        }
+      }
+      return obj;
     });
     
     // xpath
