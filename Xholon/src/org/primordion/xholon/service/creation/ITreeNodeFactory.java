@@ -18,6 +18,7 @@
 
 package org.primordion.xholon.service.creation;
 
+import org.primordion.xholon.base.ISignal;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
 import org.primordion.xholon.exception.XholonConfigurationException;
@@ -36,6 +37,27 @@ public interface ITreeNodeFactory extends IXholon {
 	 */
 	public static final String INSTANCE_METHOD_NAME = "instance";
 	
+	
+  /**
+   * Create and return a raw instance of a Xholon Java class, given the full Java package name.
+   */
+  public static final int SIG_CREATE_INSTANCE_FROM_PACKAGE_NAME_REQ = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 101; // -3898
+  
+  /**
+   * Create and return a raw instance of a Xholon Java class, given an existing Xholon node.
+   */
+  public static final int SIG_CREATE_INSTANCE_FROM_XHOLON_NODE_REQ = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 102; // -3897
+  
+  /**
+   * Return a list of attributes that are not in a raw instance of the Java class, given an existing Xholon node.
+   */
+  public static final int SIG_REPORT_EXTRA_ATTRS_IN_XHOLON_NODE_REQ = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 103; // -3896
+  
+  /**
+   * A generic response to a request to do something.
+   */
+  public static final int SIG_TREENODE_FACTORY_RESP = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 202; // -3797
+  
 	/**
 	 * Get number of treeNodes available for use.
 	 * @param resourceType The type of node:

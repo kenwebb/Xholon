@@ -21,8 +21,10 @@ package org.primordion.xholon.service.creation;
 import com.google.gwt.core.client.GWT;
 
 //import org.primordion.cellontro.base.BioXholonClass;
+import org.primordion.xholon.base.IMessage;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
+import org.primordion.xholon.base.Message;
 import org.primordion.xholon.base.Xholon;
 import org.primordion.xholon.base.XholonClass;
 import org.primordion.xholon.exception.XholonConfigurationException;
@@ -144,7 +146,90 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 	public IXholon getXholonNode() throws XholonConfigurationException {
 		return getNode(xholonSubclass);
 	}
-
+	
+	@Override
+	public IMessage processReceivedSyncMessage(IMessage msg) {
+	  Object respData = null;
+		switch (msg.getSignal()) {
+		case SIG_CREATE_INSTANCE_FROM_PACKAGE_NAME_REQ:
+		{
+		  /** sample usage (using JS Developer Tools):
+		  var service = xh.service("XholonCreationService");
+		  var msg = service.call(-3898, "org.primordion.xholon.base.OrNode", xh.root());
+		  var node = msg.data;
+		  console.log(node);
+		  console.log(xh.attrs(node));
+		  */
+		  try {
+		    respData = this.getXholonNode((String)msg.getData());
+		  } catch (XholonConfigurationException e) {
+		    // TODO
+		  }
+		  break;
+		}
+		case SIG_CREATE_INSTANCE_FROM_XHOLON_NODE_REQ:
+		{
+		  /** sample usage:
+		  var ava = xh.avatar();
+		  var service = xh.service("XholonCreationService");
+		  var msg = service.call(-3897, ava, xh.root());
+		  var node = msg.data;
+		  console.log(node);
+		  console.log(xh.attrs(node));
+		  */
+		  IXholon node = (IXholon)msg.getData();
+		  String implName = node.getClass().getName();
+		  try {
+		    respData = this.getXholonNode(implName);
+		  } catch (XholonConfigurationException e) {
+		    // TODO
+		  }
+		  break;
+		}
+		case SIG_REPORT_EXTRA_ATTRS_IN_XHOLON_NODE_REQ:
+		{
+		  /** sample usage:
+		  var ava = xh.avatar();
+		  var service = xh.service("XholonCreationService");
+		  var msg = service.call(-3896, ava, xh.root());
+		  var obj = msg.data;
+		  console.log(obj);
+		  */
+		  IXholon node = (IXholon)msg.getData();
+		  String implName = node.getClass().getName();
+		  IXholon rawNode = null;
+		  try {
+		    rawNode = this.getXholonNode(implName);
+		  } catch (XholonConfigurationException e) {
+		    // TODO
+		  }
+		  respData = this.extraAttrs(node, rawNode);
+		  break;
+		}
+		default:
+			return super.processReceivedSyncMessage(msg);
+		}
+		return new Message(SIG_TREENODE_FACTORY_RESP, respData, this, msg.getSender());
+	}
+	
+	/**
+	 * 
+	 */
+  protected native Object extraAttrs(IXholon node, IXholon rawNode) /*-{
+    var extras = {};
+    for (var prop in node) {
+      var pname = prop;
+      var pval = node[pname];
+      if ((pval != null) && (typeof pval != "function") && (typeof pval != "object")) {
+        //$wnd.console.log(pname + ": " + pval);
+        if (typeof rawNode[pname] == "undefined") {
+          extras[pname] = pval;
+        }
+      }
+    }
+    return extras;
+  }-*/;
+  
 	@Override
 	public IXholon getXholonNode(String implName)
 			throws XholonConfigurationException {
