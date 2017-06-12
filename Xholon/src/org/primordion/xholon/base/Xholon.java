@@ -20,6 +20,7 @@ package org.primordion.xholon.base;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.json.client.JSONObject;
 //import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.TextAreaElement;
@@ -31,6 +32,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 
 import org.client.HtmlElementCache;
@@ -3094,6 +3096,26 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 				continue;
 			}
 			toXmlAttribute(xholon2xml, xmlWriter, name, value.toString(), clazz);
+		}
+		// handle other attributes, which were probably created as JavaScript properties
+		IXholon xcs = getService(IXholonService.XHSRV_XHOLON_CREATION);
+		if (xcs != null) {
+		  IMessage msg = xcs.sendSyncMessage(ITreeNodeFactory.SIG_REPORT_EXTRA_ATTRS_IN_XHOLON_NODE_REQ, this, this);
+		  JavaScriptObject obj = (JavaScriptObject)msg.getData();
+		  JSONObject jsonObj = new JSONObject(obj);
+		  if (jsonObj.size() > 0) {
+		    Set<String> keySet = jsonObj.keySet();
+		    Iterator<String> jsIt = keySet.iterator();
+		    while (jsIt.hasNext()) {
+		      String propName = jsIt.next();
+		      String propValue = jsonObj.get(propName).toString();
+		      if (propValue.startsWith("\"")) {
+		        // remove start and end double quote
+		        propValue = propValue.substring(1, propValue.length()-1);
+		      }
+		      toXmlAttribute(xholon2xml, xmlWriter, propName, propValue, null);
+		    }
+		  }
 		}
 	}
 	
