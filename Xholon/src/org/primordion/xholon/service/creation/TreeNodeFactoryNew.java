@@ -150,7 +150,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 	@Override
 	public IMessage processReceivedSyncMessage(IMessage msg) {
 	  Object respData = null;
-		switch (msg.getSignal()) {
+	  int sig = msg.getSignal();
+		String ignoreChar = null;
+		switch (sig) {
 		case SIG_CREATE_INSTANCE_FROM_PACKAGE_NAME_REQ:
 		{
 		  /** sample usage (using JS Developer Tools):
@@ -186,6 +188,8 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 		  }
 		  break;
 		}
+		case SIG_REPORT_EXTRA_ATTRS_IN_XHOLON_NODE_NO_DOLLAR_REQ:
+		  ignoreChar = "$";
 		case SIG_REPORT_EXTRA_ATTRS_IN_XHOLON_NODE_REQ:
 		{
 		  /** sample usage:
@@ -203,7 +207,7 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 		  } catch (XholonConfigurationException e) {
 		    // TODO
 		  }
-		  respData = this.extraAttrs(node, rawNode);
+		  respData = this.extraAttrs(node, rawNode, ignoreChar);
 		  break;
 		}
 		default:
@@ -215,10 +219,14 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 	/**
 	 * 
 	 */
-  protected native Object extraAttrs(IXholon node, IXholon rawNode) /*-{
+  protected native Object extraAttrs(IXholon node, IXholon rawNode, String ignoreChar) /*-{
     var extras = {};
     for (var prop in node) {
       var pname = prop;
+      if ((ignoreChar != null) && (pname.indexOf(ignoreChar) != -1)) {
+        // this property/attribute contains the ignore character (typically "$")
+        continue;
+      }
       var pval = node[pname];
       if ((pval != null) && (typeof pval != "function") && (typeof pval != "object")) {
         //$wnd.console.log(pname + ": " + pval);

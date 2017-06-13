@@ -927,13 +927,15 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
     });
     
     // attrz
+    // usage: xh.root().attrz(false, true, false, true);
     // example of returned Object: {first_: "Bob", last_: "Bo"}
-    api.attrz = $entry(function(javaAttrs, jsAttrs, returnAll) {
+    api.attrz = $entry(function(javaAttrs, jsAttrs, returnAll, noDollar) {
       var obj = {};
       var node = this;
       if (javaAttrs === undefined) {var javaAttrs = true;}
       if (jsAttrs === undefined) {var jsAttrs = true;}
       if (returnAll === undefined) {var returnAll = false;}
+      if (noDollar === undefined) {var noDollar = false;}
       if (javaAttrs) {
         var javaArr = node.attrs(returnAll); // can pass in true or false
         for (var jvi = 0; jvi < javaArr.length; jvi++) {
@@ -946,7 +948,13 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       }
       if (jsAttrs) {
         var service = $wnd.xh.service("XholonCreationService");
-        var msg = service.call(-3896, node, node);
+        var msg = null;
+        if (noDollar) {
+          msg = service.call(-3895, node, node); // exclude attributes whose names contain "$"
+        }
+        else {
+          msg = service.call(-3896, node, node);
+        }
         var jsObj = msg.data;
         for (var jsi in jsObj) {
           obj[jsi] = jsObj[jsi];

@@ -203,4 +203,16 @@ public interface IXholon2Xml {
 	 */
 	public abstract IXholon get2XmlRoot();
 
+	/**
+	 * Get whether JavaScript attributes should be written out for each node.
+	 * @return true or false
+	 */
+	public abstract boolean isWriteJavaScriptAttributes();
+	
+	/**
+	 * Set whether JavaScript attributes should be written out for each node.
+	 * @param writeAttributes true or false
+	 */
+	public abstract void setWriteJavaScriptAttributes(boolean writeJavaScriptAttributes);
+	
 }

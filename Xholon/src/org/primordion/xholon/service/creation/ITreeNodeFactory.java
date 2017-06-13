@@ -54,6 +54,11 @@ public interface ITreeNodeFactory extends IXholon {
   public static final int SIG_REPORT_EXTRA_ATTRS_IN_XHOLON_NODE_REQ = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 103; // -3896
   
   /**
+   * Return a list of attributes that are not in a raw instance of the Java class and that do not contain "$", given an existing Xholon node.
+   */
+  public static final int SIG_REPORT_EXTRA_ATTRS_IN_XHOLON_NODE_NO_DOLLAR_REQ = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 104; // -3895
+  
+  /**
    * A generic response to a request to do something.
    */
   public static final int SIG_TREENODE_FACTORY_RESP = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 202; // -3797

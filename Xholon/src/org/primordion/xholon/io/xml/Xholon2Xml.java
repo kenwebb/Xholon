@@ -86,6 +86,11 @@ public class Xholon2Xml extends Xholon implements IXholon2Xml {
 	 */
 	private boolean shouldWriteAllPorts = true;
 	
+	/**
+	 * Whether or not to write attributes that were probably defined using JavaScript.
+	 */
+	private boolean writeJavaScriptAttributes = true;
+	
 	/* 
 	 * @see org.primordion.xholon.io.xml.IXholon2Xml#getXhAttrStyle()
 	 */
@@ -318,6 +323,16 @@ public class Xholon2Xml extends Xholon implements IXholon2Xml {
 	 */
 	public void setShouldWriteAllPorts(boolean shouldWriteAllPorts) {
 	  this.shouldWriteAllPorts = shouldWriteAllPorts;
+	}
+	
+	@Override
+	public boolean isWriteJavaScriptAttributes() {
+	  return writeJavaScriptAttributes;
+	}
+	
+	@Override
+	public void setWriteJavaScriptAttributes(boolean writeJavaScriptAttributes) {
+	  this.writeJavaScriptAttributes = writeJavaScriptAttributes;
 	}
 	
 }

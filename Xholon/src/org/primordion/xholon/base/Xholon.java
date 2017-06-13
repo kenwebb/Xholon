@@ -3098,22 +3098,25 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 			toXmlAttribute(xholon2xml, xmlWriter, name, value.toString(), clazz);
 		}
 		// handle other attributes, which were probably created as JavaScript properties
-		IXholon xcs = getService(IXholonService.XHSRV_XHOLON_CREATION);
-		if (xcs != null) {
-		  IMessage msg = xcs.sendSyncMessage(ITreeNodeFactory.SIG_REPORT_EXTRA_ATTRS_IN_XHOLON_NODE_REQ, this, this);
-		  JavaScriptObject obj = (JavaScriptObject)msg.getData();
-		  JSONObject jsonObj = new JSONObject(obj);
-		  if (jsonObj.size() > 0) {
-		    Set<String> keySet = jsonObj.keySet();
-		    Iterator<String> jsIt = keySet.iterator();
-		    while (jsIt.hasNext()) {
-		      String propName = jsIt.next();
-		      String propValue = jsonObj.get(propName).toString();
-		      if (propValue.startsWith("\"")) {
-		        // remove start and end double quote
-		        propValue = propValue.substring(1, propValue.length()-1);
+		if (xholon2xml.isWriteJavaScriptAttributes()) {
+		  IXholon xcs = getService(IXholonService.XHSRV_XHOLON_CREATION);
+		  if (xcs != null) {
+		    // exclude JavaScript variables that contain "$"
+		    IMessage msg = xcs.sendSyncMessage(ITreeNodeFactory.SIG_REPORT_EXTRA_ATTRS_IN_XHOLON_NODE_NO_DOLLAR_REQ, this, this);
+		    JavaScriptObject obj = (JavaScriptObject)msg.getData();
+		    JSONObject jsonObj = new JSONObject(obj);
+		    if (jsonObj.size() > 0) {
+		      Set<String> keySet = jsonObj.keySet();
+		      Iterator<String> jsIt = keySet.iterator();
+		      while (jsIt.hasNext()) {
+		        String propName = jsIt.next();
+		        String propValue = jsonObj.get(propName).toString();
+		        if (propValue.startsWith("\"")) {
+		          // remove start and end double quote
+		          propValue = propValue.substring(1, propValue.length()-1);
+		        }
+		        toXmlAttribute(xholon2xml, xmlWriter, propName, propValue, null);
 		      }
-		      toXmlAttribute(xholon2xml, xmlWriter, propName, propValue, null);
 		    }
 		  }
 		}
