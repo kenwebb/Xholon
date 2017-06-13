@@ -117,6 +117,7 @@ public class CatAql extends XholonWithPorts {
   private IXholon xholonHelperService = null;
   private IXholon xhRoot = null;
   private IXholonClass xhcRoot = null;
+  private IXholon cattSystem = null;
   
   private String roleName = null;
   
@@ -202,16 +203,16 @@ public class CatAql extends XholonWithPorts {
       //this.println(sbCsh.toString());
       //this.println("</XholonWorkbook>\n");
       if (this.exportXml) {
-        this.exportXml(xhcName_System, xhcName_Instance);
+        this.exportXml(this.cattSystem, xhcName_Instance);
       }
       if (this.exportYaml) {
-        this.exportYaml(xhcName_System, xhcName_Instance);
+        this.exportYaml(this.cattSystem, xhcName_Instance);
       }
       if (this.exportSql) {
-        this.exportSql(xhcName_System, xhcName_Instance);
+        this.exportSql(this.cattSystem, xhcName_Instance);
       }
       if (this.exportGraphviz) {
-        this.exportGraphviz(xhcName_System);
+        this.exportGraphviz(this.cattSystem);
       }
     }
     else {
@@ -265,6 +266,7 @@ public class CatAql extends XholonWithPorts {
     // paste in the System node and its collection/set children
     // specific instances will subsequently be pasted as children of the collecttion/set nodes
     sendXholonHelperService(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, sbCsh.toString(), xhRoot);
+    cattSystem = xhRoot.getLastChild();
     
     // instance
     if (instances) {
@@ -278,7 +280,7 @@ public class CatAql extends XholonWithPorts {
     
     if (separateSchemaInstance) {
       // move the Instance nodes, and the Schema nodes, into separate subtrees
-      IXholon cattSystem = ((Xholon)xhRoot).getXPath().evaluate("descendant::" + xhcName_System, xhRoot);
+      //IXholon cattSystem = ((Xholon)xhRoot).getXPath().evaluate("descendant::" + xhcName_System, xhRoot);
       if (cattSystem != null) {
         IXholon sNode = null;
         if (this.schemas) {
@@ -592,7 +594,7 @@ public class CatAql extends XholonWithPorts {
     if (tokens.length - startIx < 3) {return;}
     if (!":".equals(tokens[tokens.length - 2])) {return;}
     String xhcName = makeXholonClassName(tokens[tokens.length - 1]);
-    IXholon xhSetNode = ((Xholon)xhRoot).getXPath().evaluate("descendant::" + xhcName + schemaNodeSuffix, xhRoot);
+    IXholon xhSetNode = ((Xholon)xhRoot).getXPath().evaluate("descendant::" + xhcName + schemaNodeSuffix, cattSystem); //xhRoot);
     if (xhSetNode == null) {return;}
     for (int i = startIx; i < (tokens.length - 2); i++) {
       //this.println("  " + tokens[i]);
@@ -816,20 +818,20 @@ public class CatAql extends XholonWithPorts {
     }
   }
   
-  protected native void exportGraphviz(String xhcName_System) /*-{
-    $wnd.xh.xport("Graphviz", $wnd.xh.root().parent().xpath("Chameleon/" + xhcName_System), '{"shouldShowLinkLabels":true,"shouldSpecifyShape":true,"shouldSpecifyArrowhead":true,"shouldDisplayGraph":true}');
+  protected native void exportGraphviz(IXholon cattSystem) /*-{
+    $wnd.xh.xport("Graphviz", cattSystem, '{"shouldShowLinkLabels":true,"shouldSpecifyShape":true,"shouldSpecifyArrowhead":true,"shouldDisplayGraph":true}');
   }-*/;
   
-  protected native void exportSql(String xhcName_System, String xhcName_Instance) /*-{
-    $wnd.xh.xport("_nosql,Sql", $wnd.xh.root().parent().xpath("Chameleon/" + xhcName_System + "/" + xhcName_Instance ),'{"parent":false,"idRoleXhcNames":"ID,,xhcID","idRoleXhcFormats":"^^^^i^,,^^^^i^","parentForeignKeys":false,"mechanismIhNodes":false}');
+  protected native void exportSql(IXholon cattSystem, String xhcName_Instance) /*-{
+    $wnd.xh.xport("_nosql,Sql", cattSystem.xpath(xhcName_Instance), '{"parent":false,"idRoleXhcNames":"ID,,xhcID","idRoleXhcFormats":"^^^^i^,,^^^^i^","parentForeignKeys":false,"mechanismIhNodes":false}');
   }-*/;
   
-  protected native void exportXml(String xhcName_System, String xhcName_Instance) /*-{
-    $wnd.xh.xport("Xml", $wnd.xh.root().parent().xpath("Chameleon/" + xhcName_System),'{"writeStartDocument":false,"writePorts":true,"shouldWriteVal":false,"shouldWriteAllPorts":false}');
+  protected native void exportXml(IXholon cattSystem, String xhcName_Instance) /*-{
+    $wnd.xh.xport("Xml", cattSystem, '{"writeStartDocument":false,"writePorts":true,"shouldWriteVal":false,"shouldWriteAllPorts":false}');
   }-*/;
   
-  protected native void exportYaml(String xhcName_System, String xhcName_Instance) /*-{
-    $wnd.xh.xport("Yaml", $wnd.xh.root().parent().xpath("Chameleon/" + xhcName_System),'{"writeStartDocument":true,"shouldWriteVal":false,"shouldWriteAllPorts":false}');
+  protected native void exportYaml(IXholon cattSystem, String xhcName_Instance) /*-{
+    $wnd.xh.xport("Yaml", cattSystem,'{"writeStartDocument":true,"shouldWriteVal":false,"shouldWriteAllPorts":false}');
   }-*/;
   
   @Override
@@ -879,5 +881,22 @@ public class CatAql extends XholonWithPorts {
     }
     return 0;
   }
-    
+  
+  @Override
+  public void toXmlAttributes(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {
+    xmlWriter.writeAttribute("instances", Boolean.toString(this.instances));
+    xmlWriter.writeAttribute("schemas", Boolean.toString(this.schemas));
+    xmlWriter.writeAttribute("xhcName_System", this.xhcName_System);
+    xmlWriter.writeAttribute("xhcName_Schema", this.xhcName_Schema);
+    xmlWriter.writeAttribute("xhcName_Instance", this.xhcName_Instance);
+    xmlWriter.writeAttribute("schemaNodeSuffix", this.schemaNodeSuffix);
+    xmlWriter.writeAttribute("pointToSchema", Boolean.toString(this.pointToSchema));
+    xmlWriter.writeAttribute("separateSchemaInstance", Boolean.toString(this.separateSchemaInstance));
+    xmlWriter.writeAttribute("schemaRoleNameNoSuffix", Boolean.toString(this.schemaRoleNameNoSuffix));
+    xmlWriter.writeAttribute("exportGraphviz", Boolean.toString(this.exportGraphviz));
+    xmlWriter.writeAttribute("exportSql", Boolean.toString(this.exportSql));
+    xmlWriter.writeAttribute("exportYaml", Boolean.toString(this.exportYaml));
+    xmlWriter.writeAttribute("exportXml", Boolean.toString(this.exportXml));
+  }
+  
 }
