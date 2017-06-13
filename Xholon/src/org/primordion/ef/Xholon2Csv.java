@@ -107,6 +107,11 @@ public class Xholon2Csv extends AbstractXholon2ExternalFormat implements IXholon
 	//private boolean writeAttributes = true;
 
 	/**
+	 * Whether or not to write attributes that were probably defined using JavaScript.
+	 */
+	private boolean writeJavaScriptAttributes = true;
+	
+	/**
 	 * Constructor.
 	 */
 	public Xholon2Csv() {}
@@ -510,6 +515,16 @@ public class Xholon2Csv extends AbstractXholon2ExternalFormat implements IXholon
 	 */
 	public native void setWriteStandardAttributes(boolean writeStandardAttributes) /*-{this.efParams.writeStandardAttributes = writeStandardAttributes;}-*/;
 
+	@Override
+	public boolean isWriteJavaScriptAttributes() {
+	  return writeJavaScriptAttributes;
+	}
+	
+	@Override
+	public void setWriteJavaScriptAttributes(boolean writeJavaScriptAttributes) {
+	  this.writeJavaScriptAttributes = writeJavaScriptAttributes;
+	}
+	
 	/*
 	 * @see org.primordion.xholon.io.xml.IXholon2Xml#writeSpecial(org.primordion.xholon.base.IXholon)
 	 */

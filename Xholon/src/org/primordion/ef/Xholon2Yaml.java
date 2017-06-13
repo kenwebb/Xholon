@@ -104,6 +104,11 @@ public class Xholon2Yaml extends AbstractXholon2ExternalFormat implements IXholo
 	private boolean writeAttributes = true;
 	
 	/**
+	 * Whether or not to write attributes that were probably defined using JavaScript.
+	 */
+	private boolean writeJavaScriptAttributes = true;
+	
+	/**
 	 * Whether or not to write an attribute with the name "Val".
 	 */
 	//private boolean shouldWriteVal = true;
@@ -462,6 +467,16 @@ public class Xholon2Yaml extends AbstractXholon2ExternalFormat implements IXholo
 		this.writeStandardAttributes = writeStandardAttributes;
 	}
 
+	@Override
+	public boolean isWriteJavaScriptAttributes() {
+	  return writeJavaScriptAttributes;
+	}
+	
+	@Override
+	public void setWriteJavaScriptAttributes(boolean writeJavaScriptAttributes) {
+	  this.writeJavaScriptAttributes = writeJavaScriptAttributes;
+	}
+	
 	/*
 	 * @see org.primordion.xholon.io.xml.IXholon2Xml#writeSpecial(org.primordion.xholon.base.IXholon)
 	 */
