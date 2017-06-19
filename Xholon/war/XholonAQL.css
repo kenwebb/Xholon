@@ -5,8 +5,7 @@ body {
   font-size: 100%;
 }
 div#xhanim {
-  /** line-height: 50px; */
-  height: 900px;
+  /** height: 900px; */
 }
 span#caption {
   font-family: Georgia, serif;
