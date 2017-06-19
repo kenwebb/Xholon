@@ -182,41 +182,54 @@ public class CatAql extends XholonWithPorts {
   
   @Override
   public void postConfigure() {
-    this.val = this.val.trim();
-    if (this.val.length() > 100) {
-      this.app = this.getApp();
-      this.xhRoot = app.getRoot();
-      this.xhcRoot = app.getXhcRoot();
-      this.xhClassNameReplacementMap = new HashMap<String,String>();
-      this.aqlGenerator2XhNodeMap = new HashMap<String,IXholon>();
-      sbIh = new StringBuilder();
-      sbCd = new StringBuilder();
-      sbCsh = new StringBuilder();
-      //this.println(val);
-      parseAqlContent(val);
-      //sbIh.append("</_-.XholonClass>\n");
-      //sbCd.append("</xholonClassDetails>\n");
-      //sbCsh.append("</CatTheorySystem>\n");
-      //this.println("<XholonWorkbook>\n");
-      //this.println(sbIh.toString());
-      //this.println(sbCd.toString());
-      //this.println(sbCsh.toString());
-      //this.println("</XholonWorkbook>\n");
-      if (this.exportXml) {
-        this.exportXml(this.cattSystem, xhcName_Instance);
-      }
-      if (this.exportYaml) {
-        this.exportYaml(this.cattSystem, xhcName_Instance);
-      }
-      if (this.exportSql) {
-        this.exportSql(this.cattSystem, xhcName_Instance);
-      }
-      if (this.exportGraphviz) {
-        this.exportGraphviz(this.cattSystem);
+    if (this.val == null) {
+      // the content may be inside a <Attribute_String/> node
+      // this may occur if there's a <xi:include ... />
+      IXholon contentNode = this.getFirstChild();
+      if (contentNode != null) {
+        this.val = contentNode.getVal_String();
       }
     }
+    if (this.val == null) {
+      this.println("CatAql does not contain any content.");
+    }
     else {
-      this.println("CatAql does not contain any usable AQL content.");
+      this.val = this.val.trim();
+      if (this.val.length() > 100) {
+        this.app = this.getApp();
+        this.xhRoot = app.getRoot();
+        this.xhcRoot = app.getXhcRoot();
+        this.xhClassNameReplacementMap = new HashMap<String,String>();
+        this.aqlGenerator2XhNodeMap = new HashMap<String,IXholon>();
+        sbIh = new StringBuilder();
+        sbCd = new StringBuilder();
+        sbCsh = new StringBuilder();
+        //this.println(val);
+        parseAqlContent(val);
+        //sbIh.append("</_-.XholonClass>\n");
+        //sbCd.append("</xholonClassDetails>\n");
+        //sbCsh.append("</CatTheorySystem>\n");
+        //this.println("<XholonWorkbook>\n");
+        //this.println(sbIh.toString());
+        //this.println(sbCd.toString());
+        //this.println(sbCsh.toString());
+        //this.println("</XholonWorkbook>\n");
+        if (this.exportXml) {
+          this.exportXml(this.cattSystem, xhcName_Instance);
+        }
+        if (this.exportYaml) {
+          this.exportYaml(this.cattSystem, xhcName_Instance);
+        }
+        if (this.exportSql) {
+          this.exportSql(this.cattSystem, xhcName_Instance);
+        }
+        if (this.exportGraphviz) {
+          this.exportGraphviz(this.cattSystem);
+        }
+      }
+      else {
+        this.println("CatAql does not contain any usable AQL content.");
+      }
     }
     super.postConfigure();
   }
