@@ -1,0 +1,190 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="author" content="Ken Webb" />
+    <meta name="copyright" content="MIT License, Copyright (C) 2017 Ken Webb" />
+    <style>
+    pre.aqlcode {
+      border-style: solid;
+      border-width: 1px;
+      background-color: aliceblue;
+    }
+    </style>
+    <title>Xholon Category Theory</title>
+  </head>
+  
+  <body>
+    <h3>Xholon Category Theory</h3>
+    <p><a href="https://en.wikipedia.org/wiki/Category_theory">Category Theory</a> "formalizes mathematical structure and its concepts in terms of a collection of objects and of arrows (also called morphisms). A category has two basic properties: the ability to compose the arrows associatively and the existence of an identity arrow for each object. The language of category theory has been used to formalize concepts of other high-level abstractions such as sets, rings, and groups."</p>
+    <!--<p><a href="wb/editwb.html?app=3a1e678e9b98c16eb94f1763dbca5a47&src=gist">This workbook</a> lists links to resources about Category Theory that I have found useful.</p>-->
+    <p>The Algebraic Query Language (<a href="http://categoricaldata.net/aql.html">AQL</a>) tool and language implement some of the basic concepts of Category Theory. I have written initial versions of a loader that reads AQL content into Xholon, and an exporter that writes a Xholon app in AQL format, in order to explore similarities and differences between Xholon, AQL, and Category Theory. I am also finding AQL useful as a concrete tool to help me learn about Category Theory, in conjunction with reading <a href="wb/editwb.html?app=3a1e678e9b98c16eb94f1763dbca5a47&src=gist">various texts</a>.</p>
+    <p>The examples included on this page are a few initial tests, mostly based on examples supplied within the AQL tool.
+    They demonstrate that the structures in Xholon and AQL are roughly aligned with each other.
+    I am just beginning to learn about Category Theory and how I might be able to use it with Xholon, and there's still a lot of work to do.
+    </p>
+    
+    <h4>Examples - AQL to Xholon</h4>
+    
+    <p><a href="Xholon.html?app=ca580feffa637a4050fc2d5ed35c81df&src=gist&gui=clsc">Test01</a> is a simple test. It reads the AQL content, generates a Xholon structure, and exports the generated Xholon structure in XML, YAML, SQL, and Graphviz Dot format. It also uses Graphviz itself to generate and display an SVG image. The Test01 source code is <a href="wb/editwb.html?app=ca580feffa637a4050fc2d5ed35c81df&src=gist">here</a>.</p>
+    
+    <p><a href="Xholon.html?app=d78505ad6e4e6028ca4ed0c187485321&src=gist&gui=clsc">Finance Colim</a> is part of a larger AQL example. I've included 2 separate groups of AQL typeside, schema, and instance blocks. It's source code is <a href="wb/editwb.html?app=d78505ad6e4e6028ca4ed0c187485321&src=gist">here</a>.</p>
+    
+    <p>You can paste your own AQL typeside/schema/instance content into a <a href="wb/editwb.html?app=976285e608c6ffeed83a223026dd7683&src=gist">Template</a>, where it says "// paste your AQL code here". Run it by clicking one of the three "Run" buttons at the top of the Template web page, for example the "clsc" button. Note that for now Xholon only accepts a subset of AQL syntax. For example, each instance equation must be on its own line.</p>
+    
+    <p>Other Xholon workbooks related to Category Theory are listed as part of <a href="index.html">this long list</a>. Search for "Category" and "Categorical".</p>
+    
+    <h4>Complete worked example - AQL to Xholon</h4>
+    <p>Step 1: Open the <a href="wb/editwb.html?app=976285e608c6ffeed83a223026dd7683&src=gist">Template</a> page.</p>
+    <p>Step 2: Paste the following AQL content into the Template page, just after where it says "// paste your AQL code here".</p>
+    <pre class="aqlcode">
+typeside Ty = literal {
+  types
+    int
+    string
+  constants
+    Ken Licorice : string
+    4 : int
+}
+
+schema S = literal : Ty {
+  entities
+    One
+    Two
+    Three
+  foreign_keys
+    fk1 : One -> Two
+    fk2 : Two -> Three
+  attributes
+    attr1 : One -> int
+    attr2 : Two -> string
+    attr3 : Three -> string
+}
+
+instance I = literal : S {
+  generators 
+    one1 : One
+    one2 : One
+    two1 : Two
+    three1 : Three
+  equations
+    one1.attr1 = 4
+    one1.fk1 = two1
+    two1.attr2 = Ken
+    two1.fk2 = three1
+    three1.attr3 = Licorice
+}</pre>
+    <p>Step 3: Click the "clsc" button at the top of the Template page. The run-time page should open up, and you should see XML, YAML, SQL, and Graphviz content in tabs, and you should also see an SVG image.</p>
+    
+    <h4>Complete worked example - Xholon to AQL</h4>
+    <p>Step 1: Open the page for the simple <a href="Xholon.html?app=PingPong&gui=clsc">Ping Pong</a> app.</p>
+    <p>Step 2: Locate the "PingPongSystem" node in the tree (Application > Model > CompositeStructureHierarchy > PingPongSystem).</p>
+    <p>Step 3: Right-click the "PingPongSystem" node, and select Export > nosql > CatAql .</p>
+    <p>Step 4: Click "doExport". Something like the following text should be generated in a tab on the page.</p>
+    <pre class="aqlcode">
+/*
+To view this file, download the FQL tool (AQL) from http://categoricaldata.net/aql.html.
+Automatically generated by Xholon version 0.9.1, using Xholon2CatAql.java
+Wed Jun 14 12:16:00 GMT-400 2017 1497456960453
+model: Ping Pong
+www.primordion.com/Xholon
+*/
+typeside Ty = literal {
+  java_types
+    string = "java.lang.String"
+    int = "java.lang.Integer"
+    float = "java.lang.Float"
+    double = "java.lang.Double"
+    boolean = "java.lang.Boolean"
+  java_constants
+    string = "return input[0]"
+    int = "return java.lang.Integer.parseInt(input[0])"
+    float = "return java.lang.Float.parseFloat(input[0])"
+    double = "return java.lang.Double.parseDouble(input[0])"
+    boolean = "return java.lang.Boolean.parseBoolean(input[0])"
+  java_functions
+    plus : int,int -> int = "return (input[0] + input[1]).intValue()"
+    plusf : float,float -> float = "return input[0] + input[1]"
+    plusd : double,double -> double = "return input[0] + input[1]"
+}
+
+schema S = literal : Ty {
+  entities
+    PingPongSystem
+    PingPongEntity
+  foreign_keys
+    pingPongEntity_port0 : PingPongEntity -> PingPongEntity
+    pingPongEntity_parent : PingPongEntity -> PingPongSystem
+  path_equations
+    // If you run this with the AQL tool, and if the content includes infinite paths, then you may need to add one or more path_equations to prevent an error.
+    // For example: hello_port0.world_port0 = Hello
+  attributes
+  observation_equations
+  options
+}
+
+instance I = literal : S {
+  generators
+    pingPongSystem_0 : PingPongSystem
+    pingPongEntity_1 : PingPongEntity
+    pingPongEntity_2 : PingPongEntity
+  equations
+    pingPongEntity_port0(pingPongEntity_1) = pingPongEntity_2
+    pingPongEntity_parent(pingPongEntity_1) = pingPongSystem_0
+    pingPongEntity_port0(pingPongEntity_2) = pingPongEntity_1
+    pingPongEntity_parent(pingPongEntity_2) = pingPongSystem_0
+  options
+}</pre>
+    <p>Step 5a: You can load this text into the <a href="http://categoricaldata.net/aql.html">AQL tool</a>, and press "Run".</p>
+    <p>Step 5b: You can also test it using the <a href="http://categoricaldata.net/tryaql.html">AQL in-browser</a> tool.</p>
+    
+    <h4>Examples of generated content</h4>
+    <p>Some examples of AQL, XML, YAML, SQL, Graphviz, SVG, and other generated content, are available <a href="https://github.com/kenwebb/Xholon/tree/master/Xholon/exports">here</a>.</p>
+    
+    <h4>Xholon scripts</h4>
+    <p>Xholon is primarily focused on building executable applications. Any Xholon node (AQL instance) may have one or more JavaScript behaviors. For example, you can add the following behavior to print out a sentence about each instance. To do this, right-click the "CatTheoryInstance" node in the Xholon tree, and select "XholonConsole". A console window will open up in a tab on the page. Paste the following behavior script into the console. Click "Submit". Look at the "out" tab to see the result.</p>
+    <pre class="aqlcode">
+&lt;script>&lt;![CDATA[
+var me;
+var beh = {
+  postConfigure: function() {
+    me = this.cnode.parent();
+    this.cnode.remove();
+    var instance = me.first();
+    while (instance) {
+      me.println(instance.role() + " is a " + instance.schema.role() + ".");
+      instance = instance.next();
+    }
+  }
+}
+]]>&lt;/script></pre>
+    
+    <h4>Notes</h4>
+    <ul>
+      <li>AQL and Xholon have different origins. AQL is based on the formalism of the Set category, while Xholon tries to be as informal as possible with its loosely structured hierarchies of nodes. For me, it's an interesting challenge to bridge these two worlds. Part of the solution when exporting to AQL and SQL format is to flatten the nested Xholon structure, and optionally retain each node's parent node as a foreign key. All nodes that share a specific Xholon class, are instances of the same AQL entity, and are records in the same SQL table.</li>
+      <li>In Category Theory and AQL, each instance of a set whose schema has a foreign key must reference exactly one specific instance of the other set. Xholon does not require this. When I export an existing Xholon model to AQL format, the AQL tool simply fills in the missing link with a formal description of what the foreign key should be.</li>
+      <li>The same is true for attributes. In fact, in both Xholon and AQL, attributes can be specified as foreign keys (for example: "Employee -> string" ).</li>
+      <li>A big question I have is: Is there a category other than Set that would be more useful for describing a Xholon app?</li>
+    </ul>
+    
+    <h4>Gallery</h4>
+    <p>The following screenprint shows the AQL Employee/Department example after importing it into Xholon. It includes three separate SVG images generated using Graphviz.</p>
+    <img src="https://raw.githubusercontent.com/kenwebb/Xholon/master/Xholon/exports/aql/127.0.0.1-8888-Xholon.html-app%3DCategorical%2BData%2BIDE%2B-%2BAQL%2B-%2BEmployees%2B3%26src%3Dlstr%26gui%3Dclsc.png"/>
+    <p>The following image shows a simple AQL example loaded into Xholon. Animation is running, and the system Avatar is being manually and visually moved through the AQL instances and schema. Note the use of Chrome Developer Tools to control the Avatar (ava). In the screenprint, the Avatar is currently inside the AQL "string" object. It got there by following the path from "one1": fk1 fk2 schema attr3</p>
+    <img src="https://raw.githubusercontent.com/kenwebb/Xholon/master/Xholon/exports/aql/CatTheoryTemplate_withAvatar01.png"/>
+    
+    <h4>AQL-Specific Web Interface</h4>
+    <p><a href="XholonAQL.html?app=b6466f990af1f8d4ebf895b41c5b8445&src=gist&gui=none">test</a></p>
+    
+    <hr/>
+    <div class="license"  style="font-size: 9px;"><p>Xholon GWT is a <a href="index.html">Xholon</a> project. Copyright (C) 2017 Ken Webb</p></div>
+    <div class="aatt" style="font-size: 9px;"><pre style="font-size: 9px;">
+  @QWERTYUIk
+  OPASmDFGHe
+  primordion
+  JKLZcXCVB.
+    </pre></div>
+
+  </body>
+  
+</html>
