@@ -2005,7 +2005,7 @@ a.action("takeclone hello;");
             sb.append("Can't go ").append(portName).append(": can't find reffedNode");
           }
           else {
-            moveto(reffedNode, null);
+            moveto(reffedNode, "Moving along " + pi.getFieldName() + " to");
           }
         }
         else {
@@ -2031,6 +2031,9 @@ a.action("takeclone hello;");
     }
     else if (portName.startsWith("$")) {
       evalDollarCmdArg(portName);
+      return;
+    }
+    else if (goNamedLink(portName)) {
       return;
     }
     // if all else fails ...
@@ -2091,6 +2094,29 @@ a.action("takeclone hello;");
    */
   protected void goPort(int index) {
     moveto(contextNode.getPort(index), null);
+  }
+  
+  /**
+   * Go to a named link, typically a link that's been set up using JavaScript.
+   * ex: "go fk1"
+   */
+  protected boolean goNamedLink(String linkName) {
+    List linksList = contextNode.getLinks(false, true);
+    for (int portNum = 0; portNum < linksList.size(); portNum++) {
+      PortInformation pi = (PortInformation)linksList.get(portNum);
+      if ((pi != null) && (linkName.equals(pi.getFieldName()))) {
+        IXholon reffedNode = pi.getReffedNode();
+        if (reffedNode == null) {
+          sb.append("Can't go ").append(linkName).append(": can't find reffedNode");
+          return false;
+        }
+        else {
+          moveto(reffedNode, "Moving along " + linkName + " to");
+          return true;
+        }
+      }
+    }
+    return false;
   }
   
   /**
