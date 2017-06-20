@@ -1899,6 +1899,9 @@ public abstract class Application extends AbstractApplication implements IApplic
 	  avatarKeyMap = JsonUtils.safeEval(jsonStr);
 	}
 	
+	/**
+	 * The value for the "M" key must contain a TAB instead of SPACE between "Animate" and "selection".
+	 */
 	protected native JavaScriptObject makeDefaultAvatarKeyMap() /*-{
 	  return {
 	  "UP":"exit",
@@ -1911,6 +1914,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	  "F":"flip",
 	  "I":"inventory",
 	  "L":"look",
+	  "M":"build <Animate	selection='#xhgraph'/>",
 	  "N":"anim this hop",
 	  "P":"pause",
 	  "R":"start",
