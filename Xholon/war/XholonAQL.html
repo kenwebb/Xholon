@@ -110,8 +110,9 @@
     </div>-->
     
     <div id="xhleft">
-      <p>Paste your <a href="http://categoricaldata.net/aql.html">AQL</a> code below, and press the <strong>&#9654;</strong> (Start) button.</p>
-      <textarea id="aql" rows="60" cols="110">
+      <p>Paste your <a href="http://categoricaldata.net/aql.html">AQL</a> code below, and press the <strong>&#9654;</strong> (Run) button.</p>
+       <!-- rows="60" cols="110" -->
+      <textarea id="aql" rows="55" cols="130">
 typeside Ty = literal {
   types
     int
@@ -159,6 +160,19 @@ instance I = literal : S {
       
       <!-- static SVG images -->
       <div id="xhsvg"></div>
+    </div>
+    
+    <!-- reserved for app-specific use -->
+    <div id="xhappspecific"></div>
+    
+    <!-- text: much of which could use CodeMirror/Ace -->
+    <div id="xhtabs"></div>
+    
+    <!-- structure: network, tree, Google/D3 Treemap, D3 charts/graphs, etc. -->
+    <div id="xhgraph">
+      <div id="networkview"></div>
+      <div id="treeview"></div>
+      <div id="xhtreemap"></div>
     </div>
     
     <!-- PNG, etc. -->
