@@ -25,7 +25,12 @@ try {
 /*
 // an example that works in https://pegjs.org/online
 typeside Ty = literal {
-  ...
+  types
+    int
+    string
+  constants
+    Ken Licorice : string
+    4 : int
 }
 
 schema S = literal : Ty {
@@ -35,12 +40,26 @@ schema S = literal : Ty {
     Three
   foreign_keys
     fk1 : One -> Two
-    fk2 : Two -> Three
+    fk2:Two->Three
   attributes
+    attr1 : One -> int
+    attr2 : Two -> string
+    attr3 : Three -> string
 }
 
 instance I = literal : S {
-
+  generators 
+    one1 : One
+    one2 : One
+    two1 : Two
+    three1 : Three
+  equations
+    one1.attr1 = 4
+    one1.fk1 = two1
+    attr1(one2) = 8
+    two1.attr2 = Ken
+    two1.fk2 = three1
+    three1.attr3 = Licorice
 }
 */
 
@@ -108,7 +127,7 @@ genStr = first:[a-z_]i bf:[a-z0-9_]i* { return first + bf.join("") }
 // one1.fk1 = two1  OR fk1(one1) = two1
 equationLines = (equationLine _)*
 equationLine = equationLineDetails
-equationLineDetails = equStr "." equStr _ "=" _ (equStr / [0-9]+)
+equationLineDetails = ((equStr "." equStr) / (equStr "(" equStr ")")) _ "=" _ (equStr / [0-9]+)
 equStr = first:[a-z_]i bf:[a-z0-9_]i* { return first + bf.join("") }
 
 // WHITESPACE
