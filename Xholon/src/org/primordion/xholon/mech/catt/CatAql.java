@@ -135,6 +135,12 @@ public class CatAql extends XholonWithPorts {
    */
   private boolean schemas = true;
   
+  /**
+   * Whether or not to use a PEG.js parser to validate the AQL content.
+   */
+  private boolean validatePEG = false;
+  private String parserNamePEG = "PEGAQL";
+  
   @Override
   public void setRoleName(String roleName) {
     this.roleName = roleName;
@@ -205,6 +211,9 @@ public class CatAql extends XholonWithPorts {
         sbCd = new StringBuilder();
         sbCsh = new StringBuilder();
         //this.println(val);
+        if (this.validatePEG) {
+          this.validatePEG(val, parserNamePEG);
+        }
         parseAqlContent(val);
         //sbIh.append("</_-.XholonClass>\n");
         //sbCd.append("</xholonClassDetails>\n");
@@ -239,6 +248,17 @@ public class CatAql extends XholonWithPorts {
     // is there anything to do?
     super.act();
   }
+  
+  /**
+   * Validate using a PEG.js parser.
+   * PEGAQL.parse("typeside Ty = literal {  }");
+   */
+  protected native void validatePEG(String aqlContent, String parserName) /*-{
+    if ($wnd[parserName]) {
+      var result = $wnd[parserName].parse(aqlContent);
+      $wnd.console.log(result);
+    }
+  }-*/;
   
   /**
    * Parse the AQL content.
@@ -892,6 +912,9 @@ public class CatAql extends XholonWithPorts {
     else if ("exportXml".equals(attrName)) {
       this.exportXml = Boolean.parseBoolean(attrVal);
     }
+    else if ("validatePEG".equals(attrName)) {
+      this.validatePEG = Boolean.parseBoolean(attrVal);
+    }
     return 0;
   }
   
@@ -910,6 +933,7 @@ public class CatAql extends XholonWithPorts {
     xmlWriter.writeAttribute("exportSql", Boolean.toString(this.exportSql));
     xmlWriter.writeAttribute("exportYaml", Boolean.toString(this.exportYaml));
     xmlWriter.writeAttribute("exportXml", Boolean.toString(this.exportXml));
+    xmlWriter.writeAttribute("validatePEG", Boolean.toString(this.validatePEG));
   }
   
 }

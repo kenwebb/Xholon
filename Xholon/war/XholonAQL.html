@@ -27,6 +27,9 @@
     </script>-->
     <!--<script src="https://www.google.com/jsapi?autoload=%7B%22modules%22%3A%5B%7B%22name%22%3A%22visualization%22%2C%22version%22%3A%221.0%22%2C%22packages%22%3A%5B%22corechart%22%2C%22treemap%22%5D%2C%22callback%22%3A%22console.log%22%7D%5D%7D"></script>-->
     
+    <!-- PEG.js parser -->
+    <script src="xholon/lib/pegjs/aql.js"></script>
+    
     <!-- Snap.js snapsvg.io -->
     <script src="snap.svg-min.js"></script>
     
@@ -112,7 +115,7 @@
     <div id="xhleft">
       <p>Paste your <a href="http://categoricaldata.net/aql.html">AQL</a> code below, and press the <strong>&#9654;</strong> (Run) button.</p>
        <!-- rows="60" cols="110" -->
-      <textarea id="aql" rows="55" cols="130">
+      <textarea id="aql" rows="55" cols="150">
 typeside Ty = literal {
   types
     int
