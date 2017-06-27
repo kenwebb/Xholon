@@ -39,7 +39,7 @@
       <g:MenuItem>Edit
         <g:MenuBar vertical="true">
           <g:MenuItem ui:field="editfind">Find</g:MenuItem>
-          <g:MenuItem ui:field="edit">Copy as RTF</g:MenuItem>
+          <g:MenuItem ui:field="editcopyasrtf">Copy as RTF</g:MenuItem>
           <g:MenuItem ui:field="editfoldall">Fold All</g:MenuItem>
           <g:MenuItem ui:field="editunfoldall">Unfold All</g:MenuItem>
         </g:MenuBar>

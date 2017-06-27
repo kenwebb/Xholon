@@ -30,6 +30,7 @@ import org.primordion.xholon.exception.XholonConfigurationException;
 import org.primordion.xholon.io.console.IXholonConsole;
 import org.primordion.xholon.io.console.XholonConsole;
 import org.primordion.xholon.io.ngui.INamedGui;
+import org.primordion.xholon.io.ngui.NamedGuiFactory;
 //import org.primordion.xholon.io.webbrowser.IWebBrowser;
 import org.primordion.xholon.io.xml.IXholon2Xml;
 import org.primordion.xholon.io.xml.IXml2XholonClass;
@@ -839,8 +840,8 @@ public class XholonHelperService extends AbstractXholonService
 	/**
 	 * Start a named GUI, for example the AQL Web Interface.
 	 * To invoke from JavaScript:
-	 *  $wnd.xh.service("XholonHelperService").call(-2028, "org.primordion.xholon.io.ngui.AqlWebInterface", $wnd.xh.root());
-	 *  var respMsg = xh.service("XholonHelperService").call(-2028, "org.primordion.xholon.io.ngui.AqlWebInterface", xh.root());
+	 *  $wnd.xh.service("XholonHelperService").call(-2028, "AqlWebInterface", $wnd.xh.root());
+	 *  var respMsg = xh.service("XholonHelperService").call(-2028, "AqlWebInterface", xh.root());
 	 * @param obj a possibly-comma-delimited String, where:
 	 *   strArr[0] is the full Java path name for the Java GUI class
 	 *   strArr[1] could be a Java Object that should be passed to the instance of the Java GUI class
@@ -850,12 +851,7 @@ public class XholonHelperService extends AbstractXholonService
 	  if (obj instanceof String) {
 	    String[] strArr = ((String)obj).split(",");
 	    if (strArr.length == 0) {return null;}
-	    consoleLog(strArr[0]);
-	    INamedGui ngui = null;
-	    if ("org.primordion.xholon.io.ngui.AqlWebInterface".equals(strArr[0])) {
-	      // TODO use a factory class in org.primordion.xholon.io.ngui to crete instances
-	      ngui = new org.primordion.xholon.io.ngui.AqlWebInterface();
-	    }
+	    INamedGui ngui = NamedGuiFactory.getNamedGui(strArr[0]);
 	    if (ngui == null) {return null;}
 		  ngui.postConfigure();
 	    Object widget = ngui.getWidget();
