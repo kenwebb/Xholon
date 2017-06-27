@@ -540,6 +540,11 @@ public abstract class Application extends AbstractApplication implements IApplic
 	protected IXholon avatar = null;
 	
 	/**
+	 * Used by XholonGwtTabPanelHelper.java, to set the number of rows in a tab in the Gui
+	 */
+	protected String tabsTextareaRows = "8";
+	
+	/**
 	 * Constructor.
 	 */
 	public Application() {}
@@ -4219,5 +4224,15 @@ ${MODELNAME_DEFAULT},${SVGURI_DEFAULT},,,./,${VIEWABLES_CREATE}
     }
     return text;
   }
+	
+	@Override
+	public void setTabsTextareaRows(String tabsTextareaRows) {
+	  this.tabsTextareaRows = tabsTextareaRows;
+	}
+	
+	@Override
+	public String getTabsTextareaRows() {
+	  return this.tabsTextareaRows;
+	}
 	
 }

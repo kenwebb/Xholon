@@ -189,4 +189,7 @@
 	     see IAttribute.java for possible values -->
 	<param name="AttributePostConfigAction" value="1"/>
 	
+	<!-- Used by XholonGwtTabPanelHelper.java, to set the number of rows in a tab in the Gui -->
+	<param name="TabsTextareaRows" value="8"/>
+	
 </params>

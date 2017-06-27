@@ -132,6 +132,7 @@ public class ReflectionJavaMicro implements IReflection {
       if ("SnapshotParams".equals(pName)) {app.setSnapshotParams(pValue); return true;}
       break;
     case 'T':
+      if ("TabsTextareaRows".equals(pName)) {app.setTabsTextareaRows(pValue); return true;}
       if ("TimeStep".equals(pName)) {app.setTimeStep(Integer.parseInt(pValue)); return true;}
       if ("TimeStepInterval".equals(pName)) {app.setTimeStepInterval(Integer.parseInt(pValue)); return true;}
       if ("TreeNodeFactoryDynamic".equals(pName)) {app.setTreeNodeFactoryDynamic(Misc.booleanValue(pValue)); return true;}
@@ -259,6 +260,7 @@ public class ReflectionJavaMicro implements IReflection {
       //if ("SnapshotParams".equals(pName)) {app.setSnapshotParams(pValue); return true;}
       break;
     case 'T':
+      if ("TabsTextareaRows".equals(pName)) {return app.getTabsTextareaRows();}
       if ("TimeStep".equals(pName)) {return Integer.toString(app.getTimeStep());}
       if ("TimeStepInterval".equals(pName)) {return Integer.toString(app.getTimeStepInterval());}
       //if ("TreeNodeFactoryDynamic".equals(pName)) {app.setTreeNodeFactoryDynamic(Misc.booleanValue(pValue)); return true;}

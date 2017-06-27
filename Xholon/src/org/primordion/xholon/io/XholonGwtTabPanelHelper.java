@@ -50,9 +50,21 @@ public class XholonGwtTabPanelHelper {
   public static final String PANEL_HEIGHT_INITIAL = "170px";
   
   /**
+   * Current resize panel height.
+   */
+  protected static int resizePanelHeight = 170;
+  
+  /**
+   * Default number of rows in a tab textarea.
+   */
+  public static final String TABS_TEXTAREA_ROWS = "8";
+  
+  /**
    * This is used inside the inner DraggableMouseListener class.
    */
   static ResizeLayoutPanel resizePanel = null;
+  
+  public static final int ROWS_TO_PIXELS_MULTIPLIER = 16; // 21 19 16
   
   /**
    * Add a tab to the TabLayoutPanel.
@@ -85,12 +97,19 @@ public class XholonGwtTabPanelHelper {
     RootPanel rp = RootPanel.get("xhtabs");
     if (rp == null) {return index;}
     TabLayoutPanel tabPanel = null;
+    String tabsTextareaRows = getParam("TabsTextareaRows"); // ex "40"
     if (rp.getWidgetCount() == 0) {
       // make the TabLayoutPanel, and wrap it in a Grid with a resize button
       //tabPanel = new TabLayoutPanel(1.5, Unit.EM);
       tabPanel = new ScrolledTabLayoutPanel(1.5, Unit.EM, rcImages("scrollLeft"), rcImages("scrollRight"));
       resizePanel = new ResizeLayoutPanel();
-      resizePanel.setHeight(PANEL_HEIGHT_INITIAL);
+      if ((tabsTextareaRows != null) && (!tabsTextareaRows.equals(TABS_TEXTAREA_ROWS))) {
+        resizePanelHeight = Integer.parseInt(tabsTextareaRows) * ROWS_TO_PIXELS_MULTIPLIER;
+        resizePanel.setHeight("" + resizePanelHeight + "px");
+      }
+      else {
+        resizePanel.setHeight(PANEL_HEIGHT_INITIAL);
+      }
       resizePanel.setWidth((Window.getClientWidth() - 50) + "px");
       resizePanel.setWidget(tabPanel);
       Panel grid = makeGridPanel(resizePanel);
@@ -101,6 +120,16 @@ public class XholonGwtTabPanelHelper {
       Grid grid = (Grid)rp.getWidget(0);
       resizePanel = (ResizeLayoutPanel)grid.getWidget(0, 0);
       tabPanel = (TabLayoutPanel)resizePanel.getWidget();
+      if ((tabsTextareaRows != null) && (!tabsTextareaRows.equals(TABS_TEXTAREA_ROWS))) {
+        // this is needed if a workbook sets the TabsTextareaRows param
+        //String rpHeight = resizePanel.getHeight().trim(); // ex: "170px"
+        //int rpHeightInt = Integer.parseInt(rpHeight.substring(1, rpHeight.length()-2)); // ex: 170
+        int tabsTextareaRowsInt = Integer.parseInt(tabsTextareaRows) * ROWS_TO_PIXELS_MULTIPLIER; // ex: 168
+        if (tabsTextareaRowsInt > resizePanelHeight) {
+          resizePanelHeight = tabsTextareaRowsInt;
+          resizePanel.setHeight("" + tabsTextareaRowsInt + "px");
+        }
+      }
     }
     
     // construct tab header text, optionally with a tooltip
@@ -117,7 +146,13 @@ public class XholonGwtTabPanelHelper {
       else {
         // maybe this is already a textarea ?
         String style = " style=\"width: 100%; height: 100%; border: 1px;\"";
-	      String rows = " rows=8";
+	      String rows = " rows=";
+	      if (tabsTextareaRows != null) {
+	        rows += tabsTextareaRows;
+	      }
+	      else {
+	        rows += TABS_TEXTAREA_ROWS;
+	      }
 	      htmlText = "<textarea" + rows + style + ">" + SafeHtmlUtils.htmlEscape(text) + "</textarea>";
       }
       ScrollPanel scrollPanel = new ScrollPanel(new HTML(htmlText)); // this is safe
@@ -133,6 +168,13 @@ public class XholonGwtTabPanelHelper {
     }
     return index;
   }
+  
+  protected static native String getParam(String paramName) /*-{
+    if ($wnd.xh) {
+      return $wnd.xh.param(paramName);
+    }
+    return null;
+  }-*/;
   
   /**
    * Update the text displayed in a tab header.

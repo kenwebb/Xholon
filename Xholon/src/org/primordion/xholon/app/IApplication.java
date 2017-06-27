@@ -907,4 +907,10 @@ public interface IApplication extends IXholon {
    */
 	public abstract String handleNodeSelection(IXholon node, String nodeName);
 	
+	/**
+	 * Used by XholonGwtTabPanelHelper.java, to set the number of rows in a tab in the Gui
+	 */
+	public abstract void setTabsTextareaRows(String tabsTextareaRows);
+	public abstract String getTabsTextareaRows();
+	
 }
