@@ -29,6 +29,7 @@ import org.primordion.xholon.base.Message;
 import org.primordion.xholon.exception.XholonConfigurationException;
 import org.primordion.xholon.io.console.IXholonConsole;
 import org.primordion.xholon.io.console.XholonConsole;
+import org.primordion.xholon.io.ngui.INamedGui;
 //import org.primordion.xholon.io.webbrowser.IWebBrowser;
 import org.primordion.xholon.io.xml.IXholon2Xml;
 import org.primordion.xholon.io.xml.IXml2XholonClass;
@@ -40,6 +41,7 @@ import org.primordion.xholon.service.xholonhelper.IClipboard;
 import org.primordion.xholon.service.xholonhelper.ClipboardFactory;
 import org.primordion.xholon.service.xholonhelper.ICutCopyPaste;
 import org.primordion.xholon.service.xholonhelper.IFindChildSibWith;
+//import org.primordion.xholon.util.ClassHelper;
 
 /**
  * This service provides additional methods for IXholon instances.
@@ -176,6 +178,9 @@ public class XholonHelperService extends AbstractXholonService
 			break;
 		case ISignal.ACTION_START_XHOLON_CONSOLE:
 			respData = xholonConsole((IXholon)msg.getData());
+			break;
+		case ISignal.ACTION_START_NAMED_GUI:
+			respData = namedGui(msg.getData());
 			break;
 		case ISignal.ACTION_START_WEB_BROWSER:
 			webBrowser((IXholon)msg.getData());
@@ -829,6 +834,41 @@ public class XholonHelperService extends AbstractXholonService
 	  respData[0] = index;
 	  respData[1] = xholonConsole;
 	  return respData;
+	}
+	
+	/**
+	 * Start a named GUI, for example the AQL Web Interface.
+	 * To invoke from JavaScript:
+	 *  $wnd.xh.service("XholonHelperService").call(-2028, "org.primordion.xholon.io.ngui.AqlWebInterface", $wnd.xh.root());
+	 *  var respMsg = xh.service("XholonHelperService").call(-2028, "org.primordion.xholon.io.ngui.AqlWebInterface", xh.root());
+	 * @param obj a possibly-comma-delimited String, where:
+	 *   strArr[0] is the full Java path name for the Java GUI class
+	 *   strArr[1] could be a Java Object that should be passed to the instance of the Java GUI class
+	 */
+	public Object namedGui(Object obj) {
+	  if (obj == null) {return null;}
+	  if (obj instanceof String) {
+	    String[] strArr = ((String)obj).split(",");
+	    if (strArr.length == 0) {return null;}
+	    consoleLog(strArr[0]);
+	    INamedGui ngui = null;
+	    if ("org.primordion.xholon.io.ngui.AqlWebInterface".equals(strArr[0])) {
+	      // TODO use a factory class in org.primordion.xholon.io.ngui to crete instances
+	      ngui = new org.primordion.xholon.io.ngui.AqlWebInterface();
+	    }
+	    if (ngui == null) {return null;}
+		  ngui.postConfigure();
+	    Object widget = ngui.getWidget();
+	    String idStr = "";
+	    String tooltip = null;
+	    int index = XholonGwtTabPanelHelper.addTab(widget, idStr, tooltip, true);
+      ngui.setTabHeader();
+      Object[] respData = new Object[2];
+      respData[0] = index;
+      respData[1] = ngui;
+      return respData;
+	  }
+	  return null;
 	}
 	
 	/**

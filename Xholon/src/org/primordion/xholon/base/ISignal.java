@@ -287,6 +287,11 @@ public interface ISignal {
    */
   public static final int ACTION_CLONE_BEFORE = -2027;
 	
+	/**
+	 * Start an instance of a named GUI.
+	 */
+	public static final int ACTION_START_NAMED_GUI = -2028;
+	
 	// XML Data Transfer signals
 	
 	/**
