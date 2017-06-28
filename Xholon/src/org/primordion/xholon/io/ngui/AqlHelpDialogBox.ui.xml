@@ -1,0 +1,24 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<!--
+  AQL Web Interface
+  Copyright (C) 2017 Ken Webb
+  BSD License
+  Xholon 0.9.1 http://www.primordion.com/Xholon
+-->
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+  xmlns:g="urn:import:com.google.gwt.user.client.ui">
+  <!--<ui:style></ui:style>-->
+  <g:DialogBox ui:field="helpDialog" autoHide="true" modal="true">
+    <g:caption><b>Help/About</b></g:caption>
+    <g:HTMLPanel>
+      <g:Label>Help:</g:Label>
+      <g:Label>For available AQL options and general IDE display options, use the Options button in the main IDE window.</g:Label>
+      <g:Label>AQL homepage: http://categoricaldata.net/aql.html</g:Label>
+      <g:Label>AQL manual (contains a detailed description of AQL syntax, options, and behavior): http://categoricaldata.net/aqlmanual.pdf </g:Label>
+      <g:Label>AQL tutorial: http://categoricaldata.net/tutorial.html</g:Label>
+      <g:Label>CI homepage: http://catinf.com</g:Label>
+      <g:Button ui:field="helpDialogOkButton">OK</g:Button>
+    </g:HTMLPanel>
+  </g:DialogBox>
+</ui:UiBinder>
+

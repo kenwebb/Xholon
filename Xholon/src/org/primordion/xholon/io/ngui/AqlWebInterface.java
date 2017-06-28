@@ -9,37 +9,32 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.TextAreaElement;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+//import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
+//import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.MenuBar;
+//import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
-import java.util.List;
-
-import org.primordion.xholon.app.IApplication;
-import org.primordion.xholon.base.IMessage;
-import org.primordion.xholon.base.IQueue;
-import org.primordion.xholon.base.IReflection;
-import org.primordion.xholon.base.ISignal;
 import org.primordion.xholon.base.IXholon;
-import org.primordion.xholon.base.IXholonClass;
-import org.primordion.xholon.base.Queue;
-import org.primordion.xholon.base.ReflectionFactory;
-import org.primordion.xholon.base.XholonWithPorts;
-//import org.primordion.xholon.io.Specials;
-import org.primordion.xholon.io.ISwingEntity;
+import org.primordion.xholon.base.Xholon; //WithPorts;
 import org.primordion.xholon.io.XholonGwtTabPanelHelper;
-import org.primordion.xholon.service.IXholonService;
-import org.primordion.xholon.service.NodeSelectionService;
-import org.primordion.xholon.service.XholonHelperService;
 
 /**
  * Provide a AQL Web Interface.
@@ -47,7 +42,7 @@ import org.primordion.xholon.service.XholonHelperService;
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.9.1 (Created on June 27, 2017)
  */
-public class AqlWebInterface extends XholonWithPorts implements INamedGui {
+public class AqlWebInterface extends Xholon implements INamedGui {
   
   interface AqlWebUiBinder extends UiBinder<Widget, AqlWebInterface> {}
   private static AqlWebUiBinder uiBinder = GWT.create(AqlWebUiBinder.class);
@@ -92,8 +87,11 @@ public class AqlWebInterface extends XholonWithPorts implements INamedGui {
   @UiField MenuItem helpabout;
   
   // buttons
-  //@UiField Button submit;
-  //@UiField Button closeguiB;
+  @UiField Button brun;
+  @UiField Button bhelp;
+  
+  // label and listBox
+  @UiField ListBox lbexamples;
   
   @UiField HTML commandPane;
   @UiField TextAreaElement commandPaneTAE;
@@ -108,6 +106,8 @@ public class AqlWebInterface extends XholonWithPorts implements INamedGui {
    * The HTML widget that implements the XholonConsole.
    */
   protected Widget widget = null;
+  
+  protected AqlHelpDialogBox helpdb = null;
   
   /**
    * constructor
@@ -175,7 +175,7 @@ public class AqlWebInterface extends XholonWithPorts implements INamedGui {
     // Edit menu
     
     /*clearcommand.setScheduledCommand(new Command() {
-	    @Override
+      @Override
       public void execute() {
         clearCommand();
       }
@@ -185,9 +185,33 @@ public class AqlWebInterface extends XholonWithPorts implements INamedGui {
     // Help menu
     
     helpabout.setScheduledCommand(new Command() {
-	    @Override
+      @Override
       public void execute() {
         help();
+      }
+    });
+    
+    // buttons
+    
+    bhelp.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        help();
+      }
+    });
+    
+    // ListBox
+    
+    lbexamples.addChangeHandler(new ChangeHandler() {
+      @Override
+      public void onChange(ChangeEvent event) {
+        String item = lbexamples.getSelectedItemText();
+        //Window.alert(item);
+        switch (item) {
+        case "Denormalize": loadDenormalize(); break;
+        case "Employees": loadEmployees(); break;
+        default: break;
+        }
       }
     });
     
@@ -196,23 +220,212 @@ public class AqlWebInterface extends XholonWithPorts implements INamedGui {
   /**
    * Provide the user with some brief help information.
    */
-  protected void help()
-  {
-    String helpStr = "Help is on its way.";
-    Window.alert(helpStr);
+  protected void help() {
+    // for now, return if helpdb has already been created
+    if (helpdb == null) {
+      helpdb = new AqlHelpDialogBox();
+      if (helpdb != null) {
+        Widget helpdbWidget = helpdb.startHelpDialog();
+        if (helpdbWidget != null) {
+          RootPanel.get("xhtabs").add(helpdbWidget);
+        }
+      }
+    }
+  }
+  
+  protected void loadDenormalize() {
+    String str = new StringBuilder()
+    .append("typeside Ty = literal {\n")
+    .append("  java_types\n")
+    .append("    String = \"java.lang.String\"\n")
+    .append("  java_constants\n")
+    .append("    String = \"return input[0]\"\n")
+    .append("}\n")
+    .append("\n")
+    .append("schema NormalizedSchema = literal : Ty {\n")
+    .append("  entities\n")
+    .append("    Male \n")
+    .append("    Female\n")
+    .append("  foreign_keys\n")
+    .append("    mother : Male -> Female\n")
+    .append("  attributes\n")
+    .append("    female_name : Female -> String\n")
+    .append("    male_name : Male -> String \n")
+    .append("}\n")
+    .append("\n")
+    .append("instance NormalizedData = literal : NormalizedSchema {\n")
+    .append("  generators\n")
+    .append("    Al Bob Charlie : Male\n")
+    .append("    Ellie Fran : Female\n")
+    .append("  equations\n")
+    .append("    Al.male_name = Albert \n")
+    .append("    Al.mother = Ellie\n")
+    .append("    \n")
+    .append("    Bob.male_name = George\n")
+    .append("    Bob.mother = Ellie\n")
+    .append("    \n")
+    .append("    Charlie.male_name = Charles\n")
+    .append("    Charlie.mother = Fran\n")
+    .append("\n")
+    .append("    Ellie.female_name = Elaine\n")
+    .append("    Fran.female_name = Francine\n")
+    .append("}\n")
+    .append("\n")
+    .append("schema DeNormalizedSchema = literal : Ty {\n")
+    .append("  imports\n")
+    .append("    NormalizedSchema\n")
+    .append("  attributes\n")
+    .append("    mother_name : Male -> String\n")
+    .append("  observation_equations\n")
+    .append("    forall m:Male. mother_name(m) = female_name(mother(m))\n")
+    .append("}\n")
+    .append("\n")
+    .append("instance DeNormalizedData = literal : DeNormalizedSchema {\n")
+    .append("  imports\n")
+    .append("    NormalizedData\n")
+    .append("}\n")
+    .toString();
+    //setCommand("// this is the Denormalize example\n", true);
+    setCommand(str, true);
+  }
+  
+  protected void loadEmployees() {
+    String str = new StringBuilder()
+    .append("typeside Ty = literal {\n")
+    .append("  types\n")
+    .append("    string \n")
+    .append("    nat\n")
+    .append("  constants\n")
+    .append("    Al Akin Bob Bo Carl Cork Dan Dunn Math CS : string\n")
+    .append("    zero : nat\n")
+    .append("  functions\n")
+    .append("    succ    : nat -> nat\n")
+    .append("    plus    : nat, nat -> nat\n")
+    .append("  equations  \n")
+    .append("    forall x. plus(zero, x) = x\n")
+    .append("    forall x, y. plus(succ(x),y) = succ(plus(x,y))\n")
+    .append("  options\n")
+    .append("    prover = completion\n")
+    .append("}\n")
+    .append("\n")
+    .append("schema S = literal : Ty {\n")
+    .append("  entities\n")
+    .append("    Employee \n")
+    .append("    Department\n")
+    .append("  foreign_keys\n")
+    .append("    manager   : Employee -> Employee\n")
+    .append("    worksIn   : Employee -> Department\n")
+    .append("    secretary : Department -> Employee\n")
+    .append("  path_equations \n")
+    .append("    manager.worksIn = worksIn\n")
+    .append("    secretary.worksIn = Department\n")
+    .append("  attributes\n")
+    .append("    first last  : Employee -> string\n")
+    .append("    age      : Employee -> nat\n")
+    .append("    cummulative_age: Employee -> nat\n")
+    .append("    name     : Department -> string\n")
+    .append("  observation_equations\n")
+    .append("    forall e. cummulative_age(e) = plus(age(e), age(manager(e)))\n")
+    .append("  options\n")
+    .append("    prover = completion\n")
+    .append("}\n")
+    .append("\n")
+    .append("instance I = literal : S {\n")
+    .append("  generators \n")
+    .append("    a b c : Employee\n")
+    .append("    m s : Department\n")
+    .append("  equations \n")
+    .append("    first(a) = Al\n")
+    .append("    first(b) = Bob  last(b) = Bo\n")
+    .append("    first(c) = Carl \n")
+    .append("    name(m)  = Math name(s) = CS\n")
+    .append("    age(a) = age(c) \n")
+    .append("    manager(a) = b manager(b) = b manager(c) = c\n")
+    .append("    worksIn(a) = m worksIn(b) = m worksIn(c) = s\n")
+    .append("    secretary(s) = c secretary(m) = b \n")
+    .append("    secretary(worksIn(a)) = manager(a)\n")
+    .append("    worksIn(a) = worksIn(manager(a))\n")
+    .append("    age(a) = zero.succ.succ \n")
+    .append("    age(manager(a)) = zero.succ\n")
+    .append("  options\n")
+    .append("    prover = completion\n")
+    .append("    completion_precedence = \"zero a b c m s Al Akin Bob Bo Carl Cork Dan Dunn Math CS first last name age manager worksIn secretary succ plus\"\n")
+    .append("} \n")
+    .append("\n")
+    .append("/////////////////////////////////////////////////////////////////\n")
+    .append("\n")
+    .append("typeside TyJava = literal { \n")
+    .append("  java_types\n")
+    .append("    string = \"java.lang.String\"\n")
+    .append("    nat = \"java.lang.Integer\"\n")
+    .append("  java_constants\n")
+    .append("    string = \"return input[0]\"\n")
+    .append("    nat = \"return java.lang.Integer.parseInt(input[0])\"\n")
+    .append("  java_functions\n")
+    .append("    plus : nat,nat -> nat = \"return (input[0] + input[1]).intValue()\"\n")
+    .append("}\n")
+    .append("\n")
+    .append("schema SJava = literal : TyJava {\n")
+    .append("  entities\n")
+    .append("    Employee \n")
+    .append("    Department\n")
+    .append("  foreign_keys\n")
+    .append("    manager   : Employee -> Employee\n")
+    .append("    worksIn   : Employee -> Department\n")
+    .append("    secretary : Department -> Employee\n")
+    .append("  path_equations \n")
+    .append("    manager.worksIn = worksIn\n")
+    .append("    secretary.worksIn = Department\n")
+    .append("    manager.manager = manager\n")
+    .append("  attributes\n")
+    .append("    first last  : Employee -> string\n")
+    .append("    age      : Employee -> nat\n")
+    .append("    cummulative_age: Employee -> nat\n")
+    .append("    name     : Department -> string\n")
+    .append("  observation_equations\n")
+    .append("    forall e. cummulative_age(e) = plus(age(e), age(manager(e)))\n")
+    .append("}\n")
+    .append("\n")
+    .append("instance IJava = literal : SJava {\n")
+    .append("  generators \n")
+    .append("    a b c : Employee\n")
+    .append("    m s : Department\n")
+    .append("  equations \n")
+    .append("    first(a) = Al\n")
+    .append("    first(b) = Bob  last(b) = Bo\n")
+    .append("    first(c) = Carl \n")
+    .append("    name(m)  = Math name(s) = CS\n")
+    .append("    age(a) = age(c) \n")
+    .append("    manager(a) = b manager(b) = b manager(c) = c\n")
+    .append("    worksIn(a) = m worksIn(b) = m worksIn(c) = s\n")
+    .append("    secretary(s) = c secretary(m) = b \n")
+    .append("    secretary(worksIn(a)) = manager(a)\n")
+    .append("    worksIn(a) = worksIn(manager(a))\n")
+    .append("    age(a) = \"2\" \n")
+    .append("    age(manager(a)) = \"1\"\n")
+    .append("}\n")
+    .append("\n")
+    .append("instance IRandom = random : SJava {\n")
+    .append("  generators\n")
+    .append("    Employee -> 10\n")
+    .append("    Department -> 2\n")
+    .append("  //options\n")
+    .append("  //  random_seed = 2\n")
+    .append("}\n")
+    .toString();
+    //setCommand("// this is the Employees example\n", true);
+    setCommand(str, true);
   }
   
   /**
    * Get the contents of the command, as typed in by the user into the XholonConsole GUI.
    * @return The String typed in by the user, or only the selected part of the String.
    */
-  protected String getCommand()
-  {
-    /*Element ele = commandPane.getElement().getFirstChildElement();
+  protected String getCommand() {
+    Element ele = commandPane.getElement().getFirstChildElement();
     TextAreaElement ta = TextAreaElement.as(ele);
     String contents = ta.getValue();
-    return contents;*/
-    return "";
+    return contents;
   }
   
   /*
@@ -229,7 +442,7 @@ public class AqlWebInterface extends XholonWithPorts implements INamedGui {
    * so just call the existing setResult() method.
    */
   public void setCommand(String result, boolean replace) {
-    //setResult(result, replace);
+    setResult(result, replace);
   }
   
   /**
@@ -239,9 +452,7 @@ public class AqlWebInterface extends XholonWithPorts implements INamedGui {
    * @param result
    * @param replace whether to replace current text (true), or append to end of current text (false)
    */
-  public void setResult(String result, boolean replace)
-  {
-    /*
+  public void setResult(String result, boolean replace) {
     //Window.alert(result);
     
     // get the element
@@ -255,10 +466,6 @@ public class AqlWebInterface extends XholonWithPorts implements INamedGui {
     else {
       ta.setValue(ta.getValue() + result);
     }
-    // optionally scroll to the bottom of the text area
-    if (isTerminalEnabled()) {
-      ta.setScrollTop(ta.getScrollHeight());
-    }*/
   }
   
   /**

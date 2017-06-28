@@ -1,6 +1,8 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <!--
   AQL Web Interface
+  Copyright (C) 2017 Ken Webb
+  BSD License
   Xholon 0.9.1 http://www.primordion.com/Xholon
 -->
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
@@ -12,11 +14,29 @@
       color:black;
       font:12px "Courier New", monospace;
       width:1800px;
-      height:940px;
+      height:910px;
     }
     .AqlWeb_top {
       width:1853px;
       height:978px;
+    }
+    .AqlWeb_button {
+      margin-top: 5px;
+      margin-left: 5px;
+      margin-right: 5px;
+      width: 80px;
+    }
+    .AqlWeb_label {
+      margin-top: 7px;
+      margin-left: 5px;
+      margin-right: 0px;
+      width: 120px;
+    }
+    .AqlWeb_listbox {
+      margin-top: 5px;
+      margin-left: 2px;
+      margin-right: 5px;
+      width: 100px;
     }
   </ui:style>
 
@@ -76,7 +96,24 @@
     </g:MenuBar>
   </g:layer>
   
-  <g:layer top="25px" height="940px" width="1800px">
+  <g:layer top="25px" height="30px">
+    <g:HorizontalPanel>
+      <g:Button ui:field="brun" styleName="{style.AqlWeb_button}">Run</g:Button>
+      <g:Button ui:field="babort" styleName="{style.AqlWeb_button}">Abort</g:Button>
+      <g:Button ui:field="bnewaql" styleName="{style.AqlWeb_button}">New AQL</g:Button>
+      <g:Button ui:field="bopen" styleName="{style.AqlWeb_button}">Open</g:Button>
+      <g:Button ui:field="bsave" styleName="{style.AqlWeb_button}">Save</g:Button>
+      <g:Button ui:field="boptions" styleName="{style.AqlWeb_button}">Options</g:Button>
+      <g:Button ui:field="bhelp" styleName="{style.AqlWeb_button}">Help</g:Button>
+      <g:Label styleName="{style.AqlWeb_label}">Load AQL Example:</g:Label>
+      <g:ListBox ui:field="lbexamples" styleName="{style.AqlWeb_listbox}">
+        <g:item>Denormalize</g:item>
+        <g:item>Employees</g:item>
+      </g:ListBox>
+    </g:HorizontalPanel>
+  </g:layer>
+  
+  <g:layer top="56px" height="910px" width="1800px">
     <g:VerticalPanel>
       <g:ScrollPanel>
         <g:HTML ui:field="commandPane" styleName="{style.AqlWeb_commandPane}">

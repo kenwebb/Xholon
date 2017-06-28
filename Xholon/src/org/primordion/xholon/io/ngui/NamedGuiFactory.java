@@ -1,3 +1,8 @@
+/* AQL Web Interface
+ * Copyright (C) 2017 Ken Webb
+ * BSD License
+ */
+
 package org.primordion.xholon.io.ngui;
 
 import org.primordion.xholon.base.Xholon;
