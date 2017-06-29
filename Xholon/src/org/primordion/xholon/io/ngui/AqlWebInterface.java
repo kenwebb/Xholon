@@ -89,6 +89,11 @@ public class AqlWebInterface implements INamedGui {
   
   // buttons
   @UiField Button brun;
+  @UiField Button babort;
+  @UiField Button bnewaql;
+  @UiField Button bopen;
+  @UiField Button bsave;
+  @UiField Button boptions;
   @UiField Button bhelp;
   
   // label and listBox
@@ -155,8 +160,7 @@ public class AqlWebInterface implements INamedGui {
   }
 
   @Override
-  public void postConfigure()
-  {
+  public void postConfigure() {
     readGuiFromXml();
     
     // File menu
@@ -185,6 +189,48 @@ public class AqlWebInterface implements INamedGui {
     
     // buttons
     
+    brun.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        run();
+      }
+    });
+    
+    babort.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        abort();
+      }
+    });
+    
+    bnewaql.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        newAql();
+      }
+    });
+    
+    bopen.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        open();
+      }
+    });
+    
+    bsave.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        save();
+      }
+    });
+    
+    boptions.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        options();
+      }
+    });
+    
     bhelp.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
@@ -193,7 +239,6 @@ public class AqlWebInterface implements INamedGui {
     });
     
     // ListBox
-    
     lbexamples.addChangeHandler(new ChangeHandler() {
       @Override
       public void onChange(ChangeEvent event) {
@@ -201,11 +246,45 @@ public class AqlWebInterface implements INamedGui {
         switch (item) {
         case "Denormalize": loadDenormalize(); break;
         case "Employees": loadEmployees(); break;
-        default: break;
+        default:
+          //Window.alert("Can't find " + item + ".");
+          String str = getExampleText(item);
+          setCommand(str, true);
+          break;
         }
       }
     });
     
+  } // end postConfigure()
+  
+  protected void run() {
+    Window.alert("Run not yet implemented.");
+  }
+  
+  protected void abort() {
+    Window.alert("Abort not yet implemented.");
+  }
+  
+  /**
+   * Create a New AQL file.
+   * For now, just clear the contents of the textarea.
+   */
+  protected void newAql() {
+    setCommand("", true);
+  }
+  
+  protected void open() {
+    boolean hasfileapi = this.hasFileAPIs();
+    Window.alert("Open not yet implemented. Has File APIs: " + hasfileapi);
+  }
+  
+  protected void save() {
+    boolean hasfileapi = this.hasFileAPIs();
+    Window.alert("Save not yet implemented. Has File APIs: " + hasfileapi);
+  }
+  
+  protected void options() {
+    Window.alert("Options not yet implemented.");
   }
   
   /**
@@ -217,6 +296,30 @@ public class AqlWebInterface implements INamedGui {
       helpdb.startHelpDialog();
     }
   }
+  
+  /**
+   * Does this web browser support the JavaScript File APIs.
+   * search for: JavaScript File
+   * see: https://www.html5rocks.com/en/tutorials/file/dndfiles/
+   */
+  protected native boolean hasFileAPIs() /*-{
+    if ($wnd.File && $wnd.FileReader && $wnd.FileList && $wnd.Blob) {
+      //console.log("The File APIs are available.");
+      return true;
+    } else {
+      //console.log("The File APIs are not fully supported in this browser.");
+      return false;
+    }
+  }-*/;
+  
+  protected native String getExampleText(String item) /*-{
+    var str = "Can't locate " + item + ".";
+    var aqlex = $wnd.AQLEXAMPLES;
+    if (aqlex) {
+      str = aqlex.getExample(item);
+    }
+    return str;
+  }-*/;
   
   protected void loadDenormalize() {
     String str = new StringBuilder()
