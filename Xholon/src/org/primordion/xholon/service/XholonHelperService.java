@@ -857,6 +857,10 @@ public class XholonHelperService extends AbstractXholonService
 	    Object widget = ngui.getWidget();
 	    String idStr = "";
 	    String tooltip = null;
+	    if (INamedGui.NGUI_AQL_WEB_INTERFACE_NAME.equals(strArr[0])) {
+	      idStr = INamedGui.NGUI_AQL_WEB_INTERFACE_IDSTR; //"Categorical Data IDE";
+        tooltip = INamedGui.NGUI_AQL_WEB_INTERFACE_TOOLTIP; //"Categorical Data IDE";
+	    }
 	    int index = XholonGwtTabPanelHelper.addTab(widget, idStr, tooltip, true);
       ngui.setTabHeader();
       Object[] respData = new Object[2];

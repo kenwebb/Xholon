@@ -107,6 +107,7 @@
       <g:Button ui:field="bhelp" styleName="{style.AqlWeb_button}">Help</g:Button>
       <g:Label styleName="{style.AqlWeb_label}">Load AQL Example:</g:Label>
       <g:ListBox ui:field="lbexamples" styleName="{style.AqlWeb_listbox}">
+        <g:item></g:item>
         <g:item>Denormalize</g:item>
         <g:item>Employees</g:item>
       </g:ListBox>

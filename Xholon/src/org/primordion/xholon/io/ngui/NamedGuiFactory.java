@@ -5,7 +5,7 @@
 
 package org.primordion.xholon.io.ngui;
 
-import org.primordion.xholon.base.Xholon;
+//import org.primordion.xholon.base.Xholon;
 
 /**
  * Named Gui factory.
@@ -14,11 +14,11 @@ import org.primordion.xholon.base.Xholon;
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.9.1 (Created on June 27, 2017)
  */
-public class NamedGuiFactory extends Xholon {
+public class NamedGuiFactory { // extends Xholon {
 	
 	public static INamedGui getNamedGui(String namedGuiName) {
 		INamedGui ngui = null;
-		if ("AqlWebInterface".equals(namedGuiName)) {
+		if (INamedGui.NGUI_AQL_WEB_INTERFACE_NAME.equals(namedGuiName)) { // "AqlWebInterface"
 	    ngui = new org.primordion.xholon.io.ngui.AqlWebInterface();
 	  }
 		return ngui;

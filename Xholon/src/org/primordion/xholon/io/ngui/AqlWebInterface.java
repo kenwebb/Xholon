@@ -32,9 +32,9 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
-import org.primordion.xholon.base.IXholon;
-import org.primordion.xholon.base.Xholon; //WithPorts;
-import org.primordion.xholon.io.XholonGwtTabPanelHelper;
+//import org.primordion.xholon.base.IXholon;
+//import org.primordion.xholon.base.Xholon; //WithPorts;
+//import org.primordion.xholon.io.XholonGwtTabPanelHelper;
 
 /**
  * Provide a AQL Web Interface.
@@ -42,7 +42,8 @@ import org.primordion.xholon.io.XholonGwtTabPanelHelper;
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.9.1 (Created on June 27, 2017)
  */
-public class AqlWebInterface extends Xholon implements INamedGui {
+//public class AqlWebInterface extends Xholon implements INamedGui {
+public class AqlWebInterface implements INamedGui {
   
   interface AqlWebUiBinder extends UiBinder<Widget, AqlWebInterface> {}
   private static AqlWebUiBinder uiBinder = GWT.create(AqlWebUiBinder.class);
@@ -96,18 +97,16 @@ public class AqlWebInterface extends Xholon implements INamedGui {
   @UiField HTML commandPane;
   @UiField TextAreaElement commandPaneTAE;
   
-  /** The Xholon node that the XholonConsole node is associated with. */
-  IXholon context = null;
+  /** The Xholon node that the GUI node is associated with. */
+  //IXholon context = null;
   
   /** The name of the context node. */
-  private String roleName = null;
+  //private String roleName = null;
   
   /**
-   * The HTML widget that implements the XholonConsole.
+   * The HTML widget that implements the Web Interface.
    */
   protected Widget widget = null;
-  
-  protected AqlHelpDialogBox helpdb = null;
   
   /**
    * constructor
@@ -117,52 +116,45 @@ public class AqlWebInterface extends Xholon implements INamedGui {
   /*
    * @see org.primordion.xholon.base.Xholon#getRoleName()
    */
-  public String getRoleName() {
-    return roleName;
-  }
+  //public String getRoleName() {
+  //  return roleName;
+  //}
 
   /*
    * @see org.primordion.xholon.base.Xholon#setRoleName(java.lang.String)
    */
-  public void setRoleName(String roleName) {
-    this.roleName = roleName;
-  }
+  //public void setRoleName(String roleName) {
+  //  this.roleName = roleName;
+  //}
 
   /*
    * @see org.primordion.xholon.io.xquerygui.IXQueryGui#getContext()
    */
-  public IXholon getContext() {
-    return context;
-  }
+  //public IXholon getContext() {
+  //  return context;
+  //}
 
   /*
    * @see org.primordion.xholon.io.xquerygui.IXQueryGui#setContext(org.primordion.xholon.base.IXholon)
    */
-  public void setContext(IXholon context) {
-    this.context = context;
-  }
+  //public void setContext(IXholon context) {
+  //  this.context = context;
+  //}
 
-  /*
-   * @see org.primordion.xholon.io.console.IXholonConsole#getCommandPane()
-   */
-  public IXholon getCommandPane() {
-    return null; //commandPane;
-  }
+  //public IXholon getCommandPane() {
+  //  return null; //commandPane;
+  //}
 
-  /*
-   * @see org.primordion.xholon.io.console.IXholonConsole#setCommandPane(org.primordion.xholon.base.IXholon)
-   */
-  public void setCommandPane(IXholon commandPane) {
-    //this.commandPane = commandPane;
-  }
-
+  //public void setCommandPane(IXholon commandPane) {
+  //  //this.commandPane = commandPane;
+  //}
+  
+  @Override
   public Object getWidget() {
     return widget;
   }
 
-  /*
-   * @see org.primordion.xholon.base.XholonWithPorts#postConfigure()
-   */
+  @Override
   public void postConfigure()
   {
     readGuiFromXml();
@@ -206,7 +198,6 @@ public class AqlWebInterface extends Xholon implements INamedGui {
       @Override
       public void onChange(ChangeEvent event) {
         String item = lbexamples.getSelectedItemText();
-        //Window.alert(item);
         switch (item) {
         case "Denormalize": loadDenormalize(); break;
         case "Employees": loadEmployees(); break;
@@ -221,15 +212,9 @@ public class AqlWebInterface extends Xholon implements INamedGui {
    * Provide the user with some brief help information.
    */
   protected void help() {
-    // for now, return if helpdb has already been created
-    if (helpdb == null) {
-      helpdb = new AqlHelpDialogBox();
-      if (helpdb != null) {
-        Widget helpdbWidget = helpdb.startHelpDialog();
-        if (helpdbWidget != null) {
-          RootPanel.get("xhtabs").add(helpdbWidget);
-        }
-      }
+    AqlHelpDialogBox helpdb = new AqlHelpDialogBox();
+    if (helpdb != null) {
+      helpdb.startHelpDialog();
     }
   }
   
@@ -285,7 +270,6 @@ public class AqlWebInterface extends Xholon implements INamedGui {
     .append("    NormalizedData\n")
     .append("}\n")
     .toString();
-    //setCommand("// this is the Denormalize example\n", true);
     setCommand(str, true);
   }
   
@@ -413,13 +397,12 @@ public class AqlWebInterface extends Xholon implements INamedGui {
     .append("  //  random_seed = 2\n")
     .append("}\n")
     .toString();
-    //setCommand("// this is the Employees example\n", true);
     setCommand(str, true);
   }
   
   /**
-   * Get the contents of the command, as typed in by the user into the XholonConsole GUI.
-   * @return The String typed in by the user, or only the selected part of the String.
+   * Get the contents of the command.
+   * @return The String typed in by the user.
    */
   protected String getCommand() {
     Element ele = commandPane.getElement().getFirstChildElement();
@@ -428,13 +411,11 @@ public class AqlWebInterface extends Xholon implements INamedGui {
     return contents;
   }
   
-  /*
-   * @see org.primordion.xholon.io.console.IXholonConsole#log(java.lang.Object)
-   */
+  @Override
   public void log(Object obj) {
-    /*if (obj instanceof String) {
+    if (obj instanceof String) {
       setResult((String)obj, false);
-    }*/
+    }
   }
   
   /**
@@ -446,15 +427,13 @@ public class AqlWebInterface extends Xholon implements INamedGui {
   }
   
   /**
-   * Set the result of the query into the XholonConsole GUI,
+   * Set the result of the query into a text area,
    * and make it visible to the user.
    * For now, the resultPane and commandPane are the same.
    * @param result
    * @param replace whether to replace current text (true), or append to end of current text (false)
    */
   public void setResult(String result, boolean replace) {
-    //Window.alert(result);
-    
     // get the element
     Element ele = commandPane.getElement().getFirstChildElement();
     
@@ -486,13 +465,11 @@ public class AqlWebInterface extends Xholon implements INamedGui {
     ta.setValue("");*/
   }
   
-  /**
-   * Set the name and title of the tab header.
-   */
+  @Override
   public void setTabHeader() {
-    String idStr = "Categorical Data IDE";
-    String tooltip = "Categorical Data IDE";
-    XholonGwtTabPanelHelper.updateTabHeader(idStr, tooltip, -1);
+    //String idStr = "Categorical Data IDE";
+    //String tooltip = "Categorical Data IDE";
+    //XholonGwtTabPanelHelper.updateTabHeader(idStr, tooltip, -1);
   }
   
   /**
@@ -501,15 +478,6 @@ public class AqlWebInterface extends Xholon implements INamedGui {
   protected void closeGui()
   {
    // Window.alert("closegui selected");
-  }
-  
-  /**
-   * Open a file that contains XholonConsole commands or text,
-   * and load the contents of that file into the Command part of the XholonConsole.
-   */
-  protected void openQueryFile()
-  {
-
   }
   
   /**
@@ -529,7 +497,7 @@ public class AqlWebInterface extends Xholon implements INamedGui {
   }
   
   /**
-   * Read the XholonConsole GUI from a UIBinder XML file.
+   * Read the GUI from a UIBinder XML file.
    */
   protected void readGuiFromXml() {
     widget = uiBinder.createAndBindUi(this);

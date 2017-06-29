@@ -11,6 +11,11 @@
   <g:DialogBox ui:field="helpDialog" autoHide="true" modal="true">
     <g:caption><b>Help/About</b></g:caption>
     <g:HTMLPanel>
+      <g:Label>Packaged: June 1, 2017 or later</g:Label>
+      <g:Label>URL: categoricaldata.net/aql.html</g:Label>
+      <g:Label>Name: Categorical Data IDE</g:Label>
+      <g:Label>Copyright: Patrick Schultz, David Spivak, and  Ryan Wisnesky</g:Label>
+      <g:Label>Version: alpha-snapshot</g:Label>
       <g:Label>Help:</g:Label>
       <g:Label>For available AQL options and general IDE display options, use the Options button in the main IDE window.</g:Label>
       <g:Label>AQL homepage: http://categoricaldata.net/aql.html</g:Label>
