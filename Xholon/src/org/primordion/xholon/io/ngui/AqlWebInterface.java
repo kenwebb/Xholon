@@ -16,6 +16,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.Response;
+
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 //import com.google.gwt.uibinder.client.UiTemplate;
@@ -258,7 +264,10 @@ public class AqlWebInterface implements INamedGui {
   } // end postConfigure()
   
   protected void run() {
-    Window.alert("Run not yet implemented.");
+    //Window.alert("Run not yet implemented.");
+    String requestData = getCommand();
+    String encodedRequestData = requestData; //this.encodeURI(requestData);
+    this.tryCgi("code=" + encodedRequestData);
   }
   
   protected void abort() {
@@ -612,5 +621,55 @@ public class AqlWebInterface implements INamedGui {
   protected String limitLength(String str, int maxLen) {
     return str.length() > 80 ? str.substring(0, 80) : str;
   }
+  
+  /**
+   * Test the existing AQL request.
+   * http://208.113.133.193/cgi-bin/try.cgi?code=typeside+Ty+%3D+literal ...
+   * call a hard-coded php program
+   */
+  protected void tryCgi(String requestData) {
+		try {
+	    final String uri = "aqlProxy.php";
+	    new RequestBuilder(RequestBuilder.POST, uri).sendRequest(requestData, new RequestCallback() { // .GET .POST
+        @Override
+        public void onResponseReceived(Request req, Response resp) {
+          if (resp.getStatusCode() == resp.SC_OK) {
+            xholonPrintln(resp.getText());
+          }
+          else {
+            xholonPrintln("status code:" + resp.getStatusCode());
+            xholonPrintln("status text:" + resp.getStatusText());
+            xholonPrintln("text:\n" + resp.getText());
+          }
+        }
+
+        @Override
+        public void onError(Request req, Throwable e) {
+          xholonPrintln("onError:" + e.getMessage());
+        }
+      });
+    } catch(RequestException e) {
+      xholonPrintln("RequestException:" + e.getMessage());
+    }
+  }
+  
+  protected native void consoleLog(Object obj) /*-{
+    if ($wnd.console && $wnd.console.log) {
+      $wnd.console.log(obj);
+    }
+  }-*/;
+  
+  protected native void xholonPrintln(Object obj) /*-{
+    if ($wnd.xh && $wnd.xh.root) {
+      $wnd.xh.root().println(obj);
+    }
+  }-*/;
+  
+  /**
+   * This is probably not needed.
+   */
+  protected native String encodeURI(String str) /*-{
+    return $wnd.encodeURI(str);
+  }-*/;
   
 }
