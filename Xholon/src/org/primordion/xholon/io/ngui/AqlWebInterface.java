@@ -21,6 +21,7 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.http.client.URL;
 
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -266,7 +267,13 @@ public class AqlWebInterface implements INamedGui {
   protected void run() {
     //Window.alert("Run not yet implemented.");
     String requestData = getCommand();
-    String encodedRequestData = requestData; //this.encodeURI(requestData);
+    //consoleLog(requestData);
+    //this.tryCgi("code=" + requestData);
+    //String encodedRequestDataJS = this.encodeURI(requestData);
+    //consoleLog(encodedRequestDataJS);
+    //this.tryCgi("code=" + encodedRequestDataJS);
+    String encodedRequestData = URL.encodeQueryString(requestData);
+    consoleLog(encodedRequestData);
     this.tryCgi("code=" + encodedRequestData);
   }
   
@@ -628,13 +635,17 @@ public class AqlWebInterface implements INamedGui {
    * call a hard-coded php program
    */
   protected void tryCgi(String requestData) {
+    consoleLog(requestData);
 		try {
 	    final String uri = "aqlProxy.php";
-	    new RequestBuilder(RequestBuilder.POST, uri).sendRequest(requestData, new RequestCallback() { // .GET .POST
+	    RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, uri); // .GET .POST
+	    rb.setHeader("Content-Type", "application/x-www-form-urlencoded");
+	    rb.sendRequest(requestData, new RequestCallback() {
         @Override
         public void onResponseReceived(Request req, Response resp) {
           if (resp.getStatusCode() == resp.SC_OK) {
             xholonPrintln(resp.getText());
+            showInHtml(resp.getText());
           }
           else {
             xholonPrintln("status code:" + resp.getStatusCode());
@@ -663,6 +674,13 @@ public class AqlWebInterface implements INamedGui {
     if ($wnd.xh && $wnd.xh.root) {
       $wnd.xh.root().println(obj);
     }
+  }-*/;
+  
+  protected native void showInHtml(Object obj) /*-{
+    //var ele = $doc.querySelector("#xhtreemap");
+    //ele.append(obj);
+    var ele = $doc.querySelector("#xhgraph");
+    ele.insertAdjacentHTML('afterend', obj);
   }-*/;
   
   /**
