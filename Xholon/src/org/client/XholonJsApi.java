@@ -593,6 +593,11 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       return this.@org.primordion.xholon.base.IXholon::getId()();
     });
     
+    // identity
+    api.identity = $entry(function() {
+      return this.@org.primordion.xholon.base.IXholon::getIdentity()();
+    });
+    
     // name
     api.name = $entry(function(template) {
       if (!template) {

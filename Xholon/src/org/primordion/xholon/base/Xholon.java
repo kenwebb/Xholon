@@ -1206,6 +1206,12 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 	{ return id; }
 
 	/*
+	 * @see org.primordion.xholon.base.IXholon#getIdentity()
+	 */
+	public IXholon getIdentity()
+	{ return this; }
+
+	/*
 	 * @see org.primordion.xholon.base.IXholon#getName()
 	 */
 	public String getName()

@@ -691,6 +691,13 @@ public abstract int getId();
 public abstract void setId( int id );
 
 /**
+ * Get the identity of this instance.
+ * In Category Theory, every instance of an Object has an identity arrow/morphism/function, which returns itself.
+ * @return The identity.
+ */
+public abstract IXholon getIdentity();
+
+/**
  * Write an object to System.out or to a PrintWriter.
  * @param obj The object to write.
  */
