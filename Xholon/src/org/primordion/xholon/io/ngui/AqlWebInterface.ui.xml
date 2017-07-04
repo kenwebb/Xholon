@@ -88,6 +88,21 @@
           <g:MenuItem ui:field="aqlemithtml">Emit HTML (using last compiled state)</g:MenuItem>
         </g:MenuBar>
       </g:MenuItem>
+      <!-- Xholon is an optional sub-menu -->
+      <g:MenuItem>Xholon
+        <g:MenuBar vertical="true">
+          <g:MenuItem ui:field="xhstart">Start Xholon</g:MenuItem>
+          <g:MenuItem ui:field="xhgvschema">Graphviz Schema</g:MenuItem>
+          <g:MenuItem ui:field="xhgvinstances">Graphviz Instances</g:MenuItem>
+          <g:MenuItem ui:field="xhgvboth">Graphviz Schema and Instances</g:MenuItem>
+          <g:MenuItem ui:field="xhchapschema">Almende CHAP Schema</g:MenuItem>
+          <g:MenuItem ui:field="xhsql">SQL</g:MenuItem>
+          <g:MenuItem ui:field="xhxml">XML</g:MenuItem>
+          <g:MenuItem ui:field="xhyaml">YAML</g:MenuItem>
+          <!--<g:MenuItem ui:field="xh"></g:MenuItem>
+          <g:MenuItem ui:field="xh"></g:MenuItem>-->
+        </g:MenuBar>
+      </g:MenuItem>
       <g:MenuItem>Help
         <g:MenuBar vertical="true">
           <g:MenuItem ui:field="helpabout">Help/About</g:MenuItem>

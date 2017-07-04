@@ -124,6 +124,8 @@ public class CatAql extends XholonWithPorts {
   private Map<String,String> xhClassNameReplacementMap = null;
   private Map<String,IXholon> aqlGenerator2XhNodeMap = null;
   
+  private String aqlWebInterfaceTextareaSelector = "div.org-primordion-xholon-io-ngui-AqlWebInterface_AqlWebUiBinderImpl_GenCss_style-AqlWeb_commandPane textarea";
+  
   /**
    * Whether or not to parse the AQL instance kind.
    */
@@ -197,6 +199,9 @@ public class CatAql extends XholonWithPorts {
       }
     }
     if (this.val == null) {
+      this.val = findAqlContentInAqlWebInterface(aqlWebInterfaceTextareaSelector);
+    }
+    if (this.val == null) {
       this.println("CatAql does not contain any content.");
     }
     else {
@@ -248,6 +253,16 @@ public class CatAql extends XholonWithPorts {
     // is there anything to do?
     super.act();
   }
+  
+  /**
+   * Try to find the AQL content inside the AQL Web Interface, as defined in AqlWebInterface.java and AqlWebInterface.ui.xml .
+   */
+  protected native String findAqlContentInAqlWebInterface(String selector) /*-{
+    var ele = $doc.querySelector(selector);
+    if (ele) {
+      return ele.value;
+    }
+  }-*/;
   
   /**
    * Validate using a PEG.js parser.
@@ -915,6 +930,9 @@ public class CatAql extends XholonWithPorts {
     else if ("validatePEG".equals(attrName)) {
       this.validatePEG = Boolean.parseBoolean(attrVal);
     }
+    else if ("aqlWebInterfaceTextareaSelector".equals(attrName)) {
+      this.aqlWebInterfaceTextareaSelector = attrVal;
+    }
     return 0;
   }
   
@@ -934,6 +952,7 @@ public class CatAql extends XholonWithPorts {
     xmlWriter.writeAttribute("exportYaml", Boolean.toString(this.exportYaml));
     xmlWriter.writeAttribute("exportXml", Boolean.toString(this.exportXml));
     xmlWriter.writeAttribute("validatePEG", Boolean.toString(this.validatePEG));
+    xmlWriter.writeAttribute("aqlWebInterfaceTextareaSelector", this.aqlWebInterfaceTextareaSelector);
   }
   
 }

@@ -1,0 +1,44 @@
+/** CSS for XholonAQL*.html */
+body {
+  color: black;
+  background: aliceblue;
+  font-size: 100%;
+}
+/**
+div#xhanim {
+}
+span#caption {
+  font-family: Georgia, serif;
+  font-size: 1.5em;
+  vertical-align: middle;
+  line-height: 1;
+}
+textarea#screenplay {
+  border-style: none;
+}
+div#xhsvg>div>svg {
+}
+div#xhsvg {
+}
+div#xhsvg>div {
+  width: 150px;
+  margin: 0 auto;
+}
+div#xhsvg>div>svg>g>rect {
+  fill: #98FB98;
+}
+div#xhsvg>div>svg>g>path {
+  fill: grey;
+  stroke-width: 1px;
+}
+div#xhleft, div#xhright {
+  display: inline-block;
+}
+div#xhright {
+  width: 900px;
+}
+g[id*="sceneLocation"]>text {
+  fill:Navy;
+}
+*/
+

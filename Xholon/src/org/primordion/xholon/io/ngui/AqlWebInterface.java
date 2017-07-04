@@ -91,6 +91,16 @@ public class AqlWebInterface implements INamedGui {
   @UiField MenuItem aqlinferinstance;
   @UiField MenuItem aqlemithtml;
   
+  // Xholon menu (optional)
+  @UiField MenuItem xhstart;
+  @UiField MenuItem xhgvschema;
+  @UiField MenuItem xhgvinstances;
+  @UiField MenuItem xhgvboth;
+  @UiField MenuItem xhchapschema;
+  @UiField MenuItem xhsql;
+  @UiField MenuItem xhxml;
+  @UiField MenuItem xhyaml;
+  
   // Help menu
   @UiField MenuItem helpabout;
   
@@ -119,6 +129,11 @@ public class AqlWebInterface implements INamedGui {
    * The HTML widget that implements the Web Interface.
    */
   protected Widget widget = null;
+  
+  /**
+   * Root node in the optional Xholon-generated tree.
+   */
+  protected Object cattSystem = null;
   
   /**
    * constructor
@@ -184,6 +199,84 @@ public class AqlWebInterface implements INamedGui {
       }
     });
     */
+    
+    // Xholon menu
+    xhgvschema.setEnabled(false);
+    xhgvinstances.setEnabled(false);
+    xhgvboth.setEnabled(false);
+    xhchapschema.setEnabled(false);
+    xhsql.setEnabled(false);
+    xhxml.setEnabled(false);
+    xhyaml.setEnabled(false);
+       
+    xhstart.setScheduledCommand(new Command() {
+      @Override
+      public void execute() {
+        if (xhstart()) {
+          cattSystem = findXhCattSystem();
+          xhgvschema.setEnabled(true);
+          xhgvinstances.setEnabled(true);
+          xhgvboth.setEnabled(true);
+          xhchapschema.setEnabled(true);
+          xhsql.setEnabled(true);
+          xhxml.setEnabled(true);
+          xhyaml.setEnabled(true);
+        }
+        else {
+          Window.alert("Unable to start Xholon.");
+        }
+        xhstart.setEnabled(false);
+      }
+    });
+    
+    xhgvschema.setScheduledCommand(new Command() {
+      @Override
+      public void execute() {
+        xhgvschema(cattSystem);
+      }
+    });
+    
+    xhgvinstances.setScheduledCommand(new Command() {
+      @Override
+      public void execute() {
+        xhgvinstances(cattSystem);
+      }
+    });
+    
+    xhgvboth.setScheduledCommand(new Command() {
+      @Override
+      public void execute() {
+        xhgvboth(cattSystem);
+      }
+    });
+    
+    xhchapschema.setScheduledCommand(new Command() {
+      @Override
+      public void execute() {
+        xhchapschema(cattSystem);
+      }
+    });
+    
+    xhsql.setScheduledCommand(new Command() {
+      @Override
+      public void execute() {
+        xhsql(cattSystem);
+      }
+    });
+    
+    xhxml.setScheduledCommand(new Command() {
+      @Override
+      public void execute() {
+        xhxml(cattSystem);
+      }
+    });
+    
+    xhyaml.setScheduledCommand(new Command() {
+      @Override
+      public void execute() {
+        xhyaml(cattSystem);
+      }
+    });
     
     // Help menu
     
@@ -302,6 +395,71 @@ public class AqlWebInterface implements INamedGui {
   protected void options() {
     Window.alert("Options not yet implemented.");
   }
+  
+  // Xholon menu
+  
+  protected native Object findXhCattSystem() /*-{
+    return $wnd.xh.root().first().next().next();
+  }-*/;
+  
+  /**
+   * Start Xholon.
+   */
+  protected native boolean xhstart() /*-{
+    if (!$wnd.xh) {return false;}
+    var subTree = $wnd.xh.stored.csh;
+    if (subTree) {
+      $wnd.xh.stored.csh = null; // prevent the subtree from being used again
+      $wnd.xh.root().append(subTree);
+    }
+    $wnd.xh.state(3);
+    // change the number of rows in each textarea to match the height of the resizePanel
+    var taArr = $doc.querySelectorAll("#xhtabs textarea");
+    for (var i = 0; i < taArr.length; i++) {
+      var ta = taArr[i];
+      ta.rows = "64";
+    }
+    return true;
+  }-*/;
+  
+  protected native void xhgvschema(Object cattSystem) /*-{
+    if (cattSystem == null) {return;}
+    var schemaNode = cattSystem.first();
+    $wnd.xh.xport("Graphviz", schemaNode, '{"gvFileExt":".gv","gvGraph":"digraph","layout":"dot","edgeOp":"->","gvCluster":"","shouldShowStateMachineEntities":false,"filter":"--Behavior,Script","nameTemplateNodeId":"^^^^i^","nameTemplateNodeLabel":"R^^^^^","shouldQuoteLabels":true,"shouldShowLinks":true,"shouldShowLinkLabels":true,"shouldSpecifyLayout":false,"maxLabelLen":-1,"shouldColor":true,"defaultColor":"#f0f8ff","shouldSpecifyShape":true,"shape":"ellipse","shouldSpecifySize":false,"size":"6","shouldSpecifyFontname":false,"shouldSpecifyArrowhead":true,"arrowhead":"vee","shouldSpecifyStylesheet":true,"stylesheet":"Xholon.css","shouldSpecifyRankdir":false,"rankdir":"LR","shouldDisplayGraph":true,"outputFormat":"svg"}');
+  }-*/;
+  
+  protected native void xhgvinstances(Object cattSystem) /*-{
+    if (cattSystem == null) {return;}
+    var instanceNode = cattSystem.first().next();
+    $wnd.xh.xport("Graphviz", instanceNode, '{"gvFileExt":".gv","gvGraph":"digraph","layout":"dot","edgeOp":"->","gvCluster":"","shouldShowStateMachineEntities":false,"filter":"--Behavior,Script","nameTemplateNodeId":"^^^^i^","nameTemplateNodeLabel":"r C^^^","shouldQuoteLabels":true,"shouldShowLinks":true,"shouldShowLinkLabels":true,"shouldSpecifyLayout":false,"maxLabelLen":-1,"shouldColor":true,"defaultColor":"#f0f8ff","shouldSpecifyShape":true,"shape":"ellipse","shouldSpecifySize":false,"size":"6","shouldSpecifyFontname":false,"shouldSpecifyArrowhead":true,"arrowhead":"vee","shouldSpecifyStylesheet":true,"stylesheet":"Xholon.css","shouldSpecifyRankdir":true,"rankdir":"LR","shouldDisplayGraph":true,"outputFormat":"svg"}');
+  }-*/;
+  
+  protected native void xhchapschema(Object cattSystem) /*-{
+    if (cattSystem == null) {return;}
+    var schemaNode = cattSystem.first();
+    $wnd.xh.xport("_other,ChapNetwork", schemaNode, '{"showNetwork":true,"showTree":false,"maxTreeLevels":1,"width":"800px","height":"800px","nameTemplate":"R^^^^^","maxChars":-1,"linksLength":100,"showPortName":true,"nodesStyle":"dot","stabilize":"false","jsLibName":"network-min"}');
+  }-*/;
+  
+  protected native void xhgvboth(Object cattSystem) /*-{
+    if (cattSystem == null) {return;}
+    $wnd.xh.xport("Graphviz", cattSystem, '{"shouldShowLinkLabels":true,"shouldSpecifyShape":true,"shouldSpecifyArrowhead":true,"shouldDisplayGraph":true}');
+  }-*/;
+  
+  protected native void xhsql(Object cattSystem) /*-{
+    if (cattSystem == null) {return;}
+    var instanceNode = cattSystem.first().next();
+    $wnd.xh.xport("_nosql,Sql", instanceNode, '{"parent":false,"idRoleXhcNames":"ID,,xhcID","idRoleXhcFormats":"^^^^i^,,^^^^i^","parentForeignKeys":false,"mechanismIhNodes":false}');
+  }-*/;
+  
+  protected native void xhxml(Object cattSystem) /*-{
+    if (cattSystem == null) {return;}
+    $wnd.xh.xport("Xml", cattSystem, '{"writeStartDocument":false,"writePorts":true,"shouldWriteVal":false,"shouldWriteAllPorts":false}');
+  }-*/;
+  
+  protected native void xhyaml(Object cattSystem) /*-{
+    if (cattSystem == null) {return;}
+    $wnd.xh.xport("Yaml", cattSystem,'{"writeStartDocument":true,"shouldWriteVal":false,"shouldWriteAllPorts":false}');
+  }-*/;
   
   /**
    * Provide the user with some brief help information.
