@@ -124,7 +124,8 @@ public class CatAql extends XholonWithPorts {
   private Map<String,String> xhClassNameReplacementMap = null;
   private Map<String,IXholon> aqlGenerator2XhNodeMap = null;
   
-  private String aqlWebInterfaceTextareaSelector = "div.org-primordion-xholon-io-ngui-AqlWebInterface_AqlWebUiBinderImpl_GenCss_style-AqlWeb_commandPane textarea";
+  //private String aqlWebInterfaceTextareaSelector = "div.org-primordion-xholon-io-ngui-AqlWebInterface_AqlWebUiBinderImpl_GenCss_style-AqlWeb_commandPane textarea";
+  private String aqlWebInterfaceTextareaSelector = "#xhtabs > table > tbody > tr > td:nth-child(1) > div > div:nth-child(4) > div > div:nth-child(3) > div > div:nth-child(5) > div > div:nth-child(4) > table > tbody > tr > td > div > div > div > textarea";
   
   /**
    * Whether or not to parse the AQL instance kind.
