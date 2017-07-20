@@ -291,20 +291,22 @@ public class CatAql extends XholonWithPorts {
     sbCsh.append("<").append(xhcName_System).append(">\n");
     
     // typeside
+    String typesideName = null; // the "Ty" in "typeside Ty = literal {"
     int posStart = aqlContent.indexOf(KIND_TYPESIDE, 0);
     if (posStart == -1) {return;}
     // "}" must be at the start of a new line
     int posEnd = aqlContent.indexOf("\n}", posStart);
     if (posEnd == -1) {return;}
-    parseTypeside(aqlContent.substring(posStart,posEnd));
+    typesideName = parseTypeside(aqlContent.substring(posStart,posEnd));
     
     // schema
+    String schemaName = null; // ex: the "S" in "schema S = literal : Ty {"
     posStart = aqlContent.indexOf(KIND_SCHEMA, posEnd);
     if (posStart == -1) {return;}
     // "}" must be at the start of a new line
     posEnd = aqlContent.indexOf("\n}", posStart);
     if (posEnd == -1) {return;}
-    parseSchema(aqlContent.substring(posStart,posEnd));
+    schemaName = parseSchema(aqlContent.substring(posStart,posEnd));
     
     sbIh.append("</_-.XholonClass>\n");
     sbCd.append("</xholonClassDetails>\n");
@@ -318,13 +320,14 @@ public class CatAql extends XholonWithPorts {
     cattSystem = xhRoot.getLastChild();
     
     // instance
+    String instanceName = null; // ex: the "I" in "instance I = literal : S {"
     if (instances) {
       posStart = aqlContent.indexOf(KIND_INSTANCE, posEnd);
       if (posStart == -1) {return;}
       // the content within "multi_equations" contains "{" and "}" within and at end of each line; so look for "}" preceded by "\n"
       posEnd = aqlContent.indexOf("\n}", posStart) + 1;
       if (posEnd == -1) {return;}
-      parseInstance(aqlContent.substring(posStart,posEnd));
+      instanceName = parseInstance(aqlContent.substring(posStart,posEnd));
     }
     
     if (separateSchemaInstance) {
@@ -333,15 +336,23 @@ public class CatAql extends XholonWithPorts {
       if (cattSystem != null) {
         IXholon sNode = null;
         if (this.schemas) {
+          String sRoleNameStr = "";
+          if (schemaName != null) {
+            sRoleNameStr = " roleName=\"" + schemaName + "\"";
+          }
           String sStr = new StringBuilder()
-          .append("<").append(xhcName_Schema).append("/>")
+          .append("<").append(xhcName_Schema).append(sRoleNameStr).append("/>")
           .toString();
           sendXholonHelperService(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, sStr, cattSystem);
           sNode = cattSystem.getLastChild();
         }
         
+        String iRoleNameStr = "";
+        if (instanceName != null) {
+          iRoleNameStr = " roleName=\"" + instanceName + "\"";
+        }
         String iStr = new StringBuilder()
-        .append("<").append(xhcName_Instance).append("/>")
+        .append("<").append(xhcName_Instance).append(iRoleNameStr).append("/>")
         .toString();
         sendXholonHelperService(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, iStr, cattSystem);
         IXholon iNode = cattSystem.getLastChild();
@@ -370,16 +381,21 @@ public class CatAql extends XholonWithPorts {
     }
   }
   
-  protected void parseTypeside(String ts) {
+  protected String parseTypeside(String ts) {
     //this.println("parseTypeside:\n" + ts + "\n");
     sbIh.append("<!-- typeside types -->\n");
     String[] lines = ts.split("\n");
     String state = TERM_TYPESIDE_NULL;
+    String typesideName = null;
     for (int i = 0; i < lines.length; i++) {
       String line = lines[i].trim();
       String[] tokens = line.split("\\s+");
       if (tokens.length == 0) {continue;}
       switch (tokens[0]) {
+      case KIND_TYPESIDE:
+        // "typeside Ty = literal {"
+        typesideName = tokens[1];
+        break;
       case TERM_TYPESIDE_IMPORTS: break;
       case TERM_TYPESIDE_TYPES:
         state = TERM_TYPESIDE_TYPES;
@@ -429,6 +445,7 @@ public class CatAql extends XholonWithPorts {
         break;
       } // end switch(tokens[0])
     } // end for
+    return typesideName;
   } // end method
   
   /**
@@ -479,16 +496,22 @@ public class CatAql extends XholonWithPorts {
     //.append(schemaNodeSuffix)
     .append("/>\n");
   }
-  protected void parseSchema(String sch) {
+  
+  protected String parseSchema(String sch) {
     //this.println("parseSchema:\n" + sch + "\n");
     sbIh.append("<!-- schema entities -->\n");
     String[] lines = sch.split("\n");
     String state = TERM_SCHEMA_NULL;
+    String schemaName = null;
     for (int i = 0; i < lines.length; i++) {
       String line = lines[i].trim();
       String[] tokens = line.split("\\s+");
       if (tokens.length == 0) {continue;}
       switch (tokens[0]) {
+      case KIND_SCHEMA:
+        // "schema S = literal : Ty {"
+        schemaName = tokens[1];
+        break;
       case TERM_SCHEMA_IMPORTS: break;
       case TERM_SCHEMA_ENTITIES:
         state = TERM_SCHEMA_ENTITIES;
@@ -530,6 +553,7 @@ public class CatAql extends XholonWithPorts {
         break;
       } // end switch(tokens[0])
     } // end for
+    return schemaName;
   } // end method
   
   /**
@@ -590,15 +614,20 @@ public class CatAql extends XholonWithPorts {
     }
   }
   
-  protected void parseInstance(String inst) {
+  protected String parseInstance(String inst) {
     //this.println("parseInstance:\n" + inst + "\n");
     String[] lines = inst.split("\n");
     String state = TERM_INSTANCE_NULL;
+    String instanceName = null;
     for (int i = 0; i < lines.length; i++) {
       String line = lines[i].trim();
       String[] tokens = line.split("\\s+");
       if (tokens.length == 0) {continue;}
       switch (tokens[0]) {
+      case KIND_INSTANCE:
+        // "instance I = literal : S {"
+        instanceName = tokens[1];
+        break;
       case TERM_INSTANCE_IMPORTS: break;
       case TERM_INSTANCE_GENERATORS:
         state = TERM_INSTANCE_GENERATORS;
@@ -632,6 +661,7 @@ public class CatAql extends XholonWithPorts {
         break;
       } // end switch(tokens[0])
     } // end for
+    return instanceName;
   } // end method
   
   /**
@@ -683,9 +713,26 @@ public class CatAql extends XholonWithPorts {
    * ps1.strategy_id = "1"
    * a.first = Al
    * a.manager = b
+   * 
+   * handle multiple equatiions on the same line
+   * first(b) = Bob  last(b) = Bo
+   * manager(a) = b manager(b) = b manager(c) = c
    */
   protected void parseLineInstanceEquations(String[] tokens, int startIx) {
-    if (tokens.length != 3) {return;}
+    if (tokens.length != 3) {
+      // there may be multiple equations on the same line
+      if ((tokens.length % 3) == 0) {
+        // process each set of 3 tokens
+        for (int i = 0; i < tokens.length; i += 3) {
+          String[] newTokens = new String[3];
+          newTokens[0] = tokens[i];
+          newTokens[1] = tokens[i+1];
+          newTokens[2] = tokens[i+2];
+          parseLineInstanceEquations(newTokens, 0);
+        }
+      }
+      return;
+    }
     String[] arr = null;
     if (tokens[0].indexOf("(") == -1) {
       // a.first = Al
