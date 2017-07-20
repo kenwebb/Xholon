@@ -24,9 +24,10 @@
   <target name="javac" depends="libs" description="Compile java source to bytecode">
     <mkdir dir="war/WEB-INF/classes"/>
     <!-- changed source and target from 1.5 to 7 (June 30, 2014) -->
+    <!-- changed source and target from 7 to 8 (July 6, 2017) -->
     <javac srcdir="src" includes="**" encoding="utf-8"
         destdir="war/WEB-INF/classes"
-        source="7" target="7" nowarn="true"
+        source="8" target="8" nowarn="true"
         debug="true" debuglevel="lines,vars,source">
       <classpath>
         <path refid="project.class.path"/>
