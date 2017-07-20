@@ -12,6 +12,12 @@ import org.primordion.xholon.base.IXholon;
 <pre>&lt;GraphingBeastbehavior/></pre>
 or:
 <pre>&lt;GraphingBeastbehavior howChoose="1" xInc="0.1" xMax="100.0" yMult="1000.0"/></pre>
+or:
+<pre>&lt;GraphingBeastbehavior howChoose="1" yMult = "10.0"/></pre>
+ * 
+ * Do the following in Chrome Developer Tools:
+ * xh.root().xpath("descendant::Cat").append('<GraphingBeastbehavior howChoose="3"/>');
+ * xh.root().xpath("descendant::Cat").append('<GraphingBeastbehavior howChoose="1" yMult = "10.0"/>');
  */
 public class GraphingBeastbehavior extends BeastBehavior {
 	
@@ -25,6 +31,7 @@ public class GraphingBeastbehavior extends BeastBehavior {
 	 * How to choose a volunteer beast:
 	 * (1) use Licorice
 	 * (2) use first beast in the Beasts Q
+	 * (3) use the Cat or other beast that this behavior was pasted into
 	 */
 	protected int howChoose = 1;
 	
@@ -69,6 +76,10 @@ public class GraphingBeastbehavior extends BeastBehavior {
 		super.postConfigure();
 		// add a port to the node whose value will be graphed
 		graphedNode = this.getParentNode();
+		if (graphedNode.getXhc().hasAncestor("Beast")) {
+		  // the behavior was pasted directly into a Beast node
+		  graphedNode = graphedNode.getParentNode();
+		}
 		// find a Cat or other volunteer(ed) beast
 		IXholon aBeast = findAVolunteer();
 		// move that beast to this HabitatCell
@@ -156,6 +167,13 @@ public class GraphingBeastbehavior extends BeastBehavior {
 			IQueue q = (IQueue)this.getXPath().evaluate("ancestor::Bestiary/Beasts", this);
 			aBeast = (IXholon)q.dequeue();
 			q.enqueue(aBeast);
+			break;
+		case 3: // use the Cat or other beast that this behavior was pasted into
+			aBeast = this.getParentNode();
+			if ((aBeast == null) || (!aBeast.getXhc().hasAncestor("Beast"))) {
+				howChoose = 2;
+				return findAVolunteer();
+			}
 			break;
 		default:
 			break;

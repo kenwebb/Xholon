@@ -22,11 +22,11 @@ public abstract class BeastBehavior extends XholonWithPorts implements CeBestiar
 	public void postConfigure() {
 		IXholon node = getParentNode();
 		while (node != null) {
-			if (node.getXhc().hasAncestor("Beast")) {
+			if ((node.getXhc() != null) && (node.getXhc().hasAncestor("Beast"))) {
 				setBeast(node);
 				break;
 			}
-			else if (node.getParentNode().getXhc().hasAncestor("HabitatCell")) {
+			else if ((node.getParentNode() != null) && (node.getParentNode().getXhc() != null) && (node.getParentNode().getXhc().hasAncestor("HabitatCell"))) {
 				setBeast(node);
 				break;
 			}
