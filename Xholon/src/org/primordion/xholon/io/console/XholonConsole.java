@@ -654,16 +654,30 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
     
     // TextArea  handle ENTER key
     // TODO bug - TextArea.wrap(commandPaneTAE), in devmode, fails on assertion that the element is attached
-    TextArea.wrap(commandPaneTAE).addKeyDownHandler(new KeyDownHandler() {
-      @Override
-      public void onKeyDown(KeyDownEvent event) {
-         if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
-            if (isTerminalEnabled()) {
-              submit();
-            }
-         }
+    TextArea ta = null;
+    try {
+      ta = TextArea.wrap(commandPaneTAE);
+    } catch (AssertionError ae) {
+      // execute the lines of code that are in TextArea.wrap(); it won't compile
+      //ta = new TextArea(commandPaneTAE);
+      // Mark it attached and remember it for cleanup.
+      //ta.onAttach();
+      //RootPanel.detachOnWindowClose(ta);
+      this.consoleLog("XholonConsole " + ae.toString());
+    } finally {
+      if (ta != null) {
+        ta.addKeyDownHandler(new KeyDownHandler() {
+          @Override
+          public void onKeyDown(KeyDownEvent event) {
+             if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
+                if (isTerminalEnabled()) {
+                  submit();
+                }
+             }
+          }
+        });
       }
-    });
+    }
   }
   
   /**
