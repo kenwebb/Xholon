@@ -322,7 +322,8 @@ public class Xholon2ETrice extends AbstractXholon2ExternalFormat implements IXho
    * Get all outgoing ports associated with the current Xholon node.
    */
   protected List<PortInformation> getXhPorts(IXholon node) {
-    List<PortInformation> portList = node.getAllPorts();
+    //List<PortInformation> portList = node.getAllPorts();
+    List<PortInformation> portList = node.getLinks(false, true);
     // remove ports whose remoteNode is outside the scope (not a descendant) of root
     Iterator<PortInformation> it = portList.iterator();
     while (it.hasNext()) {
