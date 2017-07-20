@@ -438,17 +438,60 @@ public class CutCopyPaste extends Xholon implements ICutCopyPaste {
 	 */
 	public void pasteReplacement(IXholon node,String xmlString)
 	{
+	  /* OLD
 		xmlString = adjustPastedContent(xmlString);
 		if (xmlString == null) {return;}
 		record(node, xmlString, "pasteReplacement");
 		IXml2Xholon xml2Xholon = node.getXml2Xholon();
 		IXholon myRootXhNode = xml2Xholon.xmlString2Xholon(xmlString, null);
 		if (myRootXhNode == null) {return;}
-		//System.out.println(myRootXhNode);
 		myRootXhNode.insertAfter(node);
 		node.removeChild();
 		myRootXhNode.configure();
 		myRootXhNode.postConfigure();
+		*/
+		
+		// NEW July 18, 2017
+		IXholon oldLastChild = node.getLastChild();
+		xmlString = adjustPastedContent(xmlString);
+		if (xmlString == null) {return;}
+		record(node, xmlString, "pasteReplacement");
+		IXml2Xholon xml2Xholon = node.getXml2Xholon();
+		IXholon myRootXhNode = xml2Xholon.xmlString2Xholon(xmlString, node);
+		if (myRootXhNode == null) {return;}
+		myRootXhNode.configure();
+		myRootXhNode.postConfigure();
+		// 
+		IXholon nodesOriginalNsib = node.getNextSibling();
+		IXholon newRootXhNode = null;
+		if (oldLastChild == null) {
+		  newRootXhNode = node.getFirstChild();
+		}
+		else {
+		  newRootXhNode = oldLastChild.getNextSibling();
+		}
+		IXholon nsib = newRootXhNode.getNextSibling(); // retain ref to next sibling
+		newRootXhNode.removeChild(); // detach the new node(s) from the tree
+		newRootXhNode.insertAfter(node); // insert the new node(s)
+		node.removeChild();
+		newRootXhNode.setNextSibling(nsib); // restore
+		if (nsib != null) {
+		  while (nsib != null) {
+		    nsib.setParentNode(newRootXhNode.getParentNode());
+		    if (nsib.getNextSibling() == null) {
+		      nsib.setNextSibling(nodesOriginalNsib);
+		      nsib = null;
+		    }
+		    else {
+		      nsib = nsib.getNextSibling();
+		    }
+		  }
+		}
+		else {
+		  // nsib == null
+		  newRootXhNode.setNextSibling(nodesOriginalNsib);
+		}
+		
 	}
 	
 	/*
