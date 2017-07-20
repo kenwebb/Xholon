@@ -1160,6 +1160,11 @@ public class Avatar extends AbstractAvatar {
     case "inventory":
       inventory();
       break;
+    case "identity":
+      // the identity morphism is a concept from Category Theory
+      // this command is essentially the same as "who"
+      sb.append("You are ").append(makeNodeName(this.getIdentity())).append(".");
+      break;
     case "if":
       if (len == 3) {
         iiff(data[1], data[2]);
@@ -2278,6 +2283,7 @@ a.action("takeclone hello;");
     .append("\ngo portName|next|prev|N|E|S|W|NE|SE|SW|NW|port0|portN|xpath|linkN")
     .append("\ngroup THING1[,THINGi,...,THINGn] in|on|under THING2")
     .append("\nhelp")
+    .append("\nidentity")
     .append("\nif xpath command [elseif xpath command] [else command]")
     .append("\ninventory|i")
     .append("\nlead FOLLOWER_THING")
@@ -2297,6 +2303,8 @@ a.action("takeclone hello;");
     .append("\nunlead")
     .append("\nvanish")
     .append("\nwait [DURATION]|[til TIMESTEP]")
+    .append("\nwhere")
+    .append("\nwho")
     .append("\nxport THING formatName,writeToTab,returnString,efParams")
     ;
   }
