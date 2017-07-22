@@ -89,7 +89,7 @@ public class Xholon2D3CirclePack implements EventListener {
     // handleDrop; paste data into node
     String svgNodeName = ele.getNodeName();
     String svgElementId = ele.getId();
-    if (svgElementId == null) {return;}
+    if ((svgElementId == null) || (svgElementId.length() == 0)) {return;}
     // the svgElementId is an XPath expression; use it to find the IXholon
     IXholon node = findXholonNode(svgElementId);
     if (node != null) {
