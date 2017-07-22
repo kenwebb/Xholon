@@ -29,6 +29,14 @@ import org.primordion.xholon.base.IXholon;
  */
 public interface ICutCopyPaste extends IXholon {
 	
+	public static final String OPERATION_DEFAULT = "";
+	public static final String OPERATION_LAST = "last";
+	public static final String OPERATION_FIRST = "first";
+	public static final String OPERATION_BEFORE = "before";
+	public static final String OPERATION_AFTER = "after";
+	public static final String OPERATION_MERGE = "merge";
+	public static final String OPERATION_REPLACE = "replace";
+	
 	// cut/copy/paste to and from XML Strings
 	
 	/**

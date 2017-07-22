@@ -216,6 +216,29 @@ public class CutCopyPaste extends Xholon implements ICutCopyPaste {
 	  //System.out.println("pasteLastChild:" + xmlString);
 		xmlString = adjustPastedContent(xmlString);
 		if (xmlString == null) {return;}
+		if (xmlString.startsWith("<" + IXml2Xholon.XML_FOREST)) {
+		  /* NOTE: the attributes can use double or single quotes
+		  <_-.Rectangle operation="replace" roleName="Ψ1">
+        <Rectangle roleName="101"/>
+      </_-.Rectangle>
+		  */
+		  int posTagEnd = xmlString.indexOf(">");
+		  if (posTagEnd == -1) {return;}
+		  int posOpStart = xmlString.substring(0, posTagEnd).indexOf("operation");
+		  if (posOpStart != -1) {
+		    String str = xmlString.substring(posOpStart+9, posTagEnd);
+		    String opStr = findOperation(str);
+		    switch (opStr) {
+		    case OPERATION_LAST: break;
+		    case OPERATION_FIRST: this.pasteFirstChild(node, xmlString); return;
+		    case OPERATION_BEFORE: this.pasteBefore(node, xmlString); return;
+		    case OPERATION_AFTER: this.pasteAfter(node, xmlString); return;
+		    case OPERATION_MERGE: this.pasteMerge(node, xmlString); return;
+		    case OPERATION_REPLACE: this.pasteReplacement(node, xmlString); return;
+		    default: break;
+		    }
+		  }
+		}
 		record(node, xmlString, "pasteLastChild");
 		IXml2Xholon xml2Xholon = node.getXml2Xholon();
 		IXholon myRootXhNode = xml2Xholon.xmlString2Xholon(xmlString, null);
@@ -234,6 +257,15 @@ public class CutCopyPaste extends Xholon implements ICutCopyPaste {
 		myRootXhNode.configure();
 		myRootXhNode.postConfigure();
 	}
+	
+	/**
+	 * Find the operation in a XML_FOREST.
+	 */
+	protected native String findOperation(String str) /*-{
+	  var quote = /[='"]/g;
+	  var opStr = str.replace(quote, '').trim().split(" ")[0];
+	  return opStr;
+	}-*/;
 	
 	/*
 	 * @see org.primordion.xholon.service.xholonhelper.ICutCopyPaste#pasteFirstChildFromClipboard(org.primordion.xholon.base.IXholon)
@@ -436,7 +468,7 @@ public class CutCopyPaste extends Xholon implements ICutCopyPaste {
 	/*
 	 * @see org.primordion.xholon.service.xholonhelper.ICutCopyPaste#pasteReplacement(org.primordion.xholon.base.IXholon, java.lang.String)
 	 */
-	public void pasteReplacement(IXholon node,String xmlString)
+	public void pasteReplacement(IXholon node, String xmlString)
 	{
 	  /* OLD
 		xmlString = adjustPastedContent(xmlString);
