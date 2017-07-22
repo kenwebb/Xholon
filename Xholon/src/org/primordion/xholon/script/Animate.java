@@ -46,7 +46,7 @@ public class Animate extends XholonScript {
   private String formatName = "_d3,CirclePack";
   
   /** Parameters that will be passed to the ef exporter */
-  private String efParams = "{\"shouldIncludeDecorations\":true,\"sort\":\"disable\",\"width\":600,\"height\":600,\"mode\":\"tween\"}";
+  private String efParams = "{\"shouldIncludeDecorations\":true,\"sort\":\"disable\",\"width\":600,\"height\":600,\"mode\":\"tween\",\"includeId\":true}";
   
   /** Whether or not to write the generated ef-specific code to a Xholon tab */
   private boolean writeToTab = false;
