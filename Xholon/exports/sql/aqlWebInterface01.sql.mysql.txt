@@ -1,0 +1,147 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| cellmodel          |
+| mysql              |
+| pentagon           |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.02 sec)
+
+mysql> create database AqlWebInterface;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| AqlWebInterface    |
+| cellmodel          |
+| mysql              |
+| pentagon           |
+| performance_schema |
+| sys                |
++--------------------+
+7 rows in set (0.01 sec)
+
+mysql> SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SET FOREIGN_KEY_CHECKS=0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> use AqlWebInterface;
+Database changed
+mysql> source ~/gwtspace/Xholon/Xholon/exports/sql/aqlWebInterface01.sql;
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.06 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.04 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.06 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 0 rows affected (0.02 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.02 sec)
+
+Query OK, 18 rows affected (0.01 sec)
+Records: 18  Duplicates: 0  Warnings: 0
+
+mysql> show tables;
++---------------------------+
+| Tables_in_AqlWebInterface |
++---------------------------+
+| CatTheoryInstance         |
+| One                       |
+| Three                     |
+| Two                       |
+| XholonClass               |
++---------------------------+
+5 rows in set (0.00 sec)
+
+mysql> SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from One;
++----+-------+----------+-------+------+
+| ID | xhcID | roleName | attr1 | fk1  |
++----+-------+----------+-------+------+
+| 57 |    14 | one1     |     4 |   61 |
+| 59 |    14 | one2     |  NULL | NULL |
++----+-------+----------+-------+------+
+2 rows in set (0.00 sec)
+
+mysql> select * from Two;
++----+-------+----------+-------+------+
+| ID | xhcID | roleName | attr2 | fk2  |
++----+-------+----------+-------+------+
+| 61 |    16 | two1     | Ken   |   63 |
++----+-------+----------+-------+------+
+1 row in set (0.00 sec)
+
+mysql> select * from Three;
++----+-------+----------+----------+
+| ID | xhcID | roleName | attr3    |
++----+-------+----------+----------+
+| 63 |    18 | three1   | Licorice |
++----+-------+----------+----------+
+1 row in set (0.00 sec)
+
+mysql> select * from XholonClass;
++----+-------------------+----------+
+| ID | xhcName           | parentID |
++----+-------------------+----------+
+|  0 | XholonClass       |        0 |
+|  1 | Chameleon         |        0 |
+|  2 | Quantity          |        0 |
+|  5 | PhysicalSystem    |        0 |
+|  6 | PauseButton       |        0 |
+|  7 | StepButton        |        0 |
+|  8 | Chameleonbehavior |  1001200 |
+|  9 | CattSystem        |        0 |
+| 10 | CatTheorySchema   |        0 |
+| 11 | CatTheoryInstance |        0 |
+| 12 | int               |        0 |
+| 13 | string            |        0 |
+| 14 | One               |        0 |
+| 15 | Ones              |        0 |
+| 16 | Two               |        0 |
+| 17 | Twos              |        0 |
+| 18 | Three             |        0 |
+| 19 | Threes            |        0 |
++----+-------------------+----------+
+18 rows in set (0.00 sec)
+
+mysql> select * from CatTheoryInstance;
++----+-------+
+| ID | xhcID |
++----+-------+
+| 66 |    11 |
++----+-------+
+1 row in set (0.00 sec)
+
+mysql> 
+
