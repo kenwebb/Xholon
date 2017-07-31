@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="author" content="Ken Webb" />
+    <meta name="copyright" content="MIT License, Copyright (C) 2017 Ken Webb" />
+    <style>
+    pre.operadcode {
+      border-style: solid;
+      border-width: 1px;
+      background-color: aliceblue;
+    }
+    </style>
+    <title>Xholon Operads - little 2-cubes operad E&#8322;</title>
+  </head>
+  
+  <body>
+    <h3>Xholon Operads - little 2-cubes operad E&#8322;</h3>
+    
+    <p>Figure 2 in the paper <a href="http://math.mit.edu/~dspivak/informatics/Matriarch_ACS_BMSE.PDF">Matriarch: A Python Library for Materials Architecture</a> by Tristan Giesa, Ravi Jagadeesan, David I. Spivak, and Markus J. Buehler describes a simple operad called the little 2-cubes operad E&#8322;. As part of my attempts to learn about category theory and operadics, I am trying to replicate this operad using Xholon and eTrice, both based on the ROOM formalism. This web page is very terse, and I will try to gradually add more descriptive details.</p>
+    <pre class="operadcode">
+Figure 2. Architecture of rectangle arrangements. Equivalent to an early
+example of an operad from mathematics called the little 2-cubes operad
+E2. In the terminology of this paper, the only building blocks in E2 are
+rectangles. A building instruction in E2 is an arrangement of nonoverlapping
+rectangles within a larger rectangle. In the composition, the placements and
+aspect ratios of building blocks are retained, but sizes can change. The
+operad E2 is the mathematical description of rectangle configurations as
+they are nested into hierarchies of arbitrary depth. The operad underlying
+Matriarch is far more complex than E2, with more diverse building blocks
+and building instructions.
+    </pre>
+    
+    <p>Using eTrice, I can partially represent this operad using the following ROOM model.</p>
+    <pre class="operadcode">
+RoomModel TemplateModel {
+
+  import room.basic.types.* from "../../org.eclipse.etrice.modellib.java/model/Types.room"
+  import room.basic.service.timing.* from "../../org.eclipse.etrice.modellib.java/model/TimingService.room"
+
+  LogicalSystem LogSys {
+    SubSystemRef subSystemRef: SubSysClass
+  }
+
+  SubSystemClass SubSysClass {
+    ActorRef topActor: TopActor
+    ActorRef timingService: ATimingService
+    LayerConnection ref topActor satisfied_by timingService.timer
+    LogicalThread defaultThread
+  }
+
+  // - build your application from here
+  ActorClass TopActor {
+    Structure {
+      ActorRef bi: BuildingInstruction
+    }
+  }
+  
+  ActorClass BuildingInstruction {
+    Structure {
+      ActorRef psi1: Psi1
+      ActorRef psi2: Psi2
+      ActorRef psi3: Psi3
+      ActorRef psi4: Psi4
+    }
+  }
+  
+  ActorClass BuildingBlock {
+    Structure { }
+  }
+  
+  // concrete Building Blocks
+  ActorClass Psi1 extends BuildingBlock {
+    Structure {
+      ActorRef r1: Rectangle
+    }
+  }
+  
+  ActorClass Psi2 extends BuildingBlock {
+    Structure {
+      ActorRef r1: Rectangle
+      ActorRef r2: Rectangle
+    }
+  }
+  
+  ActorClass Psi3 extends BuildingBlock {
+    Structure {
+      ActorRef r1: Rectangle
+      ActorRef r2: Rectangle
+    }
+  }
+  
+  ActorClass Psi4 extends BuildingBlock {
+    Structure {
+      ActorRef r1: Rectangle
+      ActorRef r2: Rectangle
+    }
+  }
+  
+  ActorClass Rectangle {
+    Structure { }
+    Behavior {
+      StateMachine {
+        Transition init: initial -> ready {
+          action {
+            "System.out.println(\"rectangle \" + getInstancePath());"
+          }
+        }
+        State ready
+      }
+    }
+  }
+
+}
+    </pre>
+    
+    <p>eTrice can display the ActorClasses as editable structure diagrams.</p>
+    <figure>
+      <figcaption>Structure of BuildingInstruction</figcaption>
+      <img src="https://raw.githubusercontent.com/kenwebb/Xholon/master/Xholon/exports/etrice/l2coe_Structure_of_BuildingInstruction.png"/>
+    </figure>
+    <figure>
+      <figcaption>Structure of Psi1</figcaption>
+      <img src="https://raw.githubusercontent.com/kenwebb/Xholon/master/Xholon/exports/etrice/l2coe_Structure_of_Psi1.png"/>
+    </figure>
+    <figure>
+      <figcaption>Structure of Psi2</figcaption>
+      <img src="https://raw.githubusercontent.com/kenwebb/Xholon/master/Xholon/exports/etrice/l2coe_Structure_of_Psi2.png"/>
+    </figure>
+    
+    <p>eTrice can compile and run the model. Note the structure and behavior diagrams and the generated Java classes to the left, the model outline to the right, and the text output at the bottom. The text output is written by the line of Java code in the Rectangle Behavior "System.out.println(\"rectangle \" + getInstancePath());"</p>
+    <img src="https://raw.githubusercontent.com/kenwebb/Xholon/master/Xholon/exports/etrice/l2coe_Eclipse_eTRice.png"/>
+    
+    <p>Links to my exploratory Xholon operad-like models. There's no guarantee yet that these are actually operads. (TODO add descriptions)</p>
+    <p><a href="Xholon.html?app=25a385f2ed39c7912c1179a7a45ea868&src=gist&gui=clsc">one</a></p>
+    <p><a href="Xholon.html?app=59296df714020136cc894c62cb327b6a&src=gist&gui=none">two</a></p>
+    <p><a href="Xholon.html?app=be199a92975f4d986a1752cf9bd2bb1d&src=gist&gui=none">three</a></p>
+    <p><a href="Xholon.html?app=e80aa62de8d38c6bb462b9075e08269c&src=gist&gui=none">four</a></p>
+    <p><a href="Xholon.html?app=80b443bc08d84a2ae4ebe83405a48e3f&src=gist&gui=none">five</a></p>
+    <p><a href="Xholon.html?app=d5c2b8f98a8f51213f07c03e5ac3ba53&src=gist&gui=none">six</a></p>
+    <p>TODO Write another Xholon model using <a href="https://github.com/pixijs/pixi.js">PixiJS</a> a "HTML5 2D rendering engine that uses webGL with canvas fallback", which will allow me to show the actual "placements and aspect ratios of building blocks".</p>
+    <p>Notes</p>
+    <ul>
+    <li>The operad itself has no concept of time. In the last four of these Xholon models, I am simulating more what happens in the eTrice model. As the eTrice model executes (as the Java code runs), it works through a process of composition that does take a finite amount of time. The Xholon models include an Avatar, a type of agent that knows how to build and move things around from inside the model. The Avatar and the instructions it follows, are actually part of the model.</li>
+    <li>In Figure 2 in the Matriarch paper, it's not clear to me yet whether the composed configuration includes the outer rectangles (visible or invisible) that are shown in the view of each building block. These "rectangles" still exist in the eTrice model, and in all but the first Xholon model.</li>
+    <li>So basically I'm not yet clear on how the mathematical concept of Operad lines up with various related computer science concepts and implementation details.</li>
+    <li>And how exactly does the pictorial representation in Figure 2 line up with the abstract Operad?</li>
+    <li>My sense (as of 10:47 on July 26, 2017) is that the eTrice ROOM model is a correct representation of the operad. The Xholon model that best captures the same structure is "five".</li>
+    <li>Since Operads is the mathematics of modularity, I have to believe that the original outer rectangles in the building blocks are retained, as happens in the eTrice ROOM model.</li>
+    <li>The description in Figure 2 suggests that it's "rectangles all the way down". Xholon can readily have that type of nested structure. My current eTrice model makes use of fixed ActorRefs. But eTrice and ROOM also offer dynamic structures, where the actual number of rectangles is determined at runtime.</li>
+    </ul>
+    
+    <hr/>
+    <div class="license"  style="font-size: 9px;"><p>Xholon GWT is a <a href="index.html">Xholon</a> project. Copyright (C) 2017 Ken Webb</p></div>
+    <div class="aatt" style="font-size: 9px;"><pre style="font-size: 9px;">
+  @QWERTYUIk
+  OPASmDFGHe
+  primordion
+  JKLZcXCVB.
+    </pre></div>
+
+  </body>
+  
+</html>
