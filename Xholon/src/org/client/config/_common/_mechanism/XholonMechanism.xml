@@ -118,6 +118,25 @@
 	<Application/> <!-- set privately by xholons that implement IApplication -->
 </Control>
 
+<!-- This can be used as part of an Inheritance Hierarchy.
+Uses IDs in range 1004200 - 1004299 .
+Data Flow Diagram entities
+see notes in my notebook - Oct 3, 2008 +
+-->
+<DfdEntity xmlns="http://www.primordion.com/namespace/DfdEntity" id="1004200">
+	<DfdExternalEntity/>
+	<DfdDataFlow/>
+	<DfdProcess/>
+	<DfdDataStore/>
+	<!-- Containers for collections of DFD entities -->
+	<DfdContainer>
+		<DfdExternalEntities/>
+		<DfdDataFlows/>
+		<DfdProcesses/>
+		<DfdDataStores/>
+	</DfdContainer>
+</DfdEntity>
+
 <!-- Gexf GEXF -->
 <gexf xmlns="http://www.primordion.com/namespace/gexf" id="1014900">
   <attributeGEXF/>
