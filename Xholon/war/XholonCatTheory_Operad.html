@@ -16,11 +16,38 @@
   
   <body>
     <h3>Xholon Operads</h3>
-    <p>In a 2015 presentation "Operadics: the mathematics of modular design", David Spivak describes operadics as "a sub-discipline of category theory (CT)."</p>
+    <p>In a 2015 presentation "Operadics: the mathematics of modular design", <a href="http://math.mit.edu/~dspivak/">David Spivak</a> describes operadics as "a sub-discipline of category theory (CT)."</p>
     
+    <h3>Matriarch</h3>
     <p><a href="http://web.mit.edu/matriarch/">Matriarch</a> is "a high-level language of materials architecture, implemented in an open-source Python library."</p>
     
     <p>Figure 2 in the paper <a href="http://math.mit.edu/~dspivak/informatics/Matriarch_ACS_BMSE.PDF">Matriarch: A Python Library for Materials Architecture</a> by Tristan Giesa, Ravi Jagadeesan, David I. Spivak, and Markus J. Buehler describes a simple operad called the little 2-cubes operad E&#8322;. In my attempts to learn about category theory and operadics, I am trying to <a href="XholonCatTheory_Operad_l2coe.html">replicate this operad</a> using Xholon and eTrice, both based on the ROOM formalism.</p>
+    
+    <p>I have implemented part of the first Matriarch model in the paper.</p>
+    <p>The <a href="https://gist.github.com/kenwebb/a774faaa9779d7b3b8c62f40d0cd1f3e">source code</a> at github.</p>
+    <p>The <a href="http://www.primordion.com/Xholon/gwt/wb/editwb.html?app=a774faaa9779d7b3b8c62f40d0cd1f3e&src=gist">source code</a> as an editable and executable Xholon workbook.</p>
+    <p>The <a href="http://www.primordion.com/Xholon/gwt/Xholon.html?app=a774faaa9779d7b3b8c62f40d0cd1f3e&src=gist&gui=clsc">Xholon executable</a>. It generates a chain of 30 amino acid names in Application > Model > CompositeStructureHierarchy > chameleon > physicalSystem > Your first Matriarch program:matriarch > myLongChain:attachSeries.</p>
+    
+    <p>As a next step with Matriach, I have used <a href="http://brython.info/index.html">brython</a> to compile the Matriarch Python source code into JavaScript. The compiled JavaScript runs in the browser, but it fails during the chain() method for a reason that I don't yet understand. My goal is to run code that can be controlled by a Xholon nested structure (the logical/topological structure), that will generate the geometry and include the PDB data. My initial work on this is not yet available online.</p>
+    <p>Once this is working, I would then use <a href="https://biasmv.github.io/pv/"> PV - JavaScript Protein Viewer</a> to display the proteins in the browser.</p>
+    
+    <h3>Manage Repository - DFDs and Arrangement diagram</h3>
+    <p>I have also built a Xholon implementation of Peter's "Manage Repository" model, specified as an Arrangement diagram and multiple Data Flow Diagrams (DFDs). My intention here is to demonstrate a larger nested system that seems to include both building instructions and building blocks. It's a hierarchical structure, with links (data flows) between processes and data stores.</p>
+    <p>The <a href="https://gist.github.com/kenwebb/0ff625364c7c624cc20de50b066e90d8">source code</a> includes various explanations and links to other material. In addition to the Xholon workbook, this page includes several Graphviz and Mind Map exports as (hopefully) viewable SVG files.</p>
+    <p>The <a href="http://www.primordion.com/Xholon/gwtAQL/wb/editwb.html?app=0ff625364c7c624cc20de50b066e90d8&src=gist">source code</a> as an editable and executable Xholon workbook.</p>
+    <p>The <a href="http://www.primordion.com/Xholon/gwtAQL/Xholon.html?app=0ff625364c7c624cc20de50b066e90d8&src=gist&gui=clsc">Xholon executable</a>. I exported the running model to several different formats. I obtained the clearest visualization by exporting it as a Mind Map .mm file, importing that into <a href="http://freemind.sourceforge.net/wiki/index.php/Main_Page">FreeMind</a> or <a href="https://www.freeplane.org/">FreePlane</a>, and then having that tool export it as a SVG image.</p>
+    
+    <h3>Food Recipes</h3>
+    <p>Several years ago I explored the structure of food recipes. I believe that this is operadic.</p>
+    <p><a href="https://gist.github.com/kenwebb/9858622">source code</a> at github</p>
+    <p><a href="http://www.primordion.com/Xholon/gwt/wb/editwb.html?app=9858622&src=gist">source code</a> as an editable Xholon workbook</p>
+    <p><a href="http://www.primordion.com/Xholon/gwt/Xholon.html?app=9858622&src=gist&gui=clsc">Xholon executable</a> with a Mind Map SVG visualization</p>
+    
+    <h3>MathML</h3>
+    <p><a href="https://en.wikipedia.org/wiki/MathML">MathML</a> has an interesting structure.</p>
+    <p><a href="https://gist.github.com/kenwebb/942a6d487b5df1172b13f11fb840f820">source code</a> at github</p>
+    <p><a href="http://www.primordion.com/Xholon/gwt/wb/editwb.html?app=942a6d487b5df1172b13f11fb840f820&src=gist">source code</a> as an editable Xholon workbook</p>
+    <p><a href="http://www.primordion.com/Xholon/gwt/Xholon.html?app=942a6d487b5df1172b13f11fb840f820&src=gist&gui=clsc">Xholon executable</a> with a Mind Map SVG visualization</p>
     
     <hr/>
     <div class="license"  style="font-size: 9px;"><p>Xholon GWT is a <a href="index.html">Xholon</a> project. Copyright (C) 2017 Ken Webb</p></div>
