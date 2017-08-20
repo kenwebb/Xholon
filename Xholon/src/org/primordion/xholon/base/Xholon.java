@@ -1343,6 +1343,31 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 				break;
 			case 5: // optional directive
 				switch (ch) {
+				case 'V': // XholonJsApi val()
+				  double dval = getVal();
+				  if (dval != 0.0) {
+				    nameBuffer += " " + dval;
+				  }
+				  break;
+				case 'W': // XholonJsApi val()
+				  double dvalw = getVal();
+				  if (dvalw != 0.0) {
+				    nameBuffer = "" + dvalw; // replace what's already in the nameBuffer; for example, use this in MathML so Cn will return just its value
+				  }
+				  break;
+				case 'T': // XholonJsApi text()
+				  String sval = getVal_String();
+				  if ((sval != null) && (sval.length() > 0)) {
+				    nameBuffer += sval;
+				  }
+				  break;
+				case 'B': nameBuffer += " " + getVal_boolean(); break; // XholonJsApi bool()
+				case 'O': // XholonJsApi obj()
+				  Object oval = getVal_Object();
+				  if (oval != null) {
+				    nameBuffer += " " + oval.toString();
+				  }
+				  break;
 				case '^': break;
 				default: break;
 				}
