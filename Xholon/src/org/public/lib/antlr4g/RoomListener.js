@@ -173,6 +173,33 @@ RoomListener.prototype.exitStateMachine = function(ctx) {
 };
 
 
+// Enter a parse tree produced by RoomParser#transition.
+RoomListener.prototype.enterTransition = function(ctx) {
+};
+
+// Exit a parse tree produced by RoomParser#transition.
+RoomListener.prototype.exitTransition = function(ctx) {
+};
+
+
+// Enter a parse tree produced by RoomParser#sstate.
+RoomListener.prototype.enterSstate = function(ctx) {
+};
+
+// Exit a parse tree produced by RoomParser#sstate.
+RoomListener.prototype.exitSstate = function(ctx) {
+};
+
+
+// Enter a parse tree produced by RoomParser#action.
+RoomListener.prototype.enterAction = function(ctx) {
+};
+
+// Exit a parse tree produced by RoomParser#action.
+RoomListener.prototype.exitAction = function(ctx) {
+};
+
+
 // Enter a parse tree produced by RoomParser#dataClass.
 RoomListener.prototype.enterDataClass = function(ctx) {
 };

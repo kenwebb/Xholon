@@ -12,6 +12,9 @@
  * 
  * at the top of the generated .js files, change the path to:
  *  'xholon/lib/antlr4/index'
+ * 
+ * To test it:
+ * http://127.0.0.1:8888/XholonAntlr_Room.html?app=HelloWorld&gui=clsc
  */
 
 grammar Room;
@@ -90,11 +93,23 @@ structure
   ;
 
 behavior
-  : 'Behavior' '{' stateMachine '}'
+  : 'Behavior' '{' stateMachine? '}'
   ;
 
 stateMachine
-  : 'StateMachine' '{'  '}'
+  : 'StateMachine' '{' ( transition | sstate )* '}'
+  ;
+
+transition
+  : 'Transition' RoomName ID '->' ID '{' action? '}'
+  ;
+
+sstate
+  : 'State' ID
+  ;
+
+action
+  : 'action' '{' ID? '}'
   ;
 
 dataClass
