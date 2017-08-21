@@ -1,0 +1,215 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="author" content="Ken Webb" />
+    <meta name="copyright" content="MIT License, Copyright (C) 2017 Ken Webb" />
+    <!--<link rel="stylesheet" type="text/css" href="css/style.css">-->
+    <script src="xholon/lib/antlr4-require.js"></script>
+    <style>
+    pre.antlr {
+      border-style: solid;
+      border-width: 1px;
+      background-color: aliceblue;
+    }
+    #tree {
+        margin-left: 50px;
+        float:left;
+        clear:right;
+    }
+    #inputs {
+        float:left;
+        clear:left;
+    }
+    .roomElement {
+        background: beige;
+        /*display: inline-block;*/
+        padding: 5px;
+        border-radius: 12px;
+        border: 1px solid black;
+        margin: 10px;
+    }
+    </style>
+    <title>Xholon ANTLR - ROOM eTrice</title>
+  </head>
+  
+  <body>
+    <h3>Xholon ANTLR - ROOM eTrice</h3>
+    
+    <!-- http://127.0.0.1:8888/XholonAntlr_Room.html?app=HelloWorld&gui=clsc -->
+    <p>This is an <a href="">eTrice ROOM</a> model.</p>
+    <pre class="antlr">
+ROOM grammar
+    </pre>
+    
+    <div id="inputs">
+      <textarea id="code">
+RoomModel TemplateModel {
+
+  /*
+  This is a sample eTRice ROOM model.
+  */
+  
+  // the import lines will be ignored
+  import room.basic.types.* from "../../org.eclipse.etrice.modellib.java/model/Types.room"
+  import room.basic.service.timing.* from "../../org.eclipse.etrice.modellib.java/model/TimingService.room"
+  
+  LogicalSystem LogSys {
+    SubSystemRef subSystemRef: SubSysClass
+  }
+
+  SubSystemClass SubSysClass {
+    ActorRef topActor: TopActor
+    ActorRef timingService: ATimingService
+    LayerConnection ref topActor satisfied_by timingServicetimer
+    LogicalThread defaultThread
+  }
+
+  // - build your application from here
+  ActorClass TopActor {
+    Structure {
+      ActorRef txr: Sender
+      ActorRef rxr: Receiver
+      ActorRef rxr2: Receiver
+    }
+    Behavior {
+      StateMachine {
+      }
+    }
+  }
+  
+  ProtocolClass PingPongProtocol {
+    incoming {
+      Message ping()
+    }
+    outgoing {
+      Message pong()
+    }
+  }
+
+  ActorClass Sender {
+    Interface {
+    }
+    Structure {
+    }
+    Behavior {
+      StateMachine {
+      }
+    }
+  }
+
+  ActorClass Receiver {
+    Interface {
+    }
+    Structure {
+    }
+    Behavior {
+      StateMachine {
+      }
+    }
+  }
+
+}
+</textarea>
+      <br/>
+      <button id="parse">Parse</button>
+    </div>
+    
+    <script type="text/javascript">
+var updateTree = function(tree, ruleNames) {
+  var container = document.getElementById("tree");
+  while (container.hasChildNodes()) {
+    container.removeChild(container.lastChild);
+  }
+  for (var i = 0; i < tree.children.length; i++) {
+    var child = tree.children[i];
+    var nodeType = ruleNames[child.ruleIndex];
+    console.log(nodeType);
+    if (nodeType == "actorClass") {
+      var newElement = document.createElement("div");
+      newElement.className = "roomElement";
+      for (var j = 0; j < child.children.length; j++) {
+        console.log("" + j + " " + child.children[j].getText());
+        recurseChild(child.children[j], ruleNames);
+      }
+      var newElementText = document.createTextNode("<" + child.children[1].getText() + "/>");
+      newElement.appendChild(newElementText);
+      container.appendChild(newElement);
+    }
+  }
+};
+
+var recurseChild = function(child, ruleNames) {
+  if (!child) {return;}
+  var nodeType = ruleNames[child.ruleIndex];
+  console.log(nodeType);
+  switch (nodeType) {
+  case "structure":
+    console.log("THIS IS A structure");
+    break;
+  case "actorRef":
+    // ActorReftxr:Sender
+    var xhcName = child.children[2].getText();
+    var roleName = child.children[1].getText();
+    roleName = roleName.substring(0, roleName.length-1); // remove trailing ":"
+    var xmlCshStr = '<' + xhcName + ' roleName="' + roleName + '"/>';
+    console.log(xmlCshStr);
+    return;
+  default:
+    break;
+  }
+  if (child.children) {
+    for (var j = 0; j < child.children.length; j++) {
+      console.log("" + j + " " + child.children[j].getText());
+      recurseChild(child.children[j], ruleNames);
+    }
+  }
+}
+
+var antlr4 = require('xholon/lib/antlr4/index');
+var RoomLexer = require('xholon/lib/antlr4g/RoomLexer');
+var RoomParser = require('xholon/lib/antlr4g/RoomParser');
+var RoomListener = require('xholon/lib/antlr4g/RoomListener');
+document.getElementById("parse").addEventListener("click", function(){
+  var input = document.getElementById("code").value;
+  var chars = new antlr4.InputStream(input);
+  var lexer = new RoomLexer.RoomLexer(chars);
+  var tokens  = new antlr4.CommonTokenStream(lexer);
+  var parser = new RoomParser.RoomParser(tokens);
+  parser.buildParseTrees = true;
+  var tree = parser.roomModel(); //.elements();
+  console.log("Parsed: "+ tree);
+  updateTree(tree, parser.ruleNames);
+  //
+  var printer = new RoomPrinter();
+  antlr4.tree.ParseTreeWalker.DEFAULT.walk(printer, tree);
+});
+
+RoomPrinter = function() {
+  RoomListener.RoomListener.call(this); // inherit default listener
+  return this;
+}
+
+RoomPrinter.prototype = Object.create(RoomListener.RoomListener.prototype);
+RoomPrinter.prototype.constructor = RoomPrinter;
+RoomPrinter.prototype.enterRoomModel = function(ctx) {
+  console.log("Entered RoomModel " + ctx.toStringTree());
+  //console.log(ctx.children[2].getText());
+  console.log(ctx);
+};
+    </script>
+    
+    <div id="tree"></div>
+    
+    <hr/>
+    <div class="license"  style="font-size: 9px;"><p>Xholon GWT is a <a href="index.html">Xholon</a> project. Copyright (C) 2017 Ken Webb</p></div>
+    <div class="aatt" style="font-size: 9px;"><pre style="font-size: 9px;">
+  @QWERTYUIk
+  OPASmDFGHe
+  primordion
+  JKLZcXCVB.
+    </pre></div>
+
+  </body>
+  
+</html>
