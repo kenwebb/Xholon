@@ -145,17 +145,8 @@ var updateTree = function(tree, ruleNames) {
     console.log(nodeType);
     switch (nodeType) {
     case "subSystemClass":
-      /*
-      xmlStrCSH = "<_-.csh>\n";
-      for (var j = 0; j < child.children.length; j++) {
-        console.log("" + j + " " + child.children[j].getText());
-        recurseChild(child.children[j], ruleNames);
-      }
-      xmlStrCSH += "</_-.csh>\n";
-      */
       break;
     case "actorClass":
-    //if (nodeType == "actorClass") {
       var newElement = document.createElement("div");
       newElement.className = "roomElement";
       var superClassName = "";
@@ -167,22 +158,20 @@ var updateTree = function(tree, ruleNames) {
       xmlStrCSH += "  " + "<" + child.children[1].getText() + ">\n";
       for (var j = 0; j < child.children.length; j++) {
         console.log("" + j + " " + child.children[j].getText());
-        recurseChild(child.children[j], ruleNames);
+        recurseChild(child.children[j], ruleNames, "  ");
       }
       xmlStrCSH += "  " + "</" + child.children[1].getText() + ">\n";
       var newElementText = document.createTextNode(xmlIhStr);
       newElement.appendChild(newElementText);
       container.appendChild(newElement);
-    //}
       break;
-    
     default:
       break;
     } // end switch
   }
 };
 
-var recurseChild = function(child, ruleNames) {
+var recurseChild = function(child, ruleNames, indent) {
   if (!child) {return;}
   var nodeType = ruleNames[child.ruleIndex];
   console.log(nodeType);
@@ -202,7 +191,41 @@ var recurseChild = function(child, ruleNames) {
     roleName = roleName.substring(0, roleName.length-1); // remove trailing ":"
     var xmlCshStr = '<' + xhcName + ' roleName="' + roleName + '"/>';
     console.log(xmlCshStr);
-    xmlStrCSH += "  " + xmlCshStr + "\n";
+    xmlStrCSH += indent + xmlCshStr + "\n";
+    return;
+  case "stateMachine":
+    stateMachine(child, ruleNames, indent);
+    return;
+  case "transition":
+    transition(child, ruleNames, indent);
+    return;
+  case "sstate":
+    sstate(child, ruleNames, indent);
+    return;
+  case "subgraph":
+    //subgraph(child, ruleNames, indent);
+    //return;
+    break;
+  case "entry":
+    entry(child, ruleNames, indent);
+    return;
+  case "exit":
+    exit(child, ruleNames, indent);
+    return;
+  case "action":
+    action(child, ruleNames, indent);
+    return;
+  case "trigger":
+    trigger(child, ruleNames, indent);
+    return;
+  case "entryPoint":
+    entryPoint(child, ruleNames, indent);
+    return;
+  case "exitPoint":
+    exitPoint(child, ruleNames, indent);
+    return;
+  case "code":
+    code(child, ruleNames, indent);
     return;
   default:
     break;
@@ -210,28 +233,132 @@ var recurseChild = function(child, ruleNames) {
   if (child.children) {
     for (var j = 0; j < child.children.length; j++) {
       console.log("" + j + " " + child.children[j].getText());
-      recurseChild(child.children[j], ruleNames);
+      recurseChild(child.children[j], ruleNames, indent + "  ");
     }
   }
 }
 
-var recurseBehavior = function(child, ruleNames) {
-  if (!child) {return;}
-  var nodeType = ruleNames[child.ruleIndex];
-  console.log(nodeType);
-  switch (nodeType) {
-  case "stateMachine":
-    xmlStrCSH += "  <StateMachine/>\n";
-    break;
-  default:
-    break;
-  }
-  if (child.children) {
-    for (var j = 0; j < child.children.length; j++) {
-      console.log("" + j + " " + child.children[j].getText());
-      recurseBehavior(child.children[j], ruleNames);
+var stateMachine = function(node, ruleNames, indent) {
+  xmlStrCSH += indent + "<StateMachine>\n";
+  if (node.children) {
+    for (var j = 0; j < node.children.length; j++) {
+      console.log("" + j + " " + node.children[j].getText());
+      recurseChild(node.children[j], ruleNames, indent + "  ");
     }
-  }
+  }  
+  xmlStrCSH += indent + "</StateMachine>\n";
+}
+
+var transition = function(node, ruleNames, indent) {
+  var roleName = node.children[1].getText();
+  roleName = roleName.substring(0, roleName.length-1); // remove trailing ":"
+  xmlStrCSH += indent + '<TransitionExternal roleName="' + roleName + '">\n';
+  if (node.children) {
+    for (var j = 0; j < node.children.length; j++) {
+      console.log("" + j + " " + node.children[j].getText());
+      recurseChild(node.children[j], ruleNames, indent + "  ");
+    }
+  }  
+  xmlStrCSH += indent + "</TransitionExternal>\n";
+}
+
+var sstate = function(node, ruleNames, indent) {
+  xmlStrCSH += indent + '<State roleName="' + node.children[1].getText() + '">\n';
+  if (node.children) {
+    for (var j = 0; j < node.children.length; j++) {
+      console.log("" + j + " " + node.children[j].getText());
+      recurseChild(node.children[j], ruleNames, indent + "  ");
+    }
+  }  
+  xmlStrCSH += indent + "</State>\n";
+}
+
+/*var subgraph = function(node, ruleNames, indent) {
+  xmlStrCSH += indent + "<StateMachine>\n";
+  if (node.children) {
+    for (var j = 0; j < node.children.length; j++) {
+      //console.log("" + j + " " + node.children[j].getText());
+      recurseChild(node.children[j], ruleNames);
+    }
+  }  
+  xmlStrCSH += indent + "</StateMachine>\n";
+}*/
+
+var entry = function(node, ruleNames, indent) {
+  xmlStrCSH += indent + "<ENTRY>\n";
+  if (node.children) {
+    for (var j = 0; j < node.children.length; j++) {
+      console.log("" + j + " " + node.children[j].getText());
+      recurseChild(node.children[j], ruleNames, indent + "  ");
+    }
+  }  
+  xmlStrCSH += indent + "</ENTRY>\n";
+}
+
+var exit = function(node, ruleNames, indent) {
+  xmlStrCSH += indent + "<EXIT>\n";
+  if (node.children) {
+    for (var j = 0; j < node.children.length; j++) {
+      console.log("" + j + " " + node.children[j].getText());
+      recurseChild(node.children[j], ruleNames, indent + "  ");
+    }
+  }  
+  xmlStrCSH += indent + "</EXIT>\n";
+}
+
+var action = function(node, ruleNames, indent) {
+  xmlStrCSH += indent + "<ACTION>\n";
+  if (node.children) {
+    for (var j = 0; j < node.children.length; j++) {
+      console.log("" + j + " " + node.children[j].getText());
+      recurseChild(node.children[j], ruleNames, indent + "  ");
+    }
+  }  
+  xmlStrCSH += indent + "</ACTION>\n";
+}
+
+var trigger = function(node, ruleNames, indent) {
+  xmlStrCSH += indent + "<Trigger>\n";
+  if (node.children) {
+    for (var j = 0; j < node.children.length; j++) {
+      console.log("" + j + " " + node.children[j].getText());
+      recurseChild(node.children[j], ruleNames, indent + "  ");
+    }
+  }  
+  xmlStrCSH += indent + "</Trigger>\n";
+}
+
+var entryPoint = function(node, ruleNames, indent) {
+  xmlStrCSH += indent + "<ENTRYPOINT>\n";
+  if (node.children) {
+    for (var j = 0; j < node.children.length; j++) {
+      console.log("" + j + " " + node.children[j].getText());
+      recurseChild(node.children[j], ruleNames, indent + "  ");
+    }
+  }  
+  xmlStrCSH += indent + "</ENTRYPOINT>\n";
+}
+
+var exitPoint = function(node, ruleNames, indent) {
+  xmlStrCSH += indent + "<EXITPOINT>\n";
+  if (node.children) {
+    for (var j = 0; j < node.children.length; j++) {
+      console.log("" + j + " " + node.children[j].getText());
+      recurseChild(node.children[j], ruleNames, indent + "  ");
+    }
+  }  
+  xmlStrCSH += indent + "</EXITPOINT>\n";
+}
+
+var code = function(node, ruleNames, indent) {
+  xmlStrCSH += indent + "<CODE>\n";
+  if (node.children) {
+    for (var j = 0; j < node.children.length; j++) {
+      console.log("" + j + " " + node.children[j].getText());
+      recurseChild(node.children[j], ruleNames, indent + "  ");
+    }
+  }  
+  xmlStrCSH += indent + "</CODE>\n";
 }
 
 var antlr4 = require('xholon/lib/antlr4/index');
