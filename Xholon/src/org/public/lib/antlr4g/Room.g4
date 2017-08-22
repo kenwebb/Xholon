@@ -82,14 +82,31 @@ actorRef
 
 actorClass
   : 'ActorClass' ID (Documentation)? ( 'extends' ID )? '{'
-  ( 'Interface' '{'  '}' )?
+  ( iinterface )?
   ( structure )?
   ( behavior )?
   '}'
   ;
 
+// 
+iinterface
+  : 'Interface' '{' port* '}'
+  ;
+
 structure
-  : 'Structure' '{' ( actorRef )* '}'
+  : 'Structure' '{' ( actorRef | port | binding )* '}'
+  ;
+
+// Port port0: TodoProtocol
+// conjugated Port actorPort[*]: TodoProtocol
+// external Port actorPort
+port
+  : ( 'conjugated' | 'external' )* 'Port' RoomName ID
+  ;
+
+// Binding port_64_actorPort and port_64.actorPort
+binding
+  : 'Binding' ID 'and' ID
   ;
 
 behavior
@@ -101,15 +118,51 @@ stateMachine
   ;
 
 transition
-  : 'Transition' RoomName ID '->' ID '{' action? '}'
+  : 'Transition' RoomName ID '->' ID '{' ( triggers | action )* '}'
   ;
 
 sstate
-  : 'State' ID
+  : 'State' ID ( '{' ( subgraph | entry | exit )* '}' )?
+  ;
+
+transitionPoint
+  : 'TransitionPoint' ID
+  ;
+
+choicePoint
+  : 'ChoicePoint' ID
+  ;
+
+subgraph
+  : 'subgraph' '{' ( transition | sstate )* '}'
+  ;
+
+entry
+  : 'entry' '{' code? '}'
+  ;
+
+exit
+  : 'exit' '{' code? '}'
   ;
 
 action
-  : 'action' '{' ID? '}'
+  : 'action' '{' code? '}'
+  ;
+
+triggers
+  : 'triggers' '{' code? '}'
+  ;
+
+entryPoint
+  : 'EntryPoint' ID
+  ;
+
+exitPoint
+  : 'ExitPoint' ID
+  ;
+
+code
+  : '"' .*? '"'
   ;
 
 dataClass
@@ -152,10 +205,10 @@ Documentation : '[' 'doctodo' ']' ;
 //ID : '^'? ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
 //ID : [a-zA-Z_] [a-zA-Z0-9_]*;
 
-ID : [a-zA-Z] [a-zA-Z0-9]* ;
+ID : [a-zA-Z_] [a-zA-Z0-9_]* ;
 
 // roleName, portName, and any other name that ends in ":"
-RoomName : [a-zA-Z] [a-zA-Z0-9]* [:] ;
+RoomName : [a-zA-Z0-9] [a-zA-Z0-9]* MULTIPLICITY? [:] ;
 
 // '0' | [1-9] [0-9]*
 //INT : ('0'..'9')+;

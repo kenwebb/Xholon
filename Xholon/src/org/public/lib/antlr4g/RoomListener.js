@@ -146,12 +146,39 @@ RoomListener.prototype.exitActorClass = function(ctx) {
 };
 
 
+// Enter a parse tree produced by RoomParser#iinterface.
+RoomListener.prototype.enterIinterface = function(ctx) {
+};
+
+// Exit a parse tree produced by RoomParser#iinterface.
+RoomListener.prototype.exitIinterface = function(ctx) {
+};
+
+
 // Enter a parse tree produced by RoomParser#structure.
 RoomListener.prototype.enterStructure = function(ctx) {
 };
 
 // Exit a parse tree produced by RoomParser#structure.
 RoomListener.prototype.exitStructure = function(ctx) {
+};
+
+
+// Enter a parse tree produced by RoomParser#port.
+RoomListener.prototype.enterPort = function(ctx) {
+};
+
+// Exit a parse tree produced by RoomParser#port.
+RoomListener.prototype.exitPort = function(ctx) {
+};
+
+
+// Enter a parse tree produced by RoomParser#binding.
+RoomListener.prototype.enterBinding = function(ctx) {
+};
+
+// Exit a parse tree produced by RoomParser#binding.
+RoomListener.prototype.exitBinding = function(ctx) {
 };
 
 
@@ -191,12 +218,93 @@ RoomListener.prototype.exitSstate = function(ctx) {
 };
 
 
+// Enter a parse tree produced by RoomParser#transitionPoint.
+RoomListener.prototype.enterTransitionPoint = function(ctx) {
+};
+
+// Exit a parse tree produced by RoomParser#transitionPoint.
+RoomListener.prototype.exitTransitionPoint = function(ctx) {
+};
+
+
+// Enter a parse tree produced by RoomParser#choicePoint.
+RoomListener.prototype.enterChoicePoint = function(ctx) {
+};
+
+// Exit a parse tree produced by RoomParser#choicePoint.
+RoomListener.prototype.exitChoicePoint = function(ctx) {
+};
+
+
+// Enter a parse tree produced by RoomParser#subgraph.
+RoomListener.prototype.enterSubgraph = function(ctx) {
+};
+
+// Exit a parse tree produced by RoomParser#subgraph.
+RoomListener.prototype.exitSubgraph = function(ctx) {
+};
+
+
+// Enter a parse tree produced by RoomParser#entry.
+RoomListener.prototype.enterEntry = function(ctx) {
+};
+
+// Exit a parse tree produced by RoomParser#entry.
+RoomListener.prototype.exitEntry = function(ctx) {
+};
+
+
+// Enter a parse tree produced by RoomParser#exit.
+RoomListener.prototype.enterExit = function(ctx) {
+};
+
+// Exit a parse tree produced by RoomParser#exit.
+RoomListener.prototype.exitExit = function(ctx) {
+};
+
+
 // Enter a parse tree produced by RoomParser#action.
 RoomListener.prototype.enterAction = function(ctx) {
 };
 
 // Exit a parse tree produced by RoomParser#action.
 RoomListener.prototype.exitAction = function(ctx) {
+};
+
+
+// Enter a parse tree produced by RoomParser#triggers.
+RoomListener.prototype.enterTriggers = function(ctx) {
+};
+
+// Exit a parse tree produced by RoomParser#triggers.
+RoomListener.prototype.exitTriggers = function(ctx) {
+};
+
+
+// Enter a parse tree produced by RoomParser#entryPoint.
+RoomListener.prototype.enterEntryPoint = function(ctx) {
+};
+
+// Exit a parse tree produced by RoomParser#entryPoint.
+RoomListener.prototype.exitEntryPoint = function(ctx) {
+};
+
+
+// Enter a parse tree produced by RoomParser#exitPoint.
+RoomListener.prototype.enterExitPoint = function(ctx) {
+};
+
+// Exit a parse tree produced by RoomParser#exitPoint.
+RoomListener.prototype.exitExitPoint = function(ctx) {
+};
+
+
+// Enter a parse tree produced by RoomParser#code.
+RoomListener.prototype.enterCode = function(ctx) {
+};
+
+// Exit a parse tree produced by RoomParser#code.
+RoomListener.prototype.exitCode = function(ctx) {
 };
 
 
