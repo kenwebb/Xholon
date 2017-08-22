@@ -182,6 +182,15 @@ RoomListener.prototype.exitBinding = function(ctx) {
 };
 
 
+// Enter a parse tree produced by RoomParser#sap.
+RoomListener.prototype.enterSap = function(ctx) {
+};
+
+// Exit a parse tree produced by RoomParser#sap.
+RoomListener.prototype.exitSap = function(ctx) {
+};
+
+
 // Enter a parse tree produced by RoomParser#behavior.
 RoomListener.prototype.enterBehavior = function(ctx) {
 };
@@ -278,6 +287,15 @@ RoomListener.prototype.enterTriggers = function(ctx) {
 
 // Exit a parse tree produced by RoomParser#triggers.
 RoomListener.prototype.exitTriggers = function(ctx) {
+};
+
+
+// Enter a parse tree produced by RoomParser#trigger.
+RoomListener.prototype.enterTrigger = function(ctx) {
+};
+
+// Exit a parse tree produced by RoomParser#trigger.
+RoomListener.prototype.exitTrigger = function(ctx) {
 };
 
 

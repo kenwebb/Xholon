@@ -94,19 +94,26 @@ iinterface
   ;
 
 structure
-  : 'Structure' '{' ( actorRef | port | binding )* '}'
+  : 'Structure' '{' ( actorRef | port | binding | sap )* '}'
   ;
 
 // Port port0: TodoProtocol
 // conjugated Port actorPort[*]: TodoProtocol
 // external Port actorPort
+// external Port port0
+// Port a_48_port0: PingPongProtocol
 port
-  : ( 'conjugated' | 'external' )* 'Port' RoomName ID
+  : ( 'conjugated' | 'external' )* 'Port' RoomName? ID
   ;
 
 // Binding port_64_actorPort and port_64.actorPort
 binding
   : 'Binding' ID 'and' ID
+  ;
+
+// SAP timingService: PTimer
+sap
+  : 'SAP' RoomName ID
   ;
 
 behavior
@@ -117,8 +124,10 @@ stateMachine
   : 'StateMachine' '{' ( transition | sstate )* '}'
   ;
 
+// Transition init: initial -> helloState
+// Transition tr0: sendingPing -> receivedPong {
 transition
-  : 'Transition' RoomName ID '->' ID '{' ( triggers | action )* '}'
+  : 'Transition' RoomName ID '->' ID ( '{' ( triggers | action )* '}' )?
   ;
 
 sstate
@@ -149,8 +158,15 @@ action
   : 'action' '{' code? '}'
   ;
 
+// triggers {
+//  <ping: recvPort>
+// }
 triggers
-  : 'triggers' '{' code? '}'
+  : 'triggers' '{' trigger* '}'
+  ;
+
+trigger
+  : '<' RoomName ID '>'
   ;
 
 entryPoint
@@ -161,8 +177,12 @@ exitPoint
   : 'ExitPoint' ID
   ;
 
+// "// TODO"
+// "sendPort.ping();"
+// "System.out.println(\"### Hello World! ###\");"   it fails on \"
+// '"' .*? '"'  doesn't work
 code
-  : '"' .*? '"'
+  : CodeString
   ;
 
 dataClass
@@ -205,10 +225,13 @@ Documentation : '[' 'doctodo' ']' ;
 //ID : '^'? ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
 //ID : [a-zA-Z_] [a-zA-Z0-9_]*;
 
-ID : [a-zA-Z_] [a-zA-Z0-9_]* ;
+ID : [a-zA-Z_] [a-zA-Z0-9_]* ( '.' [a-zA-Z_] [a-zA-Z0-9_]* )? ;
 
 // roleName, portName, and any other name that ends in ":"
-RoomName : [a-zA-Z0-9] [a-zA-Z0-9]* MULTIPLICITY? [:] ;
+RoomName : [a-zA-Z0-9_] [a-zA-Z0-9_]* MULTIPLICITY? [:] ;
+
+// CodeString : '"' ~('\r' | '\n' | '"')* '"' ;   this works, except when recognizing internal \"
+CodeString : '"' (~('"' | '\\' | '\r' | '\n') | '\\' ('"' | '\\'))* '"';
 
 // '0' | [1-9] [0-9]*
 //INT : ('0'..'9')+;
