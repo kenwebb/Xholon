@@ -178,7 +178,7 @@ var recurseChild = function(child, ruleNames, indent) {
   console.log(nodeType);
   switch (nodeType) {
   case "structure":
-    console.log("THIS IS A structure");
+    //console.log("THIS IS A structure");
     break;
   case "behavior":
     behavior(child, ruleNames, indent);
@@ -196,7 +196,8 @@ var recurseChild = function(child, ruleNames, indent) {
     stateMachine(child, ruleNames, indent);
     return;
   case "transition":
-    transition(child, ruleNames, indent);
+    //transition(child, ruleNames, indent);
+    // sstate() will process the cached transitions in transArr
     return;
   case "sstate":
     sstate(child, ruleNames, indent);
@@ -213,6 +214,10 @@ var recurseChild = function(child, ruleNames, indent) {
   case "action":
     action(child, ruleNames, indent);
     return;
+  case "triggers":
+    // Xholon doesn't use "triggers" directly; just the individual "trigger" nodes
+    indent = indent.substring(0, indent.length-2);
+    break;
   case "trigger":
     trigger(child, ruleNames, indent);
     return;
@@ -241,7 +246,7 @@ var behavior = function(node, ruleNames, indent) {
     // write out the previous behavior
     console.log(beh);
   }
-  console.log("THIS IS A new behavior");
+  //console.log("THIS IS A new behavior");
   var cnodeParentName = actorClassContextName; //node.parentCtx.children[1].getText(); // xmlName
   var jsName = cnodeParentName.charAt(0).toLowerCase() + cnodeParentName.substring(1);
   beh = '<' + cnodeParentName + 'behavior implName="org.primordion.xholon.base.Behavior_gwtjs"><![CDATA[\n' // ex: Turnstilebehavior
@@ -260,7 +265,7 @@ var behavior = function(node, ruleNames, indent) {
   if (node.children) {
     for (var j = 0; j < node.children.length; j++) {
       console.log("" + j + " " + node.children[j].getText());
-      recurseChild(node.children[j], ruleNames, indent + "    ");
+      recurseChild(node.children[j], ruleNames, indent + "  ");
     }
   }
   beh += "    default:\n"
@@ -275,6 +280,7 @@ var behavior = function(node, ruleNames, indent) {
 var stateMachine = function(node, ruleNames, indent) {
   xmlStrCSH += indent + "<StateMachine>\n";
   xmlStrCSH += indent + '  <State roleName="Top">\n';
+  transArr = cacheTransitions(node, ruleNames, indent + "  ");
   if (node.children) {
     for (var j = 0; j < node.children.length; j++) {
       console.log("" + j + " " + node.children[j].getText());
@@ -290,25 +296,36 @@ var transition = function(node, ruleNames, indent) {
   var sourceStateName = node.children[2].getText();
   var targetStateName = node.children[4].getText();
   roleName = roleName.substring(0, roleName.length-1); // remove trailing ":"
+  var indent2 = "";
   if (sourceStateName == "initial") {
     xmlStrCSH += indent + "<PseudostateInitial>\n";
+    indent2 = "  ";
   }
-  xmlStrCSH += indent + '<TransitionExternal roleName="' + roleName + '">\n';
+  xmlStrCSH += indent + indent2 + '<TransitionExternal roleName="' + roleName + '">\n';
   if (node.children) {
     for (var j = 0; j < node.children.length; j++) {
       console.log("" + j + " " + node.children[j].getText());
-      recurseChild(node.children[j], ruleNames, indent + "  ");
+      recurseChild(node.children[j], ruleNames, indent + indent2 + "  ");
     }
   }
-  xmlStrCSH += indent + '  <Target roleName="' + targetStateName + '"\>\n';
-  xmlStrCSH += indent + "</TransitionExternal>\n";
+  xmlStrCSH += indent + indent2 + '  <Target roleName="' + targetStateName + '"\>\n';
+  xmlStrCSH += indent + indent2 + "</TransitionExternal>\n";
   if (sourceStateName == "initial") {
     xmlStrCSH += indent + "</PseudostateInitial>\n";
   }
 }
 
 var sstate = function(node, ruleNames, indent) {
-  xmlStrCSH += indent + '<State roleName="' + node.children[1].getText() + '">\n';
+  var roleName = node.children[1].getText();
+  xmlStrCSH += indent + '<State roleName="' + roleName + '">\n';
+  if (transArr) {
+    for (var t = 0; t < transArr.length; t++) {
+      var sourceStateName = transArr[t].children[2].getText();
+      if (sourceStateName == roleName) {
+        transition(transArr[t], ruleNames, indent + "  ");
+      }
+    }
+  }
   if (node.children) {
     for (var j = 0; j < node.children.length; j++) {
       console.log("" + j + " " + node.children[j].getText());
@@ -320,6 +337,7 @@ var sstate = function(node, ruleNames, indent) {
 
 var subgraph = function(node, ruleNames, indent) {
   xmlStrCSH += indent + "<Region>\n";
+  transArr = cacheTransitions(node, ruleNames, indent + "  ");
   if (node.children) {
     for (var j = 0; j < node.children.length; j++) {
       console.log("" + j + " " + node.children[j].getText());
@@ -373,7 +391,12 @@ var action = function(node, ruleNames, indent) {
 }
 
 var trigger = function(node, ruleNames, indent) {
-  xmlStrCSH += indent + "<Trigger>\n";
+  var roleName = "";
+  var trigName = node.children[1].getText(); // 1 coin100:
+  if (trigName) {
+    roleName = ' roleName="' + trigName.substring(0, trigName.length - 1) + '"';
+  }
+  xmlStrCSH += indent + "<Trigger" + roleName + ">\n";
   if (node.children) {
     for (var j = 0; j < node.children.length; j++) {
       console.log("" + j + " " + node.children[j].getText());
@@ -419,6 +442,31 @@ var code = function(node, ruleNames, indent) {
   //xmlStrCSH += indent + "</CODE>\n";
 }
 
+/**
+ * Cache all transitions that are children of a stateMachine or subgraph ANTLR node.
+ */
+var cacheTransitions = function(node, ruleNames, indent) {
+  var tarr = [];
+  if (node.children) {
+    for (var j = 0; j < node.children.length; j++) {
+      var child = node.children[j];
+      if (child.children && child.ruleIndex) {
+        var nodeType = ruleNames[child.ruleIndex];
+        if (nodeType == "transition") {
+          var sourceStateName = child.children[2].getText();
+          if (sourceStateName == "initial") {
+            transition(child, ruleNames, indent + "  ");
+          }
+          else {
+            tarr.push(child);
+          }
+        }
+      }
+    }
+  }
+  return tarr;
+}
+
 var antlr4 = require('xholon/lib/antlr4/index');
 var RoomLexer = require('xholon/lib/antlr4g/RoomLexer');
 var RoomParser = require('xholon/lib/antlr4g/RoomParser');
@@ -429,6 +477,7 @@ var xmlStrCSH = "<_-.csh>\n";
 
 var nextActivityId = 1;
 var actorClassContextName = null;
+var transArr = null;
 
 // behavior for one specific StateMachine, for an ActorClass with a Behavior
 var beh = null;
