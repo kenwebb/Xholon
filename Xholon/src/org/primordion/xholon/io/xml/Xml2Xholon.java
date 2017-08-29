@@ -48,22 +48,25 @@ import org.primordion.xholon.util.MiscRandom;
 @SuppressWarnings("serial")
 public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { // GWT
 	
+	// whether or not to try calling IXholonClass.getDefaultContent(); used with "RoomModel"
+	private boolean useDefaultContent = false;
+	
 	/*
 	 * @see org.primordion.xholon.io.xml.AbstractXml2Xholon#xml2Xh(org.primordion.xholon.base.IXholon, org.primordion.xholon.io.xml.XmlReader, int)
 	 */
 	@SuppressWarnings("unchecked")
 	public IXholon xml2Xh(IXholon parentXholon, IXmlReader xmlReader, int eventType)
 	{
-	  int state = IXmlReader.NULL_EVENT;
+		int state = IXmlReader.NULL_EVENT;
 		int multiplicity = 1;
 		IXholon currentXholon = null;
 		boolean includeContentsFound = true;
 		String tagName = null;
 		while (eventType != IXmlReader.END_DOCUMENT) {
-		  switch (eventType) {
+			switch (eventType) {
 			case IXmlReader.START_TAG:
-			  if (state == IXmlReader.START_TAG) {
-				  if (includeContentsFound) {
+				if (state == IXmlReader.START_TAG) {
+					if (includeContentsFound) {
 						xml2Xh(currentXholon, xmlReader, eventType);
 					}
 					else {
@@ -73,37 +76,37 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 					eventType = xmlReader.getEventType();
 				}
 				else {
-				  tagName = xmlReader.getName();
+					tagName = xmlReader.getName();
 					if ("attribute".equals(tagName)) {
-					  if ("attributes".equals(parentXholon.getXhcName())) {
-					    // this is a GEXF attribute tag
-					    currentXholon = newXholon("attributeGEXF", parentXholon, xmlReader);
-					    for (int i = 0; i < xmlReader.getAttributeCount(); i++) {
-							  String attrName = xmlReader.getAttributeName(i);
-							  String attrValue = xmlReader.getAttributeValue(i);
-							  currentXholon.setAttributeVal(attrName, attrValue);
-						  }
-					  }
-					  else {
-						  // ex: <attribute name="output" value="255.0"/>
-						  currentXholon = newXholon("Attribute_attribute", parentXholon, xmlReader);
-						  //currentXholon.setRoleName(xmlReader.getAttributeValue(0)); // name="xxx"
-						  //currentXholon.setVal(xmlReader.getAttributeValue(1)); // value="yyy"
-						  for (int i = 0; i < xmlReader.getAttributeCount(); i++) {
-							  String attrName = xmlReader.getAttributeName(i);
-							  String attrValue = xmlReader.getAttributeValue(i);
-							  if ("name".equals(attrName)) { // name="xxx"
-								  currentXholon.setRoleName(attrValue);
-							  }
-							  else if ("value".equals(attrName)) { // value="yyy"
-								  currentXholon.setVal(attrValue);
-							  }
-						  }
+						if ("attributes".equals(parentXholon.getXhcName())) {
+							// this is a GEXF attribute tag
+							currentXholon = newXholon("attributeGEXF", parentXholon, xmlReader);
+							for (int i = 0; i < xmlReader.getAttributeCount(); i++) {
+								String attrName = xmlReader.getAttributeName(i);
+								String attrValue = xmlReader.getAttributeValue(i);
+								currentXholon.setAttributeVal(attrName, attrValue);
+							}
+						}
+						else {
+							// ex: <attribute name="output" value="255.0"/>
+							currentXholon = newXholon("Attribute_attribute", parentXholon, xmlReader);
+							//currentXholon.setRoleName(xmlReader.getAttributeValue(0)); // name="xxx"
+							//currentXholon.setVal(xmlReader.getAttributeValue(1)); // value="yyy"
+							for (int i = 0; i < xmlReader.getAttributeCount(); i++) {
+								String attrName = xmlReader.getAttributeName(i);
+								String attrValue = xmlReader.getAttributeValue(i);
+								if ("name".equals(attrName)) { // name="xxx"
+									currentXholon.setRoleName(attrValue);
+								}
+								else if ("value".equals(attrName)) { // value="yyy"
+									currentXholon.setVal(attrValue);
+								}
+							}
 						}
 					}
 					else if (("include".equals(tagName) && (xmlReader.getPrefix().equals(xincludePrefix)))
-					    || ("xi:include".equals(tagName))) {
-					  //consoleLog(xincludePrefix + ":" + tagName);
+							|| ("xi:include".equals(tagName))) {
+						//consoleLog(xincludePrefix + ":" + tagName);
 						// there may be a recursive hierarchy of include and fallback elements
 						// keep passing the same parentXholon down the hierarchy until find a match
 						// this is an OR hierarchy, rather than an AND hierarchy
@@ -121,7 +124,7 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 								savedRoleName = attrValue;
 							}
 						}
-					  //consoleLog(xincludePrefix + ":" + tagName + " " + uri);
+						//consoleLog(xincludePrefix + ":" + tagName + " " + uri);
 						
 						// if the file name begins with ./, then this is the complete relative path
 						// else, it needs to be appended to the end of the standard xinclude path
@@ -136,8 +139,8 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 							// let xmlUri2Xholon_internal() take care of this
 						}
 						else if (app.isUseGwt()) {
-						  // assume that the uri does not start with . or / (ex: config/...)
-						  uri = GwtEnvironment.gwtHostPageBaseURL + uri;
+							// assume that the uri does not start with . or / (ex: config/...)
+							uri = GwtEnvironment.gwtHostPageBaseURL + uri;
 						}
 						else if (uri.charAt(0) != '.') {
 							uri = xincludePath + uri;
@@ -178,6 +181,10 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 					else if ("XholonWorkbook".equals(tagName)) {
 						return new XholonWorkbook().xml2Xh(app, xmlReader.getUnderlyingReader());
 					}
+					else if ("RoomModel".equals(tagName)) {
+						this.useDefaultContent = true;
+						currentXholon = parentXholon; // ???
+					}
 					else if ("Color".equals(tagName)) {}
 					else if ("Opacity".equals(tagName)) {}
 					else if ("Font".equals(tagName)) {}
@@ -189,12 +196,12 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 					else if ("Sound".equals(tagName)) {}
 					else if ("Anno".equals(tagName)) {}
 					else { // regular elements including Attribute_ nodes
-					  currentXholon = newXholon(tagName, parentXholon, xmlReader);
-						//consoleLog("  Xml2Xholon xml2Xh: " + currentXholon);
+						currentXholon = newXholon(tagName, parentXholon, xmlReader);
+						//consoleLog("	Xml2Xholon xml2Xh: " + currentXholon);
 						if (currentXholon != null) {
-						  int attrCount = xmlReader.getAttributeCount();
+							int attrCount = xmlReader.getAttributeCount();
 							for (int i = 0; i < attrCount; i++) {
-							  String attrName = xmlReader.getAttributeName(i);
+								String attrName = xmlReader.getAttributeName(i);
 								String attrValue = xmlReader.getAttributeValue(i);
 								if ("roleName".equals(attrName)) {
 									currentXholon.setRoleName(attrValue);
@@ -209,24 +216,24 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 									currentXholon.setUid(attrValue);
 								}
 								else if ("multiplicity".equals(attrName)) {
-								  // handle multiplicity ranges m,n (0,1 0,13 2,3 1,5)
-								  String[] range = attrValue.split(",");
-								  if (range.length == 2) {
-  						      multiplicity = MiscRandom.getRandomInt(
-								      Integer.parseInt(range[0]),
-								      Integer.parseInt(range[1])+1
-								    );
-								    attrValue = String.valueOf(multiplicity);
-								  }
-								  else if (range[0].startsWith(".") || range[0].startsWith("0.")) {
-								    // range[0] is the probability that this node will be created
-								    multiplicity = 0;
-								    if (MiscRandom.getRandomDouble(0.0, 1.0) < Double.parseDouble(range[0])) {
-								      multiplicity = 1;
-								    }
-								  }
-								  else {
-									  multiplicity = Integer.parseInt(range[0]);
+									// handle multiplicity ranges m,n (0,1 0,13 2,3 1,5)
+									String[] range = attrValue.split(",");
+									if (range.length == 2) {
+										multiplicity = MiscRandom.getRandomInt(
+											Integer.parseInt(range[0]),
+											Integer.parseInt(range[1])+1
+										);
+										attrValue = String.valueOf(multiplicity);
+									}
+									else if (range[0].startsWith(".") || range[0].startsWith("0.")) {
+										// range[0] is the probability that this node will be created
+										multiplicity = 0;
+										if (MiscRandom.getRandomDouble(0.0, 1.0) < Double.parseDouble(range[0])) {
+											multiplicity = 1;
+										}
+									}
+									else {
+										multiplicity = Integer.parseInt(range[0]);
 									}
 									if (multiplicity == 0) {
 										// TODO should completely ignore this element and its entire subtree
@@ -236,6 +243,18 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 								}
 								else {
 									currentXholon.setAttributeVal(attrName, attrValue);
+								}
+							}
+							if (this.useDefaultContent) {
+								IXholonClass dcXhc = currentXholon.getXhc();
+								if ((dcXhc != null) && (!dcXhc.hasAncestor("StateMachineEntity"))) {
+									String defaultContent = dcXhc.getDefaultContent();
+									if (defaultContent != null) {
+										defaultContent = defaultContent.trim();
+										if ((defaultContent.length() > 0) && (isXml(defaultContent))) {
+											currentXholon = xmlString2Xholon_internal(defaultContent, currentXholon);
+										}
+									}
 								}
 							}
 						}
@@ -253,7 +272,7 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 				}
 				break;
 			case IXmlReader.END_TAG:
-			  if (state == IXmlReader.END_TAG) {
+				if (state == IXmlReader.END_TAG) {
 					return null;
 				}
 				// handle multiplicity
@@ -262,17 +281,17 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 					multiplicity = 1; // reset to its default value
 				}
 				else if (multiplicity == 0) {
-				  //consoleLog("removing " + currentXholon);
-				  currentXholon.removeChild();
-				  multiplicity = 1; // reset to its default value
+					//consoleLog("removing " + currentXholon);
+					currentXholon.removeChild();
+					multiplicity = 1; // reset to its default value
 				}
 				
 				state = IXmlReader.END_TAG;
 				eventType = xmlReader.next();
 				break;
 			case IXmlReader.TEXT:
-			  String textVal = xmlReader.getText().trim();
-			  //consoleLog(tagName + " " + textVal + " " + parentXholon);
+				String textVal = xmlReader.getText().trim();
+				//consoleLog(tagName + " " + textVal + " " + parentXholon);
 				if (textVal.length() > 0) {
 					if ("Color".equals(tagName)) {
 						((IDecoration)parentXholon).setColor(textVal);
@@ -302,10 +321,10 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 						((IDecoration)parentXholon).setSound(textVal);
 					}
 					else if ("Anno".equals(tagName)) {
-					  parentXholon.setAnnotation(textVal);
+						parentXholon.setAnnotation(textVal);
 					}
 					else {
-					  setVal(currentXholon, textVal, "val");
+						setVal(currentXholon, textVal, "val");
 					}
 				}
 				eventType = xmlReader.next();
@@ -331,7 +350,7 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 	 * @return
 	 */
 	protected String xml2Text(IXmlReader xmlReader, int eventType) {
-	  StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder();
 		// look for first child START_TAG
 		while (eventType != IXmlReader.START_TAG) {
 			sb.append(xmlReader.getText()); // probably a TEXT eventType
@@ -372,7 +391,7 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 	@SuppressWarnings("unchecked")
 	protected IXholon newXholon(String tagName, IXholon parentXholon, IXmlReader xmlReader)
 	{
-	  String prefix = xmlReader.getPrefix();
+		String prefix = xmlReader.getPrefix();
 		IXholonClass xhcNode = null;
 		if (inherHier != null) {
 			if (prefix != null) {
@@ -390,7 +409,7 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 				String attrName = xmlReader.getAttributeName(i);
 				String attrValue = xmlReader.getAttributeValue(i);
 				if ("implName".equals(attrName)) {
-				  //consoleLog("Xml2Xholon newXholon4 " + tagName + " " + attrName + " " + attrValue);
+					//consoleLog("Xml2Xholon newXholon4 " + tagName + " " + attrName + " " + attrValue);
 					if (attrValue.endsWith("inline:")) {
 						// this is an ad-hoc non-Java inline script
 						// the next event should be the TEXT between the start and end tags
@@ -439,7 +458,7 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 		
 		IXholon newXholon = null;
 		try {
-		  // the following is commented out in the original Xholon
+			// the following is commented out in the original Xholon
 			/*if (implName != null && implName.startsWith("factory:")) {
 				implName = getImplNameFromFactory(implName.substring(8), xmlReader);
 				if (implName != null) { // has a Java implementation class been specified?
@@ -489,7 +508,7 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 				}
 			}
 			else { // use the default implementation class
-			  //consoleLog("Xml2Xholon newXholon9 calling factory.getXholonNode()");
+				//consoleLog("Xml2Xholon newXholon9 calling factory.getXholonNode()");
 				newXholon = factory.getXholonNode();
 			}
 		} catch (XholonConfigurationException e) {
@@ -557,7 +576,7 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 	 */
 	protected IXholonClass makeAdHocXholonClass(String tagName, String implName, IXholon parentXholon)
 	{
-	  if (!ALLOW_AD_HOC_INSTANCES) {return null;}
+		if (!ALLOW_AD_HOC_INSTANCES) {return null;}
 		// determine if there is a Java class in the application's home Java package called tagName
 		String defaultXhName = app.getJavaXhClassName();
 		if (implName == null) {
@@ -567,14 +586,14 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 			// this is a non-Java script
 		}
 		else if (!factory.isClassFindable(implName)) {
-		  // try the common default package for Java script classes
+			// try the common default package for Java script classes
 			implName = "org.primordion.xholon.script." + tagName;
 			if (!factory.isClassFindable(implName)) {
 				if (parentXholon != null) {
-				  // parentXholon may be a container such as XholonList, that knows the default type of its children
+					// parentXholon may be a container such as XholonList, that knows the default type of its children
 					String childSuperClassName = parentXholon.getXhc().getChildSuperClass();
 					if (childSuperClassName != null) {
-					  IXholonClass childSuperClass = inherHier.getClassNode(childSuperClassName);
+						IXholonClass childSuperClass = inherHier.getClassNode(childSuperClassName);
 						if (childSuperClass != null) {
 							IXholonClass newXholonClass = makeXholonClass(tagName);
 							newXholonClass.appendChild(childSuperClass);
@@ -719,5 +738,19 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 		}
 		logger.error(e.getMessage() + causeMsg);
 	}
-
+	
+	/**
+	 * Is this an XML String?
+	 * @param str
+	 * @return true or false
+	 */
+	protected boolean isXml(String str) {
+		if (str.charAt(0) == '<') {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
 }
