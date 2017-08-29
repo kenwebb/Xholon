@@ -4,8 +4,14 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="author" content="Ken Webb" />
     <meta name="copyright" content="MIT License, Copyright (C) 2017 Ken Webb" />
-    <!--<link rel="stylesheet" type="text/css" href="css/style.css">-->
+    
     <script src="xholon/lib/antlr4-require.js"></script>
+    
+    <!--                                                               -->
+    <!-- Consider inlining CSS to reduce the number of requested files -->
+    <!--                                                               -->
+    <link type="text/css" rel="stylesheet" href="Xholon.css">
+
     <style>
     pre.antlr {
       border-style: solid;
@@ -30,20 +36,97 @@
         margin: 10px;
     }
     </style>
+    
     <title>Xholon ANTLR - ROOM eTrice</title>
+    
+    <!-- D3 -->
+    <script type="text/javascript" language="javascript" src="d3.min.js" charset="utf-8"></script>
+    
+    <!--                                           -->
+    <!-- This script loads your compiled module.   -->
+    <!-- If you add any GWT meta tags, they must   -->
+    <!-- be added before this line.                -->
+    <!--                                           -->
+    <script type="text/javascript" language="javascript" src="xholon/xholon.nocache.js"></script>
+    
   </head>
   
   <body>
-    <h3>Xholon ANTLR - ROOM eTrice</h3>
+    <!--<h3>Xholon ANTLR - ROOM eTrice</h3>-->
     
+    <!-- OPTIONAL: include this if you want history support -->
+    <!--<iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>-->
+    
+    <!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
+    <noscript>
+      <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
+        Your web browser must have JavaScript enabled
+        in order for this application to display correctly.
+      </div>
+    </noscript>
+
+    <!-- Each of the following can have sub-div elements. -->
+    <div id="xhtop">
+      <h3 id="xholontitle" style="display: inline;">Xholon</h3>
+      <span id="timestep" style="padding-left: 20px; font-size: 13px;">0</span>:<span id="maxprocessloops" style="font-size: 13px;">&infin;</span>
+    </div>
+    
+    <!-- default GWT-based GUI -->
+    <div id="xhgui"></div>
+    
+    <!-- reserved for app-specific use -->
+    <div id="xhappspecific"></div>
+    
+    <div id="xhconsole">
+      <!--<div id="xhout"></div> will be added as a tab in a TabLayoutPanel -->
+      <!--<div id="xhclipboard"></div>  will be added as a tab in a TabLayoutPanel -->
+      <!-- instances of node-specific XholonConsole -->
+    </div>
+    
+    <!-- text: much of which could use CodeMirror/Ace -->
+    <div id="xhtabs"></div>
+    
+    <!-- data: line chart, pie chart, other Google charts, etc. -->
+    <div id="xhchart"></div>
+    
+    <!-- HTML5 canvas -->
+    <div id="xhcanvas"></div>
+    
+    <!-- structure: network, tree, Google/D3 Treemap, D3 charts/graphs, etc. -->
+    <div id="xhgraph">
+      <div id="networkview"></div>
+      <div id="treeview"></div>
+      <div id="xhtreemap"></div>
+    </div>
+    
+    <!-- SVG and other animations, such as those with Animate.java
+         Each separate animation should have its own child div -->
+    <div id="xhanim"></div>
+    
+    <!-- static SVG images -->
+    <div id="xhsvg"></div>
+    
+    <!-- PNG, etc. -->
+    <div id="xhimg"></div>
+    
+    <!-- Include Zepto with a script tag near the end of your page. -->
+    <!--<script src="zepto.min.js"></script>-->
+    
+    <!-- QUnit unit testing -->
+    <div id="xhunittest">
+      <!-- these are required by QUnit -->
+      <div id="qunit"></div>
+      <div id="qunit-fixture"></div>
+    </div>
+
     <!-- http://127.0.0.1:8888/XholonAntlr_Room.html?app=HelloWorld&gui=clsc -->
-    <p>This is an <a href="">eTrice ROOM</a> model.</p>
-    <pre class="antlr">
+    <!--<p>This is an <a href="">eTrice ROOM</a> model.</p>-->
+    <!--<pre class="antlr">
 ROOM grammar
-    </pre>
+    </pre>-->
     
     <div id="inputs">
-      <textarea id="code">
+      <textarea id="xhroom">
 RoomModel TemplateModel {
 
   /*
@@ -136,7 +219,7 @@ RoomModel TemplateModel {
     <script type="text/javascript">
 var updateTree = function(tree, ruleNames) {
   var container = document.getElementById("tree");
-  while (container.hasChildNodes()) {
+  while (container && container.hasChildNodes()) {
     container.removeChild(container.lastChild);
   }
   for (var i = 0; i < tree.children.length; i++) {
@@ -156,15 +239,22 @@ var updateTree = function(tree, ruleNames) {
       }
       var xmlIhStr = "<" + actorClassContextName + superClassName + "/>";
       xmlStrIH += "  " + xmlIhStr + "\n";
+      // <Person xhType="XhtypePureActiveObject">
+      //   <port name="port" index="0" connector="#xpointer(ancestor::TurnstileSystem/Turnstile)"/> TODO
+      xmlStrCD += '  <' + actorClassContextName + ' xhType="XhtypePureActiveObject"' + '>\n';
       xmlStrCSH += "  " + "<" + actorClassContextName + ">\n";
       for (var j = 0; j < child.children.length; j++) {
         console.log("" + j + " " + child.children[j].getText());
         recurseChild(child.children[j], ruleNames, "  ");
       }
       xmlStrCSH += "  " + "</" + actorClassContextName + ">\n";
+      xmlStrCD += "    " + "<DefaultContent><![CDATA[" + "<TODO> children of " + actorClassContextName + " should go here</TODO>" + "]]></DefaultContent>\n";
+      xmlStrCD += "  " + "</" + actorClassContextName + ">\n";
       var newElementText = document.createTextNode(xmlIhStr);
       newElement.appendChild(newElementText);
-      container.appendChild(newElement);
+      if (container) {
+        container.appendChild(newElement);
+      }
       break;
     default:
       break;
@@ -230,6 +320,12 @@ var recurseChild = function(child, ruleNames, indent) {
   case "code":
     code(child, ruleNames, indent);
     return;
+  case "port":
+    console.log(" ==> PORT");
+    return;
+  case "binding":
+    binding(child, ruleNames, indent);
+    return;
   default:
     break;
   }
@@ -273,6 +369,8 @@ var behavior = function(node, ruleNames, indent) {
     + "    }\n" // end of switch
     + "  }\n" // end of performActivity
     + "}\n" // end of beh
+    // //# sourceURL=Receiverbehavior.js
+    + "//# sourceURL=" + cnodeParentName + "behavior.js\n"
     + "]]></" + cnodeParentName + "behavior>\n" // ex: Turnstilebehavior
     ;
 }
@@ -308,7 +406,7 @@ var transition = function(node, ruleNames, indent) {
       recurseChild(node.children[j], ruleNames, indent + indent2 + "  ");
     }
   }
-  xmlStrCSH += indent + indent2 + '  <Target roleName="' + targetStateName + '"\>\n';
+  xmlStrCSH += indent + indent2 + '  <Target roleName="' + targetStateName + '"/>\n';
   xmlStrCSH += indent + indent2 + "</TransitionExternal>\n";
   if (sourceStateName == "initial") {
     xmlStrCSH += indent + "</PseudostateInitial>\n";
@@ -442,6 +540,20 @@ var code = function(node, ruleNames, indent) {
   //xmlStrCSH += indent + "</CODE>\n";
 }
 
+var binding = function(node, ruleNames, indent) {
+  xmlStrCSH += indent + '<Attribute_String roleName="binding">';
+  if (node.children) {
+    for (var j = 0; j < node.children.length; j++) {
+      //console.log(child.children[j].getText());
+      if (j > 0) {
+        xmlStrCSH += ",";
+      }
+      xmlStrCSH += node.children[j].getText();
+    }
+  }
+  xmlStrCSH += "</Attribute_String>\n";
+}
+
 /**
  * Cache all transitions that are children of a stateMachine or subgraph ANTLR node.
  */
@@ -473,6 +585,7 @@ var RoomParser = require('xholon/lib/antlr4g/RoomParser');
 var RoomListener = require('xholon/lib/antlr4g/RoomListener');
 
 var xmlStrIH = "<_-.XholonClass>\n";
+var xmlStrCD = "<xholonClassDetails>\n";
 var xmlStrCSH = "<_-.csh>\n";
 
 var nextActivityId = 1;
@@ -483,7 +596,7 @@ var transArr = null;
 var beh = null;
 
 document.getElementById("parse").addEventListener("click", function(){
-  var input = document.getElementById("code").value;
+  var input = document.getElementById("xhroom").value;
   var chars = new antlr4.InputStream(input);
   var lexer = new RoomLexer.RoomLexer(chars);
   var tokens  = new antlr4.CommonTokenStream(lexer);
@@ -494,9 +607,29 @@ document.getElementById("parse").addEventListener("click", function(){
   updateTree(tree, parser.ruleNames);
   //
   xmlStrIH += "</_-.XholonClass>\n";
+  xmlStrCD += '\n  <!-- State Machine -->\n'
+    + '  <State xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.ObservableStateMachineEntity"/>\n'
+    + '  <PseudostateInitial xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>\n'
+    + '  <PseudostateChoice xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>\n'
+    + '  <Transition xhType="XhtypeStateMachineEntityActive" implName="org.primordion.xholon.base.StateMachineEntity"/>\n'
+    + '  <StateMachineEntity xhType="XhtypeStateMachineEntity" implName="org.primordion.xholon.base.StateMachineEntity"/>\n'
+    + '  \n'
+    + '  <XholonClass xhType="XhtypePureContainer"/>\n'
+    ;
+  xmlStrCD += "</xholonClassDetails>\n";
   xmlStrCSH += "</_-.csh>\n";
   console.log(xmlStrIH);
+  console.log(xmlStrCD);
   console.log(xmlStrCSH);
+  if (xh) {
+    var rootIH = xh.app().first().next().next().first().next().first();
+    console.log(rootIH);
+    rootIH.append(xmlStrIH);
+    rootIH.append(xmlStrCD);
+    var rootCSH = xh.root();
+    console.log(rootCSH);
+    rootCSH.append(xmlStrCSH);
+  }
   if (beh) {
     // write out the last behavior
     console.log(beh);
@@ -521,8 +654,9 @@ RoomPrinter.prototype.enterRoomModel = function(ctx) {
 };
     </script>
     
-    <div id="tree"></div>
+    <!--<div id="tree"></div>-->
     
+    <div id="xhfooter">
     <hr/>
     <div class="license"  style="font-size: 9px;"><p>Xholon GWT is a <a href="index.html">Xholon</a> project. Copyright (C) 2017 Ken Webb</p></div>
     <div class="aatt" style="font-size: 9px;"><pre style="font-size: 9px;">
