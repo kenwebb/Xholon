@@ -218,16 +218,36 @@ RoomModel TemplateModel {
     
     <script type="text/javascript">
 var updateTree = function(tree, ruleNames) {
-  var container = document.getElementById("tree");
-  while (container && container.hasChildNodes()) {
-    container.removeChild(container.lastChild);
+  //var container = document.getElementById("tree");
+  //while (container && container.hasChildNodes()) {
+  //  container.removeChild(container.lastChild);
+  //}
+  var nodeTypeT = ruleNames[tree.ruleIndex];
+  console.log(nodeTypeT);
+  switch (nodeTypeT) {
+  case "roomModel":
+    xmlStrCSH += "<RoomModel>\n";
+    break;
+  default:
+    break;
   }
   for (var i = 0; i < tree.children.length; i++) {
     var child = tree.children[i];
     var nodeType = ruleNames[child.ruleIndex];
-    console.log(nodeType);
+    if (nodeType) {
+      console.log(nodeType);
+    }
+    else {
+      console.log(child.getText());
+    }
     switch (nodeType) {
     case "subSystemClass":
+      // TODO obtain topActor from a SubSystemRef ActorRef
+      seekingTopActor = true;
+      for (var j = 0; j < child.children.length; j++) {
+        console.log("" + j + " " + child.children[j].getText());
+        recurseChild(child.children[j], ruleNames, "  ");
+      }
       break;
     case "actorClass":
       actorClassContextName = child.children[1].getText();
@@ -241,24 +261,30 @@ var updateTree = function(tree, ruleNames) {
       xmlStrIH += "  " + xmlIhStr + "\n";
       // <Person xhType="XhtypePureActiveObject">
       //   <port name="port" index="0" connector="#xpointer(ancestor::TurnstileSystem/Turnstile)"/> TODO
-      xmlStrCD += '  <' + actorClassContextName + ' xhType="XhtypePureActiveObject"' + '>\n';
-      xmlStrCSH += "  " + "<" + actorClassContextName + ">\n";
+      xmlStrCD += '  <' + actorClassContextName + ' xhType="XhtypePureActiveObject"' + '>' + "<DefaultContent><![CDATA[\n"
+        + "  <_-." + actorClassContextName + ">\n";
       for (var j = 0; j < child.children.length; j++) {
         console.log("" + j + " " + child.children[j].getText());
         recurseChild(child.children[j], ruleNames, "  ");
       }
-      xmlStrCSH += "  " + "</" + actorClassContextName + ">\n";
-      xmlStrCD += "    " + "<DefaultContent><![CDATA[" + "<TODO> children of " + actorClassContextName + " should go here</TODO>" + "]]></DefaultContent>\n";
-      xmlStrCD += "  " + "</" + actorClassContextName + ">\n";
+      xmlStrCD += "  </_-." + actorClassContextName + ">\n"
+        + "  " + "]]></DefaultContent>" + "</" + actorClassContextName + ">\n";
       var newElementText = document.createTextNode(xmlIhStr);
       newElement.appendChild(newElementText);
-      if (container) {
-        container.appendChild(newElement);
-      }
+      //if (container) {
+      //  container.appendChild(newElement);
+      //}
       break;
     default:
       break;
     } // end switch
+  }
+  switch (nodeTypeT) {
+  case "roomModel":
+    xmlStrCSH += "</RoomModel>";
+    break;
+  default:
+    break;
   }
 };
 
@@ -276,11 +302,18 @@ var recurseChild = function(child, ruleNames, indent) {
   case "actorRef":
     // ActorReftxr:Sender
     var xhcName = child.children[2].getText();
+    if (xhcName == "ATimingService") {return;}
     var roleName = child.children[1].getText();
     roleName = roleName.substring(0, roleName.length-1); // remove trailing ":"
-    var xmlCshStr = '<' + xhcName + ' roleName="' + roleName + '"/>';
-    console.log(xmlCshStr);
-    xmlStrCSH += indent + xmlCshStr + "\n";
+    var xmlStr = '<' + xhcName + ' roleName="' + roleName + '"/>';
+    console.log(xmlStr);
+    if (seekingTopActor) {
+      xmlStrCSH += indent + xmlStr + "\n";
+      seekingTopActor = false;
+    }
+    else {
+      xmlStrCD += indent + xmlStr + "\n";
+    }
     return;
   case "stateMachine":
     stateMachine(child, ruleNames, indent);
@@ -321,7 +354,8 @@ var recurseChild = function(child, ruleNames, indent) {
     code(child, ruleNames, indent);
     return;
   case "port":
-    console.log(" ==> PORT");
+    //console.log(" ==> PORT");
+    port(child, ruleNames, indent);
     return;
   case "binding":
     binding(child, ruleNames, indent);
@@ -340,20 +374,24 @@ var recurseChild = function(child, ruleNames, indent) {
 var behavior = function(node, ruleNames, indent) {
   if (beh) {
     // write out the previous behavior
-    console.log(beh);
+    //console.log(beh);
   }
-  //console.log("THIS IS A new behavior");
   var cnodeParentName = actorClassContextName; //node.parentCtx.children[1].getText(); // xmlName
   var jsName = cnodeParentName.charAt(0).toLowerCase() + cnodeParentName.substring(1);
-  beh = '<' + cnodeParentName + 'behavior implName="org.primordion.xholon.base.Behavior_gwtjs"><![CDATA[\n' // ex: Turnstilebehavior
-    + "var " + jsName + ";\n" // ex: turnstile
+  var jsNameSM = jsName + "SM";
+  beh = '<' + cnodeParentName + 'behavior implName="org.primordion.xholon.base.Behavior_gwtjs">' // ex: Turnstilebehavior
+    //+ '<![CDATA['
+    + '\n'
+    + "var " + jsName + ", " + jsNameSM + ";\n" // ex: var turnstileSystem, turnstileSystemSM;
     + "var beh = {\n"
     + "  postConfigure: function() {\n"
     + "    " + jsName + " = this.cnode.parent();\n"
+    // turnstileSystemSM = turnstileSystem.xpath("StateMachine");
+    + "    " + jsNameSM + " = " + jsName + '.xpath("StateMachine");\n'
     + "  },\n"
     + "  processReceivedMessage: function(msg) {\n"
-    + "    if (" + jsName + ".first()) {\n"
-    + "      " + jsName + ".first().call(msg.signal, msg.data, msg.sender);\n"
+    + "    if (" + jsNameSM + ") {\n"
+    + "      " + jsNameSM + ".call(msg.signal, msg.data, msg.sender);\n"
     + "    }\n"
     + "  },\n"
     + "  performActivity: function(activityId, msg) {\n"
@@ -371,13 +409,15 @@ var behavior = function(node, ruleNames, indent) {
     + "}\n" // end of beh
     // //# sourceURL=Receiverbehavior.js
     + "//# sourceURL=" + cnodeParentName + "behavior.js\n"
-    + "]]></" + cnodeParentName + "behavior>\n" // ex: Turnstilebehavior
+    //+ "]]>"
+    + "</" + cnodeParentName + "behavior>\n" // ex: Turnstilebehavior
     ;
+  xmlStrCD += beh;
 }
 
 var stateMachine = function(node, ruleNames, indent) {
-  xmlStrCSH += indent + "<StateMachine>\n";
-  xmlStrCSH += indent + '  <State roleName="Top">\n';
+  xmlStrCD += indent + "<StateMachine>\n";
+  xmlStrCD += indent + '  <State roleName="Top">\n';
   transArr = cacheTransitions(node, ruleNames, indent + "  ");
   if (node.children) {
     for (var j = 0; j < node.children.length; j++) {
@@ -385,8 +425,8 @@ var stateMachine = function(node, ruleNames, indent) {
       recurseChild(node.children[j], ruleNames, indent + "    ");
     }
   }
-  xmlStrCSH += indent + '  </State>\n';
-  xmlStrCSH += indent + "</StateMachine>\n";
+  xmlStrCD += indent + '  </State>\n';
+  xmlStrCD += indent + "</StateMachine>\n";
 }
 
 var transition = function(node, ruleNames, indent) {
@@ -396,26 +436,26 @@ var transition = function(node, ruleNames, indent) {
   roleName = roleName.substring(0, roleName.length-1); // remove trailing ":"
   var indent2 = "";
   if (sourceStateName == "initial") {
-    xmlStrCSH += indent + "<PseudostateInitial>\n";
+    xmlStrCD += indent + "<PseudostateInitial>\n";
     indent2 = "  ";
   }
-  xmlStrCSH += indent + indent2 + '<TransitionExternal roleName="' + roleName + '">\n';
+  xmlStrCD += indent + indent2 + '<TransitionExternal roleName="' + roleName + '">\n';
   if (node.children) {
     for (var j = 0; j < node.children.length; j++) {
       console.log("" + j + " " + node.children[j].getText());
       recurseChild(node.children[j], ruleNames, indent + indent2 + "  ");
     }
   }
-  xmlStrCSH += indent + indent2 + '  <Target roleName="' + targetStateName + '"/>\n';
-  xmlStrCSH += indent + indent2 + "</TransitionExternal>\n";
+  xmlStrCD += indent + indent2 + '  <Target roleName="' + targetStateName + '"/>\n';
+  xmlStrCD += indent + indent2 + "</TransitionExternal>\n";
   if (sourceStateName == "initial") {
-    xmlStrCSH += indent + "</PseudostateInitial>\n";
+    xmlStrCD += indent + "</PseudostateInitial>\n";
   }
 }
 
 var sstate = function(node, ruleNames, indent) {
   var roleName = node.children[1].getText();
-  xmlStrCSH += indent + '<State roleName="' + roleName + '">\n';
+  xmlStrCD += indent + '<State roleName="' + roleName + '">\n';
   if (transArr) {
     for (var t = 0; t < transArr.length; t++) {
       var sourceStateName = transArr[t].children[2].getText();
@@ -430,11 +470,11 @@ var sstate = function(node, ruleNames, indent) {
       recurseChild(node.children[j], ruleNames, indent + "  ");
     }
   }  
-  xmlStrCSH += indent + "</State>\n";
+  xmlStrCD += indent + "</State>\n";
 }
 
 var subgraph = function(node, ruleNames, indent) {
-  xmlStrCSH += indent + "<Region>\n";
+  xmlStrCD += indent + "<Region>\n";
   transArr = cacheTransitions(node, ruleNames, indent + "  ");
   if (node.children) {
     for (var j = 0; j < node.children.length; j++) {
@@ -442,11 +482,11 @@ var subgraph = function(node, ruleNames, indent) {
       recurseChild(node.children[j], ruleNames, indent + "  ");
     }
   }  
-  xmlStrCSH += indent + "</Region>\n";
+  xmlStrCD += indent + "</Region>\n";
 }
 
 var entry = function(node, ruleNames, indent) {
-  xmlStrCSH += indent + '<EntryActivity roleName="' + nextActivityId + '">\n';
+  xmlStrCD += indent + '<EntryActivity roleName="' + nextActivityId + '">\n';
   beh += "    case " + nextActivityId + ":\n";
   if (node.children) {
     for (var j = 0; j < node.children.length; j++) {
@@ -455,12 +495,12 @@ var entry = function(node, ruleNames, indent) {
     }
   }
   beh += "      break;\n";
-  xmlStrCSH += indent + "</EntryActivity>\n";
+  xmlStrCD += indent + "</EntryActivity>\n";
   nextActivityId++;
 }
 
 var exit = function(node, ruleNames, indent) {
-  xmlStrCSH += indent + '<ExitActivity roleName="' + nextActivityId + '">\n';
+  xmlStrCD += indent + '<ExitActivity roleName="' + nextActivityId + '">\n';
   beh += "    case " + nextActivityId + ":\n";
   if (node.children) {
     for (var j = 0; j < node.children.length; j++) {
@@ -469,12 +509,12 @@ var exit = function(node, ruleNames, indent) {
     }
   }  
   beh += "      break;\n";
-  xmlStrCSH += indent + "</ExitActivity>\n";
+  xmlStrCD += indent + "</ExitActivity>\n";
   nextActivityId++;
 }
 
 var action = function(node, ruleNames, indent) {
-  xmlStrCSH += indent + '<Activity roleName="' + nextActivityId + '">\n';
+  xmlStrCD += indent + '<Activity roleName="' + nextActivityId + '">\n';
   // write a "case" to the current "<...behavior>"
   beh += "    case " + nextActivityId + ": // TODO put name of source state here\n";
   if (node.children) {
@@ -484,7 +524,7 @@ var action = function(node, ruleNames, indent) {
     }
   }
   beh += "      break;\n";
-  xmlStrCSH += indent + '</Activity>\n';
+  xmlStrCD += indent + '</Activity>\n';
   nextActivityId++;
 }
 
@@ -494,40 +534,40 @@ var trigger = function(node, ruleNames, indent) {
   if (trigName) {
     roleName = ' roleName="' + trigName.substring(0, trigName.length - 1) + '"';
   }
-  xmlStrCSH += indent + "<Trigger" + roleName + ">\n";
+  xmlStrCD += indent + "<Trigger" + roleName + ">\n";
   if (node.children) {
     for (var j = 0; j < node.children.length; j++) {
       console.log("" + j + " " + node.children[j].getText());
       recurseChild(node.children[j], ruleNames, indent + "  ");
     }
   }  
-  xmlStrCSH += indent + "</Trigger>\n";
+  xmlStrCD += indent + "</Trigger>\n";
 }
 
 var entryPoint = function(node, ruleNames, indent) {
-  xmlStrCSH += indent + "<ENTRYPOINT>\n";
+  xmlStrCD += indent + "<ENTRYPOINT>\n";
   if (node.children) {
     for (var j = 0; j < node.children.length; j++) {
       console.log("" + j + " " + node.children[j].getText());
       recurseChild(node.children[j], ruleNames, indent + "  ");
     }
   }  
-  xmlStrCSH += indent + "</ENTRYPOINT>\n";
+  xmlStrCD += indent + "</ENTRYPOINT>\n";
 }
 
 var exitPoint = function(node, ruleNames, indent) {
-  xmlStrCSH += indent + "<EXITPOINT>\n";
+  xmlStrCD += indent + "<EXITPOINT>\n";
   if (node.children) {
     for (var j = 0; j < node.children.length; j++) {
       console.log("" + j + " " + node.children[j].getText());
       recurseChild(node.children[j], ruleNames, indent + "  ");
     }
   }  
-  xmlStrCSH += indent + "</EXITPOINT>\n";
+  xmlStrCD += indent + "</EXITPOINT>\n";
 }
 
 var code = function(node, ruleNames, indent) {
-  //xmlStrCSH += indent + "<CODE>\n";
+  //xmlStrCD += indent + "<CODE>\n";
   var cnodeParentName = actorClassContextName; //node.parentCtx.children[1].getText(); // xmlName
   var jsName = cnodeParentName.charAt(0).toLowerCase() + cnodeParentName.substring(1);
   beh += "      " + jsName + ".println(" + node.children[0] +  ");\n";
@@ -537,21 +577,35 @@ var code = function(node, ruleNames, indent) {
       recurseChild(node.children[j], ruleNames, indent + "  ");
     }
   }  
-  //xmlStrCSH += indent + "</CODE>\n";
+  //xmlStrCD += indent + "</CODE>\n";
 }
 
 var binding = function(node, ruleNames, indent) {
-  xmlStrCSH += indent + '<Attribute_String roleName="binding">';
+  xmlStrCD += indent + '<Attribute_String roleName="binding">';
   if (node.children) {
     for (var j = 0; j < node.children.length; j++) {
       //console.log(child.children[j].getText());
       if (j > 0) {
-        xmlStrCSH += ",";
+        xmlStrCD += ",";
       }
-      xmlStrCSH += node.children[j].getText();
+      xmlStrCD += node.children[j].getText();
     }
   }
-  xmlStrCSH += "</Attribute_String>\n";
+  xmlStrCD += "</Attribute_String>\n";
+}
+
+var port = function(node, ruleNames, indent) {
+  xmlStrCD += indent + '<Attribute_String roleName="port">';
+  if (node.children) {
+    for (var j = 0; j < node.children.length; j++) {
+      //console.log(child.children[j].getText());
+      if (j > 0) {
+        xmlStrCD += ",";
+      }
+      xmlStrCD += node.children[j].getText();
+    }
+  }
+  xmlStrCD += "</Attribute_String>\n";
 }
 
 /**
@@ -584,13 +638,14 @@ var RoomLexer = require('xholon/lib/antlr4g/RoomLexer');
 var RoomParser = require('xholon/lib/antlr4g/RoomParser');
 var RoomListener = require('xholon/lib/antlr4g/RoomListener');
 
-var xmlStrIH = "<_-.XholonClass>\n";
+var xmlStrIH = "<_-.XholonClass>\n  <TheSystem/>\n";
 var xmlStrCD = "<xholonClassDetails>\n";
-var xmlStrCSH = "<_-.csh>\n";
+var xmlStrCSH = "<TheSystem>";
 
 var nextActivityId = 1;
 var actorClassContextName = null;
 var transArr = null;
+var seekingTopActor = false;
 
 // behavior for one specific StateMachine, for an ActorClass with a Behavior
 var beh = null;
@@ -617,7 +672,7 @@ document.getElementById("parse").addEventListener("click", function(){
     + '  <XholonClass xhType="XhtypePureContainer"/>\n'
     ;
   xmlStrCD += "</xholonClassDetails>\n";
-  xmlStrCSH += "</_-.csh>\n";
+  xmlStrCSH += "</TheSystem>\n";
   console.log(xmlStrIH);
   console.log(xmlStrCD);
   console.log(xmlStrCSH);
@@ -635,23 +690,22 @@ document.getElementById("parse").addEventListener("click", function(){
     console.log(beh);
   }
 
-  //
-  var printer = new RoomPrinter();
-  antlr4.tree.ParseTreeWalker.DEFAULT.walk(printer, tree);
+  // alternative using RoomPrinter
+  //var printer = new RoomPrinter();
+  //antlr4.tree.ParseTreeWalker.DEFAULT.walk(printer, tree);
 });
 
-RoomPrinter = function() {
+// alternative using RoomPrinter
+/*RoomPrinter = function() {
   RoomListener.RoomListener.call(this); // inherit default listener
   return this;
 }
-
 RoomPrinter.prototype = Object.create(RoomListener.RoomListener.prototype);
 RoomPrinter.prototype.constructor = RoomPrinter;
 RoomPrinter.prototype.enterRoomModel = function(ctx) {
   console.log("Entered RoomModel " + ctx.toStringTree());
-  //console.log(ctx.children[2].getText());
   console.log(ctx);
-};
+};*/
     </script>
     
     <!--<div id="tree"></div>-->
