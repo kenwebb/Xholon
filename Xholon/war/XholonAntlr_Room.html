@@ -295,6 +295,7 @@ var recurseChild = function(child, ruleNames, indent) {
   switch (nodeType) {
   case "structure":
     //console.log("THIS IS A structure");
+    actorRefObj = cacheActorRefs(child, ruleNames, "  ");
     break;
   case "behavior":
     behavior(child, ruleNames, indent);
@@ -581,7 +582,7 @@ var code = function(node, ruleNames, indent) {
 }
 
 var binding = function(node, ruleNames, indent) {
-  xmlStrCD += indent + '<Attribute_String roleName="binding">';
+  /*xmlStrCD += indent + '<Attribute_String roleName="binding">';
   if (node.children) {
     for (var j = 0; j < node.children.length; j++) {
       //console.log(child.children[j].getText());
@@ -591,11 +592,50 @@ var binding = function(node, ruleNames, indent) {
       xmlStrCD += node.children[j].getText();
     }
   }
-  xmlStrCD += "</Attribute_String>\n";
+  xmlStrCD += "</Attribute_String>\n";*/
+  
+  // cache the binding info in the global bindings object
+  // Binding person.port0 and turnstile.p0
+  var obj = {};
+  var from = node.children[1].getText(); // person.port0
+  var to = node.children[3].getText(); // turnstile.p0
+  var fromArr = from.split(".");
+  var toArr = to.split(".");
+  // from
+  var fromRoleName = fromArr[0];
+  var fromXhcName = actorRefObj[fromRoleName]; // determine the xhcName from the roleName; search this ActorClass's ActorRef(s)
+  if (!fromXhcName) {
+    fromXhcName = "UnknownFrom";
+  }
+  var fromPortNameAndIndex = fromArr[1];
+  // to
+  var toRoleName = toArr[0];
+  var toXhcName = actorRefObj[toRoleName];
+  if (!toXhcName) {
+    toXhcName = "UnknownTo";
+  }
+  var toPortNameAndIndex = toArr[1];
+  // key
+  var key = fromXhcName;
+  
+  obj.fromXhcName = fromXhcName;
+  obj.fromRoleName = fromRoleName;
+  obj.fromPortNameAndIndex = fromPortNameAndIndex;
+  obj.toXhcName = toXhcName;
+  obj.toRoleName = toRoleName;
+  obj.toPortNameAndIndex = toPortNameAndIndex;
+  if (bindings[key]) {
+    // if key already exists, add another obj to an inner array
+    bindings[key].push(obj);
+  }
+  else {
+    bindings[key] = [];
+    bindings[key].push(obj);
+  }
 }
 
 var port = function(node, ruleNames, indent) {
-  xmlStrCD += indent + '<Attribute_String roleName="port">';
+  /*xmlStrCD += indent + '<Attribute_String roleName="port">';
   if (node.children) {
     for (var j = 0; j < node.children.length; j++) {
       //console.log(child.children[j].getText());
@@ -605,7 +645,63 @@ var port = function(node, ruleNames, indent) {
       xmlStrCD += node.children[j].getText();
     }
   }
-  xmlStrCD += "</Attribute_String>\n";
+  xmlStrCD += "</Attribute_String>\n";*/
+  
+  /*
+fromPortNameAndIndex: "port0"
+fromRoleName: "person"
+fromXhcName: "Person"
+toPortNameAndIndex: "p0"
+toRoleName: "turnstile"
+toXhcName: "Turnstile"
+  */
+  
+  // Port port0: PersonTurnstileProtocol
+  var parent = node.parentCtx;
+  var nodeType = ruleNames[parent.ruleIndex];
+  switch (nodeType) {
+  case "interface":
+    console.log("This is an Interface port");
+    break;
+  case "structure":
+    console.log("This is a Structure port");
+    return;
+  default:
+    break;
+  }
+  
+  switch(node.children[0].getText()) {
+  case "conjugated":
+    // ignore Interface conjugated ports
+    return;
+  case "Port":
+    break;
+  default:
+    break;
+  }
+  
+  // TODO the Port name and Binding name must match
+  
+  var bindingArr = bindings[actorClassContextName];
+  if (bindingArr) {
+    console.log("  ==> port found a bindingArr");
+    console.log(bindingArr);
+    console.log(bindingArr[0]);
+    for (var i = 0; i < bindingArr.length; i++) {
+      var item = bindingArr[i];
+      // "port0" becomes "port" and "0"
+      var nameAndIndex = item.fromPortNameAndIndex;
+      var portName = nameAndIndex;
+      var portIndex = -1;
+      var posFirstDigit = nameAndIndex.search(/\d/);
+      if (posFirstDigit != -1) {
+        portIndex = portName.substring(posFirstDigit);
+        portName = portName.substring(0, posFirstDigit);
+      }
+      var connector = "../" + item.toXhcName + "[@roleName='" + item.toRoleName + "']";
+      xmlStrCD += indent + '<port name="' + portName + '" index="' + portIndex + '" connector="' + connector + '"/>\n';
+    }
+  }
 }
 
 /**
@@ -633,6 +729,29 @@ var cacheTransitions = function(node, ruleNames, indent) {
   return tarr;
 }
 
+/**
+ * Cache all ActorRefs that are children of a actorClass ANTLR node.
+ */
+var cacheActorRefs = function(node, ruleNames, indent) {
+  var robj = {};
+  if (node.children) {
+    for (var j = 0; j < node.children.length; j++) {
+      var child = node.children[j];
+      if (child.children && child.ruleIndex) {
+        var nodeType = ruleNames[child.ruleIndex];
+        if (nodeType == "actorRef") {
+          //rarr.push(child);
+          var roleName = child.children[1].getText();
+          roleName = roleName.substring(0, roleName.length - 1); // remove trailing :
+          var xhcName = child.children[2].getText();
+          robj[roleName] = xhcName;
+        }
+      }
+    }
+  }
+  return robj;
+}
+
 var antlr4 = require('xholon/lib/antlr4/index');
 var RoomLexer = require('xholon/lib/antlr4g/RoomLexer');
 var RoomParser = require('xholon/lib/antlr4g/RoomParser');
@@ -649,6 +768,8 @@ var seekingTopActor = false;
 
 // behavior for one specific StateMachine, for an ActorClass with a Behavior
 var beh = null;
+var bindings = {}; //[]; // cache all Binding(s) here
+var actorRefObj = null;
 
 document.getElementById("parse").addEventListener("click", function(){
   var input = document.getElementById("xhroom").value;
@@ -676,6 +797,7 @@ document.getElementById("parse").addEventListener("click", function(){
   console.log(xmlStrIH);
   console.log(xmlStrCD);
   console.log(xmlStrCSH);
+  console.log(bindings);
   if (xh) {
     var rootIH = xh.app().first().next().next().first().next().first();
     console.log(rootIH);
