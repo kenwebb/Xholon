@@ -84,6 +84,7 @@ __________   ________   _____________________
 1014800      1014899    NaturalLanguage
 1014900      1014999    Gexf
 1015900      1015999    CatTheory
+1016000      1016099    RoomEntity
 
 The following XML is an alphabetical list of all Xholon Mechanisms and Viewers.
 -->
@@ -232,6 +233,13 @@ The following XML is an alphabetical list of all Xholon Mechanisms and Viewers.
 		<DefaultPrefix>role</DefaultPrefix>
 		<RangeStart>1010100</RangeStart>
 		<RangeEnd>1010199</RangeEnd>
+	</XholonMechanism>
+	
+	<XholonMechanism roleName="RoomEntity">
+		<NamespaceUri>http://www.primordion.com/namespace/RoomEntity</NamespaceUri>
+		<DefaultPrefix>room</DefaultPrefix>
+		<RangeStart>1016000</RangeStart>
+		<RangeEnd>1016099</RangeEnd>
 	</XholonMechanism>
 	
 	<XholonMechanism roleName="Script">

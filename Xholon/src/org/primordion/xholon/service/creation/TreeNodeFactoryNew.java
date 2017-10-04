@@ -576,6 +576,13 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			}
 		}
 		
+		// mech.room
+		else if (implName.startsWith("org.primordion.xholon.mech.room")) {
+			if (implName.endsWith("RoomETrice")) {
+				newNode = new org.primordion.xholon.mech.room.RoomETrice();
+			}
+		}
+		
 		// script
 		// remember to add the script to the isClassFindable() method as well
 		else if (implName.startsWith("org.primordion.xholon.script")) {

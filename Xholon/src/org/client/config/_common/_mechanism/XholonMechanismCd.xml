@@ -152,6 +152,10 @@
 	<!-- Role -->
 	<Role xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Role"/>
 	
+	<!-- Room Entity -->
+  <RoomEntity  xhType="XhtypePureActiveObject" implName="org.primordion.xholon.app.Chameleon.XhChameleon"/>
+  <RoomETrice  xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.room.RoomETrice"/>
+	
 	<!-- Script -->
 	<Script xhType="XhtypePureActiveObject" implName="org.primordion.xholon.base.Behavior_gwtjs"/>
 	<script xhType="XhtypePureActiveObject" implName="org.primordion.xholon.base.Behavior_gwtjs"/>
