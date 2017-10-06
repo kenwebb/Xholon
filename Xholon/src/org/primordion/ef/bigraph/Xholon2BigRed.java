@@ -18,6 +18,8 @@
 
 package org.primordion.ef.bigraph;
 
+import com.google.gwt.core.client.JsArray;
+
 import java.util.Date;
 import java.util.List;
 
@@ -44,6 +46,8 @@ import org.primordion.xholon.service.ef.IXholon2GraphFormat;
 @SuppressWarnings("serial")
 public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXholon2GraphFormat, IXmlWriter {
   
+  private static final String CONJ_PORTS_ARRNAME = "conjPort";
+  
   private String outFileName;
   private String outPath = "./ef/bigraph/";
   private String modelName;
@@ -59,7 +63,7 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
   private boolean shouldShowLinks = true;
   
   /** Whether or not to include an id on edges. */
-  private boolean shouldShowEdgeId = true;
+  //private boolean shouldShowEdgeId = true;
   
   /** Whether or not to show state machine nodes. */
   private boolean shouldShowStateMachineEntities = false;
@@ -155,7 +159,8 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
    * @see org.primordion.xholon.io.IXholon2ExternalFormat#writeAll()
    */
   public void writeAll() {
-    writeSpec();
+    this.markConjugatedPorts(root, CONJ_PORTS_ARRNAME);
+    this.writeSpec();
     this.writeSigStart();
     
     StringBuilder commentSb = new StringBuilder()
@@ -173,25 +178,63 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
     .append("-->\n");
     this.writeBigraphStart(commentSb.toString());
     
-    sb = new StringBuilder();
+    this.sb = new StringBuilder();
     
-    nodeSb.append("  <bigraph:root name=\"" + bigraphRootName + "\">\n");
-    writeNode(root);
-    nodeSb.append("  </bigraph:root>\n");
+    this.nodeSb.append("  <bigraph:root name=\"" + bigraphRootName + "\">\n");
+    this.writeNode(root);
+    this.nodeSb.append("  </bigraph:root>\n");
     
-    sb.append(edgeSb.toString());
-    sb.append(nodeSb.toString());
+    this.sb.append(edgeSb.toString());
+    this.sb.append(nodeSb.toString());
     this.writeEndDocument();
     this.writeSigControls(root.getApp().getXhcRoot());
     this.writeSigEnd();
     this.bigraphSb.append(sb.toString());
     this.writeBigraphEnd();
     if (shouldWriteToTarget) {
-      writeToTarget(this.specSb.toString(), outFileName, outPath, root);
-      writeToTarget(this.sigSb.toString(), outFileName, outPath, root);
-      writeToTarget(this.bigraphSb.toString(), outFileName, outPath, root);
+      this.writeToTarget(this.specSb.toString(), outFileName, outPath, root);
+      this.writeToTarget(this.sigSb.toString(), outFileName, outPath, root);
+      this.writeToTarget(this.bigraphSb.toString(), outFileName, outPath, root);
     }
+    this.unmarkConjugatedPorts(root, CONJ_PORTS_ARRNAME);
   }
+  
+  /**
+   * Mark a node's conjugated ports, by building an array of remote nodes that reference it.
+   */
+  protected native void markConjugatedPorts(IXholon node, String conjPortsArrName) /*-{
+    var links = node.links(false, true);
+    if (!links) {return;}
+    for (var i = 0; i < links.length; i++) {
+      var link = links[i];
+      var remoteNode = link.reffedNode;
+      if (!remoteNode[conjPortsArrName]) {
+        remoteNode[conjPortsArrName] = [];
+      }
+      remoteNode[conjPortsArrName].push(node);
+    }
+    var childNode = node.first();
+    while (childNode) {
+      //markConjugatedPorts(childNode, conjPortsArrName);
+      this.@org.primordion.ef.bigraph.Xholon2BigRed::markConjugatedPorts(Lorg/primordion/xholon/base/IXholon;Ljava/lang/String;)(childNode, conjPortsArrName);
+      childNode = childNode.next();
+    }
+  }-*/;
+  
+  /**
+   * Unmark a node's conjugated ports.
+   */
+  protected native void unmarkConjugatedPorts(IXholon node, String conjPortsArrName) /*-{
+    if (node[conjPortsArrName]) {
+      delete node[conjPortsArrName];
+    }
+    var childNode = node.first();
+    while (childNode) {
+      //unmarkConjugatedPorts(childNode, conjPortsArrName);
+      this.@org.primordion.ef.bigraph.Xholon2BigRed::unmarkConjugatedPorts(Lorg/primordion/xholon/base/IXholon;Ljava/lang/String;)(childNode, conjPortsArrName);
+      childNode = childNode.next();
+    }
+  }-*/;
   
   /**
    * Write Big Red spec.
@@ -365,15 +408,18 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
     
     this.makeSigControl(xhNode);
     
-    nodeSb.append(indent).append("<bigraph:node id=\"")
-    .append(xhNode.getId())
-    .append("\" label=\"")
+    nodeSb
+    .append(indent)
+    .append("<bigraph:node")
+    .append(" control=\"")
+    .append(xhNode.getXhcName())
+    .append("\" name=\"")
     .append(xhNode.getName(nameTemplate))
     .append("\">\n");
     this.attributeIndent = indent + "  ";
     writeNodeAttributes(xhNode);
-    this.attributeIndent = "";
     writeEdges(xhNode);
+    this.attributeIndent = "";
     if (xhNode.hasChildNodes()) {
       IXholon childNode = xhNode.getFirstChild();
       while (childNode != null) {
@@ -406,7 +452,7 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
     if (!shouldShowLinks) {return;}
     List<PortInformation> portList = node.getLinks(false, true);
     for (int i = 0; i < portList.size(); i++) {
-      makeLink(node, portList.get(i));
+      makeLink(node, portList.get(i), i);
     }
   }
   
@@ -415,27 +461,41 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
    * @param node The node where the link originates.
    * @param portInfo Information about the port that represents the link.
    */
-  protected void makeLink(IXholon node, PortInformation portInfo)
+  protected void makeLink(IXholon node, PortInformation portInfo, int linkIndex)
   {
     if (portInfo == null) {return;}
-    
-    this.addPortToSigControl(node, portInfo.getLocalNameNoBrackets());
-    
+    String portName = portInfo.getLocalNameNoBrackets();
     IXholon remoteNode = portInfo.getReffedNode();
-    edgeSb.append("  <bigraph:edge");
-    if (shouldShowEdgeId) {
-      edgeSb.append(" id=\"")
-      .append(getNextEdgeIdStr())
-      .append("\"");
+    this.addPortToSigControl(node, portName);
+    
+    // name the edge after the non-conj node id + remoteNode id;  ex: "e42_17"
+    String edgeName = null;
+    if (portName.startsWith(CONJ_PORTS_ARRNAME)) {
+      edgeName = "e" + remoteNode.getId() + "_" + node.getId();
     }
-    edgeSb.append(" source=\"")
-    .append(node.getId())
-    .append("\" target=\"")
-    .append(remoteNode.getId())
-    .append("\" label=\"")
-    .append(portInfo.getLocalName())
+    else {
+      edgeName = "e" + node.getId() + "_" + remoteNode.getId();
+    }
+    
+    edgeSb
+    .append("  <bigraph:edge")
+    .append(" name=\"")
+    .append(edgeName)
+    .append("\"/>\n");
+    
+    nodeSb
+    .append(this.attributeIndent)
+    .append("<bigraph:port")
+    .append(" link=\"")
+    .append(edgeName)
+    .append("\" name=\"")
+    .append(portName)
     .append("\"/>\n");
   }
+  
+  //protected native JsArray findConjPorts(IXholon node, String conjPortsArrName) /*-{
+  //  return node[conjPortsArrName];
+  //}-*/;
   
   /**
    * Write one link.
@@ -443,7 +503,7 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
    * @param source
    * @param target
    */
-  protected void makeLink(String label, IXholon source, IXholon target) {
+  /*protected void makeLink(String label, IXholon source, IXholon target) {
     edgeSb.append("  <bigraph:edge");
     if (shouldShowEdgeId) {
       edgeSb.append(" id=\"")
@@ -457,7 +517,7 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
     .append("\" label=\"")
     .append(label)
     .append("\"/>\n");
-  }
+  }*/
   
   /**
    * Remove spaces and other special characters from modelName,
@@ -531,9 +591,9 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
    * Get the next edge id as a String.
    * @return
    */
-  public String getNextEdgeIdStr() {
-    return "e" + getNextEdgeId();
-  }
+  //public String getNextEdgeIdStr() {
+  //  return "e" + getNextEdgeId();
+  //}
 
   public void setNextEdgeId(int nextEdgeId) {
     this.nextEdgeId = nextEdgeId;
@@ -645,13 +705,13 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
     this.shouldWriteAllPorts = shouldWriteAllPorts;
   }
 
-  public boolean isShouldShowEdgeId() {
+  /*public boolean isShouldShowEdgeId() {
     return shouldShowEdgeId;
   }
 
   public void setShouldShowEdgeId(boolean shouldShowEdgeId) {
     this.shouldShowEdgeId = shouldShowEdgeId;
-  }
+  }*/
 
   public String getFileNameExtension() {
     return fileNameExtension;
