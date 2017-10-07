@@ -867,7 +867,8 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
               if (!linkGraph) {continue;}
               for (var i = 0; i < pval.length; i++) {
                 if (pval[i] && $wnd.xh.isXholonNode(pval[i])) {
-                  if (pval[i] == node.port(i)) {
+                  if (node.@org.primordion.xholon.base.IXholon::getPort()() == pval) {
+                    // this is the Java built-in "port" array
                     pname = "port";
                   }
                   outArr.push(fillLinkObj(pname, i, pval[i], null));
