@@ -21,20 +21,19 @@ package org.primordion.ef.bigraph;
 import com.google.gwt.core.client.JsArray;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
-import org.primordion.xholon.base.IMechanism;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
 import org.primordion.xholon.base.PortInformation;
-import org.primordion.xholon.base.XhRelTypes;
-//import org.primordion.xholon.base.Xholon;
 import org.primordion.xholon.common.mechanism.CeStateMachineEntity;
 import org.primordion.ef.AbstractXholon2ExternalFormat;
 import org.primordion.xholon.io.xml.IXholon2Xml;
 import org.primordion.xholon.io.xml.IXmlWriter;
 import org.primordion.xholon.service.ef.IXholon2GraphFormat;
-//import org.primordion.xholon.util.MiscIo;
 
 /**
  * Export a Xholon model in Big Red format.
@@ -62,33 +61,20 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
   /** Whether or not to draw links between nodes. */
   private boolean shouldShowLinks = true;
   
-  /** Whether or not to include an id on edges. */
-  //private boolean shouldShowEdgeId = true;
-  
-  /** Whether or not to show state machine nodes. */
-  private boolean shouldShowStateMachineEntities = false;
-  
-  /** Template to use when writing out node names. */
-  protected String nameTemplate = IXholon.GETNAME_DEFAULT; //"r:C^^^";
-  
-  /** The next edge id, used when writing an &lt;edge> element. */
-  protected int nextEdgeId = 0;
-
-  /** Big Red files are XML, but do not actually include the ".xml" extension */
-  protected String fileNameExtension = ".xml";
-  
-  /** Whether or not to close "out" once everything is written. */
-  protected boolean shouldClose = false;
-  
   /**
-   * The accumulating text for all GraphML node elements.
+   * The accumulating text for all node elements.
    */
   protected StringBuilder nodeSb = null;
   
   /**
-   * The accumulating text for all GraphML edge elements.
+   * The accumulating text for all edge elements.
    */
   protected StringBuilder edgeSb = null;
+  
+  /**
+   * The accumulating unique names of all edge elements.
+   */
+  protected Set<String> edgeSet = new HashSet<String>();
   
   /** Big Red spec XML */
   protected StringBuilder specSb = null;
@@ -136,7 +122,7 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
     timeStamp = timeNow.getTime();
     if (outFileName == null) {
       this.outFileName = outPath + root.getXhcName() + "_" + root.getId()
-        + "_" + timeStamp + fileNameExtension;
+        + "_" + timeStamp + this.getFileNameExtension();
     }
     else {
       this.outFileName = outFileName;
@@ -184,7 +170,17 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
     this.writeNode(root);
     this.nodeSb.append("  </bigraph:root>\n");
     
+    Iterator<String> edgeIt = edgeSet.iterator();
+    while (edgeIt.hasNext()) {
+      edgeSb
+      .append("  <bigraph:edge")
+      .append(" name=\"")
+      .append(edgeIt.next())
+      .append("\"/>\n");
+    }
+    
     this.sb.append(edgeSb.toString());
+    
     this.sb.append(nodeSb.toString());
     this.writeEndDocument();
     this.writeSigControls(root.getApp().getXhcRoot());
@@ -333,7 +329,9 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
    */
   protected native String obtainSigControlPorts(IXholonClass xhcNode) /*-{
     if (xhcNode.signature && xhcNode.signature.ports) {
-      return xhcNode.signature.ports.toString();
+      var controlPortsStr = xhcNode.signature.ports.toString();
+      delete xhcNode.signature;
+      return controlPortsStr;
     }
     else {
       return null;
@@ -398,10 +396,13 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
     this.writeNode(xhNode, "    ");
   }
   
+  /**
+   * Write node.
+   */
   protected void writeNode(IXholon xhNode, String indent) {
     // only show state machine nodes if should show them, or if root is a StateMachineCE
     if ((xhNode.getXhcId() == CeStateMachineEntity.StateMachineCE)
-        && (shouldShowStateMachineEntities == false)
+        && (isShouldShowStateMachineEntities() == false)
         && (xhNode != root)) {
       return;
     }
@@ -414,7 +415,7 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
     .append(" control=\"")
     .append(xhNode.getXhcName())
     .append("\" name=\"")
-    .append(xhNode.getName(nameTemplate))
+    .append(xhNode.getName(getNameTemplate()))
     .append("\">\n");
     this.attributeIndent = indent + "  ";
     writeNodeAttributes(xhNode);
@@ -477,11 +478,8 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
       edgeName = "e" + node.getId() + "_" + remoteNode.getId();
     }
     
-    edgeSb
-    .append("  <bigraph:edge")
-    .append(" name=\"")
-    .append(edgeName)
-    .append("\"/>\n");
+    // prevent duplicates by putting edge names into a Set.
+    edgeSet.add(edgeName);
     
     nodeSb
     .append(this.attributeIndent)
@@ -492,32 +490,6 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
     .append(portName)
     .append("\"/>\n");
   }
-  
-  //protected native JsArray findConjPorts(IXholon node, String conjPortsArrName) /*-{
-  //  return node[conjPortsArrName];
-  //}-*/;
-  
-  /**
-   * Write one link.
-   * @param label
-   * @param source
-   * @param target
-   */
-  /*protected void makeLink(String label, IXholon source, IXholon target) {
-    edgeSb.append("  <bigraph:edge");
-    if (shouldShowEdgeId) {
-      edgeSb.append(" id=\"")
-      .append(getNextEdgeIdStr())
-      .append("\"");
-    }
-    edgeSb.append(" source=\"")
-    .append(source.getId())
-    .append("\" target=\"")
-    .append(target.getId())
-    .append("\" label=\"")
-    .append(label)
-    .append("\"/>\n");
-  }*/
   
   /**
    * Remove spaces and other special characters from modelName,
@@ -566,39 +538,6 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
     this.shouldShowLinks = shouldShowLinks;
   }
 
-  public boolean isShouldShowStateMachineEntities() {
-    return shouldShowStateMachineEntities;
-  }
-
-  public void setShouldShowStateMachineEntities(
-      boolean shouldShowStateMachineEntities) {
-    this.shouldShowStateMachineEntities = shouldShowStateMachineEntities;
-  }
-
-  public String getNameTemplate() {
-    return nameTemplate;
-  }
-
-  public void setNameTemplate(String nameTemplate) {
-    this.nameTemplate = nameTemplate;
-  }
-  
-  public int getNextEdgeId() {
-    return nextEdgeId++;
-  }
-  
-  /**
-   * Get the next edge id as a String.
-   * @return
-   */
-  //public String getNextEdgeIdStr() {
-  //  return "e" + getNextEdgeId();
-  //}
-
-  public void setNextEdgeId(int nextEdgeId) {
-    this.nextEdgeId = nextEdgeId;
-  }
-
   public String getOutPath() {
     return outPath;
   }
@@ -606,6 +545,18 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
   public void setOutPath(String outPath) {
     this.outPath = outPath;
   }
+  
+  	/**
+   * Make a JavaScript object with all the parameters for this external format.
+   */
+  protected native void makeEfParams() /*-{
+    var p = {};
+    //p.linkColor = "#6666ff";
+    p.shouldShowStateMachineEntities = false;
+    p.nameTemplate = "r:c_i^"; // IXholon.GETNAME_DEFAULT
+    p.fileNameExtension = ".xml"; // Big Red files are XML, but do not actually include the ".xml" extension
+    this.efParams = p;
+  }-*/;
 
   // #############################################################################
   // methods required to implement IXmlWriter
@@ -648,8 +599,6 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
   // This is for use by Xholon.toXmlAttributes() only
   // All attributes are type="string".
   public void writeAttribute(String name, String value) {
-    if ("Val".equalsIgnoreCase(name) && !isShouldWriteVal()) {return;}
-    if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
     this.nodeSb
     .append(this.attributeIndent)
     .append("<!--<att name=\"")
@@ -677,48 +626,36 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
   // DO NOT IMPLEMENT THIS
   public void flush() {}
   
-  /* 
-   * @see org.primordion.xholon.io.xml.IXmlWriter#isShouldWriteVal()
-   */
+  @Override
   public boolean isShouldWriteVal() {
     return shouldWriteVal;
   }
   
-  /* 
-   * @see org.primordion.xholon.io.xml.IXmlWriter#setShouldWriteVal()
-   */
+  @Override
   public void setShouldWriteVal(boolean shouldWriteVal) {
     this.shouldWriteVal = shouldWriteVal;
   }
   
-  /* 
-   * @see org.primordion.xholon.io.xml.IXmlWriter#isShouldWriteAllPorts()
-   */
+  @Override
   public boolean isShouldWriteAllPorts() {
     return shouldWriteAllPorts;
   }
   
-  /* 
-   * @see org.primordion.xholon.io.xml.IXmlWriter#shouldWriteAllPorts()
-   */
+  @Override
   public void setShouldWriteAllPorts(boolean shouldWriteAllPorts) {
     this.shouldWriteAllPorts = shouldWriteAllPorts;
   }
 
-  /*public boolean isShouldShowEdgeId() {
-    return shouldShowEdgeId;
-  }
+  /** Whether or not to show state machine nodes. */
+  public native boolean isShouldShowStateMachineEntities() /*-{return this.efParams.shouldShowStateMachineEntities;}-*/;
+  //public native void setShouldShowStateMachineEntities(boolean shouldShowStateMachineEntities) /*-{this.efParams.shouldShowStateMachineEntities = shouldShowStateMachineEntities;}-*/;
 
-  public void setShouldShowEdgeId(boolean shouldShowEdgeId) {
-    this.shouldShowEdgeId = shouldShowEdgeId;
-  }*/
+  /** Template to use when writing out node names. */
+  public native String getNameTemplate() /*-{return this.efParams.nameTemplate;}-*/;
+  //public native void setNameTemplate(String nameTemplate) /*-{this.efParams.nameTemplate = nameTemplate;}-*/;
 
-  public String getFileNameExtension() {
-    return fileNameExtension;
-  }
-
-  public void setFileNameExtension(String fileNameExtension) {
-    this.fileNameExtension = fileNameExtension;
-  }
+  /** Big Red files can be ".xml" or "" */
+  public native String getFileNameExtension() /*-{return this.efParams.fileNameExtension;}-*/;
+  //public native void setFileNameExtension(String fileNameExtension) /*-{this.efParams.fileNameExtension = fileNameExtension;}-*/;
 
 }
