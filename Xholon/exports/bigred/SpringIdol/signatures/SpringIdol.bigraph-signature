@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<signature:signature xmlns:signature="http://www.itu.dk/research/pls/xmlns/2010/signature">
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="C" kind="active" name="Cymbal">
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="G" kind="active" name="Guitar">
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="H" kind="active" name="Harmonica">
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="P" kind="active" name="Piano">
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="S" kind="active" name="Saxophone">
+    <signature:port name="conjPort0">
+    </signature:port>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="BS" kind="active" name="BaseSaxophonist">
+    <signature:port name="song_1_g$">
+    </signature:port>
+    <signature:port name="instrument_1_g$">
+    </signature:port>
+    <signature:port name="conjPort0">
+    </signature:port>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="PJ" kind="active" name="PoeticJuggler">
+    <signature:port name="poem_1_g$">
+    </signature:port>
+    <signature:port name="conjPort0">
+    </signature:port>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="OMB" kind="active" name="OneManBand">
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="D" kind="active" name="Damoyselle">
+    <signature:port name="conjPort0">
+    </signature:port>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="SI" kind="active" name="SpringIdol">
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="S" kind="active" name="Song">
+    <signature:port name="conjPort0">
+    </signature:port>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="I" kind="active" name="Instruments">
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="P" kind="active" name="Performers">
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="S" kind="active" name="Songs">
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="P" kind="active" name="Poems">
+  </signature:control>
+</signature:signature>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<bigraph:bigraph xmlns:bigraph="http://www.itu.dk/research/pls/xmlns/2010/bigraph">
+  <signature:signature src="../signatures/CellBioSystemspaper.bigraph-signature" xmlns:signature="http://www.itu.dk/research/pls/xmlns/2010/signature"/>
+  <bigraph:edge name="e5_2"/>
+  <bigraph:edge name="e5_8"/>
+  <bigraph:edge name="e8_5"/>
+  <bigraph:edge name="e19_8"/>
+  <bigraph:edge name="e19_9"/>
+  <bigraph:edge name="e20_9"/>
+  <bigraph:edge name="e20_10"/>
+  <bigraph:edge name="e21_10"/>
+  <bigraph:edge name="e21_11"/>
+  <bigraph:edge name="e22_11"/>
+  <bigraph:edge name="e22_12"/>
+  <bigraph:edge name="e23_12"/>
+  <bigraph:edge name="e22_13"/>
+  <bigraph:edge name="e23_13"/>
+  <bigraph:edge name="e24_13"/>
+  <bigraph:edge name="e24_14"/>
+  <bigraph:edge name="e25_14"/>
+  <bigraph:edge name="e25_15"/>
+  <bigraph:edge name="e26_15"/>
+  <bigraph:edge name="e26_16"/>
+  <bigraph:edge name="e27_16"/>
+  <bigraph:edge name="e27_17"/>
+  <bigraph:edge name="e28_17"/>
+  <bigraph:edge name="e28_18"/>
+  <bigraph:root name="0">
+    <bigraph:node control="ExtraCellularSpace" name="extraCellularSpace_0">
+      <bigraph:node control="EukaryoticCell" name="eukaryoticCell_3">
+        <bigraph:node control="Cytoplasm" name="cytoplasm_6">
+          <bigraph:node control="Hexokinase" name="hexokinase_19">
+            <bigraph:port link="e19_8" name="port0"/>
+            <bigraph:port link="e19_9" name="port3"/>
+            <big-red:appearance height="50" width="50" x="446" y="83" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+          </bigraph:node>
+          <bigraph:node control="PhosphoGlucoIsomerase" name="phosphoGlucoIsomerase_20">
+            <bigraph:port link="e20_9" name="port0"/>
+            <bigraph:port link="e20_10" name="port3"/>
+            <big-red:appearance height="50" width="50" x="547" y="71" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+          </bigraph:node>
+          <bigraph:node control="PhosphoFructokinase" name="phosphoFructokinase_21">
+            <bigraph:port link="e21_10" name="port0"/>
+            <bigraph:port link="e21_11" name="port3"/>
+            <big-red:appearance height="50" width="50" x="633" y="65" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+          </bigraph:node>
+          <bigraph:node control="Aldolase" name="aldolase_22">
+            <bigraph:port link="e22_11" name="port0"/>
+            <bigraph:port link="e22_13" name="port3"/>
+            <bigraph:port link="e22_12" name="port4"/>
+            <big-red:appearance height="50" width="50" x="714" y="64" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+          </bigraph:node>
+          <bigraph:node control="TriosePhosphateIsomerase" name="triosePhosphateIsomerase_23">
+            <bigraph:port link="e23_12" name="port0"/>
+            <bigraph:port link="e23_13" name="port3"/>
+            <big-red:appearance height="50" width="50" x="790" y="41" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+          </bigraph:node>
+          <bigraph:node control="Glyceraldehyde_3_phosphateDehydrogenase" name="glyceraldehyde_3_phosphateDehydrogenase_24">
+            <bigraph:port link="e24_13" name="port0"/>
+            <bigraph:port link="e24_14" name="port3"/>
+            <big-red:appearance height="50" width="50" x="855" y="75" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+          </bigraph:node>
+          <bigraph:node control="PhosphoGlycerokinase" name="phosphoGlycerokinase_25">
+            <bigraph:port link="e25_14" name="port0"/>
+            <bigraph:port link="e25_15" name="port3"/>
+            <big-red:appearance height="50" width="50" x="953" y="72" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+          </bigraph:node>
+          <bigraph:node control="PhosphoGlyceromutase" name="phosphoGlyceromutase_26">
+            <bigraph:port link="e26_15" name="port0"/>
+            <bigraph:port link="e26_16" name="port3"/>
+            <big-red:appearance height="50" width="50" x="1040" y="73" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+          </bigraph:node>
+          <bigraph:node control="Enolase" name="enolase_27">
+            <bigraph:port link="e27_16" name="port0"/>
+            <bigraph:port link="e27_17" name="port3"/>
+            <big-red:appearance height="50" width="50" x="1130" y="80" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+          </bigraph:node>
+          <bigraph:node control="PyruvateKinase" name="pyruvateKinase_28">
+            <bigraph:port link="e28_17" name="port0"/>
+            <bigraph:port link="e28_18" name="port3"/>
+            <big-red:appearance height="50" width="50" x="1227" y="91" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+          </bigraph:node>
+          <big-red:appearance height="150" width="1650" x="147" y="25" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+        </bigraph:node>
+        <big-red:appearance height="200" width="1825" x="150" y="25" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+      </bigraph:node>
+      <big-red:appearance height="295" width="2000" x="25" y="25" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+    </bigraph:node>
+    <bigraph:node control="Cytosol" name="cytosol_7">
+      <bigraph:node control="Pyruvate" name="pyruvate_18">
+        <bigraph:port link="e28_18" name="conjPort0"/>
+        <big-red:appearance height="50" width="50" x="1172" y="200" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+      </bigraph:node>
+      <bigraph:node control="PhosphoEnolPyruvate" name="phosphoEnolPyruvate_17">
+        <bigraph:port link="e27_17" name="conjPort0"/>
+        <bigraph:port link="e28_17" name="conjPort1"/>
+        <big-red:appearance height="50" width="50" x="1010" y="148" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+      </bigraph:node>
+      <bigraph:node control="X2_PhosphoGlycerate" name="x2_PhosphoGlycerate_16">
+        <bigraph:port link="e26_16" name="conjPort0"/>
+        <bigraph:port link="e27_16" name="conjPort1"/>
+        <big-red:appearance height="50" width="50" x="927" y="139" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+      </bigraph:node>
+      <bigraph:node control="X3_PhosphoGlycerate" name="x3_PhosphoGlycerate_15">
+        <bigraph:port link="e25_15" name="conjPort0"/>
+        <bigraph:port link="e26_15" name="conjPort1"/>
+        <big-red:appearance height="50" width="50" x="835" y="153" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+      </bigraph:node>
+      <bigraph:node control="X1x3_BisphosphoGlycerate" name="x1x3_BisphosphoGlycerate_14">
+        <bigraph:port link="e24_14" name="conjPort0"/>
+        <bigraph:port link="e25_14" name="conjPort1"/>
+        <big-red:appearance height="50" width="50" x="735" y="147" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+      </bigraph:node>
+      <bigraph:node control="Glyceraldehyde_3_Phosphate" name="glyceraldehyde_3_Phosphate_13">
+        <bigraph:port link="e22_13" name="conjPort0"/>
+        <bigraph:port link="e23_13" name="conjPort1"/>
+        <bigraph:port link="e24_13" name="conjPort2"/>
+        <big-red:appearance height="50" width="50" x="629" y="180" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+      </bigraph:node>
+      <bigraph:node control="DihydroxyacetonePhosphate" name="dihydroxyacetonePhosphate_12">
+        <bigraph:port link="e22_12" name="conjPort0"/>
+        <bigraph:port link="e23_12" name="conjPort1"/>
+        <big-red:appearance height="50" width="50" x="534" y="206" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+      </bigraph:node>
+      <bigraph:node control="Fructose_1x6_Biphosphate" name="fructose_1x6_Biphosphate_11">
+        <bigraph:port link="e21_11" name="conjPort0"/>
+        <bigraph:port link="e22_11" name="conjPort1"/>
+        <big-red:appearance height="50" width="50" x="445" y="222" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+      </bigraph:node>
+      <bigraph:node control="Fructose_6_Phosphate" name="fructose_6_Phosphate_10">
+        <bigraph:port link="e20_10" name="conjPort0"/>
+        <bigraph:port link="e21_10" name="conjPort1"/>
+        <big-red:appearance height="50" width="50" x="325" y="223" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+      </bigraph:node>
+      <bigraph:node control="Glucose_6_Phosphate" name="glucose_6_Phosphate_9">
+        <bigraph:port link="e19_9" name="conjPort0"/>
+        <bigraph:port link="e20_9" name="conjPort1"/>
+        <big-red:appearance height="50" width="50" x="251" y="237" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+      </bigraph:node>
+      <bigraph:node control="Glucose" name="glucose_8">
+        <bigraph:port link="e5_8" name="conjPort0"/>
+        <bigraph:port link="e19_8" name="conjPort1"/>
+        <big-red:appearance height="50" width="50" x="168" y="253" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+      </bigraph:node>
+      <big-red:appearance height="317" width="1541" x="297" y="449" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+    </bigraph:node>
+    <bigraph:node control="CellMembrane" name="cellMembrane_4">
+      <bigraph:node control="CellBilayer" name="cellBilayer_5">
+        <bigraph:port link="e5_2" name="port0"/>
+        <bigraph:port link="e5_8" name="port4"/>
+        <bigraph:port link="e8_5" name="conjPort0"/>
+        <big-red:appearance height="50" width="50" x="25" y="25" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+      </bigraph:node>
+      <big-red:appearance height="100" width="100" x="122" y="545" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+    </bigraph:node>
+    <bigraph:node control="ExtraCellularSolution" name="extraCellularSolution_1">
+      <bigraph:node control="Glucose" name="glucose_2">
+        <bigraph:port link="e5_2" name="conjPort0"/>
+        <big-red:appearance height="50" width="50" x="25" y="25" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+      </bigraph:node>
+      <big-red:appearance height="100" width="100" x="42" y="326" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+    </bigraph:node>
+    <big-red:appearance height="890" width="2041" x="25" y="25" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+  </bigraph:root>
+</bigraph:bigraph>

@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<signature:signature xmlns:signature="http://www.itu.dk/research/pls/xmlns/2010/signature">
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="H" kind="active" name="Hexokinase">
+    <signature:port name="port0">
+      <big-red:port-appearance big-red:distance="0.5" big-red:segment="1"/>
+    </signature:port>
+    <signature:port name="port3">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="0"/>
+    </signature:port>
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="150" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="20" big-red:y="225"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="PGI" kind="active" name="PhosphoGlucoIsomerase">
+    <signature:port name="port0">
+      <big-red:port-appearance big-red:distance="0.5" big-red:segment="1"/>
+    </signature:port>
+    <signature:port name="port3">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="0"/>
+    </signature:port>
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="150" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="20" big-red:y="225"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="PF" kind="active" name="PhosphoFructokinase">
+    <signature:port name="port0">
+      <big-red:port-appearance big-red:distance="0.5" big-red:segment="1"/>
+    </signature:port>
+    <signature:port name="port3">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="0"/>
+    </signature:port>
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="150" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="20" big-red:y="225"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="A" kind="active" name="Aldolase">
+    <signature:port name="port0">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="1"/>
+    </signature:port>
+    <signature:port name="port3">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="2"/>
+    </signature:port>
+    <signature:port name="port4">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="0"/>
+    </signature:port>
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="150" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="20" big-red:y="225"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="TPI" kind="active" name="TriosePhosphateIsomerase">
+    <signature:port name="port0">
+      <big-red:port-appearance big-red:distance="0.5" big-red:segment="1"/>
+    </signature:port>
+    <signature:port name="port3">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="0"/>
+    </signature:port>
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="150" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="20" big-red:y="225"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="GD" kind="active" name="Glyceraldehyde_3_phosphateDehydrogenase">
+    <signature:port name="port0">
+      <big-red:port-appearance big-red:distance="0.5" big-red:segment="1"/>
+    </signature:port>
+    <signature:port name="port3">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="0"/>
+    </signature:port>
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="150" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="20" big-red:y="225"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="PG" kind="active" name="PhosphoGlycerokinase">
+    <signature:port name="port0">
+      <big-red:port-appearance big-red:distance="0.5" big-red:segment="1"/>
+    </signature:port>
+    <signature:port name="port3">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="0"/>
+    </signature:port>
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="150" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="20" big-red:y="225"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="PG" kind="active" name="PhosphoGlyceromutase">
+    <signature:port name="port0">
+      <big-red:port-appearance big-red:distance="0.5" big-red:segment="1"/>
+    </signature:port>
+    <signature:port name="port3">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="0"/>
+    </signature:port>
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="150" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="20" big-red:y="225"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="E" kind="active" name="Enolase">
+    <signature:port name="port0">
+      <big-red:port-appearance big-red:distance="0.5" big-red:segment="1"/>
+    </signature:port>
+    <signature:port name="port3">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="0"/>
+    </signature:port>
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="150" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="20" big-red:y="225"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="PK" kind="active" name="PyruvateKinase">
+    <signature:port name="port0">
+      <big-red:port-appearance big-red:distance="0.5" big-red:segment="1"/>
+    </signature:port>
+    <signature:port name="port3">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="0"/>
+    </signature:port>
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="150" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="20" big-red:y="225"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="EC" kind="active" name="EukaryoticCell">
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="290" big-red:y="0"/>
+      <big-red:point big-red:x="290" big-red:y="280"/>
+      <big-red:point big-red:x="-110" big-red:y="280"/>
+      <big-red:point big-red:x="-110" big-red:y="0"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="CB" kind="active" name="CellBilayer">
+    <signature:port name="port0">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="1"/>
+    </signature:port>
+    <signature:port name="port4">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="2"/>
+    </signature:port>
+    <signature:port name="conjPort0">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="0"/>
+    </signature:port>
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="150" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="20" big-red:y="225"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="CM" kind="active" name="CellMembrane">
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="150" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="20" big-red:y="225"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="G" kind="active" name="Glucose">
+    <signature:port name="conjPort0">
+      <big-red:port-appearance big-red:distance="0.5" big-red:segment="1"/>
+    </signature:port>
+    <signature:port name="conjPort1">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="0"/>
+    </signature:port>
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="150" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="20" big-red:y="225"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="P" kind="active" name="Pyruvate">
+    <signature:port name="conjPort0">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="0"/>
+    </signature:port>
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="150" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="20" big-red:y="225"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="DP" kind="active" name="DihydroxyacetonePhosphate">
+    <signature:port name="conjPort0">
+      <big-red:port-appearance big-red:distance="0.5" big-red:segment="1"/>
+    </signature:port>
+    <signature:port name="conjPort1">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="0"/>
+    </signature:port>
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="150" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="20" big-red:y="225"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="FB" kind="active" name="Fructose_1x6_Biphosphate">
+    <signature:port name="conjPort0">
+      <big-red:port-appearance big-red:distance="0.5" big-red:segment="1"/>
+    </signature:port>
+    <signature:port name="conjPort1">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="0"/>
+    </signature:port>
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="150" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="20" big-red:y="225"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="FP" kind="active" name="Fructose_6_Phosphate">
+    <signature:port name="conjPort0">
+      <big-red:port-appearance big-red:distance="0.5" big-red:segment="1"/>
+    </signature:port>
+    <signature:port name="conjPort1">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="0"/>
+    </signature:port>
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="150" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="20" big-red:y="225"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="GP" kind="active" name="Glucose_6_Phosphate">
+    <signature:port name="conjPort0">
+      <big-red:port-appearance big-red:distance="0.5" big-red:segment="1"/>
+    </signature:port>
+    <signature:port name="conjPort1">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="0"/>
+    </signature:port>
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="150" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="20" big-red:y="225"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="GP" kind="active" name="Glyceraldehyde_3_Phosphate">
+    <signature:port name="conjPort0">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="1"/>
+    </signature:port>
+    <signature:port name="conjPort1">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="2"/>
+    </signature:port>
+    <signature:port name="conjPort2">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="0"/>
+    </signature:port>
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="150" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="20" big-red:y="225"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="PEP" kind="active" name="PhosphoEnolPyruvate">
+    <signature:port name="conjPort0">
+      <big-red:port-appearance big-red:distance="0.5" big-red:segment="1"/>
+    </signature:port>
+    <signature:port name="conjPort1">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="0"/>
+    </signature:port>
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="150" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="20" big-red:y="225"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="XBG" kind="active" name="X1x3_BisphosphoGlycerate">
+    <signature:port name="conjPort0">
+      <big-red:port-appearance big-red:distance="0.5" big-red:segment="1"/>
+    </signature:port>
+    <signature:port name="conjPort1">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="0"/>
+    </signature:port>
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="150" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="20" big-red:y="225"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="XPG" kind="active" name="X2_PhosphoGlycerate">
+    <signature:port name="conjPort0">
+      <big-red:port-appearance big-red:distance="0.5" big-red:segment="1"/>
+    </signature:port>
+    <signature:port name="conjPort1">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="0"/>
+    </signature:port>
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="150" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="20" big-red:y="225"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="XPG" kind="active" name="X3_PhosphoGlycerate">
+    <signature:port name="conjPort0">
+      <big-red:port-appearance big-red:distance="0.5" big-red:segment="1"/>
+    </signature:port>
+    <signature:port name="conjPort1">
+      <big-red:port-appearance big-red:distance="0.0" big-red:segment="0"/>
+    </signature:port>
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="150" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="20" big-red:y="225"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="C" kind="active" name="Cytosol">
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="150" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="20" big-red:y="225"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="ECS" kind="active" name="ExtraCellularSolution">
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="280" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="-80" big-red:y="230"/>
+      <big-red:point big-red:x="-80" big-red:y="0"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="C" kind="active" name="Cytoplasm">
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="150" big-red:y="0"/>
+      <big-red:point big-red:x="279" big-red:y="225"/>
+      <big-red:point big-red:x="20" big-red:y="225"/>
+    </big-red:shape>
+  </signature:control>
+  <signature:control xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red" big-red:label="ECS" kind="active" name="ExtraCellularSpace">
+    <big-red:shape big-red:shape="polygon">
+      <big-red:point big-red:x="310" big-red:y="-60"/>
+      <big-red:point big-red:x="310" big-red:y="230"/>
+      <big-red:point big-red:x="-130" big-red:y="230"/>
+      <big-red:point big-red:x="-130" big-red:y="-60"/>
+    </big-red:shape>
+  </signature:control>
+</signature:signature>

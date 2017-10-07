@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<spec:spec xmlns:spec="http://www.itu.dk/research/pls/xmlns/2012/simulation-spec">
+  <signature:signature src="signatures/CellBioSystemspaper.bigraph-signature" xmlns:signature="http://www.itu.dk/research/pls/xmlns/2010/signature"/>
+  <!-- rules -->
+  <bigraph:bigraph src="agents/CellBioSystemspaper.bigraph-agent" xmlns:bigraph="http://www.itu.dk/research/pls/xmlns/2010/bigraph"/>
+</spec:spec>

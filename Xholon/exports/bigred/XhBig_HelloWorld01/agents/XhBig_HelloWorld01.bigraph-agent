@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<bigraph:bigraph xmlns:bigraph="http://www.itu.dk/research/pls/xmlns/2010/bigraph">
+  <signature:signature src="../signatures/XhBig_HelloWorld01.bigraph-signature" xmlns:signature="http://www.itu.dk/research/pls/xmlns/2010/signature"/>
+  <bigraph:edge name="e2_3"/>
+  <bigraph:edge name="e3_2"/>
+  <bigraph:root name="0">
+    <bigraph:node control="HelloWorldSystem" name="helloWorldSystem_0">
+      <bigraph:node control="Hello" name="hello_2">
+        <bigraph:port link="e2_3" name="port0"/>
+        <bigraph:port link="e3_2" name="conjPort0"/>
+        <bigraph:port link="e3_2" name="conjPort1"/>
+        <big-red:appearance height="253" width="165" x="56" y="151" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+      </bigraph:node>
+      <bigraph:node control="World" name="world_3">
+        <bigraph:port link="e3_2" name="port0"/>
+        <bigraph:port link="e2_3" name="conjPort0"/>
+        <big-red:appearance height="259" width="176" x="557" y="148" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+      </bigraph:node>
+      <big-red:appearance height="428" width="792" x="44" y="52" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+    </bigraph:node>
+    <big-red:appearance height="512" width="879" x="25" y="25" xmlns:big-red="http://www.itu.dk/research/pls/xmlns/2010/big-red"/>
+  </bigraph:root>
+</bigraph:bigraph>
