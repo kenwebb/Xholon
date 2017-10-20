@@ -167,6 +167,14 @@ public interface IKinetics {
 	public static final int KINETICS_LOGIC_NOT = 10;
 	
 	/**
+	 * The kinetics is defined in a Xholon JavaScript behavior node.
+	 * This node should implement a function that accepts an array of values (equal to the number of input arcs),
+	 * and returns a single scalar value or possibly an array of values.
+	 * The function to call (to send a sync message to) should be identified using an xpath expression.
+	 */
+	public static final int KINETICS_FUNCTION = 11;
+	
+	/**
 	 * The default kinetics.
 	 */
 	public static final int KINETICS_DEFAULT = KINETICS_BASIC_PTNET;
@@ -179,7 +187,7 @@ public interface IKinetics {
 	/**
 	 * Maximum valid kinetics type.
 	 */
-	public static final int KINETICS_MAX_VALID = KINETICS_DIFFUSION;
+	public static final int KINETICS_MAX_VALID = KINETICS_FUNCTION;
 	
 	/**
 	 * Reaction rate (k) is unspecified; typically used by Transition.

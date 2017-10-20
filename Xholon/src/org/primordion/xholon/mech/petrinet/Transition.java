@@ -18,8 +18,11 @@
 
 package org.primordion.xholon.mech.petrinet;
 
+import com.google.gwt.core.client.JsArrayNumber;
+
 import java.util.List;
 
+import org.primordion.xholon.base.IMessage;
 import org.primordion.xholon.base.IMechanism;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.PortInformation;
@@ -99,6 +102,18 @@ public class Transition extends XholonWithPorts implements IKinetics {
 	private static boolean shouldWriteSequenceDiagram = false;
 	private static boolean sequenceDiagramTitleWritten = false;
 
+	/**
+	 * An XPath expression that identifies a Xholon node that will derive output values from input values.
+	 * For use when kineticsType == KINETICS_FUNCTION.
+	 */
+	private String functionXPath = null;
+	
+	/**
+	 * A Xholon node that will derive output values from input values.
+	 * For use when kineticsType == KINETICS_FUNCTION.
+	 */
+	private IXholon function = null;
+	
 	public void setRoleName(String roleName) {this.roleName = roleName;}
 	public String getRoleName() {return roleName;}
 	
@@ -188,14 +203,17 @@ public class Transition extends XholonWithPorts implements IKinetics {
 		case KINETICS_CUSTOM:
 			break;
 		case KINETICS_LOGIC_AND:
-		  kLogicAnd();
-		  break;
+			kLogicAnd();
+			break;
 		case KINETICS_LOGIC_OR:
-		  kLogicOr();
-		  break;
+			kLogicOr();
+			break;
 		case KINETICS_LOGIC_NOT:
-		  kLogicNot();
-		  break;
+			kLogicNot();
+			break;
+		case KINETICS_FUNCTION:
+			kFunction();
+			break;		
 		case KINETICS_NULL:
 		default:
 			break;
@@ -385,19 +403,19 @@ public class Transition extends XholonWithPorts implements IKinetics {
 	 * AND
 	 */
 	protected void kLogicAnd() {
-	  double outputVal = LOGIC_TRUE; // LOGIC_FALSE=0 or LOGIC_TRUE=1
-	  if ((inputArcs != null) && (outputArcs != null)) {
-	    Arc inputArc = (Arc)inputArcs.getFirstChild();
+		double outputVal = LOGIC_TRUE; // LOGIC_FALSE=0 or LOGIC_TRUE=1
+		if ((inputArcs != null) && (outputArcs != null)) {
+			Arc inputArc = (Arc)inputArcs.getFirstChild();
 			while (inputArc != null) {
-			  if (inputArc.getPlace().getVal() == LOGIC_FALSE) {
-				  outputVal = LOGIC_FALSE;
+				if (inputArc.getPlace().getVal() == LOGIC_FALSE) {
+					outputVal = LOGIC_FALSE;
 					break;
 				}
 				inputArc = (Arc)inputArc.getNextSibling();
 			}
 			Arc outputArc = (Arc)outputArcs.getFirstChild();
 			while (outputArc != null) {
-			  outputArc.getPlace().setVal(outputVal);
+				outputArc.getPlace().setVal(outputVal);
 				outputArc = (Arc)outputArc.getNextSibling();
 			}
 		}
@@ -407,8 +425,8 @@ public class Transition extends XholonWithPorts implements IKinetics {
 	 * OR
 	 */
 	protected void kLogicOr() {
-	  double outputVal = LOGIC_FALSE; // LOGIC_FALSE=0 or LOGIC_TRUE=1
-	  if ((inputArcs != null) && (outputArcs != null)) {
+		double outputVal = LOGIC_FALSE; // LOGIC_FALSE=0 or LOGIC_TRUE=1
+		if ((inputArcs != null) && (outputArcs != null)) {
 			Arc inputArc = (Arc)inputArcs.getFirstChild();
 			while (inputArc != null) {
 				if (inputArc.getPlace().getVal() != LOGIC_FALSE) {
@@ -429,8 +447,8 @@ public class Transition extends XholonWithPorts implements IKinetics {
 	 * NOT
 	 */
 	protected void kLogicNot() {
-	  double outputVal = LOGIC_FALSE; // 0 or 1
-	  if ((inputArcs != null) && (outputArcs != null)) {
+		double outputVal = LOGIC_FALSE; // 0 or 1
+		if ((inputArcs != null) && (outputArcs != null)) {
 			Arc inputArc = (Arc)inputArcs.getFirstChild();
 			if (inputArc != null) {
 				if (inputArc.getPlace().getVal() == LOGIC_FALSE) {
@@ -444,6 +462,50 @@ public class Transition extends XholonWithPorts implements IKinetics {
 			}
 		}
 	}
+	
+	/**
+	 * Invoke a Xholon function node.
+	 */
+	protected void kFunction() {
+		if (inputArcs == null) {return;}
+		if (outputArcs == null) {return;}
+		Arc outputArc = (Arc)outputArcs.getFirstChild();
+		if (outputArc == null) {return;}
+		if (function == null) {
+			if (functionXPath == null) {
+				return;
+			}
+			else {
+				function = this.getXPath().evaluate(functionXPath, this);
+				if (function == null) {return;}
+			}
+		}
+		JsArrayNumber arr = this.pushInputsToArray(inputArcs.getFirstChild());
+		IMessage result = function.sendSyncMessage(101, arr, this);
+		double outputVal = (double)result.getData();
+		outputArc.getPlace().setVal(outputVal);
+	}
+	
+	/**
+	 * Push the values of all input arcs onto a JavaScript array.
+	 * @param The first child of an instance of InputArcs.
+	 * @return An array of numeric values, possibly empty.
+	 */
+	protected native JsArrayNumber pushInputsToArray(IXholon inarc) /*-{
+		var arr = [];
+		while (inarc) {
+			var linkArr = inarc.links(false,true);
+			if (linkArr && linkArr.length) {
+				var rnode = linkArr[0].reffedNode;
+				if (rnode) {
+					var inval = rnode.val();
+					arr.push(inval);
+				}
+			}
+			inarc = inarc.next();
+		}
+		return arr;
+	}-*/;
 	
 	/**
 	 * This is a simple prototype of one way to do Sequence Diagrams with a Petri net.
@@ -515,20 +577,21 @@ sender_2->sender_2: ReceiveAck
 			setVal(attrVal);
 		}
 		else if (attrName.equals("kineticsType")) {
-		  if (attrVal.startsWith("KINETICS_")) {
-		    if (attrVal.endsWith("BASIC_PTNET")) {setKineticsType(KINETICS_BASIC_PTNET);}
-		    else if (attrVal.endsWith("MASS_ACTION")) {setKineticsType(KINETICS_MASS_ACTION);}
-		    else if (attrVal.endsWith("GRID")) {setKineticsType(KINETICS_GRID);}
-		    else if (attrVal.endsWith("MICHAELIS_MENTEN")) {setKineticsType(KINETICS_MICHAELIS_MENTEN);}
-		    else if (attrVal.endsWith("MAXIMAL_PARALLELISM")) {setKineticsType(KINETICS_MAXIMAL_PARALLELISM);}
-		    else if (attrVal.endsWith("CUSTOM")) {setKineticsType(KINETICS_CUSTOM);}
-		    else if (attrVal.endsWith("DIFFUSION")) {setKineticsType(KINETICS_DIFFUSION);}
-		    else if (attrVal.endsWith("LOGIC_AND")) {setKineticsType(KINETICS_LOGIC_AND);}
-		    else if (attrVal.endsWith("LOGIC_OR")) {setKineticsType(KINETICS_LOGIC_OR);}
-		    else if (attrVal.endsWith("LOGIC_NOT")) {setKineticsType(KINETICS_LOGIC_NOT);}
-		  }
-		  else {
-			  setKineticsType(Integer.parseInt(attrVal));
+			if (attrVal.startsWith("KINETICS_")) {
+				if (attrVal.endsWith("BASIC_PTNET")) {setKineticsType(KINETICS_BASIC_PTNET);}
+				else if (attrVal.endsWith("MASS_ACTION")) {setKineticsType(KINETICS_MASS_ACTION);}
+				else if (attrVal.endsWith("GRID")) {setKineticsType(KINETICS_GRID);}
+				else if (attrVal.endsWith("MICHAELIS_MENTEN")) {setKineticsType(KINETICS_MICHAELIS_MENTEN);}
+				else if (attrVal.endsWith("MAXIMAL_PARALLELISM")) {setKineticsType(KINETICS_MAXIMAL_PARALLELISM);}
+				else if (attrVal.endsWith("CUSTOM")) {setKineticsType(KINETICS_CUSTOM);}
+				else if (attrVal.endsWith("DIFFUSION")) {setKineticsType(KINETICS_DIFFUSION);}
+				else if (attrVal.endsWith("LOGIC_AND")) {setKineticsType(KINETICS_LOGIC_AND);}
+				else if (attrVal.endsWith("LOGIC_OR")) {setKineticsType(KINETICS_LOGIC_OR);}
+				else if (attrVal.endsWith("LOGIC_NOT")) {setKineticsType(KINETICS_LOGIC_NOT);}
+				else if (attrVal.endsWith("FUNCTION")) {setKineticsType(KINETICS_FUNCTION);}
+			}
+			else {
+				setKineticsType(Integer.parseInt(attrVal));
 			}
 		}
 		// Michaelis-Menten vmax
@@ -542,6 +605,9 @@ sender_2->sender_2: ReceiveAck
 		else if (attrName.equals("symbol")) {
 			//((IDecoration)this.getXhc()).setSymbol(attrVal);
 			setSymbol(attrVal);
+		}
+		else if (attrName.equals("functionXPath")) {
+			setFunctionXPath(attrVal);
 		}
 		return 0;
 	}
@@ -557,7 +623,7 @@ sender_2->sender_2: ReceiveAck
 		if ((kineticsType == KINETICS_LOGIC_AND)
 		 || (kineticsType == KINETICS_LOGIC_OR)
 		 || (kineticsType == KINETICS_LOGIC_NOT)) {
-		  xmlWriter.writeAttribute("kineticsType", Integer.toString(kineticsType));
+			xmlWriter.writeAttribute("kineticsType", Integer.toString(kineticsType));
 		}
 		
 		xmlWriter.writeAttribute("p", Double.toString(p));
@@ -567,6 +633,9 @@ sender_2->sender_2: ReceiveAck
 		if (symbol != null) {
 			xmlWriter.writeAttribute("symbol", symbol);
 		}*/
+		if (functionXPath != null) {
+			xmlWriter.writeAttribute("functionXPath", functionXPath);
+		}
 	}
 	
 	public IXholon getInputArcs() {
@@ -691,11 +760,28 @@ sender_2->sender_2: ReceiveAck
 	public void setDt(double dt) {
 		this.dt = dt;
 	}
+	
 	public String getSymbol() {
 		return symbol;
 	}
 	public void setSymbol(String symbol) {
 		this.symbol = symbol;
+	}
+	
+	public String getFunctionXPath() {
+		return functionXPath;
+	}
+	
+	public void setFunctionXPath(String functionXPath) {
+		this.functionXPath = functionXPath;
+	}
+	
+	public IXholon getFunction() {
+		return function;
+	}
+	
+	public void setFunction(IXholon function) {
+		this.function = function;
 	}
 	
 }
