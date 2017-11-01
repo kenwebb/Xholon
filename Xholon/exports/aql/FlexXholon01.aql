@@ -1,0 +1,45 @@
+typeside Ty = literal { 
+	java_types
+		String = "java.lang.String"
+	java_constants
+		String = "return input[0]"
+}
+
+schema Sch = literal : Ty {
+	entities
+		Node 
+		Identifier
+		NodeType
+		Role
+		Attribute
+		Behavior
+		Decoration
+	foreign_keys
+		i : Node -> Identifier
+		r : Node -> Role
+		b : Node -> Behavior
+		a : Node -> Attribute
+		nt : Node -> NodeType
+		d : Node -> Decoration
+  	attributes
+  		//rval : Role -> String
+  		//bval : Behavior -> String
+  		//ntval : NodeType -> String 
+}
+
+instance ISch = literal : Sch {
+	generators
+		1000 1001 1002 1003 1004 1005 1006 1007 1008 1009 : Identifier
+		Star Planet DwarfPlanet : NodeType
+		Sun Mercury Venus Earth Mars Jupiter Saturn Uranus Neptune Pluto  : Role
+		0 1 2 3 4 5 6 7 8 9 : Node
+	equations
+		//0.i = 1000
+		//0.nt = Star
+		//0.r = Sun
+	multi_equations
+		//client_id -> {cc1 "1", cc2 "2", cc3 "3"}
+		i -> {0 1000, 1 1001, 2 1002, 3 1003, 4 1004, 5 1005, 6 1006, 7 1007, 8 1008, 9 1009}
+		r -> {0 Sun, 1 Mercury, 2 Venus, 3 Earth, 4 Mars, 5 Jupiter, 6 Saturn, 7 Uranus, 8 Neptune, 9 Pluto}
+		nt -> {0 Star, 1 Planet, 2 Planet, 3 Planet, 4 Planet, 5 Planet, 6 Planet, 7 Planet, 8 Planet, 9 DwarfPlanet}
+}
