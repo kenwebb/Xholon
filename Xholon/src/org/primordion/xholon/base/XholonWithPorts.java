@@ -422,7 +422,10 @@ public abstract class XholonWithPorts extends Xholon {
 				// this port is an array
 				// TODO check portList to see if that port is already bound
 				// TODO be able to call a new method r.setAttributeObjectArrayVal_UsingSetter()
-				ReflectionFactory.instance().setAttributeObjectArrayVal(this, portName, portRef, portNum);
+				boolean rc = ReflectionFactory.instance().setAttributeObjectArrayVal(this, portName, portRef, portNum);
+				if (!rc) {
+					this.setAttributeObjectArrayValNative(this, portName, portRef, portNum);
+				}
 			}
 		}
 		
@@ -435,6 +438,13 @@ public abstract class XholonWithPorts extends Xholon {
 	
 	protected native void setAttributeObjectValNative(IXholon node, String portName, IXholon portRef) /*-{
 	  node[portName] = portRef;
+	}-*/;
+	
+	protected native void setAttributeObjectArrayValNative(IXholon node, String portName, IXholon portRef, int portNum) /*-{
+	  if (!node[portName]) {
+	    node[portName] = [];
+	  }
+	  node[portName][portNum] = portRef;
 	}-*/;
 	
 	/*
