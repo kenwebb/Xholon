@@ -397,6 +397,10 @@ The StoryMechanism can be enabled using script.MechanismEnabler.java
 <!-- Represents Uid nodes. Can be used to store a Xholon uid. -->
 <Uid xmlns="http://www.primordion.com/namespace/Uid" id="1010200"/>
 
+<XholonBase xmlns="http://www.primordion.com/namespace/XholonBase" id="1016100">
+	<XholonNull/>
+</XholonBase>
+
 <!-- represents instances of the Java XholonList class -->
 <XholonCollection xmlns="http://www.primordion.com/namespace/XholonCollection" id="1004100">
 	<XholonList/>

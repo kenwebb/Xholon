@@ -348,6 +348,12 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			else if (implName.endsWith("XholonMap")) {
 				newNode = new org.primordion.xholon.base.XholonMap();
 			}
+			else if (implName.endsWith("XholonSet")) {
+				newNode = new org.primordion.xholon.base.XholonSet();
+			}
+			else if (implName.endsWith("XholonNull")) {
+				newNode = new org.primordion.xholon.base.XholonNull();
+			}
 			else if (implName.endsWith("Annotation")) {
 				newNode = new org.primordion.xholon.base.Annotation();
 			}
@@ -630,6 +636,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			}
 			else if (implName.endsWith("RelationshipBuilder")) {
 				newNode = new org.primordion.xholon.script.RelationshipBuilder();
+			}
+			else if (implName.endsWith("CollectionBuilder")) {
+				newNode = new org.primordion.xholon.script.CollectionBuilder();
 			}
 		}
 		
@@ -917,6 +926,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 				return true;
 			}
 			if (implName.endsWith("RelationshipBuilder")) {
+				return true;
+			}
+			if (implName.endsWith("CollectionBuilder")) {
 				return true;
 			}
 		}

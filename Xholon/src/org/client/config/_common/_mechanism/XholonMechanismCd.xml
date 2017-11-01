@@ -233,6 +233,9 @@
 	<Ejb/>
 	-->
 	
+	<!-- XholonBase -->
+	<XholonNull xhType="XhtypePureContainer" implName="org.primordion.xholon.base.XholonNull"/>
+	
 	<!-- XholonCollection -->
 	<XholonList xhType="XhtypePureContainer" implName="org.primordion.xholon.base.XholonList"/>
 	<XholonMap xhType="XhtypePureContainer" implName="org.primordion.xholon.base.XholonMap"/>
