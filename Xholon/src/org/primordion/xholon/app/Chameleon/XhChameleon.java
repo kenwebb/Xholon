@@ -101,7 +101,11 @@ public class XhChameleon extends XholonWithPorts implements CeChameleon {
 		Iterator<PortInformation> portIt = xhcPortList.iterator();
 		while (portIt.hasNext()) {
 			PortInformation pi = (PortInformation)portIt.next();
-			IXholon reffedNode = this.getXPath().evaluate(pi.getXpathExpression().trim(), this);
+			String xpathExpression = pi.getXpathExpression();
+			if (xpathExpression != null) {
+			  xpathExpression = xpathExpression.trim();
+			}
+			IXholon reffedNode = this.getXPath().evaluate(xpathExpression, this);
 			if (reffedNode == null) {
 				//xhcPortList.remove(pi); // causes java.util.ConcurrentModificationException
 			}
