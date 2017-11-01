@@ -45,6 +45,13 @@ public class PortInformation extends Xholon {
 	private IXholon reffedNode = null;
 	private String xpathExpression = null;
 	
+	// optional IPort values
+	private boolean iport = false; // whether or not this is an IPort port, and whether or not the other 4 iport variables have any meaning
+	private int iportMultiplicity = 0; // 1
+	private boolean iportIsConjugated = false;
+	private String iportProvidedInterfaceNames = null; // "100" "" "101,102"
+	private String iportRequiredInterfaceNames = null; // "100" "" "101,102"
+	
 	/**
 	 * Should toString() return the remote IXholon referenced by IPort replications.
 	 * true - follow the chain and return the remote IXholon
@@ -195,23 +202,52 @@ public class PortInformation extends Xholon {
 	}
 	
 	/**
+	 * Call this after the constructor, if the port is an IPort.
+	 */
+	public void setIportValues(int iportMultiplicity, boolean iportIsConjugated, String iportProvidedInterfaceNames, String iportRequiredInterfaceNames) {
+	  this.iport = true;
+	  this.iportMultiplicity = iportMultiplicity;
+	  this.iportIsConjugated = iportIsConjugated;
+	  this.iportProvidedInterfaceNames = iportProvidedInterfaceNames;
+	  this.iportRequiredInterfaceNames = iportRequiredInterfaceNames;
+	}
+	
+	public boolean isIport() {return this.iport;}
+	public int getIportMultiplicity() {return this.iportMultiplicity;}
+	public boolean isIportIsConjugated() {return this.iportIsConjugated;}
+	public String getIportProvidedInterfaceNames() {return iportProvidedInterfaceNames;}
+	public String getIportRequiredInterfaceNames() {return iportRequiredInterfaceNames;}
+	
+	/**
 	 * This is for use by the XholonJsApi.
 	 * A JavaScript receiver of a PortInformation object can call this method
 	 * to get a JavaScript object with 5 properties.
 	 * ex: kenny.ports()[0].getVal_Object().reffedNode.toString();
 	 */
 	public Object getVal_Object() {
-	  return piAsJso(fieldName, fieldNameIndex, fieldNameIndexStr, reffedNode, xpathExpression);
+	  return piAsJso(fieldName, fieldNameIndex, fieldNameIndexStr, reffedNode, xpathExpression,
+	      iport, iportMultiplicity, iportIsConjugated, iportProvidedInterfaceNames, iportRequiredInterfaceNames);
 	}
 	
 	protected native Object piAsJso(String fieldName, int fieldNameIndex,
-	    String fieldNameIndexStr, IXholon reffedNode, String xpathExpression) /*-{
+	    String fieldNameIndexStr, IXholon reffedNode, String xpathExpression,
+	        boolean iport, int iportMultiplicity, boolean iportIsConjugated, String iportProvidedInterfaceNames, String iportRequiredInterfaceNames) /*-{
 	  var pi = new Object();
 	  pi.fieldName         = fieldName;
 	  pi.fieldNameIndex    = fieldNameIndex;
 	  pi.fieldNameIndexStr = fieldNameIndexStr;
 	  pi.reffedNode        = reffedNode;
 	  pi.xpathExpression   = xpathExpression;
+	  if (iport) {
+	    pi.iport = true;
+	    pi.iportMultiplicity = iportMultiplicity;
+	    pi.iportIsConjugated = iportIsConjugated;
+	    pi.iportProvidedInterfaceNames = iportProvidedInterfaceNames;
+	    pi.iportRequiredInterfaceNames = iportRequiredInterfaceNames;
+	  }
+	  else {
+	    pi.iport = false;
+	  }
 	  return pi;
 	}-*/;
 	
@@ -220,12 +256,15 @@ public class PortInformation extends Xholon {
 	 */
 	public String toString() {
 		String str = getLocalName();
+		if (this.iport == true) {
+		  str += " iport";
+		}
 		
 		if (reffedNode != null) {
 			str += ":";
 			if (shouldReturnIPortRemote && (ClassHelper.isAssignableFrom(Port.class, reffedNode.getClass()))) {
-				IPort iport = (IPort)reffedNode;
-				IXholon remote = iport.getLink();
+				IPort iiport = (IPort)reffedNode;
+				IXholon remote = iiport.getLink();
 				if (remote != null) {
 					if (ClassHelper.isAssignableFrom(Port.class, remote.getClass())) {
 						remote = remote.getParentNode().getParentNode();
