@@ -1806,8 +1806,31 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 			PortInformation pi = (PortInformation)portIt.next();
 			String xpathExpression = pi.getXpathExpression();
 			if (xpathExpression == null) {
-			  // TODO this is probably an IPort with portReplication
-			  consoleLog("Xholon bindPorts() xpathExpression == null");
+			  // this is probably an IPort with portReplication
+			  // see XholonWithPorts configurePorts(String instructions, int instructIx)
+				int index = pi.getFieldNameIndex();
+				String fieldName = pi.getFieldName();
+			  int multiplicity = pi.getIportMultiplicity(); // = 0; // default
+			  boolean isConjugated = pi.isIportIsConjugated(); // = false; // default
+			  String[] providedInterfaceNames = pi.getIportProvidedInterfaceNames().split(","); // = new String[0];
+			  String[] requiredInterfaceNames = pi.getIportRequiredInterfaceNames().split(","); // = new String[0];
+			  try {
+			    IPort iport = Port.createPort(
+						  this, multiplicity,
+						  null, providedInterfaceNames,
+						  null, requiredInterfaceNames,
+						  isConjugated);
+					if ("port".equals(fieldName)) {
+					  // port IPort array
+					  setPort(index, iport);
+					}
+					else {
+					  // non-"port" IPort scalar
+					  bindPort(this, fieldName, iport);
+					}
+			  } catch (RuntimeException e) {
+				  consoleLog("Unable to set up an IPort port. The port variable may be null." + e);
+			  }
 			}
 			else {
 			  IXholon reffedNode = null;
@@ -1840,6 +1863,11 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 			        else if ("trop".equals(fieldName)) {
 			          setPort(index, reffedNode);
 			        }
+			        //else if ("replication".equals(fieldName)) {
+			        //  consoleLog("Xholon bindPorts() fieldName == replication");
+			        //  // TODO handle this portReplication within a an IPort port
+			        //  // OK the system already handles the portReplication
+			        //}
 			        else {
 			          bindPort(this, fieldName, index, reffedNode);
 			        }
