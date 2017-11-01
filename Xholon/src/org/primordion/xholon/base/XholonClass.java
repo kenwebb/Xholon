@@ -289,9 +289,18 @@ xh.xhcReplacementNames = {Hexokinase: "Enzyme", PhosphoGlucoIsomerase: "Enzyme",
 				for (int i = 0; i < str.length; i++) {
 					// ex: PaccelerationDueToGravity[-1]="#xpointer(../../AccelerationDueToGravity)"Pvelocity[-1]="#xpointer(Velocity)"
 					// ex: port[SamplePort]="#xpointer
+					// ex: port[0]{1}{true}{100}{100}  or port[0]{1}{false}{}{}
+					//     replication[0]="#xpointer(ancestor::PhysicalSystem/Two/attribute::port[1]/attribute::replication[1..*])"
 					String fieldName = null;
 					String fieldNameIndexStr = null;
 					String xpathExpression = null;
+					
+					// optional IPort values
+					boolean iport = false;
+					int iportMultiplicity = 0;
+					boolean iportIsConjugated = false;
+					String iportProvidedInterfaceNames = null;
+					String iportRequiredInterfaceNames = null;
 					//consoleLog(str[i]);
 					if (str[i].indexOf('[') == -1) {
 						if (str[i].startsWith("")) { // // Gmt
@@ -323,13 +332,32 @@ xh.xhcReplacementNames = {Hexokinase: "Enzyme", PhosphoGlucoIsomerase: "Enzyme",
 						//xpathExpression = str[i].substring(str[i].indexOf(xpathStartChar)+1,
 						//  str[i].indexOf(xpathEndChar)).trim();
 						//consoleLog("xpathExpression: " + xpathExpression);
+						
+						// handle IPort info  ex: {1}{true}{100}{100}  or {1}{false}{}{}
+						int iportStartPos = str[i].indexOf('{');
+						if (iportStartPos != -1) {
+						  String[] iportStr = str[i].substring(iportStartPos).split("{");
+						  if (iportStr.length == 5) {
+						    //iportStr[0] = ""
+						    iport = true;
+						    iportMultiplicity = Integer.parseInt(iportStr[1].substring(0, iportStr[1].indexOf('}'))); // multiplicity
+						    iportIsConjugated = Boolean.parseBoolean(iportStr[2].substring(0, iportStr[2].indexOf('}'))); // isConjugated
+						    iportProvidedInterfaceNames = iportStr[3].substring(0, iportStr[3].indexOf('}')); // providedInterfaceNames
+						    iportRequiredInterfaceNames = iportStr[4].substring(0, iportStr[4].indexOf('}')); // requiredInterfaceNames
+						    consoleLog("iport values: " + iportMultiplicity + " " + iportIsConjugated + " " + iportProvidedInterfaceNames + " " + iportRequiredInterfaceNames);
+						  }
+						}
 					}
-					portInformation.add(new PortInformation(
+					PortInformation newPi = new PortInformation(
 							fieldName,
 							//Integer.parseInt(fieldNameIndex),
 							fieldNameIndexStr,
 							null,
-							xpathExpression));
+							xpathExpression);
+					if (iport == true) {
+					  newPi.setIportValues(iportMultiplicity, iportIsConjugated, iportProvidedInterfaceNames, iportRequiredInterfaceNames);
+					}
+					portInformation.add(newPi);
 				}
 				//consoleLog("end");
 			}
