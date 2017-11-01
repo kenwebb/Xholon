@@ -593,6 +593,17 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       return this.@org.primordion.xholon.base.IXholon::getId()();
     });
     
+    // _id  (in general, this is for system use only)
+    api._id = $entry(function(iid) {
+      if (iid === undefined) {
+        return this.@org.primordion.xholon.base.IXholon::getId()();
+      }
+      else {
+        this.@org.primordion.xholon.base.IXholon::setId(I)(iid);
+        return this;
+      }
+    });
+    
     // identity
     api.identity = $entry(function() {
       return this.@org.primordion.xholon.base.IXholon::getIdentity()();
