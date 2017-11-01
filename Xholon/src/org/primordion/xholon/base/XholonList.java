@@ -418,6 +418,11 @@ public class XholonList extends Xholon implements List, Serializable {
 		this.roleName = roleName;
 	}
 
+	@Override
+	public Object getVal_Object() {
+		return this.toArray();
+	}
+
 	/*
 	 * @see org.primordion.xholon.base.Xholon#toString()
 	 */
