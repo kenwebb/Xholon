@@ -126,6 +126,12 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
   protected boolean doProcessing = true;
   
   /**
+   * Each node superClass may have its own shape.
+   * The map is constructed by calling getShape() for an optional list of user-specified shapes.
+   */
+  protected Map<String, String> shapeMap = null;
+  
+  /**
    * Constructor
    */
   public Xholon2Graphviz() {}
@@ -252,6 +258,7 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
     .append(getEfParamsAsJsonString())
     .append("');\n");
     sb.append("*/\n");
+    makeShapeMap();
     writeNode(root, 0); // root is level 0
     
     writeToTarget(sb.toString(), outFileName, outPath, root);
@@ -410,8 +417,13 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
    */
   protected void writeNonClusterNode(IXholon node, int level, String nodeId, String nodeLabel, String tab) {
     sb.append(tab + nodeId);
+    String shapeStr = makeShape(node);
     if (nodeLabel != null) {
-      sb.append(" [label=" + nodeLabel);
+      String labelStr = "label";
+      if ((shapeStr != null) && shapeStr.startsWith("shape=point")) {
+        labelStr = "xlabel";
+      }
+      sb.append(" [" + labelStr + "=" + nodeLabel); // TODO write xlabel if the shape=point
       if (isShouldDisplayGraph() && "svg".equals(getOutputFormat())) {
         sb.append(" id=\"" + getGraphvizNodeId(node) + "\"");
       }
@@ -422,7 +434,6 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
     if (colorStr != null) {
       sb.append(tab + " [" + colorStr + "]\n");
     }
-    String shapeStr = makeShape(node);
     if (shapeStr != null) {
       sb.append(tab + " [" + shapeStr + "]\n");
     }
@@ -608,7 +619,38 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
    * @return A shape string, or null.
    */
   protected String makeShape(IXholon node) {
-    return null;
+    if (shapeMap == null) {return null;}
+    String shapeName = shapeMap.get(node.getXhcName()); // TODO also try superclasses
+    if (shapeName == null) {return null;}
+    String shapeStr = "shape=" + shapeName;
+    if ("point".equals(shapeName)) {
+      shapeStr += " fillcolor=\"#000000\""; // points should be filled with black
+    }
+    return shapeStr;
+  }
+  
+  /**
+   * Optionally create the shapeMap, and add entries to it.
+   * ex: "ellipse"
+   * ex: "circle,Cable:point"
+   * ex: "box,Pack:circle,Cable:point"
+   */
+  protected void makeShapeMap() {
+    if (!isShouldSpecifyShape()) {return;}
+    String[] shapeArr = this.getShape().split(",");
+    // ignore the first item in the array; this is the default
+    if (shapeArr.length > 1) {
+      shapeMap = new HashMap<String, String>();
+      for (int i = 1; i < shapeArr.length; i++) {
+        String[] entryArr = shapeArr[i].split(":");
+        if (entryArr.length == 2) {
+          String entryXhcName = entryArr[0].trim();
+          String entryShapeName = entryArr[1].trim();
+          shapeMap.put(entryXhcName, entryShapeName);
+        }
+      }
+      setShape(shapeArr[0]); // set the default shape
+    }
   }
   
   /**
@@ -786,7 +828,7 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
     p.shouldColor = true;
     p.defaultColor = "#f0f8ff";
     p.shouldSpecifyShape = false;
-    p.shape = "ellipse";
+    p.shape = "ellipse"; // "circle,Cable:point"
     
     p.shouldSpecifySize = false;
     p.size = "6";
@@ -895,7 +937,7 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
    * Name of a Graphviz polygon-based shape.
    */
   public native String getShape() /*-{return this.efParams.shape;}-*/;
-  //public native void setShape(String shape) /*-{this.efParams.shape = shape;}-*/;
+  public native void setShape(String shape) /*-{this.efParams.shape = shape;}-*/;
   
   /**
    * Graphviz graph size.

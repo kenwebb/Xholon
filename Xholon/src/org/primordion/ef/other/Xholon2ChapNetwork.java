@@ -19,7 +19,9 @@
 package org.primordion.ef.other;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.PortInformation;
@@ -100,6 +102,12 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
 	protected String linksTableLable = "text"; // "text" OR "label"
 	protected String nodesTableLable = "text"; // "text" OR "label"
 	
+  /**
+   * Each node superClass may have its own shape.
+   * The map is constructed by calling getNodesStyle() for an optional list of user-specified shapes.
+   */
+  protected Map<String, String> shapeMap = null;
+  
 	/**
 	 * Constructor.
 	 */
@@ -137,6 +145,7 @@ public class Xholon2ChapNetwork extends AbstractXholon2ExternalFormat implements
 		}
 		this.modelName = modelName;
 		this.root = root;
+		this.makeShapeMap();
 		
 		// TODO why are there 2 "var nodesTable" and 2 "var linksTable" ?
 		this.startSb = new StringBuilder(128)
@@ -253,10 +262,18 @@ var network = new vis.Network(container, data, options);
 		if ((getMaxChars() != -1) && (nodeName.length() > getMaxChars())) {
 		  nodeName = nodeName.substring(0, getMaxChars());
 		}
-		nodeSb.append("nodesTable.push({'id': ")
+		nodeSb
+		.append("nodesTable.push({'id': ")
 		.append(xhNode.getId())
 		.append(", '" + nodesTableLable + "': '")
-		.append(nodeName)
+		.append(nodeName);
+		String shape = this.makeShape(xhNode);
+		if (shape != null) {
+		  nodeSb
+		  .append("', '" + "style" + "': '")
+		  .append(shape);
+		}
+		nodeSb
 		.append("'});\n");
 		// xhNode outgoing edges
 		writeEdges(xhNode);
@@ -274,8 +291,9 @@ var network = new vis.Network(container, data, options);
 	  //System.out.println("writeEdges");
 	  // show network
 	  if (isShowNetwork()) {
-		  List<PortInformation> portList =
-				  new org.primordion.xholon.base.ReflectionJavaMicro().getAllPorts(xhNode, false);
+		  //List<PortInformation> portList =
+			//	  new org.primordion.xholon.base.ReflectionJavaMicro().getAllPorts(xhNode, false);
+			List<PortInformation> portList = xhNode.getLinks(false, true);
 		  for (int i = 0; i < portList.size(); i++) {
 			  PortInformation pi = (PortInformation)portList.get(i);
 		    linkSb.append("linksTable.push({'from': ")
@@ -290,7 +308,7 @@ var network = new vis.Network(container, data, options);
 			    linkSb.append("");
 			  }
 			  if ("network-min".equals(this.getJsLibName())) {
-			    linkSb.append("', 'style': 'arrow-end'");
+			    linkSb.append("', 'style': '" + getLinksStyle() + "'");
 			  }
 			  else {
   			  // {from: 1, to: 3, arrows:'to'}
@@ -372,6 +390,42 @@ var network = new vis.Network(container, data, options);
     }
   }-*/;
   
+  /**
+   * Try to make a custom shape for a node.
+   * @param node
+   * @return A shape string, or null.
+   */
+  protected String makeShape(IXholon node) {
+    if (shapeMap == null) {return null;}
+    String shapeName = shapeMap.get(node.getXhcName()); // TODO also try superclasses
+    //if (shapeName == null) {return null;}
+    return shapeName;
+  }
+  
+  /**
+   * Optionally create the shapeMap, and add entries to it.
+   * ex: "ellipse"
+   * ex: "circle,Cable:point"
+   * ex: "box,Pack:circle,Cable:point"
+   */
+  protected void makeShapeMap() {
+    //if (!isShouldSpecifyShape()) {return;}
+    String[] shapeArr = this.getNodesStyle().split(",");
+    // ignore the first item in the array; this is the default
+    if (shapeArr.length > 1) {
+      shapeMap = new HashMap<String, String>();
+      for (int i = 1; i < shapeArr.length; i++) {
+        String[] entryArr = shapeArr[i].split(":");
+        if (entryArr.length == 2) {
+          String entryXhcName = entryArr[0].trim();
+          String entryShapeName = entryArr[1].trim();
+          shapeMap.put(entryXhcName, entryShapeName);
+        }
+      }
+      setNodesStyle(shapeArr[0]); // set the default shape
+    }
+  }
+  
   public native boolean isShowNetwork() /*-{return this.efParams.showNetwork;}-*/;
   public native void setShowNetwork(boolean showNetwork) /*-{this.efParams.showNetwork = showNetwork;}-*/;
   
@@ -408,7 +462,8 @@ var network = new vis.Network(container, data, options);
     p.maxChars = -1; // -1 1 3
     p.linksLength = 50;
     p.showPortName = false;
-    p.nodesStyle = "dot";
+    p.nodesStyle = "dot"; // "dot" "circle,Cable:dot" rect (default), circle, database, image, text, dot, star, triangle, triangleDown, and square
+    p.linksStyle = "arrow-end"; // "arrow-end" "dash-line" "line"(their default) "arrow" "moving-arrows" OR undefined
     p.stabilize = "false";
     p.jsLibName = "network-min"; // network-min OR vis-network.min
     this.efParams = p;
@@ -436,7 +491,10 @@ var network = new vis.Network(container, data, options);
 
   // rect text image
   public native String getNodesStyle() /*-{return this.efParams.nodesStyle;}-*/;
-  //public native void setNodesStyle(String nodesStyle) /*-{this.efParams.nodesStyle = nodesStyle;}-*/;
+  public native void setNodesStyle(String nodesStyle) /*-{this.efParams.nodesStyle = nodesStyle;}-*/;
+
+  public native String getLinksStyle() /*-{return this.efParams.linksStyle;}-*/;
+  //public native void setLinksStyle(String linksStyle) /*-{this.efParams.linksStyle = linksStyle;}-*/;
 
   public native String getStabilize() /*-{return this.efParams.stabilize;}-*/;
   //public native void setStabilize(String stabilize) /*-{this.efParams.stabilize = stabilize;}-*/;
