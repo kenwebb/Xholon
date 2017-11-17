@@ -426,6 +426,11 @@ public abstract class AbstractXholonGui implements IXholonGui {
         
       }
     }).setEnabled(false);
+    editSubMenu.addItem("Log Browser Console", new Command() {
+      public void execute() {
+        node.consoleLog(node);
+      }
+    });
     menu.addItem("Edit", editSubMenu);
 
     // Console
