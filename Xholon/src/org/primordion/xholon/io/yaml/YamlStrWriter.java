@@ -18,9 +18,6 @@
 
 package org.primordion.xholon.io.yaml;
 
-//import java.io.IOException;
-//import java.io.Writer;
-
 import org.primordion.xholon.io.xml.XmlWriter;
 
 /**
@@ -35,7 +32,10 @@ public class YamlStrWriter extends XmlWriter {
 	
 	private static final String WRITERNAME = "YamlStrWriter";
 	
-	//private Writer streamWriter = null;
+	private static final int LAST_ELEMENT_WAS_NONE  = 0;
+	private static final int LAST_ELEMENT_WAS_START = 1;
+	private static final int LAST_ELEMENT_WAS_END   = 2;
+	
 	private StringBuilder sb = null;
 	
 	/**
@@ -50,6 +50,13 @@ public class YamlStrWriter extends XmlWriter {
 	private String indentCharacters = "  ";
 	
 	/**
+	 * Which method was called last (most recently):
+	 *   1 writeStartElement(String name)
+	 *   2 writeEndElement(String name)
+	 */
+	private int lastElementWasStartOrEnd = LAST_ELEMENT_WAS_NONE;
+	
+	/**
 	 * default constructor
 	 */
 	public YamlStrWriter() {}
@@ -58,7 +65,6 @@ public class YamlStrWriter extends XmlWriter {
 	 * @see org.primordion.xholon.io.xml.XmlWriter#createNew(java.lang.Object)
 	 */
 	public void createNew(Object out) {
-		//streamWriter = (Writer)out;
 		if (out instanceof StringBuilder) {
 			sb = (StringBuilder)out;
 		}
@@ -69,12 +75,6 @@ public class YamlStrWriter extends XmlWriter {
 	 */
 	public void writeStartDocument()
 	{
-		/*try {
-			streamWriter.write("%YAML 1.1\n");
-			streamWriter.write("---");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
 		sb.append("%YAML 1.1\n").append("---");
 	}
 	
@@ -83,11 +83,6 @@ public class YamlStrWriter extends XmlWriter {
 	 */
 	public void writeEndDocument()
 	{
-		/*try {
-			streamWriter.write("\n...\n");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
 		sb.append("\n...\n");
 	}
 	
@@ -96,7 +91,6 @@ public class YamlStrWriter extends XmlWriter {
 	 */
 	public void writeStartElement(String prefix, String localName, String namespaceURI)
 	{
-		//writeStartElement(localName);
 		sb.append(localName);
 	}
 	
@@ -105,17 +99,27 @@ public class YamlStrWriter extends XmlWriter {
 	 */
 	public void writeStartElement(String name)
 	{
+		StringBuilder indent = new StringBuilder();
+		if ("Annotation".equals(name)) {
+		  // treat Annotation like an attribute
+		  for (int i = 0; i < level+1; i++) {
+			  indent.append(indentCharacters);
+		  }
+		  sb.append("\n").append(indent.toString()).append(name).append(": ");
+		  return;
+		}
 		level++;
-		StringBuilder indent = new StringBuilder(level);
 		for (int i = 0; i < level; i++) {
 			indent.append(indentCharacters);
 		}
-		/*try {
-			streamWriter.write("\n" + indent + name + ": ");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
-		sb.append("\n" + indent.toString() + name + ": ");
+		if (lastElementWasStartOrEnd == LAST_ELEMENT_WAS_START) {
+		  sb.append("\n" + indent.toString() + "_:");
+		  level++;
+		  indent.append(indentCharacters);
+		}
+		String dash = "- ";
+		sb.append("\n").append(indent.toString()).append(dash).append(name).append(": ");
+		lastElementWasStartOrEnd = LAST_ELEMENT_WAS_START;
 	}
 	
 	/*
@@ -123,8 +127,7 @@ public class YamlStrWriter extends XmlWriter {
 	 */
 	public void writeEndElement(String name, String namespaceURI)
 	{
-		//writeEndElement(name);
-		sb.append(name);
+		sb.append(name); // ???
 	}
 	
 	/*
@@ -132,7 +135,14 @@ public class YamlStrWriter extends XmlWriter {
 	 */
 	public void writeEndElement(String name)
 	{
+		if ("Annotation".equals(name)) {
+		  return;
+		}
 		level--;
+		if (lastElementWasStartOrEnd == LAST_ELEMENT_WAS_END) {
+		  level--;
+		}
+		lastElementWasStartOrEnd = LAST_ELEMENT_WAS_END;
 	}
 	
 	/*
@@ -149,17 +159,57 @@ public class YamlStrWriter extends XmlWriter {
 	public void writeAttribute(String name, String value)
 	{
 	  if ("Val".equalsIgnoreCase(name) && !isShouldWriteVal()) {return;}
-	  if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
-		StringBuilder indent = new StringBuilder(level);
+		StringBuilder indent = new StringBuilder();
 		for (int i = 0; i < level+1; i++) {
 			indent.append(indentCharacters);
 		}
-		/*try {
-			streamWriter.write("\n" + indent + name + ": " + value);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
-		sb.append("\n" + indent.toString() + name + ": " + value);
+	  if ("AllPorts".equalsIgnoreCase(name)) {
+	    if (!isShouldWriteAllPorts()) {return;}
+	    value = this.handleLinksOrAllPorts(value, indent);
+	    if (value == null) {
+	      return;
+	    }
+	  }
+	  if ("Links".equalsIgnoreCase(name)) {
+	    if (!isShouldWriteLinks()) {return;}
+	    value = this.handleLinksOrAllPorts(value, indent);
+	    if (value == null) {
+	      return;
+	    }
+	  }
+		sb
+		.append("\n")
+		.append(indent.toString())
+		.append(name)
+		.append(": ")
+		.append(value);
+	}
+	
+	/**
+	 * Handle "Links" or "AllPorts".
+	 */
+	protected String handleLinksOrAllPorts(String value, StringBuilder indent) {
+		  value = value.trim();
+	    if (value.length() > 2) {
+	      // strip off start and end brackets []
+	      String[] valueArr = value.substring(1, value.length()-1).split(",");
+	      value = "";
+	      for (int i = 0; i < valueArr.length; i++) {
+	        String valueStr = valueArr[i].trim();
+	        int pos = valueStr.indexOf(":"); // find first ":"
+	        if (pos != -1) {
+	          valueStr = valueStr.substring(0, pos) + ": " + valueStr.substring(pos+1);
+	        }
+	        value += "\n"
+	          + indent.toString()
+	          + indentCharacters
+	          + valueStr;
+	      }
+	      return value;
+	    }
+	    else {
+	      return null;
+	    }
 	}
 	
 	/*
@@ -167,11 +217,6 @@ public class YamlStrWriter extends XmlWriter {
 	 */
 	public void writeText(String text)
 	{
-		/*try {
-			streamWriter.write(text);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
 		sb.append(text);
 	}
 	
@@ -180,11 +225,6 @@ public class YamlStrWriter extends XmlWriter {
 	 */
 	public void writeComment(String data)
 	{
-		/*try {
-			streamWriter.write("# " + data);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
 		sb.append("# " + data);
 	}
 	
@@ -201,11 +241,6 @@ public class YamlStrWriter extends XmlWriter {
 	 */
 	public void flush()
 	{
-		/*try {
-			streamWriter.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
 	}
 
 	public String getIndentCharacters() {

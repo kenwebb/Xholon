@@ -117,6 +117,14 @@ public class XhChameleon extends XholonWithPorts implements CeChameleon {
 		return realPortList;
 	}
 	
+	/*
+	 * This is required by GWT AppGenerator.java
+	 * It can't have any input params.
+	 */
+	public List getLinks() {
+		return super.getLinks(false, true);
+	}
+	
 	/**
 	 * Resize the port array.
 	 * This is primarily intended for use with XholonWorkbooks when "port" ports are used.

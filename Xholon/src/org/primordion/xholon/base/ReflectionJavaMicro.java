@@ -403,6 +403,7 @@ public class ReflectionJavaMicro implements IReflection {
     names.add("XhcName"); values.add(node.getXhcName());
     names.add("XhType"); values.add(node.getXhType());
     names.add("AllPorts"); values.add(node.getAllPorts());
+    //names.add("Links"); values.add(node.getLinks(false, true));
     names.add("RoleName"); values.add(node.getRoleName());
     names.add("Uid"); values.add(node.getUid());
     names.add("Uri"); values.add(node.getUri());

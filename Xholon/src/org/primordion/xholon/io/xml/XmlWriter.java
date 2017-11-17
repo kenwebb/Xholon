@@ -38,6 +38,11 @@ public abstract class XmlWriter extends Xholon implements IXmlWriter {
 	 */
 	private boolean shouldWriteAllPorts = true;
 	
+	/**
+	 * Whether or not to write an attribute with the name "Links".
+	 */
+	private boolean shouldWriteLinks = true;
+	
 	/*
 	 * @see org.primordion.xholon.io.xml.IXmlWriter#createNew(java.lang.Object)
 	 */
@@ -124,10 +129,20 @@ public abstract class XmlWriter extends Xholon implements IXmlWriter {
 	}
 	
 	/* 
-	 * @see org.primordion.xholon.io.xml.IXmlWriter#shouldWriteAllPorts()
+	 * @see org.primordion.xholon.io.xml.IXmlWriter#setShouldWriteAllPorts()
 	 */
 	public void setShouldWriteAllPorts(boolean shouldWriteAllPorts) {
 	  this.shouldWriteAllPorts = shouldWriteAllPorts;
+	}
+	
+	@Override
+	public boolean isShouldWriteLinks() {
+	  return shouldWriteLinks;
+	}
+	
+	@Override
+	public void setShouldWriteLinks(boolean shouldWriteLinks) {
+	  this.shouldWriteLinks = shouldWriteLinks;
 	}
 	
 }

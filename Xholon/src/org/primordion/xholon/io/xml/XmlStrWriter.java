@@ -97,10 +97,59 @@ public class XmlStrWriter extends XmlWriter {
 	@Override
 	public void writeAttribute(String name, String value) {
 	  if ("Val".equalsIgnoreCase(name) && !isShouldWriteVal()) {return;}
-	  if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
+	  //if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
+	  //if ("Links".equalsIgnoreCase(name) && !isShouldWriteLinks()) {return;}
+	  if ("AllPorts".equalsIgnoreCase(name)) {
+	    if (!isShouldWriteAllPorts()) {return;}
+	    value = this.handleLinksOrAllPorts(value);
+	    if (value != null) {
+	      this.writeText(value);
+	    }
+      return;
+	  }
+	  if ("Links".equalsIgnoreCase(name)) {
+	    if (!isShouldWriteLinks()) {return;}
+	    value = this.handleLinksOrAllPorts(value);
+	    if (value != null) {
+	      this.writeText(value);
+	    }
+      return;
+	  }
 	  sb.append(" ").append(name).append("=\"").append(value).append("\"");
 	}
 
+	/**
+	 * Handle "Links" or "AllPorts".
+	 */
+	protected String handleLinksOrAllPorts(String value) {
+		  value = value.trim();
+	    if (value.length() > 2) {
+	      // strip off start and end brackets []
+	      String[] valueArr = value.substring(1, value.length()-1).split(",");
+	      value = "";
+	      for (int i = 0; i < valueArr.length; i++) {
+	        String valueStr = valueArr[i].trim();
+	        int pos = valueStr.indexOf(":"); // find first ":"
+	        if (pos != -1) {
+	          String nameStr = valueStr.substring(0, pos);
+	          String remainingStr = valueStr.substring(pos+1);
+	          // if this is a "Links", then the XPath expression almost certainly starts with "ancestor::", or with "./" if the node is the root node
+	          String xpathStr = remainingStr; // the default
+	          int xpathPos = remainingStr.indexOf("ancestor::");
+	          if (xpathPos != -1) {
+	            xpathStr = remainingStr.substring(xpathPos);
+	          }
+	          valueStr = "<port name=\"" + nameStr + "\" connector=\"" + xpathStr + "\"></port>";
+	        }
+	        value += valueStr;
+	      }
+	      return value;
+	    }
+	    else {
+	      return null;
+	    }
+	}
+	
 	@Override
 	public void writeText(String text) {
 	  if (shouldWriteGt) {

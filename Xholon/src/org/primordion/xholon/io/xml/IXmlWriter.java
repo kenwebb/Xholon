@@ -130,4 +130,14 @@ public interface IXmlWriter {
 	 */
 	public abstract void setShouldWriteAllPorts(boolean shouldWriteAllPorts);
 	
+	/**
+	 * Whether or not to write an attribute with the name "Links".
+	 */
+	public abstract boolean isShouldWriteLinks();
+	
+	/**
+	 * Whether or not to write an attribute with the name "Links".
+	 */
+	public abstract void setShouldWriteLinks(boolean shouldWriteLinks);
+	
 }
