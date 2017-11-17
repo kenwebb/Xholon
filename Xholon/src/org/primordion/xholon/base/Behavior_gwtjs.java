@@ -216,7 +216,7 @@ public class Behavior_gwtjs extends Xholon {
 	}-*/;
 	
 	protected native JavaScriptObject configureJso(IXholon cnode, String scriptContent) /*-{
-	  $wnd.console.log(scriptContent);
+	  //$wnd.console.log(scriptContent);
 	  eval(scriptContent);
 	  
 	  try {
