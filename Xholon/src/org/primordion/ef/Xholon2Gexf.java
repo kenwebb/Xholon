@@ -490,6 +490,7 @@ public class Xholon2Gexf extends AbstractXholon2ExternalFormat implements IXholo
     p.showSubtreeRoot = true;
     p.shouldWriteVal = false;
     p.shouldWriteAllPorts = false;
+    p.shouldWriteLinks = false;
     this.efParams = p;
   }-*/;
 
@@ -680,6 +681,7 @@ public class Xholon2Gexf extends AbstractXholon2ExternalFormat implements IXholo
   public void writeAttribute(String name, String value) {
     if ("Val".equalsIgnoreCase(name) && !isShouldWriteVal()) {return;}
     if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
+    if ("Links".equalsIgnoreCase(name) && !isShouldWriteLinks()) {return;}
     this.makeNodeKey(name, name, KEY_ATTR_TYPE_STRING, null, INDENT_UNIT);
     this.nodeSb
     .append(this.currentNodeIndent).append(INDENT_UNIT)
@@ -741,4 +743,14 @@ public class Xholon2Gexf extends AbstractXholon2ExternalFormat implements IXholo
     this.efParams.shouldWriteAllPorts = shouldWriteAllPorts;
   }-*/;
   
+  @Override
+  public native boolean isShouldWriteLinks() /*-{
+    return this.efParams.shouldWriteLinks;
+  }-*/;
+
+  @Override
+  public native void setShouldWriteLinks(boolean shouldWriteLinks) /*-{
+    this.efParams.shouldWriteLinks = shouldWriteLinks;
+  }-*/;
+	
 }

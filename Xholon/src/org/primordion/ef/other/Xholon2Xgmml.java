@@ -791,6 +791,16 @@ public class Xholon2Xgmml extends AbstractXholon2ExternalFormat implements IXhol
 	  this.shouldWriteAllPorts = shouldWriteAllPorts;
 	}
 
+  @Override
+  public boolean isShouldWriteLinks() {
+    return false; //return this.efParams.shouldWriteLinks;
+  }
+
+  @Override
+  public void setShouldWriteLinks(boolean shouldWriteLinks) {
+    //this.efParams.shouldWriteLinks = shouldWriteLinks;
+  }
+	
 	public boolean isFeatureMetaNode() {
 		return featureMetaNode;
 	}

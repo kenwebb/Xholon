@@ -168,8 +168,9 @@ public class Xholon2Xml extends AbstractXholon2ExternalFormat implements IXholon
     p.shouldPrettyPrint = true;
     p.writeAttributes = true;
     p.writeStandardAttributes = true;
-    p.shouldWriteVal = true;
-    p.shouldWriteAllPorts = true;
+    p.shouldWriteVal = false;
+    p.shouldWriteAllPorts = false;
+    p.shouldWriteLinks = false;
     this.efParams = p;
   }-*/;
 
@@ -194,5 +195,6 @@ public class Xholon2Xml extends AbstractXholon2ExternalFormat implements IXholon
 	public native boolean isWriteStandardAttributes() /*-{return this.efParams.writeStandardAttributes;}-*/;
 	public native boolean isShouldWriteVal() /*-{return this.efParams.shouldWriteVal;}-*/;
   public native boolean isShouldWriteAllPorts() /*-{return this.efParams.shouldWriteAllPorts;}-*/;
+  public native boolean isShouldWriteLinks() /*-{return this.efParams.shouldWriteLinks;}-*/;
   
 }

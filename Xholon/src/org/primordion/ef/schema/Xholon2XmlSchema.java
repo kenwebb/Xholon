@@ -385,6 +385,7 @@ public class Xholon2XmlSchema extends AbstractXholon2ExternalFormat implements I
     p.shouldShowMechanismIhNodes = false;
     p.shouldWriteVal = false;
     p.shouldWriteAllPorts = false;
+    p.shouldWriteLinks = false;
     p.writeToNewTab = true;
     p.shouldPrettyPrint = true;
     this.efParams = p;
@@ -554,6 +555,7 @@ public class Xholon2XmlSchema extends AbstractXholon2ExternalFormat implements I
   public void writeAttribute(String name, String value) {
     if ("Val".equalsIgnoreCase(name) && !isShouldWriteVal()) {return;}
     if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
+    if ("Links".equalsIgnoreCase(name) && !isShouldWriteLinks()) {return;}
     if ("roleName".equalsIgnoreCase(name)) {return;} // roleName is already written out
     if ("implName".equalsIgnoreCase(name)) {return;}
     sbAttrs
@@ -625,4 +627,14 @@ public class Xholon2XmlSchema extends AbstractXholon2ExternalFormat implements I
     this.efParams.shouldWriteAllPorts = shouldWriteAllPorts;
   }-*/;
 
+  @Override
+  public native boolean isShouldWriteLinks() /*-{
+    return this.efParams.shouldWriteLinks;
+  }-*/;
+
+  @Override
+  public native void setShouldWriteLinks(boolean shouldWriteLinks) /*-{
+    this.efParams.shouldWriteLinks = shouldWriteLinks;
+  }-*/;
+	
 }

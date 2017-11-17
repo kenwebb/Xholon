@@ -59,7 +59,7 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
   private long timeStamp;
   
   /** Whether or not to draw links between nodes. */
-  private boolean shouldShowLinks = true;
+  //private boolean shouldShowLinks = true;
   
   /**
    * The accumulating text for all node elements.
@@ -450,7 +450,7 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
   @SuppressWarnings("unchecked")
   protected void makeLinks(IXholon node)
   {
-    if (!shouldShowLinks) {return;}
+    if (!isShouldWriteLinks()) {return;}
     List<PortInformation> portList = node.getLinks(false, true);
     for (int i = 0; i < portList.size(); i++) {
       makeLink(node, portList.get(i), i);
@@ -530,13 +530,13 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
     this.root = root;
   }
 
-  public boolean isShouldShowLinks() {
-    return shouldShowLinks;
-  }
+  //public boolean isShouldShowLinks() {
+  //  return shouldShowLinks;
+  //}
 
-  public void setShouldShowLinks(boolean shouldShowLinks) {
-    this.shouldShowLinks = shouldShowLinks;
-  }
+  //public void setShouldShowLinks(boolean shouldShowLinks) {
+  //  this.shouldShowLinks = shouldShowLinks;
+  //}
 
   public String getOutPath() {
     return outPath;
@@ -555,6 +555,7 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
     p.shouldShowStateMachineEntities = false;
     p.nameTemplate = "r:c_i^"; // IXholon.GETNAME_DEFAULT
     p.fileNameExtension = ".xml"; // Big Red files are XML, but do not actually include the ".xml" extension
+    p.shouldWriteLinks = false;
     this.efParams = p;
   }-*/;
 
@@ -658,4 +659,14 @@ public class Xholon2BigRed extends AbstractXholon2ExternalFormat implements IXho
   public native String getFileNameExtension() /*-{return this.efParams.fileNameExtension;}-*/;
   //public native void setFileNameExtension(String fileNameExtension) /*-{this.efParams.fileNameExtension = fileNameExtension;}-*/;
 
+  @Override
+  public native boolean isShouldWriteLinks() /*-{
+    return this.efParams.shouldWriteLinks;
+  }-*/;
+
+  @Override
+  public native void setShouldWriteLinks(boolean shouldWriteLinks) /*-{
+    this.efParams.shouldWriteLinks = shouldWriteLinks;
+  }-*/;
+	
 }

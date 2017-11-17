@@ -268,6 +268,7 @@ public class Xholon2Iflang extends AbstractXholon2ExternalFormat implements IXho
     //p.shouldShowMechanismIhNodes = false;
     //p.shouldWriteVal = false;
     //p.shouldWriteAllPorts = false;
+    p.shouldWriteLinks = false;
     //p.writeToNewTab = true;
     this.efParams = p;
   }-*/;
@@ -388,6 +389,7 @@ public class Xholon2Iflang extends AbstractXholon2ExternalFormat implements IXho
       return;
     }
     if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
+    if ("Links".equalsIgnoreCase(name) && !isShouldWriteLinks()) {return;}
     if ("roleName".equalsIgnoreCase(name)) {return;} // roleName is already written out
     if ("implName".equalsIgnoreCase(name)) {return;}
     switch(Misc.getJavaDataType(value)) {
@@ -455,4 +457,14 @@ public class Xholon2Iflang extends AbstractXholon2ExternalFormat implements IXho
     //this.efParams.shouldWriteAllPorts = shouldWriteAllPorts;
   }-*/;
   
+  @Override
+  public native boolean isShouldWriteLinks() /*-{
+    return this.efParams.shouldWriteLinks;
+  }-*/;
+
+  @Override
+  public native void setShouldWriteLinks(boolean shouldWriteLinks) /*-{
+    this.efParams.shouldWriteLinks = shouldWriteLinks;
+  }-*/;
+	
 }

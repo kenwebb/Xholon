@@ -242,6 +242,7 @@ public class Xholon2IflangBlockly extends AbstractXholon2ExternalFormat implemen
     //p.shouldShowMechanismIhNodes = false;
     //p.shouldWriteVal = false;
     //p.shouldWriteAllPorts = false;
+    p.shouldWriteLinks = false;
     //p.writeToNewTab = true;
     this.efParams = p;
   }-*/;
@@ -438,4 +439,14 @@ public class Xholon2IflangBlockly extends AbstractXholon2ExternalFormat implemen
     //this.efParams.shouldWriteAllPorts = shouldWriteAllPorts;
   }-*/;
   
+  @Override
+  public native boolean isShouldWriteLinks() /*-{
+    return this.efParams.shouldWriteLinks;
+  }-*/;
+
+  @Override
+  public native void setShouldWriteLinks(boolean shouldWriteLinks) /*-{
+    this.efParams.shouldWriteLinks = shouldWriteLinks;
+  }-*/;
+	
 }

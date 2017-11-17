@@ -285,7 +285,7 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
             .append(" */ ");
           }
         }
-        if (isShouldShowLinks()) {
+        if (isShouldWriteLinks()) {
           this.writeLinks(xhNode, sbForeignKeys);
         }
         sbCurrentNode
@@ -334,7 +334,7 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
         // include the ID of xhNode's parent
         sbCurrentNode.append(prefix).append("parent").append(idRoleXhcNames[IDROLEXHC_ID]);
       }
-      if (isShouldShowLinks()) {
+      if (isShouldWriteLinks()) {
           this.writeLinks(xhNode, null);
         }
       sbCurrentNode
@@ -387,7 +387,7 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
           sbCurrentNode.append(prefix).append("'").append(xhNode.getParentNode().getName(idRoleXhcFormats[IDROLEXHC_ID])).append("'");
         }
       }
-      if (isShouldShowLinks()) {
+      if (isShouldWriteLinks()) {
         this.writeLinks(xhNode, null);
       }
       sbCurrentNode.append(");\n");
@@ -681,7 +681,7 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
     p.mechanismIhNodes = true; // whether or not to write out IH nodes that belong to a Mechanism
     
     // old
-    p.shouldShowLinks = true;
+    p.shouldWriteLinks = true;
     p.shouldShowStateMachineEntities = false;
     p.fileNameExtension = ".sql";
     p.shouldWriteVal = false;
@@ -728,10 +728,6 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
 
   public native boolean isParentForeignKeys() /*-{return this.efParams.parentForeignKeys;}-*/;
   //public native void setParentForeignKeys(boolean parentForeignKeys) /*-{this.efParams.parentForeignKeys = parentForeignKeys;}-*/;
-
-  /** Whether or not to show links between nodes. */
-  public native boolean isShouldShowLinks() /*-{return this.efParams.shouldShowLinks;}-*/;
-  //public native void setShouldShowLinks(boolean shouldShowLinks) /*-{this.efParams.shouldShowLinks = shouldShowLinks;}-*/;
 
   /** Whether or not to show state machine nodes. */
   public native boolean isShouldShowStateMachineEntities() /*-{return this.efParams.shouldShowStateMachineEntities;}-*/;
@@ -845,6 +841,7 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
   public void writeAttribute(String name, String value) {
     if ("Val".equalsIgnoreCase(name) && !isShouldWriteVal()) {return;}
     if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
+    if ("Links".equalsIgnoreCase(name) && !isShouldWriteLinks()) {return;}
     switch (sbCurrentNodeAttrState) {
     case ATTRSTATE_CREATE_TABLE:
       sbCurrentNode
@@ -937,4 +934,14 @@ public class Xholon2Sql extends AbstractXholon2ExternalFormat implements IXholon
     this.efParams.shouldWriteAllPorts = shouldWriteAllPorts;
   }-*/;
   
+  @Override
+  public native boolean isShouldWriteLinks() /*-{
+    return this.efParams.shouldWriteLinks;
+  }-*/;
+
+  @Override
+  public native void setShouldWriteLinks(boolean shouldWriteLinks) /*-{
+    this.efParams.shouldWriteLinks = shouldWriteLinks;
+  }-*/;
+	
 }

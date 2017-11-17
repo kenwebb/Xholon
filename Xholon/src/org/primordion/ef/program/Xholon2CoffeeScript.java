@@ -396,6 +396,7 @@ class Hello extends XholonClass
     p.shouldShowMechanismIhNodes = false;
     p.shouldWriteVal = false;
     p.shouldWriteAllPorts = false;
+    p.shouldWriteLinks = false;
     p.writeToNewTab = true;
     p.wrapInHtml = false;
     p.openInNewBrowserWindow = false;
@@ -535,6 +536,7 @@ class Hello extends XholonClass
       return;
     }
     if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
+    if ("Links".equalsIgnoreCase(name) && !isShouldWriteLinks()) {return;}
     if ("roleName".equalsIgnoreCase(name)) {return;} // roleName is already written out
     if ("implName".equalsIgnoreCase(name)) {return;}
     switch(Misc.getJavaDataType(value)) {
@@ -602,6 +604,16 @@ class Hello extends XholonClass
     this.efParams.shouldWriteAllPorts = shouldWriteAllPorts;
   }-*/;
   
+  @Override
+  public native boolean isShouldWriteLinks() /*-{
+    return this.efParams.shouldWriteLinks;
+  }-*/;
+
+  @Override
+  public native void setShouldWriteLinks(boolean shouldWriteLinks) /*-{
+    this.efParams.shouldWriteLinks = shouldWriteLinks;
+  }-*/;
+	
   // $wnd.CoffeeScript doesn't exist, although the .js file is obtained
   // possibly use https://github.com/requirejs/require-cs
   //public native void compileToJavaScript(String source) /*-{

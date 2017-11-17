@@ -275,7 +275,7 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
     }
     this.currentNode = xhNode;
     this.writeNodeAttributes(xhNode);
-    if (this.isShouldShowLinks()) {
+    if (this.isShouldWriteLinks()) {
       this.writeLinks(xhNode);
     }
     if (isParent() && (xhNode != root)) {
@@ -484,7 +484,7 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
     p.graph = false; // whether or not to create an AQL instance graph
     
     // old
-    p.shouldShowLinks = true;
+    p.shouldWriteLinks = true;
     p.shouldShowStateMachineEntities = false;
     p.fileNameExtension = ".aql";
     p.shouldWriteVal = false;
@@ -510,10 +510,6 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
 
   //public native boolean isParentForeignKeys() /*-{return this.efParams.parentForeignKeys;}-*/;
   //public native void setParentForeignKeys(boolean parentForeignKeys) /*-{this.efParams.parentForeignKeys = parentForeignKeys;}-*/;
-
-  /** Whether or not to show links between nodes. */
-  public native boolean isShouldShowLinks() /*-{return this.efParams.shouldShowLinks;}-*/;
-  //public native void setShouldShowLinks(boolean shouldShowLinks) /*-{this.efParams.shouldShowLinks = shouldShowLinks;}-*/;
 
   /** Whether or not to show state machine nodes. */
   public native boolean isShouldShowStateMachineEntities() /*-{return this.efParams.shouldShowStateMachineEntities;}-*/;
@@ -640,6 +636,7 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
   public void writeAttribute(String name, String value) {
     if ("Val".equalsIgnoreCase(name) && !isShouldWriteVal()) {return;}
     if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
+    if ("Links".equalsIgnoreCase(name) && !isShouldWriteLinks()) {return;}
     String attrName = currentNode.getName(this.getSchemaNameTemplate()) + "_" + name;
     //if (!this.isXholonClassVisited(currentNode.getXhc())) {
     String rName = currentNode.getXhc().getName(IXholonClass.GETNAME_REPLACE);
@@ -745,4 +742,14 @@ public class Xholon2CatAql extends AbstractXholon2ExternalFormat implements IXho
     this.efParams.shouldWriteAllPorts = shouldWriteAllPorts;
   }-*/;
   
+  @Override
+  public native boolean isShouldWriteLinks() /*-{
+    return this.efParams.shouldWriteLinks;
+  }-*/;
+
+  @Override
+  public native void setShouldWriteLinks(boolean shouldWriteLinks) /*-{
+    this.efParams.shouldWriteLinks = shouldWriteLinks;
+  }-*/;
+	
 }

@@ -38,6 +38,9 @@ import org.primordion.xholon.service.ef.IXholon2GraphFormat;
  * A separate renderer is required, such as springyui.js.
  * The renderer handles node and edge data, such as color: label: etc.
  * TODO allow images instead of text for nodes
+ * 
+ * To stop auto-updating the node positions, but still allow manual movement:
+ *  window.Springy.Layout.ForceDirected.prototype.stop();
  *
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
@@ -225,6 +228,9 @@ public class Xholon2Springy extends AbstractXholon2ExternalFormat implements IXh
       break;
     case 2:
       portList = xhNode.getAllPorts(); // used in Xholon2MindMap
+      break;
+    case 3:
+      portList = xhNode.getLinks(false, true);
       break;
     case 0:
     default:
@@ -442,7 +448,7 @@ public class Xholon2Springy extends AbstractXholon2ExternalFormat implements IXh
     var p = {};
     p.showAnnotations = true;
     //p.showAttributes = false;
-    p.showPorts = 2; // 0=don't show  1=getPorts1  2=getPorts2
+    p.showPorts = 3; // 0=don't show  1=getPorts1  2=getPorts2 3=getLinks
     p.showPortName = true;
     p.showParentLink = true;
     p.showPrevSiblingLink = false;

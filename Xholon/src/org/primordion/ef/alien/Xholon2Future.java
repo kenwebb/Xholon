@@ -339,8 +339,9 @@ public class Xholon2Future extends AbstractXholon2ExternalFormat implements IXho
     p.shouldShowLinks = true;
     p.shouldShowAttributes = true;
     p.shouldShowMechanismIhNodes = false;
-    p.shouldWriteVal = true;
-    p.shouldWriteAllPorts = true;
+    p.shouldWriteVal = false;
+    p.shouldWriteAllPorts = false;
+    p.shouldWriteLinks = true;
     p.writeToNewTab = true;
     this.efParams = p;
   }-*/;
@@ -485,6 +486,7 @@ public class Xholon2Future extends AbstractXholon2ExternalFormat implements IXho
   public void writeAttribute(String name, String value) {
     if ("Val".equalsIgnoreCase(name) && !isShouldWriteVal()) {return;}
     if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
+    if ("Links".equalsIgnoreCase(name) && !isShouldWriteLinks()) {return;}
     if ("roleName".equalsIgnoreCase(name)) {return;} // roleName is already written out
     if ("implName".equalsIgnoreCase(name)) {return;}
     sbAttrs
@@ -555,4 +557,14 @@ public class Xholon2Future extends AbstractXholon2ExternalFormat implements IXho
     this.efParams.shouldWriteAllPorts = shouldWriteAllPorts;
   }-*/;
 
+  @Override
+  public native boolean isShouldWriteLinks() /*-{
+    return this.efParams.shouldWriteLinks;
+  }-*/;
+
+  @Override
+  public native void setShouldWriteLinks(boolean shouldWriteLinks) /*-{
+    this.efParams.shouldWriteLinks = shouldWriteLinks;
+  }-*/;
+	
 }

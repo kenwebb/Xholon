@@ -596,8 +596,9 @@ public class Xholon2GraphML extends AbstractXholon2ExternalFormat implements IXh
     p.showXhc = false;
     p.fileNameExtension = ".graphml";
     p.showSubtreeRoot = true;
-    p.shouldWriteVal = true;
-    p.shouldWriteAllPorts = true;
+    p.shouldWriteVal = false;
+    p.shouldWriteAllPorts = false;
+    p.shouldWriteLinks = true;
     this.efParams = p;
   }-*/;
 
@@ -773,6 +774,7 @@ public class Xholon2GraphML extends AbstractXholon2ExternalFormat implements IXh
 	public void writeAttribute(String name, String value) {
 	  if ("Val".equalsIgnoreCase(name) && !isShouldWriteVal()) {return;}
 	  if ("AllPorts".equalsIgnoreCase(name) && !isShouldWriteAllPorts()) {return;}
+	  if ("Links".equalsIgnoreCase(name) && !isShouldWriteLinks()) {return;}
 		this.makeNodeKey(name, name, KEY_ATTR_TYPE_STRING, null);
 		this.nodeSb
 		.append("  <data key=\"")
@@ -831,5 +833,15 @@ public class Xholon2GraphML extends AbstractXholon2ExternalFormat implements IXh
 	public native void setShouldWriteAllPorts(boolean shouldWriteAllPorts) /*-{
 	  this.efParams.shouldWriteAllPorts = shouldWriteAllPorts;
 	}-*/;
+	
+  @Override
+  public native boolean isShouldWriteLinks() /*-{
+    return this.efParams.shouldWriteLinks;
+  }-*/;
+
+  @Override
+  public native void setShouldWriteLinks(boolean shouldWriteLinks) /*-{
+    this.efParams.shouldWriteLinks = shouldWriteLinks;
+  }-*/;
 	
 }
