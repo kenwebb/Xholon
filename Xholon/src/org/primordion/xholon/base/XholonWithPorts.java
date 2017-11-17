@@ -180,7 +180,7 @@ public abstract class XholonWithPorts extends Xholon {
 			}
 			if ((maxPorts > 0) && (maxPorts <= getApp().getAbsoluteMaxPorts())) {
 			  port = new IXholon[maxPorts];
-			  consoleLog("XholonWithPorts.setPorts() port.length: " + port.length);
+			  //consoleLog("XholonWithPorts.setPorts() port.length: " + port.length);
 			}
 		}
 	}
