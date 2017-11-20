@@ -273,8 +273,18 @@ public class XPath extends AbstractXPath {
 					}
 					default:
 					  // assume it's a non-port scalar port with an arbitrary name (ex: "atmosphere")
-					  contextNode = contextNode.getApp().getAppSpecificObjectVal(contextNode,
+					  IXholon contextNodeTemp = contextNode.getApp().getAppSpecificObjectVal(contextNode,
 					      (Class<IXholon>)contextNode.getClass(), locationStep);
+					  if (contextNodeTemp == null) {
+					    // call native method
+					    Object obj = this.attributeNative(locationStep, contextNode);
+					    if ((obj != null) && ClassHelper.isAssignableFrom(Xholon.class, obj.getClass())) {
+					      contextNode = (IXholon)obj;
+					    }
+					  }
+					  else {
+					    contextNode = contextNodeTemp;
+					  }
 					  break;
 					}
 					predicates = null; // prevent it from being re-evaluated
@@ -436,6 +446,16 @@ public class XPath extends AbstractXPath {
 		return contextNode;
 	}
 
+	/** 
+	 * Find a JavaScript variable/attribute (probably a port that references another node).
+	 * Example:
+	 * ava.parent().xpath("*[@a1﻿]/attribute::a1﻿").name();  results in "1:cable_320"  (note that the attribute a1 ends with the unicode FEFF character)
+   * ava.parent().xpath("Pack[@a1﻿]/attribute::a1﻿").name();  results in "1:cable_320"
+	 */
+	protected native Object attributeNative(String attr, IXholon xhNode) /*-{
+		return xhNode[attr];
+	}-*/;
+	
 	/**
 	 * Evaluate an XPath number function.
 	 * @param contextNode The starting context.
@@ -547,10 +567,24 @@ public class XPath extends AbstractXPath {
 					return true;
 				}
 			}
-			
-			return false;
+			//return false;
+			return xpathPredicateTrueNative(attrPredicate, xhNode);
 		}
 	}
+	
+	/** 
+	 * Check if a JavaScript variable (probably a port that references another node) exists and has a non-null non-undefined value.
+	 * Example:
+	 * ava.parent().xpath("*[@a1﻿]").name();  results in "P1:pack_301"  (note that the attribute a1 ends with the unicode FEFF character)
+	 */
+	protected native boolean xpathPredicateTrueNative(String attrPredicate, IXholon xhNode) /*-{
+		if (xhNode[attrPredicate]) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}-*/;
 	
 	/**
 	 * Is this XPath integer predicate true?

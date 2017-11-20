@@ -1545,19 +1545,29 @@ public class Avatar extends AbstractAvatar {
         node.setVal_String(newValue);
       }
       else if ("type".equals(whatChanges)) {
-        //sb.append("become X type Y  is not yet implemented");
-        //return;
         IXholonClass xhClass = node.getClassNode(newValue);
         if (xhClass != null) {
           node.setXhc(xhClass);
         }
       }
       else {
-        //boolean rc = 
-        setAttributeValNative(node, whatChanges, newValue);
-        //if (!rc) {
-        //  sb.append("Please specify either role or type (ex: become Robert role Bob)");
-        //}
+        if ("null".equals(newValue)) {
+          // ava.action("set P1 pppp null");
+          setAttributeValNative(node, whatChanges, null);
+        }
+        else if (newValue.startsWith("xpath")) {
+          // ava.action("set P1 pppp xpath(Cable[@roleName='7'])");
+          IXholon otherNode = evalXPathCmdArg(newValue, contextNode);
+          if (otherNode != null) {
+            setAttributeValNative(node, whatChanges, otherNode);
+          }
+          //else {
+          //  sb.append("Can't go " + portName + ". ");
+          //}
+        }
+        else {
+          setAttributeValNative(node, whatChanges, newValue);
+        }
       }
       if (meteor && (meteorService != null)) {
         String[] data = {newValue, "add", "@" + whatChanges};
@@ -2487,6 +2497,8 @@ a.action("takeclone hello;");
         return node.getXhcName();
       }
       else {
+        // ava.action("get P1 pppp");
+        // ava.action("get P1 f1\uFEFF");
         return getAttributeValNative(node, attrName);
       }
     }
