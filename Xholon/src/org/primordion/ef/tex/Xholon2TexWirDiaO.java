@@ -132,6 +132,7 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
 
   @Override
   public void writeAll() {
+    this.collectInPorts(root);
     writeNode(root);
     sb = new StringBuilder()
     .append("% ")
@@ -143,54 +144,69 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
     .append(linkSb.toString())
     //.append(optionsSb.toString())
     .append(endSb.toString());
-
     writeToTarget(sb.toString(), outFileName, outPath, root);
-    
-    /*if (root.getApp().isUseGwt()) {
-      //pasteScript("gnvScript", sb.toString());
-    }
-    else {
-      // TODO
-    }*/
+    this.removeInPorts(root);
   }
 
   @Override
   public void writeNode(IXholon xhNode) {
-    // xhNode details
-    // \\node[Hello] (hello_2) {$Hello$};
-    // \\node[bb={1}{1},bb name=$X_1$] (X1) {};
-    String nodeName = xhNode.getName(getNameTemplate());
-    if ((getMaxChars() != -1) && (nodeName.length() > getMaxChars())) {
-      nodeName = nodeName.substring(0, getMaxChars());
-    }
-    int inportCount = 2; // TODO count number of items in xhNode.getLinks();
-    int outportCount = 1; // TODO count number of link references to xhNode
-    nodeSb
-    //.append("nodesTable.push({'id': ")
-    //.append(xhNode.getId())
-    //.append("")
-    .append("  \\node[bb={").append(inportCount).append("}")
-    .append("{").append(outportCount).append("}")
-    .append(", bb name=$TODO$]")
-    .append(" (").append(nodeName).append(")")
-    .append(" {$").append(xhNode.getXhcName()).append("$}")
-    ;
-    String shape = this.makeShape(xhNode);
-    if (shape != null) {
-      //nodeSb
-      //.append("', '" + "style" + "': '")
-      //.append(shape);
-    }
-    nodeSb
-    .append(";\n");
-    // xhNode outgoing edges
-    writeEdges(xhNode);
-    // xhNode children
+    // do xhNode children first
     IXholon childNode = xhNode.getFirstChild();
     while (childNode != null) {
       writeNode(childNode);
       childNode = childNode.getNextSibling();
     }
+    
+    String nodeName = xhNode.getName(getBbNameTemplate());
+    if ((getMaxChars() != -1) && (nodeName.length() > getMaxChars())) {
+      nodeName = nodeName.substring(0, getMaxChars());
+    }
+    int inportCount = this.getInportsCount(xhNode); // 2
+    List<PortInformation> portList = xhNode.getLinks(false, true);
+    int outportCount = portList.size(); // 1
+    String position = "";
+    
+    IXholon prev = xhNode.getPreviousSibling();
+    if (prev != null) {
+      // xhNode is not the firstSibling
+      if (prev.getXhc() == xhNode.getXhc()) {
+        // xhNode has the same Xholon class as its previous sibling
+        position = ", " + getSiblingsPosition() + " " + prev.getName(getBbNameTemplate());
+      }
+      else {
+        IXholon firstSiblingWithXhClass = xhNode.getParentNode().findFirstChildWithXhClass(prev.getXhcName());
+        if (firstSiblingWithXhClass != null) {
+          position = ", " + getDiffXhtypePosition() + " " + firstSiblingWithXhClass.getName(getBbNameTemplate());
+        }
+        else {
+          position = ", " + getDiffXhtypePosition() + " " + prev.getName(getBbNameTemplate());
+        }
+      }
+    }
+    else if (xhNode != this.root) {
+      position = ", " + getDiffXhtypePosition() + " " + xhNode.getParentNode().getName(getBbNameTemplate());
+    }
+    
+    nodeSb
+    .append("  \\node[bb={").append(inportCount).append("}")
+    .append("{").append(outportCount).append("}")
+    //.append(", bb name=$TODO$") // should I do this ?
+    .append(position)
+    .append("]")
+    .append(" (").append(nodeName).append(")")
+    .append(" {$").append(xhNode.getName(getBbNameTemplate())).append("$}")
+    ;
+    String shape = this.makeShape(xhNode);
+    if (shape != null) {
+      // TODO
+    }
+    nodeSb
+    .append(";")
+    .append(" % ")
+    .append(xhNode.getName(getNameTemplate()))
+    .append("\n");
+    // xhNode outgoing edges
+    writeEdges(xhNode);
   }
 
   @SuppressWarnings("unchecked")
@@ -200,30 +216,27 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
     for (int i = 0; i < portList.size(); i++) {
       PortInformation pi = (PortInformation)portList.get(i);
       linkSb
-      //.append("linksTable.push({'from': ")
-      //.append(xhNode.getId())
-      //.append(", 'to': ")
-      //.append(pi.getReffedNode().getId())
       .append("  \\draw")
       .append("[ar]") // optional ?
-      .append(" (TODO)")
+      .append(" (")
+      .append(xhNode.getName(getBbNameTemplate()))
+      .append("_out")
+      .append(i+1) // out string is 1-based rather than 0-based
+      .append(")")
       .append(" to")
-      .append(" (TODO)")
-      ;
+      .append(" (")
+      .append(pi.getReffedNode().getName(getBbNameTemplate()))
+      .append("_in")
+      .append(this.getInportsIxAndDec(pi.getReffedNode()))
+      .append(")")
+      .append(";");
       if (isShowPortName()) {
-        linkSb.append(pi.getFieldName());
+        linkSb
+        .append(" % ")
+        .append(pi.getLocalNameNoBrackets());
       }
-      else {
-        linkSb.append("");
-      }
-      //if ("network-min".equals(this.getJsLibName())) {
-      //  linkSb.append("', 'style': '" + getLinksStyle() + "'");
-      //}
-      //else {
-        // {from: 1, to: 3, arrows:'to'}
-      //  linkSb.append("', 'arrows': 'to'");
-      //}
-      linkSb.append(";\n");
+      linkSb
+      .append("\n");
     }
   }
 
@@ -268,6 +281,78 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
     }
   }
   
+  /**
+   * Collect the in ports (conjugated ports) for all nodes in the Xholon tree or in a subtree.
+   */
+  protected void collectInPorts(IXholon node) {
+    List<PortInformation> portList = node.getLinks(false, true);
+    for (int i = 0; i < portList.size(); i++) {
+      PortInformation pi = (PortInformation)portList.get(i);
+      if (pi != null) {
+        IXholon reffedNode = pi.getReffedNode();
+        String fieldName = pi.getFieldName();
+        // TODO optional index
+        if ((reffedNode != null) && (fieldName != null)) {
+          // create a structure in reffedNode to store the in port
+          // reffedNode.conjports = {};
+          storeInPort(reffedNode, fieldName, node);
+        }
+      }
+    }
+    // recurse
+    IXholon childNode = node.getFirstChild();
+    while (childNode != null) {
+      collectInPorts(childNode);
+      childNode = childNode.getNextSibling();
+    }
+  }
+  
+  protected void removeInPorts(IXholon node) {
+    this.removeInPort(node);
+    // recurse
+    IXholon childNode = node.getFirstChild();
+    while (childNode != null) {
+      removeInPorts(childNode);
+      childNode = childNode.getNextSibling();
+    }
+  }
+  
+  protected native void storeInPort(IXholon reffedNode, String fieldName, IXholon thisNode) /*-{
+    if (!reffedNode["inports"]) {
+      reffedNode["inports"] = 0;
+      reffedNode["inportsIx"] = 0;
+    }
+    reffedNode["inports"]++;
+    reffedNode["inportsIx"]++;
+  }-*/;
+  
+  protected native void removeInPort(IXholon node) /*-{
+    if (typeof node["inports"] !== "undefined") {
+      delete(node["inports"]);
+    }
+    if (typeof node["inportsIx"] !== "undefined") {
+      delete(node["inportsIx"]);
+    }
+  }-*/;
+  
+  protected native int getInportsCount(IXholon node) /*-{
+    if (node["inports"]) {
+      return node["inports"];
+    }
+    else {
+      return 0;
+    }
+  }-*/;
+  
+  protected native int getInportsIxAndDec(IXholon node) /*-{
+    var inportsCount = 0;
+    if (node["inportsIx"]) {
+      inportsCount = node["inportsIx"];
+      node["inportsIx"]--;
+    }
+    return inportsCount;
+  }-*/;
+  
   /** Number of tree levels to show, if showTree == true */
   public native int getMaxTreeLevels() /*-{return this.efParams.maxTreeLevels;}-*/;
   public native void setMaxTreeLevels(int maxTreeLevels) /*-{this.efParams.maxTreeLevels = maxTreeLevels;}-*/;
@@ -275,6 +360,10 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
   /** Node name template */
   public native String getNameTemplate() /*-{return this.efParams.nameTemplate;}-*/;
   public native void setNameTemplate(String nameTemplate) /*-{this.efParams.nameTemplate = nameTemplate;}-*/;
+  
+  /** bb name template */
+  public native String getBbNameTemplate() /*-{return this.efParams.bbNameTemplate;}-*/;
+  public native void setBbNameTemplate(String nameTemplate) /*-{this.efParams.bbNameTemplate = bbNameTemplate;}-*/;
   
   /** Number of characters to show in the node name */
   public native int getMaxChars() /*-{return this.efParams.maxChars;}-*/;
@@ -289,11 +378,15 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
     p.width = "600px";
     p.height = "600px";
     p.nameTemplate = "r:c_i"; // "r:c_i^" "R^^^^^"
+    p.bbNameTemplate = "R^^^^^";
     p.maxChars = -1; // -1 1 3
     p.linksLength = 50;
     p.showPortName = false;
     p.nodesStyle = "rectangle"; // "rectangle"
     p.linksStyle = "arrow-end"; // "arrow-end" "dash-line" "line"(their default) "arrow" "moving-arrows" OR undefined
+    p.siblingsPosition = "right=of";
+    p.diffXhtypePosition = "below=of";
+    p.bipartite = false; // ex: Packs and Cables
     this.efParams = p;
   }-*/;
 
@@ -323,5 +416,14 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
 
   public native String getLinksStyle() /*-{return this.efParams.linksStyle;}-*/;
   //public native void setLinksStyle(String linksStyle) /*-{this.efParams.linksStyle = linksStyle;}-*/;
+
+  public native String getSiblingsPosition() /*-{return this.efParams.siblingsPosition;}-*/;
+  //public native void setSiblingsPosition(String siblingsPosition) /*-{this.efParams.siblingsPosition = siblingsPosition;}-*/;
+
+  public native String getDiffXhtypePosition() /*-{return this.efParams.diffXhtypePosition;}-*/;
+  //public native void setDiffXhtypePosition(String diffXhtypePosition) /*-{this.efParams.diffXhtypePosition = diffXhtypePosition;}-*/;
+
+  public native String getBipartite() /*-{return this.efParams.bipartite;}-*/;
+  //public native void setBipartite(String bipartite) /*-{this.efParams.bipartite = bipartite;}-*/;
 
 }
