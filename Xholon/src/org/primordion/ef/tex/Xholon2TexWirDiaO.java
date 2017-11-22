@@ -151,9 +151,12 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
   @Override
   public void writeNode(IXholon xhNode) {
     // do xhNode children first
+    // collect a String of child names for use by "fit"
+    String fitNames = "";
     IXholon childNode = xhNode.getFirstChild();
     while (childNode != null) {
       writeNode(childNode);
+      fitNames += " (" + childNode.getName(getBbNameTemplate()) + ")";
       childNode = childNode.getNextSibling();
     }
     
@@ -161,10 +164,17 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
     if ((getMaxChars() != -1) && (nodeName.length() > getMaxChars())) {
       nodeName = nodeName.substring(0, getMaxChars());
     }
-    int inportCount = this.getInportsCount(xhNode); // 2
+    int inportCount = this.getInportsCount(xhNode);
     List<PortInformation> portList = xhNode.getLinks(false, true);
-    int outportCount = portList.size(); // 1
+    int outportCount = portList.size();
+    if (xhNode == this.root) {
+      // at least some of the ports on the root and other container nodes, are relay nodes that are "in" rather than "out" ports
+      int tempCount = inportCount;
+      inportCount = outportCount;
+      outportCount = tempCount;
+    }
     String position = "";
+    String fit = "";
     
     IXholon prev = xhNode.getPreviousSibling();
     if (prev != null) {
@@ -183,8 +193,16 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
         }
       }
     }
-    else if (xhNode != this.root) {
-      position = ", " + getDiffXhtypePosition() + " " + xhNode.getParentNode().getName(getBbNameTemplate());
+    else if (xhNode == this.root) {
+      fit = ", fit={";
+      fit += fitNames.trim();
+      fit += "}";
+      // ", bb name = $NAME$"
+      fit += ", bb name = $" + xhNode.getName(getBbNameTemplate()) + "$";
+    }
+    else {
+      // TODO this is a first sibling that probably should not hava a position
+      //position = ", " + getDiffXhtypePosition() + " " + xhNode.getParentNode().getName(getBbNameTemplate());
     }
     
     nodeSb
@@ -192,9 +210,17 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
     .append("{").append(outportCount).append("}")
     //.append(", bb name=$TODO$") // should I do this ?
     .append(position)
+    .append(fit)
     .append("]")
     .append(" (").append(nodeName).append(")")
-    .append(" {$").append(xhNode.getName(getBbNameTemplate())).append("$}")
+    .append(" {");
+    if (xhNode != this.root) {
+      nodeSb
+      .append("$")
+      .append(xhNode.getName(getBbNameTemplate()));
+      nodeSb.append("$");
+    }
+    nodeSb.append("}");
     ;
     String shape = this.makeShape(xhNode);
     if (shape != null) {
@@ -213,6 +239,12 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
   @Override
   public void writeEdges(IXholon xhNode) {
     List<PortInformation> portList = xhNode.getLinks(false, true);
+    String outportName = "_out";
+    String outportNameSuffix = "";
+    if (xhNode == this.root) {
+      outportName = "_in";
+      outportNameSuffix = "'";
+    }
     for (int i = 0; i < portList.size(); i++) {
       PortInformation pi = (PortInformation)portList.get(i);
       linkSb
@@ -220,8 +252,9 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
       .append("[ar]") // optional ?
       .append(" (")
       .append(xhNode.getName(getBbNameTemplate()))
-      .append("_out")
+      .append(outportName)
       .append(i+1) // out string is 1-based rather than 0-based
+      .append(outportNameSuffix)
       .append(")")
       .append(" to")
       .append(" (")
