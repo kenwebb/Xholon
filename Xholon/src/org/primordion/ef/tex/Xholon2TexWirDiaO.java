@@ -18,6 +18,12 @@
 
 package org.primordion.ef.tex;
 
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.Response;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +43,19 @@ import org.primordion.xholon.service.ef.IXholon2GraphFormat;
  * 
  * latex options that work
 \documentclass[10pt,oneside,article,landscape]{memoir}
+ * 
+ * TODO
+ * - limited to proper output for one intermediate level
+ * - try a different approach
+ *  - create all the tikz nodes, and only then add the node attributes including edges
+ *  - I get error messages if a referenced tikz node does not yet exist
+ * - option to show ports as small quares or circles or other shape
+ * - try using "above=of" of firstChild - it sort-of works
+ * - optionally remove spaces from names
+ * - have some makeNames() methods rather than calling node.getName(template) directly
+ * - new option in Xholon.getName(template) "M_____" ?
+ *  - gen a name that would display as a subscripted or superscripted name in TeX/tikz
+ *  - ex: Abc:pack_23  ->  Ab_23
  * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
@@ -109,12 +128,15 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
     this.root = root;
     this.makeShapeMap();
     
-    this.startSb = new StringBuilder()
-    .append("\\begin{equation}\\label{")
-    .append(modelName.replace(" ","_"))
-    .append("}\\tag{").append(modelName)
-    .append("}\n")
-    .append("\\begin{tikzpicture}[oriented WD, bbx=1em, bby=1ex, scale=").append(this.getScale()).append("]\n");
+    this.startSb = new StringBuilder();
+    if (this.isIncludeBeginEndEqu()) {
+      startSb
+      .append("\\begin{equation}\\label{")
+      .append(modelName.replace(" ","_"))
+      .append("}\\tag{").append(modelName)
+      .append("}\n");
+    }
+    startSb.append("\\begin{tikzpicture}[oriented WD, bbx=1em, bby=1ex, scale=").append(this.getScale()).append("]\n");
     
     this.nodeSb = new StringBuilder()
     .append("% nodes\n");
@@ -123,8 +145,10 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
     .append("% links\n");
     
     this.endSb = new StringBuilder()
-    .append("\\end{tikzpicture}\n")
-    .append("\\end{equation}\n");
+    .append("\\end{tikzpicture}\n");
+    if (this.isIncludeBeginEndEqu()) {
+      endSb.append("\\end{equation}\n");
+    }
         
     return true;
   }
@@ -134,7 +158,32 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
     String fn = root.getXhcName() + "_" + root.getId() + "_" + timeStamp; // + ".tex";
     this.collectInPorts(root);
     writeNode(root);
-    sb = new StringBuilder()
+    sb = new StringBuilder();
+    /*if (this.isIncludePreamble()) {
+      sb.append("\\documentclass").append(this.getDocumentclass()).append("\n\n");
+      // TODO getPreambleFileName()
+      sb.append("% TODO  PREAMBLE GOES HERE ").append(this.getPreambleFileName()).append("\n\n");
+    }*/
+    if (this.isIncludeBeginEndDoc()) {
+      sb.append("\\begin{document}\n");
+      sb.append("\\author{");
+      if ("default".equals(this.getAuthor())) {
+        sb.append("AUTHOR"); // TODO
+      }
+      else {
+        sb.append(this.getAuthor());
+      }
+      sb.append("}\n");
+      sb.append("\\title{");
+      if ("default".equals(this.getTitle())) {
+        sb.append(modelName);
+      }
+      else {
+        sb.append(this.getTitle());
+      }
+      sb.append("}\n");
+    }
+    sb
     .append("% ")
     .append(modelName)
     .append("\n")
@@ -150,11 +199,22 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
     .append("% latex ").append(fn).append("\n") // or directly to PDF using pdflatex
     .append("% dvisvgm ").append(fn).append("\n")
     .append("% vprerex ").append(fn).append("\n")
+    .append("% On linux (Ubuntu), select and copy this text to the system clipboard, and enter the following in a terminal window to create a PDF file:\n")
+    .append("% xclip -o > ").append(fn).append(".tex").append(" | pdflatex ").append(fn).append("\n") // "evince fn.pdf" to view it in document viewer
     .append(startSb.toString())
     .append(nodeSb.toString())
     .append(linkSb.toString())
     .append(endSb.toString());
-    writeToTarget(sb.toString(), outFileName, outPath, root);
+    if (this.isIncludeBeginEndDoc()) {
+      sb.append("\\end{document}\n");
+    }
+    if (this.isIncludePreamble()) {
+      StringBuilder doccSb = new StringBuilder().append("\\documentclass").append(this.getDocumentclass()).append("\n\n");
+      downloadPreambleAndWriteToTarget(this.getPreambleFileName(), doccSb.toString(), sb.toString(), outFileName, outPath, root);
+    }
+    else {
+      writeToTarget(sb.toString(), outFileName, outPath, root);
+    }
     this.removeInPorts(root);
   }
 
@@ -226,7 +286,7 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
       fit += ", bb name = $" + node.getName(getBbNameTemplate()) + "$";
     }
     else {
-      // TODO this is a first sibling that probably should not hava a position
+      // TODO this is a first sibling that probably should not have a position
       //position = ", " + getDiffXhtypePosition() + " " + node.getParentNode().getName(getBbNameTemplate());
     }
     
@@ -277,7 +337,12 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
     for (int i = 0; i < portList.size(); i++) {
       PortInformation pi = (PortInformation)portList.get(i);
       IXholon reffedNode = pi.getReffedNode();
-      boolean selfReffing = reffedNode == node; // does this port point to node; is it self-referencing?
+      if (reffedNode == null) {continue;}
+      if (!reffedNode.hasAncestor(root.getName())) {
+        // remoteNode is outside the scope (not a descendant) of root
+        reffedNode = root; // keep the port within the scope of root by placing a relay port on root
+      }
+      boolean selfReffing = (reffedNode == node); // does this port point to node; is it self-referencing?
       linkSb
       .append("  ")
       .append(selfReffing ? "% " : "")
@@ -419,10 +484,46 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
     return inportsCount;
   }-*/;
   
-  /** Number of tree levels to show, if showTree == true */
-  public native int getMaxTreeLevels() /*-{return this.efParams.maxTreeLevels;}-*/;
-  public native void setMaxTreeLevels(int maxTreeLevels) /*-{this.efParams.maxTreeLevels = maxTreeLevels;}-*/;
+  /*
+   * Download the preamble contents, insert it between part1 and part2, and write it all to the target.
+   */
+  protected void downloadPreambleAndWriteToTarget(String preambleFileName, String part1, String part2, String outFileName, String outPath, IXholon root) {
+    try {
+      //final String _contentType = contentType;
+      final IXholon _root = root;
+      new RequestBuilder(RequestBuilder.GET, preambleFileName).sendRequest("", new RequestCallback() {
+        @Override
+        public void onResponseReceived(Request req, Response resp) {
+          if (resp.getStatusCode() == resp.SC_OK) {
+            //root.println(resp.getText());
+            writeToTarget(part1 + resp.getText() + part2, outFileName, outPath, _root);
+          }
+          else {
+            //root.println("status code:" + resp.getStatusCode());
+            //root.println("status text:" + resp.getStatusText());
+            //root.println("text:\n" + resp.getText());
+            writeToTarget(part1
+              + "% PREAMBLE" + preambleFileName + " status code:" + resp.getStatusCode() + " status text:" + resp.getStatusText() + "text:" + resp.getText() + "\n"
+              + part2, outFileName, outPath, _root);
+          }
+        }
 
+        @Override
+        public void onError(Request req, Throwable e) {
+          //root.println("onError:" + e.getMessage());
+          writeToTarget(part1
+            + "% PREAMBLE" + preambleFileName + " onError:" + e.getMessage() + "\n"
+            + part2, outFileName, outPath, _root);
+        }
+      });
+    } catch(RequestException e) {
+      //root.println("RequestException:" + e.getMessage());
+      writeToTarget(part1
+        + "% PREAMBLE" + preambleFileName + " RequestException:" + e.getMessage() + "\n"
+        + part2, outFileName, outPath, root);
+    }
+  }
+  
   /** Node name template */
   public native String getNameTemplate() /*-{return this.efParams.nameTemplate;}-*/;
   public native void setNameTemplate(String nameTemplate) /*-{this.efParams.nameTemplate = nameTemplate;}-*/;
@@ -440,7 +541,6 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
    */
   protected native void makeEfParams() /*-{
     var p = {};
-    //p.maxTreeLevels = 1;
     p.scale = 1; // 1 2 0.5
     p.nameTemplate = "r:c_i"; // "r:c_i^" "R^^^^^"
     p.bbNameTemplate = "R^^^^^";
@@ -452,9 +552,36 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
     p.diffXhtypePosition = "below=of";
     p.bipartite = false; // ex: Packs and Cables
     p.intermedDashing = "loosely dotted"; // dashed,dotted,none,loosely dashed,densely dashed,loosely dotted,densely dotted,solid(default)
+    p.includePreamble = true; 
+    p.documentclass = "[10pt,oneside,article,landscape]{memoir}"; // content of \documentclass line, the first line in the preamble
+    p.preambleFileName = "texWirDiaOpreamble.tex";
+    p.includeBeginEndDoc = true; // whether to include \begin{document} and \end{document} and \title{...} and \author{...}
+    p.title = "default"; // default is model name
+    p.author = "default"; // default is GWT user
+    p.includeBeginEndEqu = true; // whether or not to include \begin{equation} and \end{equation}
     this.efParams = p;
   }-*/;
 
+  public native boolean isIncludePreamble() /*-{return this.efParams.includePreamble;}-*/;
+  //public native void setIncludePreamble(boolean includePreamble) /*-{this.efParams.includePreamble = includePreamble;}-*/;
+
+  public native String getDocumentclass() /*-{return this.efParams.documentclass;}-*/;
+  //public native void setDocumentclass(String documentclass) /*-{this.efParams.documentclass = documentclass;}-*/;
+
+  public native String getPreambleFileName() /*-{return this.efParams.preambleFileName;}-*/;
+  //public native void setPreambleFileName(String preambleFileName) /*-{this.efParams.preambleFileName = preambleFileName;}-*/;
+
+  public native boolean isIncludeBeginEndDoc() /*-{return this.efParams.includeBeginEndDoc;}-*/;
+  //public native void setIncludeBeginEndDoc(boolean includeBeginEndDoc) /*-{this.efParams.includeBeginEndDoc = includeBeginEndDoc;}-*/;
+
+  public native String getTitle() /*-{return this.efParams.title;}-*/;
+  //public native void setTitle(String title) /*-{this.efParams.title = title;}-*/;
+
+  public native String getAuthor() /*-{return this.efParams.author;}-*/;
+  //public native void setAuthor(String author) /*-{this.efParams.author = author;}-*/;
+
+  public native boolean isIncludeBeginEndEqu() /*-{return this.efParams.includeBeginEndEqu;}-*/;
+  //public native void setIncludeBeginEndEqu(boolean includeBeginEndEqu) /*-{this.efParams.includeBeginEndEqu = includeBeginEndEqu;}-*/;
 
   public native double getScale() /*-{return this.efParams.scale;}-*/;
   //public native void setScale(double scale) /*-{this.efParams.scale = scale;}-*/;
