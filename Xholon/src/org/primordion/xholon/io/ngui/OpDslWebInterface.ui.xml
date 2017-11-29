@@ -1,0 +1,147 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<!--
+  Operadics DSL Interface
+  Copyright (C) 2017 Ken Webb
+  BSD License
+  Xholon 0.9.1 http://www.primordion.com/Xholon
+-->
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+  xmlns:g="urn:import:com.google.gwt.user.client.ui">
+  
+  <ui:style>
+    .OpDslWeb_commandPane {
+      background-color:white;
+      color:black;
+      font:12px "Courier New", monospace;
+      width:1800px;
+      height:910px;
+    }
+    .OpDslWeb_top {
+      width:1853px;
+      height:978px;
+    }
+    .OpDslWeb_button {
+      margin-top: 5px;
+      margin-left: 5px;
+      margin-right: 5px;
+      width: 80px;
+    }
+    .OpDslWeb_label {
+      margin-top: 7px;
+      margin-left: 5px;
+      margin-right: 0px;
+      width: 120px;
+    }
+    .OpDslWeb_listbox {
+      margin-top: 5px;
+      margin-left: 2px;
+      margin-right: 5px;
+      width: 100px;
+    }
+  </ui:style>
+
+<g:LayoutPanel styleName="{style.OpDslWeb_top}">
+
+  <g:layer top="1px" height="24px">
+    <g:MenuBar>
+      <g:MenuItem>File
+        <g:MenuBar vertical="true">
+          <!--<g:MenuItem ui:field="fileneweasik">New EASIK</g:MenuItem>-->
+          <g:MenuItem ui:field="filenewopdsl">New Example</g:MenuItem>
+          <g:MenuItem ui:field="fileopen">Open</g:MenuItem>
+          <g:MenuItem ui:field="filesave">Save</g:MenuItem>
+          <g:MenuItem ui:field="filesaveas">Save As</g:MenuItem>
+          <g:MenuItem ui:field="filesaveall">Save All</g:MenuItem>
+          <g:MenuItem ui:field="fileclose">Close</g:MenuItem>
+          <g:MenuItem ui:field="filequit">Quit</g:MenuItem>
+        </g:MenuBar>
+      </g:MenuItem>
+      <!--<g:MenuItem>Edit
+        <g:MenuBar vertical="true">
+          <g:MenuItem ui:field="editfind">Find</g:MenuItem>
+          <g:MenuItem ui:field="editcopyasrtf">Copy as RTF</g:MenuItem>
+          <g:MenuItem ui:field="editfoldall">Fold All</g:MenuItem>
+          <g:MenuItem ui:field="editunfoldall">Unfold All</g:MenuItem>
+        </g:MenuBar>
+      </g:MenuItem>-->
+      <!--<g:MenuItem>Tools
+        <g:MenuBar vertical="true">
+          <g:MenuItem ui:field="toolsrun">Run</g:MenuItem>
+          <g:MenuItem ui:field="toolsabort">Abort</g:MenuItem>
+          <g:MenuItem ui:field="toolsoptions">Options</g:MenuItem>
+          <g:MenuItem ui:field="toolslegacyoptions">Legacy Options</g:MenuItem>
+          <g:MenuItem ui:field="toolsedchaser">ED Chaser</g:MenuItem>
+          <g:MenuItem ui:field="toolssqlloader">SQL Loader</g:MenuItem>
+          <g:MenuItem ui:field="toolssqlmapper">SQL Mapper</g:MenuItem>
+          <g:MenuItem ui:field="toolssqlchecker">SQL Checker</g:MenuItem>
+          <g:MenuItem ui:field="toolsnrshredder">NR Shredder</g:MenuItem>
+          <g:MenuItem ui:field="toolseasik">EASIK</g:MenuItem>
+        </g:MenuBar>
+      </g:MenuItem>-->
+      <!--<g:MenuItem>AQL
+        <g:MenuBar vertical="true">
+          <g:MenuItem ui:field="aqloutline">Outline (using last state)</g:MenuItem>
+          <g:MenuItem ui:field="aqlinfermapping">Infer Mapping (using last state)</g:MenuItem>
+          <g:MenuItem ui:field="aqlinferquery">Infer Query (using last state)</g:MenuItem>
+          <g:MenuItem ui:field="aqlinfertransform">Infer Transform (using last state)</g:MenuItem>
+          <g:MenuItem ui:field="aqlinferinstance">Infer Instance (using last state)</g:MenuItem>
+          <g:MenuItem ui:field="aqlemithtml">Emit HTML (using last compiled state)</g:MenuItem>
+        </g:MenuBar>
+      </g:MenuItem>-->
+      <!-- Xholon is an optional sub-menu -->
+      <g:MenuItem>Xholon
+        <g:MenuBar vertical="true">
+          <g:MenuItem ui:field="xhstart">Start Xholon</g:MenuItem>
+          <g:MenuItem ui:field="xhtex">TeX</g:MenuItem>
+          <g:MenuItem ui:field="xhgv">Graphviz</g:MenuItem>
+          <g:MenuItem ui:field="xhchap">Almende CHAP</g:MenuItem>
+          <!--<g:MenuItem ui:field="xhgvschema">Graphviz Schema</g:MenuItem>
+          <g:MenuItem ui:field="xhgvinstances">Graphviz Instances</g:MenuItem>
+          <g:MenuItem ui:field="xhgvboth">Graphviz Schema and Instances</g:MenuItem>
+          <g:MenuItem ui:field="xhchapschema">Almende CHAP Schema</g:MenuItem>-->
+          <!--<g:MenuItem ui:field="xhsql">SQL</g:MenuItem>-->
+          <g:MenuItem ui:field="xhxml">XML</g:MenuItem>
+          <g:MenuItem ui:field="xhyaml">YAML</g:MenuItem>
+        </g:MenuBar>
+      </g:MenuItem>
+      <g:MenuItem>Help
+        <g:MenuBar vertical="true">
+          <g:MenuItem ui:field="helpabout">Help/About</g:MenuItem>
+        </g:MenuBar>
+      </g:MenuItem>
+    </g:MenuBar>
+  </g:layer>
+  
+  <g:layer top="25px" height="30px">
+    <g:HorizontalPanel>
+      <g:Button ui:field="brun" styleName="{style.OpDslWeb_button}">Run</g:Button>
+      <g:Button ui:field="babort" styleName="{style.OpDslWeb_button}">Abort</g:Button>
+      <g:Button ui:field="bnewopdsl" styleName="{style.OpDslWeb_button}">New</g:Button>
+      <g:Button ui:field="bopen" styleName="{style.OpDslWeb_button}">Open</g:Button>
+      <g:Button ui:field="bsave" styleName="{style.OpDslWeb_button}">Save</g:Button>
+      <g:Button ui:field="boptions" styleName="{style.OpDslWeb_button}">Options</g:Button>
+      <g:Button ui:field="bhelp" styleName="{style.OpDslWeb_button}">Help</g:Button>
+      <g:Label styleName="{style.OpDslWeb_label}">Load Example:</g:Label>
+      <g:ListBox ui:field="lbexamples" styleName="{style.OpDslWeb_listbox}">
+        <g:item></g:item>
+        <g:item>Example 1</g:item>
+        <g:item>Example 2</g:item>
+        <g:item>Recipe Z</g:item>
+        <g:item>Brusselator</g:item>
+      </g:ListBox>
+    </g:HorizontalPanel>
+  </g:layer>
+  
+  <g:layer top="56px" height="910px" width="1800px">
+    <g:VerticalPanel>
+      <g:ScrollPanel>
+        <g:HTML ui:field="commandPane" styleName="{style.OpDslWeb_commandPane}">
+          <textarea ui:field="commandPaneTAE" rows="4" style="width: 100%; height: 100%; border: 1px; font-size: 12px;"> </textarea>
+        </g:HTML>
+      </g:ScrollPanel>
+    </g:VerticalPanel>
+  </g:layer>
+  
+</g:LayoutPanel>
+
+</ui:UiBinder>

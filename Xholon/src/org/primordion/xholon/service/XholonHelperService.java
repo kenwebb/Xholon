@@ -861,6 +861,10 @@ public class XholonHelperService extends AbstractXholonService
 	      idStr = INamedGui.NGUI_AQL_WEB_INTERFACE_IDSTR; //"Categorical Data IDE";
         tooltip = INamedGui.NGUI_AQL_WEB_INTERFACE_TOOLTIP; //"Categorical Data IDE";
 	    }
+	    if (INamedGui.NGUI_OPDSL_WEB_INTERFACE_NAME.equals(strArr[0])) {
+	      idStr = INamedGui.NGUI_OPDSL_WEB_INTERFACE_IDSTR; //"Operadics DSL IDE";
+        tooltip = INamedGui.NGUI_OPDSL_WEB_INTERFACE_TOOLTIP; //"Operadics DSL IDE";
+	    }
 	    int index = XholonGwtTabPanelHelper.addTab(widget, idStr, tooltip, true);
       ngui.setTabHeader();
       Object[] respData = new Object[2];

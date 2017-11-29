@@ -21,6 +21,10 @@ public interface INamedGui {
   public static final String NGUI_AQL_WEB_INTERFACE_IDSTR = "Categorical Data IDE";
   public static final String NGUI_AQL_WEB_INTERFACE_TOOLTIP = "Categorical Data IDE";
   
+  public static final String NGUI_OPDSL_WEB_INTERFACE_NAME = "OpDslWebInterface";
+  public static final String NGUI_OPDSL_WEB_INTERFACE_IDSTR = "Operadics DSL IDE";
+  public static final String NGUI_OPDSL_WEB_INTERFACE_TOOLTIP = "Operadics DSL IDE";
+  
   //public abstract String getRoleName();
 
   //public abstract void setRoleName(String roleName);

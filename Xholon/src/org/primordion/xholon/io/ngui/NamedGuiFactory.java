@@ -21,6 +21,9 @@ public class NamedGuiFactory { // extends Xholon {
 		if (INamedGui.NGUI_AQL_WEB_INTERFACE_NAME.equals(namedGuiName)) { // "AqlWebInterface"
 	    ngui = new org.primordion.xholon.io.ngui.AqlWebInterface();
 	  }
+	  else if (INamedGui.NGUI_OPDSL_WEB_INTERFACE_NAME.equals(namedGuiName)) { // "OpDslWebInterface"
+	    ngui = new org.primordion.xholon.io.ngui.OpDslWebInterface();
+	  }
 		return ngui;
 	}
 	

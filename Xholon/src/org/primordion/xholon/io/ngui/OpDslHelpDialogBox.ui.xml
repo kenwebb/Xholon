@@ -1,0 +1,19 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<!--
+  Operadics DSL Web Interface
+  Copyright (C) 2017 Ken Webb
+  BSD License
+  Xholon 0.9.1 http://www.primordion.com/Xholon
+-->
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+  xmlns:g="urn:import:com.google.gwt.user.client.ui">
+  <!--<ui:style></ui:style>-->
+  <g:DialogBox ui:field="helpDialog" autoHide="true" modal="true">
+    <g:caption><b>Help/About</b></g:caption>
+    <g:HTMLPanel>
+      <g:Label>Operadics DSL help dialog - to be implemented</g:Label>
+      <g:Button ui:field="helpDialogOkButton">OK</g:Button>
+    </g:HTMLPanel>
+  </g:DialogBox>
+</ui:UiBinder>
+
