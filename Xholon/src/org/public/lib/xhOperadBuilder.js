@@ -38,11 +38,11 @@ morphism comp: (P1, P2, P3, Q) -> R := {a1=aR, b1=b2, c2, d2=ddd, e2=e3, f1=f3=f
   </OperadExample>
  */
 
-if (typeof xh == "undefined") {
-  xh = {};
+if (typeof window.xh == "undefined") {
+  window.xh = {};
 }
 
-xh.OperadBuilder = function(me, selection) {
+xh.OperadBuilder = function(me, dslContent) {
 
 //var me;
 var xhRoot,
@@ -68,11 +68,13 @@ postConfigure: function() {
   if (xhRoot == null) {return;}
   // get xhcRoot
   var xhcRoot = xhRoot.xhc().parent();
-  // get the DSL content
-  var dslContentNode = me.xpath("./Attribute_String");
-  if (dslContentNode == null) {return;}
-  var dslContent = dslContentNode.text();
-  //me.println(dslContent);
+  if (typeof dslContent == "undefined") {
+    // get the DSL content
+    var dslContentNode = me.xpath("./Attribute_String");
+    if (dslContentNode == null) {return;}
+    dslContent = dslContentNode.text();
+    //me.println(dslContent);
+  }
   
   var bindingsFound = false; // has the first "bindings" statement been found
   
@@ -172,11 +174,13 @@ makePack: function(packStr) {
   var packName = packStr.substring(0, equalsIx).trim();
   xmlStrCSH += '  <Pack roleName="' + packName + '">\n';
   var portsStr = packStr.substring(startPortsIx+1, endPortsIx).trim();
-  var portsArr = portsStr.split(",");
-  for (var i = 0; i < portsArr.length; i++) {
-    var portName = portsArr[i].trim() + portNameFiller;
-    //xmlStrCSH += '    <port name="' + portName + '" connector="../Cable[@roleName=' + "'" + 'TODO' + "'" + ']"></port>\n';
-    xmlStrCSH += '    <port name="' + portName + '" connector="."></port>\n';
+  if (portsStr.length > 0) {
+    var portsArr = portsStr.split(",");
+    for (var i = 0; i < portsArr.length; i++) {
+      var portName = portsArr[i].trim() + portNameFiller;
+      //xmlStrCSH += '    <port name="' + portName + '" connector="../Cable[@roleName=' + "'" + 'TODO' + "'" + ']"></port>\n';
+      xmlStrCSH += '    <port name="' + portName + '" connector="."></port>\n';
+    }
   }
   xmlStrCSH += "  </Pack>\n";
 },
@@ -277,7 +281,14 @@ makeBindings: function(bindingsStr, firstPack) {
       //if (packNode[portName] === null) {
       if (typeof packNode[portName] !== 'undefined') {
         // the port has been created (!== undefined) and has a value of null
-        packNode[portName] = packNode.xpath("../Cable[@roleName='" + cableName + "']");
+        var remoteNode = packNode.xpath("../Cable[@roleName='" + cableName + "']");
+        if (!remoteNode) {
+          // in some models, packs connect directly to other packs
+          remoteNode = packNode.xpath("../Pack[@roleName='" + cableName + "']");
+        }
+        if (remoteNode) {
+          packNode[portName] = remoteNode;
+        }
       }
       packNode = packNode.next()
     }
@@ -446,4 +457,4 @@ findPacksWithPortNameEqualNull(node, portName, packNodesArr, portNamesArr) {
 
 beh.postConfigure();
 
-} // end xh.OperadBuilder = function(me, selection) {
+} // end xh.OperadBuilder = function(me) {
