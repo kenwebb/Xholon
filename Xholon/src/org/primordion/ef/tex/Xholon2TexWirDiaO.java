@@ -133,7 +133,7 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
       startSb
       .append("\\begin{equation}\\label{")
       .append(modelName.replace(" ","_"))
-      .append("}\\tag{").append(modelName)
+      .append("}\\tag{").append(modelName.replace(" ","").replace("_","")) // latex/pdflatex fail if tag ends with "_"
       .append("}\n");
     }
     startSb.append("\\begin{tikzpicture}[oriented WD, bbx=1em, bby=1ex, scale=").append(this.getScale()).append("]\n");
@@ -200,7 +200,7 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
     .append("% dvisvgm ").append(fn).append("\n")
     .append("% vprerex ").append(fn).append("\n")
     .append("% On linux (Ubuntu), select and copy this text to the system clipboard, and enter the following in a terminal window to create a PDF file:\n")
-    .append("% xclip -o > ").append(fn).append(".tex").append(" | pdflatex ").append(fn).append("\n") // "evince fn.pdf" to view it in document viewer
+    .append("% xclip -o > ").append(fn).append(".tex").append("; pdflatex ").append(fn).append("\n") // "evince fn.pdf" to view it in document viewer
     .append(startSb.toString())
     .append(nodeSb.toString())
     .append(linkSb.toString())
