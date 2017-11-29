@@ -133,6 +133,7 @@
 <!-- Category Theory -->
 <CatTheory xmlns="http://www.primordion.com/namespace/CatTheory" id="1015900">
   <CatAql/>
+  <CatOpDsl/>
 </CatTheory>
 
 <!-- represents the top level Control structure -->

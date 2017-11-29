@@ -580,6 +580,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			if (implName.endsWith("CatAql")) {
 				newNode = new org.primordion.xholon.mech.catt.CatAql();
 			}
+			else if (implName.endsWith("CatOpDsl")) {
+				newNode = new org.primordion.xholon.mech.catt.CatOpDsl();
+			}
 		}
 		
 		// mech.room

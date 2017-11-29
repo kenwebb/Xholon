@@ -70,6 +70,7 @@
 	<!-- Category Theory -->
   <CatTheory  xhType="XhtypePureActiveObject" implName="org.primordion.xholon.app.Chameleon.XhChameleon"/>
   <CatAql  xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.catt.CatAql"/>
+  <CatOpDsl  xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.catt.CatOpDsl"/>
 	
 	<!-- Control -->
 	<Control xhType="XhtypePureActiveObject" implName="org.primordion.xholon.base.Control"/>
