@@ -47,52 +47,10 @@ public class OpDslWebInterface implements INamedGui {
   interface OpDslWebUiBinder extends UiBinder<Widget, OpDslWebInterface> {}
   private static OpDslWebUiBinder uiBinder = GWT.create(OpDslWebUiBinder.class);
   
-  // File menu
-  //@UiField MenuItem fileneweasik;
-  @UiField MenuItem filenewopdsl;
-  @UiField MenuItem fileopen;
-  @UiField MenuItem filesave;
-  @UiField MenuItem filesaveas;
-  @UiField MenuItem filesaveall;
-  @UiField MenuItem fileclose;
-  @UiField MenuItem filequit;
-  
-  // Edit menu
-  //@UiField MenuItem editfind;
-  //@UiField MenuItem editcopyasrtf;
-  //@UiField MenuItem editfoldall;
-  //@UiField MenuItem editunfoldall;
-  
-  // Tools menu
-  //@UiField MenuItem toolsrun;
-  //@UiField MenuItem toolsabort;
-  //@UiField MenuItem toolsoptions;
-  //@UiField MenuItem toolslegacyoptions;
-  //@UiField MenuItem toolsedchaser;
-  //@UiField MenuItem toolssqlloader;
-  //@UiField MenuItem toolssqlmapper;
-  //@UiField MenuItem toolssqlchecker;
-  //@UiField MenuItem toolsnrshredder;
-  //@UiField MenuItem toolseasik;
-  
-  // AQL menu
-  //@UiField MenuItem aqloutline;
-  //@UiField MenuItem aqlinfermapping;
-  //@UiField MenuItem aqlinferquery;
-  //@UiField MenuItem aqlinfertransform;
-  //@UiField MenuItem aqlinferinstance;
-  //@UiField MenuItem aqlemithtml;
-  
-  // Xholon menu (optional)
-  @UiField MenuItem xhstart;
+  // Export menu (optional)
   @UiField MenuItem xhtex;
   @UiField MenuItem xhgv;
   @UiField MenuItem xhchap;
-  //@UiField MenuItem xhgvschema;
-  //@UiField MenuItem xhgvinstances;
-  //@UiField MenuItem xhgvboth;
-  //@UiField MenuItem xhchapschema;
-  //@UiField MenuItem xhsql;
   @UiField MenuItem xhxml;
   @UiField MenuItem xhyaml;
   
@@ -101,12 +59,7 @@ public class OpDslWebInterface implements INamedGui {
   
   // buttons
   @UiField Button brun;
-  @UiField Button babort;
   @UiField Button bnewopdsl;
-  @UiField Button bopen;
-  @UiField Button bsave;
-  @UiField Button boptions;
-  @UiField Button bhelp;
   
   // label and listBox
   @UiField ListBox lbexamples;
@@ -138,32 +91,13 @@ public class OpDslWebInterface implements INamedGui {
   public void postConfigure() {
     readGuiFromXml();
     
-    // File menu
-    fileopen.setEnabled(false);
-    filesave.setEnabled(false);
-    filesaveas.setEnabled(false);
-    
-    // Edit menu
-    
-    // Xholon menu
-    //xhgvschema.setEnabled(false);
-    //xhgvinstances.setEnabled(false);
-    //xhgvboth.setEnabled(false);
-    //xhchapschema.setEnabled(false);
-    //xhsql.setEnabled(false);
+    // Export menu
     xhtex.setEnabled(false);
     xhgv.setEnabled(false);
     xhchap.setEnabled(false);
     xhxml.setEnabled(false);
     xhyaml.setEnabled(false);
        
-    xhstart.setScheduledCommand(new Command() {
-      @Override
-      public void execute() {
-        xhstart();
-      }
-    });
-    
     xhgv.setScheduledCommand(new Command() {
       @Override
       public void execute() {
@@ -171,33 +105,12 @@ public class OpDslWebInterface implements INamedGui {
       }
     });
     
-    /*xhgvinstances.setScheduledCommand(new Command() {
-      @Override
-      public void execute() {
-        xhgvinstances(cattSystem);
-      }
-    });
-    
-    xhgvboth.setScheduledCommand(new Command() {
-      @Override
-      public void execute() {
-        xhgvboth(cattSystem);
-      }
-    });*/
-    
     xhchap.setScheduledCommand(new Command() {
       @Override
       public void execute() {
         xhchap(cattSystem);
       }
     });
-    
-    /*xhsql.setScheduledCommand(new Command() {
-      @Override
-      public void execute() {
-        xhsql(cattSystem);
-      }
-    });*/
     
     xhxml.setScheduledCommand(new Command() {
       @Override
@@ -238,45 +151,10 @@ public class OpDslWebInterface implements INamedGui {
       }
     });
     
-    babort.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        abort();
-      }
-    });
-    
     bnewopdsl.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
         newOpDsl();
-      }
-    });
-    
-    bopen.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        open();
-      }
-    });
-    
-    bsave.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        save();
-      }
-    });
-    
-    boptions.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        options();
-      }
-    });
-    
-    bhelp.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        help();
       }
     });
     
@@ -287,9 +165,7 @@ public class OpDslWebInterface implements INamedGui {
         String item = lbexamples.getSelectedItemText();
         switch (item) {
         case "Example 1": loadExample1(); break;
-        //case "Example 2": loadExample2(); break;
         default:
-          //Window.alert("Can't find " + item + ".");
           String str = getExampleText(item);
           setCommand(str, true);
           break;
@@ -303,9 +179,9 @@ public class OpDslWebInterface implements INamedGui {
     xhstart();
   }
   
-  protected void abort() {
-    Window.alert("Abort not yet implemented.");
-  }
+  //protected void abort() {
+  //  Window.alert("Abort not yet implemented.");
+  //}
   
   /**
    * Create a New Operad DSL file.
@@ -314,25 +190,8 @@ public class OpDslWebInterface implements INamedGui {
   protected void newOpDsl() {
     setCommand("", true);
   }
-  
-  protected void open() {
-    boolean hasfileapi = this.hasFileAPIs();
-    Window.alert("Open not yet implemented. Has File APIs: " + hasfileapi);
-  }
-  
-  protected void save() {
-    boolean hasfileapi = this.hasFileAPIs();
-    Window.alert("Save not yet implemented. Has File APIs: " + hasfileapi);
-  }
-  
-  protected void options() {
-    Window.alert("Options not yet implemented.");
-  }
-  
-  // Xholon menu
-  
+    
   protected native Object findXhCattSystem() /*-{
-    //return $wnd.xh.root().first().next().next(); // old
     return $wnd.xh.root().last().last().first();
   }-*/;
   
@@ -347,7 +206,7 @@ public class OpDslWebInterface implements INamedGui {
       xhchap.setEnabled(true);
       xhxml.setEnabled(true);
       xhyaml.setEnabled(true);
-      xhstart.setEnabled(false);
+      //xhstart.setEnabled(false);
       brun.setEnabled(false);
       return true;
     }
@@ -383,12 +242,6 @@ public class OpDslWebInterface implements INamedGui {
     $wnd.xh.xport("Graphviz", cattSystem, '{"gvFileExt":".gv","gvGraph":"digraph","layout":"dot","edgeOp":"->","gvCluster":"","shouldShowStateMachineEntities":false,"filter":"--Behavior,Script","nameTemplateNodeId":"^^^^i^","nameTemplateNodeLabel":"R^^^^^","shouldQuoteLabels":true,"shouldShowLinks":true,"shouldShowLinkLabels":true,"shouldSpecifyLayout":false,"maxLabelLen":-1,"shouldColor":true,"defaultColor":"#f0f8ff","shouldSpecifyShape":true,"shape":"ellipse","shouldSpecifySize":false,"size":"6","shouldSpecifyFontname":false,"shouldSpecifyArrowhead":true,"arrowhead":"vee","shouldSpecifyStylesheet":true,"stylesheet":"Xholon.css","shouldSpecifyRankdir":false,"rankdir":"LR","shouldDisplayGraph":true,"outputFormat":"svg"}');
   }-*/;
   
-  //protected native void xhgvinstances(Object cattSystem) /*-{
-  //  if (cattSystem == null) {return;}
-  //  var instanceNode = cattSystem.first().next();
-  //  $wnd.xh.xport("Graphviz", instanceNode, '{"gvFileExt":".gv","gvGraph":"digraph","layout":"dot","edgeOp":"->","gvCluster":"","shouldShowStateMachineEntities":false,"filter":"--Behavior,Script","nameTemplateNodeId":"^^^^i^","nameTemplateNodeLabel":"r C^^^","shouldQuoteLabels":true,"shouldShowLinks":true,"shouldShowLinkLabels":true,"shouldSpecifyLayout":false,"maxLabelLen":-1,"shouldColor":true,"defaultColor":"#f0f8ff","shouldSpecifyShape":true,"shape":"ellipse","shouldSpecifySize":false,"size":"6","shouldSpecifyFontname":false,"shouldSpecifyArrowhead":true,"arrowhead":"vee","shouldSpecifyStylesheet":true,"stylesheet":"Xholon.css","shouldSpecifyRankdir":true,"rankdir":"LR","shouldDisplayGraph":true,"outputFormat":"svg"}');
-  //}-*/;
-  
   protected native void xhchap(Object cattSystem) /*-{
     if (cattSystem == null) {return;}
     //var schemaNode = cattSystem.first();
@@ -420,21 +273,6 @@ public class OpDslWebInterface implements INamedGui {
     }
   }
   
-  /**
-   * Does this web browser support the JavaScript File APIs.
-   * search for: JavaScript File
-   * see: https://www.html5rocks.com/en/tutorials/file/dndfiles/
-   */
-  protected native boolean hasFileAPIs() /*-{
-    if ($wnd.File && $wnd.FileReader && $wnd.FileList && $wnd.Blob) {
-      //console.log("The File APIs are available.");
-      return true;
-    } else {
-      //console.log("The File APIs are not fully supported in this browser.");
-      return false;
-    }
-  }-*/;
-  
   protected native String getExampleText(String item) /*-{
     var str = "Can't locate " + item + ".";
     var opdslex = $wnd.OPDSLEXAMPLES;
@@ -449,17 +287,6 @@ public class OpDslWebInterface implements INamedGui {
     .append("# Example Operad 1\n# \npack P1 = {a1,b1,f1}\npack P2 = {b2,c2,d2,e2}\npack P3 = {e3,f3}\npack Q  = {ddd, ggg}\npack R  = {aR, fR, gR}\n# \nbindings # dummy bindings\nmorphism comp: (P1, P2, P3, Q) -> R := {a1=aR, b1=b2, c2, d2=ddd, e2=e3, f1=f3=fR, ggg=gR}")
     .toString();
     setCommand(str, true);
-  }
-  
-  /**
-   * Get the contents of the command.
-   * @return The String typed in by the user.
-   */
-  protected String getCommand() {
-    Element ele = commandPane.getElement().getFirstChildElement();
-    TextAreaElement ta = TextAreaElement.as(ele);
-    String contents = ta.getValue();
-    return contents;
   }
   
   @Override
@@ -498,54 +325,8 @@ public class OpDslWebInterface implements INamedGui {
     }
   }
   
-  /**
-   * Clear the contents of the result pane.
-   */
-  protected void clearResults()
-  {
-    
-  }
-  
-  /**
-   * Clear the contents of the command pane.
-   */
-  protected void clearCommand()
-  {
-    /*Element ele = commandPane.getElement().getFirstChildElement();
-    TextAreaElement ta = TextAreaElement.as(ele);
-    ta.setValue("");*/
-  }
-  
   @Override
-  public void setTabHeader() {
-    //String idStr = "Categorical Data IDE";
-    //String tooltip = "Categorical Data IDE";
-    //XholonGwtTabPanelHelper.updateTabHeader(idStr, tooltip, -1);
-  }
-  
-  /**
-   * Close the GUI.
-   */
-  protected void closeGui()
-  {
-   // Window.alert("closegui selected");
-  }
-  
-  /**
-   * Save the contents of the Command panel in an already specified file.
-   */
-  protected void saveCommandFile()
-  {
-    
-  }
-  
-  /**
-   * Save the contents of the Command panel in a file.
-   */
-  protected void saveCommandFileAs()
-  {
-    
-  }
+  public void setTabHeader() {}
   
   /**
    * Read the GUI from a UIBinder XML file.
@@ -554,72 +335,10 @@ public class OpDslWebInterface implements INamedGui {
     widget = uiBinder.createAndBindUi(this);
   }
       
-  /**
-   * Limit the length of a string.
-   */
-  protected String limitLength(String str, int maxLen) {
-    return str.length() > 80 ? str.substring(0, 80) : str;
-  }
-  
-  /**
-   * Test the existing AQL request.
-   * http://208.113.133.193/cgi-bin/try.cgi?code=typeside+Ty+%3D+literal ...
-   * call a hard-coded php program
-   */
-  /*protected void tryCgi(String requestData) {
-    consoleLog(requestData);
-		try {
-	    final String uri = "aqlProxy.php";
-	    RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, uri); // .GET .POST
-	    rb.setHeader("Content-Type", "application/x-www-form-urlencoded");
-	    rb.sendRequest(requestData, new RequestCallback() {
-        @Override
-        public void onResponseReceived(Request req, Response resp) {
-          if (resp.getStatusCode() == resp.SC_OK) {
-            xholonPrintln(resp.getText());
-            showInHtml(resp.getText());
-          }
-          else {
-            xholonPrintln("status code:" + resp.getStatusCode());
-            xholonPrintln("status text:" + resp.getStatusText());
-            xholonPrintln("text:\n" + resp.getText());
-          }
-        }
-
-        @Override
-        public void onError(Request req, Throwable e) {
-          xholonPrintln("onError:" + e.getMessage());
-        }
-      });
-    } catch(RequestException e) {
-      xholonPrintln("RequestException:" + e.getMessage());
-    }
-  }*/
-  
   protected native void consoleLog(Object obj) /*-{
     if ($wnd.console && $wnd.console.log) {
       $wnd.console.log(obj);
     }
-  }-*/;
-  
-  protected native void xholonPrintln(Object obj) /*-{
-    if ($wnd.xh && $wnd.xh.root) {
-      $wnd.xh.root().println(obj);
-    }
-  }-*/;
-  
-  protected native void showInHtml(Object obj) /*-{
-    //var ele = $doc.querySelector("#xhtreemap");
-    //ele.append(obj);
-    var ele = $doc.querySelector("#xhgraph");
-    ele.insertAdjacentHTML('afterend', obj);
-  }-*/;
-  
-  /**
-   * This is probably not needed.
-   */
-  protected native String encodeURI(String str) /*-{
-    return $wnd.encodeURI(str);
   }-*/;
   
 }
