@@ -195,12 +195,12 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
     .append(" ")
     .append(timeStamp)
     .append("\n")
-    .append("% To convert to a SVG or PDF image, save to a text (.tex) file that includes the Spivak latex code, and run:\n")
+    .append("% To convert to a SVG or PDF image, save to a text (.tex) file, and run:\n")
     .append("% latex ").append(fn).append("\n") // or directly to PDF using pdflatex
     .append("% dvisvgm ").append(fn).append("\n")
     .append("% vprerex ").append(fn).append("\n")
-    .append("% On linux (Ubuntu), select and copy this text to the system clipboard, and enter the following in a terminal window to create a PDF file:\n")
-    .append("% xclip -o > ").append(fn).append(".tex").append("; pdflatex ").append(fn).append("\n") // "evince fn.pdf" to view it in document viewer
+    //.append("% On linux (Ubuntu), select and copy this text to the system clipboard, and enter the following in a terminal window to create a PDF file:\n")
+    //.append("% xclip -o > ").append(fn).append(".tex").append("; pdflatex ").append(fn).append("\n") // "evince fn.pdf" to view it in document viewer
     .append(startSb.toString())
     .append(nodeSb.toString())
     .append(linkSb.toString())
@@ -209,7 +209,12 @@ public class Xholon2TexWirDiaO extends AbstractXholon2ExternalFormat implements 
       sb.append("\\end{document}\n");
     }
     if (this.isIncludePreamble()) {
-      StringBuilder doccSb = new StringBuilder().append("\\documentclass").append(this.getDocumentclass()).append("\n\n");
+      StringBuilder doccSb = new StringBuilder()
+      .append("% On linux (Ubuntu), select and copy this text to the system clipboard, and enter the following in a terminal window to create a PDF file:\n")
+      .append("% xclip -o > ").append(fn).append(".tex").append("; pdflatex ").append(fn).append("\n") // "evince fn.pdf" to view it in document viewer
+      .append("% \n")
+      .append("\\documentclass").append(this.getDocumentclass()).append("\n\n")
+      .append("% This framework tex code has been provided by David Spivak.\n");
       downloadPreambleAndWriteToTarget(this.getPreambleFileName(), doccSb.toString(), sb.toString(), outFileName, outPath, root);
     }
     else {
