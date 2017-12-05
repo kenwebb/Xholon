@@ -81,6 +81,19 @@
         <g:item>Pixel Array 2.1</g:item>
         <g:item>Pixel Array 3.1.3</g:item>
         <g:item>Figure 6</g:item>
+        <g:item>Cell Model</g:item>
+        <g:item>Elevator</g:item>
+        <g:item>Hypergraph 1</g:item>
+        <g:item>user 1</g:item>
+        <g:item>user 2</g:item>
+        <g:item>user 3</g:item>
+        <g:item>user 4</g:item>
+        <g:item>user 5</g:item>
+        <g:item>user 6</g:item>
+        <g:item>user 7</g:item>
+        <g:item>user 8</g:item>
+        <g:item>user 9</g:item>
+        <g:item>user 10</g:item>
       </g:ListBox>
       <g:Button ui:field="bnewopdsl" styleName="{style.OpDslWeb_button}">New</g:Button>
       <g:Button ui:field="brun" styleName="{style.OpDslWeb_button}">Run</g:Button>

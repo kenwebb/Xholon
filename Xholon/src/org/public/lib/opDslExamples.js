@@ -360,6 +360,372 @@
  + "\n"
  + "morphism (X1, X2, X3) -> Y      # Move X1, X2, and X3 inside Y\n"; }
 
+/*
+# Cell Model - packs
+pack Glucose = {}
+pack Glucose6Phosphate = {}
+pack Fructose6Phosphate = {}
+pack Fructose1x6Biphosphate = {}
+pack DihydroxyacetonePhosphate = {}
+pack Glyceraldehyde3Phosphate = {}
+pack X1x3BisphosphoGlycerate = {}
+pack X3PhosphoGlycerate = {}
+pack X2PhosphoGlycerate = {}
+pack PhosphoEnolPyruvate = {}
+pack Pyruvate = {}
+pack Cytosol = {}
+#
+pack Hexokinase = {p1, p2}
+pack PhosphoGlucoIsomerase = {q1, q2}
+pack PhosphoFructokinase = {r1, r2}
+pack Aldolase = {s1, s2, s3}
+pack TriosePhosphateIsomerase = {t1, t2}
+pack Glyceraldehyde3phosphateDehydrogenase = {u1, u2}
+pack PhosphoGlycerokinase = {v1, v2}
+pack PhosphoGlyceromutase = {w1, w2}
+pack Enolase = {x1, x2}
+pack PyruvateKinase = {y1, y2}
+pack Cytoplasm = {}
+#
+pack EukaryoticCell = {}
+#
+bindings p1 |-> Glucose
+bindings p2 |-> Glucose6Phosphate
+bindings q1 |-> Glucose6Phosphate
+bindings q2 |-> Fructose6Phosphate
+bindings r1 |-> Fructose6Phosphate
+bindings r2 |-> Fructose1x6Biphosphate
+bindings s1 |-> Fructose1x6Biphosphate
+bindings s2 |-> Glyceraldehyde3Phosphate
+bindings s3 |-> DihydroxyacetonePhosphate
+bindings t1 |-> DihydroxyacetonePhosphate
+bindings t2 |-> Glyceraldehyde3Phosphate
+bindings u1 |-> Glyceraldehyde3Phosphate
+bindings u2 |-> X1x3BisphosphoGlycerate
+bindings v1 |-> X1x3BisphosphoGlycerate
+bindings v2 |-> X3PhosphoGlycerate
+bindings w1 |-> X3PhosphoGlycerate
+bindings w2 |-> X2PhosphoGlycerate
+bindings x1 |-> X2PhosphoGlycerate
+bindings x2 |-> PhosphoEnolPyruvate
+bindings y1 |-> PhosphoEnolPyruvate
+bindings y2 |-> Pyruvate
+#
+morphism comp1: (Glucose, Glucose6Phosphate, Fructose6Phosphate, Fructose1x6Biphosphate, DihydroxyacetonePhosphate, Glyceraldehyde3Phosphate, X1x3BisphosphoGlycerate, X3PhosphoGlycerate, X2PhosphoGlycerate, PhosphoEnolPyruvate, Pyruvate) -> Cytosol
+morphism comp2: (Hexokinase, PhosphoGlucoIsomerase, PhosphoFructokinase, Aldolase, TriosePhosphateIsomerase, Glyceraldehyde3phosphateDehydrogenase, PhosphoGlycerokinase, PhosphoGlyceromutase, Enolase, PyruvateKinase) -> Cytoplasm
+morphism comp: (Cytosol, Cytoplasm) -> EukaryoticCell
+*/
+
+/*
+# Cell Model - cables
+cables C = {Glucose, Glucose6Phosphate, Fructose6Phosphate, Fructose1x6Biphosphate, DihydroxyacetonePhosphate, Glyceraldehyde3Phosphate, X1x3BisphosphoGlycerate, X3PhosphoGlycerate, X2PhosphoGlycerate, PhosphoEnolPyruvate, Pyruvate}
+pack Cytosol = {}
+#
+pack Hexokinase = {p1, p2}
+pack PhosphoGlucoIsomerase = {q1, q2}
+pack PhosphoFructokinase = {r1, r2}
+pack Aldolase = {s1, s2, s3}
+pack TriosePhosphateIsomerase = {t1, t2}
+pack Glyceraldehyde3phosphateDehydrogenase = {u1, u2}
+pack PhosphoGlycerokinase = {v1, v2}
+pack PhosphoGlyceromutase = {w1, w2}
+pack Enolase = {x1, x2}
+pack PyruvateKinase = {y1, y2}
+pack Cytoplasm = {}
+#
+pack EukaryoticCell = {}
+#
+bindings p1 |-> Glucose
+bindings p2 |-> Glucose6Phosphate
+bindings q1 |-> Glucose6Phosphate
+bindings q2 |-> Fructose6Phosphate
+bindings r1 |-> Fructose6Phosphate
+bindings r2 |-> Fructose1x6Biphosphate
+bindings s1 |-> Fructose1x6Biphosphate
+bindings s2 |-> Glyceraldehyde3Phosphate
+bindings s3 |-> DihydroxyacetonePhosphate
+bindings t1 |-> DihydroxyacetonePhosphate
+bindings t2 |-> Glyceraldehyde3Phosphate
+bindings u1 |-> Glyceraldehyde3Phosphate
+bindings u2 |-> X1x3BisphosphoGlycerate
+bindings v1 |-> X1x3BisphosphoGlycerate
+bindings v2 |-> X3PhosphoGlycerate
+bindings w1 |-> X3PhosphoGlycerate
+bindings w2 |-> X2PhosphoGlycerate
+bindings x1 |-> X2PhosphoGlycerate
+bindings x2 |-> PhosphoEnolPyruvate
+bindings y1 |-> PhosphoEnolPyruvate
+bindings y2 |-> Pyruvate
+#
+morphism comp1: (Glucose, Glucose6Phosphate, Fructose6Phosphate, Fructose1x6Biphosphate, DihydroxyacetonePhosphate, Glyceraldehyde3Phosphate, X1x3BisphosphoGlycerate, X3PhosphoGlycerate, X2PhosphoGlycerate, PhosphoEnolPyruvate, Pyruvate) -> Cytosol
+morphism comp2: (Hexokinase, PhosphoGlucoIsomerase, PhosphoFructokinase, Aldolase, TriosePhosphateIsomerase, Glyceraldehyde3phosphateDehydrogenase, PhosphoGlycerokinase, PhosphoGlyceromutase, Enolase, PyruvateKinase) -> Cytoplasm
+morphism comp: (Cytosol, Cytoplasm) -> EukaryoticCell
+*/
+
+/*
+# Cell Model - complete collection of active objects (packs), passive objects (cables), and containers
+# Webb, K., & White, T. (2005). UML as a cell and biochemistry modeling language. BioSystems, 80, 283–302.
+# 
+cables D = {GlucoseECS}
+# 
+# Cytosol - passive objects, cables, hyperedges
+cables C = {Glucose, Glucose6Phosphate, Fructose6Phosphate, Fructose1x6Biphosphate, DihydroxyacetonePhosphate, Glyceraldehyde3Phosphate, X1x3BisphosphoGlycerate, X3PhosphoGlycerate, X2PhosphoGlycerate, PhosphoEnolPyruvate, Pyruvate}
+pack Cytosol = {}
+# 
+# CellMembrane
+pack CellBilayer = {a1, a2}
+pack CellMembrane = {}
+# 
+# Cytoplasm
+pack Hexokinase = {p1, p2}
+pack PhosphoGlucoIsomerase = {q1, q2}
+pack PhosphoFructokinase = {r1, r2}
+pack Aldolase = {s1, s2, s3}
+pack TriosePhosphateIsomerase = {t1, t2}
+pack Glyceraldehyde3phosphateDehydrogenase = {u1, u2}
+pack PhosphoGlycerokinase = {v1, v2}
+pack PhosphoGlyceromutase = {w1, w2}
+pack Enolase = {x1, x2}
+pack PyruvateKinase = {y1, y2}
+pack Cytoplasm = {}
+#
+pack ExtraCellularSolution = {}
+# 
+pack EukaryoticCell = {}
+pack ExtraCellularSpace = {}
+#
+bindings p1 |-> Glucose
+bindings p2 |-> Glucose6Phosphate
+bindings q1 |-> Glucose6Phosphate
+bindings q2 |-> Fructose6Phosphate
+bindings r1 |-> Fructose6Phosphate
+bindings r2 |-> Fructose1x6Biphosphate
+bindings s1 |-> Fructose1x6Biphosphate
+bindings s2 |-> Glyceraldehyde3Phosphate
+bindings s3 |-> DihydroxyacetonePhosphate
+bindings t1 |-> DihydroxyacetonePhosphate
+bindings t2 |-> Glyceraldehyde3Phosphate
+bindings u1 |-> Glyceraldehyde3Phosphate
+bindings u2 |-> X1x3BisphosphoGlycerate
+bindings v1 |-> X1x3BisphosphoGlycerate
+bindings v2 |-> X3PhosphoGlycerate
+bindings w1 |-> X3PhosphoGlycerate
+bindings w2 |-> X2PhosphoGlycerate
+bindings x1 |-> X2PhosphoGlycerate
+bindings x2 |-> PhosphoEnolPyruvate
+bindings y1 |-> PhosphoEnolPyruvate
+bindings y2 |-> Pyruvate
+bindings a1 |-> Glucose
+bindings a2 |-> GlucoseECS
+#
+morphism comp1: (Glucose, Glucose6Phosphate, Fructose6Phosphate, Fructose1x6Biphosphate, DihydroxyacetonePhosphate, Glyceraldehyde3Phosphate, X1x3BisphosphoGlycerate, X3PhosphoGlycerate, X2PhosphoGlycerate, PhosphoEnolPyruvate, Pyruvate) -> Cytosol
+# 
+morphism comp2: (Hexokinase, PhosphoGlucoIsomerase, PhosphoFructokinase, Aldolase, TriosePhosphateIsomerase, Glyceraldehyde3phosphateDehydrogenase, PhosphoGlycerokinase, PhosphoGlyceromutase, Enolase, PyruvateKinase, Cytosol) -> Cytoplasm
+# 
+morphism comp3: (CellBilayer) -> CellMembrane
+# 
+morphism comp4: (CellMembrane, Cytoplasm) -> EukaryoticCell
+# 
+morphism comp5: (GlucoseECS) -> ExtraCellularSolution
+# 
+morphism comp: (EukaryoticCell, ExtraCellularSolution) -> ExtraCellularSpace
+*/
+
+    else if (v == "Cell Model") { return ""
+ + "# Cell Model - complete collection of active objects (packs), passive objects (cables), and containers\n"
+ + "# Webb, K., & White, T. (2005). UML as a cell and biochemistry modeling language. BioSystems, 80, 283–302.\n"
+ + "# \n"
+ + "cables D = {GlucoseECS}\n"
+ + "# \n"
+ + "# Cytosol - passive objects, cables, hyperedges\n"
+ + "cables C = {Glucose, Glucose6Phosphate, Fructose6Phosphate, Fructose1x6Biphosphate, DihydroxyacetonePhosphate, Glyceraldehyde3Phosphate, X1x3BisphosphoGlycerate, X3PhosphoGlycerate, X2PhosphoGlycerate, PhosphoEnolPyruvate, Pyruvate}\n"
+ + "pack Cytosol = {}\n"
+ + "# \n"
+ + "# CellMembrane\n"
+ + "pack CellBilayer = {a1, a2}\n"
+ + "pack CellMembrane = {}\n"
+ + "# \n"
+ + "# Cytoplasm\n"
+ + "pack Hexokinase = {p1, p2}\n"
+ + "pack PhosphoGlucoIsomerase = {q1, q2}\n"
+ + "pack PhosphoFructokinase = {r1, r2}\n"
+ + "pack Aldolase = {s1, s2, s3}\n"
+ + "pack TriosePhosphateIsomerase = {t1, t2}\n"
+ + "pack Glyceraldehyde3phosphateDehydrogenase = {u1, u2}\n"
+ + "pack PhosphoGlycerokinase = {v1, v2}\n"
+ + "pack PhosphoGlyceromutase = {w1, w2}\n"
+ + "pack Enolase = {x1, x2}\n"
+ + "pack PyruvateKinase = {y1, y2}\n"
+ + "pack Cytoplasm = {}\n"
+ + "#\n"
+ + "pack ExtraCellularSolution = {}\n"
+ + "# \n"
+ + "pack EukaryoticCell = {}\n"
+ + "pack ExtraCellularSpace = {}\n"
+ + "#\n"
+ + "bindings p1 |-> Glucose\n"
+ + "bindings p2 |-> Glucose6Phosphate\n"
+ + "bindings q1 |-> Glucose6Phosphate\n"
+ + "bindings q2 |-> Fructose6Phosphate\n"
+ + "bindings r1 |-> Fructose6Phosphate\n"
+ + "bindings r2 |-> Fructose1x6Biphosphate\n"
+ + "bindings s1 |-> Fructose1x6Biphosphate\n"
+ + "bindings s2 |-> Glyceraldehyde3Phosphate\n"
+ + "bindings s3 |-> DihydroxyacetonePhosphate\n"
+ + "bindings t1 |-> DihydroxyacetonePhosphate\n"
+ + "bindings t2 |-> Glyceraldehyde3Phosphate\n"
+ + "bindings u1 |-> Glyceraldehyde3Phosphate\n"
+ + "bindings u2 |-> X1x3BisphosphoGlycerate\n"
+ + "bindings v1 |-> X1x3BisphosphoGlycerate\n"
+ + "bindings v2 |-> X3PhosphoGlycerate\n"
+ + "bindings w1 |-> X3PhosphoGlycerate\n"
+ + "bindings w2 |-> X2PhosphoGlycerate\n"
+ + "bindings x1 |-> X2PhosphoGlycerate\n"
+ + "bindings x2 |-> PhosphoEnolPyruvate\n"
+ + "bindings y1 |-> PhosphoEnolPyruvate\n"
+ + "bindings y2 |-> Pyruvate\n"
+ + "bindings a1 |-> Glucose\n"
+ + "bindings a2 |-> GlucoseECS\n"
+ + "#\n"
+ + "morphism comp1: (Glucose, Glucose6Phosphate, Fructose6Phosphate, Fructose1x6Biphosphate, DihydroxyacetonePhosphate, Glyceraldehyde3Phosphate, X1x3BisphosphoGlycerate, X3PhosphoGlycerate, X2PhosphoGlycerate, PhosphoEnolPyruvate, Pyruvate) -> Cytosol\n"
+ + "# \n"
+ + "morphism comp2: (Hexokinase, PhosphoGlucoIsomerase, PhosphoFructokinase, Aldolase, TriosePhosphateIsomerase, Glyceraldehyde3phosphateDehydrogenase, PhosphoGlycerokinase, PhosphoGlyceromutase, Enolase, PyruvateKinase, Cytosol) -> Cytoplasm\n"
+ + "# \n"
+ + "morphism comp3: (CellBilayer) -> CellMembrane\n"
+ + "# \n"
+ + "morphism comp4: (CellMembrane, Cytoplasm) -> EukaryoticCell\n"
+ + "# \n"
+ + "morphism comp5: (GlucoseECS) -> ExtraCellularSolution\n"
+ + "# \n"
+ + "morphism comp: (EukaryoticCell, ExtraCellularSolution) -> ExtraCellularSpace\n"; }
+
+/*
+------------------------------------------------------------------------------ ELEVATOR -------------
+ManyEyes
+--------
+XholonClass	Occurrences
+AnElevatorSystem	1
+CallButton	16
+Dispatcher	1
+Door	2
+DoorControlButton	4
+Elevator	2
+ElevatorPanel	2
+Floor	8
+FloorSelectionButton	16
+Hoist	2
+Indicator	2
+TickGenerator	2
+UserJTree	1
+
+##########################################
+# Elevator - all packs, no cables
+# without the multiplicities in the original Xholon model (2 elevators and 8 floors); I've written these multiplicities as comments for each pack
+# http://www.primordion.com/Xholon/gwt/Xholon.html?app=Elevator&gui=clsc
+# http://www.primordion.com/pub/presentations/KenWebb_Oclug_UmlPresentation_v2.pdf
+pack Door = {} # 2
+pack ElevatorPanel = {} # 2
+pack Hoist = {h0} # 2  Hoist is both an active object and a container
+pack Indicator = {} # 2
+pack TickGenerator = {} # 2
+pack Elevator = {} # 2
+# 
+pack FloorSelectionButton = {s0, s1} # 16
+pack DoorControlButton = {c0, c1} # 4
+pack CallButton = {b0, b1} # 16
+# 
+pack Floor = {} # 8
+# 
+pack UserJTree = {u0, u1, u2} # 1
+pack Dispatcher = {d0, d1, d2} # 1
+pack AnElevatorSystem = {} # 1 # 1
+# 
+bindings s0, c0, b0 |-> UserJTree
+bindings s1, c1, b1 |-> Dispatcher
+bindings u0, d0 |-> FloorSelectionButton
+bindings u1, d1 |-> DoorControlButton
+bindings u2, d2 |-> CallButton
+# 
+morphism floor: (CallButton) -> Floor
+morphism elevatorPanel: (Indicator, DoorControlButton, FloorSelectionButton) -> ElevatorPanel
+morphism hoist: (TickGenerator) -> Hoist
+morphism elevator: (ElevatorPanel, Door, Hoist) -> Elevator
+morphism anElevatorSystem: (UserJTree, Floor, Elevator, Dispatcher) -> AnElevatorSystem
+*/
+
+    else if (v == "Elevator") { return ""
+ + "# Elevator - all packs, no cables\n"
+ + "# without the multiplicities in the original Xholon model (2 elevators and 8 floors); I've written these multiplicities as comments for each pack\n"
+ + "# http://www.primordion.com/Xholon/gwt/Xholon.html?app=Elevator&gui=clsc\n"
+ + "# http://www.primordion.com/pub/presentations/KenWebb_Oclug_UmlPresentation_v2.pdf\n"
+ + "pack Door = {} # 2\n"
+ + "pack ElevatorPanel = {} # 2\n"
+ + "pack Hoist = {h0} # 2  Hoist is both an active object and a container\n"
+ + "pack Indicator = {} # 2\n"
+ + "pack TickGenerator = {} # 2\n"
+ + "pack Elevator = {} # 2\n"
+ + "# \n"
+ + "pack FloorSelectionButton = {s0, s1} # 16\n"
+ + "pack DoorControlButton = {c0, c1} # 4\n"
+ + "pack CallButton = {b0, b1} # 16\n"
+ + "# \n"
+ + "pack Floor = {} # 8\n"
+ + "# \n"
+ + "pack UserJTree = {u0, u1, u2} # 1\n"
+ + "pack Dispatcher = {d0, d1, d2} # 1\n"
+ + "pack AnElevatorSystem = {} # 1 # 1\n"
+ + "# \n"
+ + "bindings s0, c0, b0 |-> UserJTree\n"
+ + "bindings s1, c1, b1 |-> Dispatcher\n"
+ + "bindings u0, d0 |-> FloorSelectionButton\n"
+ + "bindings u1, d1 |-> DoorControlButton\n"
+ + "bindings u2, d2 |-> CallButton\n"
+ + "# \n"
+ + "morphism floor: (CallButton) -> Floor\n"
+ + "morphism elevatorPanel: (Indicator, DoorControlButton, FloorSelectionButton) -> ElevatorPanel\n"
+ + "morphism hoist: (TickGenerator) -> Hoist\n"
+ + "morphism elevator: (ElevatorPanel, Door, Hoist) -> Elevator\n"
+ + "morphism anElevatorSystem: (UserJTree, Floor, Elevator, Dispatcher) -> AnElevatorSystem\n"; }
+
+/*
+# Hypergraph 1
+# https://en.wikipedia.org/wiki/Hypergraph
+# https://en.wikipedia.org/wiki/File:Hypergraph-wikipedia.svg
+cables C = {E1, E2, E3, E4}
+pack V1 = {a1}
+pack V2 = {a2, b2}
+pack V3 = {a3, b3, c3}
+pack V4 = {a4}
+pack V5 = {a5}
+pack V6 = {a6}
+pack V7 = {}
+pack Top = {}
+bindings a1, b2, c3 |-> E1
+bindings a2, a3 |-> E2
+bindings b3, a5, a6 |-> E3
+bindings a4 |-> E4
+morphism comp: (V1, V2, V3, V4, V5, V6, V7) -> Top
+*/
+
+    else if (v == "Hypergraph 1") { return ""
+ + "# Hypergraph 1\n"
+ + "# https://en.wikipedia.org/wiki/Hypergraph\n"
+ + "# https://en.wikipedia.org/wiki/File:Hypergraph-wikipedia.svg\n"
+ + "cables C = {E1, E2, E3, E4}\n"
+ + "pack V1 = {a1}\n"
+ + "pack V2 = {a2, b2}\n"
+ + "pack V3 = {a3, b3, c3}\n"
+ + "pack V4 = {a4}\n"
+ + "pack V5 = {a5}\n"
+ + "pack V6 = {a6}\n"
+ + "pack V7 = {}\n"
+ + "pack Top = {}\n"
+ + "bindings a1, b2, c3 |-> E1\n"
+ + "bindings a2, a3 |-> E2\n"
+ + "bindings b3, a5, a6 |-> E3\n"
+ + "bindings a4 |-> E4\n"
+ + "morphism comp: (V1, V2, V3, V4, V5, V6, V7) -> Top\n"; }
+
     else return "Unable to find " + v + ".";
   };
   
