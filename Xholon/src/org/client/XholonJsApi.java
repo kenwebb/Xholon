@@ -630,6 +630,11 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       }
     });
     
+    // xhType
+    api.xhType = $entry(function() {
+      return this.@org.primordion.xholon.base.IXholon::getXhType()();
+    });
+    
     // print
     api.print = $entry(function(obj) {
       this.@org.primordion.xholon.base.IXholon::print(Ljava/lang/Object;)(obj);
@@ -876,12 +881,40 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
             if (Array.isArray(pval)) {
               // this may be an array of ports
               if (!linkGraph) {continue;}
+              //var ix = 0; // Dec 4, 2017
               for (var i = 0; i < pval.length; i++) {
                 if (pval[i] && $wnd.xh.isXholonNode(pval[i])) {
                   if (node.@org.primordion.xholon.base.IXholon::getPort()() == pval) {
                     // this is the Java built-in "port" array
                     pname = "port";
+                    // Dec 4, 2017
+                    //if (pval[i].xhc() && (pval[i].xhc().name() == "Port")) {
+                    //  // this is a replicated IPort
+                    //  $wnd.console.log("IPort: " + pval[i]);
+                    //  //$wnd.console.log(pval[i].port(0).next().parent().parent());
+                    //  var replIx = 0;
+                    //  while (pval[i].port(replIx)) {
+                    //    var rnode = pval[i].port(replIx).next();
+                    //    if (rnode) {
+                    //      rnode = rnode.parent();
+                    //      if (rnode) {
+                    //        rnode = rnode.parent();
+                    //      }
+                    //    }
+                    //    $wnd.console.log(rnode);
+                    //    if (rnode) {
+                    //      outArr.push(fillLinkObj(pname, ix++, rnode, null));
+                    //    }
+                    //    replIx++;
+                    //  }
+                    //}
+                    //else {
+                    //  outArr.push(fillLinkObj(pname, ix++, pval[i], null));
+                    //}
                   }
+                  //else {
+                  //  outArr.push(fillLinkObj(pname, ix++, pval[i], null));
+                  //}
                   outArr.push(fillLinkObj(pname, i, pval[i], null));
                 }
               }
