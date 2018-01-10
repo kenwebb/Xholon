@@ -66,7 +66,7 @@ public class Animate extends XholonScript {
   /** An XPath expression to get from the app's CSH root node to the animation root node (xhAnimRoot) */
   private String xpath = ".";
   
-  /** The root node of the Xholon subtree that is being animated, in this anination */
+  /** The root node of the Xholon subtree that is being animated, in this animation */
   private IXholon xhAnimRoot = null;
   
   /** Hash value from the previous call to xhAnimRoot.hashify() */
@@ -74,6 +74,9 @@ public class Animate extends XholonScript {
   
   /** Name of the JavaScript .js file that does the tweening */
   private String tweenScript = "xhSvgTween";
+  
+  /** Whether or not the animation is paused. The act() method does nothing if the animate is paused. */
+  private boolean animPaused = false;
   
   /*
    * @see org.primordion.xholon.base.Xholon#postConfigure()
@@ -95,11 +98,13 @@ public class Animate extends XholonScript {
    * @see org.primordion.xholon.base.Xholon#act()
    */
   public void act() {
-    String newHash = xhAnimRoot.hashify(null); // use default hash type
-    if (!hash.equals(newHash)) {
-      xport(formatName, xhAnimRoot, efParams, writeToTab);
-      tween(selection, duration);
-      hash = newHash;
+    if (!animPaused) {
+      String newHash = xhAnimRoot.hashify(null); // use default hash type
+      if (!hash.equals(newHash)) {
+        xport(formatName, xhAnimRoot, efParams, writeToTab);
+        tween(selection, duration);
+        hash = newHash;
+      }
     }
     super.act();
   }
@@ -122,6 +127,69 @@ public class Animate extends XholonScript {
   protected native void style(String cssStyle) /*-{
     $wnd.xh.css.style(cssStyle);
   }-*/;
+  
+	/** An action. Pause the animation. */
+  private static final String pauseAnimation = "Pause animation";
+	/** An action. Unpause the animation. */
+  private static final String unpauseAnimation = "Unpause animation";
+  /** Speed up the animation. */
+  private static final String faster = "Faster";
+  /** Slow down the animation. */
+  private static final String slower = "Slower";
+  
+	/** Action list. */
+  private String[] actions = {pauseAnimation, unpauseAnimation, faster, slower};
+  
+  @Override
+  public String[] getActionList()
+  {
+    return actions;
+  }
+  
+  @Override
+  public void setActionList(String[] actionList)
+  {
+    actions = actionList;
+  }
+  
+  @Override
+  public void doAction(String action) {
+    if (action == null) {return;}
+    if (action.equals(pauseAnimation)) {
+      this.animPaused = true;
+    }
+    else if (action.equals(unpauseAnimation)) {
+      this.animPaused = false;
+    }
+    else if (action.equals(faster)) {
+      faster();
+    }
+    else if (action.equals(slower)) {
+      slower();
+    }
+  }
+  
+  protected void faster() {
+    int tsi = Integer.parseInt(app.getParam("TimeStepInterval"));
+    if (tsi > 1000) {tsi = 1000;}
+    else if (tsi > 100) {tsi = 100;}
+    else if (tsi > 10) {tsi = 10;}
+    else if (tsi > 1) {tsi = 1;}
+    else {tsi = 0;}
+    app.setParam("TimeStepInterval", Integer.toString(tsi));
+  }
+  
+  protected void slower() {
+    int tsi = Integer.parseInt(app.getParam("TimeStepInterval"));
+    if (tsi == 0) {tsi = 1;}
+    else if (tsi < 10) {tsi = 10;}
+    else if (tsi < 100) {tsi = 100;}
+    else if (tsi < 1000) {tsi = 1000;}
+    else if (tsi < 2000) {tsi = 2000;}
+    else if (tsi < 5000) {tsi = 5000;}
+    else if (tsi < 10000) {tsi = 10000;}
+    app.setParam("TimeStepInterval", Integer.toString(tsi));
+  }
   
   /*
    * @see org.primordion.xholon.base.Xholon#setAttributeVal(java.lang.String, java.lang.String)
@@ -150,6 +218,9 @@ public class Animate extends XholonScript {
     }
     else if ("tweenScript".equals(attrName)) {
       this.tweenScript = attrVal;
+    }
+    else if ("animPaused".equals(attrName)) {
+      this.animPaused = Boolean.parseBoolean(attrVal);
     }
     return 0;
   }
