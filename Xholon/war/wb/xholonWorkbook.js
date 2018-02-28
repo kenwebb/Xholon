@@ -53,6 +53,9 @@
    */
   var runsrc = "";
   
+  /** Whether or not a new workbook is a template */
+  var tmplt = false;
+  
   /** Xholon webEdition: CSH rootName (ex: 'PhysicalSystem') */
   //var $cshRootName = 'PhysicalSystem';
   
@@ -823,6 +826,22 @@
     });  
   }
   
+  /**
+   * Toggle whether or not to continuously save changes to localStorage.
+   */
+  function toggleStore() {
+    if (shouldStoreChanges) {
+      console.log("toggling local storage to disabled");
+      shouldStoreChanges = false;
+      $('button.togglelocalstorage').text("Enable local storage");
+    }
+    else {
+      console.log("toggling local storage to enabled");
+      shouldStoreChanges = true;
+      $('button.togglelocalstorage').text("Disable local storage");
+    }
+  }
+  
   // methods
   var methods = {
   
@@ -847,13 +866,37 @@
     modelName = $.trim($('h2.modelname > a').text());
     savegithubButton = $('button.savegithub');
     
-    getDefaultXholonWorkbook("defaultXholonWorkbook.xml");
+    tmplt = getParameterByName("tmplt");
+    if (tmplt) {
+      console.log("template true");
+    }
+    else {
+      console.log("template false");
+    }
+    if (tmplt) {
+      getDefaultXholonWorkbook("defaultXholonTemplate.xml");
+      // prepend "template " to modelName and to HTML Title and to HTML h2
+      modelName = "template " + modelName; // $('h2.modelname > a').text();
+      $('h2.modelname > a').text(modelName);
+      $('head > title').text(modelName);
+    }
+    else {
+      getDefaultXholonWorkbook("defaultXholonWorkbook.xml");
+    }
     
     if (('localStorage' in window) && (window['localStorage'] !== null)) {
       shouldStoreChanges = true;
     }
     else {
       shouldStoreChanges = false;
+    }
+    if (tmplt) {
+      toggleStore(); // by default, template should NOT store to localStorage
+    }
+    else if (modelName.substring(0,9) == "template ") {
+      // this is an existing user template
+      tmplt = true;
+      toggleStore(); // prevent saving a changed template, unless the user later presses the "Enable" button
     }
 
     $('button.savecontent').click(function(event) {
@@ -923,6 +966,12 @@
       selectTheme(this);
     });
     
+    $('button.togglelocalstorage').click(function() {
+      // toggle button text between "Enable" and "Disable"
+      // toggle whether or not to continuously save changes to localStorage.
+      toggleStore();
+    });
+    
     return this;
     // end postConfigure
   },
@@ -940,18 +989,6 @@
    */
   assemble : function() {
     return assembleXmlContent();
-  },
-  
-  /**
-   * Toggle whether or not to continuously save changes to localStorage.
-   */
-  toggleStore : function() {
-    if (shouldStoreChanges) {
-      shouldStoreChanges = false;
-    }
-    else {
-      shouldStoreChanges = true;
-    }
   },
   
   /**
