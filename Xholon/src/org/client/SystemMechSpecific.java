@@ -5,6 +5,7 @@ import org.primordion.xholon.base.AbstractGrid;
 import org.primordion.xholon.base.IXholon;
 //import org.primordion.xholon.base.IXholonClass;
 import org.primordion.xholon.base.Mechanism;
+import org.primordion.xholon.base.IMessage;
 //import org.primordion.xholon.base.OrNode;
 import org.primordion.xholon.base.Patch;
 import org.primordion.xholon.base.PatchOwner;
@@ -40,6 +41,14 @@ public class SystemMechSpecific extends Application {
   @SuppressWarnings("unchecked")
   public IXholon getAppSpecificObjectVal(IXholon node, Class<IXholon> clazz, String attrName) {
     if (node == null) {return null;}
+    else if ("org.primordion.xholon.base.Message".equals(clazz.getName())) {
+      if ("sender".equalsIgnoreCase(attrName)) {
+        return ((org.primordion.xholon.base.IMessage)node).getSender();
+      }
+      if ("receiver".equalsIgnoreCase(attrName)) {
+        return ((org.primordion.xholon.base.IMessage)node).getReceiver();
+      }
+    }
     else if ("org.primordion.xholon.base.OrNode".equals(clazz.getName())) {
       if ("onlyChild".equalsIgnoreCase(attrName)) {
         return ((org.primordion.xholon.base.OrNode)node).getOnlyChild();
@@ -110,6 +119,9 @@ public String getAppSpecificObjectValNames(IXholon node, Class<IXholon> clazz) {
     else if ("org.primordion.xholon.base.Port".equals(clazz.getName())) {
       names = "link,";
     }
+    else if ("org.primordion.xholon.base.Message".equals(clazz.getName())) {
+      names = "sender,receiver,";
+    }
     else if ("org.primordion.xholon.base.StateMachineEntity".equals(clazz.getName())) {
       names = "owningXholon,";
     }
@@ -144,6 +156,16 @@ public String getAppSpecificObjectValNames(IXholon node, Class<IXholon> clazz) {
   @SuppressWarnings("unchecked")
   public boolean setAppSpecificObjectVal(IXholon node, Class<IXholon> clazz, String attrName, IXholon val) {
     if (node == null) {return false;}
+    else if ("org.primordion.xholon.base.Message".equals(clazz.getName())) {
+      if ("sender".equalsIgnoreCase(attrName)) {
+        ((org.primordion.xholon.base.IMessage)node).setSender((IXholon)val);
+        return true;
+      }
+      if ("receiver".equalsIgnoreCase(attrName)) {
+        ((org.primordion.xholon.base.IMessage)node).setReceiver((IXholon)val);
+        return true;
+      }
+    }
     else if ("org.primordion.xholon.base.OrNode".equals(clazz.getName())) {
       if ("onlyChild".equalsIgnoreCase(attrName)) {
         ((org.primordion.xholon.base.OrNode)node).setOnlyChild((IXholon)val);
@@ -218,6 +240,11 @@ public String getAppSpecificObjectValNames(IXholon node, Class<IXholon> clazz) {
   @SuppressWarnings("unchecked")
   public Object getAppSpecificAttribute(IXholon node, Class<IXholon> clazz, String attrName) {
     if (node == null) {return null;}
+    else if ("org.primordion.xholon.base.Message".equals(clazz.getName())) {
+      if ("signal".equalsIgnoreCase(attrName)) {return ((IMessage)node).getSignal();}
+      if ("data".equalsIgnoreCase(attrName)) {return ((IMessage)node).getData();}
+      if ("index".equalsIgnoreCase(attrName)) {return ((IMessage)node).getIndex();}
+    }
     else if ("org.primordion.xholon.base.Turtle".equals(clazz.getName())) {
       if ("Breed".equalsIgnoreCase(attrName)) {return ((Turtle)node).getBreed();}
       if ("Color".equalsIgnoreCase(attrName)) {return ((Turtle)node).getColor();}
@@ -394,6 +421,11 @@ public String getAppSpecificObjectValNames(IXholon node, Class<IXholon> clazz) {
 public void setAppSpecificAttribute(IXholon node, Class<IXholon> clazz, String attrName, Object attrVal) {
     try {
       if (node == null) {return;}
+      else if ("org.primordion.xholon.base.Message".equals(clazz.getName())) {
+        if ("signal".equalsIgnoreCase(attrName)) {((IMessage)node).setSignal(Integer.parseInt((String)attrVal));return;}
+        if ("data".equalsIgnoreCase(attrName)) {((IMessage)node).setData(attrVal);return;}
+        if ("index".equalsIgnoreCase(attrName)) {((IMessage)node).setIndex(Integer.parseInt((String)attrVal));return;}
+      }
       else if ("org.primordion.xholon.base.Turtle".equals(clazz.getName())) {
         if ("Breed".equalsIgnoreCase(attrName)) {((Turtle)node).setBreed(Integer.parseInt((String)attrVal));return;}
         if ("Color".equalsIgnoreCase(attrName)) {((Turtle)node).setTColor(Integer.parseInt((String)attrVal));return;}

@@ -421,6 +421,7 @@ All of these Java classes implement IXholon.
 	<Queue/>
 	<SynchronizedQueue/>
 	<XholonNode/>
+	<Message/>
 </XholonFramework>
 
 

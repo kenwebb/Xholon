@@ -244,6 +244,7 @@
 	
 	<!-- XholonFramework -->
 	<XholonNode xhType="XhtypePureContainer" implName="org.primordion.xholon.base.XholonNode"/>
+	<Message xhType="XhtypePureContainer" implName="org.primordion.xholon.base.Message"/>
 	
 	<!-- XholonService -->
 	<XholonInternalServices xhType="XhtypePurePassiveObject"

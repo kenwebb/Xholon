@@ -22,6 +22,7 @@ import com.google.gwt.core.client.GWT;
 
 //import org.primordion.cellontro.base.BioXholonClass;
 import org.primordion.xholon.base.IMessage;
+import org.primordion.xholon.base.ISignal;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
 import org.primordion.xholon.base.Message;
@@ -423,6 +424,11 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			// Chatbot
 			else if (implName.endsWith("Chatbot")) {
 				newNode = new org.primordion.xholon.base.Chatbot();
+			}
+			
+			// Message
+			else if (implName.endsWith("Message")) {
+				newNode = new org.primordion.xholon.base.Message(ISignal.SIGNAL_DUMMY, null, null, null); // signal -3
 			}
 			
 			else {

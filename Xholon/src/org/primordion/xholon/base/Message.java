@@ -22,6 +22,7 @@ package org.primordion.xholon.base;
 //import java.io.ObjectInputStream;
 //import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import org.primordion.xholon.app.IApplication;
 
 //import org.primordion.xholon.base.transferobject.MessageSenderReceiver;
 
@@ -177,16 +178,30 @@ public class Message extends Xholon implements IMessage, Serializable {
 	 * A JavaScript receiver of a IMessage can call this method to get a JavaScript object with 5 properties.
 	 */
 	public Object getVal_Object() {
-	  return msgAsJso(signal, data, sender, receiver, index);
+	  if (this.getXhc() == null) {
+	    IXholonClass xhctemp = this.findXhc(); //this.getClassNode("Message");
+	    this.setXhc(xhctemp);
+	    this.setId(this.getAppl().getNextId());
+	  }
+	  return msgAsJso(signal, data, sender, receiver, index, this);
 	}
 	
-	protected native Object msgAsJso(int signal, Object data, IXholon sender, IXholon receiver, int index) /*-{
+	protected native IXholonClass findXhc() /*-{
+	  return $wnd.xh.root().xhc().parent().xpath("descendant::Message");
+	}-*/;
+	
+	protected native IApplication getAppl() /*-{
+	  return $wnd.xh.app();
+	}-*/;
+	
+	protected native Object msgAsJso(int signal, Object data, IXholon sender, IXholon receiver, int index, IMessage originalMessage) /*-{
 	  var msg = new Object();
 	  msg.signal   = signal;
 	  msg.data     = data;
 	  msg.sender   = sender;
 	  msg.receiver = receiver;
 	  msg.index    = index;
+	  msg.originalMessage = originalMessage;
 	  return msg;
 	}-*/;
 	
@@ -235,6 +250,26 @@ public class Message extends Xholon implements IMessage, Serializable {
 		receiver = (MessageSenderReceiver)ois.readObject();
 	}*/
 	
+	@Override
+  public int setAttributeVal(String attrName, String attrVal) {
+    if ("signal".equals(attrName)) {
+      this.signal = Integer.parseInt(attrVal);
+    }
+    else if ("data".equals(attrName)) {
+      this.data = attrVal;
+    }
+    else if ("sender".equals(attrName)) {
+      this.sender = this.getXPath().evaluate(attrVal, this);
+    }
+    else if ("receiver".equals(attrName)) {
+      this.receiver = this.getXPath().evaluate(attrVal, this);
+    }
+    else if ("index".equals(attrName)) {
+      this.index = Integer.parseInt(attrVal);
+    }
+    return 0;
+  }
+  
 	/*
 	 * @see java.lang.Object#toString()
 	 */
