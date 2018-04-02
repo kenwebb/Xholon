@@ -229,6 +229,11 @@ public class XholonSet extends Xholon implements Set, Serializable {
 	}
 
 	@Override
+	public double getVal() {
+		return size();
+	}
+
+	@Override
 	public String toString() {
 		return getName() + " size:" + size();
 	}
