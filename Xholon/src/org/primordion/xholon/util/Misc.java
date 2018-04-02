@@ -59,6 +59,9 @@ public class Misc implements IJavaTypes {
 		if (digits.equals("")) {
 			return 0.0;
 		}
+		else if (digits.equals("-")) { // prevent java.lang.NumberFormatException
+			return -0.0;
+		}
 		return Double.parseDouble(digits);
 	}
 	
