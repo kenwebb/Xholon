@@ -93,6 +93,9 @@
   <node xhType="XhtypePureActiveObject" implName="org.primordion.xholon.app.Chameleon.XhChameleon"/>
   <nodes xhType="XhtypePureActiveObject" implName="org.primordion.xholon.app.Chameleon.XhChameleon"/>
 	
+	<!-- Hypergraph -->
+	<Hyperedge xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.hyprg.Hyperedge"/>
+	
 	<!-- NaturalLanguage -->
 	<GoogleNL xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.naturallanguage.GoogleNL"/>
 	

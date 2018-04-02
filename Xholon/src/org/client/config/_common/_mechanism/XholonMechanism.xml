@@ -174,6 +174,12 @@ see notes in my notebook - Oct 3, 2008 +
 </gexf>
 <default superClass="Attribute_Object"/>
 
+<!-- Hypergraph -->
+<HypergraphEntity xmlns="http://www.primordion.com/namespace/Hypergraph" id="1016200">
+  <Hyperedge/>
+  <!-- TODO subclasses of Hyperedge? -->
+</HypergraphEntity>
+
 <!-- Represents Listener nodes. -->
 <Listener xmlns="http://www.primordion.com/namespace/Listener" id="1010300">
 	<ListenerList/> <!-- a list of listeners -->

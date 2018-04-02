@@ -598,6 +598,13 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			}
 		}
 		
+		// mech.hyprg
+		else if (implName.startsWith("org.primordion.xholon.mech.hyprg")) {
+			if (implName.endsWith("Hyperedge")) {
+				newNode = new org.primordion.xholon.mech.hyprg.Hyperedge();
+			}
+		}
+		
 		// script
 		// remember to add the script to the isClassFindable() method as well
 		else if (implName.startsWith("org.primordion.xholon.script")) {
