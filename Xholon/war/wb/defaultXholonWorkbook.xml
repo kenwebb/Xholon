@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Xholon Workbook http://www.primordion.com/Xholon/gwt/ MIT License, Copyright (C) 2013 Ken Webb-->
+<!--Xholon Workbook http://www.primordion.com/Xholon/gwt/ MIT License, Copyright (C) 2013-2018 Ken Webb-->
 <XholonWorkbook>
 
 <Notes><![CDATA[Xholon
@@ -46,6 +46,7 @@ My Notes
   if (console) {
     console.log(c);
   }
+  //# sourceURL=Blockbehavior.js
 ]]></Blockbehavior>
 
 <Heightbehavior implName="org.primordion.xholon.base.Behavior_gwtjs"><![CDATA[
@@ -62,6 +63,7 @@ My Notes
       return "testing:" + testing;
     }
   }
+  //# sourceURL=Heightbehavior.js
 ]]></Heightbehavior>
 
 <Brickbehavior implName="org.primordion.xholon.base.Behavior_gwtjs"><![CDATA[
@@ -75,6 +77,7 @@ My Notes
   $wnd.xh.Brickbehavior.prototype.act = function() {
     this.brick.println("I am a" + this.iam);
   };
+  //# sourceURL=Brickbehavior.js
 ]]></Brickbehavior>
 
 <Brickbehavior implName="org.primordion.xholon.base.Behavior_gwtjs"><![CDATA[

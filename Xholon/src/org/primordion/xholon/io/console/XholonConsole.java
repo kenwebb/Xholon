@@ -910,6 +910,7 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
     .append("    return \"testing:\" + testing;\n")
     .append("  }\n")
     .append("}\n")
+    .append("//# sourceURL=behaviorScript.js\n")
     ;
     
     /*String prefix = "Xing";
@@ -958,6 +959,7 @@ public class XholonConsole extends XholonWithPorts implements IXholonConsole {
     .append(wndXh).append(protoName).append(".prototype.toString = function() {\n")
     .append("  ").append("return \"testing: \" + this.testing;\n")
     .append("};\n\n")
+    .append("//# sourceURL=behaviorScriptProto.js\n")
     ;
     
     setResult(wrapBehaviorScript(sbEx.toString(), "", xhcName), true);
