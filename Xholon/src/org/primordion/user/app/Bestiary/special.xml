@@ -205,6 +205,7 @@ if (licorice) {
 else {
   root.println("Licorice, the black green-eyed cat, has left the Bestiary.");
 }
+//# sourceURL=WhereIsLicorice.js
 </script>
 ]]></Special>
 
@@ -258,6 +259,7 @@ function clearAgents(node) {
 }
 var contextNode = $wnd.xh.root();
 clearAgents(contextNode);
+//# sourceURL=ClearAgents.js
 ]]&gt;</script>
 ]]></Special>
 
@@ -316,6 +318,7 @@ while (row) {
   y += height;
 }
 ctx.globalAlpha = 1.0;
+//# sourceURL=ColorGridValues.js
 </script>
 ]]></Special>
 
@@ -363,9 +366,11 @@ var beh = {
       if (moveX != 0) {
         destination = destination.port(portX);
       }
+      if (destination == null) {return;}
       if (moveY != 0) {
         destination = destination.port(portY);
       }
+      if (destination == null) {return;}
       var artifact = destination.first();
       if (artifact) {
           switch (artifact.xhc().id()) {
@@ -393,7 +398,7 @@ var beh = {
     return false;
   }
 }
-
+//# sourceURL=MovingDogbehavior.js
 ]]&gt;</MovingDogbehavior>
 </Dog>
 ]]></Special>
@@ -417,6 +422,7 @@ var beh = {
 
     move: function() {
       var destination = zombie.parent().port(direction);
+      if (destination == null) {return;}
       zombie.remove().appendTo(destination);
     },
 
@@ -430,6 +436,7 @@ var beh = {
       console.log(c);
     }
   }
+  //# sourceURL=MovingZombiebehavior.js
   ]]&gt;</MovingZombiebehavior>
 </Zombie>
 ]]></Special>
@@ -478,9 +485,11 @@ var beh = {
       if (moveX != 0) {
         destination = destination.port(portX);
       }
+      if (destination == null) {return;}
       if (moveY != 0) {
         destination = destination.port(portY);
       }
+      if (destination == null) {return;}
       var artifact = destination.first();
       if (artifact) {
           switch (artifact.xhc().id()) {
@@ -507,7 +516,7 @@ var beh = {
     return false;
   }
 }
-
+//# sourceURL=MovingTermitebehavior.js
 ]]&gt;</MovingTermitebehavior>
 
 <EatWoodTermitebehavior implName="org.primordion.xholon.base.Behavior_gwtjs">&lt;![CDATA[
@@ -546,7 +555,7 @@ var beh = {
   }
 
 }
-
+//# sourceURL=EatWoodTermitebehavior.js
 ]]&gt;</EatWoodTermitebehavior>
 </Termite>
 ]]></Special>
@@ -588,8 +597,85 @@ var beh = {
     }
   }
 }
-
+//# sourceURL=ScareCatToDeathDogbehavior.js
 ]]&gt;</ScareCatToDeathDogbehavior>
+]]></Special>
+
+<Special action="Materialize Avatar" xhc="XholonClass"><![CDATA[
+<script>&lt;![CDATA[
+var ava = $wnd.xh.avatar();
+ava.action("appear;enter grid;enter row;enter habitatCell;");
+]]&gt;</script>
+]]></Special>
+
+<Special action="Avatar Help" xhc="XholonClass"><![CDATA[
+Move Avatar: use number keys from 0 to 7
+    0
+  7   4
+3       1
+  6   5
+    2
+]]></Special>
+
+<Special action="Avatar Build and Go" xhc="XholonClass"><![CDATA[
+<script>&lt;![CDATA[
+var ava = $wnd.xh.avatar();
+// build WallSection | Door | Porch | Entrance | HouseInteriorSection
+ava.action("build WallSection;go 1;");
+//# sourceURL=BuildAndGo.js
+]]&gt;</script>
+]]></Special>
+
+<Special action="Avatar Build Enclosure" xhc="XholonClass"><![CDATA[
+<script>&lt;![CDATA[
+// build an enclosure
+var ava = $wnd.xh.avatar();
+var width = 10;
+var height = 10;
+var material = "WallSection"; // WallSection | Door | Porch | Entrance | HouseInteriorSection
+var index;
+var actn = "build " + material + ";go 1;";
+for (index = 0; index < width; index++) {
+  ava.action(actn);
+}
+actn = "build " + material + ";go 2;";
+for (index = 0; index < height; index++) {
+  ava.action(actn);
+}
+actn = "build " + material + ";go 3;";
+for (index = 0; index < width; index++) {
+  ava.action(actn);
+}
+actn = "build " + material + ";go 0;";
+for (index = 0; index < height; index++) {
+  ava.action(actn);
+}
+//# sourceURL=BuildEnclosure.js
+]]&gt;</script>
+]]></Special>
+
+<Special action="Avatar Toggle Go and Build+Go" xhc="XholonClass"><![CDATA[
+<script>&lt;![CDATA[
+var akm = $wnd.JSON.parse($wnd.xh.avatarKeyMap());
+var zero = akm[0];
+var buildStr = "build WallSection;";
+var buildStrLen = buildStr.length;
+var goStr = "go link0";
+if (zero.length > goStr.length) {
+  // remove the previously added buildStr
+  for (var i = 0; i <= 7; i++) {
+    akm[i] = akm[i].substring(buildStrLen);
+  }
+}
+else {
+  // prepend buildStr
+  for (var i = 0; i <= 7; i++) {
+    akm[i] = buildStr + akm[i];
+  }
+}
+$wnd.xh.avatarKeyMap($wnd.JSON.stringify(akm));
+//# sourceURL=ToggleGo_BuildGo.js
+]]&gt;</script>
 ]]></Special>
 
 </Specials>
