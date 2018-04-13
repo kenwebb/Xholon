@@ -3,6 +3,7 @@ package org.primordion.user.app.Bestiary;
 import org.primordion.xholon.base.AbstractGrid;
 import org.primordion.xholon.base.IGrid;
 import org.primordion.xholon.base.IXholon;
+import org.primordion.xholon.util.ClassHelper;
 import org.primordion.xholon.util.MiscRandom;
 
 /**
@@ -41,6 +42,9 @@ public abstract class MovingBeastBehavior extends BeastBehavior {
 	 */
 	protected void move()
 	{
+		if (!ClassHelper.isAssignableFrom(AbstractGrid.class, getBeast().getParentNode().getClass())) {
+			return; // prevent java.lang.ClassCastException if the beast is no longer directly part of the Grid
+		}
 		// get a randomly chosen grid location within +/-n cells of current location, in both X and Y directions
 		boolean foundNewLocation = false;
 		int count = 0;
