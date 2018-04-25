@@ -1214,8 +1214,27 @@ xh.xhcReplacementNames = {Hexokinase: "Enzyme", PhosphoGlucoIsomerase: "Enzyme",
 	 * @see org.primordion.xholon.base.IXholon#getAnnotation()
 	 */
 	public String getAnnotation() {
-	  if (decoration == null) {return null;}
-		return decoration.getAnno();
+		boolean rc = false;
+		XholonClass iXhc = this;
+		while (!iXhc.isRootNode() && (rc == false)) {
+	    if (iXhc.decoration == null) {
+			  rc = false;
+		  }
+		  else {
+		    rc = iXhc.decoration.hasAnno();
+		    if (rc) {
+		      break;
+		    }
+		  }
+		  if ("true".equals(this.getApp().getParam("AnnoUseXholonSuperclassValue"))) {
+		    iXhc = (XholonClass)iXhc.getParentNode();
+		  }
+		  else {
+		    break;
+		  }
+		}
+		if (iXhc.decoration == null) {return null;}
+		return iXhc.decoration.getAnno();
 	}
 	public String getAnno() {return this.getAnnotation();}
 	
@@ -1234,8 +1253,26 @@ xh.xhcReplacementNames = {Hexokinase: "Enzyme", PhosphoGlucoIsomerase: "Enzyme",
 	 * @see org.primordion.xholon.base.IXholon#hasAnnotation()
 	 */
 	public boolean hasAnnotation() {
-	  if (decoration == null) {return false;}
-	  return decoration.hasAnno();
+		boolean rc = false;
+		XholonClass iXhc = this;
+		while (!iXhc.isRootNode() && (rc == false)) {
+	    if (iXhc.decoration == null) {
+			  rc = false;
+		  }
+		  else {
+		    rc = iXhc.decoration.hasAnno();
+		    if (rc) {
+		      break;
+		    }
+		  }
+		  if ("true".equals(this.getApp().getParam("AnnoUseXholonSuperclassValue"))) {
+		    iXhc = (XholonClass)iXhc.getParentNode();
+		  }
+		  else {
+		    break;
+		  }
+		}
+	  return rc;
 	}
 	public boolean hasAnno() {return this.hasAnnotation();}
 	
@@ -1243,8 +1280,30 @@ xh.xhcReplacementNames = {Hexokinase: "Enzyme", PhosphoGlucoIsomerase: "Enzyme",
 	 * @see org.primordion.xholon.base.IXholon#showAnnotation()
 	 */
 	public void showAnnotation() {
-	  if (decoration == null) {return;}
-	  decoration.showAnno();
+		//XholonClass iXhc = this;
+	  //if (iXhc.decoration == null) {return;}
+	  //iXhc.decoration.showAnno();
+		boolean rc = false;
+		XholonClass iXhc = this;
+		while (!iXhc.isRootNode() && (rc == false)) {
+	    if (iXhc.decoration == null) {
+			  rc = false;
+		  }
+		  else {
+		    rc = iXhc.decoration.hasAnno();
+		    if (rc) {
+		      break;
+		    }
+		  }
+		  if ("true".equals(this.getApp().getParam("AnnoUseXholonSuperclassValue"))) {
+		    iXhc = (XholonClass)iXhc.getParentNode();
+		  }
+		  else {
+		    break;
+		  }
+		}
+		if (iXhc.decoration == null) {return;}
+		iXhc.decoration.showAnno();
 	}
 	public void showAnno() {this.showAnnotation();}
 	

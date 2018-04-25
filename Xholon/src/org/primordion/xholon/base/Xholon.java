@@ -2870,7 +2870,13 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 		if (ann != null) {
 			return ann.getVal_String();
 		}
-		return null;
+		//return null;
+		if ("true".equals(this.getApp().getParam("AnnoUseXholonClassValue"))) {
+			return this.xhc.getAnnotation();
+		}
+		else {
+			return null;
+		}
 	}
 	public String getAnno() {return this.getAnnotation();}
 	
@@ -2884,10 +2890,17 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 		if (((XholonDirectoryService)service).get(Annotation.makeUniqueKey(this)) != null) {
 			return true;
 		}
-		if (findFirstChildWithXhClass(CeAnnotation.AnnotationCE) == null) {
+		if (findFirstChildWithXhClass(CeAnnotation.AnnotationCE) != null) {
+			//return false;
+			return true;
+		}
+		//return true;
+		if ("true".equals(this.getApp().getParam("AnnoUseXholonClassValue"))) {
+			return this.xhc.hasAnnotation();
+		}
+		else {
 			return false;
 		}
-		return true;
 	}
 	public boolean hasAnno() {return this.hasAnnotation();}
 	
@@ -2904,6 +2917,9 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 		}
 		if (ann != null) {
 			ann.showAnnotation();
+		}
+		else if ("true".equals(this.getApp().getParam("AnnoUseXholonClassValue"))) {
+			this.xhc.showAnnotation();
 		}
 	}
 	public void showAnno() {this.showAnnotation();}

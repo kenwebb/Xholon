@@ -196,7 +196,7 @@ public class Decoration implements IDecoration, Serializable {
 	 * @see org.primordion.xholon.base.IDecoration#getAnno()
 	 */
 	public String getAnno() {
-		return anno.getVal_String();
+		return this.anno.getVal_String();
 	}
 
 	/*
@@ -210,7 +210,7 @@ public class Decoration implements IDecoration, Serializable {
 	 * @see org.primordion.xholon.base.IDecoration#hasAnno()
 	 */
 	public boolean hasAnno() {
-	  if (anno == null) {return false;}
+	  if (this.anno == null) {return false;}
 		return true;
 	}
 	
@@ -218,7 +218,9 @@ public class Decoration implements IDecoration, Serializable {
 	 * @see org.primordion.xholon.base.IDecoration#showAnno()
 	 */
 	public void showAnno() {
-		anno.showAnnotation();
+		if (this.anno != null) {
+			this.anno.showAnnotation();
+		}
 	}
 	
 	/*

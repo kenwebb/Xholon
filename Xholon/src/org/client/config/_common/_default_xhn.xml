@@ -192,4 +192,10 @@
 	<!-- Used by XholonGwtTabPanelHelper.java, to set the number of rows in a tab in the Gui -->
 	<param name="TabsTextareaRows" value="8"/>
 	
+	<!-- Whether or not to use a possible value in an instance node's XholonClass, when searching for an Annotation -->
+	<param name="AnnoUseXholonClassValue" value="false"/>
+	
+	<!-- Whether or not to try the XholonClass inheritance hierarchy, when searching for an Annotation -->
+	<param name="AnnoUseXholonSuperclassValue" value="false"/>
+	
 </params>
