@@ -1,0 +1,121 @@
+/* 
+ * Shortkeys:
+ *	Ctrl+Space	- content assist
+ * 	F3			- open declaration of selected element
+ *	Alt+S 		- open structure diagram
+ *  Alt+B 		- open behavior diagram
+ *  Alt+M 		- open textual editor (in diagrams)
+ */
+RoomModel TemplateModel {
+
+	import room.basic.types.* from "../../org.eclipse.etrice.modellib.java/model/Types.room"
+	import room.basic.service.timing.* from "../../org.eclipse.etrice.modellib.java/model/TimingService.room"
+
+	LogicalSystem LogSys {
+		SubSystemRef subSystemRef: SubSysClass
+	}
+
+	SubSystemClass SubSysClass {
+		ActorRef topActor: Recipe
+		ActorRef timingService: ATimingService
+		LayerConnection ref topActor satisfied_by timingService.timer
+		LogicalThread defaultThread
+	}
+
+	ActorClass Recipe {
+	  Interface {
+	    Port left1: EdibleProtocol
+      Port left2: EdibleProtocol
+      Port left3: EdibleProtocol
+      Port left4: EdibleProtocol
+      conjugated Port right1: EdibleProtocol
+	  }
+		Structure {
+			ActorRef CrackEgg [2]: Generator12
+      ActorRef Whisk: Generator21
+      ActorRef Beat: Generator31
+      ActorRef Stir: Generator21
+      ActorRef Fold: Generator21
+      Binding left1 and CrackEgg.left1
+      Binding left2 and CrackEgg.left1
+      Binding left3 and Beat.left3
+      Binding CrackEgg.right1 and Whisk.left1
+      Binding CrackEgg.right1 and Beat.left1
+      Binding CrackEgg.right2 and Whisk.left2
+      Binding CrackEgg.right2 and Beat.left2
+      Binding Beat.right1 and Stir.left1
+      Binding Whisk.right1 and Fold.left1
+      Binding Stir.right1 and Fold.left2
+      Binding Fold.right1 and right1
+      Binding left4 and Stir.left2
+    }
+		Behavior {
+			StateMachine {
+				Transition init: initial -> helloState
+				State helloState {
+					entry {
+						"System.out.println(\"### Hello World! ###\");"
+					}
+				}
+			}
+		}
+	}
+	
+	/* Generator with one input port (one dangling wire on the left) and two output ports (two dangling wires on the right)
+	 * ex: Crack Egg
+	 * There are several possible schemes for naming the ports:
+	 * left1 right1 right2 (dangling wires on the lefft and dangling wires on the right) OR
+	 * in1 out1 out2 (inputs on the left and outputs on the right) OR
+	 * hole1 stud1 stud2 (Lego)
+	*/
+	ActorClass Generator12 {
+	  Interface {
+	    Port left1: EdibleProtocol
+	    conjugated Port right1: EdibleProtocol
+      conjugated Port right2: EdibleProtocol
+	  }
+	  Structure {
+	    external Port left1
+      external Port right1
+      external Port right2
+	  }
+	  Behavior {}
+	}
+	
+  ActorClass Generator21 {
+    Interface {
+      Port left1: EdibleProtocol
+      Port left2: EdibleProtocol
+      conjugated Port right1: EdibleProtocol
+    }
+    Structure {
+      external Port left1
+      external Port left2
+      external Port right1
+    }
+    Behavior {}
+  }
+  
+  ActorClass Generator31 {
+    Interface {
+      Port left1: EdibleProtocol
+      Port left2: EdibleProtocol
+      Port left3: EdibleProtocol
+      conjugated Port right1: EdibleProtocol
+    }
+    Structure {
+      external Port left1
+      external Port left2
+      external Port left3
+      external Port right1
+    }
+    Behavior {}
+  }
+  
+	ProtocolClass EdibleProtocol {
+	  incoming {
+	    Message edible()
+	  }
+	}
+
+}
