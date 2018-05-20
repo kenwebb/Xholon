@@ -201,6 +201,9 @@ public abstract class Application extends AbstractApplication implements IApplic
 	/** Whether or not to call view.act() each timeStep. */
 	protected boolean shouldStepView = false;
 	
+	/** Whether or not to call avatar.act() each timeStep. */
+	protected boolean shouldStepAvatar = false;
+	
 	/** @deprecated Whether to use the default tree viewer. */
 	// protected boolean useDefaultViewer = true;
 	
@@ -650,6 +653,10 @@ public abstract class Application extends AbstractApplication implements IApplic
 		this.shouldStepView = shouldStepView;
 	}
 
+	public void setShouldStepAvatar(boolean shouldStepAvatar) {
+		this.shouldStepAvatar = shouldStepAvatar;
+	}
+
 	/** @param useGraphicalTreeViewer The useGraphicalTreeViewer to set. */
 	public void setUseGraphicalTreeViewer(boolean useGraphicalTreeViewer)
 		{this.useGraphicalTreeViewer = useGraphicalTreeViewer;}
@@ -997,6 +1004,10 @@ public abstract class Application extends AbstractApplication implements IApplic
 	 */
 	public boolean isShouldStepView() {
 		return shouldStepView;
+	}
+
+	public boolean isShouldStepAvatar() {
+		return shouldStepAvatar;
 	}
 
 	/** @return Returns the useGraphicalTreeViewer. */
@@ -2505,6 +2516,9 @@ public abstract class Application extends AbstractApplication implements IApplic
 		root.postAct();
 		if (shouldStepView) {
 			view.act();
+		}
+		if (shouldStepAvatar) {
+			avatar.act();
 		}
 		if (timeStepInterval > 0) {
 			//XholonTime.sleep( timeStepInterval );  // GWT ant build

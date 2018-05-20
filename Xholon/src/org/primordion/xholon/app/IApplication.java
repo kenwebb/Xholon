@@ -473,6 +473,9 @@ public interface IApplication extends IXholon {
 	 */
 	public abstract void setShouldStepView(boolean shouldStepView);
 	
+	public abstract boolean isShouldStepAvatar();
+	public abstract void setShouldStepAvatar(boolean shouldStepAvatar);
+	
 	/**
 	 * Get script parameters, for use by ScriptService.
 	 * @return A comma-separated String with one or more param values.

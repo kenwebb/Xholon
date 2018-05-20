@@ -88,6 +88,9 @@ public class AppChameleon extends Application {
 		if (shouldStepView) {
 			view.act();
 		}
+		if (shouldStepAvatar) {
+			avatar.act();
+		}
 		root.postAct();
 		XholonTime.sleep( getTimeStepInterval() );
 		if (getUseGridViewer()) {

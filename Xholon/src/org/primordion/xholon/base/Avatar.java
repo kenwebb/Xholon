@@ -598,7 +598,14 @@ public class Avatar extends AbstractAvatar {
         }
         else if (contextNode != follower.getParentNode()) {
           follower.removeChild();
-          follower.appendChild(this.getParentNode());
+          if (this.hasParentNode()) {
+            // the avatar is visible
+            follower.appendChild(this.getParentNode());
+          }
+          else {
+            // the avatar is invisible, and has no parent in the CSH
+            follower.appendChild(contextNode);
+          }
           // TODO if follower is an Avatar, then change it's contextNode
            // handled by local appendChild(...)
         }
@@ -3112,6 +3119,18 @@ xport hello _other,Newick,true,true,true,{}
       switch (value) {
       case "true": takenotes = true; break;
       case "false": takenotes = false; break;
+      default: break;
+      }
+      break;
+    case "shouldstep":
+      /* whether or not the system Avatar's act() method should be called each time step, if it's invisible
+       * example: (Story Template - system avatar - stay invisible, go inside Home, lead book Last..., move to School)
+       * var ava = xh.avatar();
+       * ava.action("param shouldstep true;enter;enter city;enter home;lead Last;next school;");
+       */
+      switch (value) {
+      case "true": app.setShouldStepAvatar(true); break;
+      case "false": app.setShouldStepAvatar(false); break;
       default: break;
       }
       break;
