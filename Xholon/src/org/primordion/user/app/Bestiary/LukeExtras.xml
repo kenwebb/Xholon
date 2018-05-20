@@ -1,0 +1,146 @@
+<LukeExtras>
+
+<!-- template -->
+<BestiaryPattern x="10" y="10"></BestiaryPattern>
+
+<!-- Cat Maze -->
+<BestiaryPattern x="10" y="10">
+WWWWWWWWW
+        W
+WWWWWWW W
+        W
+WWWWWWWWW
+
+</BestiaryPattern>
+
+<!-- Large Enclosure -->
+<BestiaryPattern x="10" y="10">
+WWWWWWWWWW
+W________W
+W________W
+W________W
+W________W
+W________W
+W________W
+W________W
+W________W
+WWWWWWWWWW
+</BestiaryPattern>
+
+<!-- http://ascii.co.uk/art/maze -->
+<BestiaryPattern x="10" y="10"> <!-- the original -->
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa   a
+8   8               8               8           8                   8   8
+8   8   aaaaaaaaa   8   aaaaa   aaaa8aaaa   aaaa8   aaaaa   aaaaa   8   8
+8               8       8   8           8           8   8   8       8   8
+8aaaaaaaa   a   8aaaaaaa8   8aaaaaaaa   8aaaa   a   8   8   8aaaaaaa8   8
+8       8   8               8           8   8   8   8   8           8   8
+8   a   8aaa8aaaaaaaa   a   8   aaaaaaaa8   8aaa8   8   8aaaaaaaa   8   8
+8   8               8   8   8       8           8           8       8   8
+8   8aaaaaaaaaaaa   8aaa8   8aaaa   8   aaaaa   8aaaaaaaa   8   aaaa8   8
+8           8       8   8       8   8       8           8   8           8
+8   aaaaa   8aaaa   8   8aaaa   8   8aaaaaaa8   a   a   8   8aaaaaaaaaaa8
+8       8       8   8   8       8       8       8   8   8       8       8
+8aaaaaaa8aaaa   8   8   8   aaaa8aaaa   8   aaaa8   8   8aaaa   8aaaa   8
+8           8   8           8       8   8       8   8       8           8
+8   aaaaa   8   8aaaaaaaa   8aaaa   8   8aaaa   8aaa8   aaaa8aaaaaaaa   8
+8   8       8           8           8       8   8   8               8   8
+8   8   aaaa8aaaa   a   8aaaa   aaaa8aaaa   8   8   8aaaaaaaaaaaa   8   8
+8   8           8   8   8   8   8           8               8   8       8
+8   8aaaaaaaa   8   8   8   8aaa8   8aaaaaaa8   aaaaaaaaa   8   8aaaaaaa8
+8   8       8   8   8           8           8   8       8               8
+8   8   aaaa8   8aaa8   aaaaa   8aaaaaaaa   8aaa8   a   8aaaaaaaa   a   8
+8   8                   8           8               8               8   8
+8   8aaaaaaaaaaaaaaaaaaa8aaaaaaaaaaa8aaaaaaaaaaaaaaa8aaaaaaaaaaaaaaa8aaa8
+</BestiaryPattern>
+
+<BestiaryPattern x="10" y="10">
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW___W
+W___W_______________W_______________W___________W___________________W___W
+W___W___WWWWWWWWW___W___WWWWW___WWWWWWWWW___WWWWW___WWWWW___WWWWW___W___W
+W_______________W_______W___W___________W___________W___W___W_______W___W
+WWWWWWWWW___W___WWWWWWWWW___WWWWWWWWW___WWWWW___W___W___W___WWWWWWWWW___W
+W_______W___W_______________W___________W___W___W___W___W___________W___W
+W___W___WWWWWWWWWWWWW___W___W___WWWWWWWWW___WWWWW___W___WWWWWWWWW___W___W
+W___W_______________W___W___W_______W___________W___________W_______W___W
+W___WWWWWWWWWWWWW___WWWWW___WWWWW___W___WWWWW___WWWWWWWWW___W___WWWWW___W
+W___________W_______W___W_______W___W_______W___________W___W___________W
+W___WWWWW___WWWWW___W___WWWWW___W___WWWWWWWWW___W___W___W___WWWWWWWWWWWWW
+W_______W_______W___W___W_______W_______W_______W___W___W_______W_______W
+WWWWWWWWWWWWW___W___W___W___WWWWWWWWW___W___WWWWW___W___WWWWW___WWWWW___W
+W___________W___W___________W_______W___W_______W___W_______W___________W
+W___WWWWW___W___WWWWWWWWW___WWWWW___W___WWWWW___WWWWW___WWWWWWWWWWWWW___W
+W___W_______W___________W___________W_______W___W___W_______________W___W
+W___W___WWWWWWWWW___W___WWWWW___WWWWWWWWW___W___W___WWWWWWWWWWWWW___W___W
+W___W___________W___W___W___W___W___________W_______________W___W_______W
+W___WWWWWWWWW___W___W___W___WWWWW___WWWWWWWWW___WWWWWWWWW___W___WWWWWWWWW
+W___W_______W___W___W___________W___________W___W_______W_______________W
+W___W___WWWWW___WWWWW___WWWWW___WWWWWWWWW___WWWWW___W___WWWWWWWWW___W___W
+W___W___________________W___________W_______________W_______________W___W
+W___WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+</BestiaryPattern>
+
+<BestiaryPattern x="10" y="10">
+W_WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW___________________W
+W__________________________________________________________________________________________W
+W__________________________________________________________________________________________W
+W__________________________________________________________________________________________W
+W__WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+W__________________________________________________________________________________________W
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW_
+</BestiaryPattern>
+
+<!-- NO -->
+<Avatar roleName="Ken">
+  <Attribute_String><![CDATA[
+script;
+take;next;
+take;next;
+take;next;
+take;next;
+take;next;
+take;next;
+take;next;
+take;next;
+take;next;
+take;next;
+  ]]></Attribute_String>
+</Avatar>
+
+<!-- NO -->
+<Avatar roleName="Harry" start="World" startPos="append">
+  <Attribute_String><![CDATA[
+    build School role Hogwarts;
+    enter Hogwarts;
+    look;
+  ]]></Attribute_String>
+</Avatar>
+
+<!-- NO -->
+<Avatar roleName="Ken">
+<script>
+var a = this.parent();
+a.action("script;\ntake;next;\ntake;next;\ntake;next;\ntake;next;\ntake;next;\n");
+</script>
+</Avatar>
+
+// Dev Tools script
+var ava = xh.avatar();
+ava.action("appear;enter grid;enter row;enter habitatCell;go 5;go 5;go 5;go 5;go 5;go 5;go 5;go 5;go 5;go 5;");
+
+//ava.action("script;\ntake;next;\ntake;next;\ntake;next;\ntake;next;\ntake;next;\n"); // NO
+ava.action("take;next;");
+
+<!-- drag this in once -->
+<script>
+var ava = $wnd.xh.avatar();
+ava.action("appear;enter grid;enter row;enter habitatCell;go 5;go 5;go 5;go 5;go 5;go 5;go 5;go 5;go 5;go 5;");
+</script>
+
+<!-- drag this in multiple times -->
+<script>
+var ava = $wnd.xh.avatar();
+ava.action("take;next;");
+</script>
+
+</LukeExtras>
