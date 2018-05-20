@@ -286,5 +286,15 @@ public class XmlGwtDomReader extends XmlReader {
 		default: return false;
 		}
 	}
+	
+	@Override
+	public String toString() {
+	  if (currentNode == null) {return null;}
+	  return this.toStringNative(currentNode);
+	}
+	
+	protected native String toStringNative(Node currentNode) /*-{
+	  return currentNode.toString();
+	}-*/;
 
 }
