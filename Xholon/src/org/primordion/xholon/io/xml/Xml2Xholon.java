@@ -181,6 +181,10 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 					else if ("XholonWorkbook".equals(tagName)) {
 						return new XholonWorkbook().xml2Xh(app, xmlReader.getUnderlyingReader());
 					}
+					else if ("parsererror".equals(tagName)) {
+					  this.consoleLog("parsererror in CSH (Xml2Xholon.java)");
+					  this.consoleLog(xmlReader.toString());
+					}
 					else if ("RoomModel".equals(tagName)) {
 						this.useDefaultContent = true;
 						currentXholon = parentXholon; // ???

@@ -134,6 +134,10 @@ public class Xml2XholonClass extends AbstractXml2Xholon_gwt implements IXml2Xhol
 					else if ("XholonWorkbook".equals(tagName)) {
 						//return new XholonWorkbook().xml2Xh(app, xmlReader.getUnderlyingReader()); // GWT
 					}
+					else if ("parsererror".equals(tagName)) {
+					  this.consoleLog("parsererror in IH (Xml2XholonClass.java)");
+					  this.consoleLog(xmlReader.toString());
+					}
 					else { // regular elements including Attribute_ nodes
 						currentXhClass = newXholon(tagName, parentXholon, xmlReader);
 						int attrCount = xmlReader.getAttributeCount();
