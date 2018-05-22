@@ -1,0 +1,364 @@
+/* 
+ * Shortkeys:
+ *  Ctrl+Space  - content assist
+ *  F3      - open declaration of selected element
+ *  Alt+S     - open structure diagram
+ *  Alt+B     - open behavior diagram
+ *  Alt+M     - open textual editor (in diagrams)
+ * 
+ * References:
+ * (1) GLA blog, Pawel Sobocinski
+ * (2) GLA QPL '15 Tutorial, Pawel Sobocinski
+ */
+RoomModel TemplateModel {
+
+  import room.basic.types.* from "../../org.eclipse.etrice.modellib.java/model/Types.room"
+  import room.basic.service.timing.* from "../../org.eclipse.etrice.modellib.java/model/TimingService.room"
+
+  LogicalSystem LogSys {
+    SubSystemRef subSystemRef: SubSysClass
+  }
+
+  SubSystemClass SubSysClass {
+    ActorRef topActor: CheatSheet
+    ActorRef timingService: ATimingService
+    LayerConnection ref topActor satisfied_by timingService.timer
+    LogicalThread defaultThread
+  }
+
+  ActorClass CheatSheet {
+    Structure {
+      conjugated Port test0: GlaProtocol
+      Port test1: GlaProtocol
+      conjugated Port test2: GlaProtocol
+      conjugated Port test3: GlaProtocol
+      Port test4: GlaProtocol
+      Port test5: GlaProtocol
+      ActorRef id: Identity
+      ActorRef twist: Twist
+      ActorRef copyTest: CopyTest
+      ActorRef copyCoAssocTest: CopyCoAssocTest
+      Binding test0 and id.left1
+      Binding id.right1 and test1
+      Binding test2 and twist.left1
+      Binding test3 and twist.left2
+      Binding twist.right1 and test4
+      Binding twist.right2 and test5
+    }
+    Behavior {
+      StateMachine {
+        Transition init: initial -> helloState {
+          action {
+            "System.out.println(\"### Hello World! ###\");"
+            "test0.glasig(101);"
+            "test2.glasig(102);"
+            "test3.glasig(103);"
+          }
+        }
+        State helloState
+      }
+    }
+  }
+  
+  /*
+   * ex: copy to null
+   */
+  ActorClass Generator10 {
+    Interface {
+      Port left1: GlaProtocol
+    }
+    Structure {
+      external Port left1
+    }
+    Behavior {}
+  }
+  
+  /* Generator with one input port (one dangling wire on the left) and two output ports (two dangling wires on the right)
+   * ex: Crack Egg
+   * There are several possible schemes for naming the ports:
+   * left1 right1 right2 (dangling wires on the lefft and dangling wires on the right) OR
+   * in1 out1 out2 (inputs on the left and outputs on the right) OR
+   * hole1 stud1 stud2 (Lego)
+  */
+  ActorClass Generator12 {
+    Interface {
+      Port left1: GlaProtocol
+      conjugated Port right1: GlaProtocol
+      conjugated Port right2: GlaProtocol
+    }
+    Structure {
+      external Port left1
+      external Port right1
+      external Port right2
+    }
+    Behavior {}
+  }
+  
+  // ex: Addition
+  ActorClass Generator21 {
+    Interface {
+      Port left1: GlaProtocol
+      Port left2: GlaProtocol
+      conjugated Port right1: GlaProtocol
+    }
+    Structure {
+      external Port left1
+      external Port left2
+      external Port right1
+    }
+    Behavior {}
+  }
+  
+  ActorClass Generator31 {
+    Interface {
+      Port left1: GlaProtocol
+      Port left2: GlaProtocol
+      Port left3: GlaProtocol
+      conjugated Port right1: GlaProtocol
+    }
+    Structure {
+      external Port left1
+      external Port left2
+      external Port left3
+      external Port right1
+    }
+    Behavior {}
+  }
+  
+  /*
+   * Identity is a basic tile [2 Symmetric monoidal theories]
+   */
+  ActorClass Identity {
+    Interface {
+      Port left1: GlaProtocol
+      conjugated Port right1: GlaProtocol
+    }
+    Structure {
+      external Port left1
+      external Port right1
+    }
+    Behavior {
+      StateMachine {
+        Transition init: initial -> ready
+        Transition tr0: ready -> ready {
+          triggers {
+            <glasig: left1>
+          }
+          action {
+            "System.out.println(\"Identity received a Message on \" + left1 + \" with data \" + data);"
+            "right1.glasig(data);"
+          }
+        }
+        State ready
+      }
+    }
+  }
+  
+  /*
+   * Twist is a basic tile [2 Symmetric monoidal theories]
+   */
+  ActorClass Twist {
+    Interface{
+      Port left1: GlaProtocol
+      Port left2: GlaProtocol
+      conjugated Port right1: GlaProtocol
+      conjugated Port right2: GlaProtocol
+    }
+    Structure {
+      external Port left1
+      external Port left2
+      external Port right1
+      external Port right2
+    }
+    Behavior {
+      StateMachine {
+        Transition init: initial -> ready
+        Transition tr0: ready -> ready {
+          triggers {
+            <glasig: left1>
+          }
+          action {
+            "System.out.println(\"Twist received a Message on \" + left1 + \" with data \" + data);"
+            "right2.glasig(data);"
+          }
+        }
+       Transition tr1: ready -> ready {
+          triggers {
+            <glasig: left2>
+          }
+          action {
+            "System.out.println(\"Twist received a Message on \" + left2 + \" with data \" + data);"
+            "right1.glasig(data);"
+          }
+        }
+        State ready
+      }
+    }
+  }
+  
+  // other possible abstract generators
+  
+  // ex: Bone B4
+  ActorClass Generator00 {
+    Structure { }
+    Behavior { }
+  }
+  
+  // ex: Zero
+  ActorClass Generator01 {
+    Structure { }
+    Behavior { }
+  }
+  
+  // ex: B3
+  ActorClass Generator02 {
+    Structure { }
+    Behavior { }
+  }
+  
+  // ex: Identity
+  ActorClass Generator11 {
+    Structure { }
+    Behavior { }
+  }
+  
+  // ex: CoAssoc
+  ActorClass Generator13 {
+    Interface {
+      Port left1: GlaProtocol
+      conjugated Port right1: GlaProtocol
+      conjugated Port right2: GlaProtocol
+      conjugated Port right3: GlaProtocol
+    }
+    Structure { }
+    Behavior {}
+  }
+
+  // ex: B2
+  ActorClass Generator20 {
+    Structure { }
+    Behavior { }
+  }
+  
+  // ex: Twist, B1
+  ActorClass Generator22 {
+    Structure { }
+    Behavior { }
+  }
+  
+  // concrete generators
+  
+  ActorClass Copy extends Generator12 {
+    Structure { }
+    Behavior {
+      StateMachine {
+        Transition init: initial -> ready
+        Transition tr0: ready -> ready {
+          triggers {
+            <glasig: left1>
+          }
+          action {
+            "System.out.println(\"Copy received a Message on \" + left1 + \" with data \" + data);"
+            "right1.glasig(data);"
+            "right2.glasig(data);"
+          }
+        }
+        State ready
+      }
+    }
+  }
+  
+  ActorClass CopyNull extends Generator10 {
+    Structure { }
+    Behavior { }
+  }
+  
+  ActorClass CopyCoAssoc extends Generator13 {
+    Structure {
+      ActorRef copy1: Copy
+      ActorRef copy2: Copy
+      ActorRef id: Identity
+      Binding left1 and copy1.left1
+      Binding copy2.right1 and right1
+      Binding copy2.right2 and right2
+      Binding copy1.right1 and copy2.left1
+      Binding copy1.right2 and id.left1
+      Binding id.right1 and right3
+    }
+    Behavior { }
+  }
+  
+  // test harnesses
+  
+  ActorClass CopyTest {
+    Structure {
+      conjugated Port p0: GlaProtocol
+      Port p1 [2]: GlaProtocol
+      ActorRef copy: Copy
+      Binding p0 and copy.left1
+      Binding copy.right1 and p1
+      Binding copy.right2 and p1
+    }
+    Behavior {
+      StateMachine {
+        Transition init: initial -> ready {
+          action {
+            "p0.glasig(123);"
+          }
+        }
+        Transition tr0: ready -> ready {
+          triggers {
+            <glasig: p1>
+          }
+          action {
+            "System.out.println(\"CopyTest received a Message on \" + this.p1 + \" with data \" + data);"
+            // all of the following commented-out code works
+            //"System.out.println(this.getP1().getReplication());"
+            //"int idx = this.p1.getIndexOf(ifitem);"
+            //"System.out.println(idx);"
+            //"System.out.println(this.p1.get(idx));"
+            //"System.out.println(data);"
+          }
+        }
+        State ready
+      }
+    }
+  }
+
+  ActorClass CopyCoAssocTest {
+    Structure {
+      conjugated Port p0: GlaProtocol
+      Port p1 [3]: GlaProtocol
+      ActorRef copy: CopyCoAssoc
+      Binding p0 and copy.left1
+      Binding copy.right1 and p1
+      Binding copy.right2 and p1
+      Binding copy.right3 and p1
+    }
+    Behavior {
+      StateMachine {
+        Transition init: initial -> ready {
+          action {
+            "p0.glasig(13);"
+          }
+        }
+        Transition tr0: ready -> ready {
+          triggers {
+            <glasig: p1>
+          }
+          action {
+            "System.out.println(\"CopyCoAssocTest received a Message on \" + this.p1 + \" with data \" + data);"
+          }
+        }
+        State ready
+      }
+    }
+  }
+
+  ProtocolClass GlaProtocol {
+    incoming {
+      Message glasig(data: int32)
+    }
+  }
+
+}
