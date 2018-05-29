@@ -1,0 +1,40 @@
+; generated MSC for Trace2UML
+; Equation3
+; KSW manually added glasig int32 values (ex: _11)
+# Equation3 - Graphical Linear Algebra blog by Paweł Sobocinski, implemented by Ken Webb using Eclipse eTrice with MSC generated using Trace2UML
+
+# begin sub system initialization
+	/LogSys/subSystemRef (!) /LogSys/subSystemRef/topActor 
+	/LogSys/subSystemRef/topActor (!) /LogSys/subSystemRef/topActor/zero 
+	/LogSys/subSystemRef/topActor (!) /LogSys/subSystemRef/topActor/add 
+	/LogSys/subSystemRef/topActor (!) /LogSys/subSystemRef/topActor/id 
+	/LogSys/subSystemRef (!) /LogSys/subSystemRef/timingService 
+# done sub system initialization
+	/LogSys/subSystemRef/topActor >-- /LogSys/subSystemRef/topActor/add glasig_11
+	/LogSys/subSystemRef/topActor >-- /LogSys/subSystemRef/topActor/id glasig_11
+	/LogSys/subSystemRef/topActor >>> ready
+	/LogSys/subSystemRef/topActor/zero >-- /LogSys/subSystemRef/topActor/add glasig_0
+	/LogSys/subSystemRef/topActor/zero >>> ready
+	/LogSys/subSystemRef/topActor/add >>> ready
+	/LogSys/subSystemRef/topActor/id >>> ready
+	/LogSys/subSystemRef/timingService >>> Operational
+	/LogSys/subSystemRef/topActor --> /LogSys/subSystemRef/topActor/add glasig_11
+	/LogSys/subSystemRef/topActor/add >>> state1
+	/LogSys/subSystemRef/topActor --> /LogSys/subSystemRef/topActor/id glasig_11
+	/LogSys/subSystemRef/topActor/id >-- /LogSys/subSystemRef/topActor glasig_11
+	/LogSys/subSystemRef/topActor/id >>> ready
+	/LogSys/subSystemRef/topActor/zero --> /LogSys/subSystemRef/topActor/add glasig_0
+	/LogSys/subSystemRef/topActor/add >-- /LogSys/subSystemRef/topActor glasig_11
+	/LogSys/subSystemRef/topActor/add >>> ready
+	/LogSys/subSystemRef/topActor/id --> /LogSys/subSystemRef/topActor glasig_11
+	/LogSys/subSystemRef/topActor >>> ready
+	/LogSys/subSystemRef/topActor/add --> /LogSys/subSystemRef/topActor glasig_11
+	/LogSys/subSystemRef/topActor >>> ready
+# begin sub system destruction
+	/LogSys/subSystemRef (X) /LogSys/subSystemRef/topActor 
+	/LogSys/subSystemRef/topActor (X) /LogSys/subSystemRef/topActor/zero 
+	/LogSys/subSystemRef/topActor (X) /LogSys/subSystemRef/topActor/zero 
+	/LogSys/subSystemRef/topActor (X) /LogSys/subSystemRef/topActor/add 
+	/LogSys/subSystemRef/topActor (X) /LogSys/subSystemRef/topActor/add 
+	/LogSys/subSystemRef/topActor (X) /LogSys/subSystemRef/topActor/id 
+	/LogSys/subSystemRef (X) /LogSys/subSystemRef/timingService 

@@ -1,0 +1,79 @@
+; generated MSC for Trace2UML
+# begin sub system initialization
+	/LogSys/subSystemRef (!) /LogSys/subSystemRef/topActor 
+	/LogSys/subSystemRef/topActor (!) /LogSys/subSystemRef/topActor/zero3 
+	/LogSys/subSystemRef/topActor (!) /LogSys/subSystemRef/topActor/add3 
+	/LogSys/subSystemRef/topActor (!) /LogSys/subSystemRef/topActor/id4 
+	/LogSys/subSystemRef/topActor (!) /LogSys/subSystemRef/topActor/zero1 
+	/LogSys/subSystemRef/topActor (!) /LogSys/subSystemRef/topActor/add1 
+	/LogSys/subSystemRef/topActor (!) /LogSys/subSystemRef/topActor/zero2 
+	/LogSys/subSystemRef/topActor (!) /LogSys/subSystemRef/topActor/add2 
+	/LogSys/subSystemRef/topActor (!) /LogSys/subSystemRef/topActor/twist2 
+	/LogSys/subSystemRef (!) /LogSys/subSystemRef/timingService 
+# done sub system initialization
+	/LogSys/subSystemRef/topActor >-- /LogSys/subSystemRef/topActor/add3 glasig
+	/LogSys/subSystemRef/topActor >-- /LogSys/subSystemRef/topActor/id4 glasig
+	/LogSys/subSystemRef/topActor >-- /LogSys/subSystemRef/topActor/add1 glasig
+	/LogSys/subSystemRef/topActor >-- /LogSys/subSystemRef/topActor/twist2 glasig
+	/LogSys/subSystemRef/topActor >>> ready
+	/LogSys/subSystemRef/topActor/zero3 >-- /LogSys/subSystemRef/topActor/add3 glasig
+	/LogSys/subSystemRef/topActor/zero3 >>> ready
+	/LogSys/subSystemRef/topActor/add3 >>> ready
+	/LogSys/subSystemRef/topActor/id4 >>> ready
+	/LogSys/subSystemRef/topActor/zero1 >-- /LogSys/subSystemRef/topActor/add1 glasig
+	/LogSys/subSystemRef/topActor/zero1 >>> ready
+	/LogSys/subSystemRef/topActor/add1 >>> ready
+	/LogSys/subSystemRef/topActor/zero2 >-- /LogSys/subSystemRef/topActor/twist2 glasig
+	/LogSys/subSystemRef/topActor/zero2 >>> ready
+	/LogSys/subSystemRef/topActor/add2 >>> ready
+	/LogSys/subSystemRef/topActor/twist2 >>> ready
+	/LogSys/subSystemRef/timingService >>> Operational
+	/LogSys/subSystemRef/topActor --> /LogSys/subSystemRef/topActor/add3 glasig
+	/LogSys/subSystemRef/topActor/add3 >>> state1
+	/LogSys/subSystemRef/topActor --> /LogSys/subSystemRef/topActor/id4 glasig
+	/LogSys/subSystemRef/topActor/id4 >-- /LogSys/subSystemRef/topActor glasig
+	/LogSys/subSystemRef/topActor/id4 >>> ready
+	/LogSys/subSystemRef/topActor --> /LogSys/subSystemRef/topActor/add1 glasig
+	/LogSys/subSystemRef/topActor/add1 >>> state0
+	/LogSys/subSystemRef/topActor --> /LogSys/subSystemRef/topActor/twist2 glasig
+	/LogSys/subSystemRef/topActor/twist2 >-- /LogSys/subSystemRef/topActor/add2 glasig
+	/LogSys/subSystemRef/topActor/twist2 >>> ready
+	/LogSys/subSystemRef/topActor/zero3 --> /LogSys/subSystemRef/topActor/add3 glasig
+	/LogSys/subSystemRef/topActor/add3 >-- /LogSys/subSystemRef/topActor glasig
+	/LogSys/subSystemRef/topActor/add3 >>> ready
+	/LogSys/subSystemRef/topActor/zero1 --> /LogSys/subSystemRef/topActor/add1 glasig
+	/LogSys/subSystemRef/topActor/add1 >-- /LogSys/subSystemRef/topActor glasig
+	/LogSys/subSystemRef/topActor/add1 >>> ready
+	/LogSys/subSystemRef/topActor/zero2 --> /LogSys/subSystemRef/topActor/twist2 glasig
+	/LogSys/subSystemRef/topActor/twist2 >-- /LogSys/subSystemRef/topActor/add2 glasig
+	/LogSys/subSystemRef/topActor/twist2 >>> ready
+	/LogSys/subSystemRef/topActor/id4 --> /LogSys/subSystemRef/topActor glasig
+	/LogSys/subSystemRef/topActor >>> ready
+	/LogSys/subSystemRef/topActor/twist2 --> /LogSys/subSystemRef/topActor/add2 glasig
+	/LogSys/subSystemRef/topActor/add2 >>> state1
+	/LogSys/subSystemRef/topActor/add3 --> /LogSys/subSystemRef/topActor glasig
+	/LogSys/subSystemRef/topActor >>> ready
+	/LogSys/subSystemRef/topActor/add1 --> /LogSys/subSystemRef/topActor glasig
+	/LogSys/subSystemRef/topActor >>> ready
+	/LogSys/subSystemRef/topActor/twist2 --> /LogSys/subSystemRef/topActor/add2 glasig
+	/LogSys/subSystemRef/topActor/add2 >-- /LogSys/subSystemRef/topActor glasig
+	/LogSys/subSystemRef/topActor/add2 >>> ready
+	/LogSys/subSystemRef/topActor/add2 --> /LogSys/subSystemRef/topActor glasig
+	/LogSys/subSystemRef/topActor >>> ready
+# begin sub system destruction
+	/LogSys/subSystemRef (X) /LogSys/subSystemRef/topActor 
+	/LogSys/subSystemRef/topActor (X) /LogSys/subSystemRef/topActor/zero3 
+	/LogSys/subSystemRef/topActor (X) /LogSys/subSystemRef/topActor/zero3 
+	/LogSys/subSystemRef/topActor (X) /LogSys/subSystemRef/topActor/add3 
+	/LogSys/subSystemRef/topActor (X) /LogSys/subSystemRef/topActor/add3 
+	/LogSys/subSystemRef/topActor (X) /LogSys/subSystemRef/topActor/id4 
+	/LogSys/subSystemRef/topActor (X) /LogSys/subSystemRef/topActor/zero1 
+	/LogSys/subSystemRef/topActor (X) /LogSys/subSystemRef/topActor/zero1 
+	/LogSys/subSystemRef/topActor (X) /LogSys/subSystemRef/topActor/add1 
+	/LogSys/subSystemRef/topActor (X) /LogSys/subSystemRef/topActor/add1 
+	/LogSys/subSystemRef/topActor (X) /LogSys/subSystemRef/topActor/zero2 
+	/LogSys/subSystemRef/topActor (X) /LogSys/subSystemRef/topActor/zero2 
+	/LogSys/subSystemRef/topActor (X) /LogSys/subSystemRef/topActor/add2 
+	/LogSys/subSystemRef/topActor (X) /LogSys/subSystemRef/topActor/add2 
+	/LogSys/subSystemRef/topActor (X) /LogSys/subSystemRef/topActor/twist2 
+	/LogSys/subSystemRef (X) /LogSys/subSystemRef/timingService 
