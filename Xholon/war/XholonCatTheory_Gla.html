@@ -11,52 +11,72 @@
       background-color: aliceblue;
     }
     </style>
-    <title>Xholon Graphical Linear Algebra (GLA)</title>
+    <title>Xholon - Graphical Linear Algebra (GLA)</title>
   </head>
   
   <body>
-    <h3>Xholon Graphical Linear Algebra (GLA)</h3>
-    <p>In a 2015 to 2016 blog series <a href="https://graphicallinearalgebra.net">Graphical Linear Algebra</a>, mathematician Paweł Sobocinski explores a diagrammatic approach to linear algebra. His goal is writing for a non-mathematician audience without "dumbing it down".</p>
+    <h3>Xholon - Graphical Linear Algebra (GLA)</h3>
+    <p>In his 2015 to 2016 blog series <a href="https://graphicallinearalgebra.net">Graphical Linear Algebra</a>, computer scientist Paweł Sobocinski explores a diagrammatic approach to linear algebra. His goal is writing for a non-mathematician audience without "dumbing it down". I have done a bunch of models to help me understand his blog, to place it into a context that's familiar to me. On this web page, I simple organize what I've done so far, using a very terse writing style. It's mostly just images and links to other things. Once I'm past the exploratory stage, I would like to write something more descriptive, possibly a series of tutorials based around my models. This is part of my overall explorations of <a href="XholonCatTheory.html">Category Theory</a>. I admit to very rudimentary math skills, but find that I can begin to understand it by building the ideas into the types of models and diagrams that I do understand well. I want to meet Category Theory researchers halfway using diagrams, and it's encouraging that many of them are working on <a href="http://www.azimuthproject.org/azimuth/show/Applied+Category+Theory">Applied Category Theory</a> (and see other sites such as <a href="http://www.appliedcategorytheory.org/">appliedcategorytheory.org</a>).</p>
     
-    <p>I have taken some notes from Pawel's blog, and implemented a few simple concepts in Xholon.</p>
+    <p>To get started, I have taken some notes from Pawel's blog, and implemented a few simple concepts using my own <a href="http://www.primordion.com/Xholon/gwt/">Xholon</a> tool.</p>
     <p>The <a href="https://gist.github.com/kenwebb/0d9e3f3d8cb7cdfddeb8e90d450de14a">source code</a> at github.</p>
     <p>The <a href="wb/editwb.html?app=0d9e3f3d8cb7cdfddeb8e90d450de14a&src=gist">source code</a> as an editable and executable Xholon workbook.</p>
     <p>The <a href="Xholon.html?app=0d9e3f3d8cb7cdfddeb8e90d450de14a&src=gist&gui=clsc">Xholon executable</a>. It doesn't do very much.</p>
     
     <h3>Food Recipes</h3>
-    <p>Several years ago I explored the structure of food recipes. I believe that this is operadic. Pawel's Recipe example has a generator (the Crack Egg process) that outputs two things, which is what makes it different from my earlier operad-like example.</p>
+    <p>Several years ago I explored the structure of food recipes. I believe that this is operadic. See my <a href="XholonCatTheory_Operad.html">Operads</a> page, and my <a href="XholonOpDSL.html?app=57e815d9de593c1a3d0fe155c3790067&src=gist&gui=none">Operadics Domain Specific Language</a> (Operadics DSL) page which is a prototype I did for and with the help of mathematician David Spivak.</p>
     <p><a href="https://gist.github.com/kenwebb/9858622">source code</a> at github</p>
     <p><a href="wb/editwb.html?app=9858622&src=gist">source code</a> as an editable Xholon workbook</p>
     <p><a href="Xholon.html?app=9858622&src=gist&gui=clsc">Xholon executable</a> with a Mind Map SVG visualization</p>
     
-    <p>GLA <a href="https://gist.github.com/kenwebb/d62602aea6847e7b158bbe993fc9f4b1">Recipes</a></p>
+    <p>Pawel's <a href="https://graphicallinearalgebra.net/2015/05/06/crema-di-mascarpone-rules-of-the-game-part-2-and-diagrammatic-reasoning/">Recipe example</a> has a generator (the Crack Egg process) that outputs two things, which is I believe what makes it different from my earlier operad-like example.</p>
+    <p>GLA <a href="https://gist.github.com/kenwebb/d62602aea6847e7b158bbe993fc9f4b1">Recipes</a>. This is a very different <a href="Xholon.html?app=d62602aea6847e7b158bbe993fc9f4b1&src=gist&gui=none">implemention</a> (different from the eTrice implementations below).
+    It uses an Avatar for each process, where each Avatar steps through a script written in the Xholon Interactive Fiction Language (IFLang).
+    There are no explicit ports or "dangling wires".
+    It resembles the various <a href="http://www.primordion.com/Xholon/gwt/XholonScreenplay.html">movie and TV scripts</a> and other <a href="http://www.primordion.com/Xholon/gwt/Xholon.html?app=19b3b66f13fb1f75b9c9&src=gist&gui=none">stories</a> (and <a href="XholonCirclePacking.html">here</a>) that I have done in the past.
+    Imagine the various steps in a recipe as characters in a story, collaborating toward the climax of a delicious meal.</p>
     
-    <p>GLA <a href="https://gist.github.com/kenwebb/7b217e49608a5fe034f7487f20c3921a">Graphical Linear Algebra - eTrice</a></p>
+    <p>GLA <a href="https://gist.github.com/kenwebb/7b217e49608a5fe034f7487f20c3921a">Graphical Linear Algebra - eTrice</a>.</p>
+    <p>GLA <a href="https://gist.github.com/kenwebb/faf59bde2be32d1e44d1b222a4a8a263">Recipes - Petri Nets</a>. Xholon also supports <a href="https://en.wikipedia.org/wiki/Petri_net">Petri Nets</a>.</p>
+    <p>GLA <a href="https://gist.github.com/kenwebb/f9a091d0f71d67469637a75913e2be23">Recipes - Operad DSL</a>.</p>
     
-    <p>GLA <a href="https://gist.github.com/kenwebb/faf59bde2be32d1e44d1b222a4a8a263">Recipes - Petri Nets</a></p>
-    
-    <p>GLA <a href="https://gist.github.com/kenwebb/f9a091d0f71d67469637a75913e2be23">Recipes - Operad DSL</a></p>
+    <p>I have lots of questions on how to meaningfully implement the Recipe example and the Graphical Linear Algebra diagrams. For example:
+Should I include diagrams for Identity and Twist in the eTrice implementations?
+If I include these in a larger diagram, then, if nothing else, they help to get the timing of the overall machine correct.
+Interestingly, if I use a completely different modeling tool that I've written to execute movie scripts, I have to use a "wait" statement to similarly synchronous the various characters.
+I'm very interested in how all these approaches fit together.
+I haven't gotten to the actual linear algebra part of Pawel's blog yet in a serious way.</p>
     
     <h3>Eclipse eTrice - Real-Time Modeling Tools</h3>
-    <p><a href="https://www.eclipse.org/etrice/">eTrice</a> "provides an implementation of the ROOM (Real-Time Object-Oriented Modeling) modeling language together with editors, code generators for Java, C++ and C code and target middleware.
-    The model is defined in textual form (Xtext) with graphical editors (Graphiti) for the structural and behavioral (i.e. state machine) parts."</p>
+    <p>The open-source <a href="https://www.eclipse.org/etrice/">eTrice</a> tool "provides an implementation of the <a href="https://en.wikipedia.org/wiki/Real-Time_Object-Oriented_Modeling">ROOM (Real-Time Object-Oriented Modeling)</a> modeling language together with editors, code generators for Java, C++ and C code and target middleware.
+    The model is defined in textual form (Xtext) with graphical editors (Graphiti) for the structural and behavioral (i.e. state machine) parts."
+    I have previously summarized <a href="http://www.azimuthproject.org/azimuth/show/Real-time+object-oriented+modeling+%28ROOM%29">ROOM at the Azimuth site</a>.
+    eTrice is based on the ObjecTime executable modeling and diagramming tool, and the Real-time Object Oriented Modeling (ROOM) methodology.
+    I discovered ObjecTime and ROOM around 1993, and then worked for the ObjecTime company for a few years until Rational Software (makers of Unified Modeling Language (UML) tools) and then IBM bought-up the technology. Having become addicted to modeling and diagramming as thinking and implementation tools, I've developed my own Xholon tool which is also based on ROOM. I remember being so excited when I first discovered ObjecTime and ROOM because they so closely matched my way of thinking about software development. Xholon has now evolved into many areas that were not supported by the earlier tools and methodologies, but still retains it's ROOM roots.</p>
+    <p>eTrice runs within the popular <a href="https://www.eclipse.org/">Eclipse</a> integrated development environment (IDE).</p>
     <p>My<a href="https://github.com/kenwebb/Xholon/tree/master/Xholon/exports/etrice">.room and .png files</a> at github</p>
     
-    <p>Images generated by eTrice from Eclipse eTrice diagrams</p>
+    <h3>Images generated by eTrice from my Eclipse eTrice diagrams</h3>
     <img src="https://raw.githubusercontent.com/kenwebb/Xholon/master/Xholon/exports/etrice/Structure%20of%20Recipe3.png"/>
     <img src="https://raw.githubusercontent.com/kenwebb/Xholon/master/Xholon/exports/etrice/Structure%20of%20Equation3.png"/>
     <img src="https://raw.githubusercontent.com/kenwebb/Xholon/master/Xholon/exports/etrice/Structure%20of%20CheatSheet.png"/>
     <img src="https://raw.githubusercontent.com/kenwebb/Xholon/master/Xholon/exports/etrice/Structure%20of%20CopyCoAssoc.png"/>
+    <img src="https://raw.githubusercontent.com/kenwebb/Xholon/master/Xholon/exports/etrice/Structure%20of%20OurFirstProof.png"/>
     
-    <p>Screenshots of Eclipse eTrice</p>
-    <img src="https://raw.githubusercontent.com/kenwebb/Xholon/master/Xholon/exports/etrice/GlaOurFirstProofScreenshot%20from%202018-05-25%2013-44-25.png"/>
+    <h3>Screenshots of my Eclipse eTrice work environment</h3>
+    <p>These show the Eclipse and eTrice evironment, the filenames for each structure and behavior diagram, the automatically-generated .java files in src-gen, the diagram palette, a sampling of the actual structure diagrams, and the run-time Java Application console with text from Java print statements.</p>
+    <img src="https://raw.githubusercontent.com/kenwebb/Xholon/master/Xholon/exports/etrice/GlaRecipeScreenshot%20from%202018-05-24%2006-22-43.png"/>
     <img src="https://raw.githubusercontent.com/kenwebb/Xholon/master/Xholon/exports/etrice/GlaCheatSheetScreenshot%20from%202018-05-25%2009-51-30.png"/>
     <img src="https://raw.githubusercontent.com/kenwebb/Xholon/master/Xholon/exports/etrice/GlaCheatSheetScreenshot_from_2018-05-22.png"/>
-    <img src="https://raw.githubusercontent.com/kenwebb/Xholon/master/Xholon/exports/etrice/GlaRecipeScreenshot%20from%202018-05-24%2006-22-43.png"/>
+    <img src="https://raw.githubusercontent.com/kenwebb/Xholon/master/Xholon/exports/etrice/GlaOurFirstProofScreenshot%20from%202018-05-25%2013-44-25.png"/>
     
-    <p>Message Sequence Charts (MSC)</p>
-    <img src="https://raw.githubusercontent.com/kenwebb/Xholon/master/Xholon/exports/etrice/Equation3.svg"/>
-    <img src="https://raw.githubusercontent.com/kenwebb/Xholon/master/Xholon/exports/etrice/Equation3.pdf"/>
+    <h3>Message Sequence Charts (MSC) generated by Eclipse eTrice with Trace2UML</h3>
+    <!--<img src="https://raw.githubusercontent.com/kenwebb/Xholon/master/Xholon/exports/etrice/Equation3.png"/>-->
+    <img src="images/Equation3.svg"/>
+    <p><a href="https://github.com/kenwebb/Xholon/raw/master/Xholon/exports/etrice/Equation3.pdf">PDF</a></p>
+    
+    <p>I'm not sure where I should go from here. I understand things best by building up models and diagrams, and then executing them as code. If I get the right results, then I feel like I've understood something.
+I love diagrams. The only thing I like better is diagrams that I can execute or diagrams that I can create using code.</p>
     
     <hr/>
     <div class="license"  style="font-size: 9px;"><p>Xholon GWT is a <a href="index.html">Xholon</a> project. Copyright (C) 2018 Ken Webb</p></div>
