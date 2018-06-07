@@ -129,6 +129,9 @@ public interface IGridPanel {
 	public abstract void setGridCellColor(CssColor gridCellColor); // GWT
 	public abstract void setGridCellColor(int rgbColor);
 	
+	public abstract boolean isCellsCanSupplyOwnColor();
+	public abstract void setCellsCanSupplyOwnColor(boolean cellsCanSupplyOwnColor);
+	
 	/**
 	 * Returns a data URL for the current content of the canvas element.
 	 * @return a data URL for the current content of this element.

@@ -89,6 +89,15 @@ public class GridPanelGeneric extends GridPanel implements IGridPanel {
 				return CssColor.make(color);
 			}
 		}
+		else if (this.cellsCanSupplyOwnColor) {
+		  String ncolor = ((IDecoration)xhNode.getXhc()).getColor();
+		  if (ncolor != null) {
+		  	return CssColor.make(ncolor);
+		  }
+		  else {
+		    return gridCellColor;
+		  }
+		}
 		else {
 		  return gridCellColor;
 		}

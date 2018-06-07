@@ -52,6 +52,7 @@ public class GridGenerator extends XholonScript {
   private String[] names = DEFAULT_NAMES;
   private String gridType = DEFAULT_GRID_TYPE;
   private String columnColor = DEFAULT_COLUMN_COLOR;
+  private boolean cellsCanSupplyOwnColor = false;
   private String useGridViewer = DEFAULT_USE_GRID_VIEWER ? "true" : "false";
   private String gridViewerParams = DEFAULT_GRID_VIEWER_PARAMS;
   private String caption = null;
@@ -182,6 +183,15 @@ public class GridGenerator extends XholonScript {
       //this.consoleLog(ccolor);
       //this.consoleLog(sdata);
       app.sendSyncMessage(-1001, sdata, this);
+      // IGridPanel.setCellsCanSupplyOwnColor(this.cellsCanSupplyOwnColor);
+      String scdata = new StringBuilder()
+      .append("setCellsCanSupplyOwnColor,")
+      .append(rdata)
+      .append(",")
+      .append(this.cellsCanSupplyOwnColor)
+      .toString();
+      app.sendSyncMessage(-1001, scdata, this);
+      
       if (caption != null) {
         this.caption(caption);
       }
@@ -256,6 +266,9 @@ public class GridGenerator extends XholonScript {
     }
     else if ("caption".equals(attrName)) {
       this.caption = attrVal;
+    }
+    else if ("cellsCanSupplyOwnColor".equals(attrName)) {
+      this.cellsCanSupplyOwnColor = Boolean.parseBoolean(attrVal);
     }
     return 0;
   }

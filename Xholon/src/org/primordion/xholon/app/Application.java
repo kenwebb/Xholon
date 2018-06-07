@@ -1727,12 +1727,23 @@ public abstract class Application extends AbstractApplication implements IApplic
 			  // ex: "createGridViewer"
 			  return new Message(-1002, this.createGridViewer(-1), this, msg.getSender());
 			case "setGridCellColor":
-			  // ex: "setGridCellColor,1,F0F0FF"
-        GridViewerDetails gv = this.getGridViewer(Integer.parseInt(msgData[1]));
-        if (gv != null) {
-		      gv.gridPanel.setGridCellColor(Integer.parseInt(msgData[2], 16));
-		    }
-			  break;
+			  {
+			    // ex: "setGridCellColor,1,F0F0FF"
+          GridViewerDetails gv = this.getGridViewer(Integer.parseInt(msgData[1]));
+          if (gv != null) {
+		        gv.gridPanel.setGridCellColor(Integer.parseInt(msgData[2], 16));
+		      }
+			    break;
+			  }
+			case "setCellsCanSupplyOwnColor":
+			  {
+			    // ex: "setCellsCanSupplyOwnColor,1,true"
+          GridViewerDetails gv = this.getGridViewer(Integer.parseInt(msgData[1]));
+          if (gv != null) {
+		        gv.gridPanel.setCellsCanSupplyOwnColor(Boolean.parseBoolean(msgData[2]));
+		      }
+			    break;
+			  }
 			default: break;
 			}
 			return new Message(-1002, null, this, msg.getSender());

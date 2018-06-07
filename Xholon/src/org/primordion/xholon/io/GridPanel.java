@@ -148,7 +148,12 @@ public abstract class GridPanel extends Xholon implements IGridPanel {
    * Color of the optional context node when displayed on the grid.
    */
   protected static final CssColor COLOR_CONTEXT = CssColor.make("red");
-
+  
+  /**
+   * Whether or not GridCells can supply their own color.
+   * This is mainly for use when their are 2+ types (XholonClass'es) of GridCell, where each has its own color.
+   */
+  protected boolean cellsCanSupplyOwnColor = false;
   
   /**
    * Constructor
@@ -718,6 +723,16 @@ public abstract class GridPanel extends Xholon implements IGridPanel {
   {
     return CssColor.make("gray"); // default color
   }
+  
+  @Override
+	public boolean isCellsCanSupplyOwnColor() {
+	  return this.cellsCanSupplyOwnColor;
+	}
+  
+  @Override
+	public void setCellsCanSupplyOwnColor(boolean cellsCanSupplyOwnColor) {
+	  this.cellsCanSupplyOwnColor = cellsCanSupplyOwnColor;
+	}
   
   /*
    * @see org.primordion.xholon.io.IGridPanel#getShape(org.primordion.xholon.base.IXholon)
