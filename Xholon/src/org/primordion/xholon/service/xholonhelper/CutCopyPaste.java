@@ -563,22 +563,44 @@ public class CutCopyPaste extends Xholon implements ICutCopyPaste {
 	public void cloneLastChild(IXholon node) {
 	  String cloneStr = copySelf(node);
 	  pasteLastChild(node, cloneStr);
+	  handleMaxClones(node);
 	}
 	
 	public void cloneFirstChild(IXholon node) {
 	  String cloneStr = copySelf(node);
 	  pasteFirstChild(node, cloneStr);
+	  handleMaxClones(node);
 	}
 	
 	public void cloneAfter(IXholon node) {
 	  String cloneStr = copySelf(node);
 	  pasteAfter(node, cloneStr);
+	  handleMaxClones(node);
 	}
 	
 	public void cloneBefore(IXholon node) {
 	  String cloneStr = copySelf(node);
 	  pasteBefore(node, cloneStr);
+	  handleMaxClones(node);
 	}
+	
+	/**
+	 * Handle the number of times that a node can be cloned.
+	 * @param node
+	 */
+	protected native void handleMaxClones(IXholon node) /*-{
+		var mcStr = node["maxClones"];
+		if (mcStr != null) {
+			var mcInt = $wnd.Number(mcStr);
+			mcInt--;
+			if (mcInt <= 0) {
+				node.remove();
+			}
+			else {
+				node["maxClones"] = String(mcInt);
+			}
+		}
+	}-*/;
 	
 	/**
 	 * Fix the siblings of a node so they all have the same parent.
