@@ -591,8 +591,8 @@ public class MeteorPlatformService extends AbstractXholonService implements IMet
 	    }
 	    else {
 	      items = fetchAllAppItems(collName, appName);
-	      consoleLog("MeteorPlatformService.processMeteorQ() 1 ");
-	      consoleLog(items);
+	      //consoleLog("MeteorPlatformService.processMeteorQ() 1 ");
+	      //consoleLog(items);
 	    }
 	    for (int i = indexNextRead; i < items.length(); i++) {
 	      JavaScriptObject item = items.get(i);
