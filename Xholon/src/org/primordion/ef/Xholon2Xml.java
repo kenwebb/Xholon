@@ -121,12 +121,12 @@ public class Xholon2Xml extends AbstractXholon2ExternalFormat implements IXholon
 			xholon2Xml.setWriteAnnotations(this.isWriteAnnotations());
 			xholon2Xml.setWriteAttributes(this.isWriteAttributes());
 			xholon2Xml.setWriteStandardAttributes(this.isWriteStandardAttributes());
-			root.consoleLog("ef.Xholon2Xml MAYBE about to set Val and AllPorts");
-			root.consoleLog(xholon2Xml.getClass().getName());
+			//root.consoleLog("ef.Xholon2Xml MAYBE about to set Val and AllPorts");
+			//root.consoleLog(xholon2Xml.getClass().getName());
 			if (xholon2Xml instanceof org.primordion.xholon.io.xml.Xholon2Xml) {
-			  root.consoleLog("ef.Xholon2Xml about to set Val and AllPorts");
-			  root.consoleLog(this.isShouldWriteVal());
-			  root.consoleLog(this.isShouldWriteAllPorts());
+			  //root.consoleLog("ef.Xholon2Xml about to set Val and AllPorts");
+			  //root.consoleLog(this.isShouldWriteVal());
+			  //root.consoleLog(this.isShouldWriteAllPorts());
 			  ((org.primordion.xholon.io.xml.Xholon2Xml)xholon2Xml)
 			    .setShouldWriteVal(this.isShouldWriteVal());
 			  ((org.primordion.xholon.io.xml.Xholon2Xml)xholon2Xml)
