@@ -1712,7 +1712,16 @@ a.action("takeclone hello;");
    * @param thing The Xholon name of the thing to drop.
    */
   protected void drop(String thing) {
-    IXholon node = findNode(thing, this);
+    IXholon node = null;
+    if ("first".equals(thing)) {
+      node = this.getFirstChild();
+    }
+    else if ("last".equals(thing)) {
+      node = this.getLastChild();
+    }
+    else {
+      node = findNode(thing, this);
+    }
     if (node != null) {
       node.removeChild();
       node.appendChild(contextNode);
