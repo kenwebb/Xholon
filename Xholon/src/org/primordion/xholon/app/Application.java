@@ -1912,6 +1912,12 @@ public abstract class Application extends AbstractApplication implements IApplic
 	 */
 	private JavaScriptObject avatarKeyMap = makeDefaultAvatarKeyMap();
 	
+	/**
+	 * Whether or not to check if the shift key is down, to distinguish between uppercase (ex: "A") and lowercase (ex: "a") ASCII letters.
+	 * This can be set to true by including the following in an avatarKeyMap  "SHIFT":"true"
+	 */
+	protected boolean checkAkmShift = false;
+	
 	@Override
 	public String getAvatarKeyMap() {
 	  return this.stringify(this.avatarKeyMap);
@@ -1924,6 +1930,13 @@ public abstract class Application extends AbstractApplication implements IApplic
 	@Override
 	public void setAvatarKeyMap(String jsonStr) {
 	  avatarKeyMap = JsonUtils.safeEval(jsonStr);
+	  String shift = this.queryAvatarKeyMap(avatarKeyMap, "SHIFT");
+	  if ("true".equals(shift)) {
+	    checkAkmShift = true;
+	  }
+	  else if ("false".equals(shift)) {
+	    checkAkmShift = false;
+	  }
 	}
 	
 	/**
@@ -1983,6 +1996,9 @@ public abstract class Application extends AbstractApplication implements IApplic
         if (isAvatarKeyEvent(kue.getNativeEvent())) {
           kue.stopPropagation();
           kue.preventDefault();
+          if (checkAkmShift && !kue.isShiftKeyDown() && (nativeKeyCode >= KeyCodes.KEY_A) && (nativeKeyCode <= KeyCodes.KEY_Z)) {
+            nativeKeyCode += 32; // convert ASCII letter to lowercase
+          }
           String key = fromCharCode(nativeKeyCode);
           if (KeyUpEvent.isArrow(nativeKeyCode)) {
             switch (nativeKeyCode) {
@@ -1993,6 +2009,21 @@ public abstract class Application extends AbstractApplication implements IApplic
             default: break;
             }
           }
+          /*else if (kue.isAnyModifierKeyDown()) {
+            if (kue.isShiftKeyDown()) {
+              consoleLog("shift key is down");
+            }
+            // the following all work, but I don't want to support them yet
+            else if (kue.isControlKeyDown()) {
+              consoleLog("control key is down");
+            }
+            else if (kue.isAltKeyDown()) {
+              consoleLog("alt key is down");
+            }
+            else if (kue.isMetaKeyDown()) {
+              consoleLog("meta key is down");
+            }
+          }*/
           String action = queryAvatarKeyMap(avatarKeyMap, key);
           if (action != null) {
             ava.doAction(action);
