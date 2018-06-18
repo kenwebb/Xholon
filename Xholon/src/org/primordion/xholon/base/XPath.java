@@ -746,8 +746,13 @@ public class XPath extends AbstractXPath {
 				}
 				node = node.getNextSibling();
 			}
-			else { // assume that all siblings with same name are adjacent to each other
-				return null;
+			// OLD
+			//else { // assume that all siblings with same name are adjacent to each other
+			//	return null;
+			//}
+			// NEW  June 14, 2018
+			else { // assume that siblings with same name may not be adjacent to each other
+				node = node.getNextSibling();
 			}
 		}
 		return node;
