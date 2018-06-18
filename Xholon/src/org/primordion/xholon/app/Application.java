@@ -1993,11 +1993,12 @@ public abstract class Application extends AbstractApplication implements IApplic
       @Override
       public void onKeyUp(KeyUpEvent kue) {
         int nativeKeyCode = kue.getNativeKeyCode();
+        boolean shiftKeyDown = kue.isShiftKeyDown();
         if (isAvatarKeyEvent(kue.getNativeEvent())) {
           kue.stopPropagation();
           kue.preventDefault();
-          if (checkAkmShift && !kue.isShiftKeyDown() && (nativeKeyCode >= KeyCodes.KEY_A) && (nativeKeyCode <= KeyCodes.KEY_Z)) {
-            nativeKeyCode += 32; // convert ASCII letter to lowercase
+          if (checkAkmShift && !shiftKeyDown && (nativeKeyCode >= KeyCodes.KEY_A) && (nativeKeyCode <= KeyCodes.KEY_Z)) {
+            nativeKeyCode += 32; // convert ASCII letter to lowercase, KeyCodes.SPACE = 32
           }
           String key = fromCharCode(nativeKeyCode);
           if (KeyUpEvent.isArrow(nativeKeyCode)) {
@@ -2006,6 +2007,37 @@ public abstract class Application extends AbstractApplication implements IApplic
             case KeyCodes.KEY_DOWN: key = "DOWN"; break;
             case KeyCodes.KEY_LEFT: key = "LEFT"; break;
             case KeyCodes.KEY_RIGHT: key = "RIGHT"; break;
+            default: break;
+            }
+          }
+          else if (nativeKeyCode > 122) { // KeyCodes.KEY_Z + KeyCodes.SPACE = 90 + 32 = 122
+            switch (nativeKeyCode) {
+            case 186: key = shiftKeyDown ? ":" : ";"; break;
+            case 187: key = shiftKeyDown ? "+" : "="; break;
+            case 188: key = shiftKeyDown ? "<" : ","; break;
+            case 189: key = shiftKeyDown ? "_" : "-"; break;
+            case 190: key = shiftKeyDown ? ">" : "."; break;
+            case 191: key = shiftKeyDown ? "?" : "/"; break;
+            case 192: key = shiftKeyDown ? "~" : "`"; break;
+            case 219: key = shiftKeyDown ? "{" : "["; break;
+            case 220: key = shiftKeyDown ? "|" : "\\"; break;
+            case 221: key = shiftKeyDown ? "}" : "]"; break;
+            case 222: key = shiftKeyDown ? "\"" : "'"; break;
+            default: break;
+            }
+          }
+          else if (shiftKeyDown && (nativeKeyCode >= KeyCodes.KEY_ZERO) && (nativeKeyCode <= KeyCodes.KEY_NINE)) {
+            switch (nativeKeyCode) {
+            case 48: key = ")"; break;
+            case 49: key = "!"; break;
+            case 50: key = "@"; break;
+            case 51: key = "#"; break;
+            case 52: key = "$"; break;
+            case 53: key = "%"; break;
+            case 54: key = "^"; break;
+            case 55: key = "&"; break;
+            case 56: key = "*"; break;
+            case 57: key = "("; break;
             default: break;
             }
           }
