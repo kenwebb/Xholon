@@ -837,10 +837,16 @@ public class MeteorPlatformService extends AbstractXholonService implements IMet
 	
 	/**
 	 * Make and return a session ID.
+   * Meteor.uuid() was removed in v.1.6.1
+   * Here is an implementation from https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript#2117523
 	 */
 	protected native String makeSessionId() /*-{
 	  if ($wnd.Meteor) {
-	    return $wnd.Meteor.uuid();
+	    //return $wnd.Meteor.uuid();
+	    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = $wnd.Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
 	  }
 	  return null;
 	}-*/;
