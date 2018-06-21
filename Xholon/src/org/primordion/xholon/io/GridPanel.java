@@ -925,19 +925,21 @@ context1.closePath();
    */
   protected void drawAgents(Context2d ctx, AbstractGrid currentCell, int x, int y)
   {
-    IXholon agent = currentCell.getFirstChild();
+    IXholon agent = currentCell.getFirstChild(); // this should remain as getFirstChild()
     if (agent != null) {
-      //g.setColor(getColor(agent));
       ctx.setFillStyle(getColor(agent));
       int shape = getShape(agent);
       switch (shape) {
       case GPSHAPE_CIRCLE: // OK
+        {
         ctx.beginPath();
-        ctx.arc(x, y, cellSize*0.5, 0, Math.PI*2);
+        int xcentre = x + (int)(cellSize*0.5);
+        int ycentre = y + (int)(cellSize*0.5);
+        int radius = (int)(cellSize*0.5);
+        ctx.arc(xcentre, ycentre, radius, 0, Math.PI*2);
         ctx.closePath();
         ctx.fill();
-        
-        //g.fillArc(x, y, cellSize, cellSize, 0, 360);
+        }
         break;
       case GPSHAPE_TRIANGLE: // OK
         {
@@ -1038,7 +1040,7 @@ context1.closePath();
         }
         break;
       case GPSHAPE_STAR:
-      {
+        {
         int xCoor[] =
             {(int)(0.5*cellSize), (int)(1.0*cellSize), (int)(0.8*cellSize), (int)(1.0*cellSize), (int)(0.7*cellSize),
              (int)(0.5*cellSize), (int)(0.3*cellSize), (int)(0.0*cellSize), (int)(0.2*cellSize), (int)(0.0*cellSize)};
@@ -1053,7 +1055,7 @@ context1.closePath();
         }
         break;
       case GPSHAPE_TURTLE:
-      {
+        {
         int xCoor[] =
           {(int)(0.5*cellSize), (int)(1.0*cellSize),
            (int)(0.5*cellSize), (int)(0.0*cellSize)};
@@ -1065,6 +1067,92 @@ context1.closePath();
         //Polygon turtle = new Polygon(xCoor, yCoor, 4);
         //turtle.translate(x, y);
         //g.fillPolygon(turtle);
+        }
+        break;
+      case GPSHAPE_SMALLCIRCLE:
+        {
+        ctx.beginPath();
+        int xcentre = x + (int)(cellSize*0.5);
+        int ycentre = y + (int)(cellSize*0.5);
+        int radius = (int)(cellSize*0.25);
+        ctx.arc(xcentre, ycentre, radius, 0, Math.PI*2);
+        ctx.closePath();
+        ctx.fill();
+        }
+        break;
+      case GPSHAPE_SMALLRECTANGLE:
+        {
+        int xCoor[] =
+          {(int)(0.25*cellSize), (int)(0.75*cellSize),
+           (int)(0.75*cellSize), (int)(0.25*cellSize)};
+        int yCoor[] =
+          {(int)(0.75*cellSize), (int)(0.75*cellSize),
+           (int)(0.25*cellSize), (int)(0.25*cellSize)};
+        drawPolygon(ctx, x, y, xCoor, yCoor, 4);
+        }
+        break;
+      case GPSHAPE_REVERSETRIANGLE:
+        {
+        int xCoor[] = {(int)(0.0*cellSize), (int)(1.0*cellSize), (int)(0.5*cellSize)};
+        int yCoor[] = {(int)(0.0*cellSize), (int)(0.0*cellSize), (int)(1.0*cellSize)};
+        drawPolygon(ctx, x, y, xCoor, yCoor, 3);
+        }
+        break;
+      case GPSHAPE_CROSS:
+        {
+        int xCoor[] =
+          {(int)(0.33*cellSize), (int)(0.67*cellSize),
+           (int)(0.67*cellSize), (int)(1.0*cellSize),
+           (int)(1.0*cellSize), (int)(0.67*cellSize),
+           (int)(0.67*cellSize), (int)(0.33*cellSize),
+           (int)(0.33*cellSize), (int)(0.0*cellSize),
+           (int)(0.0*cellSize), (int)(0.33*cellSize)};
+        int yCoor[] =
+          {(int)(0.0*cellSize), (int)(0.0*cellSize),
+           (int)(0.33*cellSize), (int)(0.33*cellSize),
+           (int)(0.67*cellSize), (int)(0.67*cellSize),
+           (int)(1.0*cellSize), (int)(1.0*cellSize),
+           (int)(0.67*cellSize), (int)(0.67*cellSize),
+           (int)(0.33*cellSize), (int)(0.33*cellSize)};
+        drawPolygon(ctx, x, y, xCoor, yCoor, 12);
+        }
+        break;
+      case GPSHAPE_DIAMOND:
+        {
+        int xCoor[] =
+          {(int)(0.5*cellSize), (int)(1.0*cellSize),
+           (int)(0.5*cellSize), (int)(0.0*cellSize)};
+        int yCoor[] =
+          {(int)(0.0*cellSize), (int)(0.5*cellSize),
+           (int)(1.0*cellSize), (int)(0.5*cellSize)};
+        drawPolygon(ctx, x, y, xCoor, yCoor, 4);
+        }
+        break;
+      case GPSHAPE_WYE:
+        {
+        int xCoor[] =
+          {(int)(0.25*cellSize), (int)(0.5*cellSize), (int)(0.75*cellSize),
+           (int)(1.0*cellSize), (int)(0.75*cellSize), (int)(0.75*cellSize),
+           (int)(0.25*cellSize), (int)(0.25*cellSize), (int)(0.0*cellSize),};
+        int yCoor[] =
+          {(int)(0.0*cellSize), (int)(0.25*cellSize), (int)(0.0*cellSize),
+           (int)(0.25*cellSize), (int)(0.75*cellSize), (int)(1.0*cellSize),
+           (int)(1.0*cellSize), (int)(0.75*cellSize), (int)(0.25*cellSize),};
+        drawPolygon(ctx, x, y, xCoor, yCoor, 9);
+        }
+        break;
+      case GPSHAPE_LRTRIANGLE:
+        {
+        int xCoor[] = {(int)(0.0*cellSize), (int)(0.0*cellSize), (int)(1.0*cellSize)};
+        int yCoor[] = {(int)(0.0*cellSize), (int)(1.0*cellSize), (int)(0.5*cellSize)};
+        drawPolygon(ctx, x, y, xCoor, yCoor, 3);
+        }
+        break;
+      case GPSHAPE_RLTRIANGLE:
+        {
+        int xCoor[] = {(int)(1.0*cellSize), (int)(1.0*cellSize), (int)(0.0*cellSize)};
+        int yCoor[] = {(int)(0.0*cellSize), (int)(1.0*cellSize), (int)(0.5*cellSize)};
+        drawPolygon(ctx, x, y, xCoor, yCoor, 3);
         }
         break;
       case GPSHAPE_NOSHAPE:

@@ -41,6 +41,15 @@ public interface IGridPanel {
 	public static final int GPSHAPE_OCTOGON  = 6;
 	public static final int GPSHAPE_STAR  = 7; // 5 or 6 pointed star
 	public static final int GPSHAPE_TURTLE  = 8; // Logo-like turtle
+	
+	public static final int GPSHAPE_SMALLCIRCLE = 11;
+	public static final int GPSHAPE_SMALLRECTANGLE = 12;
+	public static final int GPSHAPE_REVERSETRIANGLE = 13; // upside-down triangle
+	public static final int GPSHAPE_CROSS = 14;
+	public static final int GPSHAPE_DIAMOND = 15;
+	public static final int GPSHAPE_WYE = 16;
+	public static final int GPSHAPE_LRTRIANGLE = 17; // left-to-right triangle
+	public static final int GPSHAPE_RLTRIANGLE = 18; // right-to-left triangle
 
 	/**
 	 * Get grid owner.
