@@ -47,6 +47,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 import org.primordion.xholon.app.IApplication;
 import org.primordion.xholon.base.AbstractGrid;
+import org.primordion.xholon.base.IDecoration;
 import org.primordion.xholon.base.IGrid;
 import org.primordion.xholon.base.IMessage;
 import org.primordion.xholon.base.ISignal;
@@ -154,6 +155,12 @@ public abstract class GridPanel extends Xholon implements IGridPanel {
    * This is mainly for use when their are 2+ types (XholonClass'es) of GridCell, where each has its own color.
    */
   protected boolean cellsCanSupplyOwnColor = false;
+  
+  /**
+   * Whether or not to use icons for drawing.
+   * <Icon>...</Icon>
+   */
+  protected boolean useIcons = false;
   
   /**
    * Constructor
@@ -927,6 +934,14 @@ context1.closePath();
   {
     IXholon agent = currentCell.getFirstChild(); // this should remain as getFirstChild()
     if (agent != null) {
+      if (useIcons) {
+        // Test of drawImage()
+        String icon = ((IDecoration)agent.getXhc()).getIcon();
+        if (icon != null) {
+          drawImage(ctx, icon, x, y, cellSize, cellSize);
+          return;
+        }
+      }
       ctx.setFillStyle(getColor(agent));
       int shape = getShape(agent);
       switch (shape) {
@@ -1226,6 +1241,8 @@ context.stroke();
   
   /**
    * Draw an image on the canvas.
+   * TODO this works, but the image flickers each time step
+   * TODO each time step, a new img tag is added to RootPanel (the HTML body)
    * @param ctx - A GWT Context2d object.
    * @param src - URI designating the source of this image (ex: "myimage.png").
    * @param dx - the x coordinate of the upper-left corner of the destination rectangle
@@ -1240,6 +1257,8 @@ context.stroke();
         ctx.drawImage(image, dx, dy);
       }
     });
+    img.setVisible(false);
+    RootPanel.get().add(img);
   }
   
   /**
@@ -1261,6 +1280,8 @@ context.stroke();
         ctx.drawImage(image, dx, dy, dw, dh);
       }
     });
+    img.setVisible(false);
+    RootPanel.get().add(img);
   }
   
   /**
@@ -1287,6 +1308,8 @@ context.stroke();
         ctx.drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh);
       }
     });
+    img.setVisible(false);
+    RootPanel.get().add(img);
   }
   
   public String toDataUrl() {
