@@ -2318,7 +2318,7 @@ a.action("takeclone hello;");
     .append("\nout speech,caption,transcript,debug,all TEXT")
     .append("\nparam NAME VALUE")
     .append("\nprev [[*]THING]")
-    .append("\nput THING1 in|on|under THING2")
+    .append("\nput THING1 in|on|under|before|after THING2")
     .append("\nsearch THING")
     .append("\nset THING NAME VALUE")
     .append("\nsmash THING")
@@ -2688,6 +2688,8 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
    * ex: "put dino in museum"
    *     "put dino in xpath(../Museum)"
    *     "take dino;put dino in museum"
+   * ex: ava.action("take stump; put stump before leaves;");
+   *     ava.action("take oakWood; put oakWood after leaves;");
    * @param thing1 - 
    * @param in - the word "in"
    * @param thing2 - 
@@ -2710,7 +2712,12 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
       return;
     }
     node1.removeChild();
-    node1.appendChild(node2);
+    switch (in) {
+      case "before": node1.insertBefore(node2); break;
+      case "after": node1.insertAfter(node2); break;
+      default: node1.appendChild(node2); break; // in|on|under
+    }
+    //node1.appendChild(node2);
     sb.append("Put.");
   }
   
