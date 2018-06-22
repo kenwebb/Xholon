@@ -149,12 +149,17 @@ public class GridPanelGeneric extends GridPanel implements IGridPanel {
       case "Wye": shapeId = IGridPanel.GPSHAPE_WYE; break;
       case "LRTriangle": shapeId = IGridPanel.GPSHAPE_LRTRIANGLE; break;
       case "RLTriangle": shapeId = IGridPanel.GPSHAPE_RLTRIANGLE; break;
-      default: break;
+      default:
+        if (shapeName.startsWith(JSCODE_INDICATOR)) { // "js:"
+          // this is JavaScript code to create a shape
+          shapeId = GPSHAPE_JAVASCRIPTCODE;
+        }
+        break;
       }
     }
     return shapeId;
   }
-
+  
   public String[] getSeriesColor() {
     return seriesColor;
   }

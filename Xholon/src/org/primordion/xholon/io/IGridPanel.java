@@ -50,6 +50,11 @@ public interface IGridPanel {
 	public static final int GPSHAPE_WYE = 16;
 	public static final int GPSHAPE_LRTRIANGLE = 17; // left-to-right triangle
 	public static final int GPSHAPE_RLTRIANGLE = 18; // right-to-left triangle
+	
+	public static final int GPSHAPE_JAVASCRIPTCODE = 99; // user-defined JavaScript canvas context2d code
+	
+	public static final String JSCODE_INDICATOR = "js:"; // GPSHAPE_JAVASCRIPTCODE String must start with these characters (ex: "js:ctx.fillRect(80,20,100,60);")
+	public static final int JSCODE_INDICATOR_LEN = JSCODE_INDICATOR.length();
 
 	/**
 	 * Get grid owner.

@@ -1170,6 +1170,9 @@ context1.closePath();
         drawPolygon(ctx, x, y, xCoor, yCoor, 3);
         }
         break;
+      case GPSHAPE_JAVASCRIPTCODE:
+        this.makeJsShape(ctx, ((IDecoration)agent.getXhc()).getSymbol().substring(JSCODE_INDICATOR_LEN), x, y, cellSize);
+        break;
       case GPSHAPE_NOSHAPE:
         break;
       default: // the agent's shape directly specifies the number of sides
@@ -1182,6 +1185,19 @@ context1.closePath();
       }
     }
   }
+  
+  /**
+   * Make a shape by executing JavaScript canvas context2d code.
+   * @param ctx the native canvas context2d
+   * @param jsCode the JavaScript code to evaluate
+   * @param x X coordinate of the grid cell.
+   * @param y Y coordinate of the grid cell.
+   * @param cellSize The width and height of the grid cell.
+   */
+  protected native void makeJsShape(Context2d ctx, String jsCode, int x, int y, int cellSize) /*-{
+    var jsCodeWithArgs = "var ctx = arguments[0];var x = arguments[2];var y = arguments[3];var cellSize = arguments[4];" + jsCode;
+    eval(jsCodeWithArgs);
+  }-*/;
   
   /**
    * Draw a polygon.
