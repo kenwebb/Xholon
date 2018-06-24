@@ -38,6 +38,7 @@ import org.primordion.xholon.io.xml.IXmlWriter;
 import org.primordion.xholon.service.IXholonService;
 import org.primordion.xholon.service.XholonHelperService;
 import org.primordion.xholon.service.meteor.IMeteorPlatformService;
+import org.primordion.xholon.service.recipe.IRecipe;
 import org.primordion.xholon.util.ClassHelper;
 import org.primordion.xholon.util.Misc;
 
@@ -115,6 +116,10 @@ public class Avatar extends AbstractAvatar {
   protected static final int SPEECHOUT_NO_EFFECT = 0;
   protected static final int SPEECHOUT_ALWAYS    = 1;
   protected static final int SPEECHOUT_NEVER     = 2;
+  
+  protected static final String RB_DEFAULT_SERVICE_NAME = "RecipeService"; // recipe book default service name
+  protected static final String RB_DEFAULT_STYLE_NAME = "MinecraftStyleRecipeBook"; // recipe book default style name
+  protected static final String RB_SEPARATOR = "-"; // separator between parts of a recipe book name
   
   /* MOVED TO AbstractAvatar
   // Variables
@@ -299,6 +304,14 @@ public class Avatar extends AbstractAvatar {
    * This is mostly intended for use with speech recognition, to do speech-to-text.
    */
   protected boolean takenotes = false;
+  
+  /**
+   * A recipe book that contains zero or more recipes.
+   * The initial type of recipe book is in JSON format, and can be created using MinecraftStyleRecipe Book, and obtained from RecipeService.
+   * For now, there can only be one unnamed recipe book.
+   * TODO allow multiple named recipe books by using a Map
+   */
+  protected Object recipebook = null;
   
   // constructor
   public Avatar() {}
@@ -1275,6 +1288,14 @@ public class Avatar extends AbstractAvatar {
       }
       else {
         sb.append("Please specify the correct number of parameters (ex: put dino in museum).");
+      }
+      break;
+    case "recipe":
+      if (len == 2) {
+        recipe(data[1], null);
+      }
+      else if (len == 3) {
+        recipe(data[1], data[2]);
       }
       break;
     case "script":
@@ -2319,6 +2340,7 @@ a.action("takeclone hello;");
     .append("\nparam NAME VALUE")
     .append("\nprev [[*]THING]")
     .append("\nput THING1 in|on|under|before|after THING2")
+    .append("\nrecipe RECIPE_NAME [RECIPE_BOOK_NAME]")
     .append("\nsearch THING")
     .append("\nset THING NAME VALUE")
     .append("\nsmash THING")
@@ -2762,6 +2784,90 @@ out canvas http://www.primordion.com/Xholon/gwtimages/peterrabbit/peter04.jpg
   }
   
   /**
+   * Process a recipe.
+   * recipe RECIPE_NAME [RECIPE_BOOK_NAME]
+   * example:
+var ava = xh.avatar();
+ava.action("param debug true");
+ava.action("param recipebook Island");
+ava.action("i");
+ava.action("recipe Hut");
+ava.action("look");
+   * 
+ava.action("build Stick;build String;build Hook;take stick;take string;take hook;");
+ava.action("i");
+ava.action("recipe FishingRod");
+ava.action("look");
+   * 
+   * @param rname Recipe name
+   * @param rbname Recipe Book name, or null; assume it's null for now
+   */
+  protected void recipe(String rname, String rbname) {
+    processRecipe(this, this.recipebook, rname);
+  }
+  
+  protected native void processRecipe(IXholon ava, Object rbook, String rname) /*-{
+    // Step 0
+    var recipe = rbook[rname];
+    if (!recipe) {return;}
+    //$wnd.console.log(recipe[0]);
+    recipe = recipe[0]; // for now, assume that there is only one item in the list of alternative recipe formulations
+    
+    // Step 1 - create temporary JS dictionary from ava inventory
+    var inventoryDict = {};
+    var node = ava.first();
+    if (!node) {return;} // the inventory is empty
+    while (node) {
+      var xhcName = node.xhc().name();
+      var itemArr = inventoryDict[xhcName];
+      if (itemArr) {
+        // add node to existing internal array
+        itemArr.push(node);
+      }
+      else {
+        itemArr = []; // create internal array
+        itemArr.push(node); // add node to internal array
+        inventoryDict[xhcName] = itemArr;
+      }
+      node = node.next();
+    }
+    //$wnd.console.log(inventoryDict);
+    
+    // Step 2 - use recipe ingredients to create tentative inventory removals list
+    var ingrs = recipe["ingredients"];
+    if (!ingrs) {return;}
+    var removalsArr = [];
+    for (var i = 0; i < ingrs.length; i++) {
+      var ingr = ingrs[i];
+      var itemArr = inventoryDict[ingr];
+      if (itemArr && itemArr.length > 0) {
+        removalsArr.push(itemArr.pop());
+      }
+      else {
+        return; // missing ingredient
+      }
+    }
+    //$wnd.console.log(removalsArr);
+    
+    // Step 3 - create new nodes based on recipe results
+    var result = recipe["result"];
+    if (!result) {return;}
+    //$wnd.console.log(result); // {multiplicity: 1, xhc: "Hut", role: "Cottage"}
+    // TODO retain anything that is in both the ingredients and the result (ex: a catalyst)
+    // <Hut roleName="Cottage" multiplicity="1"/>
+    var xmlStr = "<";
+    if (!result.xhc) {return;}
+    xmlStr += result.xhc;
+    if (result.role) {xmlStr += ' roleName="' + result.role + '"';}
+    if (result.multiplicity) {xmlStr += ' multiplicity="' + result.multiplicity + '"';}
+    xmlStr += "/>";
+    for (var j = 0; j < removalsArr.length; j++) {
+      removalsArr[j].remove();
+    }
+    ava.parent().append(xmlStr);
+  }-*/;
+  
+  /**
    * Search something that's possibly a container or supporter,
    * to determine what it contains ?
    */
@@ -3148,6 +3254,34 @@ xport hello _other,Newick,true,true,true,{}
       case "true": app.setShouldStepAvatar(true); break;
       case "false": app.setShouldStepAvatar(false); break;
       default: break;
+      }
+      break;
+    case "recipebook":
+      /**
+       * param recipebook RecipeService-MinecraftStyleRecipeBook-Island;
+       * param recipebook MinecraftStyleRecipeBook-Island;
+       * param recipebook Island;
+       */
+      String rbname = null;
+      String[] rbnameArr = value.split("-");
+      switch (rbnameArr.length) {
+      case 1:
+        rbname = RB_DEFAULT_SERVICE_NAME + RB_SEPARATOR + RB_DEFAULT_STYLE_NAME + RB_SEPARATOR + value;
+        break;
+      case 2:
+        rbname = RB_DEFAULT_SERVICE_NAME + RB_SEPARATOR + value;
+        break;
+      case 3:
+        rbname = value;
+        break;
+      default: break;
+      }
+      if (rbname != null) {
+        IXholon rserv = this.getService("RecipeService");
+        if (rserv != null) {
+          IMessage rmsg = rserv.sendSyncMessage(IRecipe.SIG_GET_RECIPE_BOOK_REQ, rbname, this);
+          this.recipebook = rmsg.getData();
+        }
       }
       break;
     default:

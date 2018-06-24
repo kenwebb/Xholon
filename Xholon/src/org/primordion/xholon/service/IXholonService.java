@@ -61,6 +61,7 @@ public interface IXholonService {
 	public static final String XHSRV_NOSQL = "NoSqlService";
 	public static final String XHSRV_PCSPATH = "PcsPathService";
 	public static final String XHSRV_PRE_CONFIGURATION = "PreConfigurationService";
+	public static final String XHSRV_RECIPE = "RecipeService";
 	public static final String XHSRV_REFLECTION = "ReflectionService";
 	public static final String XHSRV_REST = "RestService";
 	public static final String XHSRV_REMOTE_NODE = "RemoteNodeService";

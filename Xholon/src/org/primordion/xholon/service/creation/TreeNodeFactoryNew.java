@@ -672,6 +672,13 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			}
 		}
 		
+		// service.recipe
+		else if (implName.startsWith("org.primordion.xholon.service.recipe")) {
+			if (implName.endsWith(".MinecraftStyleRecipeBook")) {
+				newNode = new org.primordion.xholon.service.recipe.MinecraftStyleRecipeBook();
+			}
+		}
+		
 		// service
 		else if (implName.startsWith("org.primordion.xholon.service")) {
 			if (implName.endsWith("DefaultXholonService")) {
@@ -796,6 +803,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			}
 			else if (implName.endsWith("NaturalLanguageService")) {
 				newNode = new org.primordion.xholon.service.NaturalLanguageService();
+			}
+			else if (implName.endsWith("RecipeService")) {
+				newNode = new org.primordion.xholon.service.RecipeService();
 			}
 			else if (implName.endsWith("RestService")) {
 				//newNode = new org.primordion.xholon.service.RestService();

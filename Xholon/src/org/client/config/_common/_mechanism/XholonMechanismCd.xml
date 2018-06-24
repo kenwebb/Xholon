@@ -143,6 +143,9 @@
 	<!--<Quantity xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.base.Quantity"/>-->
 	<!--<Quantity xhType="XhtypePurePassiveObject" implName="org.primordion.xholon.service.mathscieng.Quantity"/>-->
 	
+	<!-- Recipe -->
+	<MinecraftStyleRecipeBook  xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.recipe.MinecraftStyleRecipeBook"/>
+	
 	<!-- RemoteNode -->
 	<CrossApp xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.remotenode.CrossApp"/>
 	<MessageChannel xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.remotenode.MessageChannel"/>
@@ -368,6 +371,8 @@
 		implName="org.primordion.xholon.service.SpreadsheetService"/>
 	<NaturalLanguageService xhType="XhtypePurePassiveObject"
 		implName="org.primordion.xholon.service.NaturalLanguageService"/>
+	<RecipeService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.RecipeService"/>
 	<Xholon2Svg xhType="XhtypePurePassiveObject"
 		implName="org.primordion.xholon.io.Xholon2Svg"/>
 	

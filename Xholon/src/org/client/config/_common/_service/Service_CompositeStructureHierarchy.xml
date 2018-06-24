@@ -186,6 +186,20 @@
     </XholonMap>
   </NaturalLanguageService>
   
+  <RecipeService>
+    <XholonMap>
+      <!--
+      Users can add and get recipe books, and get specific records from an existing recipe book.
+      The roleName combines three fields. All are required:
+      1) Service name: must be "RecipeService",
+      2) Recipe book style: for now this must be "MinecraftStyleRecipeBook" which is the name of a Java class,
+      3) Recipe book name: ex: "Island".
+      Each recipe book contains zero or more named recipes.
+      -->
+      <!--<attr:Attribute_Object roleName="RecipeService-MinecraftStyleRecipeBook-Testing"></attr:Attribute_Object>-->
+    </XholonMap>
+  </RecipeService>
+  
   <!--<RestService>
     <XholonMap>
       <attr:Attribute_String roleName="RestService-Jersey">org.primordion.xholon.service.rest.Jersey</attr:Attribute_String>

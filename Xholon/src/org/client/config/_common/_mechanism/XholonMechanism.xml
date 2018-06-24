@@ -313,6 +313,13 @@ Uses IDs in range 1013000 - 1013099 .
 <!-- Represents Role nodes. Can be used to store a Xholon roleName. -->
 <Role xmlns="http://www.primordion.com/namespace/Role" id="1010100"/>
 
+<!-- Recipe -->
+<RecipeEntity xmlns="http://www.primordion.com/namespace/Recipe" id="1016300">
+  <RecipeBook>
+    <MinecraftStyleRecipeBook/> <!-- Minecraft-style recipe book; it uses JSON records with ingredients and results -->
+  </RecipeBook>
+</RecipeEntity>
+
 <!-- Room Entity - Real-time Object-Oriented Modeling -->
 <RoomEntity xmlns="http://www.primordion.com/namespace/RoomEntity" id="1016000">
   <RoomETrice/>
@@ -511,6 +518,7 @@ A typical service has:
 		<BroadcastService/>
 		<SpreadsheetService/>
 		<NaturalLanguageService/>
+		<RecipeService/>
 		
 		<!-- others, plus anything else in Xholon that can be a service -->
 		<Xholon2Svg/>

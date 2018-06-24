@@ -87,6 +87,7 @@ __________   ________   _____________________
 1016000      1016099    RoomEntity
 1016100      1016199    XholonBase
 1016200      1016299    Hypergraph
+1016300      1016399    Recipe
 
 The following XML is an alphabetical list of all Xholon Mechanisms and Viewers.
 -->
@@ -231,6 +232,13 @@ The following XML is an alphabetical list of all Xholon Mechanisms and Viewers.
 		<DefaultPrefix>port</DefaultPrefix>
 		<RangeStart>1000100</RangeStart>
 		<RangeEnd>1000199</RangeEnd>
+	</XholonMechanism>
+	
+	<XholonMechanism roleName="Recipe">
+		<NamespaceUri>http://www.primordion.com/namespace/Recipe</NamespaceUri>
+		<DefaultPrefix>recipe</DefaultPrefix>
+		<RangeStart>1016300</RangeStart>
+		<RangeEnd>1016399</RangeEnd>
 	</XholonMechanism>
 	
 	<XholonMechanism roleName="RemoteNode">
