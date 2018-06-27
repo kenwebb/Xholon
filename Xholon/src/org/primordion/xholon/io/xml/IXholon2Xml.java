@@ -215,4 +215,9 @@ public interface IXholon2Xml {
 	 */
 	public abstract void setWriteJavaScriptAttributes(boolean writeJavaScriptAttributes);
 	
+	public abstract boolean isShouldWriteVal();
+	public abstract void setShouldWriteVal(boolean shouldWriteVal);
+	public abstract boolean isShouldWriteAllPorts();
+	public abstract void setShouldWriteAllPorts(boolean shouldWriteAllPorts);
+
 }

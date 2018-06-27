@@ -502,4 +502,24 @@ public class Xholon2HtmlForm extends AbstractXholon2ExternalFormat implements IX
 		// do nothing
 	}
 	
+	@Override
+	public boolean isShouldWriteVal() {
+	  return false; //shouldWriteVal;
+	}
+	
+	@Override
+	public void setShouldWriteVal(boolean shouldWriteVal) {
+	  //this.shouldWriteVal = shouldWriteVal;
+	}
+	
+	@Override
+	public boolean isShouldWriteAllPorts() {
+	  return false; //shouldWriteAllPorts;
+	}
+	
+	@Override
+	public void setShouldWriteAllPorts(boolean shouldWriteAllPorts) {
+	  //this.shouldWriteAllPorts = shouldWriteAllPorts;
+	}
+	
 }

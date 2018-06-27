@@ -414,13 +414,13 @@ public class Xholon2Yaml extends AbstractXholon2ExternalFormat implements IXholo
    * Whether or not to write an attribute with the name "Val".
    */
   public native boolean isShouldWriteVal() /*-{return this.efParams.shouldWriteVal;}-*/;
-  //public native void setShouldWriteVal(boolean shouldWriteVal) /*-{this.efParams.shouldWriteVal = shouldWriteVal;}-*/;
+  public native void setShouldWriteVal(boolean shouldWriteVal) /*-{this.efParams.shouldWriteVal = shouldWriteVal;}-*/;
 
   /**
    * Whether or not to write an attribute with the name "AllPorts".
    */
   public native boolean isShouldWriteAllPorts() /*-{return this.efParams.shouldWriteAllPorts;}-*/;
-  //public native void setShouldWriteAllPorts(boolean shouldWriteAllPorts) /*-{this.efParams.shouldWriteAllPorts = shouldWriteAllPorts;}-*/;
+  public native void setShouldWriteAllPorts(boolean shouldWriteAllPorts) /*-{this.efParams.shouldWriteAllPorts = shouldWriteAllPorts;}-*/;
 
   /**
    * Whether or not to write an attribute with the name "Links".
