@@ -1196,7 +1196,12 @@ context1.closePath();
    */
   protected native void makeJsShape(Context2d ctx, String jsCode, int x, int y, int cellSize) /*-{
     var jsCodeWithArgs = "var ctx = arguments[0];var x = arguments[2];var y = arguments[3];var cellSize = arguments[4];" + jsCode;
-    eval(jsCodeWithArgs);
+    try {
+      eval(jsCodeWithArgs);
+    }
+    catch(error) {
+      $wnd.console.error(error);
+    }
   }-*/;
   
   /**
