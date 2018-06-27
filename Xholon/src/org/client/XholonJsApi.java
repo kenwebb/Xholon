@@ -398,6 +398,16 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       return @org.client.XholonJsApi::isXholonNode(Ljava/lang/Object;)(obj);
     });
     
+    // random - replacement for Javascript Math.random(), with a seed
+    $wnd.xh.random = $entry(function() {
+      return @org.primordion.xholon.util.MiscRandom::random()();
+    });
+    
+    // seed - seed the random number generator
+    $wnd.xh.seed = $entry(function(seed) {
+      @org.primordion.xholon.util.MiscRandom::seedRandomNumberGeneratorInt(I)(seed);
+    });
+    
     // html.toggle
     $wnd.xh.html.toggle = $entry(function(elementId) {
       @org.client.HtmlElementCache::toggleElementDisplay(Ljava/lang/String;)(elementId);

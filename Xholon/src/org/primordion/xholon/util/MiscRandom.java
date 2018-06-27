@@ -85,5 +85,30 @@ public class MiscRandom {
 		random.setSeed(seed);
 		return seed;
 	}
+	
+	/**
+	 * Seed the random number generator with a known value.
+	 * This can be used when calling from JavaScript.
+	 */
+	public static void seedRandomNumberGeneratorInt(int seed)
+	{
+		random.setSeed((long)seed);
+	}
+	
+	/**
+	 * Emulate the JavaScript Math.random() function, while allowing for an initial seed.
+	 * 
+	 * "The Math.random() function returns a floating-point, pseudo-random number in the range 0–1 (inclusive of 0, but not 1)
+	 * with approximately uniform distribution over that range — which you can then scale to your desired range.
+	 * The implementation selects the initial seed to the random number generation algorithm; it cannot be chosen or reset by the user."
+	 * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+	 * 
+	 * "Returns the next pseudorandom, uniformly distributed double value between 0.0 and 1.0 from this random number generator's sequence."
+	 * https://docs.oracle.com/javase/8/docs/api/java/util/Random.html
+	 */
+	public static double random()
+	{
+		return random.nextDouble();
+	}
 
 }
