@@ -35,6 +35,7 @@ import org.primordion.xholon.base.IGrid;
 import org.primordion.xholon.io.gwt.HtmlScriptHelper;
 import org.primordion.xholon.io.xml.IXholon2Xml;
 import org.primordion.xholon.io.xml.IXmlWriter;
+import org.primordion.xholon.io.xml.Xholon2Xml;
 import org.primordion.xholon.service.IXholonService;
 import org.primordion.xholon.service.XholonHelperService;
 import org.primordion.xholon.service.meteor.IMeteorPlatformService;
@@ -1744,6 +1745,21 @@ a.action("takeclone hello;");
       node = findNode(thing, this);
     }
     if (node != null) {
+      if (meteor && (meteorService != null)) {
+        thing = thing.trim();
+        if (!thing.startsWith("<")) {
+          /*String roleName = node.getRoleName();
+          if (roleName == null) {
+            thing = "<" + node.getXhcName() + "/>";
+          }
+          else {
+            thing = "<" + node.getXhcName() + " roleName=\"" + roleName + "\"/>";
+          }*/
+          thing = this.makeMeteorXmlStr(node);
+        }
+        String[] data = {thing, "add", "append"};
+        meteorService.sendSyncMessage(IMeteorPlatformService.SIG_COLL_INSERT_REQ, data, contextNode);
+      }
       node.removeChild();
       node.appendChild(contextNode);
       sb.append("Dropped.");
@@ -1755,16 +1771,58 @@ a.action("takeclone hello;");
   
   /**
    * Drop all things from the avatar's inventory, to the current contextNode.
+   * TODO for Meteor, possibly put all nodes into a single XMLSring forest
    */
   protected void dropAll() {
     IXholon node = this.getFirstChild();
     while (node != null) {
       IXholon sib = node.getNextSibling();
+      // Meteor
+      if (meteor && (meteorService != null)) {
+        /*String thing = "";
+        String roleName = node.getRoleName();
+        if (roleName == null) {
+          thing = "<" + node.getXhcName() + "/>";
+        }
+        else {
+          thing = "<" + node.getXhcName() + " roleName=\"" + roleName + "\"/>";
+        }*/
+        String thing = this.makeMeteorXmlStr(node);
+        String[] data = {thing, "add", "append"};
+        meteorService.sendSyncMessage(IMeteorPlatformService.SIG_COLL_INSERT_REQ, data, contextNode);
+      }
       node.removeChild();
       node.appendChild(contextNode);
       node = sib;
     }
     sb.append("All dropped.");
+  }
+  
+  /**
+   * Make an XML string that can be used with Meteor.
+   * Called from drop() and dropAll() and perhaps other methods.
+   * For Xholon subtrees, use the code from io/Xml2Xholon.java multiply()
+   */
+  protected String makeMeteorXmlStr(IXholon node) {
+    String xmlStr = null;
+    if (node.hasChildNodes()) {
+      IXholon2Xml xholon2Xml = new Xholon2Xml();
+      xholon2Xml.setXhAttrStyle(IXholon2Xml.XHATTR_TO_XMLATTR); // XHATTR_TO_NULL);
+      xholon2Xml.setWriteStartDocument(false); // don't write "<?xml version="1.0" encoding="UTF-8"?>" at start of document
+      xholon2Xml.setShouldWriteAllPorts(false);
+      xholon2Xml.setShouldWriteVal(false);
+      xmlStr = xholon2Xml.xholon2XmlString(node);
+    }
+    else {
+      String roleName = node.getRoleName();
+      if (roleName == null) {
+        xmlStr = "<" + node.getXhcName() + "/>";
+      }
+      else {
+        xmlStr = "<" + node.getXhcName() + " roleName=\"" + roleName + "\"/>";
+      }
+    }
+    return xmlStr;
   }
   
   /**
@@ -1779,10 +1837,11 @@ a.action("takeclone hello;");
     IXholon node = findNode(thing, this);
     if (node != null) {
       // optionally write this change to Meteor
-      if (meteor && (meteorService != null)) {
+      // NO don't involve Meteor; Meteor should already have been notified when Avatar took the thing
+      /*if (meteor && (meteorService != null)) {
         String[] data = {null, "remove"};
         meteorService.sendSyncMessage(IMeteorPlatformService.SIG_COLL_INSERT_REQ, data, node);
-      }
+      }*/
       node.removeChild();
       sb.append(response);
     }
@@ -1797,11 +1856,11 @@ a.action("takeclone hello;");
   protected void eatAll(String response) {
     IXholon node = this.getFirstChild();
     while (node != null) {
-      // optionally write this change to Meteor
-      if (meteor && (meteorService != null)) {
+      // optionally write this change to Meteor; NO
+      /*if (meteor && (meteorService != null)) {
         String[] data = {null, "remove"};
         meteorService.sendSyncMessage(IMeteorPlatformService.SIG_COLL_INSERT_REQ, data, node);
-      }
+      }*/
       IXholon sib = node.getNextSibling();
       node.removeChild();
       node = sib;
@@ -1909,7 +1968,14 @@ a.action("takeclone hello;");
     switch(thing) {
     case "parent":
       exit("prev");
-      take("next");
+      if (meteor) {
+        meteor = false;
+        take("next");
+        meteor = true;
+      }
+      else {
+        take("next");
+      }
       break;
     case "next":
     {
@@ -2803,20 +2869,27 @@ ava.action("look");
    * @param rbname Recipe Book name, or null; assume it's null for now
    */
   protected void recipe(String rname, String rbname) {
-    processRecipe(this, this.recipebook, rname);
+    String thing = processRecipe(this, this.recipebook, rname);
+    // meteor
+    if (meteor && (meteorService != null)) {
+      //String thing = newNode.getXhcName(); // TODO add role?
+      String[] data = {thing, "add", "append"};
+      meteorService.sendSyncMessage(IMeteorPlatformService.SIG_COLL_INSERT_REQ, data, contextNode);
+    }
+
   }
   
-  protected native void processRecipe(IXholon ava, Object rbook, String rname) /*-{
+  protected native String processRecipe(IXholon ava, Object rbook, String rname) /*-{
     // Step 0
     var recipe = rbook[rname];
-    if (!recipe) {return;}
+    if (!recipe) {return null;}
     //$wnd.console.log(recipe[0]);
     recipe = recipe[0]; // for now, assume that there is only one item in the list of alternative recipe formulations
     
     // Step 1 - create temporary JS dictionary from ava inventory
     var inventoryDict = {};
     var node = ava.first();
-    if (!node) {return;} // the inventory is empty
+    if (!node) {return null;} // the inventory is empty
     while (node) {
       var xhcName = node.xhc().name();
       var itemArr = inventoryDict[xhcName];
@@ -2835,7 +2908,7 @@ ava.action("look");
     
     // Step 2 - use recipe ingredients to create tentative inventory removals list
     var ingrs = recipe["ingredients"];
-    if (!ingrs) {return;}
+    if (!ingrs) {return null;}
     var removalsArr = [];
     for (var i = 0; i < ingrs.length; i++) {
       var ingr = ingrs[i];
@@ -2844,19 +2917,19 @@ ava.action("look");
         removalsArr.push(itemArr.pop());
       }
       else {
-        return; // missing ingredient
+        return null; // missing ingredient
       }
     }
     //$wnd.console.log(removalsArr);
     
     // Step 3 - create new nodes based on recipe results
     var result = recipe["result"];
-    if (!result) {return;}
+    if (!result) {return null;}
     //$wnd.console.log(result); // {multiplicity: 1, xhc: "Hut", role: "Cottage"}
     // TODO retain anything that is in both the ingredients and the result (ex: a catalyst)
     // <Hut roleName="Cottage" multiplicity="1"/>
     var xmlStr = "<";
-    if (!result.xhc) {return;}
+    if (!result.xhc) {return null;}
     xmlStr += result.xhc;
     if (result.role) {xmlStr += ' roleName="' + result.role + '"';}
     if (result.multiplicity) {xmlStr += ' multiplicity="' + result.multiplicity + '"';}
@@ -2865,6 +2938,8 @@ ava.action("look");
       removalsArr[j].remove();
     }
     ava.parent().append(xmlStr);
+    //var newNode = ava.parent().last();
+    return xmlStr; //newNode;
   }-*/;
   
   /**
@@ -2937,6 +3012,11 @@ ava.action("look");
   protected void take(String thing) {
     IXholon node = findNode(thing, contextNode);
     if (node != null) {
+      // optionally write this change to Meteor
+      if (meteor && (meteorService != null)) {
+        String[] data = {null, "remove"};
+        meteorService.sendSyncMessage(IMeteorPlatformService.SIG_COLL_INSERT_REQ, data, node);
+      }
       node.removeChild();
       node.appendChild(this);
       sb.append("Taken.");
@@ -2954,6 +3034,11 @@ ava.action("look");
     while (node != null) {
       IXholon sib = node.getNextSibling();
       if (node != this) { // don't try to add the avatar itself to the avatar's inventory
+        // optionally write this change to Meteor
+        if (meteor && (meteorService != null)) {
+          String[] data = {null, "remove"};
+          meteorService.sendSyncMessage(IMeteorPlatformService.SIG_COLL_INSERT_REQ, data, node);
+        }
         node.removeChild();
         node.appendChild(this);
       }

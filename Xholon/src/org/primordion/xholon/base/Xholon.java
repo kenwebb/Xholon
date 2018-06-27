@@ -3456,7 +3456,20 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
   @Override
   public native boolean isExistsMeteor() /*-{
     if ($wnd.Meteor) {
-      return true;
+      var ready = $wnd.xh.param("ReadyForMeteor");
+      //$wnd.console.log(ready);
+      if (ready == null) { // param("ReadyForMeteor") is not in use
+        //$wnd.console.log("ready is null");
+        return true;
+      }
+      else if (ready == "true") {
+        //$wnd.console.log("ready is true");
+        return true;
+      }
+      else {
+        //$wnd.console.log("ready is else");
+        return false;
+      }
     }
     else {
       return false;
