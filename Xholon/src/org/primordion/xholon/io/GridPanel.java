@@ -1195,9 +1195,9 @@ context1.closePath();
    * @param cellSize The width and height of the grid cell.
    */
   protected native void makeJsShape(Context2d ctx, String jsCode, int x, int y, int cellSize) /*-{
-    var jsCodeWithArgs = "var ctx = arguments[0];var x = arguments[2];var y = arguments[3];var cellSize = arguments[4];" + jsCode;
     try {
-      eval(jsCodeWithArgs);
+      var shapeFunc = new Function('ctx', 'x', 'y', 'cellSize', jsCode);
+      shapeFunc(ctx, x, y, cellSize);
     }
     catch(error) {
       $wnd.console.error(error);
