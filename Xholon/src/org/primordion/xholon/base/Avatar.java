@@ -18,6 +18,7 @@
 
 package org.primordion.xholon.base;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.json.client.JSONException;
 import com.google.gwt.json.client.JSONNumber;
@@ -1028,6 +1029,19 @@ public class Avatar extends AbstractAvatar {
     case "appear":
       appear();
       break;
+    case "apply":
+      if (len == 2) {
+        apply(data[1], null, null);
+      }
+      else if (len == 4) {
+        apply(data[1], data[2], data[3]);
+      }
+      else {
+        sb.append("Please specify the correct number of parameters (ex: ")
+        .append(data[0])
+        .append(" axe to tree).");
+      }
+      break;
     case "become":
     case "set":
       if (len == 4) {
@@ -1538,6 +1552,39 @@ public class Avatar extends AbstractAvatar {
       this.appendChild(contextNode);
     }
   }
+  
+  /**
+   * Use a tool, or apply a tool to one or more other things.
+   * @param toolThing - The name of a tool in the inventory.
+   * @param op - An operator, typically "to".
+   * @param otherThings - Zero or more things that toolThing will operate on.
+   */
+  protected void apply(String toolThing, String op, String otherThings) {
+    IXholon thing1 = findNode(toolThing, this);
+    if (thing1 == null) {return;}
+    JavaScriptObject othings = null;
+    if (otherThings != null) {
+      String[] othingNames = otherThings.split(",");
+      int len = othingNames.length;
+      othings = makeJsArr();
+      for (int i = 0; i < len; i++) {
+        IXholon node = findNode(othingNames[i], contextNode);
+        pushJsArr(othings, node);
+      }
+    }
+    IMessage rmsg = thing1.sendSyncMessage(101, othings, this);
+    if (rmsg.getData() != null) {
+      consoleLog(rmsg.getData());
+    }
+  }
+  
+  protected native JavaScriptObject makeJsArr() /*-{
+    return [];
+  }-*/;
+  
+  protected native void pushJsArr(JavaScriptObject jsArr, IXholon node) /*-{
+    jsArr.push(node);
+  }-*/;
   
   /**
    * Become something different by changing the roleName (or the XholonClass?).
@@ -2380,6 +2427,7 @@ a.action("takeclone hello;");
     sb
     .append("Basic commands:")
     .append("\nanim THING turnright|turnleft|hop|duck|grow|shrink|mirror PARAMS")
+    .append("\napply TOOL_THING [to OTHER_THING|OTHER_THINGS]")
     .append("\nappear")
     .append("\nbecome THING role ROLE")
     .append("\nbreakpoint")
