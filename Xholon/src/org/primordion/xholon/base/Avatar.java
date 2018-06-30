@@ -3501,6 +3501,28 @@ xport hello _other,Newick,true,true,true,{}
     else if ("next".equals(nodeName)) {
       return this.getNextSibling();
     }
+    else if ("nextprev".equals(nodeName)) {
+      // try to get next sibling, else get previous sibling
+      IXholon anode = this.getNextSibling();
+      if (anode == null) {
+        anode = this.getPreviousSibling();
+      }
+      return anode;
+    }
+    else if ("prevnext".equals(nodeName)) {
+      // try to get previous sibling, else get next sibling
+      IXholon anode = this.getPreviousSibling();
+      if (anode == null) {
+        anode = this.getNextSibling();
+      }
+      return anode;
+    }
+    else if ("firstsib".equals(nodeName)) {
+      return this.getFirstSibling();
+    }
+    else if ("lastsib".equals(nodeName)) {
+      return this.getLastSibling();
+    }
     else if (nodeName.startsWith("prev")) {
       return this.getPreviousSibling();
     }
