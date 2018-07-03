@@ -136,6 +136,11 @@ public interface ISignal {
 	 */
 	public static final int SIGNAL_READY = -11;
 	
+	/**
+	 * <p>A signal sent between members of the same bplex (Binding + Complex).</p>
+	 */
+	public static final int SIGNAL_BPLEX = -12;
+	
 	
 	/**
 	 * <p>Start of the range of values for Swing signals.</p>

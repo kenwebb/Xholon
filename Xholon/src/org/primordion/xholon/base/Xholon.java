@@ -20,6 +20,7 @@ package org.primordion.xholon.base;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayMixed;
 import com.google.gwt.json.client.JSONObject;
 //import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -2323,6 +2324,54 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 		if ((msg.getSignal() == ISignal.SIGNAL_XHOLON_CONSOLE_REQ) && (this.getActionList() != null)) {
 			this.doAction((String)msg.getData());
 		}
+		else if (msg.getSignal() == ISignal.SIGNAL_BPLEX) {
+		  // ex (using Dev Tools): var bait = temp1; bait["FishingRodbplex"].msg(-12, ["FishingRodbplex"], bait);
+		  // ex: var bait = temp1; bait["FishingRodbplex"].msg(-12, {bplexName:"FishingRodbplex"}, bait);
+			Object data = msg.getData();
+			if (data == null) {return;}
+			String clogStr = "bplex msg sender:" + msg.getSender() + " this:" + this.getName();
+			String bplexName = null;
+			if (data instanceof JavaScriptObject) {
+				clogStr += " datatype:JavaScriptObject";
+				JavaScriptObject jso = (JavaScriptObject)data;
+				bplexName = (String)getJsoPropertyValue(jso, "bplexName");
+				if (bplexName == null) {
+					// this may be a JavaScript Array
+					JsArrayMixed marr = jso.cast();
+					if (marr.length() == 0) {return;}
+					bplexName = marr.getString(0);
+					if (marr.length() > 1) {
+						// TODO the msg might contain a second nested message, or some other IXholon(s) or Object(s)
+						//anode = (Object)marr.getObject(1);
+					}
+					clogStr += " Array";
+				}
+				else {
+					clogStr += " Object";
+				}
+			}
+			else if (data instanceof Object[]) {
+				clogStr += " datatype:Java Object[]";
+				Object[] oarr = (Object[])data;
+				if (oarr.length == 0) {return;}
+				bplexName = (String)oarr[0];
+			}
+			else {
+				return;
+			}
+			consoleLog(clogStr);
+			//this.setColor("indigo"); // this works
+			if (msg.getSender() != this) {
+				// send to next node in the bplex
+				if (bplexName != null) {
+					IXholon nextBplexNode = getPortNative(this, bplexName);
+					if (nextBplexNode != null) {
+						// send the same message contents to the next node in the bplex
+						nextBplexNode.sendMessage(msg.getSignal(), data, msg.getSender());
+					}
+				}
+			}
+		}
 		else {
 			forwardMessage(msg);
 		}
@@ -2729,6 +2778,10 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 	
 	protected final native int getJsoPropertyValueInt(JavaScriptObject obj, String jsoPropertyName) /*-{
 		return obj[jsoPropertyName];
+	}-*/;
+	
+	protected final native IXholon getPortNative(IXholon node, String portName) /*-{
+	  return node[portName];
 	}-*/;
 	
 	/*

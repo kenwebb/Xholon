@@ -315,6 +315,9 @@ public class Behavior_gwtjs extends Xholon {
 			}
 			msg.getSender().sendMessage(ISignal.SIGNAL_XHOLON_CONSOLE_RSP, returnObj, this);
 			break;
+		case ISignal.SIGNAL_BPLEX:
+		  super.processReceivedMessage(msg); // Xholon.java may know how to process this
+		  break;
 		default:
 			if (hasProcessReceivedMessage) {
 			  if (beh != null) {
