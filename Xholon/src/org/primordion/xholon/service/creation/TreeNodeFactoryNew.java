@@ -656,6 +656,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			else if (implName.endsWith("CollectionBuilder")) {
 				newNode = new org.primordion.xholon.script.CollectionBuilder();
 			}
+			else if (implName.endsWith("ActRunner")) {
+				newNode = new org.primordion.xholon.script.ActRunner();
+			}
 		}
 		
 		// service.mathscieng
@@ -955,6 +958,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 				return true;
 			}
 			if (implName.endsWith("CollectionBuilder")) {
+				return true;
+			}
+			if (implName.endsWith("ActRunner")) {
 				return true;
 			}
 		}
