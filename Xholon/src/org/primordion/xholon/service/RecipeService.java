@@ -28,7 +28,8 @@ import org.primordion.xholon.base.IXholonClass;
 import org.primordion.xholon.base.Message;
 import org.primordion.xholon.base.XholonMap;
 import org.primordion.xholon.service.recipe.IRecipe;
-import org.primordion.xholon.service.recipe.MinecraftStyleRecipeBook;
+//import org.primordion.xholon.service.recipe.MinecraftStyleRecipeBook;
+//import org.primordion.xholon.service.recipe.JsonRulesEngineRecipeBook;
 
 /**
  * A service that adds and gets recipes.
@@ -38,6 +39,7 @@ var recipeService = xh.service("RecipeService");
  *
  * Numerous implementations are possible:
  * - MinecraftStyleRecipeBook
+ * - JsonRulesEngineRecipeBook
  *
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
@@ -113,6 +115,10 @@ public class RecipeService extends AbstractXholonService implements IRecipe {
 		    }
         IXholon node = map.appendChild("Attribute_Object", rbname);
         node.setVal_Object(this.jsonParse(jsonStr));
+        String[] rbnameParts = rbname.split("-");
+        if ((rbnameParts.length > 1) && ("JsonRulesEngineRecipeBook".equals(rbnameParts[1]))) {
+          this.requireJsonRulesEngine();
+        }
         }
         break;
       case SIG_GET_RECIPE_BOOK_REQ:
@@ -161,6 +167,13 @@ public class RecipeService extends AbstractXholonService implements IRecipe {
   
   protected native Object getItem(Object obj, String item) /*-{
     return obj[item];
+  }-*/;
+  
+  /**
+   * Load the json-rules-engine JavaScript files.
+   */
+  protected native void requireJsonRulesEngine() /*-{
+    $wnd.xh.require("json-rules-engine");
   }-*/;
   
 }

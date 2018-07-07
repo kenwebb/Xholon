@@ -145,6 +145,7 @@
 	
 	<!-- Recipe -->
 	<MinecraftStyleRecipeBook  xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.recipe.MinecraftStyleRecipeBook"/>
+	<JsonRulesEngineRecipeBook  xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.recipe.JsonRulesEngineRecipeBook"/>
 	
 	<!-- RemoteNode -->
 	<CrossApp xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.remotenode.CrossApp"/>
