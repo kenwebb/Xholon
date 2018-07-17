@@ -315,6 +315,11 @@ public class Avatar extends AbstractAvatar {
    */
   protected Object recipebook = null;
   
+  /**
+   * Whether or not to automatically update the context node when the user selects (clicks, touches) some other node.
+   */
+  protected boolean setCtxtOnselect = true;
+  
   // constructor
   public Avatar() {}
   
@@ -367,8 +372,7 @@ public class Avatar extends AbstractAvatar {
   
   @Override
   public void setVal_Object(Object contextNode) {
-    if (contextNode != this) {
-      //this.contextNode = (IXholon)contextNode;
+    if (setCtxtOnselect && (contextNode != this)) {
       setContextNode((IXholon)contextNode);
     }
   }
@@ -556,6 +560,18 @@ public class Avatar extends AbstractAvatar {
       return true;
     }
     return false;
+  }-*/;
+  
+  /**
+   * Is this the system Avatar?
+   */
+  protected native boolean isSystemAvatar() /*-{
+    if (this == $wnd.xh.avatar()) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }-*/;
   
   @Override
@@ -1338,6 +1354,9 @@ public class Avatar extends AbstractAvatar {
     case "step":
       step();
       break;
+    case "system":
+      system();
+      break;
     case "take":
       if (len > 1) {
         take(data[1]);
@@ -1390,7 +1409,7 @@ public class Avatar extends AbstractAvatar {
       sb.append("You are in ").append(makeNodeName(contextNode)).append(".");
       break;
     case "who":
-      sb.append("You are ").append(makeNodeName(this)).append(".");
+      sb.append("You are ").append(isSystemAvatar() ? "the system Avatar " : "").append(makeNodeName(this)).append(".");
       break;
     case "xport":
       // xport THING formatName,writeToTab,returnString,efParams
@@ -2458,6 +2477,7 @@ a.action("takeclone hello;");
     .append("\nsearch THING")
     .append("\nset THING NAME VALUE")
     .append("\nsmash THING")
+    .append("\nsystem")
     .append("\ntake [THING]")
     .append("\ntakeclone THING [last|first]")
     .append("\nunbuild|eat THING")
@@ -3054,6 +3074,13 @@ ava.action("look");
   }
   
   /**
+   * Set this Avatar as the system Avatar.
+   */
+  protected native void system() /*-{
+    $wnd.xh.avatar(this);
+  }-*/;
+  
+  /**
    * Move a specified thing from the current contextNode, to the avatar's inventory.
    * @param thing The Xholon name of the thing to take.
    */
@@ -3415,6 +3442,13 @@ xport hello _other,Newick,true,true,true,{}
           IMessage rmsg = rserv.sendSyncMessage(IRecipe.SIG_GET_RECIPE_BOOK_REQ, rbname, this);
           this.recipebook = rmsg.getData();
         }
+      }
+      break;
+    case "setCtxtOnselect":
+      switch (value) {
+      case "true": setCtxtOnselect = true; break;
+      case "false": setCtxtOnselect = false; break;
+      default: break;
       }
       break;
     default:
