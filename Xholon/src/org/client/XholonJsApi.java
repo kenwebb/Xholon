@@ -27,6 +27,7 @@ import org.primordion.xholon.app.IApplication;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.ReflectionFactory;
 import org.primordion.xholon.base.Xholon;
+import org.primordion.xholon.io.XholonGwtTabPanelHelper;
 import org.primordion.xholon.util.ClassHelper;
 
 /**
@@ -281,8 +282,13 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
     });
     
     // avatar
-    $wnd.xh.avatar = $entry(function() {
-      return app.@org.primordion.xholon.app.Application::getAvatar()();
+    $wnd.xh.avatar = $entry(function(newAvatar) {
+      if (newAvatar === undefined) {
+        return app.@org.primordion.xholon.app.Application::getAvatar()();
+      }
+      else {
+        app.@org.primordion.xholon.app.Application::setAvatar(Lorg/primordion/xholon/base/IXholon;)(newAvatar);
+      }
     });
     
     // avatarKeyMap
@@ -438,6 +444,18 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
         }
       }
       return null;
+    });
+    
+    // Select a tab in #xhtabs .
+    // xh.html.selectTab(0); // "out"
+    // xh.html.selectTab(1); // "clipboard"
+    // xh.html.selectTab(2); // "notes"
+    $wnd.xh.html.selectTab = $entry(function(index) {
+      try {
+        @org.primordion.xholon.io.XholonGwtTabPanelHelper::selectTab(I)(index);
+      } catch(e) {
+        $wnd.console.log("Unable to select tab " + index);
+      }
     });
     
     // css.style
