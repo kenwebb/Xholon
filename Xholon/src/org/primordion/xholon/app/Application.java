@@ -1903,7 +1903,7 @@ public abstract class Application extends AbstractApplication implements IApplic
       this.avatar.postConfigure();
       // make sure avatar is invisible (not part of the CSH tree)
       this.avatar.doAction("vanish");
-      this.initAvatarKeyEvents(this.avatar);
+      this.initAvatarKeyEvents(); //this.avatar);
     }
 	}
 	
@@ -1987,7 +1987,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	 * Initialize an Avatar's keyboard events.
 	 * @param ava An Avatar.
 	 */
-	protected void initAvatarKeyEvents(final IXholon ava) {
+	protected void initAvatarKeyEvents() { //final IXholon ava) {
 	  RootPanel rp = RootPanel.get();
     rp.addDomHandler(new KeyUpHandler() {
       @Override
@@ -2058,7 +2058,7 @@ public abstract class Application extends AbstractApplication implements IApplic
           }*/
           String action = queryAvatarKeyMap(avatarKeyMap, key);
           if (action != null) {
-            ava.doAction(action);
+            getAvatar().doAction(action);
           }
         }
       }
