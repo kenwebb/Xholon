@@ -198,6 +198,7 @@
       -->
       <!--<attr:Attribute_Object roleName="RecipeService-MinecraftStyleRecipeBook-Testing"></attr:Attribute_Object>-->
       <!--<attr:Attribute_Object roleName="RecipeService-JsonRulesEngineRecipeBook-Testing"></attr:Attribute_Object>-->
+      <!--<attr:Attribute_Object roleName="RecipeService-CeptreJsonRulesEngineRecipeBook-Testing"></attr:Attribute_Object>-->
     </XholonMap>
   </RecipeService>
   

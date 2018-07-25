@@ -683,6 +683,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			else if (implName.endsWith(".JsonRulesEngineRecipeBook")) {
 				newNode = new org.primordion.xholon.service.recipe.JsonRulesEngineRecipeBook();
 			}
+			else if (implName.endsWith(".CeptreJsonRulesEngineRecipeBook")) {
+				newNode = new org.primordion.xholon.service.recipe.CeptreJsonRulesEngineRecipeBook();
+			}
 		}
 		
 		// service

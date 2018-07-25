@@ -318,6 +318,7 @@ Uses IDs in range 1013000 - 1013099 .
   <RecipeBook>
     <MinecraftStyleRecipeBook/> <!-- Minecraft-style recipe book; it uses JSON records with ingredients and results -->
     <JsonRulesEngineRecipeBook/>
+    <CeptreJsonRulesEngineRecipeBook/>
   </RecipeBook>
 </RecipeEntity>
 

@@ -40,6 +40,7 @@ var recipeService = xh.service("RecipeService");
  * Numerous implementations are possible:
  * - MinecraftStyleRecipeBook
  * - JsonRulesEngineRecipeBook
+ * - CeptreJsonRulesEngineRecipeBook
  *
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
@@ -116,7 +117,7 @@ public class RecipeService extends AbstractXholonService implements IRecipe {
         IXholon node = map.appendChild("Attribute_Object", rbname);
         node.setVal_Object(this.jsonParse(jsonStr));
         String[] rbnameParts = rbname.split("-");
-        if ((rbnameParts.length > 1) && ("JsonRulesEngineRecipeBook".equals(rbnameParts[1]))) {
+        if ((rbnameParts.length > 1) && ("JsonRulesEngineRecipeBook".equals(rbnameParts[1]) || "CeptreJsonRulesEngineRecipeBook".equals(rbnameParts[1])) ) {
           this.requireJsonRulesEngine();
         }
         }
