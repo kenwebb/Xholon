@@ -112,11 +112,19 @@ public class CeptreJsonRulesEngineRecipeBook extends XholonWithPorts {
   
   /**
    * Convert rules in Ceptre textual format to rules in json-rules-engine JSON string format.
+   * @param ceptre A collection of rules in Ceptre textual format.
+   * @return A JSON string, in json-rules-engine format.
    */
   protected native String ceptre2json(String ceptre) /*-{
+// constants; all of these should be "const"
 var LOLLI = "-o";
 var TENSOR = "*";
 var NOT = "!"; // new actions start with the NOT symbol
+var COMMENT = "%"; // Ceptre comments start with "%"
+//var NOT_ExtraRHS = ["at","adjacent","turn"];
+var NOT_ExtraRHS = this.NOT_ExtraRHS.split(","); // this is app-dependent; this is an XML attribute  NOT_ExtraRHS="at,adjacent,turn"
+var DEFINED = "defined"; // or "exists" "global"
+
 var beh = {
 postConfigure: function(str) {
   var openBracketPos = str.indexOf("{");
@@ -131,6 +139,9 @@ postConfigure: function(str) {
       ceptreRule = ceptreRule.trim().substring(0, ceptreRule.length-1); // remove trailing "."
       var nameBodyArr = ceptreRule.split(":");
       var rname = nameBodyArr[0].trim();
+      if (rname.charAt(0) == COMMENT) {
+        continue; // this rule is commented out
+      }
       var rbody = nameBodyArr[1].trim();
       var lhsRhsArr = rbody.split(LOLLI);
       var lhs = lhsRhsArr[0].trim();
@@ -152,7 +163,6 @@ postConfigure: function(str) {
 },
 
 makeConditions: function(ceptreLHS) {
-  var NOT_ExtraRHS = ["at","adjacent","turn"];
   var arr = ceptreLHS.split(TENSOR);
   var conditions = {};
   conditions.any = [];
@@ -168,6 +178,9 @@ makeConditions: function(ceptreLHS) {
     switch (tarr.length) {
       case 0:
       case 1:
+        operator = tarr[0];
+        operand1 = DEFINED;
+        operand2 = true;
         break;
       case 2:
         operator = tarr[0];
