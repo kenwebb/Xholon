@@ -120,7 +120,10 @@ public class Avatar extends AbstractAvatar {
   protected static final int SPEECHOUT_NEVER     = 2;
   
   protected static final String RB_DEFAULT_SERVICE_NAME = "RecipeService"; // recipe book default service name
-  protected static final String RB_DEFAULT_STYLE_NAME = "MinecraftStyleRecipeBook"; // recipe book default style name
+  protected static final String RB_STYLE_NAME_MINECRAFT = "MinecraftStyleRecipeBook";
+  protected static final String RB_STYLE_NAME_JSON_RULES_ENGINE = "JsonRulesEngineRecipeBook";
+  protected static final String RB_STYLE_NAME_CEPTRE_JSON_RULES_ENGINE = "CeptreJsonRulesEngineRecipeBook";
+  protected static final String RB_DEFAULT_STYLE_NAME = RB_STYLE_NAME_MINECRAFT; // recipe book default style name
   protected static final String RB_SEPARATOR = "-"; // separator between parts of a recipe book name
   
   /* MOVED TO AbstractAvatar
@@ -313,7 +316,7 @@ public class Avatar extends AbstractAvatar {
    * For now, there can only be one unnamed recipe book.
    * TODO allow multiple named recipe books by using a Map
    */
-  protected Object recipebook = null;
+  protected Object[] recipebook = new Object[2];
   
   /**
    * Whether or not to automatically update the context node when the user selects (clicks, touches) some other node.
@@ -2939,7 +2942,7 @@ ava.action("look");
   protected void recipe(String rname, String rbname) {
     String thing = processRecipe(this, this.recipebook, rname);
     // meteor
-    if (meteor && (meteorService != null)) {
+    if (meteor && (meteorService != null) && (thing != null)) {
       //String thing = newNode.getXhcName(); // TODO add role?
       String[] data = {thing, "add", "append"};
       meteorService.sendSyncMessage(IMeteorPlatformService.SIG_COLL_INSERT_REQ, data, contextNode);
@@ -2947,7 +2950,21 @@ ava.action("look");
 
   }
   
-  protected native String processRecipe(IXholon ava, Object rbook, String rname) /*-{
+  protected String processRecipe(IXholon ava, Object[] rbook, String rname) {
+    String rbname = (String)rbook[0];
+    String[] rbpart = rbname.split("-");
+    switch (rbpart[1]) {
+    case "MinecraftStyleRecipeBook": return processRecipeMinecraft(ava, rbook[1], rname);
+    case "JsonRulesEngineRecipeBook": return processRecipeJsonRulesEngine(ava, rbook[1], rname);
+    default: return null;
+    }
+    
+  }
+  
+  /**
+   * "MinecraftStyleRecipeBook"
+   */
+  protected native String processRecipeMinecraft(IXholon ava, Object rbook, String rname) /*-{
     // Step 0
     var recipe = rbook[rname];
     if (!recipe) {return null;}
@@ -3008,6 +3025,14 @@ ava.action("look");
     ava.parent().append(xmlStr);
     //var newNode = ava.parent().last();
     return xmlStr; //newNode;
+  }-*/;
+  
+  /**
+   * TODO
+   * "JsonRulesEngineRecipeBook"
+   */
+  protected native String processRecipeJsonRulesEngine(IXholon ava, Object rbook, String rname) /*-{
+    return null;
   }-*/;
   
   /**
@@ -3421,6 +3446,7 @@ xport hello _other,Newick,true,true,true,{}
        * param recipebook RecipeService-MinecraftStyleRecipeBook-Island;
        * param recipebook MinecraftStyleRecipeBook-Island;
        * param recipebook Island;
+       * param recipebook JsonRulesEngineRecipeBook-Island;
        */
       String rbname = null;
       String[] rbnameArr = value.split("-");
@@ -3440,7 +3466,8 @@ xport hello _other,Newick,true,true,true,{}
         IXholon rserv = this.getService("RecipeService");
         if (rserv != null) {
           IMessage rmsg = rserv.sendSyncMessage(IRecipe.SIG_GET_RECIPE_BOOK_REQ, rbname, this);
-          this.recipebook = rmsg.getData();
+          this.recipebook[0] = rbname;
+          this.recipebook[1] = rmsg.getData();
         }
       }
       break;
