@@ -1208,7 +1208,20 @@ public class Avatar extends AbstractAvatar {
       }
       break;
     case "help":
-      help();
+      if (len == 2) {
+        if ("commands".equals(data[1])) {
+          helpCommands();
+        }
+        if ("keymap".equals(data[1])) {
+          helpKeymap();
+        }
+        else {
+          sb.append("Please specify \"help|help commands|help keymap\".");
+        }
+      }
+      else {
+        helpCommands();
+      }
       break;
     case "i":
     case "inventory":
@@ -2443,9 +2456,9 @@ a.action("takeclone hello;");
   }
   
   /**
-   * Provide some minimal help to users.
+   * Provide some minimal help to users, by listing the Avatar commands.
    */
-  protected void help() {
+  protected void helpCommands() {
     sb
     .append("Basic commands:")
     .append("\nanim THING turnright|turnleft|hop|duck|grow|shrink|mirror PARAMS")
@@ -2465,7 +2478,7 @@ a.action("takeclone hello;");
     .append("\nget THING NAME")
     .append("\ngo portName|next|prev|N|E|S|W|NE|SE|SW|NW|port0|portN|xpath|linkN")
     .append("\ngroup THING1[,THINGi,...,THINGn] in|on|under THING2")
-    .append("\nhelp")
+    .append("\nhelp|help commands|help keymap")
     .append("\nidentity")
     .append("\nif xpath command [elseif xpath command] [else command]")
     .append("\ninventory|i")
@@ -2493,6 +2506,27 @@ a.action("takeclone hello;");
     .append("\nxport THING formatName,writeToTab,returnString,efParams")
     ;
   }
+  
+  /**
+   * Provide the Avatar key map.
+   */
+  protected void helpKeymap() {
+    sb.append("Key map:\n");
+    String akm = app.getAvatarKeyMap();
+    String akmout = helpKeymapNative(akm);
+    sb.append(akmout);
+  }
+  
+  protected native String helpKeymapNative(String akm) /*-{
+    var akmout = "";
+    var akmobj = $wnd.JSON.parse(akm);
+    var keys = Object.keys(akmobj);
+    for (var i = 0; i < keys.length; i++) {
+      var key = keys[i];
+      akmout += key + ": " + akmobj[key] + "\n";
+    }
+    return akmout;
+  }-*/;
   
   /**
    * List the items that the avatar is currently carrying.
