@@ -2658,7 +2658,7 @@ a.action("takeclone hello;");
           break;
         default:
           try {
-            String av = (String)getAttributeValNative(node, attrName);
+            String av = (String)getAttributeValNative(node, attrName, true);
             switch (operation) {
             // ifeq xpath(Book) jsattr jsvalue next;
             case "eq":
@@ -2708,22 +2708,62 @@ a.action("takeclone hello;");
       else {
         // ava.action("get P1 pppp");
         // ava.action("get P1 f1\uFEFF");
-        return getAttributeValNative(node, attrName);
+        return getAttributeValNative(node, attrName, false);
       }
     }
     return null;
   }
   
-  protected native Object getAttributeValNative(IXholon node, String attrName) /*-{
+  /**
+   * @param toString Whether or not to ensure that the returned value is a String.
+   */
+  protected native Object getAttributeValNative(IXholon node, String attrName, boolean toString) /*-{
+    if (toString) {
+      return "" + node[attrName];
+    }
 	  return node[attrName];
 	}-*/;
 	
+	/**
+	 * ex: become this calories 1000;
+	 * ex: become this calories +=1;
+	 * ex: become this calories -=3;
+	 * ex: become this calories ++;
+	 * ex: become this calories --;
+	 */
 	protected native void setAttributeValNative(IXholon node, String attrName, Object attrValue) /*-{
-	  //if (node[attrName]) {
+	  if ((attrValue != null) && (attrValue.length > 1)) {
+	    var operator = attrValue.substring(0,2);
+	    var sum = 0;
+	    switch (operator) {
+	    case "+=":
+	      if (attrValue.length > 2) {
+	        sum = Number(node[attrName]);
+	        node[attrName] = sum + Number(attrValue.substring(2));
+	      }
+	      break;
+	    case "-=":
+	      if (attrValue.length > 2) {
+	        sum = Number(node[attrName]);
+	        node[attrName] = sum - Number(attrValue.substring(2));
+	      }
+	      break;
+	    case "++":
+	      sum = Number(node[attrName]);
+	      node[attrName] = sum + 1;
+	      break;
+	    case "--":
+	      sum = Number(node[attrName]);
+	      node[attrName] = sum - 1;
+	      break;
+	    default:
+	      node[attrName] = attrValue;
+	      break;
+	    }
+	  }
+	  else {
 	    node[attrName] = attrValue;
-	    //return true;
-	  //}
-	  //return false;
+	  }
 	}-*/;
   
   @Override
