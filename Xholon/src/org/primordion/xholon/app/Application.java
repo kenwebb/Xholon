@@ -1937,7 +1937,23 @@ public abstract class Application extends AbstractApplication implements IApplic
 	  else if ("false".equals(shift)) {
 	    checkAkmShift = false;
 	  }
+	  String noscroll = this.queryAvatarKeyMap(avatarKeyMap, "NOSCROLL");
+	  if ("true".equals(noscroll)) {
+	    noScroll();
+	  }
 	}
+	
+	/**
+	 * Prevent the entire window from scrolling when user presses arrow and space keys.
+	 */
+	protected native void noScroll() /*-{
+    $wnd.addEventListener("keydown", function(e) {
+      // space and arrow keys
+      if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+          e.preventDefault();
+      }
+    }, false);
+	}-*/;
 	
 	/**
 	 * The value for the "M" key must contain a TAB instead of SPACE between "Animate" and "selection".
@@ -1995,8 +2011,8 @@ public abstract class Application extends AbstractApplication implements IApplic
         int nativeKeyCode = kue.getNativeKeyCode();
         boolean shiftKeyDown = kue.isShiftKeyDown();
         if (isAvatarKeyEvent(kue.getNativeEvent())) {
-          kue.stopPropagation();
           kue.preventDefault();
+          kue.stopPropagation();
           if (checkAkmShift && !shiftKeyDown && (nativeKeyCode >= KeyCodes.KEY_A) && (nativeKeyCode <= KeyCodes.KEY_Z)) {
             nativeKeyCode += 32; // convert ASCII letter to lowercase, KeyCodes.SPACE = 32
           }
