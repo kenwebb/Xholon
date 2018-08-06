@@ -950,7 +950,7 @@ context1.closePath();
         ctx.beginPath();
         int xcentre = x + (int)(cellSize*0.5);
         int ycentre = y + (int)(cellSize*0.5);
-        int radius = (int)(cellSize*0.5);
+        int radius = (int)(cellSize*0.45);
         ctx.arc(xcentre, ycentre, radius, 0, Math.PI*2);
         ctx.closePath();
         ctx.fill();
