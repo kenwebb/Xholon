@@ -105,12 +105,16 @@ public class GridPanelGeneric extends GridPanel implements IGridPanel {
    * Get an agent's color.
    */
   protected CssColor getAgentColor(IXholon xhNode) {
+    String color = ((IDecoration)xhNode).getColor();
+    if (color != null) {
+      return CssColor.make(color);
+    }
     String xhcName = xhNode.getXhcName();
     if (colorMap.containsKey(xhcName)) {
       return CssColor.make(colorMap.get(xhcName));
     }
     else {
-      String color = ((IDecoration)xhNode.getXhc()).getColor();
+      color = ((IDecoration)xhNode.getXhc()).getColor();
       if (color != null) {
         colorMap.put(xhcName, color);
       }
