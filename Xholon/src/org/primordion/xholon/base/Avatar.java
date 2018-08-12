@@ -1680,12 +1680,34 @@ public class Avatar extends AbstractAvatar {
           setAttributeValNative(node, whatChanges, newValue);
         }
       }
-      if (meteor && (meteorService != null)) {
+      if (meteor && (meteorService != null) && existsMeteorAttr(whatChanges)) {
         String[] data = {newValue, "add", "@" + whatChanges};
         meteorService.sendSyncMessage(IMeteorPlatformService.SIG_COLL_INSERT_REQ, data, node); // -3897
       }
     }
   }
+  
+  protected native boolean existsMeteorAttr(String attrName) /*-{
+    if (this["meteorattr"]) {
+      var index = this["meteorattr"].indexOf(attrName);
+      if (index == -1) {
+        return false;
+      }
+      else {
+        return true;
+      }
+    }
+    return false;
+  }-*/;
+  
+  protected native void makeMeteorAttr(String attrValues) /*-{
+    //this["meteorattr"] = [];
+    //var attrs = attrValues.split(",");
+    //for (var i = 0; i < attrs.length; i++) {
+    //  this["meteorattr"].push(attrs[i]);
+    //}
+    this["meteorattr"] = attrValues.split(",");
+  }-*/;
   
   /**
    * Build something, and append it as a child of the contextNode.
@@ -3474,6 +3496,9 @@ xport hello _other,Newick,true,true,true,{}
       case "false": meteormove = false; break;
       default: break;
       }
+      break;
+    case "meteorattr":
+      this.makeMeteorAttr(value);
       break;
     case "meteor+move": // this is a shortcut
       switch (value) {
