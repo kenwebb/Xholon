@@ -2799,6 +2799,18 @@ a.action("takeclone hello;");
     else if ("end".equals(attrName)) {
       this.end = attrVal.trim();
     }
+    else if ("params".equals(attrName)) {
+      // ex: <Avatar params="param transcript false;param repeat true;param debug false;>"
+      String params = attrVal.trim();
+      String[] paramsArr = params.split(CMD_SEPARATOR);
+      for (int i = 0; i < paramsArr.length; i++) {
+        String paramStr = paramsArr[i].trim();
+        String[] data = paramStr.split(" ", 4);
+        if ((data.length > 2) && ("param".equals(data[0]))) {
+          this.param(data[1], data[2], data[3]);
+        }
+      }
+    }
     else {
       return super.setAttributeVal(attrName, attrVal);
     }
