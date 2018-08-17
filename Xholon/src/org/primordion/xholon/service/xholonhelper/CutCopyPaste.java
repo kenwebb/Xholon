@@ -563,32 +563,34 @@ public class CutCopyPaste extends Xholon implements ICutCopyPaste {
 	public void cloneLastChild(IXholon node) {
 	  String cloneStr = copySelf(node);
 	  pasteLastChild(node, cloneStr);
-	  handleMaxClones(node);
+	  handleMaxClones(node, "last");
 	}
 	
 	public void cloneFirstChild(IXholon node) {
 	  String cloneStr = copySelf(node);
 	  pasteFirstChild(node, cloneStr);
-	  handleMaxClones(node);
+	  handleMaxClones(node, "first");
 	}
 	
 	public void cloneAfter(IXholon node) {
 	  String cloneStr = copySelf(node);
 	  pasteAfter(node, cloneStr);
-	  handleMaxClones(node);
+	  handleMaxClones(node, "after");
 	}
 	
 	public void cloneBefore(IXholon node) {
 	  String cloneStr = copySelf(node);
 	  pasteBefore(node, cloneStr);
-	  handleMaxClones(node);
+	  handleMaxClones(node, "before");
 	}
 	
 	/**
 	 * Handle the number of times that a node can be cloned.
-	 * @param node
+	 * Ensure that the cloned node does not contain the "maxClones" property.
+	 * @param node the node that's been cloned
+	 * @param where location of the cloned node relative to the node that's been cloned (last first after before)
 	 */
-	protected native void handleMaxClones(IXholon node) /*-{
+	protected native void handleMaxClones(IXholon node, String where) /*-{
 		var mcStr = node["maxClones"];
 		if (mcStr != null) {
 			var mcInt = $wnd.Number(mcStr);
@@ -598,6 +600,17 @@ public class CutCopyPaste extends Xholon implements ICutCopyPaste {
 			}
 			else {
 				node["maxClones"] = String(mcInt);
+			}
+			var clonedNode = null;
+			switch (where) {
+			  case "last": clonedNode = node.last(); break;
+			  case "first": clonedNode = node.first(); break;
+			  case "after": clonedNode = node.next(); break;
+			  case "before": clonedNode = node.prev(); break;
+			  default: break;
+			}
+			if (clonedNode) {
+			  delete clonedNode["maxClones"];
 			}
 		}
 	}-*/;
