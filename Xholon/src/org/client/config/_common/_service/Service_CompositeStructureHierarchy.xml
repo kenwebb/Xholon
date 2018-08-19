@@ -202,6 +202,10 @@
     </XholonMap>
   </RecipeService>
   
+  <!-- HTML5Service services -->
+  <WebCryptographyService/>
+  <IndexedDBService/>
+  
   <!--<RestService>
     <XholonMap>
       <attr:Attribute_String roleName="RestService-Jersey">org.primordion.xholon.service.rest.Jersey</attr:Attribute_String>

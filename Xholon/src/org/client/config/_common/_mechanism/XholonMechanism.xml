@@ -522,6 +522,12 @@ A typical service has:
 		<NaturalLanguageService/>
 		<RecipeService/>
 		
+		<!-- HTML5 capabilities not provided by other Xholon services; typically each of these services is provided by a separate .js file -->
+		<HTML5Service>
+		  <WebCryptographyService/>
+		  <IndexedDBService/>
+		</HTML5Service>
+		
 		<!-- others, plus anything else in Xholon that can be a service -->
 		<Xholon2Svg/>
 		<Xholon2Properties/>

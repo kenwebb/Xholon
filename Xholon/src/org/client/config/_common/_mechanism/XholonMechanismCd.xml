@@ -375,6 +375,10 @@
 		implName="org.primordion.xholon.service.NaturalLanguageService"/>
 	<RecipeService xhType="XhtypePurePassiveObject"
 		implName="org.primordion.xholon.service.RecipeService"/>
+	<WebCryptographyService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.WebCryptographyService"/>
+	<IndexedDBService xhType="XhtypePurePassiveObject"
+		implName="org.primordion.xholon.service.IndexedDBService"/>
 	<Xholon2Svg xhType="XhtypePurePassiveObject"
 		implName="org.primordion.xholon.io.Xholon2Svg"/>
 	

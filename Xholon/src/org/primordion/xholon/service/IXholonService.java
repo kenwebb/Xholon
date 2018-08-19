@@ -47,6 +47,7 @@ public interface IXholonService {
 	public static final String XHSRV_GRAPHICAL_TREE_VIEWER = "GraphicalTreeViewerService";
 	public static final String XHSRV_GRID_VIEWER = "GridViewerService";
 	public static final String XHSRV_HISTOGRAM = "HistogramService";
+	public static final String XHSRV_INDEXEDDB = "IndexedDBService"; // a HTML5 service
 	public static final String XHSRV_JAVA_SERIALIZATION = "JavaSerializationService";
 	public static final String XHSRV_JAXEN = "JaxenService";
 	public static final String XHSRV_JCR = "JcrService";
@@ -78,6 +79,7 @@ public interface IXholonService {
 	public static final String XHSRV_VALIDATION = "ValidationService";
 	public static final String XHSRV_VFS = "VfsService";
 	public static final String XHSRV_VRML = "VrmlService";
+	public static final String XHSRV_WEB_CRYPTOGRAPHY = "WebCryptographyService"; // a HTML5 service
 	public static final String XHSRV_WIRING = "WiringService";
 	public static final String XHSRV_XHOLON2XML = "Xholon2XmlService";
 	public static final String XHSRV_XHOLON_CREATION = "XholonCreationService";
