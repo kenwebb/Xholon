@@ -18,10 +18,6 @@
 
 package org.primordion.xholon.service;
 
-//import org.primordion.xholon.base.IMessage;
-//import org.primordion.xholon.base.IXholon;
-//import org.primordion.xholon.base.IXholonClass;
-
 /**
  * A service that provides HTML5 Web Cryptography support for Xholon.
  * usage:
@@ -35,7 +31,11 @@ public class WebCryptographyService extends AbstractHTML5Service {
   
   @Override
   public native Object getVal_Object() /*-{
-    return $wnd.xh["WebCryptographyService"];
+    var obj = $wnd.xh["WebCryptographyService"];
+    if (obj) {
+      return obj;
+    }
+    return null;
   }-*/;
   
   /**

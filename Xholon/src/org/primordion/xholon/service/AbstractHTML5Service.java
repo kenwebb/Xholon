@@ -32,12 +32,20 @@ import org.primordion.xholon.base.IXholonClass;
 public abstract class AbstractHTML5Service extends AbstractXholonService {
   
   /**
+   * ensure that the JavaScript file(s) is only loaded once
+   */
+  protected boolean isRequired = true;
+  
+  /**
    * Return a reference to this service.
    * @see org.primordion.xholon.service.AbstractXholonService#getService(java.lang.String)
    */
   public IXholon getService(String serviceName) {
     if (serviceName.startsWith(this.getXhcName())) {
-      this.requireHTML5();
+      if (isRequired) {
+        this.requireHTML5();
+        isRequired = false;
+      }
       return this;
     }
     else {
