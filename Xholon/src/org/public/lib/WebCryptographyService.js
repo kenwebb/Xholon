@@ -21,7 +21,7 @@ if (typeof xh == "undefined") {
 
 xh.WebCryptographyService = {};
 
-xh.WebCryptographyService.hash = function(str) {
+xh.WebCryptographyService.hash = function(str, caller) {
   if (typeof crypto == "undefined") {
     console.log("WebCryptographyService is NOT available. crypto is undefined");
     return;
@@ -57,9 +57,15 @@ xh.WebCryptographyService.hash = function(str) {
     return hexCodes.join("");
   }
   
-  var me = xh.root();
+  var root = xh.root();
   sha256(str).then(function(digest) {
-    me.println(digest);
+    if (typeof caller === "undefined") {
+      root.println(digest);
+    }
+    else {
+      // send a Xholon async message, containing both the original string and the computed hash/digest
+      caller.msg(101, [str, digest], root);
+    }
   });
   
 }

@@ -18,10 +18,6 @@
 
 package org.primordion.xholon.service;
 
-//import org.primordion.xholon.base.IMessage;
-//import org.primordion.xholon.base.IXholon;
-//import org.primordion.xholon.base.IXholonClass;
-
 /**
  * A service that provides HTML5 IndexedDB support for Xholon.
  * usage:
@@ -35,8 +31,14 @@ public class IndexedDBService extends AbstractHTML5Service {
   
   @Override
   public native Object getVal_Object() /*-{
-    return $wnd.xh["IndexedDBService"];
+    var obj = $wnd.xh["IndexedDBService"];
+    if (obj) {
+      return obj;
+    }
+    return null;
   }-*/;
+  
+
   
   /**
    * Load the Xholon IndexedDB JavaScript file.
