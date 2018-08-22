@@ -771,6 +771,7 @@ public class Avatar extends AbstractAvatar {
   @Override
   public void doAction(String action) {
     //this.consoleLog("" + app.getTimeStep() + " " + this.getName() + " " + action.substring(0, action.length() > 40 ? 40 : action.length()));
+    this.setCurrentActions(action);
     String responseStr = processCommands(action);
     if (transcript && (responseStr != null) && (responseStr.length() > 0)) {
       this.println(" " + responseStr);
@@ -3589,10 +3590,42 @@ xport hello _other,Newick,true,true,true,{}
       default: break;
       }
       break;
+    case "currentActions":
+      switch (value) {
+      case "true": configureCurrentActions(true); break;
+      case "false": configureCurrentActions(false); break;
+      default: break;
+      }
+      break;
     default:
       break;
     }
   }
+  
+  /**
+   * Create or delete a "currentActions" property in this Avatar.
+   * This will initially be used to provide current Avatar actions for writing to a database.
+   * The "currentActions" property is a Queue, implemented as a JavaScript Array.
+   *  arr.push(str); // adds a String to the end of the array.
+   *  var str = arr.shift(); // removes a String from the start of the array
+   */
+  protected native void configureCurrentActions(boolean bval) /*-{
+    if (bval) {
+      this["currentActions"] = [];
+    }
+    else {
+      delete this["currentActions"];
+    }
+  }-*/;
+  
+  /**
+   * Save current actions to a JavaScript property (an Array) in this Avatar.
+   */
+  protected native void setCurrentActions(String str) /*-{
+    if (typeof this["currentActions"] !== "undefined") {
+      this["currentActions"].push(str);
+    }
+  }-*/;
   
   /**
    * Pause the app at the current Xholon timestep.
