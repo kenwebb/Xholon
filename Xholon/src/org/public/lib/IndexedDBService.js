@@ -7,6 +7,10 @@
  * 
  * testing:
 var idbs = xh.service("IndexedDBService");
+ *
+ * TODO maybe use a third-party library instead of or in addition to this .js file, especially for querying
+ * ex: http://dexie.org/  "Dexie.js A Minimalistic Wrapper for IndexedDB"
+ * TODO write to Xholon clipboard instead of to Xholon "out" tab
  */
 
 if (typeof xh == "undefined") {
@@ -48,7 +52,6 @@ xh.IndexedDBService.setup = function(dbName, objstoreName, keypathStr) {
     // Use transaction oncomplete to make sure the objectStore creation is finished before adding data into it.
     objectStore.transaction.oncomplete = function(event) {
       // Store values in the newly created objectStore.
-      //var avaObjectStore = db.transaction(objstoreName, "readwrite").objectStore(objstoreName);
     };
   };
 
@@ -74,8 +77,8 @@ xh.IndexedDBService.update = function(dbName, objstoreName, key, newData) {
   };
   request.onsuccess = function(event) {
     db = event.target.result;
-    var avaObjectStore = db.transaction(objstoreName, "readwrite").objectStore(objstoreName);
-    var request = avaObjectStore.get(key);
+    var objectStore = db.transaction(objstoreName, "readwrite").objectStore(objstoreName);
+    var request = objectStore.get(key);
     request.onerror = function(event) {
       console.log(event);
     };
@@ -86,7 +89,7 @@ xh.IndexedDBService.update = function(dbName, objstoreName, key, newData) {
         if (count) {
           data.count = count + 1;
           // Put this updated object back into the database.
-          var requestUpdate = avaObjectStore.put(data);
+          var requestUpdate = objectStore.put(data);
           requestUpdate.onerror = function(event) {
             //console.log("Do something with the error");
           };
@@ -96,9 +99,41 @@ xh.IndexedDBService.update = function(dbName, objstoreName, key, newData) {
         }
       }
       else {
-        avaObjectStore.add(newData);
+        objectStore.add(newData);
       }
     };
   };
+}
+
+/**
+ * Display a database and object store.
+ * usage (from Dev Tools): xh.IndexedDBService.display("AvatarStateDB", "avastate", ["state", "action", "count"]);
+ * @param columnNameArr an array of column names to display  ex: ["state", "action", "count"]
+ */
+xh.IndexedDBService.display = function(dbName, objstoreName, columnNameArr) {
+  if (!dbName) {console.error("xh.IndexedDBService.update() dbName is null"); return;}
+  if (!objstoreName) {console.error("xh.IndexedDBService.update() objstoreName is null"); return;}
+  var root = xh.root();
+  var db;
+  var request = indexedDB.open(dbName);
+  request.onerror = function(event) {
+    console.log("IndexedDBService can't find db " + dbName);
+  };
+  request.onsuccess = function(event) {
+    db = event.target.result;
+    var objectStore = db.transaction(objstoreName, "readonly").objectStore(objstoreName);
+    objectStore.openCursor().onsuccess = function(event) {
+      var cursor = event.target.result;
+      var str = "";
+      if(cursor) {
+        str += cursor.value[columnNameArr[0]] + ', ' + cursor.value[columnNameArr[1]] + ', ' + cursor.value[columnNameArr[2]];
+        cursor.continue();
+      } else {
+        console.log('Entries all displayed.');
+      }
+      root.println(str);
+    };
+  
+  }
 }
 
