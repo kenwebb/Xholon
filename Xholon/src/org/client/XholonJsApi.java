@@ -414,6 +414,12 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       @org.primordion.xholon.util.MiscRandom::seedRandomNumberGeneratorInt(I)(seed);
     });
     
+    // matchGraph
+    $wnd.xh.matchGraph = $entry(function(graphStr, subgraphStr, separator) {
+      if (separator === undefined) {separator = "\n";}
+      return @org.wip.VF2.runner.App::matchGraph(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(graphStr, subgraphStr, separator);
+    });
+    
     // html.toggle
     $wnd.xh.html.toggle = $entry(function(elementId) {
       @org.client.HtmlElementCache::toggleElementDisplay(Ljava/lang/String;)(elementId);

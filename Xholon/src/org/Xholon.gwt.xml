@@ -27,6 +27,7 @@
   <inherits name="com.google.gwt.json.JSON" />
   <inherits name='org.primordion' />
   <inherits name='org.fr' />
+  <inherits name='org.wip' />
   
   <!-- Specify the app entry point class.                         -->
   <entry-point class='org.client.Xholon'/>
