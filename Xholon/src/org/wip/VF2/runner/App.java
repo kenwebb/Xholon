@@ -120,13 +120,15 @@ public class App {
       } else if (line.startsWith("v")) {
         String[] lineSplit = line.split(" ");
         int nodeId = Integer.parseInt(lineSplit[1]);
-        int nodeLabel = Integer.parseInt(lineSplit[2]);
+        //int nodeLabel = Integer.parseInt(lineSplit[2]);
+        String nodeLabel = lineSplit[2];
         graph.addNode(nodeId, nodeLabel);
       } else if (line.startsWith("e")) {
         String[] lineSplit = line.split(" ");
         int sourceId = Integer.parseInt(lineSplit[1]);
         int targetId = Integer.parseInt(lineSplit[2]);
-        int edgeLabel = Integer.parseInt(lineSplit[3]);
+        //int edgeLabel = Integer.parseInt(lineSplit[3]);
+        String edgeLabel = lineSplit[3];
         graph.addEdge(sourceId, targetId, edgeLabel);
       }
     }
