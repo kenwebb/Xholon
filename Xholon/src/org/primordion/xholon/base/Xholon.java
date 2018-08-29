@@ -799,6 +799,22 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 		return v;
 	}
 	
+	@Override
+	public String getChildrenAsCsv(String nameTemplate, String separator) {
+		if (nameTemplate == null) {nameTemplate = GETNAME_DEFAULT;}
+		if (separator == null) {separator = ",";}
+		StringBuilder sb = new StringBuilder();
+		IXholon nextChild = getFirstChild();
+		while (nextChild != null) {
+			sb.append(nextChild.getName(nameTemplate));
+			nextChild = nextChild.getNextSibling();
+			if (nextChild != null) {
+				sb.append(separator);
+			}
+		}
+		return sb.toString();
+	}
+	
 	/*
 	 * @see org.primordion.xholon.base.IXholon#getNthChild(int, boolean)
 	 */
@@ -966,6 +982,30 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 		else {
 			return new Vector();
 		}
+	}
+	
+	@Override
+	public String getSiblingsAsCsv(String nameTemplate, String separator) {
+		StringBuilder sb = new StringBuilder();
+		if (!isRootNode()) {
+			if (nameTemplate == null) {nameTemplate = GETNAME_DEFAULT;}
+			if (separator == null) {separator = ",";}
+			IXholon nextSibling = getParentNode().getFirstChild(); //getFirstSibling();
+			while (nextSibling != null) {
+				if (this == nextSibling) {
+					// do not include this node
+					nextSibling = nextSibling.getNextSibling();
+				}
+				else {
+					sb.append(nextSibling.getName(nameTemplate));
+					nextSibling = nextSibling.getNextSibling();
+					if (nextSibling != null) {
+						sb.append(separator);
+					}
+				}
+			}
+		}
+		return sb.toString();
 	}
 	
 	/*

@@ -402,6 +402,14 @@ public abstract boolean isAttributeHandler();
 public abstract Vector getChildNodes(boolean deep);
 
 /**
+ * Get the names of all children of this node.
+ * @param nameTemplate A template, or null to get the default. (ex: "R^^^^^") (ex: GETNAME_DEFAULT)
+ * @param separator A one-character String, or null to get default ",". (ex: "|")
+ * @return a csv String (ex: "one,two,three") (ex: "un:One|deux:Two")
+ */
+public abstract String getChildrenAsCsv(String nameTemplate, String separator);
+
+/**
  * Get the nth child of this node, where 0 <= n < number of children.
  * @param n The index of the child being requested.
  * @param deep If true then return entire nested subtree, if false return only immediate children.
@@ -476,6 +484,14 @@ public abstract Vector getSelfAndSiblings(boolean includeSameClassOnly);
  * @return Vector containing all siblings.
  */
 public abstract Vector getSiblings();
+
+/**
+ * Get the names of all siblings of this node.
+ * @param nameTemplate A template, or null to get the default. (ex: "R^^^^^") (ex: GETNAME_DEFAULT)
+ * @param separator A one-character String, or null to get default ",". (ex: "|")
+ * @return a csv String (ex: "one,two,three") (ex: "un:One|deux:Two")
+ */
+public abstract String getSiblingsAsCsv(String nameTemplate, String separator);
 
 /**
  * Get nth sibling.

@@ -1192,6 +1192,59 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       }
     });
 
+    // childrenAsCsv
+    // var root = xh.root();
+    // root.first().childrenAsCsv();
+    // root.first().childrenAsCsv("R^^^^^","|");
+    // root.first().childrenAsCsv("R^^^^^").split(",");
+    // root.first().childrenAsCsv("R^^^^^").split(",").sort();
+    api.childrenAsCsv = $entry(function(nameTemplate, separator) {
+      if (nameTemplate === undefined) {nameTemplate = null;}
+      if (separator === undefined) {separator = null;}
+      return this.@org.primordion.xholon.base.IXholon::getChildrenAsCsv(Ljava/lang/String;Ljava/lang/String;)(nameTemplate, separator);
+    });
+    
+    // siblingsAsCsv
+    // xh.root().first().first().next().siblingsAsCsv("R^^^^^","|").split("|").sort();
+    api.siblingsAsCsv = $entry(function(nameTemplate, separator) {
+      if (nameTemplate === undefined) {nameTemplate = null;}
+      if (separator === undefined) {separator = null;}
+      return this.@org.primordion.xholon.base.IXholon::getSiblingsAsCsv(Ljava/lang/String;Ljava/lang/String;)(nameTemplate, separator);
+    });
+    
+    // includes
+    // var bool = node.includes("one,two", "R^^^^^", ",");
+    // var bool = root.first().includes("one,three,two", "R^^^^^", ","); bool // true
+    // var bool = root.first().includes("example,example,example", "^^c^^^", ","); bool // true
+    api.includes = $entry(function(targetStr, nameTemplate, separator) {
+      if (targetStr === undefined) {return false;}
+      if (nameTemplate === undefined) {nameTemplate = null;}
+      if (separator === undefined) {separator = null;}
+      var sstr = this.childrenAsCsv(nameTemplate, separator);
+      if (!sstr) {return false;}
+      var sarr = sstr.split(separator).sort();
+      var tarr = targetStr.split(separator).sort();
+      // work thru each array in parallel
+      var sindex = 0;
+      var tindex = 0;
+      var count = tarr.length; // count down each time thru the while loop
+      while ((sindex < sarr.length) && (tindex < tarr.length)) {
+        var sitem = sarr[sindex];
+        var titem = tarr[tindex];
+        if (sitem == titem) {
+          // a match was found
+          count--;
+          tindex++;
+        }
+        sindex++;
+      }
+      if (count == 0) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    });
     
     // TODO pcs(expression) and select(expression)
     
