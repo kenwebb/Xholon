@@ -55,6 +55,13 @@ t # -1
  * @see <a href="https://github.com/pfllo/VF2"> I am adapting the VF2 code from this site</a>
  * @see <a href="https://gist.github.com/kenwebb/1d2b5e1c75410bed3ea074871d828396"> (Sub)Graph Isomorphism - VF2</a>
  * @since 0.9.1 (Created on August 28, 2018)
+ * 
+ * TODO
+ * - optionally output tree edges: first next parent
+ *  - warning: VF2 code can't handle bidirectional pairs of edges (ex: parent and first)
+ *  - warning: VF2 code requires lower id first
+ * - optionally include port/link name, or "2" or other default edge label
+ * - efparams
  */
 public class Xholon2Vf2 extends AbstractXholon2ExternalFormat implements IXholon2ExternalFormat {
   
