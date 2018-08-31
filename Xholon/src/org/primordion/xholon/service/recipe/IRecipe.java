@@ -34,24 +34,23 @@ public interface IRecipe {
   
   // get a reference to an existing recipe book
   public static final int SIG_GET_RECIPE_BOOK_REQ  = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 102; // -3897
-  //public static final int SIG_GET_RECIPE_BOOK_RESP = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 202; // -3797
   
   // get a specific record/recipe from an existing recipe book
   public static final int SIG_GET_RECIPE_REQ  = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 103; // -3896
-  //public static final int SIG_A_REQ  = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 104; // -3895
+  
+  // get the names of all recipes in an existing recipe book as a CSV string; ex result: "Basket,Hut,FishingRod"
+  public static final int SIG_GET_RECIPE_NAMES_REQ  = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 104; // -3895
+  
+  // 
   //public static final int SIG_B_REQ  = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 105; // -3894
-  //public static final int SIG_GET_RECIPE_RESP = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 203; // -3796
   
   // 
   //public static final int SIG_X_REQ  = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 106; // -3893
-  //public static final int SIG_X_RESP = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 204; // -3795
   
   // 
   //public static final int SIG_Y_REQ  = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 107; // -3892
-  //public static final int SIG_Y_RESP = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 205; // -3794
   
   // 
   //public static final int SIG_Z_REQ  = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 108; // -3891
-  //public static final int SIG_Z_RESP = ISignal.SIGNAL_MIN_XHOLON_SERVICE + 206; // -3793
   
 }

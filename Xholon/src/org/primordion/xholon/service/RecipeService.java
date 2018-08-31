@@ -125,6 +125,9 @@ public class RecipeService extends AbstractXholonService implements IRecipe {
       case SIG_GET_RECIPE_BOOK_REQ:
         {
         // data = full name of recipe book
+        // example:
+        // var recipeService = xh.service("RecipeService");
+        // var msg = recipeService.call(-3897, "RecipeService-MinecraftStyleRecipeBook-Island", xh.root());
         String key = (String)data;
         Object value = map.get(key);
         return value;
@@ -132,6 +135,9 @@ public class RecipeService extends AbstractXholonService implements IRecipe {
       case SIG_GET_RECIPE_REQ:
         {
         // data = full name of recipe book + recipe name
+        // example:
+        // var recipeService = xh.service("RecipeService");
+        // var msg = recipeService.call(-3896, ["RecipeService-MinecraftStyleRecipeBook-Island","Hut"], xh.root());
         String rbname = null;
         String rname = null;
 		    if (data instanceof String[]) {
@@ -155,9 +161,24 @@ public class RecipeService extends AbstractXholonService implements IRecipe {
         if (rbook == null) {return null;}
         return getItem(rbook, rname);
         }
-    default:
-      //super.processReceivedMessage(msg);
-      break;
+      case SIG_GET_RECIPE_NAMES_REQ:
+        {
+        // data = full name of recipe book
+        // example:
+        // var recipeService = xh.service("RecipeService");
+        // var msg = recipeService.call(-3895, "RecipeService-MinecraftStyleRecipeBook-Island", xh.root());
+        String key = (String)data;
+        Object rbook = map.get(key);
+        if (rbook != null) {
+          return getRecipeNames(rbook);
+        }
+        else {
+          return null;
+        }
+        }
+      default:
+        //super.processReceivedMessage(msg);
+        break;
     }
     return null;
   }
@@ -168,6 +189,26 @@ public class RecipeService extends AbstractXholonService implements IRecipe {
   
   protected native Object getItem(Object obj, String item) /*-{
     return obj[item];
+  }-*/;
+  
+  protected native String getRecipeNames(Object rbook) /*-{
+    var str = "";
+    var prependComma = false;
+    for (propName in rbook) {
+      if (prependComma) {
+        str += ",";
+      }
+      else {
+        prependComma = true;
+      }
+      str += propName;
+    }
+    if (str) {
+      return str;
+    }
+    else {
+      return null;
+    }
   }-*/;
   
   /**
