@@ -213,6 +213,7 @@ public class Xholon2D3CirclePack implements EventListener {
     annoPos = "outside",
     _jsdata = false
     nonportPorts = false;
+    togglePortColors = false;
     
     if (efParams) {
       sort = efParams.sort;
@@ -239,6 +240,7 @@ public class Xholon2D3CirclePack implements EventListener {
       annoPos = efParams.annoPos;
       _jsdata = efParams._jsdata;
       nonportPorts = efParams.nonportPorts;
+      togglePortColors = efParams.togglePortColors;
     }
     
     var zoom = $wnd.d3.behavior.zoom()
@@ -826,7 +828,7 @@ public class Xholon2D3CirclePack implements EventListener {
     
     function handleMouseOverOut(d, i) {
       var node = getXholonNode(d);
-      if (node) {
+      if (node && togglePortColors) {
         togglePorts(node);
       }
     };

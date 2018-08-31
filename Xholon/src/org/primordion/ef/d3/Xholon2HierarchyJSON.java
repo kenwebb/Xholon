@@ -147,6 +147,7 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
     p.supportTouch = false; // Hammer.js
     p._jsdata = false;
     p.nonportPorts = true; // whether or not to call node.links() rather than node.ports()
+    p.togglePortColors = true; // whether or not to toggle the color of remote nodes when mouse hovers
     this.efParams = p;
   }-*/;
 
@@ -200,5 +201,8 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
     
   public native boolean isNonportPorts() /*-{return this.efParams.nonportPorts;}-*/;
   //public native void setNonportPorts(boolean nonportPorts) /*-{this.efParams.nonportPorts = nonportPorts;}-*/;
+    
+  public native boolean isTogglePortColors() /*-{return this.efParams.togglePortColors;}-*/;
+  //public native void setTogglePortColors(boolean togglePortColors) /*-{this.efParams.togglePortColors = togglePortColors;}-*/;
     
 }
