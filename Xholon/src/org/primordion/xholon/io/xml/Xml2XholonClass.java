@@ -168,7 +168,8 @@ public class Xml2XholonClass extends AbstractXml2Xholon_gwt implements IXml2Xhol
 							else if ("xmlns:xi".equals(attrName)) {}
 							else {
 								//logger.error("Xml2XholonClass found unknown attribute: " + attrName);
-								this.consoleLog("Xml2XholonClass found unknown attribute: " + attrName);
+								//this.consoleLog("Xml2XholonClass found unknown attribute: " + attrName);
+								currentXhClass.setAttributeVal(attrName, attrValue);
 							}
 						}
 						inherHier.createHashEntry(currentXhClass);
@@ -398,7 +399,8 @@ public class Xml2XholonClass extends AbstractXml2Xholon_gwt implements IXml2Xhol
 								else if ("xmlns:xi".equals(attrName)) {}
 								else {
 									//logger.error("Xml2XholonClass found unknown attribute: " + attrName);
-									this.consoleLog("Xml2XholonClass found unknown attribute: " + attrName);
+									//this.consoleLog("Xml2XholonClass found unknown attribute: " + attrName);
+									existingXholonClass.setAttributeVal(attrName, attrValue);
 								}
 							}
 						}
