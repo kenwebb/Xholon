@@ -1059,6 +1059,24 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       return xhc.@org.primordion.xholon.base.IXholonClass::hasAncestor(Ljava/lang/String;)(className);
     });
     
+    // classAttr
+    // search XholonClass hierarchy (this.xhc() and this.xhc() ancestors) for a named attribute
+    // getter and setter
+    api.classAttr = $entry(function(attrName, attrVal) {
+      var xhc = this.xhc();
+      while (xhc) {
+        if (xhc[attrName]) {
+          if (attrVal === undefined) {
+            return xhc[attrName];
+          }
+          else {
+            xhc[attrName] = attrVal;
+          }
+        }
+        xhc = xhc.parent();
+      }
+    });
+    
     // hashify
     api.hashify = $entry(function(type) {
       if (type === undefined) {
