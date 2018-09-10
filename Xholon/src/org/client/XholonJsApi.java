@@ -1104,6 +1104,26 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       return app.@org.primordion.xholon.app.Application::handleNodeSelection(Lorg/primordion/xholon/base/IXholon;Ljava/lang/String;)(this, this.name());
     });
     
+    // subtreez  function name uses "z" instead of "s", so it doesn't conflict with the "subtrees" attribute
+    api.subtreez = $entry(function(stNames) {
+      if (stNames === undefined) {
+        return this.@org.primordion.xholon.base.IXholon::subtrees(Ljava/lang/String;)(null);
+      }
+      else {
+        return this.@org.primordion.xholon.base.IXholon::subtrees(Ljava/lang/String;)(stNames);
+      }
+    });
+    
+    // subtree
+    api.subtree = $entry(function(stName) {
+      if (stName === undefined) {
+        return this.@org.primordion.xholon.base.IXholon::subtree(Ljava/lang/String;)(null);
+      }
+      else {
+        return this.@org.primordion.xholon.base.IXholon::subtree(Ljava/lang/String;)(stName);
+      }
+    });
+    
     // IDecoration methods
     
     // color

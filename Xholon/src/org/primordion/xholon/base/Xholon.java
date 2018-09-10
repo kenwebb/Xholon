@@ -3708,6 +3708,36 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 		return this.decoration.sound;
 	}-*/;
 	
+	@Override
+	public native Object subtrees(String stNames) /*-{
+		if (stNames) {
+			if (!this["subtrees"]) {
+				this["subtrees"] = {};
+			}
+			var arr = stNames.split(",");
+			for (var i = 0; i < arr.length; i++) {
+				var subtreeName = arr[i];
+				var existingNode = this.xpath(subtreeName);
+				if (existingNode) {
+					this["subtrees"][subtreeName] = existingNode.remove();
+				}
+				else {
+					var node = this.action("build " + subtreeName).parent().last().remove();
+					this["subtrees"][subtreeName] = node;
+				}
+			}
+		}
+		return this["subtrees"];
+	}-*/;
+	
+	@Override
+	public native IXholon subtree(String stName) /*-{
+		if (stName && this["subtrees"] && this["subtrees"][stName]) {
+			return this["subtrees"][stName];
+		}
+		return null;
+	}-*/;
+	
 	/*
 	 * @see java.lang.Object#toString()
 	 */

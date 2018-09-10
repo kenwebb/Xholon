@@ -657,7 +657,7 @@ public class Avatar extends AbstractAvatar {
     }
     
     // support user-defined Avatar behaviors
-    IXholon bnode = this.findSubtree(SUBTREES_NAME_BEHAVIORS);
+    IXholon bnode = this.subtree(SUBTREES_NAME_BEHAVIORS);
     if (bnode != null) {
       bnode.act();
     }
@@ -3610,12 +3610,16 @@ xport hello _other,Newick,true,true,true,{}
       }
       break;
     case "subtrees":
-      if ("true".equals(value) && valueRest == null) {
-        // do default thing
-        configureSubtrees(value, SUBTREES_DEFAULT_NAMES);
+      if ("true".equals(value)) {
+        if (valueRest == null) {
+          this.subtrees(SUBTREES_DEFAULT_NAMES);
+        }
+        else {
+          this.subtrees(valueRest);
+        }
       }
-      else {
-        configureSubtrees(value, valueRest);
+      else { // "false"
+        this.subtrees(null);
       }
       break;
     default:
@@ -3646,75 +3650,6 @@ xport hello _other,Newick,true,true,true,{}
     if (typeof this["currentActions"] !== "undefined") {
       this["currentActions"].push(str);
     }
-  }-*/;
-  
-  /**
-   * Configure the ability for an Avatar to have IXholon subtrees that are disconnected from the main IXholon CSH tree.
-   * subtree names might include: inventory tools/catalysts behaviors
-   * 
-   * ex: ava.action("param subtrees {} one,two,three");
-   * ex: ava.action("param subtrees {}");
-   * ex: ava.action("param subtrees true");
-   * ex: ava.action("param subtrees false");
-   * 
-   * ex:
-ava.action("build Abc role Licorice");
-var node = ava.parent().last();
-ava.subtrees.one = node.remove();
-console.log(ava.subtrees);
-   * 
-   * ex:
-var ava = xh.avatar();
-ava.action("param subtrees {} behaviors,inventory,tools");
-ava.subtrees.inventory.push(ava.action("build Fruit role Apple").parent().last().remove());
-   * 
-   * ex:
-var ava = xh.avatar();
-ava.action("param subtrees {} inventory,tools,behaviors");
-ava.subtrees.inventory = ava.action("build Inventory").parent().last().remove();
-ava.subtrees.inventory.append(ava.action("build Fruit role Apple").parent().last().remove());
-ava.subtrees.inventory.append('<Fruit roleName="Orange"/>');
-   * 
-   * @param value false true {}
-   * @param content (optional content of the Object or Array in CSV format): "tools,items" "Behaviors,Inventory,Tools"
-   */
-  protected native void configureSubtrees(String value, String content) /*-{
-    switch (value) {
-    case "false":
-      delete this["subtrees"];
-      break;
-    case "true":
-    case "{}":
-      this["subtrees"] = {};
-      if (content) {
-        var arr = content.split(",");
-        for (var i = 0; i < arr.length; i++) {
-          var subtreeName = arr[i];
-          var existingNode = this.xpath(subtreeName);
-          if (existingNode) {
-            this["subtrees"][subtreeName] = existingNode.remove();
-          }
-          else {
-            var node = this.action("build " + subtreeName).parent().last().remove();
-            this["subtrees"][subtreeName] = node;
-          }
-        }
-      }
-      break;
-    default: break;
-    }
-    
-  }-*/;
-  
-  /**
-   * Find a subtree, given it's name.
-   * @see SUBTREES_DEFAULT_NAMES
-   */
-  protected native IXholon findSubtree(String stName) /*-{
-    if (this["subtrees"] && this["subtrees"][stName]) {
-      return this["subtrees"][stName];
-    }
-    return null;
   }-*/;
   
   /**

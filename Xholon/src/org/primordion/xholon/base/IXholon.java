@@ -1465,4 +1465,22 @@ public abstract IAttribute getAttributeNodeXh(String name);
 public abstract void setAttributeNodeXh(IAttribute newAttr);
 public abstract IAttribute removeAttributeNodeXh(IAttribute oldAttr);
 
+/**
+ * Configure the JavaScript "subtrees" property.
+ * Configure the ability for an IXholon node to have IXholon subtrees that are disconnected from the main IXholon CSH tree.
+ * subtree names might include: Inventory Tools/Catalysts Behaviors
+ * If this["subtrees"] does not exist, and stNames != null, then create this["subtrees"] and add the stNames to this["subtrees"]
+ * If this["subtrees"] does exist, and stNames != null, then add the stNames to this["subtrees"]
+ * @param stNames a CSV-formatted list of subtree names, or null
+ * @return this["subtrees"]
+ */
+public abstract Object subtrees(String stNames);
+
+/**
+ * Get the specified subtree.
+ * @param stName the name of a subtree
+ * @return an IXholon instance, or null
+ */
+public abstract IXholon subtree(String stName);
+
 }
