@@ -89,6 +89,10 @@ public class PeerJS extends AbstractRemoteNode implements IRemoteNode {
     if (obj.localid.length == 0) {
       obj.localid = null;
     }
+    // Sept 14, 2018  do not include host and key if using the default PeerJS server
+    // see: https://peerjs.com/peerserver "If you DON'T specify 'host' and 'key' options, you will automatically connect to PeerServer Cloud service."
+    if (obj.host == "delete") {delete obj.host;}
+    if (obj.key == "delete") {delete obj.key;}
     return obj;
   }-*/;
   
@@ -128,6 +132,10 @@ public class PeerJS extends AbstractRemoteNode implements IRemoteNode {
     if (obj.remoteid.length == 0) {
       obj.remoteid = null;
     }
+    // Sept 14, 2018  do not include host and key if using the default PeerJS server
+    // see: https://peerjs.com/peerserver "If you DON'T specify 'host' and 'key' options, you will automatically connect to PeerServer Cloud service."
+    if (obj.host == "delete") {delete obj.host;}
+    if (obj.key == "delete") {delete obj.key;}
     return obj;
   }-*/;
   
