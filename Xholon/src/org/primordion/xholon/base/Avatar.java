@@ -3762,6 +3762,12 @@ xport hello _other,Newick,true,true,true,{}
         return node;
       }
     }
+    else if (nodeName.startsWith("subtree")) {
+      node = evalSubtreeCmdArg(nodeName, aRoot);
+      if (node != null) {
+        return node;
+      }
+    }
     node = xpath.evaluate("descendant-or-self::*[@name='" + nodeName + "']", aRoot);
     if (node == null) {
       // search all immediate children for an abbreviation match
@@ -3807,6 +3813,42 @@ xport hello _other,Newick,true,true,true,{}
     if (xpathExpression.length() == 0) {return null;}
     return xpath.evaluate(xpathExpression, aRoot);
   }
+  
+  /**
+   * Evaluate a command argument that's specified as a subtree expression.
+   * @param cmdArg - ex: "subtree(ToolsST)TestTool"  ex: "subtree(InventoryST)xpath(One/Two)"
+   * @param aRoot - the context node for the subtree
+   */
+  protected native IXholon evalSubtreeCmdArg(String cmdArg, IXholon aRoot) /*-{
+    if (!aRoot["subtrees"]) {return null;}
+    var begin = cmdArg.indexOf("(");
+    if (begin == -1) {return null;}
+    var end = cmdArg.indexOf(")", begin+1);
+    if (end == -1) {return null;}
+    var subtreeNodeName = cmdArg.substring(begin+1, end);
+    if (subtreeNodeName.length == 0) {return null;}
+    var subtreeRoot = aRoot["subtrees"][subtreeNodeName];
+    if (subtreeRoot) {
+      var nodeExpression = cmdArg.substring(end+1);
+      if (nodeExpression) {
+        nodeExpression = nodeExpression.trim();
+        if (nodeExpression.indexOf("xpath") == -1) {
+          return subtreeRoot.xpath(nodeExpression);
+        }
+        else {
+          // handle internal xpath
+          begin = nodeExpression.indexOf("(");
+          if (begin == -1) {return null;}
+          end = nodeExpression.indexOf(")", begin+1);
+          if (end == -1) {return null;}
+          var xpathExpression = nodeExpression.substring(begin+1, end);
+          if (xpathExpression.length == 0) {return null;}
+          return subtreeRoot.xpath(xpathExpression);
+        }
+      }
+    }
+    return null;
+  }-*/;
   
   /**
    * Evaluate a command argument that starts with $ .

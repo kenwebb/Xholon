@@ -3722,8 +3722,12 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 					this["subtrees"][subtreeName] = existingNode.remove();
 				}
 				else {
-					var node = this.action("build " + subtreeName).parent().last().remove();
-					this["subtrees"][subtreeName] = node;
+					//var node = this.action("build " + subtreeName).parent().last().remove(); // Avatar
+					this.append("<" + subtreeName + "/>");
+					if (this.last()) {
+						var node = this.last().remove();
+						this["subtrees"][subtreeName] = node;
+					}
 				}
 			}
 		}
