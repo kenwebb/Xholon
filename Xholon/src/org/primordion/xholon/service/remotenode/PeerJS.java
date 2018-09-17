@@ -93,6 +93,18 @@ public class PeerJS extends AbstractRemoteNode implements IRemoteNode {
     // see: https://peerjs.com/peerserver "If you DON'T specify 'host' and 'key' options, you will automatically connect to PeerServer Cloud service."
     if (obj.host == "delete") {delete obj.host;}
     if (obj.key == "delete") {delete obj.key;}
+    
+    // Sept 16, 2018 fix localid
+    //  ex URL search content: &localid0=Able&localid1=Baker
+    //  ex Xholon port connector:
+    //   <port ... connector="RemoteNodeService-PeerJS,localid0,delete,3,delete,9000,"/>
+    //   <port ... connector="RemoteNodeService-PeerJS,localid1,delete,3,delete,9000,"/>
+    var lparms = (new URL($doc.location)).searchParams;
+    var lid = lparms.get(obj.localid);
+    if (lid) {
+      obj.localid = lid;
+    }
+    
     return obj;
   }-*/;
   
@@ -136,6 +148,18 @@ public class PeerJS extends AbstractRemoteNode implements IRemoteNode {
     // see: https://peerjs.com/peerserver "If you DON'T specify 'host' and 'key' options, you will automatically connect to PeerServer Cloud service."
     if (obj.host == "delete") {delete obj.host;}
     if (obj.key == "delete") {delete obj.key;}
+    
+    // Sept 16, 2018 fix localid
+    //  ex URL search content: &localid0=Able&localid1=Baker
+    //  ex Xholon port connector:
+    //   <port ... connector="RemoteNodeService-PeerJS,remoteid0,delete,3,delete,9000,"/>
+    //   <port ... connector="RemoteNodeService-PeerJS,remoteid2,delete,3,delete,9000,"/>
+    var lparms = (new URL($doc.location)).searchParams;
+    var rid = lparms.get(obj.remoteid);
+    if (rid) {
+      obj.remoteid = rid;
+    }
+    
     return obj;
   }-*/;
   
