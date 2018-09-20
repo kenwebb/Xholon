@@ -3,105 +3,130 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="author" content="Ken Webb" />
-    <meta name="copyright" content="MIT License, Copyright (C) 2016 Ken Webb" />
+    <meta name="copyright" content="MIT License, Copyright (C) 2016-2018 Ken Webb" />
+    <style>
+.wrtcurl {font-family: monospace; font-size: 14px;}
+.wrtcid0 {background-color: rgba(255, 0, 0, 0.2);}
+.wrtcid1 {background-color: rgba(0, 255, 0, 0.2);}
+.wrtcid2 {background-color: rgba(0, 0, 255, 0.2);}
+    </style>
     <title>Xholon WebRTC Apps</title>
   </head>
   
   <body>
     <h3>Xholon WebRTC Apps</h3>
-    <div style="font-size: 10px;"><p>Please note that the apps linked to from this page, require a modern browser, such as a recent version of Google Chrome or Firefox.</p></div>
-    <p>I am trying various WebRTC scenarios, using 2 Xholon apps. One app uses ten provinces in Canada, while the other app uses 10 cantons in Switzerland. Each app revision tests something different.</p>
+    <p>WebRTC (Web Real-Time Communication) is a peer-to-peer technology that directly connects browser applications. <a href="https://en.wikipedia.org/wiki/WebRTC">WebRTC</a> support is built into Google Chrome, Mozilla Firefox, and other modern browsers which I have not yet tested.</p>
+    <p>This web page describes my initial test and demo of WebRTC, using 2 Xholon apps, with each app running in its own web page. I live in the province of Ontario in Canada, and I began putting this experiment together while visiting a friend in St. Gallen canton in Switzerland (Schweiz). The demo is based on exchanging text messages between Canadian province objects and Swiss canton objects. I use the <a href="https://peerjs.com/">PeerJS</a> JavaScript client library to simplify my interactions with WebRTC, and I also use the <a href="https://peerjs.com/peerserver">PeerJS signaling server</a> to help set up the connections between browsers. <a href="http://www.primordion.com/Xholon/gwt/index.html">Xholon</a> is an open-source project with a <a href="https://github.com/kenwebb/Xholon">github repository</a>.</p>
     <!-- see my notebook for April 29, 2016 -->
     
-    <h3>Scenario 01 (github rev 1)</h3>
-    <p>Ontario and St Gallen send messages to each other.</p>
-    <p><a href="XholonWebRTC.html?app=3872b340823c982c39fa73288a1d9d17/497e3b69b9e55625a2c72570395aa51b65b4fd66&src=gist&gui=clsc">WebRTC complex Canada</a>
-    </p>
-    <p><a href="XholonWebRTC.html?app=bbb22a5cd9599e94f70a207118cf3ec5/00f5013877b18228800d868bc1265d4f7ea70481&src=gist&gui=clsc">WebRTC complex Schweiz</a>
-    </p>
-    <p>Optionally paste the following into Avatar, after moving Avatar to Ontario.</p>
-    <pre>
+    <h3>Demo - Step 1 - Start Canada app</h3>
+    <p>Start the <a href="XholonWebRTC.html?app=d6eada52b8a14384ebdec837f7356ba7&src=gist&gui=none&localid0=Able101&localid1=Baker101&localid2=Charlie101">Canada</a> app in Firefox or Chrome. Alternatively, you can edit the localid parameters below, and drag, or copy and paste, the result into a browser URL line.</p>
+    <div class="wrtcurl" contenteditable="true">http://www.primordion.com/Xholon/gwt/XholonWebRTC.html?app=d6eada52b8a14384ebdec837f7356ba7&src=gist&gui=none&localid0=<span class="wrtcid0">Able101</span>&localid1=<span class="wrtcid1">Baker101</span>&localid2=<span class="wrtcid2">Charlie101</span></div>
+    <p>The resulting page should look similar to the following. The GUI includes a <a href="https://d3js.org/">D3</a> <a href="https://en.wikipedia.org/wiki/Circle_packing">Circle Packing</a> (d3cp) animated SVG-based visualization, with abbreviated names inside each circle.</p>
+    <img src="images/webrtcCanadaStart.png"/>
+    
+    <h3>Demo - Step 2 - Start Schweiz app</h3>
+    <p>Start the <a href="XholonWebRTC.html?app=9c111d1ffac80a6905964d9433a532b7&src=gist&gui=none&remoteid0=Able101&remoteid2=Charlie101">Schweiz</a> app in another Firefox or Chrome page. This second page can use the same browser as the first page (Chrome or Firefox)), or a different browser, and it can run on the same computer or on a different computer. Alternatively, you can edit the remoteid parameters below, and drag, or copy and paste, the result into a browser URL line. Note that the value for remoteid0 must match the value for localid0 in the Canada app, and the same for the other IDs.</p>
+    <div class="wrtcurl" contenteditable="true">http://www.primordion.com/Xholon/gwt/XholonWebRTC.html?app=9c111d1ffac80a6905964d9433a532b7&src=gist&gui=none&remoteid0=<span class="wrtcid0">Able101</span>&remoteid2=<span class="wrtcid2">Charlie101</span></div>
+    <p>Once this second page has loaded, the two apps should start to exchange regular test messages, as shown in the following.</p>
+    <img src="images/webrtcSchweizStart.png"/>
+    <p>Note that each app includes an Avatar, displayed in a light reddish color inside the Ontario object and inside the StGallen object. You can instruct an Avatar to move between the two apps, and perform various actions along the way.</p>
+    
+    <h3>Demo - Step 3 - Exchange Gifts between the apps</h3>
+    <p>Paste the following script into either Avatar. The easiest way to do this is to highlight the entire text starting with &lt;script> and ending with &lt;/script>, drag this to the running app, and drop it directly on the Avatar object.</p>
+    <pre contenteditable="true">
 &lt;script>
 var a = this.parent();
-a.action("script;\nbuild cup;\ntake cup;\ngo port0;\nlook;\ndrop cup;\ngo port0;\n");
-&lt;/script>
-    </pre>
+a.action("script;\nbuild Gift;\ntake gift;\ngo port0;\nlook;\ndrop gift;\ngo port0;\n");
+&lt;/script></pre>
+    <p>The Avatar will acquire a gift, will carry it through a port to the other app, will leave the gift there, and will then return home. All of this activity will animate within the two D3 Circle Packing (d3cp) GUIs.</p>
+    <p>Note that the scripting language used by the Avatar (IFLang), is loosely based on actions in the <a href="https://www.inform-fiction.org">Inform 6</a> interactive fiction (IF) language. In a distributed environment, Avatar commands must be separated using "\n" so that they will be executed at subsequent timesteps rather than all at the same time. By following this convention, some of the commands will execute in the home browser, and others will execute in the remote browser.</p>
+    <p>As shown in the following image, the script was dropped on the Avatar in Ontario in Canada, and ended up in StGallen in Schweiz.</p>
+    <img src="images/webrtcExchangeGifts.png"/>
     
-    <h3>Scenario 02 (github rev 3)</h3>
-    <p>Ontario and St Gallen, plus Quebec and Graubunden, send messages to each other. Both connections work at the same time.</p>
-    <p><a href="XholonWebRTC.html?app=3872b340823c982c39fa73288a1d9d17/84f444212dbca0a8a29476e1252dfdc6364fd26d&src=gist&gui=clsc">WebRTC complex Canada</a>
-    </p>
-    <p><a href="XholonWebRTC.html?app=bbb22a5cd9599e94f70a207118cf3ec5/e5e1707e0159d14693d44c416e37a1aca284ec51&src=gist&gui=clsc">WebRTC complex Schweiz</a>
-    </p>
+    <h3>Demo - Step 4 - Monitor</h3>
+    <p>Optionally run the <a href="PeerjsChat.html">PeerJS Chat</a> app in another browser window. Enter a localid in the "Connect to a peer:" field, for example enter Able101 and press "Connect", to monitor that object.</p>
+    <p>You can also enter some XML into the "Enter message" field, and press "Send to selected peers". For example, &lt;One> will create a new object of type One in the monitored app. &lt;One>&lt;Two/>&lt;Three/>&lt;/One> will create a small subtree with Two and Three objects inside a One container.</p>
+    <img src="images/webrtcMonitor.png"/>
     
-    <h3>Scenario 03 (github rev 3)</h3>
-    <p>this scenario didn't work</p>
+    <h3>Demo - Step 5</h3>
+    <p>In this step, Schweiz will create a container node with some arbitrary contents. Avatar will move from Canada to Schweiz, will take a container node, will return to Canada, and will smash the container to reveal the contents. As you can see, I was trying to learn some German.</p>
     
-    <h3>Scenario 04 (github rev 4)</h3>
-    <p><a href="XholonWebRTC.html?app=3872b340823c982c39fa73288a1d9d17/904696941b67b5d29b8d8c9a7735488b7d622452&src=gist&gui=clsc">WebRTC complex Canada (gist)</a>
-    or <a href="XholonWebRTC.html?app=WebRTC%20complex%20Canada&src=lstr&gui=clsc">WebRTC complex Canada (localstorage)</a></p>
-    <p><a href="XholonWebRTC.html?app=bbb22a5cd9599e94f70a207118cf3ec5/43e68d648dd30ace2dd51e3c317c68a8e0507666&src=gist&gui=clsc">WebRTC complex Schweiz (gist)</a>
-    or <a href="XholonWebRTC.html?app=WebRTC%20complex%20Schweiz&src=lstr&gui=clsc">WebRTC complex Schweiz (localstorage)</a></p>
-    
-    <p><a href="PeerjsChat.html">PeerJS Chat</a></p>
-    
-    <h3>Scenario 05</h3>
-    <p>
-    Schweiz will create a container node with some arbitrary contents.
-    Avatar will move from Canada to Schweiz, will take a container node, will return to Canada, and will smash the container to reveal the contents.
-    </p>
-    
-    <p>Sample Schweiz content:</p>
-    <pre>
+    <p>Highlight and drag the following content, to the StGallen node in the Schweiz app.</p>
+    <pre contenteditable="true">
 &lt;container>
-  &lt;Ort roleName="das Heim">
-    &lt;Ort roleName="das Haus">
-      &lt;Ort roleName="der Keller"/>
+  &lt;Ort roleName="Heim das">
+    &lt;Ort roleName="Haus das">
+      &lt;Ort roleName="Keller der"/>
       <!-- erste -->
-      &lt;Ort roleName="die Küche"/>
-      &lt;Ort roleName="das Wohnzimmer"/>
-      &lt;Ort roleName="das Esszimmer"/>
-      &lt;Ort roleName="das Pianozimmer"/>
-      &lt;Ort roleName="das Badezimmer"/>
+      &lt;Ort roleName="Küche die"/>
+      &lt;Ort roleName="Wohnzimmer das"/>
+      &lt;Ort roleName="Esszimmer das"/>
+      &lt;Ort roleName="Pianozimmer das"/>
+      &lt;Ort roleName="Badezimmer das"/>
       <!-- zweite -->
-      &lt;Ort roleName="das Schlafzimmer" multiplicity="3"/>
-      &lt;Ort roleName="das Badezimmer">
-        &lt;Ort roleName="die Dusche"/>
-        &lt;Ort roleName="die Badewanne"/>
+      &lt;Ort roleName="Schlafzimmer das" multiplicity="3"/>
+      &lt;Ort roleName="Badezimmer das">
+        &lt;Ort roleName="Dusche die"/>
+        &lt;Ort roleName="Badewanne die"/>
       &lt;/Ort>
     &lt;/Ort>
-    &lt;Ort roleName="der Garten"/>
-    &lt;Ort roleName="die Veranda"/>
-    &lt;Ort roleName="die Garage"/>
+    &lt;Ort roleName="Garten der"/>
+    &lt;Ort roleName="Veranda die"/>
+    &lt;Ort roleName="Garage die"/>
   &lt;/Ort>
-&lt;/container>
-    </pre>
+&lt;/container></pre>
     
-    <p>Sample Canada content:</p>
-    <pre>
+    <p>Then highlight and drag the following content, to the Avatar node in the Canada app. The Avatar will take the container with all of its contents, and move it back to its home where it will remove (smash) the outer container.</p>
+    <pre contenteditable="true">
 &lt;script>
 var a = this.parent();
 a.action("script;\ngo port0;\ntake container;\ngo port0;\ndrop container;\nsmash container;\n");
-&lt;/script>
-    </pre>
-    <p>OR just take a clone</p>
-    <pre>
+&lt;/script></pre>
+    <p>OR you can have the Avatar just take a clone, and leave the original intact.</p>
+    <pre contenteditable="true">
 &lt;script>
 var a = this.parent();
 a.action("script;\ngo port0;\ntakeclone container;\ngo port0;\ndrop container;\nsmash container;\n");
-&lt;/script>
-    </pre>
-    
-    <!-- TODO provide links to the Xholon editor for each app -->
-    <h3>Links to the Xholon editor for each app</h3>
-    <p><a href="wb/editwb.html?app=3872b340823c982c39fa73288a1d9d17&src=gist">WebRTC complex Canada (gist)</a></p>
-    <p><a href="wb/editwb.html?app=bbb22a5cd9599e94f70a207118cf3ec5&src=gist">WebRTC complex Schweiz (gist)</a></p>
-    <p><a href="wb/editwb.html?app=WebRTC%20complex%20Canada&src=lstr">WebRTC complex Canada (localstorage)</a></p>
-    <p><a href="wb/editwb.html?app=WebRTC%20complex%20Schweiz&src=lstr">WebRTC complex Schweiz (localstorage)</a></p>
+&lt;/script></pre>
+        
+    <div>
+    <p>
+    This final screenshot shows parts of three browser windows.
+    The left window is the "Schweiz" app running in Firefox.
+    The center window is the "Canada" app running in Google Chrome.
+    The right window is an early version of this web page, with highlighted "orange" content about to be added to one of the other two windows.
+    </p>
+    <img src="images/webrtcContainerClone.png"/>
+    </div>
     
     <hr/>
+    <h3>Developer Links</h3>
+    <p>I test the Xholon software using a local server. I'm including these additional URLs for my own convenience.</p>
+    <!-- Canada -->
+    <p>Canada</p>
+    <a href="XholonWebRTC.html?app=WebRTC+complex+Canada+2018&src=lstr&gui=none&localid0=Able101&localid1=Baker101&localid2=Charlie101">WebRTC complex Canada 2018 (localstorage)</a>
+    <div class="wrtcurl" contenteditable="true">http://127.0.0.1:8888/XholonWebRTC.html?app=WebRTC+complex+Canada+2018&src=lstr&gui=none&localid0=<span class="wrtcid0">Able101</span>&localid1=<span class="wrtcid1">Baker101</span>&localid2=<span class="wrtcid2">Charlie101</span></div>
+    <div class="wrtcurl" contenteditable="true">http://127.0.0.1:8888/XholonWebRTC.html?app=d6eada52b8a14384ebdec837f7356ba7&src=gist&gui=none&localid0=<span class="wrtcid0">Able101</span>&localid1=<span class="wrtcid1">Baker101</span>&localid2=<span class="wrtcid2">Charlie101</span></div>
+    <!-- Schweiz -->
+    <p>Schweiz</p>
+    <a href="XholonWebRTC.html?app=WebRTC+complex+Schweiz+2018&src=lstr&gui=none&remoteid0=Able101&remoteid2=Charlie101">WebRTC complex Schweiz 2018 (localstorage)</a>
+    <div class="wrtcurl" contenteditable="true">http://127.0.0.1:8888/XholonWebRTC.html?app=WebRTC+complex+Schweiz+2018&src=lstr&gui=none&remoteid0=<span class="wrtcid0">Able101</span>&remoteid2=<span class="wrtcid2">Charlie101</span></div>
+    <div class="wrtcurl" contenteditable="true">http://127.0.0.1:8888/XholonWebRTC.html?app=9c111d1ffac80a6905964d9433a532b7&src=gist&gui=none&remoteid0=<span class="wrtcid0">Able101</span>&remoteid2=<span class="wrtcid2">Charlie101</span></div>
+    
+    <p>Links to the Xholon editor for each app</p>
+    <p><a href="wb/editwb.html?app=d6eada52b8a14384ebdec837f7356ba7&src=gist">WebRTC complex Canada 2018 (gist)</a></p>
+    <p><a href="wb/editwb.html?app=9c111d1ffac80a6905964d9433a532b7&src=gist">WebRTC complex Schweiz 2018 (gist)</a></p>
+    <p><a href="wb/editwb.html?app=WebRTC%20complex%20Canada%202018&src=lstr">WebRTC complex Canada 2018 (localstorage)</a></p>
+    <p><a href="wb/editwb.html?app=WebRTC%20complex%20Schweiz%202018&src=lstr">WebRTC complex Schweiz 2018 (localstorage)</a></p>
+    
+    <p>Links to Xholon workbook at github for each app</p>
+    <p><a href="https://gist.github.com/kenwebb/d6eada52b8a14384ebdec837f7356ba7">WebRTC complex Canada 2018 (view at github)</a></p>
+    <p><a href="https://gist.github.com/kenwebb/9c111d1ffac80a6905964d9433a532b7">WebRTC complex Schweiz 2018 (view at github)</a></p>
+
+    <hr/>
     <p>Ken Webb</p>
-    <div class="license"  style="font-size: 9px;"><p>Xholon GWT is a <a href="index.html">Xholon</a> project. Copyright (C) 2016 Ken Webb</p></div>
+    <div class="license"  style="font-size: 9px;"><p>Xholon GWT is a <a href="index.html">Xholon</a> project. Copyright (C) 2016 - 2018 Ken Webb</p></div>
     <div class="aatt" style="font-size: 9px;"><pre style="font-size: 9px;">
   @QWERTYUIk
   OPASmDFGHe
