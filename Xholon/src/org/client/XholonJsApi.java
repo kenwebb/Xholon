@@ -128,6 +128,11 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
     return ClassHelper.isAssignableFrom(Xholon.class, clazz);
   }
   
+  public static boolean isXholonNodeCanonical(Object obj) {
+    Class clazz = obj.getClass();
+    return ClassHelper.isAssignableFromCanonical(Xholon.class, clazz);
+  }
+  
   public static native void consoleLog(String s) /*-{
     $wnd.console.log(s);
   }-*/;
@@ -402,6 +407,11 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
     // xh.isXholonNode(13);         //returns false
     $wnd.xh.isXholonNode = $entry(function(obj) {
       return @org.client.XholonJsApi::isXholonNode(Ljava/lang/Object;)(obj);
+    });
+    
+    // isXholonNodeCanonical
+    $wnd.xh.isXholonNodeCanonical = $entry(function(obj) {
+      return @org.client.XholonJsApi::isXholonNodeCanonical(Ljava/lang/Object;)(obj);
     });
     
     // random - replacement for Javascript Math.random(), with a seed
@@ -917,7 +927,8 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
               if (!linkGraph) {continue;}
               //var ix = 0; // Dec 4, 2017
               for (var i = 0; i < pval.length; i++) {
-                if (pval[i] && $wnd.xh.isXholonNode(pval[i])) {
+                // isXholonNode() doesn't work with CrossApp.java, because the Java class objects are in different address spaces
+                if (pval[i] && $wnd.xh.isXholonNodeCanonical(pval[i])) {
                   if (node.@org.primordion.xholon.base.IXholon::getPort()() == pval) {
                     // this is the Java built-in "port" array
                     pname = "port";
