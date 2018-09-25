@@ -45,6 +45,22 @@ public class ClassHelper {
     return false;
   }
   
+  /**
+   * A version of isAssignableFrom() that checks based on the two classes canonical names.
+   * This is required when using CrossApp.java and similar classes, where class1 and class2 are in different Xholon apps.
+   * @return Returns true if class1 is a superclass of class2, or if class1 == class2.
+   */
+  public static boolean isAssignableFromCanonical(final Class<?> class1, final Class<?> class2) {
+    if ((class1 == null) || class1.isInterface()) {return false;}
+    if ((class2 == null) || class2.isInterface()) {return false;}
+    Class<?> clazz = class2;
+    while (clazz != null) {
+      if (clazz.getCanonicalName().equals(class1.getCanonicalName())) {return true;}
+      clazz = clazz.getSuperclass();
+    }
+    return false;
+  }
+  
   /*public static void main(String[] args) {
     System.out.println(ClassHelper.isAssignableFrom(
     		org.primordion.xholon.base.Xholon.class,
