@@ -306,7 +306,7 @@ Uses IDs in range 1013000 - 1013099 .
   <CrossApp/>
   <MessageChannel/>
   <PeerJS/>
-  <PortMessage/>
+  <PostMessage/>
   <WebRTC/>
 </RemoteNode>
 
