@@ -273,8 +273,6 @@ public abstract class AbstractRemoteNode extends XholonWithPorts implements IRem
    * @param localNode The IXholon node that this IRemoteNode instance sends to, using call() or msg() .
    */
   protected native void rxRemote(Object remoteData, IXholon localNode) /*-{
-    $wnd.console.log("AbstractRemoteNode.rxRemote() sending to " + localNode.name());
-    $wnd.console.log(remoteData);
     if (typeof remoteData === "object") {
       // this is a JavaScript object
       var obj = remoteData;

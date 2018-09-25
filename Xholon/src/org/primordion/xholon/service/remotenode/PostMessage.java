@@ -122,27 +122,11 @@ public class PostMessage extends AbstractRemoteNode implements IRemoteNode {
     }
     $wnd.console.log(otherWindow);
     
-    // DO NOT USE port 1 to access other window
-    //if (remoteXPathExpr) {
-    //  this.port(1, otherWindow.xh.root().xpath(remoteXPathExpr));
-    //}
-    //else {
-    //  this.port(1, otherWindow.xh.root());
-    //}
-    //if (this.port(1)) {
-    //  $wnd.console.log(this.port(1).name());
-    //  // have the local node's port reference the remote node
-    //  reffedNode.port(localPortName, this.port(1));
-    //  // let the other window/app know that this window/app is ready
-    //  $wnd.console.log("let the other window/app know that this window/app is ready");
-    //  this.port(1).msg(@org.primordion.xholon.base.ISignal::SIGNAL_READY, null, reffedNode); // -11
-    //}
-    
-    // TODO maybe it should be a JavaScript Object rather than JSON
-    var jsonStr = '{"signal":' + @org.primordion.xholon.base.ISignal::SIGNAL_READY + ',"data":' + null + ',"sender":"' + reffedNode.name() + '"}';
-    var jsObj = $wnd.JSON.parse(jsonStr);
+    var jsObj = {};
+    jsObj.signal = @org.primordion.xholon.base.ISignal::SIGNAL_READY;
+    jsObj.data = null;
+    jsObj.sender = reffedNode.name();
     var locPortStr = location.port ? ":" + location.port : "";
-    //otherWindow.postMessage(jsonStr, location.protocol + "//" + location.hostname + locPortStr);
     otherWindow.postMessage(jsObj, location.protocol + "//" + location.hostname + locPortStr);
     
     listenParams.otherWindow = otherWindow;
@@ -239,34 +223,8 @@ public class PostMessage extends AbstractRemoteNode implements IRemoteNode {
     $wnd.addEventListener("message", receiveMessage, false);
   }-*/;
   
-  /**
-   * Finish the connection, if not already done.
-   * otherWindow.xh does exist now.
-   * This has to be done before txRemote() can be called.
-   */
-  //protected native void connectFinish() /*-{
-    // THIS IS THE CODE FROM CrossApp.java
-    //if (this.connectParams.remoteXPathExpr) {
-    //  this.port(1, this.connectParams.otherWindow.xh.root().xpath(this.connectParams.remoteXPathExpr));
-    //}
-    //else {
-    //  this.port(1, this.connectParams.otherWindow.xh.root());
-    //}
-    //if (this.port(1)) {
-    //  // have the local node's port reference the remote node
-    //  this.connectParams.reffingNode.port(this.connectParams.localPortName, this.port(1));
-    //}
-  //}-*/;
-  
   @Override
   protected boolean txRemote(IMessage msg) {
-    /*if (this.getPort(1) == null) {
-      connectFinish();
-    }
-    if (this.getPort(1) == null) {
-      return false;
-    }*/
-    //this.getPort(1).processReceivedMessage(msg);
     this.postMessage(msg);
     return true;
   }
@@ -276,6 +234,18 @@ public class PostMessage extends AbstractRemoteNode implements IRemoteNode {
     this.postMessage(signal, data);
     return true;
   }
+  
+  /**
+   * Transmit/Send a message to a remote app using a PeerJS connection.
+   * Typically this will be an XML string, that's a serialization of a IXholon node or subtree.
+   * @param data A Xholon IMessage data.
+   */
+  @Override
+  protected native boolean txRemote(Object data) /*-{
+    var locPortStr = location.port ? ":" + location.port : "";
+    this.connectParams.otherWindow.postMessage(data, location.protocol + "//" + location.hostname + locPortStr);
+    return true;
+  }-*/;
   
   protected native void postMessage(IMessage msg) /*-{
     var locPortStr = location.port ? ":" + location.port : "";
