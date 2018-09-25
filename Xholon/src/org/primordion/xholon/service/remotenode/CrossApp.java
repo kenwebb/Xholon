@@ -61,6 +61,7 @@ public class CrossApp extends AbstractRemoteNode implements IRemoteNode {
   }
   
   // child window, Jake
+  // ex: <port name="trop" index="1" connector="RemoteNodeService-CrossApp,1,NoBoundariesSystem/Helen"/>
   @Override
   protected native Object fixListenParams(String listenParams) /*-{
     var obj = {};
@@ -84,6 +85,7 @@ public class CrossApp extends AbstractRemoteNode implements IRemoteNode {
   }-*/;
   
   // parent window, Helen
+  // ex: <port name="port" index="1" connector="RemoteNodeService-CrossApp,1,NoBoundariesSystem/Jake,Jake,?app=88113e296a37af87317f&amp;src=gist&amp;gui=clsc,false"/>
   @Override
   protected native Object fixConnectParams(String connectParams) /*-{
     var obj = {};
@@ -168,9 +170,12 @@ public class CrossApp extends AbstractRemoteNode implements IRemoteNode {
     
     var url = $wnd.location.protocol
       + "//"
-      + $wnd.location.hostname
-      + $wnd.location.port
-      + $wnd.location.pathname
+      + $wnd.location.hostname;
+    if ($wnd.location.port) {
+      url += ":"
+      + $wnd.location.port;
+    }
+    url += $wnd.location.pathname
       + remoteUrl;
     this.println("url " + url);
     
