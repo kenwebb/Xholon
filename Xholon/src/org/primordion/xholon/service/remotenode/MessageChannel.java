@@ -42,6 +42,16 @@ window.postMessage("hello three",location.origin); // OK
 temp1.postMessage("temp1 un","*");
 temp1.postMessage({signal: 102, data: "un deux trois"},"*"); // Helen has received a message (signal:102) from MessageChannel: un deux trois
 temp1.postMessage("txPort2", "http://127.0.0.1:8888", []);
+ *
+ * MSC - Establishing a connection between port1 and port2 of the MessageChannel
++-------+                        +------+
+| Helen |                        | Jake |
+|connect|                        |listen|
++-------+                        +------+
+    |      -- open window     ->    |
+    |      <- -11 ready       --    |
+    |      -- [channel.port2] ->    |
+    |port1 <- Message back --  port2|
  * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
@@ -70,7 +80,6 @@ public class MessageChannel extends AbstractRemoteNode implements IRemoteNode {
     obj.localPortName = null; // ex: "0"  "1"  "2"  "world"  "helen"
     if (listenParams) {
       var data = listenParams.split(",", 2);
-      $wnd.console.log(data);
       switch(data.length) {
       // break is intentionally left out so the cases will fall through
       case 2: obj.remoteXPathExpr = data[1];
@@ -78,10 +87,8 @@ public class MessageChannel extends AbstractRemoteNode implements IRemoteNode {
       default: break;
       }
     }
-    $wnd.console.log(obj);
     if (obj.remoteXPathExpr.length == 0) {obj.remoteXPathExpr = null;}
     if (obj.localPortName.length == 0) {obj.localPortName = null;}
-    $wnd.console.log(obj);
     return obj;
   }-*/;
   
@@ -97,7 +104,6 @@ public class MessageChannel extends AbstractRemoteNode implements IRemoteNode {
     obj.localPortName = null; // ex: "0"  "1"  "2"  "world"  "helen"
     if (connectParams) {
       var data = connectParams.split(",", 5);
-      $wnd.console.log(data);
       switch(data.length) {
       // break is intentionally left out so the cases will fall through
       case 5: if (data[4] == "false") {obj.useIframe = false;}
@@ -121,22 +127,17 @@ public class MessageChannel extends AbstractRemoteNode implements IRemoteNode {
     this.role(reffedNode.name("R^^^^^"));
     var localPortName = listenParams.localPortName;
     var remoteXPathExpr = listenParams.remoteXPathExpr;
-    this.println("localPortName " + localPortName);
-    this.println("remoteXPathExpr " + remoteXPathExpr);
     
     // assume that this app has been opened by another app
     var otherWindow = null;
     if ($wnd.self == $wnd.top) {
       // this app is in a separately opened window
-      $wnd.console.log("this app is in a separately opened window");
       otherWindow = $wnd.opener;
     }
     else {
       // this app is in an iframe
-      $wnd.console.log("this app is in an iframe");
       otherWindow = $wnd.top;
     }
-    $wnd.console.log(otherWindow);
     
     var jsObj = {};
     jsObj.signal = @org.primordion.xholon.base.ISignal::SIGNAL_READY; // -11
@@ -144,7 +145,7 @@ public class MessageChannel extends AbstractRemoteNode implements IRemoteNode {
     jsObj.sender = reffedNode.name();
     var locPortStr = location.port ? ":" + location.port : "";
     if (otherWindow) {
-      otherWindow.postMessage(jsObj, location.protocol + "//" + location.hostname + locPortStr);  // TODO should use port2 ???;  NO
+      otherWindow.postMessage(jsObj, location.protocol + "//" + location.hostname + locPortStr);
     }
     
     listenParams.otherWindow = otherWindow;
@@ -153,24 +154,14 @@ public class MessageChannel extends AbstractRemoteNode implements IRemoteNode {
     var myself = this;
     
     var receiveMessageWNlis = function(event) {
-      console.log("starting receiveMessageWNlis");
       if (event.data == "txPort2") {
-        $wnd.console.log("MessageChannel onTxPort2Message() received event:");
-        $wnd.console.log(event);
-        $wnd.console.log(event.ports);
         listenParams.myMcPort = event.ports[0];
-        listenParams.myMcPort.onmessage = receiveMessagePRTlis; // TODO use different functions for the two event listeners
-        $wnd.console.log(listenParams.myMcPort);
+        listenParams.myMcPort.onmessage = receiveMessagePRTlis; // use different functions for the two event listeners
         var locPortStr = location.port ? ":" + location.port : "";
-        $wnd.console.log(locPortStr);
-        $wnd.console.log(location);
         // Channel messages should NOT contain an origin string
         listenParams.myMcPort.postMessage("Message back from the other window"); //, location.protocol + "//" + location.hostname + locPortStr);
         return;
       }
-      reffedNode.println("\n\n" + reffedNode.name() + " has received a message:\n" + event.data);
-      $wnd.console.log("\n\n" + reffedNode.name() + " has received a message:");
-      $wnd.console.log(event.data);
       otherWindow = event.source;
       var expectedOrigin = location.protocol + "//" + location.hostname; // ex: "http://localhost"
       if (location.port) {
@@ -191,40 +182,10 @@ public class MessageChannel extends AbstractRemoteNode implements IRemoteNode {
     $wnd.addEventListener("message", receiveMessageWNlis);
     
     var receiveMessagePRTlis = function(event) {
-      console.log("starting receiveMessagePRTlis");
-      if (event.data == "txPort2") {
-        $wnd.console.log("MessageChannel onTxPort2Message() received event:");
-        $wnd.console.log(event);
-        $wnd.console.log(event.ports);
-        listenParams.myMcPort = event.ports[0];
-        //listenParams.myMcPort.onmessage = receiveMessagePRTlis; // TODO use different functions for the two event listeners
-        $wnd.console.log(listenParams.myMcPort);
-        var locPortStr = location.port ? ":" + location.port : "";
-        $wnd.console.log(locPortStr);
-        $wnd.console.log(location);
-        // Channel messages should NOT contain an origin string
-        listenParams.myMcPort.postMessage("Message back from the other window"); //, location.protocol + "//" + location.hostname + locPortStr);
-        return;
-      }
-      reffedNode.println("\n\n" + reffedNode.name() + " has received a message:\n" + event.data);
-      $wnd.console.log("\n\n" + reffedNode.name() + " has received a message:");
-      $wnd.console.log(event.data);
-      otherWindow = event.source;
-      var expectedOrigin = location.protocol + "//" + location.hostname; // ex: "http://localhost"
-      if (location.port) {
-        expectedOrigin += ":"
-        + location.port;
-      }
-      if (event.origin && (event.origin.length > 0) && (event.origin !== expectedOrigin)) {
-        $wnd.console.log("message origin is invalid " + event.origin + "; expected " + expectedOrigin);
-        return;
-      }
-      else {
-        var jsObj = {};
-        jsObj.signal = 101;
-        jsObj.data = event.data;
-        myself.@org.primordion.xholon.service.remotenode.MessageChannel::rxRemote(Ljava/lang/Object;Lorg/primordion/xholon/base/IXholon;)(jsObj, reffedNode);
-      }
+      var jsObj = {};
+      jsObj.signal = 101;
+      jsObj.data = event.data;
+      myself.@org.primordion.xholon.service.remotenode.MessageChannel::rxRemote(Ljava/lang/Object;Lorg/primordion/xholon/base/IXholon;)(jsObj, reffedNode);
     }
     listenParams.myMcPort = null;
     
@@ -240,11 +201,6 @@ public class MessageChannel extends AbstractRemoteNode implements IRemoteNode {
     var remoteWindowName = connectParams.remoteWindowName;
     var remoteUrl = connectParams.remoteUrl;
     var useIframe = connectParams.useIframe;
-    this.println("localPortName " + localPortName);
-    this.println("remoteXPathExpr " + remoteXPathExpr);
-    this.println("remoteWindowName " + remoteWindowName);
-    this.println("remoteUrl " + remoteUrl);
-    this.println("useIframe " + useIframe);
     
     var url = $wnd.location.protocol
       + "//"
@@ -255,7 +211,6 @@ public class MessageChannel extends AbstractRemoteNode implements IRemoteNode {
     }
     url += $wnd.location.pathname
       + remoteUrl;
-    this.println("url " + url);
     
     var otherWindow = null; // Jake's window
     if (useIframe) {
@@ -266,32 +221,10 @@ public class MessageChannel extends AbstractRemoteNode implements IRemoteNode {
       otherWindow = $wnd.open(url, remoteWindowName);
       otherWindow.addEventListener('load', function() {console.log("TEST of otherWindow.addEventListener('load'");}, true);
     }
-    $wnd.console.log(otherWindow);
     
     // MessageChannel
     var channel = new MessageChannel();
-    $wnd.console.log("var channel = new MessageChannel();");
-    $wnd.console.log(channel);
-    // location.origin ex: "http://127.0.0.1:8888"  TODO not available in all browsers
-    if (otherWindow) {
-      //otherWindow.postMessage("txPort2", location.origin, [channel.port2]);
-      $wnd.console.log("preparing to send txPort2 to otherWindow");
-      $wnd.console.log(location.origin);
-      //var locPortStr = location.port ? ":" + location.port : "";
-      //otherWindow.postMessage("txPort2", location.protocol + "//" + location.hostname + locPortStr, [channel.port2]);
-      
-      //otherWindow.onload = function() {
-      //  // THIS CODE IS NEVER INVOKED
-      //  $wnd.console.log("sending txPort2 to otherWindow");
-      //  var locPortStr = location.port ? ":" + location.port : "";
-      //  otherWindow.postMessage("txPort2", location.protocol + "//" + location.hostname + locPortStr, [channel.port2]);
-      //};
-      //otherWindow.onunload = function(){
-      //  // THIS CODE IS NEVER INVOKED
-      //  $wnd.console.log("Child window closed");
-      //};
-    }
-    else {
+    if (!otherWindow) {
       $wnd.console.log("otherWindow is null");
     }
     connectParams.otherWindow = otherWindow;
@@ -303,8 +236,6 @@ public class MessageChannel extends AbstractRemoteNode implements IRemoteNode {
     var myself = this;
     var receiveMessageWNcon = function(event) { // WN window events
       connectParams.reffingNode.println("\n\n" + connectParams.reffingNode.name() + " has received a message:\n" + event.data);
-      $wnd.console.log("\n\n" + connectParams.reffingNode.name() + " has received a message:");
-      $wnd.console.log(event.data);
       var expectedOrigin = location.protocol + "//" + location.hostname; // ex: "http://localhost"
       if (location.port) {
         expectedOrigin += ":"
@@ -318,11 +249,8 @@ public class MessageChannel extends AbstractRemoteNode implements IRemoteNode {
       }
       else {
         // assume that event.data is a JavaScript Object
-        //connectParams.reffingNode.msg(event.data.signal, event.data.data, this);
         // ex: {signal: -11, data: null, sender: "jake_46"}
         if (event.data && event.data.signal && (event.data.signal == @org.primordion.xholon.base.ISignal::SIGNAL_READY)) { // signal -11
-          $wnd.console.log("received a -11 signal; will pass port2 to otherWindow");
-          $wnd.console.log(channel.port2);
           var locPortStr = location.port ? ":" + location.port : "";
           otherWindow.postMessage("txPort2", location.protocol + "//" + location.hostname + locPortStr, [channel.port2]);
         }
@@ -332,8 +260,6 @@ public class MessageChannel extends AbstractRemoteNode implements IRemoteNode {
     
     var receiveMessagePRTcon = function(event) { // PRT channel port events
       connectParams.reffingNode.println("\n\n" + connectParams.reffingNode.name() + " has received a message:\n" + event.data);
-      $wnd.console.log("\n\n" + connectParams.reffingNode.name() + " has received a message:");
-      $wnd.console.log(event.data);
       var expectedOrigin = location.protocol + "//" + location.hostname; // ex: "http://localhost"
       if (location.port) {
         expectedOrigin += ":"
@@ -341,13 +267,12 @@ public class MessageChannel extends AbstractRemoteNode implements IRemoteNode {
       }
       // Channel messages do not contain the origin
       if (event.origin && (event.origin.length > 0) && (event.origin !== expectedOrigin)) {
-        $wnd.console.log("message origin is invalid " + event.origin + "; expected " + expectedOrigin);
-        $wnd.console.log(event);
+        //$wnd.console.log("message origin is invalid " + event.origin + "; expected " + expectedOrigin);
+        //$wnd.console.log(event);
         return;
       }
       else {
         // assume that event.data is a JavaScript Object
-        //connectParams.reffingNode.msg(event.data.signal, event.data.data, this);
         myself.@org.primordion.xholon.service.remotenode.MessageChannel::rxRemote(Ljava/lang/Object;Lorg/primordion/xholon/base/IXholon;)(event.data, connectParams.reffingNode);
       }
     }
@@ -375,19 +300,16 @@ public class MessageChannel extends AbstractRemoteNode implements IRemoteNode {
    */
   @Override
   protected native boolean txRemote(Object data) /*-{
-    //var locPortStr = location.port ? ":" + location.port : "";
-    this.connectParams.myMcPort.postMessage(data); //, location.protocol + "//" + location.hostname + locPortStr);
+    this.connectParams.myMcPort.postMessage(data);
     return true;
   }-*/;
   
   protected native void postMessage(IMessage msg) /*-{
-    //var locPortStr = location.port ? ":" + location.port : "";
-    this.connectParams.myMcPort.postMessage(msg.obj().data); //, location.protocol + "//" + location.hostname + locPortStr);
+    this.connectParams.myMcPort.postMessage(msg.obj().data);
   }-*/;
   
   protected native void postMessage(int signal, Object data) /*-{
-    //var locPortStr = location.port ? ":" + location.port : "";
-    this.connectParams.myMcPort.postMessage(data); //, location.protocol + "//" + location.hostname + locPortStr);
+    this.connectParams.myMcPort.postMessage(data);
   }-*/;
   
   // actions
