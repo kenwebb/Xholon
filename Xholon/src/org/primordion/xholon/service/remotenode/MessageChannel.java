@@ -26,6 +26,22 @@ import org.primordion.xholon.util.ClassHelper;
 
 /**
  * Enable cross-domain communications using HTML5 MessageChannel.
+ *
+ * To test an event listener from Dev Tools:
+var abc = function(event) {console.log(event);}
+window.addEventListener("message", abc);
+window.postMessage("hello","*"); // helen_46 has received a message: hello
+window.postMessage("<Two/>","*"); // helen_46 gets a new <Two/> child
+window.postMessage("hello two","http://127.0.0.1:8888"); // OK
+window.postMessage("hello two","http://127.0.0.1:888");
+// Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('http://127.0.0.1:888') does not match the recipient window's origin ('http://127.0.0.1:8888').
+window.postMessage("hello three",window.location.origin); // OK
+window.postMessage("hello three",location.origin); // OK
+
+// otherWindow
+temp1.postMessage("temp1 un","*");
+temp1.postMessage({signal: 102, data: "un deux trois"},"*"); // Helen has received a message (signal:102) from MessageChannel: un deux trois
+temp1.postMessage("txPort2", "http://127.0.0.1:8888", []);
  * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
@@ -35,39 +51,373 @@ public class MessageChannel extends AbstractRemoteNode implements IRemoteNode {
   
   public MessageChannel() {
     this.println("instantiated a " + this.getClass().getName());
-    //setOnDataJsonSync(false);
-    //setOnDataTextSync(true);
-    //setOnDataTextAction(false);
+    setOnDataJsonSync(false);
+    setOnDataTextSync(true);
+    setOnDataTextAction(false);
   }
   
   @Override
   public boolean isUsable() {
-    // This type of communications is probably built in to all browsers.
+    // This type of communications is built in to all browsers.
     return true;
   };
   
+  // child window, Jake
   @Override
   protected native Object fixListenParams(String listenParams) /*-{
     var obj = {};
-    
+    obj.remoteXPathExpr = null; // ex: NoBoundariesSystem/Helen
+    obj.localPortName = null; // ex: "0"  "1"  "2"  "world"  "helen"
+    if (listenParams) {
+      var data = listenParams.split(",", 2);
+      $wnd.console.log(data);
+      switch(data.length) {
+      // break is intentionally left out so the cases will fall through
+      case 2: obj.remoteXPathExpr = data[1];
+      case 1: obj.localPortName = data[0];
+      default: break;
+      }
+    }
+    $wnd.console.log(obj);
+    if (obj.remoteXPathExpr.length == 0) {obj.remoteXPathExpr = null;}
+    if (obj.localPortName.length == 0) {obj.localPortName = null;}
+    $wnd.console.log(obj);
     return obj;
   }-*/;
   
+  // parent window, Helen
   @Override
   protected native Object fixConnectParams(String connectParams) /*-{
     var obj = {};
-    
+    obj.useIframe = true;
+    obj.remoteUrl = ""; // remote URL fragment
+    // ex: "?app=The%20Love%20Letter%20-%20Jake%20-%20CrossApp&amp;src=lstr&amp;gui=clsc"
+    obj.remoteWindowName = ""; // ex: "Jake"
+    obj.remoteXPathExpr = null; // ex: "NoBoundariesSystem/Jake"
+    obj.localPortName = null; // ex: "0"  "1"  "2"  "world"  "helen"
+    if (connectParams) {
+      var data = connectParams.split(",", 5);
+      $wnd.console.log(data);
+      switch(data.length) {
+      // break is intentionally left out so the cases will fall through
+      case 5: if (data[4] == "false") {obj.useIframe = false;}
+      case 4: obj.remoteUrl = data[3];
+      case 3: obj.remoteWindowName = data[2];
+      case 2: obj.remoteXPathExpr = data[1];
+      case 1: obj.localPortName = data[0];
+      default: break;
+      }
+    }
+    if (obj.remoteUrl.length == 0) {obj.remoteUrl = null;}
+    if (obj.remoteWindowName.length == 0) {obj.remoteWindowName = null;}
+    if (obj.remoteXPathExpr.length == 0) {obj.remoteXPathExpr = null;}
+    if (obj.localPortName.length == 0) {obj.localPortName = null;}
     return obj;
   }-*/;
   
+  // child window, Jake
   @Override
   protected native void listen(Object listenParams, IXholon reffedNode) /*-{
+    this.role(reffedNode.name("R^^^^^"));
+    var localPortName = listenParams.localPortName;
+    var remoteXPathExpr = listenParams.remoteXPathExpr;
+    this.println("localPortName " + localPortName);
+    this.println("remoteXPathExpr " + remoteXPathExpr);
     
+    // assume that this app has been opened by another app
+    var otherWindow = null;
+    if ($wnd.self == $wnd.top) {
+      // this app is in a separately opened window
+      $wnd.console.log("this app is in a separately opened window");
+      otherWindow = $wnd.opener;
+    }
+    else {
+      // this app is in an iframe
+      $wnd.console.log("this app is in an iframe");
+      otherWindow = $wnd.top;
+    }
+    $wnd.console.log(otherWindow);
+    
+    var jsObj = {};
+    jsObj.signal = @org.primordion.xholon.base.ISignal::SIGNAL_READY; // -11
+    jsObj.data = null;
+    jsObj.sender = reffedNode.name();
+    var locPortStr = location.port ? ":" + location.port : "";
+    if (otherWindow) {
+      otherWindow.postMessage(jsObj, location.protocol + "//" + location.hostname + locPortStr);  // TODO should use port2 ???;  NO
+    }
+    
+    listenParams.otherWindow = otherWindow;
+    listenParams.reffedNode = reffedNode;
+    
+    var myself = this;
+    
+    var receiveMessageWNlis = function(event) {
+      console.log("starting receiveMessageWNlis");
+      if (event.data == "txPort2") {
+        $wnd.console.log("MessageChannel onTxPort2Message() received event:");
+        $wnd.console.log(event);
+        $wnd.console.log(event.ports);
+        listenParams.myMcPort = event.ports[0];
+        listenParams.myMcPort.onmessage = receiveMessagePRTlis; // TODO use different functions for the two event listeners
+        $wnd.console.log(listenParams.myMcPort);
+        var locPortStr = location.port ? ":" + location.port : "";
+        $wnd.console.log(locPortStr);
+        $wnd.console.log(location);
+        // Channel messages should NOT contain an origin string
+        listenParams.myMcPort.postMessage("Message back from the other window"); //, location.protocol + "//" + location.hostname + locPortStr);
+        return;
+      }
+      reffedNode.println("\n\n" + reffedNode.name() + " has received a message:\n" + event.data);
+      $wnd.console.log("\n\n" + reffedNode.name() + " has received a message:");
+      $wnd.console.log(event.data);
+      otherWindow = event.source;
+      var expectedOrigin = location.protocol + "//" + location.hostname; // ex: "http://localhost"
+      if (location.port) {
+        expectedOrigin += ":"
+        + location.port;
+      }
+      if (event.origin && (event.origin.length > 0) && (event.origin !== expectedOrigin)) {
+        $wnd.console.log("message origin is invalid " + event.origin + "; expected " + expectedOrigin);
+        return;
+      }
+      else {
+        var jsObj = {};
+        jsObj.signal = 101;
+        jsObj.data = event.data;
+        myself.@org.primordion.xholon.service.remotenode.MessageChannel::rxRemote(Ljava/lang/Object;Lorg/primordion/xholon/base/IXholon;)(jsObj, reffedNode);
+      }
+    }
+    $wnd.addEventListener("message", receiveMessageWNlis);
+    
+    var receiveMessagePRTlis = function(event) {
+      console.log("starting receiveMessagePRTlis");
+      if (event.data == "txPort2") {
+        $wnd.console.log("MessageChannel onTxPort2Message() received event:");
+        $wnd.console.log(event);
+        $wnd.console.log(event.ports);
+        listenParams.myMcPort = event.ports[0];
+        //listenParams.myMcPort.onmessage = receiveMessagePRTlis; // TODO use different functions for the two event listeners
+        $wnd.console.log(listenParams.myMcPort);
+        var locPortStr = location.port ? ":" + location.port : "";
+        $wnd.console.log(locPortStr);
+        $wnd.console.log(location);
+        // Channel messages should NOT contain an origin string
+        listenParams.myMcPort.postMessage("Message back from the other window"); //, location.protocol + "//" + location.hostname + locPortStr);
+        return;
+      }
+      reffedNode.println("\n\n" + reffedNode.name() + " has received a message:\n" + event.data);
+      $wnd.console.log("\n\n" + reffedNode.name() + " has received a message:");
+      $wnd.console.log(event.data);
+      otherWindow = event.source;
+      var expectedOrigin = location.protocol + "//" + location.hostname; // ex: "http://localhost"
+      if (location.port) {
+        expectedOrigin += ":"
+        + location.port;
+      }
+      if (event.origin && (event.origin.length > 0) && (event.origin !== expectedOrigin)) {
+        $wnd.console.log("message origin is invalid " + event.origin + "; expected " + expectedOrigin);
+        return;
+      }
+      else {
+        var jsObj = {};
+        jsObj.signal = 101;
+        jsObj.data = event.data;
+        myself.@org.primordion.xholon.service.remotenode.MessageChannel::rxRemote(Ljava/lang/Object;Lorg/primordion/xholon/base/IXholon;)(jsObj, reffedNode);
+      }
+    }
+    listenParams.myMcPort = null;
+    
+    this.connectParams = listenParams;
+  }-*/;
+  
+  // parent window, Helen
+  @Override
+  protected native void connect(Object connectParams, IXholon reffingNode) /*-{
+    this.role(reffingNode.name("R^^^^^"));
+    var localPortName = connectParams.localPortName;
+    var remoteXPathExpr = connectParams.remoteXPathExpr;
+    var remoteWindowName = connectParams.remoteWindowName;
+    var remoteUrl = connectParams.remoteUrl;
+    var useIframe = connectParams.useIframe;
+    this.println("localPortName " + localPortName);
+    this.println("remoteXPathExpr " + remoteXPathExpr);
+    this.println("remoteWindowName " + remoteWindowName);
+    this.println("remoteUrl " + remoteUrl);
+    this.println("useIframe " + useIframe);
+    
+    var url = $wnd.location.protocol
+      + "//"
+      + $wnd.location.hostname;
+    if ($wnd.location.port) {
+      url += ":"
+      + $wnd.location.port;
+    }
+    url += $wnd.location.pathname
+      + remoteUrl;
+    this.println("url " + url);
+    
+    var otherWindow = null; // Jake's window
+    if (useIframe) {
+      otherWindow = this.@org.primordion.xholon.service.remotenode.AbstractRemoteNode::createIframe(Ljava/lang/String;)(url).contentWindow;
+    }
+    else {
+      // Google Chrome will invoke its popup blocker to prevent this; user must enable popups for this domain
+      otherWindow = $wnd.open(url, remoteWindowName);
+      otherWindow.addEventListener('load', function() {console.log("TEST of otherWindow.addEventListener('load'");}, true);
+    }
+    $wnd.console.log(otherWindow);
+    
+    // MessageChannel
+    var channel = new MessageChannel();
+    $wnd.console.log("var channel = new MessageChannel();");
+    $wnd.console.log(channel);
+    // location.origin ex: "http://127.0.0.1:8888"  TODO not available in all browsers
+    if (otherWindow) {
+      //otherWindow.postMessage("txPort2", location.origin, [channel.port2]);
+      $wnd.console.log("preparing to send txPort2 to otherWindow");
+      $wnd.console.log(location.origin);
+      //var locPortStr = location.port ? ":" + location.port : "";
+      //otherWindow.postMessage("txPort2", location.protocol + "//" + location.hostname + locPortStr, [channel.port2]);
+      
+      //otherWindow.onload = function() {
+      //  // THIS CODE IS NEVER INVOKED
+      //  $wnd.console.log("sending txPort2 to otherWindow");
+      //  var locPortStr = location.port ? ":" + location.port : "";
+      //  otherWindow.postMessage("txPort2", location.protocol + "//" + location.hostname + locPortStr, [channel.port2]);
+      //};
+      //otherWindow.onunload = function(){
+      //  // THIS CODE IS NEVER INVOKED
+      //  $wnd.console.log("Child window closed");
+      //};
+    }
+    else {
+      $wnd.console.log("otherWindow is null");
+    }
+    connectParams.otherWindow = otherWindow;
+    connectParams.reffingNode = reffingNode;
+    connectParams.channel = channel;
+    connectParams.myMcPort = channel.port1;
+    this.connectParams = connectParams;
+    
+    var myself = this;
+    var receiveMessageWNcon = function(event) { // WN window events
+      connectParams.reffingNode.println("\n\n" + connectParams.reffingNode.name() + " has received a message:\n" + event.data);
+      $wnd.console.log("\n\n" + connectParams.reffingNode.name() + " has received a message:");
+      $wnd.console.log(event.data);
+      var expectedOrigin = location.protocol + "//" + location.hostname; // ex: "http://localhost"
+      if (location.port) {
+        expectedOrigin += ":"
+        + location.port;
+      }
+      // Channel messages do not contain the origin
+      if (event.origin && (event.origin.length > 0) && (event.origin !== expectedOrigin)) {
+        $wnd.console.log("message origin is invalid " + event.origin + "; expected " + expectedOrigin);
+        $wnd.console.log(event);
+        return;
+      }
+      else {
+        // assume that event.data is a JavaScript Object
+        //connectParams.reffingNode.msg(event.data.signal, event.data.data, this);
+        // ex: {signal: -11, data: null, sender: "jake_46"}
+        if (event.data && event.data.signal && (event.data.signal == @org.primordion.xholon.base.ISignal::SIGNAL_READY)) { // signal -11
+          $wnd.console.log("received a -11 signal; will pass port2 to otherWindow");
+          $wnd.console.log(channel.port2);
+          var locPortStr = location.port ? ":" + location.port : "";
+          otherWindow.postMessage("txPort2", location.protocol + "//" + location.hostname + locPortStr, [channel.port2]);
+        }
+        myself.@org.primordion.xholon.service.remotenode.MessageChannel::rxRemote(Ljava/lang/Object;Lorg/primordion/xholon/base/IXholon;)(event.data, connectParams.reffingNode);
+      }
+    }
+    
+    var receiveMessagePRTcon = function(event) { // PRT channel port events
+      connectParams.reffingNode.println("\n\n" + connectParams.reffingNode.name() + " has received a message:\n" + event.data);
+      $wnd.console.log("\n\n" + connectParams.reffingNode.name() + " has received a message:");
+      $wnd.console.log(event.data);
+      var expectedOrigin = location.protocol + "//" + location.hostname; // ex: "http://localhost"
+      if (location.port) {
+        expectedOrigin += ":"
+        + location.port;
+      }
+      // Channel messages do not contain the origin
+      if (event.origin && (event.origin.length > 0) && (event.origin !== expectedOrigin)) {
+        $wnd.console.log("message origin is invalid " + event.origin + "; expected " + expectedOrigin);
+        $wnd.console.log(event);
+        return;
+      }
+      else {
+        // assume that event.data is a JavaScript Object
+        //connectParams.reffingNode.msg(event.data.signal, event.data.data, this);
+        myself.@org.primordion.xholon.service.remotenode.MessageChannel::rxRemote(Ljava/lang/Object;Lorg/primordion/xholon/base/IXholon;)(event.data, connectParams.reffingNode);
+      }
+    }
+    // I need both of the following listeners; BUT maybe they interfere with each other and can't use the same function
+    $wnd.addEventListener("message", receiveMessageWNcon);
+    channel.port1.onmessage = receiveMessagePRTcon;
   }-*/;
   
   @Override
-  protected native void connect(Object connectParams, IXholon reffingNode) /*-{
-    
+  protected boolean txRemote(IMessage msg) {
+    this.postMessage(msg);
+    return true;
+  }
+  
+  @Override
+  protected boolean txRemote(int signal, Object data) {
+    this.postMessage(signal, data);
+    return true;
+  }
+  
+  /**
+   * Transmit/Send a message to a remote app using a PeerJS connection.
+   * Typically this will be an XML string, that's a serialization of a IXholon node or subtree.
+   * @param data A Xholon IMessage data.
+   */
+  @Override
+  protected native boolean txRemote(Object data) /*-{
+    //var locPortStr = location.port ? ":" + location.port : "";
+    this.connectParams.myMcPort.postMessage(data); //, location.protocol + "//" + location.hostname + locPortStr);
+    return true;
   }-*/;
+  
+  protected native void postMessage(IMessage msg) /*-{
+    //var locPortStr = location.port ? ":" + location.port : "";
+    this.connectParams.myMcPort.postMessage(msg.obj().data); //, location.protocol + "//" + location.hostname + locPortStr);
+  }-*/;
+  
+  protected native void postMessage(int signal, Object data) /*-{
+    //var locPortStr = location.port ? ":" + location.port : "";
+    this.connectParams.myMcPort.postMessage(data); //, location.protocol + "//" + location.hostname + locPortStr);
+  }-*/;
+  
+  // actions
+  private static final String showThisNode = "Show This Node";
+  
+  /** action list */
+  private String[] actions = {showThisNode};
+  
+  @Override
+  public String[] getActionList()
+  {
+    return actions;
+  }
+  
+  @Override
+  public void setActionList(String[] actionList)
+  {
+    actions = actionList;
+  }
+  
+  @Override
+  public void doAction(String action)
+  {
+    if (action == null) {return;}
+    if (showThisNode.equals(action)) {
+      this.println(this.getClass().getName() + " " + this.getName());
+      this.println(" onDataJsonSync   " + this.isOnDataJsonSync());
+      this.println(" onDataTextSync   " + this.isOnDataTextSync());
+      this.println(" onDataTextAction " + this.isOnDataTextAction());
+    }
+  }
   
 }
