@@ -121,22 +121,16 @@ public class CrossApp extends AbstractRemoteNode implements IRemoteNode {
     this.role(reffedNode.name("R^^^^^"));
     var localPortName = listenParams.localPortName;
     var remoteXPathExpr = listenParams.remoteXPathExpr;
-    this.println("localPortName " + localPortName);
-    this.println("remoteXPathExpr " + remoteXPathExpr);
-    
     // assume that this app has been opened by another app
     var otherWindow = null;
     if ($wnd.self == $wnd.top) {
       // this app is in a separately opened window
-      $wnd.console.log("this app is in a separately opened window");
       otherWindow = $wnd.opener;
     }
     else {
       // this app is in an iframe
-      $wnd.console.log("this app is in an iframe");
       otherWindow = $wnd.top;
     }
-    $wnd.console.log(otherWindow);
     if (remoteXPathExpr) {
       this.port(1, otherWindow.xh.root().xpath(remoteXPathExpr));
     }
@@ -144,11 +138,9 @@ public class CrossApp extends AbstractRemoteNode implements IRemoteNode {
       this.port(1, otherWindow.xh.root());
     }
     if (this.port(1)) {
-      $wnd.console.log(this.port(1).name());
       // have the local node's port reference the remote node
       reffedNode.port(localPortName, this.port(1));
       // let the other window/app know that this window/app is ready
-      $wnd.console.log("let the other window/app know that this window/app is ready");
       this.port(1).msg(@org.primordion.xholon.base.ISignal::SIGNAL_READY, null, reffedNode); // -11
     }
   }-*/;
@@ -162,23 +154,8 @@ public class CrossApp extends AbstractRemoteNode implements IRemoteNode {
     var remoteWindowName = connectParams.remoteWindowName;
     var remoteUrl = connectParams.remoteUrl;
     var useIframe = connectParams.useIframe;
-    this.println("localPortName " + localPortName);
-    this.println("remoteXPathExpr " + remoteXPathExpr);
-    this.println("remoteWindowName " + remoteWindowName);
-    this.println("remoteUrl " + remoteUrl);
-    this.println("useIframe " + useIframe);
-    
-    var url = $wnd.location.protocol
-      + "//"
-      + $wnd.location.hostname;
-    if ($wnd.location.port) {
-      url += ":"
-      + $wnd.location.port;
-    }
-    url += $wnd.location.pathname
-      + remoteUrl;
-    this.println("url " + url);
-    
+    var url = this.@org.primordion.xholon.service.remotenode.AbstractRemoteNode::makeOriginStr()();
+    url += $wnd.location.pathname + remoteUrl;
     var otherWindow = null;
     if (useIframe) {
       otherWindow = this.@org.primordion.xholon.service.remotenode.AbstractRemoteNode::createIframe(Ljava/lang/String;)(url).contentWindow;
@@ -187,8 +164,6 @@ public class CrossApp extends AbstractRemoteNode implements IRemoteNode {
       // Google Chrome will invoke its popup blocker to prevent this; user must enable popups for this domain
       otherWindow = $wnd.open(url, remoteWindowName);
     }
-    $wnd.console.log(otherWindow);
-    
     // otherWindow.xh doesn't exist yet; save for connectFinish()
     connectParams.otherWindow = otherWindow;
     connectParams.reffingNode = reffingNode;

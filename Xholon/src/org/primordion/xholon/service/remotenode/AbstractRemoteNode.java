@@ -359,6 +359,17 @@ public abstract class AbstractRemoteNode extends XholonWithPorts implements IRem
     return iframe;
   }-*/;
   
+  /*
+   * Make a string containing the origin of the current web page.
+   * ex: http://127.0.0.1:8888
+   * I could also just return location.origin, but this isn't supported in all browsers
+   */
+  protected native String makeOriginStr() /*-{
+    var locPortStr = location.port ? ":" + location.port : "";
+    var originStr = location.protocol + "//" + location.hostname + locPortStr;
+    return originStr;
+  }-*/;
+  
   @Override
   public String toString() {
     String outStr = getName();

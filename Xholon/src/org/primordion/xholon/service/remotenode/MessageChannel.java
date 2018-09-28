@@ -127,7 +127,6 @@ public class MessageChannel extends AbstractRemoteNode implements IRemoteNode {
     this.role(reffedNode.name("R^^^^^"));
     var localPortName = listenParams.localPortName;
     var remoteXPathExpr = listenParams.remoteXPathExpr;
-    
     // assume that this app has been opened by another app
     var otherWindow = null;
     if ($wnd.self == $wnd.top) {
@@ -138,39 +137,27 @@ public class MessageChannel extends AbstractRemoteNode implements IRemoteNode {
       // this app is in an iframe
       otherWindow = $wnd.top;
     }
-    
     var myself = this;
-    
     var jsObj = {};
     jsObj.signal = @org.primordion.xholon.base.ISignal::SIGNAL_READY; // -11
     jsObj.data = null;
     jsObj.sender = reffedNode.name();
-    //var locPortStr = location.port ? ":" + location.port : "";
     if (otherWindow) {
-      //otherWindow.postMessage(jsObj, location.protocol + "//" + location.hostname + locPortStr);
       otherWindow.postMessage(jsObj, myself.@org.primordion.xholon.service.remotenode.MessageChannel::makeOriginStr()());
     }
-    
     listenParams.otherWindow = otherWindow;
     listenParams.reffedNode = reffedNode;
-    
     var receiveMessageWNlis = function(event) {
       $wnd.console.log("receiveMessageWNlis");
       $wnd.console.log(event);
       if (event.data == "txPort2") {
         listenParams.myMcPort = event.ports[0];
         listenParams.myMcPort.onmessage = receiveMessagePRTlis; // use different functions for the two event listeners
-        //var locPortStr = location.port ? ":" + location.port : "";
         // Channel messages should NOT contain an origin string
-        listenParams.myMcPort.postMessage("Message back from the other window"); //, location.protocol + "//" + location.hostname + locPortStr);
+        listenParams.myMcPort.postMessage("Message back from the other window");
         return;
       }
       otherWindow = event.source;
-      //var expectedOrigin = location.protocol + "//" + location.hostname; // ex: "http://localhost"
-      //if (location.port) {
-      //  expectedOrigin += ":"
-      //  + location.port;
-      //}
       var expectedOrigin = myself.@org.primordion.xholon.service.remotenode.MessageChannel::makeOriginStr()();
       if (event.origin && (event.origin.length > 0) && (event.origin !== expectedOrigin)) {
         $wnd.console.log("message origin is invalid " + event.origin + "; expected " + expectedOrigin);
@@ -184,7 +171,6 @@ public class MessageChannel extends AbstractRemoteNode implements IRemoteNode {
       }
     }
     $wnd.addEventListener("message", receiveMessageWNlis);
-    
     var receiveMessagePRTlis = function(event) {
       $wnd.console.log("receiveMessagePRTlis");
       $wnd.console.log(event);
@@ -194,7 +180,6 @@ public class MessageChannel extends AbstractRemoteNode implements IRemoteNode {
       myself.@org.primordion.xholon.service.remotenode.MessageChannel::rxRemote(Ljava/lang/Object;Lorg/primordion/xholon/base/IXholon;)(jsObj, reffedNode);
     }
     listenParams.myMcPort = null;
-    
     this.connectParams = listenParams;
   }-*/;
   
@@ -208,17 +193,8 @@ public class MessageChannel extends AbstractRemoteNode implements IRemoteNode {
     var remoteWindowName = connectParams.remoteWindowName;
     var remoteUrl = connectParams.remoteUrl;
     var useIframe = connectParams.useIframe;
-    
-    //var url = $wnd.location.protocol
-    //  + "//"
-    //  + $wnd.location.hostname;
-    //if ($wnd.location.port) {
-    //  url += ":"
-    //  + $wnd.location.port;
-    //}
     var url = myself.@org.primordion.xholon.service.remotenode.MessageChannel::makeOriginStr()();
     url += $wnd.location.pathname + remoteUrl;
-    
     var otherWindow = null; // Jake's window
     if (useIframe) {
       otherWindow = this.@org.primordion.xholon.service.remotenode.AbstractRemoteNode::createIframe(Ljava/lang/String;)(url).contentWindow;
@@ -228,7 +204,6 @@ public class MessageChannel extends AbstractRemoteNode implements IRemoteNode {
       otherWindow = $wnd.open(url, remoteWindowName);
       //otherWindow.addEventListener('load', function() {console.log("TEST of otherWindow.addEventListener('load'");}, true);
     }
-    
     // MessageChannel
     var channel = new MessageChannel();
     if (!otherWindow) {
@@ -239,16 +214,9 @@ public class MessageChannel extends AbstractRemoteNode implements IRemoteNode {
     connectParams.channel = channel;
     connectParams.myMcPort = channel.port1;
     this.connectParams = connectParams;
-    
     var receiveMessageWNcon = function(event) { // WN window events
       $wnd.console.log("receiveMessageWNcon");
       $wnd.console.log(event);
-      //connectParams.reffingNode.println("\n\n" + connectParams.reffingNode.name() + " has received a message:\n" + event.data);
-      //var expectedOrigin = location.protocol + "//" + location.hostname; // ex: "http://localhost"
-      //if (location.port) {
-      //  expectedOrigin += ":"
-      //  + location.port;
-      //}
       var expectedOrigin = myself.@org.primordion.xholon.service.remotenode.MessageChannel::makeOriginStr()();
       // Channel messages do not contain the origin
       if (event.origin && (event.origin.length > 0) && (event.origin !== expectedOrigin)) {
@@ -257,26 +225,15 @@ public class MessageChannel extends AbstractRemoteNode implements IRemoteNode {
         return;
       }
       else {
-        // assume that event.data is a JavaScript Object
-        // ex: {signal: -11, data: null, sender: "jake_46"}
         if (event.data && event.data.signal && (event.data.signal == @org.primordion.xholon.base.ISignal::SIGNAL_READY)) { // signal -11
-          //var locPortStr = location.port ? ":" + location.port : "";
-          //otherWindow.postMessage("txPort2", location.protocol + "//" + location.hostname + locPortStr, [channel.port2]);
           otherWindow.postMessage("txPort2", myself.@org.primordion.xholon.service.remotenode.MessageChannel::makeOriginStr()(), [channel.port2]);
         }
         myself.@org.primordion.xholon.service.remotenode.MessageChannel::rxRemote(Ljava/lang/Object;Lorg/primordion/xholon/base/IXholon;)(event.data, connectParams.reffingNode);
       }
     }
-    
     var receiveMessagePRTcon = function(event) { // PRT channel port events
       $wnd.console.log("receiveMessagePRTcon");
       $wnd.console.log(event);
-      //connectParams.reffingNode.println("\n\n" + connectParams.reffingNode.name() + " has received a message:\n" + event.data);
-      //var expectedOrigin = location.protocol + "//" + location.hostname; // ex: "http://localhost"
-      //if (location.port) {
-      //  expectedOrigin += ":"
-      //  + location.port;
-      //}
       var expectedOrigin = myself.@org.primordion.xholon.service.remotenode.MessageChannel::makeOriginStr()();
       // Channel messages do not contain the origin
       if (event.origin && (event.origin.length > 0) && (event.origin !== expectedOrigin)) {
@@ -327,17 +284,6 @@ public class MessageChannel extends AbstractRemoteNode implements IRemoteNode {
   
   protected native void postMessage(int signal, Object data) /*-{
     this.connectParams.myMcPort.postMessage(data);
-  }-*/;
-  
-  /*
-   * Make a string containing the origin of the current web page.
-   * ex: http://127.0.0.1:8888
-   * I could also just return location.origin, but this isn't uspported in all browsers
-   */
-  protected native String makeOriginStr() /*-{
-    var locPortStr = location.port ? ":" + location.port : "";
-    var originStr = location.protocol + "//" + location.hostname + locPortStr;
-    return originStr;
   }-*/;
   
   // actions
