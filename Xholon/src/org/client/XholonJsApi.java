@@ -1135,6 +1135,18 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       }
     });
     
+    // uid
+    // Xholon native functions use this["uuid"], so there will be no conflict between the function name ("uid") and the property name "uuid"
+    api.uid = $entry(function(uidArg) {
+      if (uidArg === undefined) {
+        return this.@org.primordion.xholon.base.IXholon::getUid()();
+      }
+      else {
+        this.@org.primordion.xholon.base.IXholon::setUid(Ljava/lang/String;)(uidArg);
+        return this;
+      }
+    });
+    
     // IDecoration methods
     
     // color

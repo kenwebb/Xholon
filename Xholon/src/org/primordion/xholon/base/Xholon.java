@@ -2902,12 +2902,20 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 	/*
 	 * @see org.primordion.xholon.base.IXholon#setUid(java.lang.String)
 	 */
-	public void setUid(String uid) {}
+	public void setUid(String uid) {this.setUidNative(uid);}
 	
 	/*
 	 * @see org.primordion.xholon.base.IXholon#getUid()
 	 */
-	public String getUid() {return null;}
+	public String getUid() {return this.getUidNative();}
+	
+	protected native void setUidNative(String uidArg) /*-{
+		this["uuid"] = uidArg;
+	}-*/;
+	
+	protected native String getUidNative() /*-{
+		return this["uuid"] ? this["uuid"] : null;
+	}-*/;
 	
 	/*
 	 * @see org.primordion.xholon.base.IXholon#setUri(java.lang.String)
