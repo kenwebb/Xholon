@@ -114,6 +114,7 @@ public class Avatar extends AbstractAvatar {
   protected static final String TAKENOTES_COMMAND = ".. ";
   
   protected static final int SIG_FOLLOWLEADERTECH_CANON = 101;
+  protected static final int SIG_GET_SCRIPT = 102; // get the remaining part of the Avatar script
   
   protected static final int SPEECHOUT_NO_EFFECT = 0;
   protected static final int SPEECHOUT_ALWAYS    = 1;
@@ -775,6 +776,12 @@ public class Avatar extends AbstractAvatar {
         }
       }
       return new Message(ISignal.SIGNAL_XHOLON_CONSOLE_RSP, "\n" + responseStr, this, msg.getSender());
+    case SIG_GET_SCRIPT: // 102
+      String scriptStr = "";
+      for (int i = this.actionIx + 1; i < actions.length; i++) {
+        scriptStr += actions[i] + "\n";
+      }
+      return new Message(SIG_GET_SCRIPT, scriptStr, this, msg.getSender());
     default:
       return super.processReceivedSyncMessage(msg);
     }
