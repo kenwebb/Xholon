@@ -40,8 +40,10 @@ public abstract class AbstractRemoteNode extends XholonWithPorts implements IRem
     this.port = new IXholon[2];
   }
   
+  protected static final String STNAME_TX_REMOTED = "TxRemoted"; // subtree name
+  
   protected String formatName = "Xml";
-  protected String efParams = "{\"xhAttrStyle\":1,\"nameTemplate\":\"^^C^^^\",\"xhAttrReturnAll\":true,\"writeStartDocument\":false,\"writeXholonId\":false,\"writeXholonRoleName\":true,\"writePorts\":true,\"writeAnnotations\":true,\"shouldPrettyPrint\":true,\"writeAttributes\":true,\"writeStandardAttributes\":true,\"shouldWriteVal\":false,\"shouldWriteAllPorts\":false}";
+  protected String efParams = "{\"xhAttrStyle\":1,\"nameTemplate\":\"^^C^^^\",\"xhAttrReturnAll\":true,\"writeStartDocument\":false,\"writeXholonId\":false,\"writeXholonRoleName\":true,\"writePorts\":true,\"writeAnnotations\":true,\"shouldPrettyPrint\":true,\"writeAttributes\":true,\"writeStandardAttributes\":true,\"shouldWriteVal\":false,\"shouldWriteAllPorts\":false,\"showComments\":false}";
   
   public String roleName = null;
   
@@ -124,7 +126,9 @@ public abstract class AbstractRemoteNode extends XholonWithPorts implements IRem
       //   where the remote location will append/prepend/before/appear the XML to the remote CSH
       Object data = msg.getData();
       if (ClassHelper.isAssignableFrom(Xholon.class, data.getClass())) {
+        addUidProperty((IXholon)data);
         String serStr = serialize((IXholon)data, formatName, efParams);
+        consoleLog("processReceivedMessage() serStr: " + serStr);
         int sendJson = signal & 2; // 0b10
         int removeNode = signal & 4;  // 0b100
         if (sendJson == 2) {
@@ -161,8 +165,53 @@ public abstract class AbstractRemoteNode extends XholonWithPorts implements IRem
    */
   @Override
   public void setFirstChild(IXholon node) {
+    boolean alreadyHadUidProperty = addUidProperty(node);
     String serStr = serialize(node, formatName, efParams);
+    consoleLog("setFirstChild() serStr: " + serStr);
     txRemote(serStr);
+    //node.appendChild(this); // TODO do I want to do this?  NO - this causes infinite loop
+    
+    if (!alreadyHadUidProperty || (node == this.getApp().getAvatar())) {
+      // only cache it if it is a local node that may be returning from remote location, or if it's the local system Avatar
+      // BUT this could also be a local node that has already gone somewhere and returned
+      this.cacheRemotedNode(node);
+    }
+  }
+  
+  /**
+   * This is a custom approach to setting up a subtree.
+   * It bipasses the need to call the custom setFirstChild() method.
+   */
+  protected native void makeRemotedNodeCache(String stName) /*-{
+    if (!this["subtrees"]) {
+      this["subtrees"] = {};
+    }
+    if (!this["subtrees"][stName]) {
+      var pnode = $wnd.xh.root();
+      pnode.append("<" + stName + "/>");
+      if (pnode.last()) {
+        var node = pnode.last().remove();
+        this["subtrees"][stName] = node;
+      }
+    }
+  }-*/;
+  
+  /**
+   * Cache node as a child of this["subtrees"]["TxRemoted"]
+   */
+  protected void cacheRemotedNode(IXholon node) {
+    if (!this.isColocated()) {
+      if (this.subtrees(null) == null) {
+        this.makeRemotedNodeCache(STNAME_TX_REMOTED);
+      }
+      IXholon txRemoted = this.subtree(STNAME_TX_REMOTED);
+      if (txRemoted != null) {
+        //node.removeChild(); // causes error
+        //node.parentNode = null; // cast node to Xholon
+        //node.nextSibling = null; // cast node to Xholon
+        node.appendChild(txRemoted);
+      }
+    }
   }
   
   @Override
@@ -280,7 +329,7 @@ public abstract class AbstractRemoteNode extends XholonWithPorts implements IRem
         var objSignal = obj.signal ? obj.signal : -9;
         var objData = obj.data ? obj.data : "";
         if (objData && objData.substring(0,1) == "<") {
-          localNode.append(objData);
+          this.@org.primordion.xholon.service.remotenode.AbstractRemoteNode::rxRemoteXml(Ljava/lang/String;Lorg/primordion/xholon/base/IXholon;)(objData, localNode);
         }
         else if (this.onDataJsonSync) {
           localNode.call(objSignal, objData, this);
@@ -308,7 +357,9 @@ public abstract class AbstractRemoteNode extends XholonWithPorts implements IRem
       }
     }
     else if (remoteData.substring(0,1) == "<") {
-      localNode.append(remoteData);
+      // PeerJS XML is received here
+      //localNode.append(remoteData);
+      this.@org.primordion.xholon.service.remotenode.AbstractRemoteNode::rxRemoteXml(Ljava/lang/String;Lorg/primordion/xholon/base/IXholon;)(remoteData, localNode);
     }
     else {
       if (this.onDataTextAction) {
@@ -322,6 +373,58 @@ public abstract class AbstractRemoteNode extends XholonWithPorts implements IRem
         localNode.msg(-9, remoteData, this);
       }
     }
+  }-*/;
+  
+  /**
+   * Receive XML data from a remote source.
+   */
+  protected native void rxRemoteXml(String xmlStr, IXholon localNode) /*-{
+    // this is probably a Xholon node as XML; perhaps a returning Avatar node
+    $wnd.console.log("rxRemoteXml xmlStr: " + xmlStr + " " + this.name()); // this.name() == "Jake:messageChannel_50"  "Helen:messageChannel_50"
+    // look for existing matching Avatar (or other node)
+    var newNode = $wnd.xh.root().append(xmlStr).last().remove();
+    var txRemoted = this.subtree("TxRemoted");
+    if (txRemoted) {
+      var node = txRemoted.first();
+      while (node) {
+        //$wnd.console.log(node.name() + " " + node.uid());
+        if (node.uid() == newNode.uid()) {
+          if (node.xhc().name() == "Avatar") {
+            // the following will overwrite any remaining script
+            // remove old Avatar children
+            var chnode = node.first();
+            while (chnode) {
+              var chnodeNext = chnode.next();
+              chnode.remove();
+              chnode = chnodeNext;
+            }
+            // default new script
+            var scriptPrefix = "script;";
+            var newScript = scriptPrefix + "\nwho;out transcript returned from remote;\n";
+            // append any new children from newNode
+            var chnodeNew = newNode.first();
+            while (chnodeNew) {
+              var chnodeNewNext = chnodeNew.next();
+              node.append(chnodeNew.remove());
+              chnodeNew = chnodeNewNext;
+            }
+            // update the Avatar's script
+            var scriptMsg = newNode.call(102, null, this); // Avatar SIG_GET_SCRIPT
+            if (scriptMsg.data && scriptMsg.data.length > 0) {
+              newScript = scriptMsg.data.trim();
+              if (newScript.substring(0, 7) != scriptPrefix) {
+                newScript = scriptPrefix + "\n" + newScript;
+              }
+            }
+            node.action(newScript);
+          }
+          newNode = node.remove();
+          break;
+        }
+        node = node.next();
+      }
+    }
+    localNode.append(newNode);
   }-*/;
   
   /**
@@ -345,7 +448,22 @@ public abstract class AbstractRemoteNode extends XholonWithPorts implements IRem
     return $wnd.xh.xport(formatName, node, efParams, false, true);
   }-*/;
   
-    /**
+  /**
+   * Add a uid/uuid property to the node, if it does not already have one.
+   * template: [ROLENAME _] XHOLONCLASS_NAME RANDOM_NUMBER DATE_NOW
+   * ex: "Test_Avatar_346727323_1538320654418"
+   */
+  protected native boolean addUidProperty(IXholon node) /*-{
+    if (node.uid()) {
+      return true; // it already has a uid; this may be an Avatar at a remote location
+    }
+    else {
+      node.uid(node.name("r_C^^^") + "_" + Math.floor(Math.random() * 1000000000) + "_" + Date.now());
+      return false; // it did not already have a uid
+    }
+  }-*/;
+  
+  /**
    * Create a new iframe.
    * @param url 
    * @return A Window/Iframe object.
