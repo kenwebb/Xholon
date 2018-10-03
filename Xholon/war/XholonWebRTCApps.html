@@ -133,6 +133,27 @@ a.action("script;\ngo port0;\ntakeclone container;\ngo port0;\ndrop container;\n
     <p><a href="https://gist.github.com/kenwebb/d6eada52b8a14384ebdec837f7356ba7">WebRTC complex Canada 2018 (view at github)</a></p>
     <p><a href="https://gist.github.com/kenwebb/9c111d1ffac80a6905964d9433a532b7">WebRTC complex Schweiz 2018 (view at github)</a></p>
 
+    <h3>Scenarios</h3>
+    <p>Things that can be sent to another App include: the current IXholon inventory (and/or subtrees) of an Avatar, Avatar IFLang instructions, a Xholon &lt;script as XML and JavaScript (security issues), text, JSON, JavaScript Object, etc./></p>
+    <ol>
+    <li>App1 node sends displayable text to App2 node, for display in "out" tab or elsewhere.</li>
+    <li>App1 system-Avatar (Avatar1) moves to App2, performing local actions within App1, and then remote actions within App2, and then local actions on return to App1. On return, it is still the same Avatar.</li>
+    <li>App1 non-system-Avatar does the same thing as in the previous scenario.</li>
+    <li>App2 system-Avatar does the same thing as in the previous scenarios.</li>
+    <li>App1 Avatar and App2 Avatar interact with each other.</li>
+    <li>Avatars or other nodes within App1 and App2 send messages to each other through webrtc.</li>
+    <li>Chat page sends content String, XML String, and JSON content to a node in App1.</li>
+    <li>Avatar1 moves to App2, does something, and stays there. User2 has Avatar1 do something, sends it back to App1, and has it do something else back there.</li/>
+    <li>Establish a ring of webrtc connections amongst at least three apps. Have Avatar1 continuously navigate the ring, possibly doing things along the way such as picking up items that local users may have created. Avatar1 could drop off certain types of items, or users along the way could take some of these items.</li>
+    <li>Avatar1 delivers certain items to specific apps along its ring or route. Address items in some way, possibly using XML attributes, or Xholon IMessage nodes.</li>
+    <li>Avatar1 moves to App2, queries a database (ex: IndexDB), returns home with the result, and does something with the result.</li>
+    <li>Avatar1 explores a remote site, and returns with a map showing its discoveries.</li>
+    <li>Avatar1 moves to App2, obtains a PNG image, returns with it, and displays it.</li>
+    <li>Allow people to send text messages to each other.</li>
+    <li>Play a d3cp "video" of what is happening at another site.</li>
+    <li>Implement multi-player Island game using webrtc.</li>
+    </ol>
+
     <hr/>
     <p>Ken Webb</p>
     <div class="license"  style="font-size: 9px;"><p>Xholon GWT is a <a href="index.html">Xholon</a> project. Copyright (C) 2016 - 2018 Ken Webb</p></div>
