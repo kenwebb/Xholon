@@ -1,0 +1,13 @@
+<!-- 
+  -- This HTML uses an applet that uses browser's JS engine through 
+  -- javax.script (JSR-223) API. Note the use of mayscript='true'.
+  -- Without this attribute "browser" JS engine does not work due
+  -- to security restrictions.
+  source: https://scripting.dev.java.net/source/browse/scripting/engines/browserjs/src/example/client.html?rev=1.1.1.1&view=markup
+--> 
+
+<applet archive="../../lib/script/browserjs/browserjs-engine.jar"
+        codebase="." 
+        code="HelloScript" width="200" height="200"
+        mayscript="true">
+</applet>

@@ -1,0 +1,54 @@
+<SvgViewBrowserbehavior implName="org.primordion.xholon.base.Behavior_gwtjs"><![CDATA[
+// Draw ball symbols along the ball's position path.
+// <circle cx="2" cy="2" r="2" fill="red" />
+var svgview, svg, position, constant, ball, symbol;
+var beh = {
+  
+  postConfigure: function() {
+    svgview = this.cnode.parent();
+    svg = $wnd.Snap(svgview.obj());
+    
+    // create a symbol object
+    symbol = svg.el("symbol");
+    symbol.node.id = "ballsymbol";
+    
+    // create some content for the symbol
+    var content = svg.circle().attr({cx: 2, cy: 2, r: 2, fill: "red"});
+    symbol.append(content);
+    
+    // get Xholon nodes
+    position = $wnd.xh.root().first().first();
+    constant = position.next().next().next();
+    
+    ball = null;
+  },
+  
+  act: function() {
+    // on average, create a ball every 128 steps
+    if (Math.random() > 0.0078125) {return;}
+    var pos = position.val();
+    if (pos >= -1.0 && pos <= 1.0) {
+      var xPos = pos * 250.0 + 250.0;
+      var yPos = 0.0;
+      if (constant.val() > 0.0) {
+        yPos = (pos * pos) * 250.0;
+      }
+      else {
+        yPos = (1.0 - (pos * pos)) * 250.0;
+      }
+      ball = symbol.use().attr({x: xPos, y: yPos});
+      svg.append(ball);
+    }
+  },
+  
+  toString: function() {
+    if (ball) {
+      return ball.toString();
+    }
+    else {
+      return "";
+    }
+  }
+  
+}
+]]></SvgViewBrowserbehavior>
