@@ -78,9 +78,7 @@ public class XmlGwtDomReader extends XmlReader {
 		//this.logDocFirstElementChildNode(document); //currentNode);
 		// document.createTreeWalker() // maybe use this JavaScript method to walk the XML tree
 		
-		//Object docNative2 = this.unwrapDoc(document);
-		//consoleLog(docNative2);
-		docNative = this.unwrapDoc(document);
+		//docNative = this.unwrapDoc(document); // only do this when and if docNative is required (when processing a PI)
 		
 		currentNodeAttributes = currentNode.getAttributes();
 		eventType = START_DOCUMENT;
@@ -252,11 +250,11 @@ if (xPathResult.resultType == XPathResult.UNORDERED_NODE_ITERATOR_TYPE) {
 					var patchObj = patchArr[i];
 					$wnd.console.log(patchObj);
 					var xpathExpr = patchObj.sel;
-					// TODO use XPathResult.FIRST_ORDERED_NODE_TYPE instead of ANY_TYPE and UNORDERED_NODE_ITERATOR_TYPE
-					var xPathResult = docNative.evaluate(xpathExpr, nodeNative, null, XPathResult.ANY_TYPE, null);
-					if (xPathResult.resultType == XPathResult.UNORDERED_NODE_ITERATOR_TYPE) {
-						var thisNode = xPathResult.iterateNext();
-						while (thisNode) {
+					// use XPathResult.FIRST_ORDERED_NODE_TYPE instead of ANY_TYPE and UNORDERED_NODE_ITERATOR_TYPE
+					var xPathResult = docNative.evaluate(xpathExpr, nodeNative, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null); //XPathResult.ANY_TYPE
+					if (xPathResult.resultType == XPathResult.FIRST_ORDERED_NODE_TYPE) { //XPathResult.UNORDERED_NODE_ITERATOR_TYPE
+						var thisNode = xPathResult.singleNodeValue; //xPathResult.iterateNext();
+						if (thisNode) {
 							$wnd.console.log(thisNode);
 							switch (patchObj["op"]) {
 							case "add":
@@ -315,8 +313,8 @@ if (xPathResult.resultType == XPathResult.UNORDERED_NODE_ITERATOR_TYPE) {
 								break;
 							default: break;
 							}
-							//thisNode = xPathResult.iterateNext(); // error because it's mutated
-							break;
+							//thisNode = xPathResult.iterateNext(); // error because the XML has been mutated
+							//break;
 						}
 					}
 				}
@@ -436,6 +434,9 @@ if (xPathResult.resultType == XPathResult.UNORDERED_NODE_ITERATOR_TYPE) {
 				if (PI_XML_READER_PATCH.equals(currentNode.getNodeName())) {
 					Object nodeNative = this.unwrapNode(currentNode.getParentNode(), currentNode.getParentNode().getNodeName());
 					if (nodeNative != null) {
+						if (docNative == null) {
+							docNative = this.unwrapDoc(document);
+						}
 						this.doXmlPatch(nval, docNative, nodeNative);
 					}
 				}
