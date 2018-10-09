@@ -229,6 +229,12 @@ if (xPathResult.resultType == XPathResult.UNORDERED_NODE_ITERATOR_TYPE) {
 		$wnd.console.log(ele);
 	}-*/;
 	
+	/**
+	 * Do XML Patch.
+	 * I use concepts from ietf rfc5261 "An Extensible Markup Language (XML) Patch Operations Framework Utilizing XML Path Language (XPath) Selectors"
+	 * see: https://tools.ietf.org/html/rfc5261
+	 * see also MeteorPlatformService.java
+	 */
 	protected native void doXmlPatch(String jsonStr, Object docNative, Object nodeNative) /*-{
 		$wnd.console.log(jsonStr);
 		$wnd.console.log(docNative);
@@ -254,27 +260,58 @@ if (xPathResult.resultType == XPathResult.UNORDERED_NODE_ITERATOR_TYPE) {
 							$wnd.console.log(thisNode);
 							switch (patchObj["op"]) {
 							case "add":
-								var dp = new DOMParser();
-								var doc = dp.parseFromString(patchObj["content"], "application/xml");
-								if (doc) {
-									var fragment = doc.documentElement;
-									if (fragment) {
-										thisNode.appendChild(fragment);
+								if (patchObj["type"]) {
+									var attrName = patchObj["type"];
+									if (attrName && attrName.startsWith("@")) {
+										attrName = attrName.substring(1);
+										thisNode[attrName] = patchObj["content"];
+									}
+								}
+								else {
+									var dp = new DOMParser();
+									var doc = dp.parseFromString(patchObj["content"], "application/xml");
+									if (doc) {
+										var fragment = doc.documentElement;
+										if (fragment) {
+											thisNode.appendChild(fragment);
+										}
 									}
 								}
 								break;
 							case "replace":
-								var dp = new DOMParser();
-								var doc = dp.parseFromString(patchObj["content"], "application/xml");
-								if (doc) {
-									var fragment = doc.documentElement;
-									if (fragment) {
-										thisNode.parentNode.replaceChild(fragment, thisNode);
+								switch (thisNode.nodeType) {
+								case Node.ELEMENT_NODE: // 1
+									var dp = new DOMParser();
+									var doc = dp.parseFromString(patchObj["content"], "application/xml");
+									if (doc) {
+										var fragment = doc.documentElement;
+										if (fragment) {
+											thisNode.parentNode.replaceChild(fragment, thisNode);
+										}
 									}
+									break;
+								case Node.ATTRIBUTE_NODE:	// 2
+									thisNode.nodeValue = patchObj["content"];
+									break;
+								case Node.TEXT_NODE: // 3
+									// TODO
+									break;
+								default: break;
 								}
 								break;
 							case "remove":
-								thisNode.parentNode.removeChild(thisNode);
+								switch (thisNode.nodeType) {
+								case Node.ELEMENT_NODE: // 1
+									thisNode.parentNode.removeChild(thisNode);
+									break;
+								case Node.ATTRIBUTE_NODE:	// 2
+									delete thisNode;
+									break;
+								case Node.TEXT_NODE: // 3
+									// TODO
+									break;
+								default: break;
+								}
 								break;
 							default: break;
 							}
@@ -378,40 +415,24 @@ if (xPathResult.resultType == XPathResult.UNORDERED_NODE_ITERATOR_TYPE) {
 			eventType = START_TAG;
 			break;
 		case Node.ATTRIBUTE_NODE:
-			//System.out.println("==> ATTRIBUTE_NODE");
 			eventType = OTHER_TYPE;
 			break;
 		case Node.TEXT_NODE:
 			eventType = TEXT;
 			break;
 		case Node.CDATA_SECTION_NODE:	
-			//System.out.println("==> CDATA_SECTION_NODE");
-			//CDATASection cdata = (CDATASection)currentNode;
-			//System.out.println("The CDATA has text: [" + cdata.getData() + "]");
-			//eventType = CDSECT;
 			eventType = TEXT; // CDATASection is a subclass of Text so this should work
 			break;
 		case Node.ENTITY_REFERENCE_NODE:
-			//System.out.println("==> ENTITY_REFERENCE_NODE");
 			eventType = ENTITY_REF;
 			break;
 		case Node.ENTITY_NODE:
-			//System.out.println("==> ENTITY_NODE");
 			eventType = OTHER_TYPE;
 			break;
 		case Node.PROCESSING_INSTRUCTION_NODE:
-			//System.out.println("==> PROCESSING_INSTRUCTION_NODE");
-			//consoleLog(currentNode.getNodeName() + " " + currentNode.getParentNode());
-			//if (PI_XML_READER.equals(currentNode.getNodeName())) { // "xmlreader"
 			if (currentNode.getNodeName().startsWith(PI_XML_READER)) {
-				// TODO if the PI target == PI_XML_READER, then process the PI right here
-				// use XholonPatch.java; see also MeteorPlatformService.java; BUT here I'm dealing with the XML DOM rather than the Xholon DOM
-				String nval = currentNode.getNodeValue();
-				// ex: '<add sel="."><One><Two/></One></add>'
-				// OR the following with the same structure that I use in MeteorPlatformService.java
-				// ex: '{"op": "add","sel": "descendant::IslandSystem/Space/FieldRow[55]/LandCell[18]","pos": "append","content": "<Stick/>"}'
-				// TODO there may also be a version name that can be compared against a window.location param name
-				//consoleLog(nval); // nval should be a JSON value
+				// process the PI right here
+				String nval = currentNode.getNodeValue(); // nval should be a JSON string
 				if (PI_XML_READER_PATCH.equals(currentNode.getNodeName())) {
 					Object nodeNative = this.unwrapNode(currentNode.getParentNode(), currentNode.getParentNode().getNodeName());
 					if (nodeNative != null) {
@@ -428,23 +449,18 @@ if (xPathResult.resultType == XPathResult.UNORDERED_NODE_ITERATOR_TYPE) {
 			eventType = COMMENT;
 			break;
 		case Node.DOCUMENT_NODE:
-			//System.out.println("==> DOCUMENT_NODE");
 			eventType = OTHER_TYPE;
 			break;
 		case Node.DOCUMENT_TYPE_NODE:
-			//System.out.println("==> DOCUMENT_TYPE_NODE");
 			eventType = OTHER_TYPE;
 			break;
 		case Node.DOCUMENT_FRAGMENT_NODE:
-			//System.out.println("==> DOCUMENT_FRAGMENT_NODE");
 			eventType = OTHER_TYPE;
 			break;
 		case Node.NOTATION_NODE:
-			//System.out.println("==> NOTATION_NODE");
 			eventType = OTHER_TYPE;
 			break;
 		default:
-			//System.out.println("==> unknown node");
 			eventType = OTHER_TYPE;
 			break;
 		}
