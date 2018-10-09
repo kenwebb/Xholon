@@ -4,6 +4,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.xml.client.Attr;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.DOMException;
+import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NamedNodeMap;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.XMLParser;
@@ -20,8 +21,11 @@ public class XmlGwtDomReader extends XmlReader {
 	/** The XML string. */
 	private Object in = null;
 	
-	/** A Document Object Model (DOM) document. */
+	/** A GWT Document Object Model (DOM) document. */
 	private Document document = null;
+	
+	/** A native JavaScript Document Object Model (DOM) document. */
+	private Object docNative = null;
 	
 	/** The current node in the DOM. The node currently pointed to by the DOM cursor. */
 	protected Node currentNode = null;
@@ -44,6 +48,13 @@ public class XmlGwtDomReader extends XmlReader {
 	private int state = STATE_READY;
 	
 	/**
+	 * Any PROCESSING_INSTRUCTION with a target equal to this value,
+	 * should be processed within this XmlReader and not passed on to a Xholon Xml2Xholon instance.
+	 */
+	private static final String PI_XML_READER = "xmlreader";
+	private static final String PI_XML_READER_PATCH = "xmlreader-patch";
+	
+	/**
 	 * default constructor
 	 */
 	public XmlGwtDomReader() {}
@@ -63,9 +74,218 @@ public class XmlGwtDomReader extends XmlReader {
 			Window.alert("XML input to createNew() must be a String.");
 		}
 		currentNode = document;
+		
+		//this.logDocFirstElementChildNode(document); //currentNode);
+		// document.createTreeWalker() // maybe use this JavaScript method to walk the XML tree
+		
+		//Object docNative2 = this.unwrapDoc(document);
+		//consoleLog(docNative2);
+		docNative = this.unwrapDoc(document);
+		
 		currentNodeAttributes = currentNode.getAttributes();
 		eventType = START_DOCUMENT;
 	}
+	
+	/**
+	 * unwrapDoc
+	 * @param doc a GWT Document
+	 * @return a JavaScript Document
+	 */
+	protected native Object unwrapDoc(Document doc) /*-{
+		$wnd.console.log(doc);
+		var obj = null;
+		for (pname in doc) {
+			var pval = doc[pname];
+			if ((typeof pval == "object") && pval.nodeName && (pval.nodeName == "#document")) {
+				obj = pval;
+				break;
+			}
+		}
+		return obj;
+	}-*/;
+	
+	/**
+	 * unwrapNode
+	 * @param node a GWT Node
+	 * @return a JavaScript Node
+	 */
+	protected native Object unwrapNode(Node node, String nodeName) /*-{
+		$wnd.console.log(node);
+		var obj = null;
+		for (pname in node) {
+			var pval = node[pname];
+			if ((typeof pval == "object") && pval.nodeName && (pval.nodeName == nodeName)) {
+				obj = pval;
+				break;
+			}
+		}
+		return obj;
+	}-*/;	
+	
+	/**
+	 * unwrapAndTestDoc
+	 * 
+	 * CSS query
+temp1.querySelector("stage > Attribute_String");
+	 * 
+	 * XPath query
+var xpathExpr = "/PhysicalSystem/stage/Attribute_String/text()";
+var xpathExpr = "/PhysicalSystem/stage/Attribute_String";
+var contextNode = temp1;
+var xPathResult = temp1.evaluate(xpathExpr, contextNode, null, XPathResult.ANY_TYPE, null);
+if (xPathResult.resultType == XPathResult.UNORDERED_NODE_ITERATOR_TYPE) {
+  var thisNode = xPathResult.iterateNext();
+  while (thisNode) {
+    console.log(thisNode);
+    thisNode = xPathResult.iterateNext();
+  }
+}
+
+var xpathExpr = "stage/Attribute_String";
+var contextNode = temp1.firstElementChild;
+var xPathResult = temp1.evaluate(xpathExpr, contextNode, null, XPathResult.ANY_TYPE, null);
+if (xPathResult.resultType == XPathResult.UNORDERED_NODE_ITERATOR_TYPE) {
+  var thisNode = xPathResult.iterateNext();
+  while (thisNode) {
+    console.log(thisNode);
+    thisNode = xPathResult.iterateNext();
+  }
+}
+	 */
+	protected native Object unwrapAndTestDoc(Document doc) /*-{
+		$wnd.console.log(doc);
+		var obj = null;
+		for (pname in doc) {
+			var pval = doc[pname];
+			if ((typeof pval == "object") && pval.nodeName && (pval.nodeName == "#document")) {
+				// pval is the native XML Document
+				$wnd.console.log(pname);
+				$wnd.console.log(pval.nodeName);
+				//$wnd.console.log(pval.docType); // undefined
+				$wnd.console.log(pval.documentURI);
+				$wnd.console.log(pval.childElementCount);
+				$wnd.console.log(pval.children);
+				$wnd.console.log(pval.firstElementChild);
+				$wnd.console.log(pval.firstElementChild.nodeName);
+				$wnd.console.log(pval.createTreeWalker); // a function
+				$wnd.console.log(pval.toString());
+				$wnd.console.log(pval);
+				obj = pval;
+				if (pval.firstElementChild.nodeName.endsWith("System")) {
+					// this is the start of the workbook CSH (ex: "PhysicalSystem")
+					// TESTING
+					var treeWalker = pval.createTreeWalker(
+						pval.firstElementChild,
+						NodeFilter.SHOW_ELEMENT,
+						{
+							acceptNode: function(node) {
+								if (node.nodeName == "characters") {
+									return NodeFilter.FILTER_ACCEPT;
+								}
+								else {
+									return NodeFilter.FILTER_REJECT;
+								}
+							}
+						},
+						false
+					);
+					var nodeList = [];
+					while(treeWalker.nextNode()) {
+						nodeList.push(treeWalker.currentNode)
+					}
+					$wnd.console.log("TREEWALKER NODELIST");
+					$wnd.console.log(nodeList);
+					for (var i = 0; i < nodeList.length; i++) {
+						var node = nodeList[i];
+						if (node.parentNode) {
+							//node.parentNode.removeChild(node); // this works
+						}
+					}
+				}
+			}
+		}
+		return obj;
+	}-*/;
+	
+	protected void logDocFirstElementChildNode(Document doc) {
+		/*Node child = node.getFirstChild();
+		while (child != null) {
+			if (child.getNodeType() == Node.ELEMENT_NODE) {
+				consoleLog("XmlGwtDomReader currentNode = document; " + child.getNodeName());
+				consoleLog(child);
+				return;
+			}
+			child = child.getNextSibling();
+		}*/
+		consoleLog(doc.getClass().getName());
+		Element child = doc.getDocumentElement();
+		consoleLog("XmlGwtDomReader.logDocFirstElementChildNode() " + child.getTagName());
+		consoleLog(child);
+		this.logDocFirstElementChildNodeNative(child);
+		//consoleLog(com.google.gwt.dom.client.Element.as(child)); // NO
+	}
+	
+	protected native void logDocFirstElementChildNodeNative(Element ele) /*-{
+		$wnd.console.log(ele);
+	}-*/;
+	
+	protected native void doXmlPatch(String jsonStr, Object docNative, Object nodeNative) /*-{
+		$wnd.console.log(jsonStr);
+		$wnd.console.log(docNative);
+		$wnd.console.log(nodeNative);
+		var jsObj = $wnd.JSON.parse(jsonStr);
+		$wnd.console.log(jsObj);
+		var params = $wnd.location.search;
+		var ver = new URLSearchParams(params).get("ver");
+		if (ver) {
+			$wnd.console.log(ver);
+			var patchArr = jsObj[ver];
+			if (patchArr) {
+				$wnd.console.log(patchArr);
+				for (var i = 0; i < patchArr.length; i++) {
+					var patchObj = patchArr[i];
+					$wnd.console.log(patchObj);
+					var xpathExpr = patchObj.sel;
+					// TODO use XPathResult.FIRST_ORDERED_NODE_TYPE instead of ANY_TYPE and UNORDERED_NODE_ITERATOR_TYPE
+					var xPathResult = docNative.evaluate(xpathExpr, nodeNative, null, XPathResult.ANY_TYPE, null);
+					if (xPathResult.resultType == XPathResult.UNORDERED_NODE_ITERATOR_TYPE) {
+						var thisNode = xPathResult.iterateNext();
+						while (thisNode) {
+							$wnd.console.log(thisNode);
+							switch (patchObj["op"]) {
+							case "add":
+								var dp = new DOMParser();
+								var doc = dp.parseFromString(patchObj["content"], "application/xml");
+								if (doc) {
+									var fragment = doc.documentElement;
+									if (fragment) {
+										thisNode.appendChild(fragment);
+									}
+								}
+								break;
+							case "replace":
+								var dp = new DOMParser();
+								var doc = dp.parseFromString(patchObj["content"], "application/xml");
+								if (doc) {
+									var fragment = doc.documentElement;
+									if (fragment) {
+										thisNode.parentNode.replaceChild(fragment, thisNode);
+									}
+								}
+								break;
+							case "remove":
+								thisNode.parentNode.removeChild(thisNode);
+								break;
+							default: break;
+							}
+							//thisNode = xPathResult.iterateNext(); // error because it's mutated
+							break;
+						}
+					}
+				}
+			}
+		}
+	}-*/;
 
 	@Override
 	public int getEventType() {
@@ -158,52 +378,73 @@ public class XmlGwtDomReader extends XmlReader {
 			eventType = START_TAG;
 			break;
 		case Node.ATTRIBUTE_NODE:
-			System.out.println("==> ATTRIBUTE_NODE");
+			//System.out.println("==> ATTRIBUTE_NODE");
 			eventType = OTHER_TYPE;
 			break;
 		case Node.TEXT_NODE:
 			eventType = TEXT;
 			break;
 		case Node.CDATA_SECTION_NODE:	
-			System.out.println("==> CDATA_SECTION_NODE");
+			//System.out.println("==> CDATA_SECTION_NODE");
 			//CDATASection cdata = (CDATASection)currentNode;
 			//System.out.println("The CDATA has text: [" + cdata.getData() + "]");
 			//eventType = CDSECT;
 			eventType = TEXT; // CDATASection is a subclass of Text so this should work
 			break;
 		case Node.ENTITY_REFERENCE_NODE:
-			System.out.println("==> ENTITY_REFERENCE_NODE");
+			//System.out.println("==> ENTITY_REFERENCE_NODE");
 			eventType = ENTITY_REF;
 			break;
 		case Node.ENTITY_NODE:
-			System.out.println("==> ENTITY_NODE");
+			//System.out.println("==> ENTITY_NODE");
 			eventType = OTHER_TYPE;
 			break;
 		case Node.PROCESSING_INSTRUCTION_NODE:
-			System.out.println("==> PROCESSING_INSTRUCTION_NODE");
-			eventType = PROCESSING_INSTRUCTION;
+			//System.out.println("==> PROCESSING_INSTRUCTION_NODE");
+			//consoleLog(currentNode.getNodeName() + " " + currentNode.getParentNode());
+			//if (PI_XML_READER.equals(currentNode.getNodeName())) { // "xmlreader"
+			if (currentNode.getNodeName().startsWith(PI_XML_READER)) {
+				// TODO if the PI target == PI_XML_READER, then process the PI right here
+				// use XholonPatch.java; see also MeteorPlatformService.java; BUT here I'm dealing with the XML DOM rather than the Xholon DOM
+				String nval = currentNode.getNodeValue();
+				// ex: '<add sel="."><One><Two/></One></add>'
+				// OR the following with the same structure that I use in MeteorPlatformService.java
+				// ex: '{"op": "add","sel": "descendant::IslandSystem/Space/FieldRow[55]/LandCell[18]","pos": "append","content": "<Stick/>"}'
+				// TODO there may also be a version name that can be compared against a window.location param name
+				//consoleLog(nval); // nval should be a JSON value
+				if (PI_XML_READER_PATCH.equals(currentNode.getNodeName())) {
+					Object nodeNative = this.unwrapNode(currentNode.getParentNode(), currentNode.getParentNode().getNodeName());
+					if (nodeNative != null) {
+						this.doXmlPatch(nval, docNative, nodeNative);
+					}
+				}
+				eventType = NULL_EVENT;
+			}
+			else {
+				eventType = PROCESSING_INSTRUCTION;
+			}
 			break;
 		case Node.COMMENT_NODE:
 			eventType = COMMENT;
 			break;
 		case Node.DOCUMENT_NODE:
-			System.out.println("==> DOCUMENT_NODE");
+			//System.out.println("==> DOCUMENT_NODE");
 			eventType = OTHER_TYPE;
 			break;
 		case Node.DOCUMENT_TYPE_NODE:
-			System.out.println("==> DOCUMENT_TYPE_NODE");
+			//System.out.println("==> DOCUMENT_TYPE_NODE");
 			eventType = OTHER_TYPE;
 			break;
 		case Node.DOCUMENT_FRAGMENT_NODE:
-			System.out.println("==> DOCUMENT_FRAGMENT_NODE");
+			//System.out.println("==> DOCUMENT_FRAGMENT_NODE");
 			eventType = OTHER_TYPE;
 			break;
 		case Node.NOTATION_NODE:
-			System.out.println("==> NOTATION_NODE");
+			//System.out.println("==> NOTATION_NODE");
 			eventType = OTHER_TYPE;
 			break;
 		default:
-			System.out.println("==> unknown node");
+			//System.out.println("==> unknown node");
 			eventType = OTHER_TYPE;
 			break;
 		}
@@ -289,12 +530,12 @@ public class XmlGwtDomReader extends XmlReader {
 	
 	@Override
 	public String toString() {
-	  if (currentNode == null) {return null;}
-	  return this.toStringNative(currentNode);
+		if (currentNode == null) {return null;}
+		return this.toStringNative(currentNode);
 	}
 	
 	protected native String toStringNative(Node currentNode) /*-{
-	  return currentNode.toString();
+		return currentNode.toString();
 	}-*/;
 
 }

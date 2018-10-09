@@ -333,13 +333,23 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 				}
 				eventType = xmlReader.next();
 				break;
+			case IXmlReader.PROCESSING_INSTRUCTION:
+			  //this.consoleLog("PROCESSING_INSTRUCTION"); // ex: <?Testing 123 456 789 ?>
+			  String piTarget = xmlReader.getName(); // PI target (ex: Testing)  GWT ProcessingInstruction getTarget()
+			  //this.consoleLog(piTarget);
+			  String piData = xmlReader.getText(); // PI data (ex: 123 456 789)  GWT ProcessingInstruction getData()
+			  //this.consoleLog(piData);
+			  //this.consoleLog("currentXholon: " + currentXholon);
+			  //this.consoleLog("parentXholon: " + parentXholon);
+				eventType = xmlReader.next();
+			  break;
 			case IXmlReader.CDSECT:
 			case IXmlReader.COMMENT:
 			case IXmlReader.DOCDECL:
 			case IXmlReader.ENTITY_REF:
 			case IXmlReader.IGNORABLE_WHITESPACE:
-			case IXmlReader.PROCESSING_INSTRUCTION:
 			case IXmlReader.OTHER_TYPE:
+			case IXmlReader.NULL_EVENT: // for example, a PROCESSING_INSTRUCTION that was hanled by the XmlReader
 			default:
 				eventType = xmlReader.next();
 				break;
