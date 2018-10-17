@@ -211,9 +211,12 @@ public class Xholon2D3CirclePack implements EventListener {
     iconPos = "outside",
     useAnno = false,
     annoPos = "outside",
-    _jsdata = false
-    nonportPorts = false;
-    togglePortColors = false;
+    _jsdata = false,
+    nonportPorts = false,
+    togglePortColors = false,
+    supportClick = false,
+    supportContextmenu = false,
+    supportDblclick = false;
     
     if (efParams) {
       sort = efParams.sort;
@@ -241,6 +244,9 @@ public class Xholon2D3CirclePack implements EventListener {
       _jsdata = efParams._jsdata;
       nonportPorts = efParams.nonportPorts;
       togglePortColors = efParams.togglePortColors;
+      supportClick = efParams.supportClick;
+      supportContextmenu = efParams.supportContextmenu;
+      supportDblclick = efParams.supportDblclick;
     }
     
     var zoom = $wnd.d3.behavior.zoom()
@@ -727,17 +733,23 @@ public class Xholon2D3CirclePack implements EventListener {
       //$wnd.console.log("... end Hammer");
     }
     else {
-      node.on("click", function(d, i) {
-        handleClick(d, i);
-      });
+      if (supportClick) {
+        node.on("click", function(d, i) {
+          handleClick(d, i);
+        });
+      }
       
-      node.on("contextmenu", function(d, i) {
-        handleContextmenu(d, i);
-      });
+      if (supportContextmenu) {
+        node.on("contextmenu", function(d, i) {
+          handleContextmenu(d, i);
+        });
+      }
       
-      node.on("dblclick", function(d, i) {
-        handleDblclick(d, i);
-      });
+      if (supportDblclick) {
+        node.on("dblclick", function(d, i) {
+          handleDblclick(d, i);
+        });
+      }
     }
     
     node.on("mouseover", function(d, i) {

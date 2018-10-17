@@ -148,6 +148,9 @@ public class Xholon2HierarchyJSON extends AbstractXholon2ExternalFormat implemen
     p._jsdata = false;
     p.nonportPorts = true; // whether or not to call node.links() rather than node.ports()
     p.togglePortColors = true; // whether or not to toggle the color of remote nodes when mouse hovers
+    p.supportClick = true;
+    p.supportContextmenu = true;
+    p.supportDblclick = true;
     this.efParams = p;
   }-*/;
 
