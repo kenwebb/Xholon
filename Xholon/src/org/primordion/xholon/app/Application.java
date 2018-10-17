@@ -2616,6 +2616,26 @@ public abstract class Application extends AbstractApplication implements IApplic
 	}
 	
 	/**
+	 * Run some app-specific code, at the end of all normal processing for the step.
+	 * Initially, I am using this in a workbook to add content to a grid (HTML5 canvas).
+	 * Example usage:
+$wnd.xh.postStep = function() {console.log("POSTSTEP");}
+	 * Example usage:
+$wnd.xh.postStep = function() {
+var canvas = $doc.querySelector("div#xhcanvas > canvas");
+var ctx = canvas.getContext("2d");
+ctx.font = '48px monospace';
+ctx.fillStyle = "black";
+ctx.fillText("0", 200, 200);
+}
+	 */
+	protected native void postStep() /*-{
+		if ($wnd.xh.postStep) {
+			$wnd.xh.postStep();
+		}
+	}-*/;
+	
+	/**
 	 * Only invoke a viewer on wrapup if:
 	 * - the unconditional INVOKE_VIEWERS_ON_WRAPUP is set to true, or
 	 * - the viewer is non-graphical and writes to a file or stdout

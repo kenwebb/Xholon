@@ -102,6 +102,7 @@ public class AppChameleon extends Application {
 				}
 			}
 		}
+		this.postStep();
 	}
 	
 	public void wrapup()
