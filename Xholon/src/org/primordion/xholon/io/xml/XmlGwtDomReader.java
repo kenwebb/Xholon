@@ -54,6 +54,8 @@ public class XmlGwtDomReader extends XmlReader {
 	private static final String PI_XML_READER = "xmlreader";
 	private static final String PI_XML_READER_PATCH = "xmlreader-patch";
 	
+	private boolean debug = false;
+	
 	/**
 	 * default constructor
 	 */
@@ -72,6 +74,9 @@ public class XmlGwtDomReader extends XmlReader {
 		}
 		else {
 			Window.alert("XML input to createNew() must be a String.");
+		}
+		if (this.debug) {
+			logDocument(document);
 		}
 		currentNode = document;
 		
@@ -204,6 +209,11 @@ if (xPathResult.resultType == XPathResult.UNORDERED_NODE_ITERATOR_TYPE) {
 		}
 		return obj;
 	}-*/;
+	
+	protected void logDocument(Document doc) {
+		Element child = doc.getDocumentElement();
+		consoleLog(child.getTagName());
+	}
 	
 	protected void logDocFirstElementChildNode(Document doc) {
 		/*Node child = node.getFirstChild();
