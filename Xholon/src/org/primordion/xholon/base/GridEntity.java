@@ -39,6 +39,25 @@ public class GridEntity extends AbstractGrid implements IGrid {
 	 */
 	public void setRoleName(String roleName) {}
 	
+	@Override
+	public Object getVal_Object() {
+		return getObjectNative(this.getRow(), this.getCol());
+	}
+	
+	/**
+	 * Return a JavaScript Object that contains the row and column of this grid cell.
+	 * ex: {row: 12, col:13}
+	 * @param row
+	 * @param col
+	 * @return a JavaScript Object
+	 */
+	protected native Object getObjectNative(int row, int col) /*-{
+		var obj = {};
+		obj.row = row;
+		obj.col = col;
+		return obj;
+	}-*/;
+	
 	public String toString() {
 	  // OLD
 		/*String outStr = getName();
