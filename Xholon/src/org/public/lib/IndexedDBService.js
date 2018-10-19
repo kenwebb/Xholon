@@ -42,17 +42,28 @@ xh.IndexedDBService.setup = function(dbName, objstoreName, keypathStr) {
   };
   request.onsuccess = function(event) {
     db = event.target.result;
+    //if (!db.objectStoreNames.contains(objstoreName)) {
+    //  db.createObjectStore(objstoreName, { keyPath: keypathStr });
+    //}
     console.log("IndexedDBService is available");
   };
   
   request.onupgradeneeded = function(event) {
     db = event.target.result;
-    var objectStore = db.createObjectStore(objstoreName, { keyPath: keypathStr });
-
-    // Use transaction oncomplete to make sure the objectStore creation is finished before adding data into it.
-    objectStore.transaction.oncomplete = function(event) {
-      // Store values in the newly created objectStore.
-    };
+    if (Array.isArray(objstoreName)) {
+      for (var i = 0; i < objstoreName.length; i++) {
+        // if objstoreName is an Array, then keypathStr must be a corresponding Array
+        var objectStore = db.createObjectStore(objstoreName[i], { keyPath: keypathStr[i] });
+        objectStore.transaction.oncomplete = function(event) {};
+      }
+    }
+    else {
+      var objectStore = db.createObjectStore(objstoreName, { keyPath: keypathStr });
+      // Use transaction oncomplete to make sure the objectStore creation is finished before adding data into it.
+      objectStore.transaction.oncomplete = function(event) {
+        // Store values in the newly created objectStore.
+      };
+    }
   };
 
 }
