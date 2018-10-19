@@ -201,7 +201,7 @@ public class Xholon2D3CirclePack implements EventListener {
     labelContainersOptions = "top", // "top" "bottom" "center"
     includeId = false,
     shape = "circle",
-    shapeParams = "5,5"; // rect rx,ry
+    shapeParams = "5,5", // rect rx,ry
     maxSvg = 50, // max allowable number of SVG subtrees, to prevent running out of memory
     maxChars = 1, // max allowable number of chars in the standard text
     fontSizeMultiplier = 1.75, // used to control the font-size of leaf nodes
@@ -213,10 +213,10 @@ public class Xholon2D3CirclePack implements EventListener {
     annoPos = "outside",
     _jsdata = false,
     nonportPorts = false,
-    togglePortColors = false,
-    supportClick = false,
-    supportContextmenu = false,
-    supportDblclick = false;
+    togglePortColors = true,
+    supportClick = true,
+    supportContextmenu = true,
+    supportDblclick = true;
     
     if (efParams) {
       sort = efParams.sort;
