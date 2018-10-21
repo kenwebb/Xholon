@@ -153,7 +153,25 @@ a.action("script;\ngo port0;\ntakeclone container;\ngo port0;\ndrop container;\n
     <li>Play a d3cp "video" of what is happening at another site.</li>
     <li>Implement multi-player Island game using webrtc.</li>
     </ol>
-
+    
+    <h3>Islands Game with WebRTC</h3>
+    <p>Run any or all of the following URLs, in separate browsers and/or on different computers.</p>
+    <div class="wrtcurl" contenteditable="true">http://www.primordion.com/Xholon/gwt/XholonWebRTC.html?app=40731e8f7a7ece0236e656fb24036e4a&apprev=17&src=gist&gui=none&hide=xhtop,xhtabs,xhsvg,xhfooter&localid0=<span class="wrtcid0">Daniel101</span></div>
+    <div class="wrtcurl" contenteditable="true">http://www.primordion.com/Xholon/gwt/XholonWebRTC.html?app=40731e8f7a7ece0236e656fb24036e4a&apprev=17&src=gist&gui=none&hide=xhtop,xhtabs,xhsvg,xhfooter&localid0=<span class="wrtcid1">Johann101</span></div>
+    <div class="wrtcurl" contenteditable="true">http://www.primordion.com/Xholon/gwt/XholonWebRTC.html?app=40731e8f7a7ece0236e656fb24036e4a&apprev=17&src=gist&gui=none&hide=xhtop,xhtabs,xhsvg,xhfooter&localid0=<span class="wrtcid2">Jules101</span></div>
+    <p>Run each app for awhile, and then collect data by pressing the "$" key (remember to press the Shift key). Then press "p" to continue. Make sure you do this separately for each app.</p>
+    
+    <p>Run the WebRTC Island Admin tool, on whatever browser and computer you want.</p>
+    <div class="wrtcurl" contenteditable="true">http://www.primordion.com/Xholon/gwt/XholonWebRTC.html?app=0c07551a85b220eb6fc7c8a8d2b6a10b&src=gist&gui=none&remoteid0=<span class="wrtcid0">Daniel101</span>&remoteid1=<span class="wrtcid1">Johann101</span>&remoteid2=<span class="wrtcid2">Jules101</span></div>
+    <p>Drag the following script into the Avatar.</p>
+    <pre contenteditable="true">
+&lt;script>
+var a = this.parent();
+a.action("script;\ngo port0;\ntakeclone dataExport;\ngo port0;\ndrop dataExport;\n");
+&lt;/script></pre>
+    <p>The Avatar will vanish, and should return a short time later with the data in a "DataExport" node.</p>
+    <p>Move the Avatar to each of the other "Player" nodes, and drag the same script into the Avatar while it's there.</p>
+    
     <hr/>
     <p>Ken Webb</p>
     <div class="license"  style="font-size: 9px;"><p>Xholon GWT is a <a href="index.html">Xholon</a> project. Copyright (C) 2016 - 2018 Ken Webb</p></div>
