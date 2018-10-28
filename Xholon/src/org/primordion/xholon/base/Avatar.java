@@ -594,7 +594,9 @@ public class Avatar extends AbstractAvatar {
       if (leader != null) {
         // I must follow the leader
         //consoleLog(this.getName() + " is following (accompanying) " + leader.getName());
-        if (contextNode != leader.getParentNode()) {
+        // there is no need to do anything if the leader and this Avatar are already co-located
+        // prevent Avatar from being lead to the impossible postion of being directly inside itself
+        if ((contextNode != leader.getParentNode()) && (this != leader.getParentNode())) {
           this.removeChild();
           this.appendChild(leader.getParentNode());
         }
@@ -3146,6 +3148,11 @@ ava.action("look");
     xmlStr += result.xhc;
     if (result.role) {xmlStr += ' roleName="' + result.role + '"';}
     if (result.multiplicity) {xmlStr += ' multiplicity="' + result.multiplicity + '"';}
+    if (result.attrs) {
+      for (var attr in result.attrs) {
+        xmlStr += ' ' + attr + '="' + result.attrs[attr] + '"';
+      }
+    }
     xmlStr += "/>";
     for (var j = 0; j < removalsArr.length; j++) {
       removalsArr[j].remove();
