@@ -3154,12 +3154,20 @@ ava.action("look");
       }
     }
     xmlStr += "/>";
-    for (var j = 0; j < removalsArr.length; j++) {
-      removalsArr[j].remove();
-    }
     ava.parent().append(xmlStr);
-    //var newNode = ava.parent().last();
-    return xmlStr; //newNode;
+    var newNode = ava.parent().last();
+    // remove or smash ingredient nodes
+    for (var j = 0; j < removalsArr.length; j++) {
+      var removedNode = removalsArr[j].remove();
+      var rchildNode = removedNode.first();
+      while (rchildNode) {
+        // move any children of removed ingredient node to new node (ex: Basket(Fruit Stick) + Vine -> Backpack(Fruit Stick)
+        var nextChildNode = rchildNode.next();
+        newNode.append(rchildNode.remove());
+        rchildNode = nextChildNode;
+      }
+    }
+    return xmlStr;
   }-*/;
   
   /**
