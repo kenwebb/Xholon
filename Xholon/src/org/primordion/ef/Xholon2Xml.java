@@ -103,7 +103,10 @@ public class Xholon2Xml extends AbstractXholon2ExternalFormat implements IXholon
 		}*/
 		sb = new StringBuilder();
 		//try {
-			sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+			//if (this.isWriteStartDocument()) {
+				// this gets written later, so no need to do it here
+				//sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+			//}
 			if (isShouldWriteLinks()) {
 				sb.append("<!-- To view this file, open it in a text or XML editor -->\n");
 				sb.append(
