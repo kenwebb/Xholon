@@ -1,7 +1,6 @@
 <RestoreContainer>
 
-<!--<RestoreGrid implName="org.primordion.xholon.base.Behavior_gwtjs" gridOwnerXPath="RestoreContainer" gridCellIncludeList="LandCell,CoastalCell">-->
-<RestoreGrid implName="org.primordion.xholon.base.Behavior_gwtjs" removeExisting="true"><![CDATA[
+<RestoreGrid implName="org.primordion.xholon.base.Behavior_gwtjs" removeExisting="false"><![CDATA[
 /**
  * Restore the contents of a Xholon grid, such as from the Island game.
  * Paste or drag this entire file into any node.
@@ -9,36 +8,32 @@
  */
 var me, gridOwner, gridCellIncludeArr, beh = {
 postConfigure: function() {
-  $wnd.console.log("RESTORE");
   me = this.cnode;
-  $wnd.console.log(me);
   var sgNode = me.next(); // SavedGrid node
-  $wnd.console.log(sgNode);
   if (sgNode) {
     gridCellIncludeArr = null;
     if (sgNode.gridCellIncludeList) {
       gridCellIncludeArr = sgNode.gridCellIncludeList.split(",");
     }
     gridOwner = $wnd.xh.root().xpath(sgNode.gridOwnerXPath);
-    $wnd.console.log(gridOwner);
     if (!gridOwner) {
-      $wnd.console.log("The XPath expression " + me.gridOwnerXPath + " evaluates to null.");
+      $wnd.console.log("The XPath expression " + sgNode.gridOwnerXPath + " evaluates to null.");
       return;
+    }
+    if (me.removeExisting == "true") {
+      this.removeAllExistingCellContents(gridOwner);
     }
     var ynow = 0; // y position (row) right now while iterating thru the grid
     var xnow = 0; // x position (gridCell) right now while iterating thru the grid
     var row = gridOwner.first();
     var cell = row.first();
-    this.removeExistingCellContents(cell);
     var sccNode = sgNode.first(); // SavedCellContent node
     while (sccNode) {
-      //var nextSccNode = sccNode.next();
       $wnd.console.log(sccNode.gridCellType + " " + sccNode.xpos + " " + sccNode.ypos);
       if (sccNode.ypos == ynow) {
         // remain on the same row
         while (sccNode.xpos > xnow) {
           cell = cell.next();
-          this.removeExistingCellContents(cell);
           xnow++;
         }
       }
@@ -52,34 +47,43 @@ postConfigure: function() {
         xnow = 0;
         while (sccNode.xpos > xnow) {
           cell = cell.next();
-          this.removeExistingCellContents(cell);
           xnow++;
         }
       }
-      //cell.append(sccNode.first().remove());
       var node = sccNode.first();
       while (node) {
         var nextNode = node.next();
         cell.append(node.remove());
         node = nextNode;
       }
-      sccNode = sccNode.next(); //nextSccNode;
+      sccNode = sccNode.next();
     }
-    //sgNode.remove();
     me.parent().remove();
   }
 },
 
-removeExistingCellContents: function(cell) {
-  $wnd.console.log("trying " + cell.name());
-  if (gridCellIncludeArr && gridCellIncludeArr.indexOf(cell.xhc().name()) != -1) {
-    var node = cell.first();
-    while (node) {
-      var nextNode = node.next();
-      $wnd.console.log("removing " + node.name());
-      node.remove(); // TODO nothing happens
-      node = nextNode;
+removeAllExistingCellContents: function(gridOwner) {
+  var row = gridOwner.first();
+  var cell = null;
+  while (row) {
+    cell = row.first();
+    while (cell) {
+      if ((gridCellIncludeArr && gridCellIncludeArr.indexOf(cell.xhc().name()) != -1) || !gridCellIncludeArr) {
+        var node = cell.first();
+        while (node) {
+          var nextNode = node.next();
+          if ((node.xhc().name() == "Avatar") && (node == $wnd.xh.avatar())) {
+            // retain this node
+          }
+          else {
+            node.remove();
+          }
+          node = nextNode;
+        }
+      }
+      cell = cell.next();
     }
+    row = row.next();
   }
 }
 }
