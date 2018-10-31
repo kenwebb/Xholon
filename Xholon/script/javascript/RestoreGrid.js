@@ -1,6 +1,6 @@
 <RestoreContainer>
 
-<RestoreGrid implName="org.primordion.xholon.base.Behavior_gwtjs" removeExisting="false"><![CDATA[
+<RestoreGrid implName="org.primordion.xholon.base.Behavior_gwtjs" removeExisting="true"><![CDATA[
 /**
  * Restore the contents of a Xholon grid, such as from the Island game.
  * Paste or drag this entire file into any node.
@@ -53,6 +53,17 @@ postConfigure: function() {
       var node = sccNode.first();
       while (node) {
         var nextNode = node.next();
+        if ((node.xhc().name() == "Avatar") && (node["systemAvatar"])) {
+          var ava = $wnd.xh.avatar();
+          ava["energy"] = node["energy"];
+          var invNode = node.first();
+          while (invNode) {
+            var nextInvNode = invNode.next();
+            ava.append(invNode.remove());
+            invNode = nextInvNode;
+          }
+          cell.append(ava.remove());
+        }
         cell.append(node.remove());
         node = nextNode;
       }
