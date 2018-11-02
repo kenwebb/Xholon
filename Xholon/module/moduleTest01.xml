@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Test of XholonModule.
+Copy and paste, or drag, this entire text into any running Xholon app.
+-->
+<XholonModule>
+  <XholonMap>
+  
+    <Attribute_String roleName="ih"><![CDATA[
+<_-.XholonClass>
+  <Ten/>
+  <Eleven/>
+  <Twelve/>
+</_-.XholonClass>
+    ]]></Attribute_String>
+    
+    <Attribute_String roleName="cd"><![CDATA[
+<xholonClassDetails>
+  <Ten><Color>red</Color></Ten>
+  <Eleven><Color>orange</Color></Eleven>
+  <Twelve><Color>yellow</Color></Twelve>
+</xholonClassDetails>
+    ]]></Attribute_String>
+    
+    <Attribute_String roleName="csh"><![CDATA[
+<_-.csh>
+  <Ten roleName="Десять" energy="10"/>
+  <Eleven roleName="Одиннадцать" energy="11"/>
+  <Twelve roleName="Двенадцать" energy="12"/>
+</_-.csh>
+    ]]></Attribute_String>
+    
+  </XholonMap>
+</XholonModule>

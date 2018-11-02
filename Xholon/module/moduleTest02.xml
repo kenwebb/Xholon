@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Test of XholonModule.
+Copy and paste, or drag, this entire text into a running XholonWebRTC.html app. ex:
+http://127.0.0.1:8888/XholonWebRTC.html?app=Island+B4&src=lstr&gui=none&hide=xhtop,xhtabs,xhsvg,xhfooter
+
+also do:
+http://127.0.0.1:8888/XholonWebRTC.html?app=WebRTC+complex+Schweiz+2018&src=lstr&gui=none&remoteid0=ontario0&remoteid2=ontario1&ver=localhost
+<script>
+var a = this.parent();
+a.action("script;\ngo port0;\ntakeclone stick;\nwait 20;\ngo port0;\ndrop stick;\n");
+</script>
+-->
+<XholonModule>
+  <XholonMap>
+  
+    <Attribute_String roleName="ih"><![CDATA[
+<_-.XholonClass>
+  <Ontario/>
+</_-.XholonClass>
+    ]]></Attribute_String>
+    
+    <!-- Set up Ontario to receive (trop) text messages over WebRTC, using the signaling names "ontario0" and "ontario1". -->
+    <Attribute_String roleName="cd"><![CDATA[
+<xholonClassDetails>
+  <Ontario xhType="XhtypePureActiveObject">
+    <Color>Lime</Color>
+    <port name="trop" index="0" connector="RemoteNodeService-PeerJS,ontario0,delete,3,localhost,9000,/"/>
+    <port name="trop" index="1" connector="RemoteNodeService-PeerJS,ontario1,delete,3,localhost,9000,/"/>
+  </Ontario>
+</xholonClassDetails>
+    ]]></Attribute_String>
+    
+    <Attribute_String roleName="csh"><![CDATA[
+<_-.csh>
+  <Ontario/>
+</_-.csh>
+    ]]></Attribute_String>
+    
+  </XholonMap>
+</XholonModule>
