@@ -172,6 +172,25 @@ a.action("script;\ngo port0;\ntakeclone dataExport;\ngo port0;\ndrop dataExport;
     <p>The Avatar will vanish, and should return a short time later with the data in a "DataExport" node.</p>
     <p>Move the Avatar to each of the other "Player" nodes, and drag the same script into the Avatar while it's there.</p>
     
+    <h3>Canada and Schweiz on local peerjs server</h3>
+    <p>Install and run the peerjs server. The following is what I did in my Linux terminal window.</p>
+    <pre>
+cd ~/nodespace/peerjsserver/
+npm install peer
+node node_modules/.bin/peerjs --port 9000 --key peerjs
+  Started PeerServer on ::, port: 9000, path: / (v. 0.2.10)
+    </pre>
+    <p>I have edited the Canada and Schweiz workbooks. In each of the Xholon port specifications, change the second "delete" to "localhost". That's all that needs to be changed. For example:</p>
+    <pre>
+&lt;port name="trop" index="0" connector="RemoteNodeService-PeerJS,localid0,delete,3,localhost,9000,/"/>
+&lt;port name="port" index="0" connector="RemoteNodeService-PeerJS,remoteid0,delete,3,localhost,9000,/"/>
+    </pre>
+    <p>I have edited the two workbooks to allow either the remote server or the localhost server. The localhost server will be selected if you specify "&ver=localhost" as part of the URL.</p>
+    <p>Run Canada and then Schweiz. For example:</p>
+    <p><a href="http://127.0.0.1:8888/XholonWebRTC.html?app=WebRTC+complex+Canada+2018&src=lstr&gui=none&localid0=Able101&localid1=Baker101&localid2=Charlie101&ver=localhost">WebRTC complex Canada 2018 (localstorage)</a></p>
+    <p><a href="http://127.0.0.1:8888/XholonWebRTC.html?app=WebRTC+complex+Schweiz+2018&src=lstr&gui=none&remoteid0=Able101&remoteid2=Charlie101&ver=localhost">WebRTC complex Schweiz 2018 (localstorage)</a></p>
+    <p>I successfully tested it with Canada running in a Chrome browser, and Schweiz in Firefox.</p>
+    
     <hr/>
     <p>Ken Webb</p>
     <div class="license"  style="font-size: 9px;"><p>Xholon GWT is a <a href="index.html">Xholon</a> project. Copyright (C) 2016 - 2018 Ken Webb</p></div>
