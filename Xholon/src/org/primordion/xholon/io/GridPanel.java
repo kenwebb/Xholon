@@ -70,6 +70,9 @@ public abstract class GridPanel extends Xholon implements IGridPanel {
   
   private static final long serialVersionUID = 8201866815042917543L;
   
+  protected static final String TERRA_INCOGNITA = "Terra Incognita";
+  protected static final CssColor TERRA_INCOGNITA_COLOR = CssColor.make("#F2F2F2"); // a very light grey
+  
   protected IXholon gridOwner = null; // Xholon that owns the Row and GridCell xholons
   protected IApplication app = null; // The IApplication instance that owns the model
   protected static boolean isFrozen = false; // whether or not the display is currently frozen
@@ -485,13 +488,24 @@ public abstract class GridPanel extends Xholon implements IGridPanel {
    * @param selectedGridCell
    */
   public String getToolTipText(final IXholon selectedGridCell) {
-    if (selectedGridCell != null) {
+    if (this.isIncognita(selectedGridCell)) {
+      return TERRA_INCOGNITA;
+    }
+    else if (selectedGridCell != null) {
       return selectedGridCell.toString();
     }
     else {
       return null;
     }
   }
+  
+  /**
+   * Is a specified gridCell unknown ("incognita").
+   * @return true if it's unknown (selectedGridCell["incognita"] == true); false if it's known (no value for selectedGridCell["incognita"])
+   */
+  protected native boolean isIncognita(final IXholon selectedGridCell) /*-{
+    return selectedGridCell["incognita"];
+  }-*/;
   
   /**
    * Show a popup menu for a specified node.
@@ -792,18 +806,27 @@ public abstract class GridPanel extends Xholon implements IGridPanel {
     AbstractGrid startOfRow = upperLeft;
     for (int i = 0; i < nRows; i++) {
       for (int j = 0; j < nCols; j++) {
-        if ((xholonConsole != null) && (currentCell == xholonConsole.getContext())) {
-          ctx.setFillStyle(COLOR_CONTEXT);
+        if (this.isIncognita(currentCell)) {
+          ctx.setFillStyle(TERRA_INCOGNITA_COLOR);
+          ctx.beginPath();
+          ctx.rect(j*cellSize, i*cellSize, cellSize, cellSize);
+          ctx.closePath();
+          ctx.fill();
         }
         else {
-          ctx.setFillStyle(getColor(currentCell));
-        }
-        ctx.beginPath();
-        ctx.rect(j*cellSize, i*cellSize, cellSize, cellSize);
-        ctx.closePath();
-        ctx.fill();
-        if (useShapes) {
-          drawAgents(ctx, currentCell, j*cellSize, i*cellSize);
+          if ((xholonConsole != null) && (currentCell == xholonConsole.getContext())) {
+            ctx.setFillStyle(COLOR_CONTEXT);
+          }
+          else {
+            ctx.setFillStyle(getColor(currentCell));
+          }
+          ctx.beginPath();
+          ctx.rect(j*cellSize, i*cellSize, cellSize, cellSize);
+          ctx.closePath();
+          ctx.fill();
+          if (useShapes) {
+            drawAgents(ctx, currentCell, j*cellSize, i*cellSize);
+          }
         }
         currentCell = (AbstractGrid)currentCell.port[IGrid.P_EAST]; // get next cell
       }
