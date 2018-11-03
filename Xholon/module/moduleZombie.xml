@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Zombie module. Creates a Zombie that will move in a grid. -->
+<XholonModule>
+  <XholonMap>
+  
+    <Attribute_String roleName="ih"><![CDATA[
+<_-.XholonClass>
+  <Zombie superClass="Script"/>
+</_-.XholonClass>
+    ]]></Attribute_String>
+    
+    <!-- Zombie color and behavior -->
+    <Attribute_String roleName="cd"><![CDATA[
+<xholonClassDetails>
+  <Zombie xhType="XhtypePureActiveObject">
+    <Color>black</Color>
+    <DefaultContent>
+var zombie, direction, timestep, beh = {
+postConfigure: function() {
+  zombie = this.cnode;
+  direction = Math.floor(Math.random() * 4); // a grid cell may ref 4 or 8 other cells
+  if (zombie.parent().port(7)) {
+    direction = Math.floor(Math.random() * 8);
+  }
+  timestep = $wnd.xh.param("TimeStep"); // Zombie should only move once per timestep
+  $wnd.console.log(zombie.name() + " " + this.toString());
+},
+
+act: function() {
+  var timestepNew = $wnd.xh.param("TimeStep");
+  if (timestepNew != timestep) {
+    this.move();
+    timestep = timestepNew;
+  }
+},
+
+move: function() {
+  var destination = zombie.parent().port(direction);
+  if (destination) {
+    destination.append(zombie.remove());
+  }
+},
+
+toString: function() {
+  return "direction:" + direction;
+}
+
+}
+//# sourceURL=Zombiebehavior.js
+  </DefaultContent>
+  </Zombie>
+</xholonClassDetails>
+    ]]></Attribute_String>
+    
+    <Attribute_String roleName="csh"><![CDATA[
+<_-.csh>
+  <Zombie roleName="Bob"/>
+</_-.csh>
+    ]]></Attribute_String>
+    
+  </XholonMap>
+</XholonModule>
