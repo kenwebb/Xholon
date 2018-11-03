@@ -68,8 +68,36 @@ postConfigure: function() {
         node = nextNode;
       }
       sccNode = sccNode.next();
+      if (sccNode.xhc().name() == "SavedGridContents") {
+        this.restoreGridContents(sccNode);
+        sccNode = sccNode.next();
+      }
     }
     me.parent().remove();
+  }
+},
+
+restoreGridContents: function(sgcNode) {
+  if (!sgcNode.first()) {return;}
+  var sgcText = sgcNode.first().text();
+  $wnd.console.log(sgcText);
+  var row = gridOwner.first();
+  var tindex = 0;
+  while (row) {
+    var cell = row.first();
+    while (cell) {
+      var achar = sgcText.charAt(tindex);
+      if (achar.toLowerCase() == achar) {
+        cell["incognita"] = true;
+      }
+      else {
+        cell["incognita"] = false;
+      }
+      tindex++;
+      cell = cell.next();
+    }
+    tindex++; // handle the "\n"
+    row = row.next();
   }
 },
 
@@ -124,6 +152,8 @@ removeAllExistingCellContents: function(gridOwner) {
   </Volleyball>
 </TreasureChest>
 </SavedCellContent>
+
+<!-- TODO SavedGridContents -->
 
 </SavedGrid>
 
