@@ -3775,6 +3775,12 @@ xport hello _other,Newick,true,true,true,{}
     else if ("lastsib".equals(nodeName)) {
       return this.getLastSibling();
     }
+    else if ("parent".equals(nodeName)) {
+      return this.getParentNode();
+    }
+    else if ("context".equals(nodeName)) {
+      return this.contextNode;
+    }
     else if (nodeName.startsWith("prev")) {
       return this.getPreviousSibling();
     }
