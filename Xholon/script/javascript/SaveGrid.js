@@ -55,9 +55,9 @@ postConfigure: function() {
     xpos = 0;
     gridContents += "\n";
   }
-  outstr += '<SavedGridContents implName="org.primordion.xholon.base.Attribute$Attribute_String">\n';
+  outstr += '<SavedGridContents><Attribute_String>\n';
   outstr += gridContents;
-  outstr += '</SavedGridContents>\n\n';
+  outstr += '</Attribute_String></SavedGridContents>\n\n';
   outstr += '</SavedGrid>\n';
   delete $wnd.xh.avatar()["systemAvatar"]; // unmark the system Avatar
   switch (me.outTarget) {
