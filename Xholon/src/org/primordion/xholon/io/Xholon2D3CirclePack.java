@@ -204,6 +204,7 @@ public class Xholon2D3CirclePack implements EventListener {
     shapeParams = "5,5", // rect rx,ry
     maxSvg = 50, // max allowable number of SVG subtrees, to prevent running out of memory
     maxChars = 1, // max allowable number of chars in the standard text
+    maxCharsR = false, // whether or not to display only roleName OR xhcName; make this true if maxChars is a negative number
     fontSizeMultiplier = 1.75, // used to control the font-size of leaf nodes
     marble = "", // alternative content, in place of the standard text
     supportTouch = false,
@@ -228,6 +229,10 @@ public class Xholon2D3CirclePack implements EventListener {
       shapeParams = efParams.shapeParams;
       maxSvg = efParams.maxSvg;
       maxChars = efParams.maxChars;
+      if (maxChars < 0) {
+        maxChars = Math.abs(maxChars);
+        maxCharsR = true;
+      }
       fontSizeMultiplier = efParams.fontSizeMultiplier;
       marble = efParams.marble;
       if (marble) {
@@ -411,14 +416,22 @@ public class Xholon2D3CirclePack implements EventListener {
       })
       .text(function(d) {
         if (d.symbol) {return d.symbol;}
-        var dname = d.name.substring(0, maxChars);
-        var posColon = dname.indexOf(":");
-        if (posColon != -1) {
-          if ((posColon == 0) && (d.name.length > maxChars)) {
-            dname = d.name.substring(1, maxChars+1);
-          }
-          else {
-            dname = dname.substring(0, posColon);
+        var dname = "";
+        if (maxCharsR) {
+          // get complete roleName OR xhcName
+          dname = d.name.split(/:|_/)[0];
+          dname = dname.substring(0, maxChars);
+        }
+        else {
+          dname = d.name.substring(0, maxChars);
+          var posColon = dname.indexOf(":");
+          if (posColon != -1) {
+            if ((posColon == 0) && (d.name.length > maxChars)) {
+              dname = d.name.substring(1, maxChars+1);
+            }
+            else {
+              dname = dname.substring(0, posColon);
+            }
           }
         }
         return dname;
@@ -577,14 +590,22 @@ public class Xholon2D3CirclePack implements EventListener {
         })
         .text(function(d) {
           if (d.symbol) {return d.symbol;}
-          var dname = d.name.substring(0, maxChars);
-          var posColon = dname.indexOf(":");
-          if (posColon != -1) {
-            if ((posColon == 0) && (d.name.length > maxChars)) {
-              dname = d.name.substring(1, maxChars+1);
-            }
-            else {
-              dname = dname.substring(0, posColon);
+          var dname = "";
+          if (maxCharsR) {
+            // get complete roleName OR xhcName
+            dname = d.name.split(/:|_/)[0];
+            dname = dname.substring(0, maxChars);
+          }
+          else {
+            dname = d.name.substring(0, maxChars);
+            var posColon = dname.indexOf(":");
+            if (posColon != -1) {
+              if ((posColon == 0) && (d.name.length > maxChars)) {
+                dname = d.name.substring(1, maxChars+1);
+              }
+              else {
+                dname = dname.substring(0, posColon);
+              }
             }
           }
           return dname;
