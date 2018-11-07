@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Boat (Canoe and Paddle) module. For use in Island game.
+A Paddle is an Avatar tool.
+The Avatar uses a Paddle as a tool to control a Canoe in the Ocean.
+A Canoe is just a container with no behavior.
+see TestTool in Island game
+  "use TestTool to test the Avatar apply command; TestTool has to be a GWT behavior"
+see Subtrees workbook  c12c030f739cf8127313b6dbe920aa50
+
+To use this module in the Island game:
+ - drag the entire contents into the current location (ex: CoastCell) of the system avatar
+ - result: an instance of Canoe at the current location, and an instance of Paddle in the avatar ToolsST subtree
+-->
+<XholonModule>
+  <XholonMap>
+  
+    <Attribute_String roleName="ih"><![CDATA[
+<_-.XholonClass>
+  <Canoe/>
+  <Paddle superClass="Script"/>
+</_-.XholonClass>
+    ]]></Attribute_String>
+    
+    <!-- color and behavior -->
+    <Attribute_String roleName="cd"><![CDATA[
+<xholonClassDetails>
+  
+  <Canoe><Color>lime</Color></Canoe>
+  
+  <Paddle><Color>brown</Color><DefaultContent>
+var me, ava, toolsST, beh = {
+
+postConfigure: function() {
+  me = this.cnode;
+  $wnd.console.log(me.name());
+  $wnd.console.log(me);
+  toolsST = null;
+  ava = $wnd.xh.avatar();
+  // ava.action('param subtrees true EdiblesST,WaterST,ToolsST,BehaviorsST,MaterialsST'); // will create ava["subtrees"] with the specified IXholon subtrees
+  // this is already done in the Island game code, as part of testing TestTool
+  if (ava["subtrees"]) {
+    toolsST = ava.subtree('ToolsST');
+  }
+  if (toolsST) {
+    toolsST.append(me.remove()); // move this instance of Paddle into the ToolsST subtree
+  }
+  else {
+    testTool.remove();
+  }
+},
+
+// ava.action("apply subtree(ToolsST)Paddle to canoe|parent|context"); should invoke processReceivedSyncMessage
+// ava.action("apply subtree(ToolsST)Paddle to context");  THIS WORKED when Avatar was inside the Canoe and Paddle was in ToolsST
+processReceivedSyncMessage: function(msg) {
+  var data = msg.data;
+  //$wnd.console.log(data);
+  var str = me.name() + " received message";
+  if (data &amp;&amp; (data.length)) {
+    for (var i = 0; i &lt; data.length; i++) {
+      str += " " + data[i];
+    }
+    // data[0] should be an instance of Canoe, which should be inside a gridCell
+    if (data[0]) {
+      var canoe = data[0];
+      if (canoe &amp;&amp; (canoe.xhc().name() == "Canoe")) {
+        var cell = canoe.parent();
+        var nextCell = cell.port(0);
+        if (nextCell) {
+          switch (ava["stroke"]) {
+          case "left": nextCell = nextCell.port(1); break; // paddle stroke on left side of canoe, moves up and veers right
+          case "right": nextCell = nextCell.port(3); break; // paddle stroke on right side of canoe, moves up and veers left
+          default: break;
+          }
+          // don't allow movement onto a LandCell
+          var nextCellName = nextCell.xhc().name();
+          if (nextCell &amp;&amp; !(nextCellName == "LandCell")) {
+            nextCell.append(canoe.remove());
+            ava.action("become this incognita n");
+          }
+        }
+      }
+    }
+  }
+  // the contents of str will be logged to the debug console, unless I return null
+  return null; //str;
+}
+
+}
+//# sourceURL=Paddlebehavior.js
+  </DefaultContent></Paddle>
+
+</xholonClassDetails>
+    ]]></Attribute_String>
+    
+    <Attribute_String roleName="csh"><![CDATA[
+<_-.csh>
+  <Canoe/>
+  <Paddle/>
+</_-.csh>
+    ]]></Attribute_String>
+    
+  </XholonMap>
+</XholonModule>
