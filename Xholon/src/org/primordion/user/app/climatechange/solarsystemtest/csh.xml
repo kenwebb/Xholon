@@ -53,9 +53,42 @@
     </Star>
   </Stars>
   <Planets>
+    <Planet roleName="Mercury">
+      <Attribute_double roleName="radius">2432000.0</Attribute_double> <!-- m -->
+      <Attribute_double roleName="semimajorAxis">0.579e11</Attribute_double> <!-- m -->
+    </Planet>
+    <Planet roleName="Venus">
+      <Attribute_double roleName="radius">6050000.0</Attribute_double> <!-- m 6051800 -->
+      <Attribute_double roleName="semimajorAxis">1.082e11</Attribute_double> <!-- m -->
+    </Planet>
     <Planet roleName="Earth">
+      <Attribute_double roleName="mass">5.9736e24</Attribute_double> <!-- kg -->
       <Attribute_double roleName="radius">6378000.0</Attribute_double> <!-- m -->
-      <Attribute_double roleName="distanceToPrimary">1.496e11</Attribute_double> <!-- m -->
+      <Attribute_double roleName="temperature">288.0</Attribute_double> <!-- K -->
+      <Attribute_double roleName="semimajorAxis">1.496e11</Attribute_double> <!-- m -->
+    </Planet>
+    <Planet roleName="Mars">
+      <Attribute_double roleName="mass">0.64185e24</Attribute_double> <!-- kg -->
+      <Attribute_double roleName="radius">3394000.0</Attribute_double> <!-- m -->
+      <Attribute_double roleName="semimajorAxis">2.280e11</Attribute_double> <!-- m -->
+    </Planet>
+    <Planet roleName="Jupiter">
+      <Attribute_double roleName="mass">1.898e27</Attribute_double> <!-- kg -->
+      <Attribute_double roleName="radius">68700000.0</Attribute_double> <!-- m -->
+      <Attribute_double roleName="temperature">130.0</Attribute_double> <!-- K -->
+      <Attribute_double roleName="semimajorAxis">7.783e11</Attribute_double> <!-- m -->
+    </Planet>
+    <Planet roleName="Saturn">
+      <Attribute_double roleName="radius">57550000.0</Attribute_double> <!-- m -->
+      <Attribute_double roleName="semimajorAxis">14.27e11</Attribute_double> <!-- m -->
+    </Planet>
+    <Planet roleName="Uranus">
+      <Attribute_double roleName="radius">25050000.0</Attribute_double> <!-- m -->
+      <Attribute_double roleName="semimajorAxis">28.69e11</Attribute_double> <!-- m -->
+    </Planet>
+    <Planet roleName="Neptune">
+      <Attribute_double roleName="radius">24700000.0</Attribute_double> <!-- m -->
+      <Attribute_double roleName="semimajorAxis">44.98e11</Attribute_double> <!-- m -->
     </Planet>
   </Planets>
   <InterplanetaryMedium/>

@@ -12,10 +12,15 @@ public class Space extends XholonWithPorts {
 	//protected double luminosity = Double.NEGATIVE_INFINITY;
 
 	public void processReceivedMessage(IMessage msg) {
+		if (this.planets == null) {
+			this.planets = this.getPlanetsNative();
+		}
+		
 		// forward message
 		switch (msg.getSignal()) {
 		case ISolarSystem.SIG_LUMINOSITY:
-			IXholon planet = planets.getFirstChild();
+			if (this.planets == null) {return;}
+			IXholon planet = this.planets.getFirstChild();
 			while (planet != null) {
 				//double radius = ((Planet)planet).getRadius();
 				double r = ((Planet)planet).getSemimajorAxis();
@@ -49,4 +54,8 @@ public class Space extends XholonWithPorts {
 		this.planets = planets;
 	}
 	
+	protected native IXholon getPlanetsNative() /*-{
+		return this["planets"];
+	}-*/;
+
 }

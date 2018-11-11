@@ -1,5 +1,6 @@
 package org.primordion.user.app.solarsystem;
 
+import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.XholonWithPorts;
 
 /**
@@ -80,6 +81,9 @@ public class AstronomicalObject extends XholonWithPorts {
 	 * @return Mass of the object in kg.
 	 */
 	public double getMass() {
+		if (mass == Double.NEGATIVE_INFINITY) {
+			mass = this.initVal("mass", Double.NEGATIVE_INFINITY);
+		}
 		return mass;
 	}
 
@@ -94,6 +98,9 @@ public class AstronomicalObject extends XholonWithPorts {
 	 * @return Mean radius of the object in m.
 	 */
 	public double getRadius() {
+		if (radius == Double.NEGATIVE_INFINITY) {
+			radius = this.initVal("radius", Double.NEGATIVE_INFINITY);
+		}
 		return radius;
 	}
 
@@ -108,6 +115,9 @@ public class AstronomicalObject extends XholonWithPorts {
 	 * @return The mean distance to the primary in m (ex: distance from Earth to Sun).
 	 */
 	public double getSemimajorAxis() {
+		if (semimajorAxis == Double.NEGATIVE_INFINITY) {
+			semimajorAxis = this.initVal("semimajorAxis", Double.NEGATIVE_INFINITY);
+		}
 		return semimajorAxis;
 	}
 
@@ -122,6 +132,9 @@ public class AstronomicalObject extends XholonWithPorts {
 	 * @return Effective temperature of the object in K.
 	 */
 	public double getTemperature() {
+		if (temperature == Double.NEGATIVE_INFINITY) {
+			temperature = this.initVal("temperature", Double.NEGATIVE_INFINITY);
+		}
 		return temperature;
 	}
 
@@ -139,7 +152,7 @@ public class AstronomicalObject extends XholonWithPorts {
 	 * @return
 	 */
 	public double getVolume() {
-		return 4.0 * Math.PI * Math.pow(radius, 3.0);
+		return 4.0 * Math.PI * Math.pow(this.getRadius(), 3.0);
 	}
 	
 	/**
@@ -149,7 +162,34 @@ public class AstronomicalObject extends XholonWithPorts {
 	 * @return
 	 */
 	public double getDensity() {
-		return mass / getVolume();
+		return this.getMass() / this.getVolume();
+	}
+	
+	/**
+	 * @valName ex: "mass" "radius"
+	 */
+	protected double initVal(String valName, double defaultVal) {
+		IXholon node = this.getFirstChild();
+		while (node != null) {
+		  String rname = node.getRoleName();
+			if (valName.equals(rname)) {
+				double dval = node.getVal();
+				node.removeChild();
+				return dval;
+			}
+			node = node.getNextSibling();
+		}
+		return defaultVal;
+	}
+	
+	@Override
+	public String toString() {
+		String outStr = super.toString();
+		outStr += " mass:" + this.getMass();
+		outStr += " radius:" + this.getRadius();
+		outStr += " temperature:" + this.getTemperature();
+		outStr += " semimajorAxis:" + this.getSemimajorAxis();
+		return outStr;
 	}
 	
 }

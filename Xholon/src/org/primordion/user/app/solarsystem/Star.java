@@ -29,18 +29,27 @@ public class Star extends AstronomicalObject {
 	 * @see org.primordion.xholon.base.Xholon#act()
 	 */
 	public void act() {
-		luminosity = 4.0 * Math.PI * Math.pow(radius, 2.0) * SIGMA * Math.pow(temperature, 4.0);
-		space.sendMessage(ISolarSystem.SIG_LUMINOSITY, luminosity, this);
+		this.luminosity = 4.0 * Math.PI * Math.pow(this.getRadius(), 2.0) * SIGMA * Math.pow(this.getTemperature(), 4.0);
+		if (this.space == null) {
+			this.space = getSpaceNative();
+		}
+		if (this.space != null) {
+			this.space.sendMessage(ISolarSystem.SIG_LUMINOSITY, this.luminosity, this);
+		}
 		super.act();
 	}
 	
 	public IXholon getSpace() {
-		return space;
+		return this.space;
 	}
 
 	public void setSpace(IXholon space) {
 		this.space = space;
 	}
+	
+	protected native IXholon getSpaceNative() /*-{
+		return this["space"];
+	}-*/;
 
 	/**
 	 * @return the total luminosity of the star in W

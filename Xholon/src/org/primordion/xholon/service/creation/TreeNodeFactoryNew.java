@@ -864,6 +864,24 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 		    newNode = new org.primordion.cellontro.io.vrml.VrmlWriterCell();
 		  }
 		}
+		
+		// org.primordion.user.app
+		else if (implName.startsWith("org.primordion.user.app")) {
+		  if (implName.startsWith("org.primordion.user.app.solarsystem")) {
+		    if (implName.endsWith("Star")) {
+		      newNode = new org.primordion.user.app.solarsystem.Star();
+		    }
+		    else if (implName.endsWith("Planet")) {
+		      newNode = new org.primordion.user.app.solarsystem.Planet();
+		    }
+		    else if (implName.endsWith("NaturalSatellite")) {
+		      newNode = new org.primordion.user.app.solarsystem.NaturalSatellite();
+		    }
+		    else if (implName.endsWith("Space")) {
+		      newNode = new org.primordion.user.app.solarsystem.Space();
+		    }
+		  }
+		}
 	  
 		// this is probably an app-specific class
 		else {
