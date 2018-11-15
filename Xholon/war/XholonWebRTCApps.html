@@ -191,6 +191,53 @@ node node_modules/.bin/peerjs --port 9000 --key peerjs
     <p><a href="http://127.0.0.1:8888/XholonWebRTC.html?app=WebRTC+complex+Schweiz+2018&src=lstr&gui=none&remoteid0=Able101&remoteid2=Charlie101&ver=localhost">WebRTC complex Schweiz 2018 (localstorage)</a></p>
     <p>I successfully tested it with Canada running in a Chrome browser, and Schweiz in Firefox.</p>
     
+    <h3>Canada and Schweiz on heroku peerjs server</h3>
+    <p>Install and run the peerjs server. The following is what I did in my Linux terminal window.</p>
+    <pre>
+cd ~/nodespace
+git clone https://github.com/kenwebb/xhpserver.git
+cd xhpserver
+- I edited package.json
+- I created Procfile
+git rm yarn.lock
+npm install
+node bin/peerjs --port 9000 --key peerjs
+  Started PeerServer on ::, port: 9000, path: / (v. 0.2.92)
+
+heroku local web
+7:45:50 AM web.1 |  > peer@0.2.92 start /home/ken/nodespace/xhpserver
+7:45:50 AM web.1 |  > bin/peerjs --port ${PORT:=9000} --path / --debug true
+7:45:50 AM web.1 |  Started PeerServer on ::, port: 5000, path: / (v. 0.2.92)
+
+heroku create xhpserver
+Creating ⬢ xhpserver... done
+https://xhpserver.herokuapp.com/ | https://git.heroku.com/xhpserver.git
+
+git push heroku master
+heroku ps:scale web=1
+heroku open
+
+heroku logs --tail</pre>
+    <p>I have edited the Canada and Schweiz workbooks. In each of the Xholon workbooks, add a XML processing instruction (PI). That's all that needs to be changed. For example:</p>
+    <pre>
+"herokuxhpeerjs":
+  [
+    {"op":"replace", "sel":"./Ontario/port/@connector", "content":"RemoteNodeService-PeerJS,localid0,delete,3,xhpserver.herokuapp.com,,/"},
+    {"op":"replace", "sel":"./Ontario/port[2]/@connector", "content":"RemoteNodeService-PeerJS,localid1,delete,3,xhpserver.herokuapp.com,,/"},
+    {"op":"replace", "sel":"./Quebec/port/@connector", "content":"RemoteNodeService-PeerJS,localid2,delete,3,xhpserver.herokuapp.com,,/"}
+  ]</pre>
+    <p>I have edited the two workbooks to allow a number of configurations. The heroku-based server will be selected if you specify "&ver=herokuxhpeerjs" as part of the URL.</p>
+    <p>Run Canada and then Schweiz. For example:</p>
+    <p>WebRTC complex Canada 2018
+      <a href="XholonWebRTC.html?app=d6eada52b8a14384ebdec837f7356ba7&src=gist&gui=none&localid0=Able101&localid1=Baker101&localid2=Charlie101&ver=herokuxhpeerjs">(gist)</a>
+      <a href="XholonWebRTC.html?app=WebRTC+complex+Canada+2018&src=lstr&gui=none&localid0=Able101&localid1=Baker101&localid2=Charlie101&ver=herokuxhpeerjs">(localstorage)</a>
+    </p>
+    <p>WebRTC complex Schweiz 2018
+      <a href="XholonWebRTC.html?app=9c111d1ffac80a6905964d9433a532b7&src=gist&gui=none&remoteid0=Able101&remoteid2=Charlie101&ver=herokuxhpeerjs">(gist)</a>
+      <a href="XholonWebRTC.html?app=WebRTC+complex+Schweiz+2018&src=lstr&gui=none&remoteid0=Able101&remoteid2=Charlie101&ver=herokuxhpeerjs">(localstorage)</a>
+    </p>
+    <p>I successfully tested it with Canada running in a Chrome browser, and Schweiz in Firefox.</p>
+    
     <hr/>
     <p>Ken Webb</p>
     <div class="license"  style="font-size: 9px;"><p>Xholon GWT is a <a href="index.html">Xholon</a> project. Copyright (C) 2016 - 2018 Ken Webb</p></div>
