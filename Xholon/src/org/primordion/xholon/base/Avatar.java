@@ -434,6 +434,20 @@ public class Avatar extends AbstractAvatar {
       HtmlScriptHelper.requireScript("xhSvgAnim", null);
     }
     meteorService = app.getService(IXholonService.XHSRV_METEOR_PLATFORM);
+    String defaultContent = this.getXhc().getDefaultContent();
+    if (defaultContent != null) {
+      defaultContent = defaultContent.trim();
+      if (defaultContent.length() > 0) {
+        if (this.isXml(defaultContent)) {
+          // append the defaultContent XML String to this Avatar as inventory
+          this.build(defaultContent, null, null, "buildandtake");
+        }
+        else {
+          // make the defaultContent the Avatar behavior
+          this.setVal_String(defaultContent);
+        }
+      }
+    }
     if ((this.getFirstChild() != null) && ("Attribute_String".equals(this.getFirstChild().getXhcName()))) {
       this.setVal_String(this.getFirstChild().getVal_String());
       this.outPrefix = this.getName(IXholon.GETNAME_ROLENAME_OR_CLASSNAME) + ": ";
@@ -442,6 +456,20 @@ public class Avatar extends AbstractAvatar {
     setStartContextNode();
     this.setSpeechOut(SPEECHOUT_NO_EFFECT);
     super.postConfigure();
+  }
+  
+  /**
+   * Is this an XML String?
+   * @param str
+   * @return true or false
+   */
+  protected boolean isXml(String str) {
+    if (str.charAt(0) == '<') {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
   
   /**
@@ -498,8 +526,8 @@ public class Avatar extends AbstractAvatar {
         String xpathExpr = null;
         IXholon rootNode = this.getRootNode();
         if (names.length == 1) {
-        	// this might be a roleName
-        	XholonHelperService xhs = (XholonHelperService)app.getService(IXholonService.XHSRV_XHOLON_HELPER);
+          // this might be a roleName
+          XholonHelperService xhs = (XholonHelperService)app.getService(IXholonService.XHSRV_XHOLON_HELPER);
           newContextNode = xhs.findFirstDescWithRoleName(rootNode, names[0]);
           if (newContextNode == null) {
             // or it might be a xhcName
@@ -832,7 +860,7 @@ public class Avatar extends AbstractAvatar {
       xmlWriter.writeEndElement("Attribute_String");
     }
   }
-	
+  
   /**
    * Process one or more commands.
    * @param cmds (ex: "help" "look;go north;look")
@@ -1764,6 +1792,10 @@ public class Avatar extends AbstractAvatar {
       break;
     case "after":
       xhs.pasteAfter(contextNode, thing);
+      break;
+    case "buildandtake":
+      // build the thing directly into the Avatar as part of the inventory
+      xhs.pasteLastChild(this, thing);
       break;
     case "append":
     case "build":
@@ -2765,50 +2797,50 @@ a.action("takeclone hello;");
     if (toString) {
       return "" + node[attrName];
     }
-	  return node[attrName];
-	}-*/;
-	
-	/**
-	 * ex: become this calories 1000;
-	 * ex: become this calories +=1;
-	 * ex: become this calories -=3;
-	 * ex: become this calories ++;
-	 * ex: become this calories --;
-	 */
-	protected native void setAttributeValNative(IXholon node, String attrName, Object attrValue) /*-{
-	  if ((attrValue != null) && (attrValue.length > 1)) {
-	    var operator = attrValue.substring(0,2);
-	    var sum = 0;
-	    switch (operator) {
-	    case "+=":
-	      if (attrValue.length > 2) {
-	        sum = Number(node[attrName]);
-	        node[attrName] = sum + Number(attrValue.substring(2));
-	      }
-	      break;
-	    case "-=":
-	      if (attrValue.length > 2) {
-	        sum = Number(node[attrName]);
-	        node[attrName] = sum - Number(attrValue.substring(2));
-	      }
-	      break;
-	    case "++":
-	      sum = Number(node[attrName]);
-	      node[attrName] = sum + 1;
-	      break;
-	    case "--":
-	      sum = Number(node[attrName]);
-	      node[attrName] = sum - 1;
-	      break;
-	    default:
-	      node[attrName] = attrValue;
-	      break;
-	    }
-	  }
-	  else {
-	    node[attrName] = attrValue;
-	  }
-	}-*/;
+    return node[attrName];
+  }-*/;
+  
+  /**
+   * ex: become this calories 1000;
+   * ex: become this calories +=1;
+   * ex: become this calories -=3;
+   * ex: become this calories ++;
+   * ex: become this calories --;
+   */
+  protected native void setAttributeValNative(IXholon node, String attrName, Object attrValue) /*-{
+    if ((attrValue != null) && (attrValue.length > 1)) {
+      var operator = attrValue.substring(0,2);
+      var sum = 0;
+      switch (operator) {
+      case "+=":
+        if (attrValue.length > 2) {
+          sum = Number(node[attrName]);
+          node[attrName] = sum + Number(attrValue.substring(2));
+        }
+        break;
+      case "-=":
+        if (attrValue.length > 2) {
+          sum = Number(node[attrName]);
+          node[attrName] = sum - Number(attrValue.substring(2));
+        }
+        break;
+      case "++":
+        sum = Number(node[attrName]);
+        node[attrName] = sum + 1;
+        break;
+      case "--":
+        sum = Number(node[attrName]);
+        node[attrName] = sum - 1;
+        break;
+      default:
+        node[attrName] = attrValue;
+        break;
+      }
+    }
+    else {
+      node[attrName] = attrValue;
+    }
+  }-*/;
   
   @Override
   public int setAttributeVal(String attrName, String attrVal) {
