@@ -161,9 +161,12 @@ public class Avatar extends AbstractAvatar {
   
   /**
    * Whether or not to repeat the current command sequence when it's finished.
-   * "param repeat true|false|toggle"
+   * "param repeat true|false|toggle [actionIxRepeatStart[,maxRepeats]]"
+   * "param repeat true|false|toggle 3"
+   * "param repeat true|false|toggle 3,10"
+   * "param repeat true|false|toggle -1,10"
    */
-  protected boolean repeat = false;
+  protected Object[] repeat = {false, ACTIONIX_INITIAL, Integer.MAX_VALUE};
   
   /**
    * A node that this avatar should follow each timestep.
@@ -649,8 +652,15 @@ public class Avatar extends AbstractAvatar {
             this.doAction(a);
           }
         }
-        else if (repeat) {
-          actionIx = ACTIONIX_INITIAL;
+        else if ((boolean)repeat[0]) {
+          int maxRepeats = (int)repeat[2] - 1;
+          if (maxRepeats <= 0) {
+            repeat[0] = Boolean.FALSE;
+          }
+          else {
+            actionIx = (int)repeat[1];
+          }
+          repeat[2] = new Integer(maxRepeats);
         }
         else {
           end();
@@ -3501,9 +3511,26 @@ xport hello _other,Newick,true,true,true,{}
       break;
     case "repeat":
       switch (value) {
-      case "true": repeat = true; break;
-      case "false": repeat = false; break;
-      case "toggle": repeat = !repeat; break;
+      case "true":
+        repeat[0] = true;
+        if (valueRest != null) {
+          try {
+            String[] roptions = valueRest.split(",");
+            switch (roptions.length) {
+            case 1:
+              repeat[1] = Integer.parseInt(roptions[0]);
+              break;
+            case 2:
+              repeat[1] = Integer.parseInt(roptions[0]);
+              repeat[2] = Integer.parseInt(roptions[1]);
+              break;
+            default: break;
+            }
+          } catch(NumberFormatException e) {consoleLog(e);}
+        }
+        break;
+      case "false": repeat[0] = false; break;
+      case "toggle": repeat[0] = !((boolean)repeat[0]); break;
       default: break;
       }
       break;
