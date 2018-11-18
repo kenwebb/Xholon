@@ -1239,16 +1239,24 @@ public class Avatar extends AbstractAvatar {
       }
       break;
     case "go":
+    {
+      IXholon portNode = contextNode;
+      String portName = data[1];
+      if (portName.startsWith("this.")) {
+        portNode = this;
+        portName = portName.substring(5);
+      }
       if (len == 2) {
-        go(data[1], null);
+        go(portNode, portName, null);
       }
       else if (len > 2) {
-        go(data[1], data[2]);
+        go(portNode, portName, data[2]);
       }
       else {
         sb.append("Please specify where to go (ex: go north).");
       }
       break;
+    }
     case "group":
       if (len > 3) {
         group(data[1], data[2], data[3]);
@@ -2177,12 +2185,16 @@ a.action("takeclone hello;");
    * handle an XPath expression as the portName
    *   go xpath(ancestor::X/descendant::Y)
    *   xpath.evaluate(portName, contextNode);
+   * @param portNode - The IXholon node that has the specfied port
+   *   usually the contextNode, but could be this Avatar itself
+   *   if portNode is null, then set it to the contextNode
    * @param portName - The name or index of a Xholon port (ex: "north" "south" "east" "west" "0" "1"),
    *   or a pseudo port name ("next" "prev" "xpath(...)")
    * @param nextTarget - Optional target for "next"
    */
-  protected void go(String portName, String nextTarget) {
+  protected void go(IXholon portNode, String portName, String nextTarget) {
     if (portName == null) {return;}
+    if (portNode == null) {portNode = contextNode;}
     
     // uniform case for comparison works better with speech recognition
     switch (portName.toUpperCase()) {
@@ -2195,55 +2207,55 @@ a.action("takeclone hello;");
       if (nextTarget == null) {prev();}
       else {prev(nextTarget);}
       return;
-    case "N": goPort(IGrid.P_NORTH); return;
+    case "N": goPort(portNode, IGrid.P_NORTH); return;
     case "NORTH":
     {
       // speech recognition recognizes "north east" "north west" rather than "northeast" "northwest"
       if (nextTarget == null) {
-        goPort(IGrid.P_NORTH);
+        goPort(portNode, IGrid.P_NORTH);
       }
       else if ("EAST".equalsIgnoreCase(nextTarget)) {
-        goPort(IGrid.P_NORTHEAST);
+        goPort(portNode, IGrid.P_NORTHEAST);
       }
       else if ("WEST".equalsIgnoreCase(nextTarget)) {
-        goPort(IGrid.P_NORTHWEST);
+        goPort(portNode, IGrid.P_NORTHWEST);
       }
       else {
-        goPort(IGrid.P_NORTH);
+        goPort(portNode, IGrid.P_NORTH);
       }
       return;
     }
     case "E":
-    case "EAST": goPort(IGrid.P_EAST); return;
+    case "EAST": goPort(portNode, IGrid.P_EAST); return;
     case "S":
-    case "SOUTH": goPort(IGrid.P_SOUTH); return;
+    case "SOUTH": goPort(portNode, IGrid.P_SOUTH); return;
     case "W":
-    case "WEST": goPort(IGrid.P_WEST); return;
+    case "WEST": goPort(portNode, IGrid.P_WEST); return;
     case "NE":
     case "NA":
     case "ANY":
-    case "NORTHEAST": goPort(IGrid.P_NORTHEAST); return;
+    case "NORTHEAST": goPort(portNode, IGrid.P_NORTHEAST); return;
     case "SE":
-    case "SOUTHEAST": goPort(IGrid.P_SOUTHEAST); return;
+    case "SOUTHEAST": goPort(portNode, IGrid.P_SOUTHEAST); return;
     case "SW":
-    case "SOUTHWEST": goPort(IGrid.P_SOUTHWEST); return;
+    case "SOUTHWEST": goPort(portNode, IGrid.P_SOUTHWEST); return;
     case "NW":
-    case "NORTHWEST": goPort(IGrid.P_NORTHWEST); return;
+    case "NORTHWEST": goPort(portNode, IGrid.P_NORTHWEST); return;
     case "0":
-    case "ZERO": goPort(0); return;
+    case "ZERO": goPort(portNode, 0); return;
     case "1":
-    case "ONE": goPort(1); return;
+    case "ONE": goPort(portNode, 1); return;
     case "2":
-    case "TO": goPort(2); return;
-    case "3": goPort(3); return;
-    case "4": goPort(4); return;
+    case "TO": goPort(portNode, 2); return;
+    case "3": goPort(portNode, 3); return;
+    case "4": goPort(portNode, 4); return;
     case "5":
-    case "V": goPort(5); return;
-    case "6": goPort(6); return;
-    case "7": goPort(7); return;
-    case "8": goPort(8); return;
-    case "9": goPort(9); return;
-    case "10": goPort(10); return;
+    case "V": goPort(portNode, 5); return;
+    case "6": goPort(portNode, 6); return;
+    case "7": goPort(portNode, 7); return;
+    case "8": goPort(portNode, 8); return;
+    case "9": goPort(portNode, 9); return;
+    case "10": goPort(portNode, 10); return;
     default: break;
     }
     
@@ -2251,9 +2263,9 @@ a.action("takeclone hello;");
       // port0 port1 etc.
       if ((portName.length() > 4) && (Misc.getNumericValue(portName.charAt(4)) != -1)) {
         int portNum = Misc.atoi(portName, 4);
-        IXholon reffedNode = contextNode.getPort(portNum);
+        IXholon reffedNode = portNode.getPort(portNum);
         if (reffedNode == null) {
-          tryAllPorts(portName);
+          tryAllPorts(portNode, portName);
         }
         else {
           moveto(reffedNode, null);
@@ -2270,7 +2282,7 @@ a.action("takeclone hello;");
       // link0 link1 etc.
       if ((portName.length() > 4) && (Misc.getNumericValue(portName.charAt(4)) != -1)) {
         int portNum = Misc.atoi(portName, 4);
-        List linksList = contextNode.getLinks(false, true);
+        List linksList = portNode.getLinks(false, true);
         if (portNum < linksList.size()) {
           PortInformation pi = (PortInformation)linksList.get(portNum);
           IXholon reffedNode = null;
@@ -2296,7 +2308,7 @@ a.action("takeclone hello;");
     }
     
     else if (portName.startsWith("xpath")) {
-      IXholon node = evalXPathCmdArg(portName, contextNode);
+      IXholon node = evalXPathCmdArg(portName, portNode);
       if (node != null) {
         moveto(node, null);
       }
@@ -2309,11 +2321,11 @@ a.action("takeclone hello;");
       evalDollarCmdArg(portName);
       return;
     }
-    else if (goNamedLink(portName)) {
+    else if (goNamedLink(portNode, portName)) {
       return;
     }
     // if all else fails ...
-    tryAllPorts(portName);
+    tryAllPorts(portNode, portName);
   }
   
   /**
@@ -2321,8 +2333,8 @@ a.action("takeclone hello;");
    * Search through the PortInformation array.
    * @param portName (ex: "port0" "port7").
    */
-  protected void tryAllPorts(String portName) {
-    Object[] portArr = contextNode.getAllPorts().toArray();
+  protected void tryAllPorts(IXholon portNode, String portName) {
+    Object[] portArr = portNode.getAllPorts().toArray();
     if ((portArr != null) && (portArr.length > 0)) {
       String foundPortNames = "";
       for (int i = 0; i < portArr.length; i++) {
@@ -2368,16 +2380,16 @@ a.action("takeclone hello;");
   /**
    * go port
    */
-  protected void goPort(int index) {
-    moveto(contextNode.getPort(index), null);
+  protected void goPort(IXholon portNode, int index) {
+    moveto(portNode.getPort(index), null);
   }
   
   /**
    * Go to a named link, typically a link that's been set up using JavaScript.
    * ex: "go fk1"
    */
-  protected boolean goNamedLink(String linkName) {
-    List linksList = contextNode.getLinks(false, true);
+  protected boolean goNamedLink(IXholon portNode, String linkName) {
+    List linksList = portNode.getLinks(false, true);
     for (int portNum = 0; portNum < linksList.size(); portNum++) {
       PortInformation pi = (PortInformation)linksList.get(portNum);
       if ((pi != null) && (linkName.equals(pi.getFieldName()))) {
