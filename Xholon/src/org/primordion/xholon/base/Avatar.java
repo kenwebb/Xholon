@@ -620,6 +620,9 @@ public class Avatar extends AbstractAvatar {
     // check to see if this node has already been called this timestep
     int ts = app.getTimeStep();
     
+    // guard against this Avatar moving, and then having its nextSibling unavailable
+    IXholon nextSib = nextSibling;
+    
     if (actTimeStep < ts) {
       actTimeStep = ts;
       if (leader != null) {
@@ -703,7 +706,13 @@ public class Avatar extends AbstractAvatar {
       bnode.act();
     }
     
-    super.act();
+    //super.act();
+    if (firstChild != null) {
+      firstChild.act();
+    }
+    if (nextSib != null) {
+      nextSib.act();
+    }
   }
   
   /**
