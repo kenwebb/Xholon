@@ -51,6 +51,13 @@ public class XholonSet extends Xholon implements Set, Serializable {
 	 * Can be used to distinguish this XholonSet from others in the same container. */
 	String roleName = null;
 	
+	/**
+	 * Distinguishing Characteristic.
+	 * Optionally, a characteristic that distinguishes two IXholon nodes.
+	 * ex: null "id" "name" "role" "xhcname" "val" "text" "obj"
+	 */
+	String distChar = null;
+	
 	@Override
 	public boolean add(Object o) throws ClassCastException, NullPointerException {
 		if (o == null) {throw new NullPointerException();}
@@ -87,12 +94,40 @@ public class XholonSet extends Xholon implements Set, Serializable {
 		boolean found = false;
 		IXholon node = getFirstChild();
 		while (node != null) {
-			if (node.equals((IXholon)o)) {
+			if (this.equals(node, (IXholon)o, distChar)) {
 				found = true;
+				break;
 			}
 			node = node.getNextSibling();
 		}
 		return found;
+	}
+	
+	protected boolean equals(IXholon node1, IXholon node2, String distChar) {
+		switch (distChar) {
+		case "id":
+			return node1.getId() == node2.getId();
+		case "name":
+			String name1 = node1.getName();
+			if (name1 == null) {return false;}
+			return name1.equals(node2.getName());
+		case "role":
+			String role1 = node1.getRoleName();
+			if (role1 == null) {return false;}
+			return role1.equals(node2.getRoleName());
+		case "xhcname":
+			String xhcname1 = node1.getXhcName();
+			if (xhcname1 == null) {return false;}
+			return xhcname1.equals(node2.getXhcName());
+		case "val":
+			return node1.getVal() == node2.getVal();
+		case "text":
+			String text1 = node1.getVal_String();
+			if (text1 == null) {return false;}
+			return text1.equals(node2.getVal_String());
+		default:
+			return node1.equals(node2);
+		}
 	}
 
 	@Override
@@ -227,6 +262,13 @@ public class XholonSet extends Xholon implements Set, Serializable {
 	public Object getVal_Object() {
 		return this.toArray();
 	}
+	
+	@Override
+	public void setVal_Object(Object o) {
+		// the preferred way to add a new node from JavaScript, is to call myXholonSet.obj(node); where node is an IXholon
+		// example: me.obj(this.cnode.append('<PostalCode roleName="K2B"/>').last().remove());
+		this.add(o);
+	}
 
 	@Override
 	public double getVal() {
@@ -236,6 +278,17 @@ public class XholonSet extends Xholon implements Set, Serializable {
 	@Override
 	public String toString() {
 		return getName() + " size:" + size();
+	}
+	
+	@Override
+	public int setAttributeVal(String attrName, String attrVal) {
+		if ("distChar".equals(attrName)) {
+			this.distChar = attrVal.trim();
+		}
+		else {
+			return super.setAttributeVal(attrName, attrVal);
+		}
+		return 0;
 	}
 	
 	/**
