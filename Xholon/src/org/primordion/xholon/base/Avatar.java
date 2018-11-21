@@ -617,14 +617,14 @@ public class Avatar extends AbstractAvatar {
   
   @Override
   public void act() {
-    // check to see if this node has already been called this timestep
+    // check to see if this node has already been called this timestep; and allow it to catch up if it missed being called on previous timesteps
     int ts = app.getTimeStep();
     
     // guard against this Avatar moving, and then having its nextSibling unavailable
     IXholon nextSib = nextSibling;
     
-    if (actTimeStep < ts) {
-      actTimeStep = ts;
+    while (actTimeStep < ts) {
+      actTimeStep++;
       if (leader != null) {
         // I must follow the leader
         //consoleLog(this.getName() + " is following (accompanying) " + leader.getName());
@@ -698,6 +698,7 @@ public class Avatar extends AbstractAvatar {
       if (chatbot != null) {
         chatbot.act();
       }
+      
     }
     
     // support user-defined Avatar behaviors
