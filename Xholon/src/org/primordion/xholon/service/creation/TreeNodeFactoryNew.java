@@ -881,11 +881,15 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 		      newNode = new org.primordion.user.app.solarsystem.Space();
 		    }
 		  }
+		  else {
+				// this is probably an app-specific class
+		  	newNode = this.getApp().makeAppSpecificNode(implName);
+		  }
 		}
 	  
 		// this is probably an app-specific class
 		else {
-			System.out.println("TreeNodeFactoryNew.getXholonNode( " + implName);
+			//System.out.println("TreeNodeFactoryNew.getXholonNode( " + implName);
 			newNode = this.getApp().makeAppSpecificNode(implName);
 		}
 		
