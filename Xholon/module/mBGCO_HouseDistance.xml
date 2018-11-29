@@ -29,28 +29,10 @@ To use this module in the BGCO app:
     <Attribute_String roleName="csh"><![CDATA[
 <HouseDistance>
   <script>
-/*
-TODO
-
-- I should calculate an accumulated probability, for use in a JavaScript if/else expression
-var rnum = Math.random(); // a value between 0.0 and 1.0
-if (rnum &lt; 0.03226176150363876) {house.distkm = 0.1;}
-else if (rnum &lt; (0.03226176150363876 + 0.027792103604377973)) {house.distkm = 0.2;}
-...
-else {}
-
-- I should be generating a JavaScript Object, with the probability as the key, and the distance as the value
-var jsobj = {
-"0.03226176150363876": 0.1,
-"0.060000": 0.2
-}
-
-jsobj["0.03226176150363876"];  returns: 0.1
-*/
 
 /**
  * Calculate the sum of all member count values.
- * @param A JavaScript array, containing CSV line items (ex: 0.0,563).
+ * @param A JavaScript array of distance data, containing CSV line items (ex: 0.0,563).
  * @return the calculated sum (ex: 17451)
  */
 this.sumMemberCounts = function(ddstr) {
@@ -60,7 +42,6 @@ this.sumMemberCounts = function(ddstr) {
   for (var i = 1; i &lt; ddarr.length; i++) {
     var dditem = ddarr[i].split(",");
     var count = Number(dditem[1]);
-    this.println(count);
     sum += count;
   }
   return sum;
@@ -73,87 +54,88 @@ this.sumMemberCounts = function(ddstr) {
  * The sum of all probabilities should be (nearly) exactly 1.0 .
  * @param A JavaScript array, containing CSV line items (ex: 0.0,563).
  * @param The previously calculated totalMemberCounts (ex: 17451).
- * @param An empty array.
- * @param An empty JavaScript if/else statement
  */
-this.calcProbs = function(ddstr, totalMemberCounts, probsArr) {
+this.calcProbs = function(ddstr, totalMemberCounts) {
   var psum = 0.0;
-  var prefix = "\n"; // prevent having a comma the first time through
+  var prefix = ""; //"\n"; // prevent having a comma the first time through
   var ddarr = ddstr.split("\n");
   // skip header line
   for (var i = 1; i &lt; ddarr.length; i++) {
     var dditem = ddarr[i].split(",");
     var count = Number(dditem[1]);
     var pval = count / totalMemberCounts;
-    this.println(pval);
-    probsArr.push(pval);
     psum += pval;
-    //this.probsProcess += 'else if (rnum &lt; ' + psum + ') {house.distkm = ' + dditem[0] + ';}\n';
-    //this.probsProcessObjStr += prefix + '"' + String(psum) + '":' + dditem[0];
-    this.probsProcessCsvStr += String(psum) + ',' + dditem[0] + '\n';
-    prefix = ",\n";
+    this.keysCsvStr += prefix + String(psum);
+    this.valsCsvStr += prefix + dditem[0];
+    prefix = ","; //",\n";
   }
-  return psum;
+  this.println("totalProbs: " + psum + "\n"); // 1.0000000000000004
+}
+
+/**
+ * Find a distance in km, by sampling a random distribution.
+ * https://stackoverflow.com/questions/6553970/find-the-first-element-in-a-sorted-array-that-is-greater-than-the-target
+ */
+this.findDistance = function() {
+  var low = 0;
+  var high = this.keysArr.length;
+  var target = Math.random();
+  while (low != high) {
+    var mid = (low + high) / 2;
+    if (this.keysArr[mid] &lt;= target) {
+      low = mid + 1;
+    }
+    else {
+      high = mid;
+    }
+  }
+  // low = mid = high
+  //this.println("found: " + target + " " + low + " " + mid + " " + high + " " + this.keysArr[mid] + " distance in km: " + this.valsArr[mid]);
+  return this.valsArr[mid];
 }
 
 var container = this.parent();
-this.println("Calculating distance probabilities");
+this.println("\nCalculating distance probabilities");
 container.println(container.name());
 var distanceDataNode = this.next();
 var distanceData = distanceDataNode.text();
-//container.println(distanceData);
 
 var totalMemberCounts = this.sumMemberCounts(distanceData);
-container.println("totalMemberCounts: " + totalMemberCounts + "\n"); // 17451
+container.println("totalMemberCounts: " + totalMemberCounts); // 17451
 
-var probsArr = [];
-//this.probsProcess = 'var rnum = Math.random();\nconsole.log(rnum);\nif (rnum == 0.0) {house.distkm = 0.0;}\n';
-//this.probsProcessObjStr = '&lt;Attribute_String roleName="probabilities">\n{';
 this.probsProcessCsvStr = '&lt;Attribute_String roleName="probabilities">\n';
-var totalProbs = this.calcProbs(distanceData, totalMemberCounts, probsArr);
-container.println("totalProbs: " + totalProbs + "\n"); // 1.0000000000000004
-container.println(probsArr);
-//this.probsProcess += 'else {house.distkm = 100.0;}\n';
-//container.println(this.probsProcess);
-//this.probsProcessObjStr += '\n}\n&lt;/Attribute_String>\n';
-//container.println(this.probsProcessObjStr);
-//container.append(this.probsProcessObjStr);
+this.keysCsvStr = "";
+this.valsCsvStr = "";
+this.calcProbs(distanceData, totalMemberCounts);
 
+this.keysValsJsonStr = '{\n"keys":\n[' + this.keysCsvStr + '],\n"vals":\n[' + this.valsCsvStr + ']\n}\n';
+this.probsProcessCsvStr += this.keysValsJsonStr;
 this.probsProcessCsvStr += '&lt;/Attribute_String>\n';
 container.println(this.probsProcessCsvStr);
-container.append(this.probsProcessCsvStr);
+container.append(this.probsProcessCsvStr); // save data
 
-var probabilitiesNode = distanceDataNode.next();
+var probabilitiesNode = distanceDataNode.next(); // load the saved data
 var ptxt = probabilitiesNode.text();
-//var pobj = $wnd.JSON.parse(ptxt);
-$wnd.console.log(ptxt);
+var pobj = $wnd.JSON.parse(ptxt);
+$wnd.console.log(pobj);
 
-// TODO see this algorithm
-// https://stackoverflow.com/questions/6553970/find-the-first-element-in-a-sorted-array-that-is-greater-than-the-target
-var target = Math.random(); //0.123;
-var arr = [0.0,0.11,0.22,0.33,0.44,0.55,0.66,0.77,0.88,0.99,1.0];
-var numElems = arr.length;
-var low = 0, high = numElems; // numElems is the size of the array i.e arr.size() 
-while (low != high) {
-    var mid = (low + high) / 2; // Or a fancy way to avoid int overflow
-    if (arr[mid] &lt;= target) {
-        /* This index, and everything below it, must not be the first element
-         * greater than what we're looking for because this element is no greater
-         * than the element.
-         */
-        low = mid + 1;
-    }
-    else {
-        /* This element is at least as large as the element, so anything after it can't
-         * be the first element that's at least as large.
-         */
-        high = mid;
-    }
+this.keysArr = pobj.keys;
+this.valsArr = pobj.vals;
+var resultArr = [];
+var house = container.parent().first();
+while (house) {
+  if (house.xhc().name() == "House") {
+    var distkm = this.findDistance();
+    resultArr.push(distkm);
+    house.distkm = distkm;
+    //$wnd.console.log(house);
+  }
+  house = house.next();
 }
-/* Now, low and high both point to the element in question. */
-container.println("found: " + low + " " + mid + " " + high + " " + arr[mid] + " " + target);
+this.println("resulting house distances in km:\n" + resultArr);
 
-//container.remove();
+this.remove();
+container.remove();
 //# sourceURL=HouseDistance.js
   </script>
   
