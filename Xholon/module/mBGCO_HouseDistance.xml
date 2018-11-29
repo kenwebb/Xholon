@@ -78,6 +78,7 @@ this.sumMemberCounts = function(ddstr) {
  */
 this.calcProbs = function(ddstr, totalMemberCounts, probsArr) {
   var psum = 0.0;
+  var prefix = "\n"; // prevent having a comma the first time through
   var ddarr = ddstr.split("\n");
   // skip header line
   for (var i = 1; i &lt; ddarr.length; i++) {
@@ -87,7 +88,10 @@ this.calcProbs = function(ddstr, totalMemberCounts, probsArr) {
     this.println(pval);
     probsArr.push(pval);
     psum += pval;
-    this.probsProcess += 'else if (rnum &lt; ' + psum + ') {house.distkm = ' + dditem[0] + ';}\n';
+    //this.probsProcess += 'else if (rnum &lt; ' + psum + ') {house.distkm = ' + dditem[0] + ';}\n';
+    //this.probsProcessObjStr += prefix + '"' + String(psum) + '":' + dditem[0];
+    this.probsProcessCsvStr += String(psum) + ',' + dditem[0] + '\n';
+    prefix = ",\n";
   }
   return psum;
 }
@@ -95,23 +99,65 @@ this.calcProbs = function(ddstr, totalMemberCounts, probsArr) {
 var container = this.parent();
 this.println("Calculating distance probabilities");
 container.println(container.name());
-var distanceData = this.next().text();
+var distanceDataNode = this.next();
+var distanceData = distanceDataNode.text();
 //container.println(distanceData);
 
 var totalMemberCounts = this.sumMemberCounts(distanceData);
 container.println("totalMemberCounts: " + totalMemberCounts + "\n"); // 17451
 
 var probsArr = [];
-this.probsProcess = 'var rnum = Math.random();\nconsole.log(rnum);\nif (rnum == 0.0) {house.distkm = 0.0;}\n';
+//this.probsProcess = 'var rnum = Math.random();\nconsole.log(rnum);\nif (rnum == 0.0) {house.distkm = 0.0;}\n';
+//this.probsProcessObjStr = '&lt;Attribute_String roleName="probabilities">\n{';
+this.probsProcessCsvStr = '&lt;Attribute_String roleName="probabilities">\n';
 var totalProbs = this.calcProbs(distanceData, totalMemberCounts, probsArr);
 container.println("totalProbs: " + totalProbs + "\n"); // 1.0000000000000004
 container.println(probsArr);
-this.probsProcess += 'else {house.distkm = 100.0;}\n';
-container.println(this.probsProcess);
+//this.probsProcess += 'else {house.distkm = 100.0;}\n';
+//container.println(this.probsProcess);
+//this.probsProcessObjStr += '\n}\n&lt;/Attribute_String>\n';
+//container.println(this.probsProcessObjStr);
+//container.append(this.probsProcessObjStr);
 
+this.probsProcessCsvStr += '&lt;/Attribute_String>\n';
+container.println(this.probsProcessCsvStr);
+container.append(this.probsProcessCsvStr);
+
+var probabilitiesNode = distanceDataNode.next();
+var ptxt = probabilitiesNode.text();
+//var pobj = $wnd.JSON.parse(ptxt);
+$wnd.console.log(ptxt);
+
+// TODO see this algorithm
+// https://stackoverflow.com/questions/6553970/find-the-first-element-in-a-sorted-array-that-is-greater-than-the-target
+var target = Math.random(); //0.123;
+var arr = [0.0,0.11,0.22,0.33,0.44,0.55,0.66,0.77,0.88,0.99,1.0];
+var numElems = arr.length;
+var low = 0, high = numElems; // numElems is the size of the array i.e arr.size() 
+while (low != high) {
+    var mid = (low + high) / 2; // Or a fancy way to avoid int overflow
+    if (arr[mid] &lt;= target) {
+        /* This index, and everything below it, must not be the first element
+         * greater than what we're looking for because this element is no greater
+         * than the element.
+         */
+        low = mid + 1;
+    }
+    else {
+        /* This element is at least as large as the element, so anything after it can't
+         * be the first element that's at least as large.
+         */
+        high = mid;
+    }
+}
+/* Now, low and high both point to the element in question. */
+container.println("found: " + low + " " + mid + " " + high + " " + arr[mid] + " " + target);
+
+//container.remove();
 //# sourceURL=HouseDistance.js
   </script>
   
+  <!-- result of postgresql query, from distance.txt BGCO data -->
   <Attribute_String roleName="distanceData">
 km,count
 0.0,563
@@ -315,6 +361,7 @@ km,count
 19.8,12
 19.9,7
   </Attribute_String>
+  
 </HouseDistance>
     ]]></Attribute_String>
     
