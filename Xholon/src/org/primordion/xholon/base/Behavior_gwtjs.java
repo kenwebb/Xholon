@@ -174,10 +174,10 @@ public class Behavior_gwtjs extends Xholon {
 			return;
 		}
 		if (scriptContent == null) {
-		  consoleLog("INFO No script content specified for the Behavior instance ...");
+		  //consoleLog("INFO No script content specified for the Behavior instance ...");
 		  String defaultContent = this.getXhc().getDefaultContent();
 		  if ((defaultContent != null) && (defaultContent.length() > 0)) {
-		    consoleLog("... INFO The Behavior class can provide the script content.");
+		    //consoleLog("... INFO The Behavior class can provide the script content.");
 		    scriptContent = defaultContent;
 		  }
 		  else {
