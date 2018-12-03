@@ -2715,13 +2715,19 @@ a.action("takeclone hello;");
     IXholon node = evalXPathCmdArg(xpathExpr, contextNode);
     int elseifStart = attrAndCommand.indexOf(" elseif ");
     int elseStart = attrAndCommand.indexOf(" else ");
+    
+    String elseifPart = null;
+    String elsePart = null;
+    if (elseifStart != -1) {elseifPart = attrAndCommand.substring(elseifStart + 8);}
+    else if (elseStart != -1) {elsePart = attrAndCommand.substring(elseStart + 6);}
+    
     if (node == null) {
       if (elseifStart != -1) {
-        attrAndCommand = "if " + attrAndCommand.substring(elseifStart + 8);
+        attrAndCommand = "if " + elseifPart; //attrAndCommand.substring(elseifStart + 8);
         processCommand(attrAndCommand);
       }
       else if (elseStart != -1) {
-        attrAndCommand = attrAndCommand.substring(elseStart + 6);
+        attrAndCommand = elsePart; //attrAndCommand.substring(elseStart + 6);
         processCommand(attrAndCommand);
       }
     }
@@ -2769,11 +2775,27 @@ a.action("takeclone hello;");
             String av = (String)getAttributeValNative(node, attrName, true);
             switch (operation) {
             // ifeq xpath(Book) jsattr jsvalue next;
+            // ifeq xpath(Member) decision true go this.myclubhouse else ifeq xpath(Member) decision false go this.myhouse;
+            // ifeq xpath(Member) decision true go this.myclubhouse elseif ifeq xpath(Member) decision false go this.mystore else go this.myhouse;
             case "eq":
               if (attrValue.equals(av)) {processCommand(command);}
+              else {
+                if (elseifPart != null) {
+                  //attrAndCommand = "if " + attrAndCommand.substring(elseifStart + 8);
+                  processCommand(elseifPart);
+                }
+                else if (elsePart != null) {
+                  //attrAndCommand = attrAndCommand.substring(elseStart + 6);
+                  processCommand(elsePart);
+                }
+              }
               break;
             case "ne":
               if (!attrValue.equals(av)) {processCommand(command);}
+              else {
+                if (elseifPart != null) {processCommand(elseifPart);}
+                else if (elsePart != null) {processCommand(elsePart);}
+              }
               break;
             default: break;
             }
