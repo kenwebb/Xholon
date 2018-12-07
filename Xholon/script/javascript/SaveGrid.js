@@ -1,11 +1,11 @@
-<SaveGrid implName="org.primordion.xholon.base.Behavior_gwtjs" outTarget="webpage" gridOwnerXPath="IslandSystem/Space" gridCellIncludeList="LandCell,CoastalCell" nodeExcludeList="Fish,Cat"><![CDATA[
+<SaveGrid implName="org.primordion.xholon.base.Behavior_gwtjs" outTarget="webpage" gridOwnerXPath="IslandSystem/Space" gridCellIncludeList="LandCell,CoastCell" nodeExcludeList="Fish,Cat"><![CDATA[
 /**
  * Save the contents of a Xholon grid, such as in the Island game.
  * Paste or drag this entire file into any node.
  * Use RestoreGrid.js to restore a grid saved by this script.
  * outTarget: "outtab" "consolelog" "alert" "webpage"
  * gridOwnerXPath: "IslandSystem/Space"
- * gridCellIncludeList: "LandCell,CoastalCell"
+ * gridCellIncludeList: "LandCell,CoastCell"
  * nodeExcludeList: "Fish,Cat"
  * 
  * TODO
