@@ -3747,6 +3747,16 @@ xport hello _other,Newick,true,true,true,{}
         this.subtrees(null);
       }
       break;
+    case "actTimeStep":
+      // this value must be an Integer
+      try {
+        this.actTimeStep = Integer.parseInt(value);
+        if (this.actTimeStep < 1) {
+          // value is relative rather than absolute
+          this.actTimeStep = app.getTimeStep() - this.actTimeStep;
+        }
+      } catch(NumberFormatException e) {consoleLog(e);}
+      break;
     default:
       break;
     }
