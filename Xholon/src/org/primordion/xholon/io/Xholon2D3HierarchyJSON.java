@@ -93,6 +93,14 @@ public class Xholon2D3HierarchyJSON {
 	}
 	
 	/**
+	 * Determine if a node should be "ignored" while building the d3cp structure.
+	 * see usage of "efignore" in workbook "D4G BGCO - High Attendance Members"
+	 */
+	protected native boolean efignore(IXholon node) /*-{
+		return (typeof node.xhc()["efignore"] !== 'undefined') || (typeof node["efignore"] !== 'undefined');
+	}-*/;
+	
+	/**
 	 * Write one node, and its child nodes.
 	 * @param node The current node in the Xholon hierarchy.
 	 * @param level Current level in the hierarchy.
@@ -133,6 +141,11 @@ public class Xholon2D3HierarchyJSON {
 				&& (isShouldShowStateMachineEntities() == false)
 				&& (level > 0)) {
 			sb.append("\"size\": ").append(sizeDefault);
+		}
+		else if ((this.filter != null) && (this.efignore(node))) {
+			sb.append("\"size\": ").append(sizeDefault)
+			.append(", \"opacity\": ").append(opacityDummy)
+			.append(", \"dummy\": ").append(1);
 		}
 		else if (node.hasChildNodes()) {
 			IXholon childNode = node.getFirstChild();
