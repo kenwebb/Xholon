@@ -647,6 +647,7 @@ public class CutCopyPaste extends Xholon implements ICutCopyPaste {
 	/**
 	 * Adjust content that was pasted or dropped.
 	 * It's main purpose is to handle non-XML text.
+	 * If the content is XML, it also trims leading and trailing whitespace.
 	 * @param inStr A string that was pasted or dropped.
 	 * @return An adjusted string, or null.
 	 */
@@ -666,7 +667,16 @@ public class CutCopyPaste extends Xholon implements ICutCopyPaste {
 				return mediaStr;
 			}
 		}
-		return null;
+		else {
+			String trimmedStr = inStr.trim();
+			if (isXml(trimmedStr)) {return trimmedStr;}
+			else {
+				// this is just text, so xmlify it by wrapping it in an <Attribute_String>
+				// TODO possibly do this only if some JavaScript attribute is set
+				return "<Attribute_String roleName=\"UNKNOWN_PASTED_CONTENT\"><![CDATA[\n" + inStr + "\n]]></Attribute_String>";
+			}
+		}
+		//return null;
 	}
 	
 	/**
