@@ -1434,6 +1434,18 @@ public class Avatar extends AbstractAvatar {
         sb.append("Please specify what to search (ex: search box_13).");
       }
       break;
+    case "skip": // skip n lines in actions
+      if (len > 1) {
+        try {
+          actionIx += Integer.parseInt(data[1]);
+        } catch(NumberFormatException e) {
+          sb.append("The number of lines to skip must be specified as an integer (ex: skip 2)");
+        }
+      }
+      else {
+        sb.append("Please specify how many lines to skip (ex: skip 2).");
+      }
+      break;
     case "smash": // flatten
       if (len > 1) {
         smash(data[1]);
