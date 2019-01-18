@@ -11,11 +11,12 @@ if (typeof xh == "undefined") {
   xh = {};
 }
 
-(function() {
-  // is the following necessary ?
-  if (typeof d3 == "undefined") {return;}
-  
-  $wnd = window;
+if (typeof xh.bgco == "undefined") {
+  xh.bgco = {};
+}
+
+(function($wnd) {
+  //$wnd = window;
   
   // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
   // functions used in PhysicalSystembehavior.js
@@ -24,7 +25,7 @@ if (typeof xh == "undefined") {
   const LEAPYEARS = [1992,1996,2000,2004,2008,2012,2016,2020,2024];
 
   // create a line chart that plots the members moving between the place lines  20110553
-  $wnd.xh.initTimelinePlot = function ($this) {
+  $wnd.xh.bgco.initTimelinePlot = function ($this) {
     var xhRoot = $wnd.xh.xpath(".", $this.parent()); // or ./Members ?  or City ?
     var dpp = "BGCO Member Attendance,Time (YYYYdddh),children moving between places,./statistics/,stats,1,WRITE_AS_INT";
     var mode = "new";
@@ -34,7 +35,7 @@ if (typeof xh == "undefined") {
   }
   
   // control animation
-  $wnd.xh.controlAnimation = function() {
+  $wnd.xh.bgco.controlAnimation = function() {
     var root = $wnd.xh.root();
     var ani = root.xpath("descendant::Animate");
     ani.action("Pause animation"); // pauses the visible animation, but not the model execution itself
@@ -49,7 +50,7 @@ if (typeof xh == "undefined") {
   }
   
   // is this a leap year?
-  $wnd.xh.isLeapyear = function(year) {
+  $wnd.xh.bgco.isLeapyear = function(year) {
     var bval = LEAPYEARS.indexOf(year) != -1;
     //me.println("isLeapyear " + year + " " + bval);
     return bval;
@@ -62,11 +63,11 @@ if (typeof xh == "undefined") {
   //const OPAC_FADE_MULTIPLIER = 0.999; // unused for now
   const OPAC_HILT_MULTIPLIER = 1.1;
   const DO_ATTENDANCE_TAKER_BEHAVIOR = true;
-  $wnd.console.log("Running JS library copy of $wnd.xh.AttendanceTakerbehavior");
+  //$wnd.console.log("Running JS library copy of $wnd.xh.bgco.AttendanceTakerbehavior");
   
-  $wnd.xh.AttendanceTakerbehavior = function AttendanceTakerbehavior() {}
+  $wnd.xh.bgco.AttendanceTakerbehavior = function AttendanceTakerbehavior() {}
   
-  $wnd.xh.AttendanceTakerbehavior.prototype.postConfigure = function() {
+  $wnd.xh.bgco.AttendanceTakerbehavior.prototype.postConfigure = function() {
     this.ataker = this.cnode.parent();
     //this.ataker.atakername = this.ataker.name();
     this.clubhouseabbrev = "";
@@ -85,7 +86,7 @@ if (typeof xh == "undefined") {
     this.rgba2rgbOpacity(this.ataker);
   };
   
-  $wnd.xh.AttendanceTakerbehavior.prototype.act = function() {
+  $wnd.xh.bgco.AttendanceTakerbehavior.prototype.act = function() {
     //this.ataker.println("Taking attendance ...");
     var ts = 0;
     var node = this.cnode.next();
@@ -100,7 +101,7 @@ if (typeof xh == "undefined") {
       //this.ataker.attendance += "\n" + node.name() + "," + ts + "," + this.ataker.atakername;
       // 2011039,Andrea,PYC,Club
       // 2011039,Andrea,PYC,Homework
-      if ($wnd.xh.AttendanceTakerbehavior.prototype.doAttendanceTakerbehavior) {
+      if ($wnd.xh.bgco.AttendanceTakerbehavior.prototype.doAttendanceTakerbehavior) {
         this.ataker.attendance += "\n" + ts + "," + node.role() + "," + this.clubhouseabbrev + "," + this.programname;
       }
       if (opac <= OPAC_MAX) {
@@ -115,7 +116,7 @@ if (typeof xh == "undefined") {
   
   // rgba() to rgb() + opacity (for use in Movie Script Parser)
   // ex: rgba(20,220,60,1.0) becomes rgb(20,220,60) and 1.0
-  $wnd.xh.AttendanceTakerbehavior.prototype.rgba2rgbOpacity = function(node) {
+  $wnd.xh.bgco.AttendanceTakerbehavior.prototype.rgba2rgbOpacity = function(node) {
     var color = node.xhc().color();
     if (color.substring(0,5) == "rgba(") {
       var rgba = color.substring(5, color.length - 1).split(",");
@@ -126,17 +127,17 @@ if (typeof xh == "undefined") {
     }
   };
   
-  $wnd.xh.AttendanceTakerbehavior.prototype.doAttendanceTakerbehavior = DO_ATTENDANCE_TAKER_BEHAVIOR; // whether or not to do the attendance taking
+  $wnd.xh.bgco.AttendanceTakerbehavior.prototype.doAttendanceTakerbehavior = DO_ATTENDANCE_TAKER_BEHAVIOR; // whether or not to do the attendance taking
   
   // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
   // Attend
-  $wnd.xh.attend = {};
+  $wnd.xh.bgco.attend = {};
   
   /**
    * Gather all the Clubhouse and Program attendance data, that may have been collected by AttendanceTakerbehavior nodes.
    * @param pcodes the Xholon app <PostalCodes> node.
    */
-  $wnd.xh.attend.gatherAttendData = function(pcodes) {
+  $wnd.xh.bgco.attend.gatherAttendData = function(pcodes) {
     pcodes.println(this);
     // 20052713,Andrea,MC,clubhouse
     var arr = ["datetime,member,clubhouse,program"];
@@ -173,11 +174,11 @@ if (typeof xh == "undefined") {
   
   // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
   // Schools
-  $wnd.xh.schools = {};
+  $wnd.xh.bgco.schools = {};
   
   // Schools csv
   // source: Ottawa Schools v3.csv
-  $wnd.xh.schools.csv = `
+  $wnd.xh.bgco.schools.csv = `
 ﻿Active,SchoolBoardAcronym,SchoolType,SchoolNameEnglish,FullAddress,StreetAddress,City,Prov,PostalCode
 Y,OCDSB,Secondary,A.Y. Jackson Secondary School,"150 Abbeyhill, Kanata, Ontario, K2L 1H7",150 Abbeyhill,Kanata,Ontario,K2L 1H7
 Y,OCDSB,Secondary,Bell High School,"40 Cassidy, Nepean, Ontario, K2H 6K1",40 Cassidy,Nepean,Ontario,K2H 6K1
@@ -561,9 +562,9 @@ Y,,Private,Debbie Campbell Academy,"440 Slater St, Ottawa, ON K1R 5B5",440 Slate
    * Make school nodes.
    * @see https://stackoverflow.com/questions/8493195/how-can-i-parse-a-csv-string-with-javascript-which-contains-comma-in-data, RFC 4180 solution
    * @param schools 
-   * @param deleteSchoolsCsv whether or not to delete $wnd.xh.schools.csv
+   * @param deleteSchoolsCsv whether or not to delete $wnd.xh.bgco.schools.csv
   */
-  $wnd.xh.schools.makeSchoolNodes = function(schools, deleteSchoolsCsv) {
+  $wnd.xh.bgco.schools.makeSchoolNodes = function(schools, deleteSchoolsCsv) {
     'use strict';
     
     function csvToArray(text) {
@@ -582,7 +583,7 @@ Y,,Private,Debbie Campbell Academy,"440 Slater St, Ottawa, ON K1R 5B5",440 Slate
       return ret;
     };
     
-    let text = $wnd.xh.schools.csv;
+    let text = $wnd.xh.bgco.schools.csv;
     //schools.println(text);
     
     let csvarrs = csvToArray(text);
@@ -600,17 +601,17 @@ Y,,Private,Debbie Campbell Academy,"440 Slater St, Ottawa, ON K1R 5B5",440 Slate
     schools.append(xmlstr);
     
     if (deleteSchoolsCsv) {
-      $wnd.xh.schools.csv = null;
+      $wnd.xh.bgco.schools.csv = null;
     }
   }
   
   // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
   // Postal Codes
-  $wnd.xh.pcodes = {};
+  $wnd.xh.bgco.pcodes = {};
   
   // Postal Codes - XML string
   // these postal codes do not exist: K1D K1F K1I K1O K1Q K1U K2D K2F K2I K2O K2Q K2U K2X
-  $wnd.xh.pcodes.xmlstr = `
+  $wnd.xh.bgco.pcodes.xmlstr = `
 <_-.pcodes>
   <PostalCode roleName="K0A"><Geo pcode="K0A">{"type":"Feature","properties":{"width":20,"height":20},"geometry":{"type":"Point","coordinates":[-75.663596,45.428647]}}</Geo></PostalCode>
   <PostalCode roleName="K0C"><Geo pcode="K0C">{"type":"Feature","properties":{"width":20,"height":20},"geometry":{"type":"Point","coordinates":[-74.485409,45.132577]}}</Geo></PostalCode>
@@ -660,24 +661,24 @@ Y,,Private,Debbie Campbell Academy,"440 Slater St, Ottawa, ON K1R 5B5",440 Slate
   /**
    * Make postal code nodes.
    * @param pcodes 
-   * @param deletePcodesXml whether or not to delete $wnd.xh.pcodes.xmlstr
+   * @param deletePcodesXml whether or not to delete $wnd.xh.bgco.pcodes.xmlstr
   */
-  $wnd.xh.pcodes.makePostalCodeNodes = function(pcodes, deletePcodesXml) {
-    let xmlstr = $wnd.xh.pcodes.xmlstr;
+  $wnd.xh.bgco.pcodes.makePostalCodeNodes = function(pcodes, deletePcodesXml) {
+    let xmlstr = $wnd.xh.bgco.pcodes.xmlstr;
     //pcodes.println(xmlstr);
     pcodes.append(xmlstr);
     
     if (deletePcodesXml) {
-      $wnd.xh.pcodes.xmlstr = null;
+      $wnd.xh.bgco.pcodes.xmlstr = null;
     }
   }
   
   // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
   // Clubhouses
-  $wnd.xh.clubhouses = {};
+  $wnd.xh.bgco.clubhouses = {};
   
   // Clubhouses - XML string
-  $wnd.xh.clubhouses.xmlstr = `
+  $wnd.xh.bgco.clubhouses.xmlstr = `
 <_-.chouses>
   <Clubhouse roleName="BRIT" pcode="K2B 7W3"><Anno>BRIT Ron Kolbus Clubhouse</Anno>
     <Program roleName="Homework Club" programid="13"/>
@@ -981,23 +982,23 @@ Y,,Private,Debbie Campbell Academy,"440 Slater St, Ottawa, ON K1R 5B5",440 Slate
   /**
    * Make clubhouse nodes.
    * @param clubhouses 
-   * @param deleteChousesXml whether or not to delete $wnd.xh.clubhouses.xmlstr
+   * @param deleteChousesXml whether or not to delete $wnd.xh.bgco.clubhouses.xmlstr
   */
-  $wnd.xh.clubhouses.makeClubhouseNodes = function(clubhouses, deleteChousesXml) {
-    let xmlstr = $wnd.xh.clubhouses.xmlstr;
+  $wnd.xh.bgco.clubhouses.makeClubhouseNodes = function(clubhouses, deleteChousesXml) {
+    let xmlstr = $wnd.xh.bgco.clubhouses.xmlstr;
     //clubhouses.println(xmlstr);
     clubhouses.append(xmlstr);
     
     if (deleteChousesXml) {
-      $wnd.xh.clubhouses.xmlstr = null;
+      $wnd.xh.bgco.clubhouses.xmlstr = null;
     }
   }
   
   // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
   // PostalCodesbehavior
-  $wnd.xh.PostalCodesbehavior = function PostalCodesbehavior() {}
+  $wnd.xh.bgco.PostalCodesbehavior = function PostalCodesbehavior() {}
   
-  $wnd.xh.PostalCodesbehavior.prototype.postConfigure = function() {
+  $wnd.xh.bgco.PostalCodesbehavior.prototype.postConfigure = function() {
     const LOCATE_CH_IN_PC  = true;  // whether or not to locate each Clubhouse within its PostalCode node
     const LOCATE_SCH_IN_PC = true; // whether or not to locate each School within its PostalCode node
     var me, houses, schools, clubhouses;
@@ -1055,9 +1056,9 @@ Y,,Private,Debbie Campbell Academy,"440 Slater St, Ottawa, ON K1R 5B5",440 Slate
   const MYDECISION = "decision"; // whether or not to go to a clubhouse
   const UNKEEP_SCHOOLS = true;
   
-  $wnd.xh.Membersbehavior = function Membersbehavior() {}
+  $wnd.xh.bgco.Membersbehavior = function Membersbehavior() {}
   
-  $wnd.xh.Membersbehavior.prototype.postConfigure = function() {
+  $wnd.xh.bgco.Membersbehavior.prototype.postConfigure = function() {
     this.me = this.cnode.parent();
     this.members = this.me;
     
@@ -1223,12 +1224,12 @@ Y,,Private,Debbie Campbell Academy,"440 Slater St, Ottawa, ON K1R 5B5",440 Slate
     if (UNKEEP_SCHOOLS) {
       this.unkeepSchools(this.schools);
     }
-  }; // end $wnd.xh.Membersbehavior.prototype.postConfigure = function()
+  }; // end $wnd.xh.bgco.Membersbehavior.prototype.postConfigure = function()
 
-  $wnd.xh.Membersbehavior.prototype.act = function() {
+  $wnd.xh.bgco.Membersbehavior.prototype.act = function() {
     //this.me.println($wnd.xh.param("TimeStep"));
     this.initMembers(); // initialize Members whose nodes have just been drag-and-dropped or pasted in
-  }; // end $wnd.xh.Membersbehavior.prototype.act = function()
+  }; // end $wnd.xh.bgco.Membersbehavior.prototype.act = function()
   
   
   // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -1370,6 +1371,10 @@ dateFromDay: function(year, day) {
 
 // Generate Time Series Statistics
 genStats: function(csvstr) {
+  if (typeof $wnd.d3 == "undefined") {
+    $wnd.console.log("d3 is required to generate statistics");
+    return {};
+  }
   var arr = csvstr.split(",");
   //$wnd = window; var arr = [3,9,1,3,5,4];
   var arrsorted = arr.sort();
@@ -1477,5 +1482,5 @@ postConfigure: function() {
 `;
 
   
-})(); // end (function()
+})(window); // end (function()
 
