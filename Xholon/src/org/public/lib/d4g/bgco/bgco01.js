@@ -17,7 +17,7 @@ if (typeof xh == "undefined") {
   
   $wnd = window;
   
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+  // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
   // functions used in PhysicalSystembehavior.js
   // source: https://www.thelists.org/list-of-leap-years.html
   
@@ -55,7 +55,7 @@ if (typeof xh == "undefined") {
     return bval;
   }
   
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+  // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
   // specify AttendanceTaker behavior
   const OPAC_MAX = 0.7;
   // a value of 1.0 for both MULTIPLIERs will ensure that there is no gradual fading and highlighting of the nodes in the d3cp animation
@@ -128,7 +128,7 @@ if (typeof xh == "undefined") {
   
   $wnd.xh.AttendanceTakerbehavior.prototype.doAttendanceTakerbehavior = DO_ATTENDANCE_TAKER_BEHAVIOR; // whether or not to do the attendance taking
   
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
   // Attend
   $wnd.xh.attend = {};
   
@@ -171,7 +171,7 @@ if (typeof xh == "undefined") {
     pcodes.print("\n");
   }
   
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
   // Schools
   $wnd.xh.schools = {};
   
@@ -604,7 +604,7 @@ Y,,Private,Debbie Campbell Academy,"440 Slater St, Ottawa, ON K1R 5B5",440 Slate
     }
   }
   
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
   // Postal Codes
   $wnd.xh.pcodes = {};
   
@@ -672,7 +672,7 @@ Y,,Private,Debbie Campbell Academy,"440 Slater St, Ottawa, ON K1R 5B5",440 Slate
     }
   }
   
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
   // Clubhouses
   $wnd.xh.clubhouses = {};
   
@@ -993,7 +993,7 @@ Y,,Private,Debbie Campbell Academy,"440 Slater St, Ottawa, ON K1R 5B5",440 Slate
     }
   }
   
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
   // PostalCodesbehavior
   $wnd.xh.PostalCodesbehavior = function PostalCodesbehavior() {}
   
@@ -1047,7 +1047,7 @@ Y,,Private,Debbie Campbell Academy,"440 Slater St, Ottawa, ON K1R 5B5",440 Slate
     }
   }
   
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
   // Membersbehavior
   const MYHOUSE = "myhouse";
   const MYSCHOOL = "myschool";
@@ -1229,5 +1229,253 @@ Y,,Private,Debbie Campbell Academy,"440 Slater St, Ottawa, ON K1R 5B5",440 Slate
     //this.me.println($wnd.xh.param("TimeStep"));
     this.initMembers(); // initialize Members whose nodes have just been drag-and-dropped or pasted in
   }; // end $wnd.xh.Membersbehavior.prototype.act = function()
+  
+  
+  // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+  // DefaultContent for various XholonClass nodes
+  // Note: This is just text and is not yet executable code. Hence the need for back quotes.
+  $wnd.xh.DefaultContent = {}
+  
+  $wnd.xh.DefaultContent.DecideClubhouse = `
+var me, beh = {
+postConfigure: function() {
+  me = this.cnode;
+},
 
+processReceivedSyncMessage: function(msg) {
+  var member = msg.sender;
+  if (member.myhouse.distkm) {
+    var rnum = Math.random();
+    var distkm = member.myhouse.distkm;
+    member.decision = (rnum / distkm) > 0.05;
+  }
+}
+}
+//# sourceURL=DecideClubhouse.js
+`;
+
+  // version 2 of DecideClubhouse for testing
+  $wnd.xh.DefaultContent.DecideClubhouseV2 = `
+$wnd.console.log("testing DecideClubhouseV2");
+`;
+  
+  // SetValFromId
+  $wnd.xh.DefaultContent.SetValFromId = `
+var me, member, beh = {
+postConfigure: function() {
+  me = this.cnode;
+  member = me.parent().parent();
+},
+
+act: function() {
+  var ptype = member.parent().xhc().name();
+  if ((ptype == "Clubhouse") || (ptype == "House")) {
+    member.val(member.parent().id());
+  }
+}
+}
+//# sourceURL=SetValFromId.js
+`;
+
+  /* GenTimeseries
+the time series should be one long series of comma-separted zeroes and ones
+ex: "0,0,1,0,0,0,1"
+where "1" signifies that the member has just entered the clubhouse
+*/
+  $wnd.xh.DefaultContent.GenTimeseries = `
+const CH_TS = "2"; // ClubHouse TimeStep - the timestep "hour" when a member might have arrived at the Clubhouse; "2"
+const COUNT_TS = "9"; // Count Timestep - the timestep "hour" when  should append count to tsCsv
+const IGNORE_TS = "7"; // prevent double counting a third program; this program will be counted correctly at hour "8"
+const MMBR_TR_WILDCARD = "*";
+const MMBR_TR = [MMBR_TR_WILDCARD]; // ["Betty","Freddie"]; // TRack these members  ex: ["Betty","Freddie"]  ex: ["*"] or [MMBR_TR_WILDCARD]
+const END_TS = "20173650"; //"20110550";
+const USE_SIMPLESTATISTICS = false; // whether or not to use simple-statistics.js
+
+var me, member, delim, tsCsv, tsTimeCsv, isactive, count, beh = {
+postConfigure: function() {
+  me = this.cnode;
+  //me.println(me.name() + " is here");
+  member = me.parent().parent();
+  var mrole = member.role();
+  if (MMBR_TR[0] == MMBR_TR_WILDCARD) {
+    // generate a time series for all members
+  }
+  else if (MMBR_TR.indexOf(mrole) == -1) {
+    me.remove(); // TODO check that this will be OK
+    return;
+  }
+  member.tsCsv = "";
+  member.tsTimeCsv = ""; // for testing, to confirm that data is collected for all timesteps
+  delim = "";
+  count = 0;
+  isactive = false; // allow a final count after the member becomes inactive
+},
+
+act: function() {
+  var ptype = member.parent().xhc().name();
+  var ts = $wnd.xh.param("TimeStep");
+  var hour = ts.charAt(ts.length - 1);
+  if (!isactive && member.isactive && member.isactive == "true") {
+    isactive = true; // this should only happen once
+  }
+  if (isactive) {
+    if (hour == CH_TS) {
+      if ((ptype == "Clubhouse")) {
+        count++;
+      }
+      member.tsTimeCsv += delim + ts;
+    }
+    else if (hour == COUNT_TS) {
+      // fix problem when there are 4 programs in the same timestep  ex: A107 count=4 ptype=Program
+      // normally, when there are fewer than 4 programs in a timestep, ptype=House at this point
+      if (ptype == "Program") {
+        me.println(ts + " " + member.role() + " " + count + " " + ptype); // ptype should be House?, until it's a 4th program that day
+        count++;
+        member.action("go this.myhouse;skip 2;"); // this works
+        // TODO skip over commands until find one that starts with "go this.myhouse;", and then execute that command line
+        /*
+        var cmd = member.text();
+        while (!cmd.startsWith("go this.myhouse;")) {
+          me.println("  skipping: " + cmd);
+          member.action("skip 1;");
+          cmd = member.text();
+        }
+        member.action(cmd);
+        */
+      }
+      
+      member.tsCsv += delim + count;
+      if (!delim) {delim = ",";}
+      count = 0;
+    }
+    else if ((ptype == "Program") && (hour != IGNORE_TS)) {
+      // count programs attended within the clubhouse
+      var date = this.dateFromDay(ts.substring(0,4), ts.substring(4,7)); // 20052734
+      count++;
+    }
+  }
+  if (isactive && member.isactive && member.isactive == "false") {
+    isactive = false;
+  }
+  if (ts == END_TS) {
+    var stats = this.genStats(member.tsCsv);
+    member.println(member.role() + "_" + (member["memberid"]||"0") + "," + (member["startTimestep"]||"2004001") + ",'" + $wnd.JSON.stringify(stats) + "'," + member.tsCsv);
+  }
+},
+
+dateFromDay: function(year, day) {
+  var date = new Date(year, 0); // initialize a date in "year-01-01"
+  return new Date(date.setDate(day)); // add the number of days
+},
+
+// Generate Time Series Statistics
+genStats: function(csvstr) {
+  var arr = csvstr.split(",");
+  //$wnd = window; var arr = [3,9,1,3,5,4];
+  var arrsorted = arr.sort();
+  var stats = {};
+  stats.sum  = $wnd.d3.sum(arr);
+  stats.mean = Number($wnd.d3.mean(arr).toFixed(4));
+  stats.median = $wnd.d3.median(arr);
+  stats.min  = Number($wnd.d3.min(arr));
+  stats.max  = Number($wnd.d3.max(arr));
+  stats.range = stats.max - stats.min;
+  stats.quantile1 = $wnd.d3.quantile(arrsorted, 0.25);
+  stats.quantile3 = $wnd.d3.quantile(arrsorted, 0.75);
+  stats.length = arr.length;
+  stats.variance = Number($wnd.d3.variance(arr).toFixed(4)); // d3 3.5.17
+  stats.sd = Number($wnd.d3.deviation(arr).toFixed(4)); // standard deviation, d3 3.5.17
+  if (USE_SIMPLESTATISTICS && $wnd.ss) {
+    // use simple-statistics.js
+    stats.ssmean = Number($wnd.ss.mean(arr).toFixed(4));
+    stats.ssmode = $wnd.ss.mode(arr);
+    stats.ssmedian = $wnd.ss.median(arr);
+    if (stats.length >= 3) {
+      stats.ssskewness = Number($wnd.ss.sampleSkewness(arr).toFixed(4));
+    }
+  }
+  //$wnd.console.log(stats);
+  return stats;
+}
+
+}
+//# sourceURL=GenTimeseries.js
+`;
+
+  // DbAttendRecParser
+  $wnd.xh.DefaultContent.DbAttendRecParser = `
+// give PROGRAM_GENERIC an actual value when I just want to count the number of programs the member goes to on a certain day
+// the actual named programs may be missing from the clubhouse
+const PROGRAM_GENERIC = "generic"; // "generic" or null
+
+var me, beh = {
+postConfigure: function() {
+  me = this.cnode;
+  var member = me.parent().parent();
+  //me.println(me.name() + " is here");
+  //$wnd.console.log(me);
+  var iflangStr = "script;\n"; //become this isactive false;\n";
+  var becomeActive = "become this isactive true;";
+  var currentTimestep = 0;
+  var recordsNode = me.next();
+  if (recordsNode) {
+    var recordsStr = recordsNode.text().trim();
+    var recordsArr = recordsStr.split("\n");
+    me.println(member.role() + " has " + recordsArr.length + " input records (including header record)");
+    me.println("0 " + recordsArr[0]);
+    me.println("1 " + recordsArr[1]);
+    me.println("n " + recordsArr[recordsArr.length - 1]);
+    var atProgram = false; // whether or not the member is currently attending a program in the clubhouse
+    var activityCount = 0; // only allow 1 clubhouse visit + 3 program visits, in one day
+    for (var rix = 1; rix < recordsArr.length; rix++) { // skip header record
+      var record = recordsArr[rix];
+      var fieldArr = record.split(",");
+      //me.println(activityCount);
+      if (fieldArr[0] > currentTimestep) {
+        if (currentTimestep == 0) {member["startTimestep"] = fieldArr[0];} // save the timestep when the member became active
+        currentTimestep = fieldArr[0];
+        // append a trailing 0 to represent hours in the day (hours 0 to 9)
+        iflangStr += "go this.myhouse;\nwait til " + currentTimestep + "0;\n" + becomeActive + "go this.myschool;\ngo this.myclubhouse;\n";
+        becomeActive = "";
+        atProgram = false;
+        activityCount = 1; // clubhouse visit
+      }
+      else { // assume that the member is already somewhere in the clubhouse
+        if (atProgram) {
+          if (activityCount < 4) {
+            // the member will now attend another program that day
+            iflangStr += "next " + (PROGRAM_GENERIC || fieldArr[2]) + ";\nwait 1;\n";
+            activityCount++;
+          }
+          else {
+            activityCount++;
+            me.println("ignoring: " + record + " | " + activityCount);
+          }
+        }
+        else {
+          // the member will now attend their first program of the day
+          iflangStr += "enter " + (PROGRAM_GENERIC ||fieldArr[2]) + ";\nwait 1;\n";
+          atProgram = true;
+          activityCount++;
+        }
+      }
+    }
+  }
+  iflangStr += "go this.myhouse;\nwait til " + (Number(currentTimestep) + 1) + "0;\nbecome this isactive false;\n"; // make sure that each member is home at end of the simulation, and is no longer active
+  //iflangStr += "go this.myhouse;\nbecome this isactive false;\ngo this.myhouse;\nbecome this isactive false;\n"; // make double sure that each member is home at end of the simulation, and is no longer active
+  me.println(member);
+  //me.println(iflangStr);
+  member.text(iflangStr);
+  me.parent().remove();
+  if (member.first() && member.first().xhc().name() == "Attribute_String") {
+    // remove unneeded Attribute_String from Member DefaultContent
+    member.first().remove();
+  }
+}
+}
+//# sourceURL=DbAttendRecParser.js
+`;
+
+  
 })(); // end (function()
+
