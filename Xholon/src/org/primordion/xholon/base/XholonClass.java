@@ -1325,8 +1325,28 @@ xh.xhcReplacementNames = {Hexokinase: "Enzyme", PhosphoGlucoIsomerase: "Enzyme",
 	 * @see org.primordion.xholon.base.IXholonClass#setDefaultContent(java.lang.String)
 	 */
 	public void setDefaultContent(String defaultContent) {
-		this.defaultContent = defaultContent;
+		if ((defaultContent != null) && (defaultContent.length() > 0) && defaultContent.startsWith("@")) {
+			if (defaultContent.length() > 1) {
+				// try to find the default content from $wnd.xh.DefaultContent.STR  ex: "@abc"
+				this.defaultContent = this.findDefaultContent(defaultContent.substring(1));
+			}
+			else {
+				// try to find the default content from $wnd.xh.DefaultContent.XHC_NAME
+				this.defaultContent = this.findDefaultContent(this.getName());
+			}
+		}
+		else {
+			this.defaultContent = defaultContent;
+		}
 	}
+	
+	protected native String findDefaultContent(String dcAttrName) /*-{
+		var dc = null;
+		if ($wnd.xh && $wnd.xh["DefaultContent"] && $wnd.xh["DefaultContent"][dcAttrName]) {
+			dc = $wnd.xh["DefaultContent"][dcAttrName];
+		}
+		return dc;
+	}-*/;
 	
 	/*
 	 * @see org.primordion.xholon.base.IXholonClass#getPrototype()
