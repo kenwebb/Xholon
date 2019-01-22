@@ -844,9 +844,9 @@ public class SvgViewBrowser extends Xholon implements ISvgView, EventListener {
       handleDropEvent(event);
     }
     else {
-      consoleLog(event.getType());
-      consoleLog(event.getEventTarget());
-      consoleLog(event.getDataTransfer());
+      //consoleLog(event.getType());
+      //consoleLog(event.getEventTarget());
+      //consoleLog(event.getDataTransfer());
     }
   }
   
