@@ -41,6 +41,8 @@ import org.primordion.xholon.io.gwt.HtmlScriptHelper;
  * @since 0.9.1 (Created on November 22, 2014)
  */
 public class Animate extends XholonScript {
+  private static final String SPEED_FASTEST = "0"; // shortest TimeStepInterval = fastest speed
+  private static final String SPEED_SLOWEST = "1000"; // longest TimeStepInterval = slowest speed
   
   /** The name of the external format (ef) */
   private String formatName = "_d3,CirclePack";
@@ -78,6 +80,14 @@ public class Animate extends XholonScript {
   /** Whether or not the animation is paused. The act() method does nothing if the animate is paused. */
   private boolean animPaused = false;
   
+  private String fastestSpeed = SPEED_FASTEST;
+  private String slowestSpeed = SPEED_SLOWEST;
+  
+  /** Whether or not the speed is currently being adjusted. */
+  private boolean adjustingSpeed = false;
+  /** For use if adjustingSpeed == true */
+  private String currentSpeed = slowestSpeed;
+  
   /*
    * @see org.primordion.xholon.base.Xholon#postConfigure()
    */
@@ -100,9 +110,21 @@ public class Animate extends XholonScript {
   public void act() {
     if (!animPaused) {
       String newHash = xhAnimRoot.hashify(null); // use default hash type
-      if (!hash.equals(newHash)) {
+      if (hash.equals(newHash)) {
+        // the tree structure of the model has NOT changed, so the model and animation can run at the fastest speed
+        if (this.adjustingSpeed && (this.currentSpeed == this.slowestSpeed)) {
+          this.currentSpeed = this.fastestSpeed;
+          app.setParam("TimeStepInterval", this.fastestSpeed);
+        }
+      }
+      else {
+        // the tree structure of the model HAS changed, so the model and animation should run at the slowest speed
+        if (this.adjustingSpeed && (this.currentSpeed == this.fastestSpeed)) {
+          this.currentSpeed = this.slowestSpeed;
+          app.setParam("TimeStepInterval", this.slowestSpeed);
+        }
         xport(formatName, xhAnimRoot, efParams, writeToTab);
-        tween(selection, duration);
+        tween(selection, duration); // TODO duration never changes
         hash = newHash;
       }
     }
@@ -132,13 +154,21 @@ public class Animate extends XholonScript {
   private static final String pauseAnimation = "Pause animation";
 	/** An action. Unpause the animation. */
   private static final String unpauseAnimation = "Unpause animation";
-  /** Speed up the animation. */
+	/** An action. Toggle the animation betwteen paused and unpaused. */
+  private static final String toggleAnimation = "Toggle animation";
+  /** An action. Speed up the animation. */
   private static final String faster = "Faster";
-  /** Slow down the animation. */
+  /** An action. Slow down the animation. */
   private static final String slower = "Slower";
+  /** An action. Run the animation at its fstst speed. */
+  private static final String fastest = "Fastest";
+  /** An action. Run the animation at its slooooweeeest speed. */
+  private static final String slowest = "Slowest";
+  /** An action. Adjust the animation speed - slow when the model is changing, and fast when it's not. */
+  private static final String adjustSpeed = "Adjust speed"; // TODO or "Adapt speed"
   
 	/** Action list. */
-  private String[] actions = {pauseAnimation, unpauseAnimation, faster, slower};
+  private String[] actions = {toggleAnimation, pauseAnimation, unpauseAnimation, faster, slower, fastest, slowest, adjustSpeed};
   
   @Override
   public String[] getActionList()
@@ -155,6 +185,9 @@ public class Animate extends XholonScript {
   @Override
   public void doAction(String action) {
     if (action == null) {return;}
+    if (action.equals(toggleAnimation)) {
+      this.animPaused = !this.animPaused;
+    }
     if (action.equals(pauseAnimation)) {
       this.animPaused = true;
     }
@@ -166,6 +199,15 @@ public class Animate extends XholonScript {
     }
     else if (action.equals(slower)) {
       slower();
+    }
+    else if (action.equals(fastest)) {
+      fastest();
+    }
+    else if (action.equals(slowest)) {
+      slowest();
+    }
+    else if (action.equals(adjustSpeed)) {
+      adjustSpeed();
     }
   }
   
@@ -189,6 +231,18 @@ public class Animate extends XholonScript {
     else if (tsi < 5000) {tsi = 5000;}
     else if (tsi < 10000) {tsi = 10000;}
     app.setParam("TimeStepInterval", Integer.toString(tsi));
+  }
+  
+  protected void fastest() {
+    app.setParam("TimeStepInterval", fastestSpeed);
+  }
+  
+  protected void slowest() {
+    app.setParam("TimeStepInterval", slowestSpeed);
+  }
+  
+  protected void adjustSpeed() {
+    this.adjustingSpeed = !this.adjustingSpeed;
   }
   
   /*
@@ -221,6 +275,15 @@ public class Animate extends XholonScript {
     }
     else if ("animPaused".equals(attrName)) {
       this.animPaused = Boolean.parseBoolean(attrVal);
+    }
+    else if ("fastestSpeed".equals(attrName)) {
+      this.fastestSpeed = attrVal;
+    }
+    else if ("slowestSpeed".equals(attrName)) {
+      this.slowestSpeed = attrVal;
+    }
+    else if ("adjustingSpeed".equals(attrName)) {
+      this.adjustingSpeed = Boolean.parseBoolean(attrVal);
     }
     return 0;
   }
