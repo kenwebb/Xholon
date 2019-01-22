@@ -15,7 +15,7 @@ if (typeof xh.bgco == "undefined") {
   xh.bgco = {};
 }
 
-(function($wnd) {
+(function($wnd, $doc) {
   //$wnd = window;
   
   // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -35,18 +35,28 @@ if (typeof xh.bgco == "undefined") {
   }
   
   // control animation
-  $wnd.xh.bgco.controlAnimation = function() {
+  // also available are:
+  //ani.action("Slower");
+  //ani.action("Unpause animation");
+  // OR
+  // $wnd.xh.root().xpath("descendant::Animate").action("Pause animation").action("Faster").action("Faster").action("Faster");
+  $wnd.xh.bgco.controlAnimation = function(actionsArr) {
     var root = $wnd.xh.root();
     var ani = root.xpath("descendant::Animate");
-    ani.action("Pause animation"); // pauses the visible animation, but not the model execution itself
-    ani.action("Faster"); // speeds up the model execution, and the animation
-    ani.action("Faster");
-    ani.action("Faster");
-    // also avavilable are:
-    //ani.action("Slower");
-    //ani.action("Unpause animation");
-    // OR
-    // $wnd.xh.root().xpath("descendant::Animate").action("Pause animation").action("Faster").action("Faster").action("Faster");
+    if (ani) {
+      if (actionsArr != "undefined") {
+        for (var i = 0; i < actionsArr.length; i++) {
+          ani.action(actionsArr[i]);
+        }
+      }
+      else {
+        // default
+        ani.action("Pause animation"); // pauses the visible animation, but not the model execution itself
+        ani.action("Faster"); // speeds up the model execution, and the animation
+        ani.action("Faster");
+        ani.action("Faster");
+      }
+    }
   }
   
   // is this a leap year?
@@ -131,6 +141,8 @@ if (typeof xh.bgco == "undefined") {
   
   // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
   // Attend
+  const ATTEND_TAB_IX = 3; // Xholon GUI tab where attendance data should be written
+  
   $wnd.xh.bgco.attend = {};
   
   /**
@@ -138,7 +150,7 @@ if (typeof xh.bgco == "undefined") {
    * @param pcodes the Xholon app <PostalCodes> node.
    */
   $wnd.xh.bgco.attend.gatherAttendData = function(pcodes) {
-    pcodes.println(this);
+    //pcodes.println(this);
     // 20052713,Andrea,MC,clubhouse
     var arr = ["datetime,member,clubhouse,program"];
     var pcode = pcodes.first();
@@ -166,10 +178,16 @@ if (typeof xh.bgco == "undefined") {
       pcode = pcode.next();
     }
     //pcodes.println(arr);
+    var attenddata = '';
     for (var i = 0; i < arr.length; i++) {
-      pcodes.print(arr[i]);
+      //pcodes.print(arr[i]);
+      attenddata += arr[i];
     }
-    pcodes.print("\n");
+    //pcodes.print("\n");
+    attenddata += "\n";
+    var xhtabs = $doc.getElementById("xhtabs");
+    var textarea = xhtabs.getElementsByTagName("textarea");
+    textarea[ATTEND_TAB_IX].value = attenddata;
   }
   
   // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -1054,6 +1072,8 @@ Y,,Private,Debbie Campbell Academy,"440 Slater St, Ottawa, ON K1R 5B5",440 Slate
   const MYSCHOOL = "myschool";
   const MYCLUBHOUSE = "myclubhouse";
   const MYDECISION = "decision"; // whether or not to go to a clubhouse
+  const MEMBERS = "members"; // each Member should retain a reference to the single <Members> node
+  const SHOW_TS_DATA = "showTsData"; // an attribute of the single <Members> node
   const UNKEEP_SCHOOLS = true;
   
   $wnd.xh.bgco.Membersbehavior = function Membersbehavior() {}
@@ -1061,6 +1081,7 @@ Y,,Private,Debbie Campbell Academy,"440 Slater St, Ottawa, ON K1R 5B5",440 Slate
   $wnd.xh.bgco.Membersbehavior.prototype.postConfigure = function() {
     this.me = this.cnode.parent();
     this.members = this.me;
+    this.members[SHOW_TS_DATA] = false;
     
     this.countChildren = function(node) {
       if (!node) {return 0;}
@@ -1104,6 +1125,7 @@ Y,,Private,Debbie Campbell Academy,"440 Slater St, Ottawa, ON K1R 5B5",440 Slate
           member = nextmember;
         }
         else {
+          member[MEMBERS] = this.members;
           member[MYHOUSE] = this.houses.xpath("House[" + (member[MYHOUSE] || Math.ceil(Math.random() * this.hcount)) + "]");
           if (!member[MYHOUSE]) {
             member[MYHOUSE] = this.houses.xpath("House[" + (Math.ceil(Math.random() * this.hcount)) + "]");
@@ -1113,7 +1135,7 @@ Y,,Private,Debbie Campbell Academy,"440 Slater St, Ottawa, ON K1R 5B5",440 Slate
             member[MYSCHOOL].keep = "true";
           }
           else {
-            member[MYSCHOOL] = this.schools.cache[Math.floor(Math.random() * schools.cache.length)];
+            member[MYSCHOOL] = this.schools.cache[Math.floor(Math.random() * this.schools.cache.length)];
           }
           
           var myclubhouseIx = member[MYCLUBHOUSE];
@@ -1132,7 +1154,7 @@ Y,,Private,Debbie Campbell Academy,"440 Slater St, Ottawa, ON K1R 5B5",440 Slate
                 case "RID":  myclubhouseIx = 7; break;
                 case "BRC":  myclubhouseIx = 8; break;
                 default:
-                  me.println("Cannot find clubhouse " + myclubhouseIx + ". Setting it to default MC 1."); // ex: "BL"
+                  this.me.println("Cannot find clubhouse " + myclubhouseIx + ". Setting it to default MC 1."); // ex: "BL"
                   myclubhouseIx = 1; // "MC" has been the most attended clubhouse
                   break;
               }
@@ -1189,7 +1211,7 @@ Y,,Private,Debbie Campbell Academy,"440 Slater St, Ottawa, ON K1R 5B5",440 Slate
               xmlstr += '  </DbAttendRecs>\n';
               xmlstr += '</Member>\n';
               //me.println(xmlstr);
-              members.append(xmlstr);
+              this.members.append(xmlstr);
             }
             memberid = fields[0];
             xmlstr = '<Member roleName="A' + membernameSuffix + '" memberid="' + memberid + '" myhouse="' + myhouse + '" myschool="' + myschool + '" myclubhouse="' + fields[2] + '"><Color>green</Color>\n';
@@ -1219,7 +1241,7 @@ Y,,Private,Debbie Campbell Academy,"440 Slater St, Ottawa, ON K1R 5B5",440 Slate
     this.me.println("" + this.hcount + " " + this.houses);
     this.me.println("" + this.scount + " " + this.schools);
     this.me.println("" + this.ccount + " " + this.clubhouses);
-    this.me.println("myname,myhouse,myschool,myclubhouse");
+    this.me.println("myname,myhouse,myschool,myclubhouse,isactive");
     this.initMembers(); // initialize Members whose nodes are already there
     if (UNKEEP_SCHOOLS) {
       this.unkeepSchools(this.schools);
@@ -1291,6 +1313,9 @@ const MMBR_TR_WILDCARD = "*";
 const MMBR_TR = [MMBR_TR_WILDCARD]; // ["Betty","Freddie"]; // TRack these members  ex: ["Betty","Freddie"]  ex: ["*"] or [MMBR_TR_WILDCARD]
 const END_TS = "20173650"; //"20110550";
 const USE_SIMPLESTATISTICS = false; // whether or not to use simple-statistics.js
+const MEMBERS = "members"; // each Member should retain a reference to the single <Members> node
+const SHOW_TS_DATA = "showTsData"; // an attribute of the single <Members> node
+const TS_TAB_IX = 4; // Xholon GUI tab where time series data should be written
 
 var me, member, delim, tsCsv, tsTimeCsv, isactive, count, beh = {
 postConfigure: function() {
@@ -1358,9 +1383,14 @@ act: function() {
   if (isactive && member.isactive && member.isactive == "false") {
     isactive = false;
   }
-  if (ts == END_TS) {
+  if ((ts == END_TS) || (member[MEMBERS][SHOW_TS_DATA])) {
+    // TODO it's pretty inefficient to have each member find the right textarea and append its data to the textarea
     var stats = this.genStats(member.tsCsv);
-    member.println(member.role() + "_" + (member["memberid"]||"0") + "," + (member["startTimestep"]||"2004001") + ",'" + $wnd.JSON.stringify(stats) + "'," + member.tsCsv);
+    var tsdata = member.role() + "_" + (member["memberid"]||"0") + "," + (member["startTimestep"]||"2004001") + ",'" + $wnd.JSON.stringify(stats) + "'," + member.tsCsv;
+    //member.println(tsdata);
+    var xhtabs = $doc.getElementById("xhtabs");
+    var textarea = xhtabs.getElementsByTagName("textarea");
+    textarea[TS_TAB_IX].value = textarea[TS_TAB_IX].value + tsdata + "\\n";
   }
 },
 
@@ -1371,14 +1401,17 @@ dateFromDay: function(year, day) {
 
 // Generate Time Series Statistics
 genStats: function(csvstr) {
+  var stats = {};
   if (typeof $wnd.d3 == "undefined") {
     $wnd.console.log("d3 is required to generate statistics");
-    return {};
+    return stats;
+  }
+  if (!csvstr || (csvstr.length == 0)) {
+    return stats;
   }
   var arr = csvstr.split(",");
   //$wnd = window; var arr = [3,9,1,3,5,4];
   var arrsorted = arr.sort();
-  var stats = {};
   stats.sum  = $wnd.d3.sum(arr);
   stats.mean = Number($wnd.d3.mean(arr).toFixed(4));
   stats.median = $wnd.d3.median(arr);
@@ -1408,9 +1441,9 @@ genStats: function(csvstr) {
 `;
 
   // DbAttendRecParser
+  // give PROGRAM_GENERIC an actual value when I just want to count the number of programs the member goes to on a certain day
+  // the actual named programs may be missing from the clubhouse
   $wnd.xh.DefaultContent.DbAttendRecParser = `
-// give PROGRAM_GENERIC an actual value when I just want to count the number of programs the member goes to on a certain day
-// the actual named programs may be missing from the clubhouse
 const PROGRAM_GENERIC = "generic"; // "generic" or null
 
 var me, beh = {
@@ -1419,13 +1452,13 @@ postConfigure: function() {
   var member = me.parent().parent();
   //me.println(me.name() + " is here");
   //$wnd.console.log(me);
-  var iflangStr = "script;\n"; //become this isactive false;\n";
+  var iflangStr = "script;\\n"; //become this isactive false;";
   var becomeActive = "become this isactive true;";
   var currentTimestep = 0;
   var recordsNode = me.next();
   if (recordsNode) {
     var recordsStr = recordsNode.text().trim();
-    var recordsArr = recordsStr.split("\n");
+    var recordsArr = recordsStr.split("\\n");
     me.println(member.role() + " has " + recordsArr.length + " input records (including header record)");
     me.println("0 " + recordsArr[0]);
     me.println("1 " + recordsArr[1]);
@@ -1440,7 +1473,7 @@ postConfigure: function() {
         if (currentTimestep == 0) {member["startTimestep"] = fieldArr[0];} // save the timestep when the member became active
         currentTimestep = fieldArr[0];
         // append a trailing 0 to represent hours in the day (hours 0 to 9)
-        iflangStr += "go this.myhouse;\nwait til " + currentTimestep + "0;\n" + becomeActive + "go this.myschool;\ngo this.myclubhouse;\n";
+        iflangStr += "go this.myhouse;\\nwait til " + currentTimestep + "0;\\n" + becomeActive + "go this.myschool;\\ngo this.myclubhouse;\\n";
         becomeActive = "";
         atProgram = false;
         activityCount = 1; // clubhouse visit
@@ -1449,7 +1482,7 @@ postConfigure: function() {
         if (atProgram) {
           if (activityCount < 4) {
             // the member will now attend another program that day
-            iflangStr += "next " + (PROGRAM_GENERIC || fieldArr[2]) + ";\nwait 1;\n";
+            iflangStr += "next " + (PROGRAM_GENERIC || fieldArr[2]) + ";\\nwait 1;\\n";
             activityCount++;
           }
           else {
@@ -1459,15 +1492,15 @@ postConfigure: function() {
         }
         else {
           // the member will now attend their first program of the day
-          iflangStr += "enter " + (PROGRAM_GENERIC ||fieldArr[2]) + ";\nwait 1;\n";
+          iflangStr += "enter " + (PROGRAM_GENERIC ||fieldArr[2]) + ";\\nwait 1;\\n";
           atProgram = true;
           activityCount++;
         }
       }
     }
   }
-  iflangStr += "go this.myhouse;\nwait til " + (Number(currentTimestep) + 1) + "0;\nbecome this isactive false;\n"; // make sure that each member is home at end of the simulation, and is no longer active
-  //iflangStr += "go this.myhouse;\nbecome this isactive false;\ngo this.myhouse;\nbecome this isactive false;\n"; // make double sure that each member is home at end of the simulation, and is no longer active
+  iflangStr += "go this.myhouse;\\nwait til " + (Number(currentTimestep) + 1) + "0;\\nbecome this isactive false;\\n"; // make sure that each member is home at end of the simulation, and is no longer active
+  //iflangStr += "go this.myhouse;\\nbecome this isactive false;\\ngo this.myhouse;\\nbecome this isactive false;\\n"; // make double sure that each member is home at end of the simulation, and is no longer active
   me.println(member);
   //me.println(iflangStr);
   member.text(iflangStr);
@@ -1482,5 +1515,5 @@ postConfigure: function() {
 `;
 
   
-})(window); // end (function()
+})(window, document); // end (function()
 

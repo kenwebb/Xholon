@@ -10,11 +10,17 @@
     <meta name="author" content="Ken Webb">
     <meta name="copyright" content="MIT License, Copyright (C) 2019 Ken Webb">
 
+    <!-- needed with Leaflet -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <!--                                                               -->
     <!-- Consider inlining CSS to reduce the number of requested files -->
     <!--                                                               -->
     <link type="text/css" rel="stylesheet" href="Xholon.css">
 
+    <!-- Leaflet -->
+	  <link rel="stylesheet" href="xholon/lib/leaflet.css" />
+    
     <!--                                           -->
     <!-- Any title is fine                         -->
     <!--                                           -->
@@ -57,6 +63,13 @@
     
     <script src="xholon/lib/d4g/bgco/bgco01.js"></script>
     
+    <!-- Leaflet -->
+    <script src="xholon/lib/leaflet.js"></script>
+    <!-- https://github.com/jdfergason/Leaflet.Ellipse -->
+    <script src="xholon/lib/l.ellipse.js"></script>
+    <!-- https://github.com/teralytics/Leaflet.D3SvgOverlay -->
+    <script src="xholon/lib/L.D3SvgOverlay.js"></script>
+
     <!-- require.js needs to be the last library loaded -->
     <script src="require.js"></script>
     
@@ -119,6 +132,9 @@
       <div id="treeview"></div>
       <div id="xhtreemap"></div>
     </div>
+    
+    <!-- Leaflet maps  style="width: 600px; height: 400px" -->
+    <div id="xhmap"></div>
     
     <!-- SVG and other animations, such as those with Animate.java
          Each separate animation should have its own child div -->
