@@ -623,6 +623,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			else if (implName.endsWith("Animate")) {
 				newNode = new org.primordion.xholon.script.Animate();
 			}
+			else if (implName.endsWith("AnimateMulti")) {
+				newNode = new org.primordion.xholon.script.AnimateMulti();
+			}
 			else if (implName.endsWith("port")) {
 				newNode = new org.primordion.xholon.script.port();
 			}
@@ -959,6 +962,9 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 				return true;
 			}
 			if (implName.endsWith("Animate")) {
+				return true;
+			}
+			if (implName.endsWith("AnimateMulti")) {
 				return true;
 			}
 			if (implName.endsWith("port")) {
