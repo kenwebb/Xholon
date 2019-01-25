@@ -41,8 +41,8 @@ import org.primordion.xholon.io.gwt.HtmlScriptHelper;
  * @since 0.9.1 (Created on November 22, 2014)
  */
 public class Animate extends XholonScript {
-  private static final String SPEED_FASTEST = "0"; // shortest TimeStepInterval = fastest speed
-  private static final String SPEED_SLOWEST = "1000"; // longest TimeStepInterval = slowest speed
+  private static final int SPEED_FASTEST =    0; // shortest TimeStepInterval = fastest speed
+  private static final int SPEED_SLOWEST = 1000; // longest TimeStepInterval = slowest speed
   
   /** The name of the external format (ef) */
   private String formatName = "_d3,CirclePack";
@@ -80,13 +80,29 @@ public class Animate extends XholonScript {
   /** Whether or not the animation is paused. The act() method does nothing if the animate is paused. */
   private boolean animPaused = false;
   
-  private String fastestSpeed = SPEED_FASTEST;
-  private String slowestSpeed = SPEED_SLOWEST;
+  private int fastestSpeed = SPEED_FASTEST;
+  private int slowestSpeed = SPEED_SLOWEST;
   
   /** Whether or not the speed is currently being adjusted. */
   private boolean adjustingSpeed = false;
   /** For use if adjustingSpeed == true */
-  private String currentSpeed = slowestSpeed;
+  private int currentSpeed = slowestSpeed;
+  
+  /** for use when parent is an AnimateMulti. */
+  private int requestedTimeStepInterval = -1;
+  
+  /** Whether or not this Animate node's parent is an AnimateMulti. */
+  private boolean parentAnimateMulti = false;
+  
+  @Override
+  public double getVal() {
+    return requestedTimeStepInterval;
+  }
+  
+  @Override
+  public void setVal(double aval) {
+    requestedTimeStepInterval = (int)aval;
+  }
   
   /*
    * @see org.primordion.xholon.base.Xholon#postConfigure()
@@ -96,8 +112,11 @@ public class Animate extends XholonScript {
     app = this.getApp();
     xhAnimRoot = app.getRoot(); // default
     setAnimRoot(xpath);
+    if ("AnimateMulti".equals(this.getParentNode().getXhcName())) {
+      parentAnimateMulti = true;
+    }
     // align the tween duration with the Xholon TimeStepInterval
-    app.setParam("TimeStepInterval", Integer.toString(((int)(duration * 1000.0))));
+    this.setTimeStepInterval((int)(duration * 1000.0));
     if (cssStyle != null) {
       style(cssStyle);
     }
@@ -114,14 +133,14 @@ public class Animate extends XholonScript {
         // the tree structure of the model has NOT changed, so the model and animation can run at the fastest speed
         if (this.adjustingSpeed && (this.currentSpeed == this.slowestSpeed)) {
           this.currentSpeed = this.fastestSpeed;
-          app.setParam("TimeStepInterval", this.fastestSpeed);
+          this.setTimeStepInterval(this.fastestSpeed);
         }
       }
       else {
         // the tree structure of the model HAS changed, so the model and animation should run at the slowest speed
         if (this.adjustingSpeed && (this.currentSpeed == this.fastestSpeed)) {
           this.currentSpeed = this.slowestSpeed;
-          app.setParam("TimeStepInterval", this.slowestSpeed);
+          this.setTimeStepInterval(this.slowestSpeed);
         }
         xport(formatName, xhAnimRoot, efParams, writeToTab);
         tween(selection, duration); // TODO duration never changes
@@ -212,17 +231,17 @@ public class Animate extends XholonScript {
   }
   
   protected void faster() {
-    int tsi = Integer.parseInt(app.getParam("TimeStepInterval"));
+    int tsi = getTimeStepInterval();
     if (tsi > 1000) {tsi = 1000;}
     else if (tsi > 100) {tsi = 100;}
     else if (tsi > 10) {tsi = 10;}
     else if (tsi > 1) {tsi = 1;}
     else {tsi = 0;}
-    app.setParam("TimeStepInterval", Integer.toString(tsi));
+    this.setTimeStepInterval(tsi);
   }
   
   protected void slower() {
-    int tsi = Integer.parseInt(app.getParam("TimeStepInterval"));
+    int tsi = getTimeStepInterval();
     if (tsi == 0) {tsi = 1;}
     else if (tsi < 10) {tsi = 10;}
     else if (tsi < 100) {tsi = 100;}
@@ -230,15 +249,15 @@ public class Animate extends XholonScript {
     else if (tsi < 2000) {tsi = 2000;}
     else if (tsi < 5000) {tsi = 5000;}
     else if (tsi < 10000) {tsi = 10000;}
-    app.setParam("TimeStepInterval", Integer.toString(tsi));
+    this.setTimeStepInterval(tsi);
   }
   
   protected void fastest() {
-    app.setParam("TimeStepInterval", fastestSpeed);
+    this.setTimeStepInterval(fastestSpeed);
   }
   
   protected void slowest() {
-    app.setParam("TimeStepInterval", slowestSpeed);
+    this.setTimeStepInterval(slowestSpeed);
   }
   
   protected void adjustSpeed() {
@@ -277,10 +296,10 @@ public class Animate extends XholonScript {
       this.animPaused = Boolean.parseBoolean(attrVal);
     }
     else if ("fastestSpeed".equals(attrName)) {
-      this.fastestSpeed = attrVal;
+      this.fastestSpeed = Integer.parseInt(attrVal);
     }
     else if ("slowestSpeed".equals(attrName)) {
-      this.slowestSpeed = attrVal;
+      this.slowestSpeed = Integer.parseInt(attrVal);
     }
     else if ("adjustingSpeed".equals(attrName)) {
       this.adjustingSpeed = Boolean.parseBoolean(attrVal);
@@ -298,6 +317,19 @@ public class Animate extends XholonScript {
   
   public String getAnimRoot() {
     return xpath;
+  }
+  
+  protected void setTimeStepInterval(int tsi) {
+    if (this.parentAnimateMulti) {
+      requestedTimeStepInterval = tsi;
+    }
+    else {
+      app.setParam("TimeStepInterval", Integer.toString(tsi));
+    }
+  }
+  
+  protected int getTimeStepInterval() {
+    return Integer.parseInt(app.getParam("TimeStepInterval"));
   }
   
 }
