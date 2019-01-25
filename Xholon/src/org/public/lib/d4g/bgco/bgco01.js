@@ -640,23 +640,23 @@ Y,,Private,Debbie Campbell Academy,"440 Slater St, Ottawa, ON K1R 5B5",440 Slate
   <PostalCode roleName="K1E"><Geo pcode="K1E">{"type":"Feature","properties":{"width":20,"height":20},"geometry":{"type":"Point","coordinates":[-75.511317,45.480709]}}</Geo></PostalCode>
   <PostalCode roleName="K1G"><Geo pcode="K1G">{"type":"Feature","properties":{"width":20,"height":20},"geometry":{"type":"Point","coordinates":[-75.639105,45.415407]}}</Geo></PostalCode>
   <PostalCode roleName="K1H"><Geo pcode="K1H">{"type":"Feature","properties":{"width":20,"height":20},"geometry":{"type":"Point","coordinates":[-75.673984,45.385008]}}</Geo></PostalCode>
-  <PostalCode roleName="K1J"><Geo pcode="K1J">{"type":"Feature","properties":{"width":20,"height":20},"geometry":{"type":"Point","coordinates":[-75.626478,45.423772]}}</Geo></PostalCode>
-  <PostalCode roleName="K1K"><Geo pcode="K1K">{"type":"Feature","properties":{"width":20,"height":20},"geometry":{"type":"Point","coordinates":[-75.630271,45.457049]}}</Geo></PostalCode>
+  <PostalCode roleName="K1J"><Geo pcode="K1J">{"type":"Feature","properties":{"width":100,"height":100},"geometry":{"type":"Point","coordinates":[-75.626478,45.423772]}}</Geo></PostalCode>
+  <PostalCode roleName="K1K"><Geo pcode="K1K">{"type":"Feature","properties":{"width":500,"height":500},"geometry":{"type":"Point","coordinates":[-75.630271,45.457049]}}</Geo></PostalCode>
   <PostalCode roleName="K1L"><Geo pcode="K1L">{"type":"Feature","properties":{"width":20,"height":20},"geometry":{"type":"Point","coordinates":[-75.654936,45.429783]}}</Geo></PostalCode>
   <PostalCode roleName="K1M"><Geo pcode="K1M">{"type":"Feature","properties":{"width":20,"height":20},"geometry":{"type":"Point","coordinates":[-75.68582,45.45387]}}</Geo></PostalCode>
   <PostalCode roleName="K1N"><Geo pcode="K1N">{"type":"Feature","properties":{"width":20,"height":20},"geometry":{"type":"Point","coordinates":[-75.693092,45.42963]}}</Geo></PostalCode>
   <PostalCode roleName="K1P"><Geo pcode="K1P">{"type":"Feature","properties":{"width":20,"height":20},"geometry":{"type":"Point","coordinates":[-75.698843,45.421395]}}</Geo></PostalCode>
-  <PostalCode roleName="K1R"><Geo pcode="K1R">{"type":"Feature","properties":{"width":20,"height":20},"geometry":{"type":"Point","coordinates":[-75.709934,45.413241]}}</Geo></PostalCode>
+  <PostalCode roleName="K1R"><Geo pcode="K1R">{"type":"Feature","properties":{"width":100,"height":100},"geometry":{"type":"Point","coordinates":[-75.709934,45.413241]}}</Geo></PostalCode>
   <PostalCode roleName="K1S"><Geo pcode="K1S">{"type":"Feature","properties":{"width":20,"height":20},"geometry":{"type":"Point","coordinates":[-75.678998,45.418205]}}</Geo></PostalCode>
   <PostalCode roleName="K1T"><Geo pcode="K1T">{"type":"Feature","properties":{"width":20,"height":20},"geometry":{"type":"Point","coordinates":[-75.606831,45.317154]}}</Geo></PostalCode>
-  <PostalCode roleName="K1V"><Geo pcode="K1V">{"type":"Feature","properties":{"width":20,"height":20},"geometry":{"type":"Point","coordinates":[-75.660618,45.349132]}}</Geo></PostalCode>
+  <PostalCode roleName="K1V"><Geo pcode="K1V">{"type":"Feature","properties":{"width":100,"height":100},"geometry":{"type":"Point","coordinates":[-75.660618,45.349132]}}</Geo></PostalCode>
   <PostalCode roleName="K1W"><Geo pcode="K1W">{"type":"Feature","properties":{"width":20,"height":20},"geometry":{"type":"Point","coordinates":[-75.522305,45.426208]}}</Geo></PostalCode>
   <PostalCode roleName="K1X"><Geo pcode="K1X">{"type":"Feature","properties":{"width":20,"height":20},"geometry":{"type":"Point","coordinates":[-75.630618,45.294871]}}</Geo></PostalCode>
   <PostalCode roleName="K1Y"><Geo pcode="K1Y">{"type":"Feature","properties":{"width":20,"height":20},"geometry":{"type":"Point","coordinates":[-75.749954,45.4022]}}</Geo></PostalCode>
-  <PostalCode roleName="K1Z"><Geo pcode="K1Z">{"type":"Feature","properties":{"width":20,"height":20},"geometry":{"type":"Point","coordinates":[-75.74585,45.379869]}}</Geo></PostalCode>
+  <PostalCode roleName="K1Z"><Geo pcode="K1Z">{"type":"Feature","properties":{"width":100,"height":100},"geometry":{"type":"Point","coordinates":[-75.74585,45.379869]}}</Geo></PostalCode>
   <PostalCode roleName="K2A"><Geo pcode="K2A">{"type":"Feature","properties":{"width":20,"height":20},"geometry":{"type":"Point","coordinates":[-75.824451,45.192827]}}</Geo></PostalCode>
-  <PostalCode roleName="K2B"><Geo pcode="K2B">{"type":"Feature","properties":{"width":20,"height":20},"geometry":{"type":"Point","coordinates":[-75.790284,45.352333]}}</Geo></PostalCode>
-  <PostalCode roleName="K2C"><Geo pcode="K2C">{"type":"Feature","properties":{"width":20,"height":20},"geometry":{"type":"Point","coordinates":[-75.710576,45.3810479]}}</Geo></PostalCode>
+  <PostalCode roleName="K2B"><Geo pcode="K2B">{"type":"Feature","properties":{"width":100,"height":100},"geometry":{"type":"Point","coordinates":[-75.790284,45.352333]}}</Geo></PostalCode>
+  <PostalCode roleName="K2C"><Geo pcode="K2C">{"type":"Feature","properties":{"width":100,"height":100},"geometry":{"type":"Point","coordinates":[-75.710576,45.3810479]}}</Geo></PostalCode>
   <PostalCode roleName="K2E"><Geo pcode="K2E">{"type":"Feature","properties":{"width":20,"height":20},"geometry":{"type":"Point","coordinates":[-75.700554,45.334394]}}</Geo></PostalCode>
   <PostalCode roleName="K2G"><Geo pcode="K2G">{"type":"Feature","properties":{"width":20,"height":20},"geometry":{"type":"Point","coordinates":[-75.73508,45.33583]}}</Geo></PostalCode>
   <PostalCode roleName="K2H"><Geo pcode="K2H">{"type":"Feature","properties":{"width":20,"height":20},"geometry":{"type":"Point","coordinates":[-75.795962,45.337119]}}</Geo></PostalCode>
@@ -1513,6 +1513,117 @@ postConfigure: function() {
 }
 //# sourceURL=DbAttendRecParser.js
 `;
+
+  // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+  // Leaflet
+  // see Xholon workbook: "Kidz Fun Finder - with Geo IDecoration 3"  b0bee55457fcc763ceb5
+  
+  const SOME_CONST = 3; // TODO some const
+  
+  $wnd.xh.bgco.leaflet = {};
+  
+  /**
+   * Do something.
+   */
+  $wnd.xh.bgco.leaflet.dosomething = function() {
+    // TODO ???
+  }
+  
+  // Move an avatar (Member) from one chunk of the City to another.
+  $wnd.xh.DefaultContent.MoveBetweenLeafletChunks = `
+var me, member, lastParent, wasInCity, lastAvatarSvg, beh = {
+postConfigure: function() {
+  me = this.cnode;
+  member = me.parent().parent();
+  lastParent = member.parent();
+  wasInCity = false;
+  lastAvatarSvg = null;
+  $wnd.xh.root().append(this.cnode.remove());
+},
+act: function() {
+  var txt = member.text();
+  if (txt) {
+    //caption.textContent = member.role() + ": " + txt;
+  }
+  else if ((member.parent().xhc().name() == "Day") && (member.parent().actions)) {
+    member.text(member.parent().actions);
+  }
+  
+  // handle member when it exits to the City
+  if (member.parent().xhc().name() == "City") {
+    //member.println(member.name() + " is in the City.");
+    wasInCity = true;
+  }
+  else {
+    if (wasInCity) {
+      var source = lastParent;
+      var dest = member.parent();
+      $wnd.console.log(member.name() + " is moving from " + source.name() + " to " + dest.name() + ".");
+      var sourceSvg = $doc.querySelector("#xh" + source.id());
+      var destSvg = $doc.querySelector("#xh" + dest.id());
+      $wnd.console.log(sourceSvg);
+      $wnd.console.log(destSvg);
+      
+      var avatarName = member.name().replace(/ /g, '\\ ').replace(/:/g, '\\:'); // escape invalid characters " " and ":"
+      $wnd.console.log(avatarName);
+      // the following line gets the member in its new subtree
+      var avatarG = $doc.querySelector("#xhmap #" + avatarName);
+      $wnd.console.log("AVATAR SVG");
+      $wnd.console.log(avatarG);
+      var avatarC = avatarG.querySelector("circle");
+      $wnd.console.log(avatarC);
+      
+      var svgEle1 = $doc.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svgEle1.setAttribute("id", "xh" + member.id());
+      svgEle1.setAttribute("x", sourceSvg.getAttribute("x"));
+      svgEle1.setAttribute("y", sourceSvg.getAttribute("y"));
+      var svgEle2 = $doc.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svgEle2.setAttribute("width", avatarC.getAttribute("r") * 2); //"20");
+      svgEle2.setAttribute("height", avatarC.getAttribute("r") * 2); //"20");
+      var gEle1 = $doc.createElementNS("http://www.w3.org/2000/svg", "g");
+      // the following line has no effect
+      //gEle1.setAttribute("transform", sourceSvg.firstElementChild.firstElementChild.getAttribute("transform"));
+      
+      var gEle2 = $doc.createElementNS("http://www.w3.org/2000/svg", "g");
+      gEle2.setAttribute("class", avatarG.getAttribute("class"));
+      // the following line has uncertain effect
+      //gEle2.setAttribute("transform", avatarG.getAttribute("transform"));
+      
+      var circle = $doc.createElementNS("http://www.w3.org/2000/svg", "circle");
+      circle.setAttribute("r", avatarC.getAttribute("r"));
+      circle.setAttribute("cx", avatarC.getAttribute("r"));
+      circle.setAttribute("cy", avatarC.getAttribute("r"));
+      circle.setAttribute("style", avatarC.getAttribute("style") + "stroke-width:0.5;");
+      
+      gEle2.appendChild(circle);
+      gEle1.appendChild(gEle2);
+      svgEle2.appendChild(gEle1);
+      svgEle1.appendChild(svgEle2);
+      $wnd.xh.leaflet.leafletSvg.appendChild(svgEle1);
+      lastAvatarSvg = svgEle1;
+      
+      // TODO tween to dest
+      var destX = Number(destSvg.getAttribute("x")) + (Number(destSvg.firstElementChild.getAttribute("width"))/2);
+      var destY = Number(destSvg.getAttribute("y")) + (Number(destSvg.firstElementChild.getAttribute("height"))/2);
+      $wnd.console.log(destX);
+      $wnd.console.log(destY);
+      $wnd.d3.select(lastAvatarSvg).transition()
+      .attr("x", destX)
+      .attr("y", destY)
+      .duration(2000);
+    }
+    else if (lastAvatarSvg) {
+      $wnd.xh.leaflet.leafletSvg.removeChild(lastAvatarSvg);
+      lastAvatarSvg = null;
+    }
+    lastParent = member.parent();
+    wasInCity = false;
+  }
+} // end act()
+}
+//# sourceURL=MoveBetweenLeafletChunks.js
+`;
+  
 
   
 })(window, document); // end (function()

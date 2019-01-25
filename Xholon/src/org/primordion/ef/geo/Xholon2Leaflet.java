@@ -358,12 +358,18 @@ fillOpacity  Opacity     fill-opacity
     this.initAnim("City/School[@roleName='Hilson']", 30, 30);
     this.initAnim("City/School[@roleName='New']", 30, 30);
     this.initAnim("City/House", 200, 200);
+    this.initAnim("City/House", 200, 200, "./PhysicalSystem/");
+    this.initAnim("City/House", 200, 200, "./PhysicalSystem/", AnimateMulti IXholon node);
    */
   protected native void createInitAnim() /*-{
     var $efParams = this.efParams;
-    $wnd.xh.leaflet.initAnim = function(xpathExpr, width, height) {
+    $wnd.xh.leaflet.initAnim = function(xpathExpr, width, height, animXpathExpr, animMultiNode) {
       if (width === undefined) {width = -1;}
       if (height === undefined) {height = -1;}
+      if (animXpathExpr === undefined) {
+        // support my existing Leaflet prototype workbook/app, which use "FunSystem"
+        animXpathExpr = "./FunSystem/";
+      }
       var xhNode = $wnd.xh.leaflet.me.xpath(xpathExpr);
       var svgId = "xh" + xhNode.id();
       var efpSel = "div#" + $efParams.selection + " div.leaflet-overlay-pane";
@@ -412,12 +418,31 @@ fillOpacity  Opacity     fill-opacity
       //$wnd.console.log(svgEle);
       $wnd.xh.leaflet.leafletSvg.appendChild(svgEle);
       
-      $wnd.xh.leaflet.me.append('<Animate duration="2" selection="'
+      var options = null;
+      if (animMultiNode) {
+        options = animMultiNode.obj();
+      }
+      if (!options) {
+        options = {};
+      }
+      if (!options.duration) {options.duration = 2;}
+      
+      //var aniXmlStr = '<Animate duration="2" selection="'
+      var aniXmlStr = '<Animate duration="'
+      + options.duration
+      + '" selection="'
       + $wnd.xh.leaflet.leafletSvg.efpSel
       + svgId
-      + '" xpath="./FunSystem/'
+      + '" xpath="'
+      + animXpathExpr
       + xpathExpr
-      + '" efParams="{&quot;selection&quot;:&quot;'
+      + '"';
+      
+      if (options.fastestSpeed) {aniXmlStr += ' fastestSpeed="' + options.fastestSpeed + '"';}
+      if (options.slowestSpeed) {aniXmlStr += ' slowestSpeed="' + options.slowestSpeed + '"';}
+      if (options.adjustingSpeed) {aniXmlStr += ' adjustingSpeed="' + options.adjustingSpeed + '"';}
+      
+      aniXmlStr += ' efParams="{&quot;selection&quot;:&quot;'
       + $wnd.xh.leaflet.leafletSvg.efpSel
       + svgId
       + '&quot;,&quot;sort&quot;:&quot;disable&quot;,&quot;width&quot;:'
@@ -427,7 +452,14 @@ fillOpacity  Opacity     fill-opacity
       + ',&quot;mode&quot;:&quot;tween&quot;,&quot;labelContainers&quot;:true'
       + ',&quot;includeId&quot;:true'
       + ',&quot;includeClass&quot;:false'
-      + ',&quot;shape&quot;:&quot;circle&quot;}"/>');
+      + ',&quot;shape&quot;:&quot;circle&quot;}"/>'
+      $wnd.console.log(aniXmlStr);
+      if (animMultiNode) {
+        animMultiNode.append(aniXmlStr);
+      }
+      else {
+        $wnd.xh.leaflet.me.append(aniXmlStr);
+      }
   
       $wnd.xh.leaflet.d3cpArr.push({xpathExpr: xpathExpr, svgId: svgId, xhNode: xhNode});
     }
