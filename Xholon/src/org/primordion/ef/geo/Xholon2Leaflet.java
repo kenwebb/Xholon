@@ -453,7 +453,7 @@ fillOpacity  Opacity     fill-opacity
       + ',&quot;includeId&quot;:true'
       + ',&quot;includeClass&quot;:false'
       + ',&quot;shape&quot;:&quot;circle&quot;}"/>'
-      $wnd.console.log(aniXmlStr);
+      //$wnd.console.log(aniXmlStr);
       if (animMultiNode) {
         animMultiNode.append(aniXmlStr);
       }
