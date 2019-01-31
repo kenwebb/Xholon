@@ -1316,6 +1316,7 @@ const USE_SIMPLESTATISTICS = false; // whether or not to use simple-statistics.j
 const MEMBERS = "members"; // each Member should retain a reference to the single <Members> node
 const SHOW_TS_DATA = "showTsData"; // an attribute of the single <Members> node
 const TS_TAB_IX = 4; // Xholon GUI tab where time series data should be written
+const CH_INC = 0.1; // how much to increment the count if its a "Clubhouse" record  0=ignore, 1=count as a normal program attendance, 0.1=count separately
 
 var me, member, delim, tsCsv, tsTimeCsv, isactive, count, beh = {
 postConfigure: function() {
@@ -1347,7 +1348,7 @@ act: function() {
   if (isactive) {
     if (hour == CH_TS) {
       if ((ptype == "Clubhouse")) {
-        count++;
+        count += CH_INC;
       }
       member.tsTimeCsv += delim + ts;
     }
@@ -1376,7 +1377,7 @@ act: function() {
     }
     else if ((ptype == "Program") && (hour != IGNORE_TS)) {
       // count programs attended within the clubhouse
-      var date = this.dateFromDay(ts.substring(0,4), ts.substring(4,7)); // 20052734
+      var date = this.dateFromDayofyear(ts.substring(0,4), ts.substring(4,7)); // 20052734
       count++;
     }
   }
@@ -1385,8 +1386,22 @@ act: function() {
   }
   if ((ts == END_TS) || (member[MEMBERS][SHOW_TS_DATA])) {
     // TODO it's pretty inefficient to have each member find the right textarea and append its data to the textarea
-    var stats = this.genStats(member.tsCsv);
-    var tsdata = member.role() + "_" + (member["memberid"]||"0") + "," + (member["startTimestep"]||"2004001") + ",'" + $wnd.JSON.stringify(stats) + "'," + member.tsCsv;
+    //var stats = this.genStats(member.tsCsv);
+    var statsOutArr = this.genStats(member.tsCsv);
+    var memberStartTimestep = member["startTimestep"]||"2004001";
+    var startDateInc = statsOutArr[2];
+    if (startDateInc > 0) {
+      // increment member["startTimestep"] by this amount
+      var yearstr = memberStartTimestep.substring(0,4);
+      var day = Number(memberStartTimestep.substring(4,7)) + startDateInc;
+      var date = this.dateFromDayofyear(yearstr, day);
+      var year = date.getFullYear(); // ex: 2010 as a Number
+      var doy = this.dayofyearFromDate(date);
+      memberStartTimestep = "" + year + ('00' + doy).slice(-3); // left pad the doy with zeros  ex: 3 becomes 003
+    }
+    var tsdata = member.role() + "_" + (member["memberid"]||"0") + ","
+      + (memberStartTimestep||"2004001") + ",'"
+      + $wnd.JSON.stringify(statsOutArr[0]) + "'," + statsOutArr[1];
     //member.println(tsdata);
     var xhtabs = $doc.getElementById("xhtabs");
     var textarea = xhtabs.getElementsByTagName("textarea");
@@ -1394,25 +1409,57 @@ act: function() {
   }
 },
 
-dateFromDay: function(year, day) {
+dateFromDayofyear: function(year, doy) {
   var date = new Date(year, 0); // initialize a date in "year-01-01"
-  return new Date(date.setDate(day)); // add the number of days
+  return new Date(date.setDate(doy)); // add the number of days
+},
+
+// https://www.webdeveloper.com/forum/d/125428-does-javascript-have-a-simple-get-day-of-the-year-type-function
+dayofyearFromDate: function(d) {   // d is a Date object
+  var yn = d.getFullYear();
+  var mn = d.getMonth();
+  var dn = d.getDate();
+  var d1 = new Date(yn,0,1,12,0,0); // noon on Jan. 1
+  var d2 = new Date(yn,mn,dn,12,0,0); // noon on input date
+  var ddiff = Math.round((d2-d1)/864e5);
+  return ddiff+1;
 },
 
 // Generate Time Series Statistics
 genStats: function(csvstr) {
   var stats = {};
+  var startDateInc = 0; // startdate increment in days; equals the number of zeros removed from start of array
   if (typeof $wnd.d3 == "undefined") {
     $wnd.console.log("d3 is required to generate statistics");
-    return stats;
+    return [stats, csvstr, startDateInc];
   }
   if (!csvstr || (csvstr.length == 0)) {
-    return stats;
+    return [stats, csvstr, startDateInc];
   }
   var arr = csvstr.split(",");
   //$wnd = window; var arr = [3,9,1,3,5,4];
+  // testing: var CH_INCx = 0.1; CH_INCx % 1 != 0;
+  if (CH_INC % 1 != 0) {
+    // the "clubhouse" records have been counted separately as decimal values (.1)
+    // count the clubhouse attendances
+    // gen new array with values that have been rounded down using Math.floor()
+    var arrpr = arr.map(x => Math.floor(x)); // program counts only
+    var arrch = arr.map(x => (x % 1 == 0) ? 0 : 1); // clubhouse counts only
+    // remove leading zeros and update startdate
+    function isGtZero(element) {return element > 0;}
+    var index = arrpr.findIndex(isGtZero);
+    if (index > 0) {
+      arrpr = arrpr.slice(index);
+      startDateInc = index;
+    }
+    arr = arrpr; // arr now contains only the program attendances, as integer values
+    stats.attch = $wnd.d3.sum(arrch); // count of all clubhouse attendances
+    csvstr = arr.join();
+  }
   var arrsorted = arr.sort();
-  stats.sum  = $wnd.d3.sum(arr);
+  var arrprdays = arr.map(x => (x == 0) ? 0 : 1); // for each day, whether or not at least one program was attended (1 or 0)
+  stats.attprt  = $wnd.d3.sum(arr); // count of total program attendances; previously I called this stats.sum
+  stats.attprd = $wnd.d3.sum(arrprdays); // count of number of days that at least one program was attended
   stats.mean = Number($wnd.d3.mean(arr).toFixed(4));
   stats.median = $wnd.d3.median(arr);
   stats.min  = Number($wnd.d3.min(arr));
@@ -1433,7 +1480,7 @@ genStats: function(csvstr) {
     }
   }
   //$wnd.console.log(stats);
-  return stats;
+  return [stats, csvstr, startDateInc];
 }
 
 }
