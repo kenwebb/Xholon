@@ -1307,6 +1307,99 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       }
     });
     
+    // arrayify
+    // xh.root().first().first().next().arrayify();
+    api.arrayify = $entry(function() {
+      var ix = 0;
+      var node = this.first();
+      while (node) {
+        this[ix++] = node;
+        node = node.next();
+      }
+      this.length = ix;
+      return this;
+    });
+    
+    // unarrayify - reverse the effect of arrayify()
+    api.unarrayify = $entry(function() {
+      var ix = 0;
+      var node = this.first();
+      while (node) {
+        delete this[ix++];
+        node = node.next();
+      }
+      delete this.length;
+      return this;
+    });
+    
+    // childrenAsArray
+    // var childarr = xh.root().arrayify().childrenAsArray();
+    api.childrenAsArray = $entry(function() {
+      if (this.length) {
+        return Array.prototype.slice.call(this);
+      }
+      else {
+        var arr = [];
+        var node = this.first();
+        while (node) {
+          arr.push(node);
+          node = node.next();
+        }
+        return arr;
+      }
+    });
+    
+    // cache - move children to an array
+    // 2 possibilities:
+    //  (1) move children to this.arrayify()
+    //  (2) move children to a new array called ccache
+    // var childarr = xh.root().cache();
+    // TODO Avatar can crash the page if it tries to exit from a cache; it retains its contextNode
+    api.cache = $entry(function(destination) {
+      if (destination === undefined) {destination = "arrayify";} // "arrayify" or "ccache"
+      switch (destination) {
+      case "ccache":
+        this.ccache = this.childrenAsArray();
+        this.ccache.map(function(node) {node.remove();});
+        break;
+      case "arrayify":
+      default:
+        if (!this.length) {
+          this.arrayify();
+        }
+        for (var i = 0; i < this.length; i++) {
+          this[i].remove();
+        }
+        break;
+      }
+    });
+    
+    // uncache - reverse the effects of cache()
+    api.uncache = $entry(function(source) {
+      if (source === undefined) {source = "arrayify";} // "arrayify" or "ccache"
+      switch (source) {
+      case "ccache":
+        if (this.ccache && this.ccache.length) {
+          var len = this.ccache.length;
+          for (var i = 0; i < len; i++) {
+            this.append(this.ccache.shift());
+          }
+          delete this.ccache;
+        }
+        break;
+      case "arrayify":
+      default:
+        if (this.length) {
+          for (var i = 0; i < this.length; i++) {
+            this.append(this[i]);
+            delete this[i];
+          }
+          delete this.length;
+        }
+        break;
+      }
+    });
+    
     // TODO pcs(expression) and select(expression)
     
   }-*/;
