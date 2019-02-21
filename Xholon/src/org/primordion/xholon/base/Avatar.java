@@ -1310,6 +1310,10 @@ public class Avatar extends AbstractAvatar {
       // this command is essentially the same as "who"
       sb.append("You are ").append(makeNodeName(this.getIdentity())).append(".");
       break;
+    case "idle":
+      // do nothing; an explicit command that's equivalent to all of the following: "" ";" "[];"
+      // it's similar to identity(), in that it is like an arrow that moves the Avatar back to where it already is
+      break;
     case "if":
       if (len == 3) {
         iiff(data[1], data[2]);
@@ -2600,6 +2604,7 @@ a.action("takeclone hello;");
     .append("\ngroup THING1[,THINGi,...,THINGn] in|on|under THING2")
     .append("\nhelp|help commands|help keymap")
     .append("\nidentity")
+    .append("\nidle")
     .append("\nif xpath command [elseif xpath command] [else command]")
     .append("\ninventory|i")
     .append("\nlead FOLLOWER_THING")
