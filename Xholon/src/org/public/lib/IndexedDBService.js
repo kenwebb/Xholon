@@ -98,7 +98,7 @@ xh.IndexedDBService.update = function(dbName, objstoreName, key, newData) {
       if (data) {
         var count = data.count;
         if (count) {
-          data.count = count + 1;
+          data.count = count + newData.count; //+ 1;
           // Put this updated object back into the database.
           var requestUpdate = objectStore.put(data);
           requestUpdate.onerror = function(event) {
@@ -122,8 +122,8 @@ xh.IndexedDBService.update = function(dbName, objstoreName, key, newData) {
  * @param columnNameArr an array of column names to display  ex: ["state", "action", "count"]
  */
 xh.IndexedDBService.display = function(dbName, objstoreName, columnNameArr) {
-  if (!dbName) {console.error("xh.IndexedDBService.update() dbName is null"); return;}
-  if (!objstoreName) {console.error("xh.IndexedDBService.update() objstoreName is null"); return;}
+  if (!dbName) {console.error("xh.IndexedDBService.display() dbName is null"); return;}
+  if (!objstoreName) {console.error("xh.IndexedDBService.display() objstoreName is null"); return;}
   var root = xh.root();
   var db;
   var request = indexedDB.open(dbName);
@@ -137,7 +137,11 @@ xh.IndexedDBService.display = function(dbName, objstoreName, columnNameArr) {
       var cursor = event.target.result;
       var str = "";
       if(cursor) {
-        str += cursor.value[columnNameArr[0]] + ', ' + cursor.value[columnNameArr[1]] + ', ' + cursor.value[columnNameArr[2]];
+        var comma = '';
+        for (var i = 0; i < columnNameArr.length; i++) {
+          str += comma + cursor.value[columnNameArr[i]];
+          comma = ', ';
+        }
         cursor.continue();
       } else {
         console.log('Entries all displayed.');
@@ -145,6 +149,62 @@ xh.IndexedDBService.display = function(dbName, objstoreName, columnNameArr) {
       root.println(str);
     };
   
+  }
+}
+
+/**
+ * Query data from a database and object store.
+ * @param xhNode a IXholon node.
+ * @param action what method to call on the xhNode "text" "msg" "call"
+ * if xhNode is a Attribute_String, then action might be "text" and signal would be 0 or undefined
+ * if xhNode is a Java or JS behavior, then action could be "msg" or "call", and signal would be an integer such as 401
+ */
+xh.IndexedDBService.query = function(dbName, objstoreName, columnNameArr, xhNode, action, signal) {
+  if (!dbName) {console.error("xh.IndexedDBService.query() dbName is null"); return;}
+  if (!objstoreName) {console.error("xh.IndexedDBService.query() objstoreName is null"); return;}
+  if (!xhNode) {console.error("xh.IndexedDBService.query() xhNode is null"); return;}
+  if (typeof signal == "undefined") {signal = 101;}
+  if (typeof action == "undefined") {action = "text";}
+  var root = xh.root();
+  var resultstr = "";
+  var db;
+  var request = indexedDB.open(dbName);
+  request.onerror = function(event) {
+    console.log("IndexedDBService can't find db " + dbName);
+  };
+  request.onsuccess = function(event) {
+    db = event.target.result;
+    var objectStore = db.transaction(objstoreName, "readonly").objectStore(objstoreName);
+    objectStore.openCursor().onsuccess = function(event) {
+      var cursor = event.target.result;
+      var str = "";
+      if(cursor) {
+        var comma = "";
+        for (var i = 0; i < columnNameArr.length; i++) {
+          str += comma + cursor.value[columnNameArr[i]];
+          comma = ",";
+        }
+        cursor.continue();
+      } else {
+        console.log('Query entries all obtained.');
+        switch (action) {
+        case "text":
+          xhNode.text(resultstr);
+          break;
+        case "msg":
+          xhNode.msg(signal, resultstr, root);
+          break;
+        case "call":
+          var respmsg = xhNode.call(signal, resultstr, root);
+          if (respmsg.data) {
+            console.log(respmsg.data);
+          }
+          break;
+        default: break;
+        }
+      }
+      resultstr += str + "\n";
+    };
   }
 }
 
