@@ -303,12 +303,12 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
 
   $wnd.xh.StochasticBehavior.CollectData.prototype.saveToDB = function(key, state) {
     var ignoreArr = ["out", "pause", "pause;", "step", "step;"];
-    var currentActionStr = ava["currentActions"].pop(); //shift();
+    var currentActionStr = this.ava["currentActions"].pop(); //shift();
     while (currentActionStr) {
       // dispose of specific action strings, such as ones that start with "out"
       var caArr = currentActionStr.split(" ");
       if (!ignoreArr.includes(caArr[0])) {break;}
-      currentActionStr = ava["currentActions"].pop(); //shift();
+      currentActionStr = this.ava["currentActions"].pop(); //shift();
     }
     this.ava["currentActions"].splice(0,this.ava["currentActions"].length); // clear contents of the array
     if (!currentActionStr) {return;}
