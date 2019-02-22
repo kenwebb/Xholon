@@ -48,6 +48,19 @@
     <!-- TESTING -->
     <script src="xholon/lib/hammer.min.js"></script>
     
+    <!-- example of param in the URL: &jslib=StochasticBehavior,Other -->
+    <script>
+var jslib = new URLSearchParams(location.search).get("jslib");
+if (jslib) {
+  var arr = jslib.split(",");
+  for (var i = 0; i < arr.length; i++) {
+    var libName = 'xholon/lib/' + arr[i] + '.js';
+    var scriptStr = '<' + 'script src="' + libName + '">' + '<' + '/script>';
+    document.write(scriptStr);
+  }
+}
+    </script>
+    
     <!-- require.js needs to be the last library loaded -->
     <script src="require.js"></script>
     
