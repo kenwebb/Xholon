@@ -30,10 +30,13 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
   
   // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
   // DisplayDbButton
-  $wnd.xh.StochasticBehavior.DisplayDbButton = function DisplayDbButton() {}
+  $wnd.xh.StochasticBehavior.DisplayDbButton = function DisplayDbButton(dbName, dbStoreName) {
+    this.dbName = dbName; // ex: "AvatarStateDB"
+    this.dbStoreName = dbStoreName; // ex: "avastate"
+  }
 
   $wnd.xh.StochasticBehavior.DisplayDbButton.prototype.handleNodeSelection = function() {
-    $wnd.xh.IndexedDBService.display("AvatarStateDB", "avastate", ["hash", "state", "action", "count"]);
+    $wnd.xh.IndexedDBService.display(this.dbName, this.dbStoreName, ["hash", "state", "action", "count"]);
     return "\u0011";
   }
 
@@ -41,15 +44,17 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
   // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
   // QueryDbButton
   var QUERY_ACTION_TYPE = 1; // 1, 2, 3
-  $wnd.xh.StochasticBehavior.QueryDbButton = function QueryDbButton(queryActionType) {
+  $wnd.xh.StochasticBehavior.QueryDbButton = function QueryDbButton(queryActionType, dbName, dbStoreName) {
     QUERY_ACTION_TYPE = queryActionType;
+    this.dbName = dbName; // ex: "AvatarStateDB"
+    this.dbStoreName = dbStoreName; // ex: "avastate"
   }
   
   $wnd.xh.StochasticBehavior.QueryDbButton.prototype.handleNodeSelection = function() {
     switch (QUERY_ACTION_TYPE) {
-    case 1: $wnd.xh.IndexedDBService.query("AvatarStateDB", "avastate", ["hash", "state", "action", "count"], this.cnode.next(), "text"); break;
-    case 2: $wnd.xh.IndexedDBService.query("AvatarStateDB", "avastate", ["hash", "state", "action", "count"], this.cnode, "msg", 401); break;
-    case 3: $wnd.xh.IndexedDBService.query("AvatarStateDB", "avastate", ["hash", "state", "action", "count"], this.cnode, "call", 401); break;
+    case 1: $wnd.xh.IndexedDBService.query(this.dbName, this.dbStoreName, ["hash", "state", "action", "count"], this.cnode.next(), "text"); break;
+    case 2: $wnd.xh.IndexedDBService.query(this.dbName, this.dbStoreName, ["hash", "state", "action", "count"], this.cnode, "msg", 401); break;
+    case 3: $wnd.xh.IndexedDBService.query(this.dbName, this.dbStoreName, ["hash", "state", "action", "count"], this.cnode, "call", 401); break;
     default: break;
     }
     return "\u0011";
@@ -76,15 +81,14 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
   
   const CONTROL_DETERMINISTICALLY = false;
   
-  $wnd.xh.StochasticBehavior.QueryResultsProcessor = function QueryResultsProcessor() {
-    //var me, qr, processed, ava, behaviorProbs, wcs, wcsobj, newState;
+  $wnd.xh.StochasticBehavior.QueryResultsProcessor = function QueryResultsProcessor(ava) {
+    this.ava = ava;
   }
   
   $wnd.xh.StochasticBehavior.QueryResultsProcessor.prototype.postConfigure = function() {
     this.me = this.cnode; // QueryResultsProcessor node
     this.qr = this.me.parent(); // QueryResults node, where the source data lives
     this.processed = false; // whether or not the source data has been processed
-    this.ava = $wnd.xh.avatar();
     this.behaviorProbs = null;
     this.wcs = $wnd.xh.service("WebCryptographyService");
     this.newState = "";
@@ -93,15 +97,11 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
   $wnd.xh.StochasticBehavior.QueryResultsProcessor.prototype.act = function() {
     if (this.qr.text() && !this.processed) {
       // process the QueryResults
-      //me.println("ready to process query results ... TODO");
       var outobj = this.process(this.qr.text().trim());
-      $wnd.console.log(outobj);
-      //me.println(JSON.stringify(outobj));
       this.behaviorProbs = outobj;
       this.processed = true;
     }
     if (this.processed) {
-      // use behaviorProbs to drive the Avatar
       this.newState = "";
       this.hashifySXpres(this.ava.parent()); // a JSON string
       this.wcsobj = this.wcs.obj();
@@ -148,21 +148,17 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
     if (msg.signal == 101) {
       // process a message from the hash function
       var hash = msg.data[1];
-      //me.println(hash);
       var arr = this.behaviorProbs[hash];
-      //me.println(arr);
       var rnum = Math.random();
       var ele = arr.find(function(item) {
         var rc = rnum < item.probability;
         return rc;
       });
-      //me.println(ele.action);
       this.ava.action(ele.action);
     }
   }
 
   $wnd.xh.StochasticBehavior.QueryResultsProcessor.prototype.process = function(str) {
-    //me.println(str.length);
     var rows = str.split("\n");
     var hash = "";
     var action = "";
@@ -171,30 +167,23 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
     var arr = [];
     for (var i = 0; i < rows.length; i++) {
       var row = rows[i];
-      //me.println(row);
       var fields = row.split(",");
       if (fields[FIELD_HASH] == hash) {
         totalCounts += Number(fields[FIELD_COUNT]);
-        //outobj[hash][fields[FIELD_ACTION]] = fields[FIELD_COUNT];
         var obj = {};
         obj.action = fields[FIELD_ACTION];
         obj.count = fields[FIELD_COUNT];
         arr.push(obj);
       }
       else {
-        //$wnd.console.log(outobj[hash]);
-        //$wnd.console.log(totalCounts);
         arr = this.adjust(totalCounts, arr);
-        //console.log(arr);
         if (hash) {
           outobj[hash] = arr;
         }
         arr = [];
         totalCounts = 0;
         hash = fields[FIELD_HASH];
-        //outobj[hash] = {};
         totalCounts += Number(fields[FIELD_COUNT]);
-        //outobj[hash][fields[FIELD_ACTION]] = fields[FIELD_COUNT];
         var obj = {};
         obj.action = fields[FIELD_ACTION];
         obj.count = fields[FIELD_COUNT];
@@ -223,66 +212,34 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
   }
   
   // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-  // TestWorldbehavior
-  const DB_NAME = "AvatarStateDB";
-  const DB_VERSION = 1;
-  const DB_STORE_NAME = "avastate";
-  const DB_STORE_KEY = ["hash", "action"];
-  const AVA_TEST = false; // whether or not to repeatedly run the Avatar test suite
-  const COLLECT_DATA = false; // whether or not to collect new data
+  // CollectData
+  var DB_NAME = "AvatarStateDB";
+  var DB_STORE_NAME = "avastate";
+  var DB_STORE_KEY = ["hash", "action"];
+  var COLLECT_DATA = false; // whether or not to collect new data
 
-  $wnd.xh.StochasticBehavior.TestWorldbehavior = function TestWorldbehavior() {
-    //var me, wcs, wcsobj, ava, newState, prevState, idbs, idbsobj, idbssetup, idlecount;
+  $wnd.xh.StochasticBehavior.CollectData = function CollectData(dbName, dbStoreName, dbStoreKey, ava, collectData) {
+    DB_NAME = dbName;
+    DB_STORE_NAME = dbStoreName;
+    DB_STORE_KEY = dbStoreKey;
+    COLLECT_DATA = collectData;
+    this.ava = ava;
   }
 
-  $wnd.xh.StochasticBehavior.TestWorldbehavior.prototype.postConfigure = function() {
+  $wnd.xh.StochasticBehavior.CollectData.prototype.postConfigure = function() {
     this.wcs = $wnd.xh.service("WebCryptographyService");
     this.idbs = $wnd.xh.service("IndexedDBService");
     this.idbssetup = false;
     this.idlecount = 0;
-    this.me = this.cnode.parent();
-    if ($wnd.xh.html["selectTab"]) {
-      $wnd.xh.html.selectTab(0); // display contents of the "out" tab
-    }
-    
-    this.me.parent().append(this.cnode.remove());
-    var city = this.me.first();
-    var things = this.me.next();
-    var thing = things.first();
-    while (thing) {
-      var nextThing = thing.next();
-      city.append(thing.remove());
-      thing = nextThing;
-      city = city.next();
-      if (city == null) {
-        city = this.me.first();
-      }
-    }
-    
-    this.ava = $wnd.xh.avatar();
     
     // initialize prevState
     this.newState = "";
     this.hashifySXpres(this.ava);
     this.prevState = this.newState;
     this.newState = "";
-    
-    this.ava.action("param currentActions true;");
-    var initActions = "param transcript false;param setCtxtOnselect false;param repeat true;appear;become this role " + "Avatario" + ";" + "enter;enter testWorld;enter;pause;";
-    this.ava.action(initActions);
-    if (AVA_TEST) { // test suite
-      var testActions = "script;\nnext;\nnext;\nprev;\nprev;\nenter;\nwait 5;\nexit;\nbreakpoint;";
-      this.ava.action(testActions);
-    }
-    this.ava.action("pause;");
+  }
 
-    //$wnd.xh.require("StochasticBehavior");
-    
-    $wnd.xh.css.style("body {background-color: #110934; color: white}");
-    $wnd.xh.css.style("textarea {background-color: rgba(240, 247, 212, 1.0);}");
-  } // end postConfigure()
-
-  $wnd.xh.StochasticBehavior.TestWorldbehavior.prototype.act = function() {
+  $wnd.xh.StochasticBehavior.CollectData.prototype.act = function() {
     if (COLLECT_DATA) {
       this.newState = "";
       this.hashifySXpres(this.ava.parent());
@@ -305,12 +262,9 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
         this.idbssetup = true;
       }
     }
-    //if ($wnd.xh.StochasticBehavior) {
-    //  $wnd.xh.StochasticBehavior.test("123");
-    //}
-  } // end act()
+  }
 
-  $wnd.xh.StochasticBehavior.TestWorldbehavior.prototype.processReceivedMessage = function(msg) {
+  $wnd.xh.StochasticBehavior.CollectData.prototype.processReceivedMessage = function(msg) {
     if (msg.signal == 101) {
       // process a message from the hash function
       if (this.idlecount > 0) {
@@ -325,7 +279,7 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
    * Recursively hashify a Xholon subtree, with output in a Lisp S-expression format.
    * @param node A node in the Xholon hierarchy.
    */
-  $wnd.xh.StochasticBehavior.TestWorldbehavior.prototype.hashifySXpres = function(node) {
+  $wnd.xh.StochasticBehavior.CollectData.prototype.hashifySXpres = function(node) {
     this.newState += node.name("R^^^^^");
     if (node.xhc().name() == "Space") {
       this.newState += (" (Avatar)");
@@ -347,7 +301,7 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
     }
   }
 
-  $wnd.xh.StochasticBehavior.TestWorldbehavior.prototype.saveToDB = function(key, state) {
+  $wnd.xh.StochasticBehavior.CollectData.prototype.saveToDB = function(key, state) {
     var ignoreArr = ["out", "pause", "pause;", "step", "step;"];
     var currentActionStr = ava["currentActions"].pop(); //shift();
     while (currentActionStr) {
@@ -366,14 +320,13 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
     this.idbsobj.update(DB_NAME, DB_STORE_NAME, [key, currentActionStr], record);
   }
 
-  $wnd.xh.StochasticBehavior.TestWorldbehavior.prototype.saveIdleToDB = function(key, state, count) {
+  $wnd.xh.StochasticBehavior.CollectData.prototype.saveIdleToDB = function(key, state, count) {
     var currentActionStr = "idle";
     var record = {};
     record["hash"] = key;
     record["state"] = state;
     record["action"] = currentActionStr;
     record["count"] = count;
-    //me.println(JSON.stringify(record));
     this.idbsobj.update(DB_NAME, DB_STORE_NAME, [key, currentActionStr], record);
   }
   
