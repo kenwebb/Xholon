@@ -28,35 +28,130 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
     console.log("StochasticBehavior testing: " + arg);
   }
   
-  const INDEXEDDB_COLUMN_NAMES = ["hash", "state", "action", "count"];
+  // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+  // Generally-useful Constants
+  const constants = {}
+  constants.INDEXEDDB_COLUMN_NAMES = ["hash", "state", "action", "count"];
+  
+  // fields/columns in each row of the source data
+  constants.FIELD_HASH   = 0;
+  constants.FIELD_STATE  = 1;
+  constants.FIELD_ACTION = 2;
+  constants.FIELD_COUNT  = 3;
+  
+  constants.CONTROL_DETERMINISTICALLY = false;
+  
+  constants.DEFAULT_MAX_LEVELS = 99;
+  constants.DEFAULT_NAME_TEMPLATE = "R^^^^^";
+  
+  constants.DEFAULT_DB_NAME = "AvatarStateDB";
+  constants.DEFAULT_DB_STORE_NAME = "avastate";
+  constants.DEFAULT_DB_STORE_KEY = ["hash", "action"];
+  constants.DEFAULT_COLLECT_DATA = false; // whether or not to collect new data
+  
+  constants.BRACKETS = [" ("," ",")"];
+  
+  constants.IGNORE_LIST = null; //["Avatar"]; // TODO use this to filter out nodes in hashifySXpres()
+  
+  // TODO should I use these constants?
+  //const WebCryptographyService = $wnd.xh.service("WebCryptographyService");
+  //const IndexedDBService = $wnd.xh.service("IndexedDBService");
+  
+  $wnd.xh.StochasticBehavior.setup = function(constantsArg) {
+    // for each Object property in constantsArg, set the corresponding property in constants
+    Object.keys(constantsArg).forEach(function(key,index) {
+      constants[key] = constantsArg[key];
+    });
+  }
+  
+  $wnd.xh.StochasticBehavior.hashifySXpres = function(node, level) {
+    var nodeName = node.name(this.nameTemplate);
+    this.newState += nodeName;
+    if (node.xhc().name() == "Space") {
+      // this is specific to the Island Game
+      this.newState += (" (Avatar)");
+    }
+    else if (level != this.maxLevels) {
+      var childNode = node.first();
+      if (childNode) {
+        this.newState += constants.BRACKETS[0]; //" (";
+        while (childNode != null) {
+          this.hashifySXpres(childNode, level + 1);
+          childNode = childNode.next();
+          if (childNode != null) {
+            this.newState += constants.BRACKETS[1]; //" ";
+          }
+        }
+        this.newState += constants.BRACKETS[2]; //")";
+      }
+      else if (node["maxClones"] && (node.parent().xhc().name() != "Avatar")) {
+        this.newState += "*" + node["maxClones"];
+      }
+    }
+  }
+  
+  // possible new version that uses constants.IGNORE_LIST; this is quite tricky
+  /*$wnd.xh.StochasticBehavior.hashifySXpres = function(node, level, nodeName) {
+    var nodeName = nodeName || node.name(this.nameTemplate);
+    this.newState += nodeName;
+    if (node.xhc().name() == "Space") {
+      // this is specific to the Island Game
+      this.newState += (" (Avatar)");
+    }
+    else if (level != this.maxLevels) {
+      var childNode = node.first();
+      if (childNode) {
+        var childNodeName = childNode.name(this.nameTemplate);
+        if (constants.IGNORE_LIST && (constants.IGNORE_LIST.indexOf(childNodeName) != -1) && !childNode.next()) {
+          // ignore this single child that is in the IGNORE_LIST  ex: a single other Avatar node
+        }
+        else {
+          this.newState += constants.BRACKETS[0]; //" (";
+          while (childNode != null) {
+            //var childNodeName = childNode.name(this.nameTemplate);
+            this.hashifySXpres(childNode, level + 1, childNodeName);
+            childNode = childNode.next();
+            if (childNode != null) {
+              this.newState += constants.BRACKETS[1]; //" ";
+              childNodeName = childNode.name(this.nameTemplate);
+            }
+          }
+          this.newState += constants.BRACKETS[2]; //")";
+        }
+      }
+      else if (node["maxClones"] && (node.parent().xhc().name() != "Avatar")) {
+        this.newState += "*" + node["maxClones"];
+      }
+    }
+  }*/
   
   // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
   // DisplayDbButton
   $wnd.xh.StochasticBehavior.DisplayDbButton = function DisplayDbButton(dbName, dbStoreName) {
-    this.dbName = dbName; // ex: "AvatarStateDB"
-    this.dbStoreName = dbStoreName; // ex: "avastate"
+    this.dbName = dbName || constants.DEFAULT_DB_NAME; // ex: "AvatarStateDB"
+    this.dbStoreName = dbStoreName || constants.DEFAULT_DB_STORE_NAME; // ex: "avastate"
   }
 
   $wnd.xh.StochasticBehavior.DisplayDbButton.prototype.handleNodeSelection = function() {
-    $wnd.xh.IndexedDBService.display(this.dbName, this.dbStoreName, INDEXEDDB_COLUMN_NAMES);
+    $wnd.xh.IndexedDBService.display(this.dbName, this.dbStoreName, constants.INDEXEDDB_COLUMN_NAMES);
     return "\u0011";
   }
 
   
   // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
   // QueryDbButton
-  var QUERY_ACTION_TYPE = 1; // 1, 2, 3
+  const QUERY_ACTION_TYPE = 1; // 1, 2, 3
   $wnd.xh.StochasticBehavior.QueryDbButton = function QueryDbButton(queryActionType, dbName, dbStoreName) {
-    QUERY_ACTION_TYPE = queryActionType;
-    this.dbName = dbName; // ex: "AvatarStateDB"
-    this.dbStoreName = dbStoreName; // ex: "avastate"
+    this.queryActionType = queryActionType || QUERY_ACTION_TYPE;
+    this.dbName = dbName || constants.DEFAULT_DB_NAME; // ex: "AvatarStateDB"
+    this.dbStoreName = dbStoreName || constants.DEFAULT_DB_STORE_NAME; // ex: "avastate"
   }
   
   $wnd.xh.StochasticBehavior.QueryDbButton.prototype.handleNodeSelection = function() {
-    switch (QUERY_ACTION_TYPE) {
-    case 1: $wnd.xh.IndexedDBService.query(this.dbName, this.dbStoreName, INDEXEDDB_COLUMN_NAMES, this.cnode.next(), "text"); break;
-    case 2: $wnd.xh.IndexedDBService.query(this.dbName, this.dbStoreName, INDEXEDDB_COLUMN_NAMES, this.cnode, "msg", 401); break;
-    case 3: $wnd.xh.IndexedDBService.query(this.dbName, this.dbStoreName, INDEXEDDB_COLUMN_NAMES, this.cnode, "call", 401); break;
+    switch (this.queryActionType) {
+    case 1: $wnd.xh.IndexedDBService.query(this.dbName, this.dbStoreName, constants.INDEXEDDB_COLUMN_NAMES, this.cnode.next(), "text"); break;
+    case 2: $wnd.xh.IndexedDBService.query(this.dbName, this.dbStoreName, constants.INDEXEDDB_COLUMN_NAMES, this.cnode, "msg", 401); break;
+    case 3: $wnd.xh.IndexedDBService.query(this.dbName, this.dbStoreName, constants.INDEXEDDB_COLUMN_NAMES, this.cnode, "call", 401); break;
     default: break;
     }
     return "\u0011";
@@ -75,21 +170,10 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
   // QueryResultsProcessor
   // usage: var beh = new $wnd.xh.StochasticBehavior.QueryResultsProcessor();
   
-  // fields/columns in each row of the source data
-  const FIELD_HASH   = 0;
-  const FIELD_STATE  = 1;
-  const FIELD_ACTION = 2;
-  const FIELD_COUNT  = 3;
-  
-  const CONTROL_DETERMINISTICALLY = false;
-  
-  const DEFAULT_MAX_LEVELS = 99;
-  const DEFAULT_NAME_TEMPLATE = "R^^^^^";
-  
   $wnd.xh.StochasticBehavior.QueryResultsProcessor = function QueryResultsProcessor(ava, maxLevels, nameTemplate) {
     this.ava = ava || $wnd.xh.avatar();
-    this.maxLevels = maxLevels || DEFAULT_MAX_LEVELS; //1;
-    this.nameTemplate = nameTemplate || DEFAULT_NAME_TEMPLATE; //"R^^^^^";
+    this.maxLevels = maxLevels || constants.DEFAULT_MAX_LEVELS; //1;
+    this.nameTemplate = nameTemplate || constants.DEFAULT_NAME_TEMPLATE; //"R^^^^^";
   }
   
   $wnd.xh.StochasticBehavior.QueryResultsProcessor.prototype.postConfigure = function() {
@@ -119,7 +203,7 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
     }
     else {
       // deterministically control the Avatar
-      if (CONTROL_DETERMINISTICALLY) {
+      if (constants.CONTROL_DETERMINISTICALLY) {
         this.ava.action("next");
       }
     }
@@ -131,27 +215,7 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
    * @param level Current level in the IXholon subtree.
    */
   $wnd.xh.StochasticBehavior.QueryResultsProcessor.prototype.hashifySXpres = function(node, level) {
-    this.newState += node.name(this.nameTemplate);
-    if (node.xhc().name() == "Space") {
-      this.newState += (" (Avatar)");
-    }
-    else if (level != this.maxLevels) {
-      if (node.first()) {
-        this.newState += " (";
-        var childNode = node.first();
-        while (childNode != null) {
-          this.hashifySXpres(childNode, level + 1);
-          childNode = childNode.next();
-          if (childNode != null) {
-            this.newState += " ";
-          }
-        }
-        this.newState += ")";
-      }
-      else if (node["maxClones"] && (node.parent().xhc().name() != "Avatar")) {
-        this.newState += "*" + node["maxClones"];
-      }
-    }
+    $wnd.xh.StochasticBehavior.hashifySXpres.call(this, node, level);
   }
 
   $wnd.xh.StochasticBehavior.QueryResultsProcessor.prototype.processReceivedMessage = function(msg) {
@@ -178,11 +242,11 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
     for (var i = 0; i < rows.length; i++) {
       var row = rows[i];
       var fields = row.split(",");
-      if (fields[FIELD_HASH] == hash) {
-        totalCounts += Number(fields[FIELD_COUNT]);
+      if (fields[constants.FIELD_HASH] == hash) {
+        totalCounts += Number(fields[constants.FIELD_COUNT]);
         var obj = {};
-        obj.action = fields[FIELD_ACTION];
-        obj.count = fields[FIELD_COUNT];
+        obj.action = fields[constants.FIELD_ACTION];
+        obj.count = fields[constants.FIELD_COUNT];
         arr.push(obj);
       }
       else {
@@ -192,11 +256,11 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
         }
         arr = [];
         totalCounts = 0;
-        hash = fields[FIELD_HASH];
-        totalCounts += Number(fields[FIELD_COUNT]);
+        hash = fields[constants.FIELD_HASH];
+        totalCounts += Number(fields[constants.FIELD_COUNT]);
         var obj = {};
-        obj.action = fields[FIELD_ACTION];
-        obj.count = fields[FIELD_COUNT];
+        obj.action = fields[constants.FIELD_ACTION];
+        obj.count = fields[constants.FIELD_COUNT];
         arr.push(obj);
       }
     }
@@ -223,23 +287,15 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
   
   // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
   // CollectData
-  const DEFAULT_DB_NAME = "AvatarStateDB";
-  const DEFAULT_DB_STORE_NAME = "avastate";
-  const DEFAULT_DB_STORE_KEY = ["hash", "action"];
-  const DEFAULT_COLLECT_DATA = false; // whether or not to collect new data
 
-  // these 2 const are already defined above
-  //const DEFAULT_MAX_LEVELS = 99;
-  //const DEFAULT_NAME_TEMPLATE = "R^^^^^";
-  
   $wnd.xh.StochasticBehavior.CollectData = function CollectData(dbName, dbStoreName, dbStoreKey, ava, maxLevels, nameTemplate, collectData) {
-    this.dbName = dbName || DEFAULT_DB_NAME;
-    this.dbStoreName = dbStoreName || DEFAULT_DB_STORE_NAME;
-    this.dbStoreKey = dbStoreKey || DEFAULT_DB_STORE_KEY;
-    this.collectData = collectData || DEFAULT_COLLECT_DATA;
+    this.dbName = dbName || constants.DEFAULT_DB_NAME;
+    this.dbStoreName = dbStoreName || constants.DEFAULT_DB_STORE_NAME;
+    this.dbStoreKey = dbStoreKey || constants.DEFAULT_DB_STORE_KEY;
+    this.collectData = collectData || constants.DEFAULT_COLLECT_DATA;
     this.ava = ava || $wnd.xh.avatar();
-    this.maxLevels = maxLevels || DEFAULT_MAX_LEVELS; //1;
-    this.nameTemplate = nameTemplate || DEFAULT_NAME_TEMPLATE; //"R^^^^^";
+    this.maxLevels = maxLevels || constants.DEFAULT_MAX_LEVELS; //1;
+    this.nameTemplate = nameTemplate || constants.DEFAULT_NAME_TEMPLATE; //"R^^^^^";
   }
 
   $wnd.xh.StochasticBehavior.CollectData.prototype.postConfigure = function() {
@@ -297,27 +353,7 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
    * @param level Current level in the IXholon subtree.
    */
   $wnd.xh.StochasticBehavior.CollectData.prototype.hashifySXpres = function(node, level) {
-    this.newState += node.name(this.nameTemplate);
-    if (node.xhc().name() == "Space") {
-      this.newState += (" (Avatar)");
-    }
-    else if (level != this.maxLevels) {
-      if (node.first()) {
-        this.newState += " (";
-        var childNode = node.first();
-        while (childNode != null) {
-          this.hashifySXpres(childNode, level + 1);
-          childNode = childNode.next();
-          if (childNode != null) {
-            this.newState += " ";
-          }
-        }
-        this.newState += ")";
-      }
-      else if (node["maxClones"] && (node.parent().xhc().name() != "Avatar")) {
-        this.newState += "*" + node["maxClones"];
-      }
-    }
+    $wnd.xh.StochasticBehavior.hashifySXpres.call(this, node, level);
   }
   
   const AVA_CURRENT_ACTIONS = "currentActions";
