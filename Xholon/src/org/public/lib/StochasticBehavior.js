@@ -40,6 +40,7 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
   constants.FIELD_COUNT  = 3;
   
   constants.CONTROL_DETERMINISTICALLY = false;
+  constants.DETERMINIST_ACTIONS = "next";
   
   constants.DEFAULT_MAX_LEVELS = 99;
   constants.DEFAULT_NAME_TEMPLATE = "R^^^^^";
@@ -57,6 +58,9 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
   //const WebCryptographyService = $wnd.xh.service("WebCryptographyService");
   //const IndexedDBService = $wnd.xh.service("IndexedDBService");
   
+  /**
+   * setup
+   */
   $wnd.xh.StochasticBehavior.setup = function(constantsArg) {
     // for each Object property in constantsArg, set the corresponding property in constants
     Object.keys(constantsArg).forEach(function(key,index) {
@@ -64,8 +68,15 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
     });
   }
   
+  /**
+   * hashifySXpres
+   */
   $wnd.xh.StochasticBehavior.hashifySXpres = function(node, level) {
-    var nodeName = node.name(this.nameTemplate);
+    var makeName = function(node, nameTemplate) {
+      return node.name(nameTemplate);
+    }
+    //var nodeName = node.name(this.nameTemplate);
+    var nodeName = makeName(node, this.nameTemplate);
     if (constants.IGNORE_LIST && (constants.IGNORE_LIST.indexOf(nodeName) != -1)) {
       return "";
     }
@@ -93,41 +104,6 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
     }
     return constants.BRACKETS[1];
   }
-  
-  // possible new version that uses constants.IGNORE_LIST; this is quite tricky
-  /*$wnd.xh.StochasticBehavior.hashifySXpres = function(node, level, nodeName) {
-    var nodeName = nodeName || node.name(this.nameTemplate);
-    this.newState += nodeName;
-    if (node.xhc().name() == "Space") {
-      // this is specific to the Island Game
-      this.newState += (" (Avatar)");
-    }
-    else if (level != this.maxLevels) {
-      var childNode = node.first();
-      if (childNode) {
-        var childNodeName = childNode.name(this.nameTemplate);
-        if (constants.IGNORE_LIST && (constants.IGNORE_LIST.indexOf(childNodeName) != -1) && !childNode.next()) {
-          // ignore this single child that is in the IGNORE_LIST  ex: a single other Avatar node
-        }
-        else {
-          this.newState += constants.BRACKETS[0]; //" (";
-          while (childNode != null) {
-            //var childNodeName = childNode.name(this.nameTemplate);
-            this.hashifySXpres(childNode, level + 1, childNodeName);
-            childNode = childNode.next();
-            if (childNode != null) {
-              this.newState += constants.BRACKETS[1]; //" ";
-              childNodeName = childNode.name(this.nameTemplate);
-            }
-          }
-          this.newState += constants.BRACKETS[2]; //")";
-        }
-      }
-      else if (node["maxClones"] && (node.parent().xhc().name() != "Avatar")) {
-        this.newState += "*" + node["maxClones"];
-      }
-    }
-  }*/
   
   // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
   // DisplayDbButton
@@ -208,7 +184,7 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
     else {
       // deterministically control the Avatar
       if (constants.CONTROL_DETERMINISTICALLY) {
-        this.ava.action("next");
+        this.ava.action(constants.DETERMINIST_ACTIONS);
       }
     }
   }
