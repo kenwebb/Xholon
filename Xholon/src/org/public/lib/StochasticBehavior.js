@@ -66,6 +66,9 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
   
   $wnd.xh.StochasticBehavior.hashifySXpres = function(node, level) {
     var nodeName = node.name(this.nameTemplate);
+    if (constants.IGNORE_LIST && (constants.IGNORE_LIST.indexOf(nodeName) != -1)) {
+      return "";
+    }
     this.newState += nodeName;
     if (node.xhc().name() == "Space") {
       // this is specific to the Island Game
@@ -76,10 +79,10 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
       if (childNode) {
         this.newState += constants.BRACKETS[0]; //" (";
         while (childNode != null) {
-          this.hashifySXpres(childNode, level + 1);
+          var separator = this.hashifySXpres(childNode, level + 1);
           childNode = childNode.next();
           if (childNode != null) {
-            this.newState += constants.BRACKETS[1]; //" ";
+            this.newState += separator; //" ";
           }
         }
         this.newState += constants.BRACKETS[2]; //")";
@@ -88,6 +91,7 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
         this.newState += "*" + node["maxClones"];
       }
     }
+    return constants.BRACKETS[1];
   }
   
   // possible new version that uses constants.IGNORE_LIST; this is quite tricky
@@ -215,7 +219,7 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
    * @param level Current level in the IXholon subtree.
    */
   $wnd.xh.StochasticBehavior.QueryResultsProcessor.prototype.hashifySXpres = function(node, level) {
-    $wnd.xh.StochasticBehavior.hashifySXpres.call(this, node, level);
+    return $wnd.xh.StochasticBehavior.hashifySXpres.call(this, node, level);
   }
 
   $wnd.xh.StochasticBehavior.QueryResultsProcessor.prototype.processReceivedMessage = function(msg) {
@@ -353,7 +357,7 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
    * @param level Current level in the IXholon subtree.
    */
   $wnd.xh.StochasticBehavior.CollectData.prototype.hashifySXpres = function(node, level) {
-    $wnd.xh.StochasticBehavior.hashifySXpres.call(this, node, level);
+    return $wnd.xh.StochasticBehavior.hashifySXpres.call(this, node, level);
   }
   
   const AVA_CURRENT_ACTIONS = "currentActions";
