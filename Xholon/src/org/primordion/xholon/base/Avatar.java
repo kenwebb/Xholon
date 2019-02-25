@@ -2787,6 +2787,21 @@ a.action("takeclone hello;");
           default: break;
           }
           break;
+        case "random":
+          try {
+            double av = Double.parseDouble(attrValue);
+            double rnum = Math.random(); // get a number between 0.0 and 1.0
+            switch (operation) {
+              // ex: iflt xpath(.) random 0.5 next else idle;
+              // ex: iflt xpath(.) random 0.02 next elseif ifgt xpath(.) random 0.98 prev else idle;
+              case "lt": if (rnum < av)  {processCommand(command);} break;
+              case "gt": if (rnum > av)  {processCommand(command);} break;
+              default: break;
+            }
+          } catch(NumberFormatException e) {
+            sb.append("The attribute value must be a number between 0.0 and 1.0 (ex: 0.5)");
+          }
+          break;
         default:
           try {
             String av = (String)getAttributeValNative(node, attrName, true);
