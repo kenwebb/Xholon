@@ -105,7 +105,23 @@ public class Decoration implements IDecoration, Serializable {
 	 * @see org.primordion.xholon.base.IDecoration#setColor(java.lang.String)
 	 */
 	public void setColor(String color) {
-		this.color = color;
+		if ((color != null) && (color.startsWith("hex+a"))) {
+			// ex: <Color>hex+a #123456 0.8</Color>
+			// convert this to: rgba(18,52,86,0.8)
+			String[] arr = color.split(" ");
+			if (arr.length == 3) {
+				String colorStr = arr[1];
+				if (colorStr.length() == 7) {
+					int r = Integer.valueOf( colorStr.substring( 1, 3 ), 16 );
+					int g = Integer.valueOf( colorStr.substring( 3, 5 ), 16 );
+					int b = Integer.valueOf( colorStr.substring( 5, 7 ), 16 );
+					this.color = "rgba(" + r + "," + g + "," + b + "," + arr[2] + ")";
+				}
+			}
+		}
+		else {
+			this.color = color;
+		}
 	}
 
 	/*
