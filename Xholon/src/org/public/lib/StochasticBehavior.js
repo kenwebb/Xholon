@@ -52,11 +52,23 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
   
   constants.BRACKETS = [" ("," ",")"];
   
-  constants.IGNORE_LIST = null; //["Avatar"]; // TODO use this to filter out nodes in hashifySXpres()
+  constants.IGNORE_LIST = null; //["Avatar"]; // use this to filter out nodes in hashifySXpres()
   
-  // TODO should I use these constants?
-  //const WebCryptographyService = $wnd.xh.service("WebCryptographyService");
-  //const IndexedDBService = $wnd.xh.service("IndexedDBService");
+  // Time
+  constants.TIMESTEP_MODULO = 0; // 2  $wnd.xh.param("TimeStep") % constants.TIMESTEP_MODULO;  n % 0 is NaN
+  
+  // Neighborhood; there are multiple ways of defining what a neighborhood is
+  constants.NEIGHBORHOOD_NULL = 0; // don't use the neighborhood feature
+  constants.NEIGHBORHOOD_LINKS = 1; // a neighborhood is all remote nodes returned by ava.parent().links(false, true)
+  constants.NEIGHBORHOOD_GRID_4 = 2; // a neighborhood is the 4 cardinal neighbors in a 2D grid - North East South West
+  constants.NEIGHBORHOOD_GRID_8 = 3; // a neighborhood is the 8 neighbors in a 2D grid - North East South West + NE SE SW NW
+  constants.NEIGHBORHOOD_TYPE = constants.NEIGHBORHOOD_NULL;
+  
+  // initialize these two services
+  constants.WebCryptographyService = null;
+  constants.IndexedDBService = null;
+  
+  constants.LOG_BEH_PROBS = false; // whether or not QueryResultsProcessor.act() should log this.behaviorProbs
   
   /**
    * setup
@@ -66,6 +78,8 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
     Object.keys(constantsArg).forEach(function(key,index) {
       constants[key] = constantsArg[key];
     });
+    constants.WebCryptographyService = $wnd.xh.service("WebCryptographyService");
+    constants.IndexedDBService = $wnd.xh.service("IndexedDBService");
   }
   
   /**
@@ -74,6 +88,24 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
   $wnd.xh.StochasticBehavior.hashifySXpres = function(node, level) {
     var makeName = function(node, nameTemplate) {
       return node.name(nameTemplate);
+    }
+    var makeNeighborhood = function(node, nameTemplate) {
+      var neighstr = "";
+      switch (constants.NEIGHBORHOOD_TYPE) {
+      case constants.NEIGHBORHOOD_LINKS:
+        var links = node.links(false, true);
+        links.forEach(function(port) {
+          if (port.reffedNode) {
+            //console.log(port.reffedNode.name("R^^^^^"));
+            neighstr += constants.BRACKETS[1] + makeName(port.reffedNode, nameTemplate);
+          }
+        });
+        break;
+      case constants.NEIGHBORHOOD_GRID_4: break; // TODO
+      case constants.NEIGHBORHOOD_GRID_8: break; // TODO
+      default: break;
+      }
+      return neighstr;
     }
     //var nodeName = node.name(this.nameTemplate);
     var nodeName = makeName(node, this.nameTemplate);
@@ -97,6 +129,9 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
           }
         }
         this.newState += constants.BRACKETS[2]; //")";
+        if ((level == 0) && constants.NEIGHBORHOOD_TYPE) {
+          this.newState += makeNeighborhood(node, this.nameTemplate);
+        }
       }
       else if (node["maxClones"] && (node.parent().xhc().name() != "Avatar")) {
         this.newState += "*" + node["maxClones"];
@@ -161,7 +196,7 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
     this.qr = this.me.parent(); // QueryResults node, where the source data lives
     this.processed = false; // whether or not the source data has been processed
     this.behaviorProbs = null;
-    this.wcs = $wnd.xh.service("WebCryptographyService");
+    this.wcs = constants.WebCryptographyService; //$wnd.xh.service("WebCryptographyService");
     this.newState = "";
   }
   
@@ -170,11 +205,17 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
       // process the QueryResults
       var outobj = this.process(this.qr.text().trim());
       this.behaviorProbs = outobj;
+      if (constants.LOG_BEH_PROBS) {
+        $wnd.console.log(this.behaviorProbs);
+      }
       this.processed = true;
     }
     if (this.processed) {
       this.newState = "";
-      this.hashifySXpres(this.ava.parent(), 0); // a JSON string
+      this.hashifySXpres(this.ava.parent(), 0);
+      if (constants.TIMESTEP_MODULO) {
+        this.newState += constants.BRACKETS[1] + Number($wnd.xh.param("TimeStep")) % constants.TIMESTEP_MODULO;
+      }
       this.wcsobj = this.wcs.obj();
       if (this.wcsobj) {
         // the async hash function will send an async message that will be received by processReceivedMessage(msg)
@@ -279,8 +320,8 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
   }
 
   $wnd.xh.StochasticBehavior.CollectData.prototype.postConfigure = function() {
-    this.wcs = $wnd.xh.service("WebCryptographyService");
-    this.idbs = $wnd.xh.service("IndexedDBService");
+    this.wcs = constants.WebCryptographyService; //$wnd.xh.service("WebCryptographyService");
+    this.idbs = constants.IndexedDBService; //$wnd.xh.service("IndexedDBService");
     this.idbssetup = false;
     this.idlecount = 0;
     
@@ -295,6 +336,9 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
     if (this.collectData) {
       this.newState = "";
       this.hashifySXpres(this.ava.parent(), 0);
+      if (constants.TIMESTEP_MODULO) {
+        this.newState += constants.BRACKETS[1] + Number($wnd.xh.param("TimeStep")) % constants.TIMESTEP_MODULO;
+      }
       if (this.newState == this.prevState) {
         this.idlecount++;
       }
@@ -352,7 +396,9 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
     var record = {};
     record["hash"] = key;
     record["state"] = state;
-    record["action"] = currentActionStr.replace(";", ""); // ex: "next;" becomes "next"
+    //record["action"] = currentActionStr.replace(";", ""); // ex: "next;" becomes "next"
+    currentActionStr = currentActionStr.slice(-1) == ";" ? currentActionStr.slice(0, currentActionStr.length - 1) : currentActionStr; // ex: "next;" becomes "next"
+    record["action"] = currentActionStr;
     record["count"] = 1;
     this.idbsobj.update(this.dbName, this.dbStoreName, [key, currentActionStr], record);
   }
