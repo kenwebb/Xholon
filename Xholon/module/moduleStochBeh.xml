@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+for use with StochasticBehavior.js
+
+To use this module in the Island game:
+ - drag the entire contents into the current location (ex: CoastCell) of the system avatar
+ - result: an instance of Canoe at the current location, and an instance of Paddle in the avatar ToolsST subtree
+
+The following works:
+- - - - - - - - - -
+http://127.0.0.1:8888/Xholon.html?app=2065a6629ebac15631e45092834e009d&src=gist&gui=none&jslib=StochasticBehavior&hide=xhtop,xhtabs,xhsvg,xhfooter
+
+Dev Tools
+- - - - -
+// Step 0
+xh.StochasticBehavior.test("qwerty");
+
+// Step 1
+const constants01 = {
+DEFAULT_MAX_LEVELS: 1,
+DEFAULT_NAME_TEMPLATE: "R^^^^^",
+DEFAULT_DB_NAME: "IslandMobDB",
+DEFAULT_DB_STORE_NAME: "mobrole", // "mobrole" "mobrolent1"
+DEFAULT_DB_STORE_KEY: ["hash", "action"],
+DEFAULT_COLLECT_DATA: true,
+BRACKETS: ["(","",")"],
+IGNORE_LIST: ["Castaway"],
+NEIGHBORHOOD_TYPE: 1 // links reffedNodes
+}
+xh.StochasticBehavior.setup(constants01);
+
+// Step 2 - option train
+// to train
+var isys = xh.root().first();
+var mtstr = `
+<MobTrain implName="org.primordion.xholon.base.Behavior_gwtjs"><![CDATA[
+this.ava = $wnd.xh.avatar();
+var beh = new $wnd.xh.StochasticBehavior.CollectData(null, null, null, this.ava);
+this.ava.action("param currentActions true;");
+//# sourceURL=MobTrain.js
+]]></MobTrain>
+`;
+isys.append(mtstr);
+
+// Step 2 - option run
+// to replay/run
+xh.StochasticBehavior.setup({DEFAULT_COLLECT_DATA: false});
+var isys = xh.root().first();
+var replaystr = `
+<_-.replay>
+<QueryDbButton implName="org.primordion.xholon.base.Behavior_gwtjs">
+var beh = new $wnd.xh.StochasticBehavior.QueryDbButton();
+beh.cnode = this;
+beh.handleNodeSelection();
+//# sourceURL=QueryDbButton.js
+</QueryDbButton>
+<Attribute_String>
+<MobRun implName="org.primordion.xholon.base.Behavior_gwtjs">
+this.ava = $wnd.xh.avatar();
+var beh = new $wnd.xh.StochasticBehavior.QueryResultsProcessor(this.ava);
+//# sourceURL=MobRun.js
+</MobRun>
+</Attribute_String>
+</_-.replay>
+`;
+isys.append(replaystr);
+
+TODO Feb 28, 2019
+- it's unclear where some of the stored data is from
+ - confirm how all the code in StochasticBehavior.js, IndexedDBService.js, WebCryptographyService.js are working
+-->
+<XholonModule>
+  <XholonMap>
+  
+    <Attribute_String roleName="ih"><![CDATA[
+<_-.XholonClass>
+  <MobSetup superClass="script"/>
+  <MobTrain superClass="script"/>
+  <MobRun superClass="script"/>
+</_-.XholonClass>
+    ]]></Attribute_String>
+    
+    <Attribute_String roleName="cd"><![CDATA[
+<xholonClassDetails>
+  
+
+</xholonClassDetails>
+    ]]></Attribute_String>
+    
+    <Attribute_String roleName="csh"><![CDATA[
+<_-.csh>
+  
+</_-.csh>
+    ]]></Attribute_String>
+    
+  </XholonMap>
+</XholonModule>
