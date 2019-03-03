@@ -153,6 +153,25 @@ public abstract class AbstractGrid extends XholonWithPorts implements IGrid {
 		return nNeigh;
 	}
 	
+	@Override
+	public Object getNeighbors() {
+	  Object arr = null;
+		if (port != null) {
+			for (int i = 0; i < port.length; i++) {
+				if (port[i] != null) {
+					arr = makeNeighbor(port[i], arr);
+				}
+			}
+		}
+		return arr;
+	}
+	
+	public native Object makeNeighbor(IXholon node, Object arr) /*-{
+		if (!arr) {arr = [];}
+		arr.push(node);
+		return arr;
+	}-*/;
+	
 	/*
 	 * @see org.primordion.xholon.base.IXholon#configure(java.lang.String, int)
 	 */

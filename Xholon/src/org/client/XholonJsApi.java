@@ -990,6 +990,15 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       }
       return outArr;
     });
+    
+    // neighbors
+    api.neighbors = $entry(function(placeGraph, linkGraph) {
+      if (placeGraph === undefined) {
+        return this.@org.primordion.xholon.base.IXholon::getNeighbors()();
+      }
+      if (linkGraph === undefined) {var linkGraph = true;}
+      return this.@org.primordion.xholon.base.IXholon::getNeighbors(ZZ)(placeGraph, linkGraph);
+    });
 
     // attr
     api.attr = $entry(function(attrName, attrVal) {

@@ -553,6 +553,24 @@ public static final int NINCLUDE_PSC = 7;
  */
 public abstract Vector getNeighbors(int distance, int include, String excludeBecName);
 
+/**
+ * Get neighbors of this node.
+ * This is especially intended for use with a GridCell, such as in GridEntity.java
+ * Typically, the neighbors would be the reffedNodes of each outgoing bound port or link.
+ *  Equivalent to getNeighbors(false, true)
+ * It's intended that the implementation be as performant as possible.
+ * @return a JavaScript Arrray containing the neighbor nodes.
+ */
+public abstract Object getNeighbors();
+
+/**
+ * Get specified neighbors of this node.
+ * @param placeGraph Whether or not to include reffedNodes of place-graph links (parent, first, next, xhc, app)
+ * @param linkGraph Whether or not to include reffedNodes of link-graph links (ports, etc.)
+ * @return a JavaScript Arrray containing the neighbor nodes.
+ */
+public abstract Object getNeighbors(boolean placeGraph, boolean linkGraph);
+
 // tree traversal print functions that MAY be overridden in concrete subclasses
 
 /**

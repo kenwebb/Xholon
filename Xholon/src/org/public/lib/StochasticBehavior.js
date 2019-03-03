@@ -60,7 +60,7 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
   // Neighborhood; there are multiple ways of defining what a neighborhood is
   constants.NEIGHBORHOOD_NULL = 0; // don't use the neighborhood feature
   constants.NEIGHBORHOOD_LINKS = 1; // a neighborhood is all remote nodes returned by ava.parent().links(false, true)
-  constants.NEIGHBORHOOD_GRID_4 = 2; // a neighborhood is the 4 cardinal neighbors in a 2D grid - North East South West
+  constants.NEIGHBORHOOD_GRID = 2; // a neighborhood is the 4 or 8 or other neighbors in a 2D grid - ex: North East South West
   constants.NEIGHBORHOOD_GRID_8 = 3; // a neighborhood is the 8 neighbors in a 2D grid - North East South West + NE SE SW NW
   constants.NEIGHBORHOOD_TYPE = constants.NEIGHBORHOOD_NULL;
   
@@ -69,6 +69,12 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
   constants.IndexedDBService = null;
   
   constants.LOG_BEH_PROBS = false; // whether or not QueryResultsProcessor.act() should log this.behaviorProbs
+  
+  // max number of Avatar comands to save DB from Avatar["currentActions"]
+  constants.MAX_CURRENT_ACTIONS = -1; // 2  ex: "one;two;three;" becomes "one;two;"
+  
+  // whether or not to capture counts of idle timesteps
+  constants.CAPTURE_IDLE = false;
   
   /**
    * setup
@@ -86,9 +92,11 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
    * hashifySXpres
    */
   $wnd.xh.StochasticBehavior.hashifySXpres = function(node, level) {
+    
     var makeName = function(node, nameTemplate) {
       return node.name(nameTemplate);
     }
+    
     var makeNeighborhood = function(node, nameTemplate) {
       var neighstr = "";
       switch (constants.NEIGHBORHOOD_TYPE) {
@@ -96,17 +104,35 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
         var links = node.links(false, true);
         links.forEach(function(port) {
           if (port.reffedNode) {
-            //console.log(port.reffedNode.name("R^^^^^"));
             neighstr += constants.BRACKETS[1] + makeName(port.reffedNode, nameTemplate);
           }
         });
         break;
-      case constants.NEIGHBORHOOD_GRID_4: break; // TODO
-      case constants.NEIGHBORHOOD_GRID_8: break; // TODO
+      case constants.NEIGHBORHOOD_GRID:
+        // this is for use with a gridcell
+        var neighbors = node.neighbors();
+        neighbors.forEach(function(neighbor) {
+          neighstr += constants.BRACKETS[1] + makeName(neighbor, nameTemplate)
+        });
+        break;
+      case constants.NEIGHBORHOOD_GRID_8:
+        // this is a special case designed for use with a gridcell that has 4 ports, but the user wants to make use of all 8 neighbors
+        var neighbors = node.neighbors();
+        neighbors.forEach(function(neighbor) {
+          neighstr += constants.BRACKETS[1] + makeName(neighbor, nameTemplate);
+        });
+        if (neighbors.length == 4) {
+          neighstr += constants.BRACKETS[1] + makeName(neighbors[0].port(1), nameTemplate); // NE
+          neighstr += constants.BRACKETS[1] + makeName(neighbors[0].port(3), nameTemplate); // NW
+          neighstr += constants.BRACKETS[1] + makeName(neighbors[2].port(1), nameTemplate); // SE
+          neighstr += constants.BRACKETS[1] + makeName(neighbors[2].port(3), nameTemplate); // SW
+        }
+        break;
       default: break;
       }
       return neighstr;
     }
+    
     //var nodeName = node.name(this.nameTemplate);
     var nodeName = makeName(node, this.nameTemplate);
     if (constants.IGNORE_LIST && (constants.IGNORE_LIST.indexOf(nodeName) != -1)) {
@@ -138,7 +164,7 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
       }
     }
     return constants.BRACKETS[1];
-  }
+  }  // end hashifySXpres()
   
   // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
   // DisplayDbButton
@@ -397,20 +423,33 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
     record["hash"] = key;
     record["state"] = state;
     //record["action"] = currentActionStr.replace(";", ""); // ex: "next;" becomes "next"
-    currentActionStr = currentActionStr.slice(-1) == ";" ? currentActionStr.slice(0, currentActionStr.length - 1) : currentActionStr; // ex: "next;" becomes "next"
+    if (constants.MAX_CURRENT_ACTIONS > 0) {
+      // ex: "one;two;three;".split(";").slice(0, 2).join(";");  result: "one;two"
+      // ex: "one;".split(";").slice(0, 2).join(";");  result: "one;"
+      var caArr = currentActionStr.split(";");
+      if (caArr.length >= constants.MAX_CURRENT_ACTIONS) {
+        currentActionStr = caArr.slice(0, constants.MAX_CURRENT_ACTIONS).join(";");
+      }
+      // I assume that, at this point, the currentActionStr does NOT end in ";"
+    }
+    else {
+      currentActionStr = currentActionStr.slice(-1) == ";" ? currentActionStr.slice(0, currentActionStr.length - 1) : currentActionStr; // ex: "next;" becomes "next"
+    }
     record["action"] = currentActionStr;
     record["count"] = 1;
     this.idbsobj.update(this.dbName, this.dbStoreName, [key, currentActionStr], record);
   }
 
   $wnd.xh.StochasticBehavior.CollectData.prototype.saveIdleToDB = function(key, state, count) {
-    var currentActionStr = "idle";
-    var record = {};
-    record["hash"] = key;
-    record["state"] = state;
-    record["action"] = currentActionStr;
-    record["count"] = count;
-    this.idbsobj.update(this.dbName, this.dbStoreName, [key, currentActionStr], record);
+    if (constants.CAPTURE_IDLE) {
+      var currentActionStr = "idle";
+      var record = {};
+      record["hash"] = key;
+      record["state"] = state;
+      record["action"] = currentActionStr;
+      record["count"] = count;
+      this.idbsobj.update(this.dbName, this.dbStoreName, [key, currentActionStr], record);
+    }
   }
   
 })(window, document); // end (function()

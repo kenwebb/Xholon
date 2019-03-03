@@ -1076,6 +1076,26 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 		return true;
 	}
 	
+	@Override
+	public native Object getNeighbors() /*-{
+		var links = this.links(false, true);
+		var neighbors = [];
+		links.forEach(function(link) {
+		  neighbors.push(link.reffedNode);
+		});
+		return neighbors;
+	}-*/;
+	
+	@Override
+	public native Object getNeighbors(boolean placeGraph, boolean linkGraph) /*-{
+		var links = this.links(placeGraph, linkGraph);
+		var neighbors = [];
+		links.forEach(function(link) {
+		  neighbors.push(link.reffedNode);
+		});
+		return neighbors;
+	}-*/;
+	
 	/*
 	 * @see org.primordion.xholon.base.IXholon#getNeighbors(int, int, java.lang.String)
 	 */
