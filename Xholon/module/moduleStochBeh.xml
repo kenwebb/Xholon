@@ -27,7 +27,8 @@ DEFAULT_COLLECT_DATA: true,
 BRACKETS: ["(","",")"],
 IGNORE_LIST: ["Castaway"],
 NEIGHBORHOOD_TYPE: 3, // links reffedNodes
-MAX_CURRENT_ACTIONS: 2
+MAX_CURRENT_ACTIONS: 2,
+DEFAULT_DB_VERSION: 1 // increment this if I add a new objectstore
 }
 xh.StochasticBehavior.setup(constants01);
 

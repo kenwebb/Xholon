@@ -10,7 +10,6 @@ var idbs = xh.service("IndexedDBService");
  *
  * TODO maybe use a third-party library instead of or in addition to this .js file, especially for querying
  * ex: http://dexie.org/  "Dexie.js A Minimalistic Wrapper for IndexedDB"
- * TODO write to Xholon clipboard instead of to Xholon "out" tab
  */
 
 if (typeof xh == "undefined") {
@@ -24,11 +23,13 @@ xh.IndexedDBService = {}
  * @param dbName ex: "MyTestDatabase" "AvatarStateDB"
  * @param objstoreName ex: "customers" "avastate"
  * @param keypathStr ex: "ssn" "hash" ["hash", "action"]
+ * @param dbVersion ex: 1  the DB version (default: 1)
  */
-xh.IndexedDBService.setup = function(dbName, objstoreName, keypathStr) {
+xh.IndexedDBService.setup = function(dbName, objstoreName, keypathStr, dbVersion) {
   if (!dbName) {console.error("xh.IndexedDBService.setup() dbName is null"); return;}
   if (!objstoreName) {console.error("xh.IndexedDBService.setup() objstoreName is null"); return;}
   if (!keypathStr) {console.error("xh.IndexedDBService.setup() keypathStr is null"); return;}
+  if (!dbVersion) {dbVersion = 1;}
   var root = xh.root();
   if (!window.indexedDB) {
     root.println("Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available.");
@@ -36,7 +37,7 @@ xh.IndexedDBService.setup = function(dbName, objstoreName, keypathStr) {
   }
   
   var db;
-  var request = indexedDB.open(dbName);
+  var request = indexedDB.open(dbName, dbVersion);
   request.onerror = function(event) {
     console.error("Web app not allowed to use IndexedDB?!");
   };
@@ -118,10 +119,14 @@ xh.IndexedDBService.update = function(dbName, objstoreName, key, newData) {
 
 /**
  * Display a database and object store.
- * usage (from Dev Tools): xh.IndexedDBService.display("AvatarStateDB", "avastate", ["state", "action", "count"]);
+ * usage (from Dev Tools):
+ *  xh.IndexedDBService.display("AvatarStateDB", "avastate", ["state", "action", "count"], "csv", "xhout");
+ *  xh.IndexedDBService.display("IslandMobDB", "mobrole", ["state", "action", "count"], "json", "console");
  * @param columnNameArr an array of column names to display  ex: ["state", "action", "count"]
+ * @param format outputs format  "json" or "csv"
+ * @param target where the data will be displayed  "xhout" or "console" or TODO"xhclipboard" or TODO"sysclipboard" or TODO"localstorage"
  */
-xh.IndexedDBService.display = function(dbName, objstoreName, columnNameArr) {
+xh.IndexedDBService.display = function(dbName, objstoreName, columnNameArr, format, target) {
   if (!dbName) {console.error("xh.IndexedDBService.display() dbName is null"); return;}
   if (!objstoreName) {console.error("xh.IndexedDBService.display() objstoreName is null"); return;}
   var root = xh.root();
@@ -132,24 +137,72 @@ xh.IndexedDBService.display = function(dbName, objstoreName, columnNameArr) {
   };
   request.onsuccess = function(event) {
     db = event.target.result;
+    var str = "";
+    switch (format) {
+    case "json": str += "[\n"; break;
+    case "csv":
+    default:
+      str += columnNameArr.join() + "\n";
+      break;
+    }
     var objectStore = db.transaction(objstoreName, "readonly").objectStore(objstoreName);
     objectStore.openCursor().onsuccess = function(event) {
       var cursor = event.target.result;
-      var str = "";
       if(cursor) {
-        var comma = '';
-        for (var i = 0; i < columnNameArr.length; i++) {
-          str += comma + cursor.value[columnNameArr[i]];
-          comma = ', ';
+        switch (format) {
+        case "json":
+          var str1 = '{';
+          var comma = '';
+          for (var i = 0; i < columnNameArr.length; i++) {
+            str1 += comma + '"' + columnNameArr[i] + '": "' + cursor.value[columnNameArr[i]] + '"';
+            comma = ', ';
+          }
+          str += str1 + "},\n";
+          break;
+        case "csv":
+        default:
+          var comma = '';
+          for (var i = 0; i < columnNameArr.length; i++) {
+            str += comma + cursor.value[columnNameArr[i]];
+            comma = ', ';
+          }
+          str += "\n";
+          break;
         }
         cursor.continue();
       } else {
+        switch (format) {
+        case "json":
+          // remove final comma
+          str = str.slice(0, -2) + "\n";
+          str += "]";
+          break;
+        case "csv":
+        default:
+          break;
+        }
+        switch (target) {
+        case "console":
+          switch (format) {
+          case "json":
+            console.log(JSON.parse(str));
+            break;
+          case "csv":
+          default:
+            console.log(str);
+            break;
+          }
+          break;
+        case "xhout":
+        default:
+          root.println(str);
+          break;
+        }
         console.log('Entries all displayed.');
       }
-      root.println(str);
-    };
+    }; // end objectStore.openCursor().onsuccess
   
-  }
+  } // end request.onsuccess
 }
 
 /**

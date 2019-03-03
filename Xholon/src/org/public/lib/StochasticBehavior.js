@@ -49,6 +49,7 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
   constants.DEFAULT_DB_STORE_NAME = "avastate";
   constants.DEFAULT_DB_STORE_KEY = ["hash", "action"];
   constants.DEFAULT_COLLECT_DATA = false; // whether or not to collect new data
+  constants.DEFAULT_DB_VERSION = 1;
   
   constants.BRACKETS = [" ("," ",")"];
   
@@ -335,7 +336,7 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
   // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
   // CollectData
 
-  $wnd.xh.StochasticBehavior.CollectData = function CollectData(dbName, dbStoreName, dbStoreKey, ava, maxLevels, nameTemplate, collectData) {
+  $wnd.xh.StochasticBehavior.CollectData = function CollectData(dbName, dbStoreName, dbStoreKey, ava, maxLevels, nameTemplate, collectData, dbVersion) {
     this.dbName = dbName || constants.DEFAULT_DB_NAME;
     this.dbStoreName = dbStoreName || constants.DEFAULT_DB_STORE_NAME;
     this.dbStoreKey = dbStoreKey || constants.DEFAULT_DB_STORE_KEY;
@@ -343,6 +344,7 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
     this.ava = ava || $wnd.xh.avatar();
     this.maxLevels = maxLevels || constants.DEFAULT_MAX_LEVELS; //1;
     this.nameTemplate = nameTemplate || constants.DEFAULT_NAME_TEMPLATE; //"R^^^^^";
+    this.dbVersion = dbVersion || constants.DEFAULT_DB_VERSION; // 1
   }
 
   $wnd.xh.StochasticBehavior.CollectData.prototype.postConfigure = function() {
@@ -380,7 +382,7 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
       }
       this.idbsobj = this.idbs.obj();
       if (this.idbsobj && !this.idbssetup) {
-        this.idbsobj.setup(this.dbName, this.dbStoreName, this.dbStoreKey);
+        this.idbsobj.setup(this.dbName, this.dbStoreName, this.dbStoreKey, this.dbVersion);
         this.idbssetup = true;
       }
     }
