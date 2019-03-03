@@ -9,6 +9,7 @@ To use this module in the Island game:
 The following works:
 - - - - - - - - - -
 http://127.0.0.1:8888/Xholon.html?app=2065a6629ebac15631e45092834e009d&src=gist&gui=none&jslib=StochasticBehavior&hide=xhtop,xhtabs,xhsvg,xhfooter
+http://127.0.0.1:8888/Xholon.html?app=Island+B5&src=lstr&gui=none&jslib=StochasticBehavior
 
 Dev Tools
 - - - - -
@@ -25,7 +26,8 @@ DEFAULT_DB_STORE_KEY: ["hash", "action"],
 DEFAULT_COLLECT_DATA: true,
 BRACKETS: ["(","",")"],
 IGNORE_LIST: ["Castaway"],
-NEIGHBORHOOD_TYPE: 1 // links reffedNodes
+NEIGHBORHOOD_TYPE: 3, // links reffedNodes
+MAX_CURRENT_ACTIONS: 2
 }
 xh.StochasticBehavior.setup(constants01);
 
