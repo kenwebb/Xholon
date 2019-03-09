@@ -72,7 +72,7 @@ xh.IndexedDBService.setup = function(dbName, objstoreName, keypathStr, dbVersion
 /**
  * Update a database and object store.
  */
-xh.IndexedDBService.update = function(dbName, objstoreName, key, newData) {
+xh.IndexedDBService.update = function(dbName, objstoreName, key, newData, addOnly) {
   if (!dbName) {console.error("xh.IndexedDBService.update() dbName is null"); return;}
   if (!objstoreName) {console.error("xh.IndexedDBService.update() objstoreName is null"); return;}
   if (!key) {console.error("xh.IndexedDBService.update() key is null"); return;}
@@ -97,17 +97,19 @@ xh.IndexedDBService.update = function(dbName, objstoreName, key, newData) {
     request.onsuccess = function(event) {
       var data = event.target.result;
       if (data) {
-        var count = data.count;
-        if (count) {
-          data.count = count + newData.count; //+ 1;
-          // Put this updated object back into the database.
-          var requestUpdate = objectStore.put(data);
-          requestUpdate.onerror = function(event) {
-            //console.log("Do something with the error");
-          };
-          requestUpdate.onsuccess = function(event) {
-            //console.log("Success - the data is updated!");
-          };
+        if (!addOnly) {
+          var count = data.count;
+          if (count) {
+            data.count = count + newData.count; //+ 1;
+            // Put this updated object back into the database.
+            var requestUpdate = objectStore.put(data);
+            requestUpdate.onerror = function(event) {
+              //console.log("Do something with the error");
+            };
+            requestUpdate.onsuccess = function(event) {
+              //console.log("Success - the data is updated!");
+            };
+          }
         }
       }
       else {

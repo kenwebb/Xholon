@@ -28,11 +28,11 @@ BRACKETS: ["(","",")"],
 IGNORE_LIST: ["Castaway"],
 NEIGHBORHOOD_TYPE: 3, // links reffedNodes
 MAX_CURRENT_ACTIONS: 2,
-DEFAULT_DB_VERSION: 1 // increment this if I add a new objectstore
+DEFAULT_DB_VERSION: 2 // increment this if I add a new objectstore
 }
 xh.StochasticBehavior.setup(constants01);
 
-// Step 2 - option train
+// Step 2a - train
 // to train
 var isys = xh.root().first();
 var mtstr = `
@@ -45,9 +45,11 @@ this.ava.action("param currentActions true;");
 `;
 isys.append(mtstr);
 
-// Step 2 - option run
+// Step 2b - run, with options to train
 // to replay/run
-xh.StochasticBehavior.setup({DEFAULT_COLLECT_DATA: false});
+// either of the following 2 lines, but not both:
+//xh.StochasticBehavior.setup({DEFAULT_COLLECT_DATA: false});
+xh.StochasticBehavior.setup({DEFAULT_COLLECT_DATA: true, DEFAULT_COLLECT_DATA_ADDONLY: true});
 var isys = xh.root().first();
 var replaystr = `
 <_-.replay>

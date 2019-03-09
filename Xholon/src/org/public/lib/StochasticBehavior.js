@@ -10,6 +10,11 @@
  * 
  * testing:
 $wnd.xh.StochasticBehavior.test("123");
+ * 
+ * TODO
+ * - optionally, be able to capture the Avatar heading, if in a grid: N E S W NE SE SW NW
+ *   this is like capturing the Avatar's previous move
+ *   this is especially for use in Island Game when the Avatar is moving over indistinguishable LandCell nodes
  *
  */
 
@@ -48,8 +53,13 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
   constants.DEFAULT_DB_NAME = "AvatarStateDB";
   constants.DEFAULT_DB_STORE_NAME = "avastate";
   constants.DEFAULT_DB_STORE_KEY = ["hash", "action"];
-  constants.DEFAULT_COLLECT_DATA = false; // whether or not to collect new data
   constants.DEFAULT_DB_VERSION = 1;
+  constants.DEFAULT_COLLECT_DATA = false; // whether or not to collect new data
+  
+  // whether or not to only add new DB records, but not update existing records
+  // this can optionally be used while replay, to learn how to get out of situations that the DB has no record of
+  // for this to work, constants.DEFAULT_COLLECT_DATA must also be set to true
+  constants.DEFAULT_COLLECT_DATA_ADDONLY = false;
   
   constants.BRACKETS = [" ("," ",")"];
   
@@ -439,7 +449,7 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
     }
     record["action"] = currentActionStr;
     record["count"] = 1;
-    this.idbsobj.update(this.dbName, this.dbStoreName, [key, currentActionStr], record);
+    this.idbsobj.update(this.dbName, this.dbStoreName, [key, currentActionStr], record, constants.DEFAULT_COLLECT_DATA_ADDONLY);
   }
 
   $wnd.xh.StochasticBehavior.CollectData.prototype.saveIdleToDB = function(key, state, count) {
@@ -450,7 +460,7 @@ if (typeof window.xh.StochasticBehavior == "undefined") {
       record["state"] = state;
       record["action"] = currentActionStr;
       record["count"] = count;
-      this.idbsobj.update(this.dbName, this.dbStoreName, [key, currentActionStr], record);
+      this.idbsobj.update(this.dbName, this.dbStoreName, [key, currentActionStr], record, constants.DEFAULT_COLLECT_DATA_ADDONLY);
     }
   }
   
