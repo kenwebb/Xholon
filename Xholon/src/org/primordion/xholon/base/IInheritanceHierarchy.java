@@ -104,5 +104,11 @@ public interface IInheritanceHierarchy extends IXholon {
 	 * @param xhClass
 	 */
 	public abstract void createHashEntry(IXholonClass xhClass);
+	
+	/**
+	 * Remove the hash entry for the specified IXholonClass.
+	 * @param xhClass
+	 */
+	public abstract void removeHashEntry(IXholonClass xhClass);
 
 }

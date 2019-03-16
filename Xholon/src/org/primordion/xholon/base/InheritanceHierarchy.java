@@ -256,4 +256,27 @@ public class InheritanceHierarchy extends Xholon implements IInheritanceHierarch
 		}
 	}
 	
+	@Override
+	public void removeHashEntry(IXholonClass xhClass) {
+		removeHashEntry((XholonClass)xhClass, classNodeHt, String.class);
+		removeHashEntry((XholonClass)xhClass, classNodeHt, Integer.class);
+	}
+	
+	/**
+	 * Remove a possibly existing entry in a hash table.
+	 * @param xhClass The XholonClass that will be removed.
+	 * @param ht The Hashtable that the entry will be removed from.
+	 * @param keyType String.class to specify name, or Integer.class to specify ID.
+	 */
+	protected void removeHashEntry(XholonClass xhClass, Map ht, Class keyType) {
+		if (keyType == String.class) {
+			String key = xhClass.getName();
+			ht.remove(key);
+		}
+		else { // keyType == Integer.class
+			Integer key = new Integer(xhClass.getId());
+			ht.remove(key);
+		}
+	}
+	
 }
