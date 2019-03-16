@@ -121,6 +121,12 @@ public class XholonClass extends Xholon implements IXholonClass, IDecoration {
 		xhType = XhtypeNone;
 	}
 	
+	@Override
+	public IXholonClass getXhc() {
+		//consoleLog("called IXholonClass getXhc() on " + this.getName() + " " + this.getId());
+		return this.xhc;
+	}
+	
 	/**
 	 * Get the next available id for assignment to an instance of XholonClass.
 	 * @return A unique ID.
@@ -554,13 +560,13 @@ xh.xhcReplacementNames = {Hexokinase: "Enzyme", PhosphoGlucoIsomerase: "Enzyme",
 	 * @see org.primordion.xholon.base.IXholonClass#hasAncestor(java.lang.String)
 	 */
 	public boolean hasAncestor(String tnName) {
-		IXholonClass node = this;
+		IXholon node = this;
 		while (node != null) {
 			if (node.getName().equals(tnName)) {
 				return true;
 			}
 			if (node.isRootNode()) {break;}
-			node = (IXholonClass)node.getParentNode();
+			node = (IXholon)node.getParentNode();
 		}
 		return false;
 	}
@@ -569,17 +575,28 @@ xh.xhcReplacementNames = {Hexokinase: "Enzyme", PhosphoGlucoIsomerase: "Enzyme",
 	 * @see org.primordion.xholon.base.IXholonClass#hasAncestor(int)
 	 */
 	public boolean hasAncestor(int tnId) {
-		IXholonClass node = this;
+		IXholon node = this;
 		while (node != null) {
 			if (node.getId() == tnId) {
 				return true;
 			}
 			if (node.isRootNode()) {break;}
-			node = (IXholonClass)node.getParentNode();
+			node = (IXholon)node.getParentNode();
 		}
 		return false;
 	}
 	
+	@Override
+	public void removeChild() {
+		// remove from the IH tree
+		super.removeChild();
+		// remove from the InheritanceHierarchy search index
+		IInheritanceHierarchy inherHier = app.getInherHier();
+		if (inherHier != null) {
+			inherHier.removeHashEntry(this);
+		}
+	}
+
 	/* 
 	 * @see org.primordion.xholon.base.IXholonClass#configure()
 	 */
@@ -1030,7 +1047,7 @@ xh.xhcReplacementNames = {Hexokinase: "Enzyme", PhosphoGlucoIsomerase: "Enzyme",
 	public int compareTo(Object o)
 	{
 		String thisName = getName();
-		String otherName = ((IXholonClass)o).getName();
+		String otherName = ((IXholon)o).getName();
 		return thisName.compareTo(otherName);
 	}
 	
