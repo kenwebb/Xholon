@@ -38,6 +38,7 @@ import org.primordion.xholon.util.Misc;
 public class PortInformation extends Xholon {
 	
 	public static final int PORTINFO_NOTANARRAY = -1;
+	public static final String PORTINFO_NOTANARRAY_STR = String.valueOf(PORTINFO_NOTANARRAY);
 	
 	private String fieldName = null;
 	private int fieldNameIndex = PORTINFO_NOTANARRAY;

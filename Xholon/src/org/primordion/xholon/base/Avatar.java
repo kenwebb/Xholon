@@ -19,6 +19,7 @@
 package org.primordion.xholon.base;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.json.client.JSONException;
 import com.google.gwt.json.client.JSONNumber;
@@ -2963,6 +2964,7 @@ a.action("takeclone hello;");
   protected void look() {
     sb.append("You are in ").append(makeNodeName(contextNode)).append(".");
     lookChildren(contextNode.getFirstChild(), " ");
+    lookLinks(contextNode, " ");
   }
   
   /**
@@ -2986,10 +2988,26 @@ a.action("takeclone hello;");
     while (node != null) {
       if (node != this) { // exclude this avatar and its children
         sb.append("\n").append(indent).append("You see ").append(makeNodeName(node));
+        lookLinks(node, indent + " ");
         lookRecurse(node.getFirstChild(), indent + " ");
       }
       node = node.getNextSibling();
     }
+  }
+  
+  protected void lookLinks(IXholon node, String indent) {
+	  JsArray<JavaScriptObject> arr = ((Xholon)node).getLinksNative(false, true);
+	  for (int i = 0; i < arr.length(); i++) {
+	    JavaScriptObject obj = arr.get(i);
+	    String fieldName = (String)getJsoPropertyValue(obj, "fieldName");
+	    String fieldNameIndexStr = (String)getJsoPropertyValue(obj, "fieldNameIndexStr");
+	    IXholon reffedNode = (IXholon)getJsoPropertyValue(obj, "reffedNode");
+	    sb.append("\n").append(indent).append("You see passage ")
+	    .append(fieldName)
+	    .append(PortInformation.PORTINFO_NOTANARRAY_STR.equals(fieldNameIndexStr) ? "" : fieldNameIndexStr)
+	    .append(" to ")
+	    .append(reffedNode == null ? "UNKNOWN" : makeNodeName(reffedNode));
+	  }
   }
   
   /**
