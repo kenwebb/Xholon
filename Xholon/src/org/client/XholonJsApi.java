@@ -692,14 +692,35 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
     });
     
     // xhc
-    api.xhc = $entry(function(xhClassName) {
+    // @param xhClassName
+    // @param xhClassObj an optional JS Array or Object that provides an alternative source of IXholonClass nodes
+    api.xhc = $entry(function(xhClassName, xhClassObj) {
       if (xhClassName === undefined) {
         return this.@org.primordion.xholon.base.IXholon::getXhc()();
       }
       else {
-        var xhClass = this.@org.primordion.xholon.base.IXholon::getClassNode(Ljava/lang/String;)(xhClassName);
-        if (xhClass) {
-          this.@org.primordion.xholon.base.IXholon::setXhc(Lorg/primordion/xholon/base/IXholonClass;)(xhClass);
+        if (xhClassObj === undefined) {
+          var xhClass = this.@org.primordion.xholon.base.IXholon::getClassNode(Ljava/lang/String;)(xhClassName);
+          if (xhClass) {
+            this.@org.primordion.xholon.base.IXholon::setXhc(Lorg/primordion/xholon/base/IXholonClass;)(xhClass);
+          }
+        }
+        else {
+          var xhClass = null;
+          if (Array.isArray(xhClassObj)) {
+            for (var i = 0; i < xhClassObj.length; i++) {
+              if (xhClassObj[i].name() == xhClassName) {
+                xhClass = xhClassObj[i];
+                break;
+              }
+            }
+          }
+          else {
+            xhClass = xhClassObj["xhClassName"];
+          }
+          if (xhClass) {
+            this.@org.primordion.xholon.base.IXholon::setXhc(Lorg/primordion/xholon/base/IXholonClass;)(xhClass);
+          }
         }
         return this;
       }
