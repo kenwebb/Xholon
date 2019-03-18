@@ -392,11 +392,27 @@ public class Avatar extends AbstractAvatar {
   }
   
   protected void setContextNode(IXholon contextNode) {
-    this.contextNode = contextNode;
-    if (chatbot != null) {
-      chatbot.setVal_Object(contextNode);
+    if (this.contextNode != contextNode) {
+      pushHistory(this.contextNode);
+      this.contextNode = contextNode;
+      if (chatbot != null) {
+        chatbot.setVal_Object(contextNode);
+      }
     }
   }
+  
+  protected native void pushHistory(IXholon contextNode) /*-{
+    if (this["history"]) {
+      this["history"].pushHistory(contextNode);
+    }
+  }-*/;
+  
+  protected native IXholon popHistory() /*-{
+    if (this["history"]) {
+      return this["history"].popHistory();
+    }
+    return null;
+  }-*/;
   
   @Override
   public Object getVal_Object() {
@@ -2293,6 +2309,14 @@ a.action("takeclone hello;");
     case "8": goPort(portNode, 8); return;
     case "9": goPort(portNode, 9); return;
     case "10": goPort(portNode, 10); return;
+    case "HISTORY":
+      IXholon hnode = this.popHistory();
+      if (hnode != null) {
+        // TODO prevent the current contextNode from going into history
+        // HistoryManager behavior might be able to control this by not allowing pushHistory(currentNode) just after popping a node
+        moveto(hnode, "Moving back to");
+      }
+      return;
     default: break;
     }
     
