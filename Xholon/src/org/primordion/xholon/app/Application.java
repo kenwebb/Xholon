@@ -1968,6 +1968,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	  "D":"drop",
 	  "E":"eat",
 	  "F":"flip",
+	  "H":"go history",
 	  "I":"inventory",
 	  "L":"look",
 	  "M":"build <Animate	selection='#xhgraph'/>",

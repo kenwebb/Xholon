@@ -2,12 +2,17 @@
 
 /**
  * AvatarHistory
+ * Ken Webb
+ * March 18, 2019
  * A test implementation of a Avatar HistoryManager.
  * 
- * sample usage:
+ * http://127.0.0.1:8888/Xholon.html?app=dcc6eca037a3c0073ebe55eb8ffeba68&src=gist&gui=none&jslib=AvatarHistory
  * 
+// sample usage:
 var ava = xh.avatar();
 ava.history = xh.AvatarHistory;
+//OR just:
+xh.avatar().history = xh.AvatarHistory;
 
 // test push()
 ava.action("go 0");
@@ -19,14 +24,9 @@ ava.action("go history");
 var akm = JSON.parse(xh.avatarKeyMap());
 akm.H = "go history";
 xh.avatarKeyMap(JSON.stringify(akm));
+// I have added "H" to Application default avatarKeyMap, so it will be available for all apps
 
  * 
- * 
- * TODO:
- * - ava.action("go 0"); pushes 2 nodes onto the stack - both the source contextNode and the destination contextNode
- *   setContextNode() iscalled from line 875 and line 2602
- * - prevent the current contextNode from going into history
-     HistoryManager behavior might be able to control this by not allowing pushHistory(currentNode) just after popping a node
  */
 
 (function($wnd) {
