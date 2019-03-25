@@ -928,8 +928,14 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 		else if (xholonClassSubclass == org.primordion.cellontro.base.BioXholonClass.class) {
 			xhcEnt = new org.primordion.cellontro.base.BioXholonClass();
 		}
+		else if (xholonClassSubclass.getCanonicalName().equals(XholonClass.class.getCanonicalName())) {
+			xhcEnt = new XholonClass();
+		}
+		else if (xholonClassSubclass.getCanonicalName().equals(org.primordion.cellontro.base.BioXholonClass.class.getCanonicalName())) {
+			xhcEnt = new org.primordion.cellontro.base.BioXholonClass();
+		}
 		else {
-			System.out.println("TreeNodeFactoryNew.getXholonClassNode() xholonClassSubclass:" + xholonClassSubclass);
+			this.consoleLog("TreeNodeFactoryNew.getXholonClassNode() xholonClassSubclass:" + xholonClassSubclass.getCanonicalName() + " XholonClass.class:" + XholonClass.class.getCanonicalName());
 		}
 		xhcEnt.initialize();
 		return xhcEnt;
