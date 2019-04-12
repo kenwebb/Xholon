@@ -1402,6 +1402,7 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
         }
         break;
       }
+      return this;
     });
     
     // uncache - reverse the effects of cache()
@@ -1428,6 +1429,7 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
         }
         break;
       }
+      return this;
     });
     
     // TODO pcs(expression) and select(expression)
