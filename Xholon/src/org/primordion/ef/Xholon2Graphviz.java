@@ -61,7 +61,7 @@ public class Xholon2Graphviz extends AbstractXholon2ExternalFormat implements IX
   protected String outPath = "./ef/graphviz/";
   protected String modelName;
   protected IXholon root;
-  private StringBuilder sb;
+  protected StringBuilder sb;
   
   /** Current date and time. */
   protected Date timeNow;
