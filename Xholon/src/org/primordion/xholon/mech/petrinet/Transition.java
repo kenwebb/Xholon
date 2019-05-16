@@ -482,9 +482,41 @@ public class Transition extends XholonWithPorts implements IKinetics {
 		}
 		JsArrayNumber arr = this.pushInputsToArray(inputArcs.getFirstChild());
 		IMessage result = function.sendSyncMessage(101, arr, this);
-		double outputVal = (double)result.getData();
-		outputArc.getPlace().setVal(outputVal);
+		Object outputVal = result.getData();
+		if (this.isArray(outputVal)) {
+			this.pushArrayToOutputs(outputVal, outputArc);
+		}
+		else {
+			outputArc.getPlace().setVal((double)outputVal);
+		}
 	}
+	
+	protected native boolean isArray(Object obj) /*-{
+		if (Array.isArray(obj)) {return true;}
+		else {return false;}
+	}-*/;
+	
+	/**
+	 * Push each value in a JavaScript array to a separate output arc.
+	 * @param An array of double.
+	 * @param The first child of an instance of OutputArcs.
+	 */
+	protected native void pushArrayToOutputs(Object arr, IXholon outarc) /*-{
+		var arc = outarc;
+		for (var ix = 0; ix < arr.length; ix++) {
+			if (arc) {
+				var linkArr = arc.links(false,true);
+				if (linkArr && linkArr.length) {
+					var rnode = linkArr[0].reffedNode;
+					if (rnode) {
+						rnode.val(arr[ix]);
+					}
+				}
+				arc = arc.next();
+			}
+			else {return;}
+		}
+	}-*/;
 	
 	/**
 	 * Push the values of all input arcs onto a JavaScript array.
