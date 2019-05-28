@@ -1432,6 +1432,25 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       return this;
     });
     
+    // Java class name, and optionally all Java superclass names
+    // ex: "org.primordion.user.app.helloworldjnlp.XhHelloWorld,org.primordion.xholon.base.XholonWithPorts,org.primordion.xholon.base.Xholon,java.lang.Object"
+    // usage: xh.app().javaClassnames(true).split(",").reverse();
+    // @param superclasses whethe or not to include superclass names
+    api.javaClassnames  = $entry(function(superclasses) {
+      if (superclasses === undefined) {superclasses = false;}
+      var clazz = this.@org.primordion.xholon.base.IXholon::getClass()();
+      var str = clazz.@java.lang.Class::getName()();
+      if (superclasses) {
+        while (clazz) {
+          clazz = clazz.@java.lang.Class::getSuperclass()();
+          if (clazz) {
+            str += "," + clazz.@java.lang.Class::getName()();
+          }
+        }
+      }
+      return str;
+    });
+    
     // TODO pcs(expression) and select(expression)
     
   }-*/;
