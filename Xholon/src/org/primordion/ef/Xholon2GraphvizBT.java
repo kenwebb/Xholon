@@ -38,6 +38,13 @@ import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon"> Xholon Project website</a>
  * @since 0.9.1 (Created on May 15, 2019)
+ * 
+ * google: "binary tree" "category theory"
+ * https://arxiv.org/pdf/math/0301211.pdf
+ * https://golem.ph.utexas.edu/category/2014/03/operads_and_trees.html
+ * https://johncarlosbaez.wordpress.com/2011/07/06/operads-and-the-tree-of-life/
+ * http://math.ucr.edu/home/baez/week202.html
+ * https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3325926/
  */
 public class Xholon2GraphvizBT extends Xholon2Graphviz { // implements IXholon2ExternalFormat {
   
