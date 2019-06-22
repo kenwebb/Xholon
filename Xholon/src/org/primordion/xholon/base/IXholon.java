@@ -1501,4 +1501,23 @@ public abstract Object subtrees(String stNames);
  */
 public abstract IXholon subtree(String stName);
 
+/**
+ * Build Binary Tree path strings for each node in the Xholon tree, starting with this node.
+ * @param str a binary (base 2) string (ex: "" "0" "1" "1010")
+ */
+public abstract void buildBinaryTreePaths(String str);
+
+/**
+ * Get the optional Binary Tree path string for this node.
+ * @param base (ex: 2 or 10 or 16)
+ * @return a Binary Tree path string in the specified base, or null if no such string exists
+ */
+public abstract String getBinaryTreePath(int base);
+
+/**
+ * Set the optional Binary Tree path string for this node.
+ * @param str a binary (base 2) string (ex: "" "0" "1" "1010")
+ */
+public abstract void setBinaryTreePath(String str);
+
 }

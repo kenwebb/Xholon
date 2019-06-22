@@ -1422,13 +1422,21 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 				    nameBuffer += sval;
 				  }
 				  break;
-				case 'B': nameBuffer += " " + getVal_boolean(); break; // XholonJsApi bool()
+				case 'B': // XholonJsApi bool()
+					nameBuffer += " " + getVal_boolean();
+					break;
 				case 'O': // XholonJsApi obj()
 				  Object oval = getVal_Object();
 				  if (oval != null) {
 				    nameBuffer += " " + oval.toString();
 				  }
 				  break;
+				case 'P': // binary tree path (P) from some root as a hex string (ex: "9abc")
+					nameBuffer += this.getBinaryTreePath(16); // ex: "9abc"
+					break;
+				case 'p': // binary tree path (p) from some root as a bit string (ex: "101011")
+					nameBuffer += this.getBinaryTreePath(2); // ex: "101011"
+					break;
 				case '^': break;
 				default: break;
 				}
@@ -3768,6 +3776,38 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 			return this["subtrees"][stName];
 		}
 		return null;
+	}-*/;
+	
+	@Override
+	public void buildBinaryTreePaths(String str) {
+		this.setBinaryTreePath(str);
+		IXholon leftNode = this.getFirstChild();
+		if (leftNode != null) {
+			leftNode.buildBinaryTreePaths(str + "1");
+		}
+		IXholon rightNode = this.getNextSibling();
+		if (rightNode != null) {
+			rightNode.buildBinaryTreePaths(str + "0");
+		}
+	}
+	
+	@Override
+	public native void setBinaryTreePath(String str) /*-{
+		this["btpathbinary"] = str;
+	}-*/;
+	
+	@Override
+	public native String getBinaryTreePath(int base) /*-{
+		var btpathstr = this["btpathbinary"];
+		if (typeof btpathstr == "undefined") {return null;}
+		if (btpathstr == "") {return "";}
+		// var hexa = parseInt(number, 2).toString(16).toUpperCase();
+		switch (base) {
+		case 2:  return btpathstr;
+		case 10: return Number("0b" + btpathstr).toString(10); // might return "NaN"
+		case 16: return Number("0b" + btpathstr).toString(16); // might return "NaN"
+		default: return null;
+		}
 	}-*/;
 	
 	/*
