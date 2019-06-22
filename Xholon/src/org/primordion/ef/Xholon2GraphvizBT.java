@@ -51,6 +51,8 @@ public class Xholon2GraphvizBT extends Xholon2Graphviz { // implements IXholon2E
   protected String outPath = "./ef/graphvizbt/";
   
   protected int nullcount = 0;
+  
+  protected String[] edgeLabels = {"λ","ρ"}; //this.getEdgeLabels().split(",");
 
   /**
    * Constructor.
@@ -83,7 +85,7 @@ public class Xholon2GraphvizBT extends Xholon2Graphviz { // implements IXholon2E
     sb.append("See also: http://rise4fun.com/agl/\n");
     sb
     .append("\nTo repeat this Xholon export:\n")
-    .append(" $wnd.xh.xport(\"Graphviz\", ");
+    .append(" $wnd.xh.xport(\"GraphvizBT\", ");
     if (root.isRootNode()) {
       sb.append("$wnd.xh.root()");
     }
@@ -100,6 +102,10 @@ public class Xholon2GraphvizBT extends Xholon2Graphviz { // implements IXholon2E
     sb.append("*/\n");
     
     makeShapeMap();
+    edgeLabels = this.getEdgeLabels().split(",");
+    if (this.isBinaryTreePaths()) {
+      root.buildBinaryTreePaths("");
+    }
     
     writeNodes(root, 0);
     sb.append("}\n");
@@ -222,14 +228,15 @@ public class Xholon2GraphvizBT extends Xholon2Graphviz { // implements IXholon2E
       }
       
       // edge attributes
+      sb
+      .append(" edge [")
+      .append(" fontsize=8");
       if (isShouldSpecifyArrowhead()) {
         sb
-        .append(" edge [")
         .append("arrowhead=")
-        .append(getArrowhead())
-        .append("]\n");
+        .append(getArrowhead());
       }
-      
+      sb.append("]\n");
     } // end (node == root)
     
     this.writeNonClusterNode(node, level, nodeId, nodeLabel, tab);
@@ -241,11 +248,12 @@ public class Xholon2GraphvizBT extends Xholon2Graphviz { // implements IXholon2E
       .append(getEdgeOp())
       .append(" ")
       .append(makeNodeId(node.getFirstChild())) //node.getFirstChild().getName(this.getNameTemplateNodeLabel()))
+      .append(" [label=\"" + edgeLabels[0] + "\"]")
       .append(";\n");
       writeNode(node.getFirstChild(), level+1);
     }
-    else {
-      writeDotNull(node, nodeId, nullcount++, "#000000");
+    else if (isShouldShowNullEdges()) {
+      writeDotNull(node, nodeId, nullcount++, "#000000", edgeLabels[0]);
     }
     
     // ignore any sibling of the root node (level-0 node)
@@ -256,15 +264,16 @@ public class Xholon2GraphvizBT extends Xholon2Graphviz { // implements IXholon2E
       .append(getEdgeOp())
       .append(" ")
       .append(makeNodeId(node.getNextSibling())) //node.getNextSibling().getName(this.getNameTemplateNodeLabel()))
+      .append(" [label=\"" + edgeLabels[1] + "\"]")
       .append(";\n");
       writeNode(node.getNextSibling(), level+1);
     }
-    else {
-      writeDotNull(node, nodeId, nullcount++, "#ffffff");
+    else if (isShouldShowNullEdges()) {
+      writeDotNull(node, nodeId, nullcount++, "#ffffff", edgeLabels[1]);
     }
   }
   
-  protected void writeDotNull(IXholon node, String nodeId, int nullcount, String color) {
+  protected void writeDotNull(IXholon node, String nodeId, int nullcount, String color, String edgeLabel) {
     sb
     .append("null")
     .append(nullcount)
@@ -277,6 +286,7 @@ public class Xholon2GraphvizBT extends Xholon2Graphviz { // implements IXholon2E
     .append(getEdgeOp())
     .append(" null")
     .append(nullcount)
+    .append(" [label=\"").append(edgeLabel).append("\"]")
     .append(";\n");
   }
   
@@ -284,22 +294,36 @@ public class Xholon2GraphvizBT extends Xholon2Graphviz { // implements IXholon2E
    * Write links from this node to any others, where Xholon has connected ports.
    * @param node The current node.
    */
-  @SuppressWarnings("unchecked")
-  protected void writeLinks(IXholon node)
-  {
+  //@SuppressWarnings("unchecked")
+  //protected void writeLinks(IXholon node)
+  //{
     // there are no links/ports in a binary tree
-  }
+  //}
   
   /**
    * Write one link.
    * @param node The node where the link originates.
    * @param portInfo Information about the port that represents the link.
    */
-  protected void writeLink(IXholon node, PortInformation portInfo)
-  {
+  //protected void writeLink(IXholon node, PortInformation portInfo)
+  //{
     // there are no links/ports in a binary tree
+  //}
+  
+  @Override
+  protected String makeNodeLabel(IXholon node) {
+    if (getMaxLabelLen() == 0) {
+      return "";
+    }
+    String label = node.getName(getNameTemplateNodeLabel());
+    if (getMaxLabelLen() > GV_MAXLABELLEN_NULL) {
+      if (getMaxLabelLen() < label.length()) {
+        label = label.substring(0, getMaxLabelLen());
+      }
+    }
+    return label;
   }
-
+  
   @Override
   protected native void makeEfParams() /*-{
     var p = {};
@@ -311,7 +335,7 @@ public class Xholon2GraphvizBT extends Xholon2Graphviz { // implements IXholon2E
     p.shouldShowStateMachineEntities = false;
     p.filter = "--Behavior,Script"; //,StateMachineEntity";
     p.nameTemplateNodeId = "^^^^i^";
-    p.nameTemplateNodeLabel = "R^^^^^";
+    p.nameTemplateNodeLabel = "^^^^^P"; // "^^^^^P" "R^^^^^";
     p.shouldQuoteLabels = true;
     p.shouldShowLinks = false;
     p.shouldShowLinkLabels = false;
@@ -334,9 +358,26 @@ public class Xholon2GraphvizBT extends Xholon2Graphviz { // implements IXholon2E
     p.stylesheet = "Xholon.css";
     p.shouldSpecifyRankdir = false;
     p.rankdir = "LR";
+    
+    p.binaryTreePaths = true;
+    p.edgeLabels = "1,0"; // 0,1 1,0(default) left,right first,next λ,ρ
+    p.shouldShowNullEdges = true;
+    
     p.shouldDisplayGraph = false;
     p.outputFormat = "svg";
     this.efParams = p;
   }-*/;
 
+  /** Whether or not to make and display Binary Tree paths. */
+  public native boolean isBinaryTreePaths() /*-{return this.efParams.binaryTreePaths;}-*/;
+  //public native void setBinaryTreePaths(boolean binaryTreePaths) /*-{this.efParams.binaryTreePaths = binaryTreePaths;}-*/;
+  
+  /**  */
+  public native String getEdgeLabels() /*-{return this.efParams.edgeLabels;}-*/;
+  //public native void setEdgeLabels(String edgeLabels) /*-{this.efParams.edgeLabels = edgeLabels;}-*/;
+  
+  /** Whether or not to show null edges, edges that don't reference another node. */
+  public native boolean isShouldShowNullEdges() /*-{return this.efParams.shouldShowNullEdges;}-*/;
+  //public native void setShouldShowNullEdges(boolean shouldShowNullEdges) /*-{this.efParams.shouldShowNullEdges = shouldShowNullEdges;}-*/;
+  
 }
