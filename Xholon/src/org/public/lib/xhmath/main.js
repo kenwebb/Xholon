@@ -3,17 +3,12 @@
  * (C) Ken Webb, MIT license
  * May 23, 2019
  * 
+ * @example
  * Usage:
  * xh.xhmath.buildArrayofNodes(xh.root()); // node
  * xh.xhmath.buildArrayofNodeLabels(xh.root(), "R^^^^^"); // node.name("R^^^^^")
  * xh.xhmath.buildArrayofNodeLabels(xh.root(), ""); // node.name()
  * xh.xhmath.buildArrayofNodeLabels(xh.root(), null); // node
- * 
- * NO
- * xh.xhmath.buildSetofNodes(xh.root()); // node
- * xh.xhmath.buildSetofNodeLabels(xh.root(), "R^^^^^"); // node.name("R^^^^^")
- * xh.xhmath.buildSetofNodeLabels(xh.root(), ""); // node.name()
- * xh.xhmath.buildSetofNodeLabels(xh.root(), null); // node
  * 
  * xh.xhmath.buildArrayofPointedNodes();
  * xh.xhmath.buildArrayofPointedNodeLabels("");
@@ -30,10 +25,13 @@ import {buildArrayofNodes, buildArrayofNodeLabels}
   from '/xholon/lib/xhmath/modules/basicset.js';
 import {buildArrayofPointedNodes, buildArrayofPointedNodeLabels, buildArrayofNodesfromPointedNode, buildArrayofNodeLabelsfromPointedNode}
   from '/xholon/lib/xhmath/modules/pointedset.js';
-import {buildArrayofXhTypeIds, buildArrayofXhTypeLables, buildArrayofXhTypeLablesAlt, buildArrayofXhTypePairs, buildArrayofXhTypePairsAlt}
+import {buildArrayofXhTypeIds, buildArrayofXhTypelabels, buildArrayofXhTypelabelsAlt, buildArrayofXhTypePairs, buildArrayofXhTypePairsAlt}
   from '/xholon/lib/xhmath/modules/xhtype.js';
+import {buildArrayofClassInstances, buildArrayofClassInstanceLabels, buildArrayofXholonClassNodes, buildArrayofXholonClassNodelabels}
+  from '/xholon/lib/xhmath/modules/xhcset.js';
 
 window.xh.xhmath = {};
+
 window.xh.xhmath.buildArrayofNodes = buildArrayofNodes;
 window.xh.xhmath.buildArrayofNodeLabels = buildArrayofNodeLabels;
 
@@ -43,14 +41,23 @@ window.xh.xhmath.buildArrayofNodesfromPointedNode = buildArrayofNodesfromPointed
 window.xh.xhmath.buildArrayofNodeLabelsfromPointedNode = buildArrayofNodeLabelsfromPointedNode;
 
 window.xh.xhmath.buildArrayofXhTypeIds = buildArrayofXhTypeIds;
-window.xh.xhmath.buildArrayofXhTypeLables = buildArrayofXhTypeLables;
-window.xh.xhmath.buildArrayofXhTypeLablesAlt = buildArrayofXhTypeLablesAlt;
+window.xh.xhmath.buildArrayofXhTypelabels = buildArrayofXhTypelabels;
+window.xh.xhmath.buildArrayofXhTypelabelsAlt = buildArrayofXhTypelabelsAlt;
 window.xh.xhmath.buildArrayofXhTypePairs = buildArrayofXhTypePairs;
 window.xh.xhmath.buildArrayofXhTypePairsAlt = buildArrayofXhTypePairsAlt;
 
+window.xh.xhmath.buildArrayofClassInstances = buildArrayofClassInstances;
+window.xh.xhmath.buildArrayofClassInstanceLabels = buildArrayofClassInstanceLabels;
+window.xh.xhmath.buildArrayofXholonClassNodes = buildArrayofXholonClassNodes;
+window.xh.xhmath.buildArrayofXholonClassNodelabels = buildArrayofXholonClassNodelabels;
+
 // apps
-import {raghTest01} from '/xholon/lib/xhmath/apps/raghavendra.js';
+import {raghTest01, raghTest02, exportToGraphvizBT, exportToTableInNewTab}
+  from '/xholon/lib/xhmath/apps/raghavendra.js';
 window.xh.xhmath.raghTest01 = raghTest01;
+window.xh.xhmath.raghTest02 = raghTest02;
+window.xh.xhmath.exportToGraphvizBT = exportToGraphvizBT;
+window.xh.xhmath.exportToTableInNewTab = exportToTableInNewTab;
 
 function asSet(arr) {
   return new Set(arr);
@@ -84,11 +91,22 @@ function asMathString(arr) {
   return "{" + arr.toString() + "}";
 }
 
+function isSetExtended() {
+  if (Set.__isExtended__) {
+    console.log("The built-in JavaScript Set object has been extended using the set-extension.js library.");
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
 window.xh.xhmath.asSet = asSet;
 window.xh.xhmath.asArrayofInt = asArrayofInt;
 window.xh.xhmath.asString = asString;
 window.xh.xhmath.asJsonString = asJsonString;
 window.xh.xhmath.asMathString = asMathString;
+window.xh.xhmath.isSetExtended = isSetExtended;
 
 /*
 // this DOES work in Chrome, and it DOES work in Firefox starting with release 67.0
@@ -107,7 +125,7 @@ import('/xholon/lib/xhmath/modules/basicset.js')
 export {
 buildArrayofNodes, buildArrayofNodeLabels, buildArrayofPointedNodes,
 buildArrayofPointedNodeLabels, buildArrayofNodesfromPointedNode, buildArrayofNodeLabelsfromPointedNode,
-buildArrayofXhTypeIds, buildArrayofXhTypeLables, buildArrayofXhTypeLablesAlt, buildArrayofXhTypePairs, buildArrayofXhTypePairsAlt,
-asSet, asArrayofInt, asString, asJsonString, asMathString
+buildArrayofXhTypeIds, buildArrayofXhTypelabels, buildArrayofXhTypelabelsAlt, buildArrayofXhTypePairs, buildArrayofXhTypePairsAlt,
+asSet, asArrayofInt, asString, asJsonString, asMathString, isSetExtended
 }
 
