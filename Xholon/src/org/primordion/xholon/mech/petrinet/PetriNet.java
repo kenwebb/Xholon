@@ -224,6 +224,9 @@ public class PetriNet extends XholonWithPorts implements IKinetics {
 		else if (attrName.equals("chartInterval")) {
 			setChartInterval(Integer.parseInt(attrVal));
 		}
+		else if (attrName.equals("shouldWriteSequenceDiagram")) {
+			Transition.setShouldWriteSequenceDiagram(Boolean.parseBoolean(attrVal));
+		}
 		return 0;
 	}
 	

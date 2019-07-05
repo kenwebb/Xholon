@@ -67,7 +67,8 @@ public class PetriNetEntity extends XholonWithPorts {
 				childNode = childNode.getNextSibling();
 			}
 			// write Plot script after all the places
-			Plot.writeXml(xholon2xml, xmlWriter, this.getApp());
+			// I commented out the following line  July 4, 2019; it incorrectly adds an unwanted Plot with <PetriNet multiplicity="2">
+			//Plot.writeXml(xholon2xml, xmlWriter, this.getApp());
 			// write end element
 			xmlWriter.writeEndElement(this.getXhcName());
 		}

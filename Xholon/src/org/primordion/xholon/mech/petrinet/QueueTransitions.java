@@ -67,6 +67,12 @@ public class QueueTransitions extends Queue implements IQueue {
 	private boolean shouldAct = true;
 	
 	/**
+	 * Whether or not to process only the single next transition each time step.
+	 * A value of false means to process all items in the Q each time step.
+	 */
+	private boolean shouldActNextOnly = false;
+	
+	/**
 	 * Whether or not to shuffle each time step.
 	 */
 	private boolean shouldShuffle = true;
@@ -149,10 +155,17 @@ public class QueueTransitions extends Queue implements IQueue {
 			}
 			for (int j = 0; j < timeStepMultiplier; j++) {
 				int nxt = nextOff; // point to head of queue
-				for (int i = 0; i < currentSize; i++) {
-					((IXholon)item[nxt]).actNr();
-					nxt++;
-					nxt %= maxSize;
+				if (shouldActNextOnly) {
+					IXholon nextTrans = (IXholon)this.dequeue();
+					nextTrans.actNr();
+					this.enqueue(nextTrans);
+				}
+				else {
+					for (int i = 0; i < currentSize; i++) {
+						((IXholon)item[nxt]).actNr();
+						nxt++;
+						nxt %= maxSize;
+					}
 				}
 			}
 		}
@@ -229,6 +242,9 @@ public class QueueTransitions extends Queue implements IQueue {
 		else if (attrName.equals("connector")) {
 			setConnector(attrVal);
 		}
+		if (attrName.equals("shouldActNextOnly")) {
+			setShouldActNextOnly(Boolean.parseBoolean(attrVal));
+		}
 		return 0;
 	}
 	
@@ -251,6 +267,8 @@ public class QueueTransitions extends Queue implements IQueue {
 	public void toXmlAttributes(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {
 		if (connector != null) {xmlWriter.writeAttribute("connector", connector);}
 		xmlWriter.writeAttribute("shouldAct", Boolean.toString(shouldAct));
+		xmlWriter.writeAttribute("shouldActNextOnly", Boolean.toString(shouldActNextOnly));
+		xmlWriter.writeAttribute("shouldShuffle", Boolean.toString(shouldShuffle));
 	}
 	
 	public boolean isShouldShuffle() {
@@ -287,5 +305,13 @@ public class QueueTransitions extends Queue implements IQueue {
 
 	public int getTimeStepMultiplier() {
 		return timeStepMultiplier;
+	}
+
+	public boolean isShouldActNextOnly() {
+		return shouldActNextOnly;
+	}
+
+	public void setShouldActNextOnly(boolean shouldActNextOnly) {
+		this.shouldActNextOnly = shouldActNextOnly;
 	}
 }
