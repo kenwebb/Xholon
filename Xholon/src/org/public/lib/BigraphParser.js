@@ -3,6 +3,9 @@
  * BigraphParser.js
  * Ken Webb  June 20, 2019
  * MIT License, Copyright (C) 2019 Ken Webb
+ 
+ * TODO
+ * - handle lines that start with "$"; these are domain-specific and need to be handled in a custom way
 */
 
 if (typeof xh == "undefined") {
@@ -24,26 +27,35 @@ const DEFAULT_INNERNAMES_SYMBOL = "X";
 const DEFAULT_ROOTS_SYMBOL = "n";
 const DEFAULT_OUTERNAMES_SYMBOL = "Y";
 
-var me, spec, nodeDict, edgeDict, portDict, sitesSymbol, innerNamesSymbol, rootsSymbol, outerNamesSymbol, bginterface, beh = {
+var me, spec, nodeDict, edgeDict, portDict, sitesSymbol, innerNamesSymbol, rootsSymbol, outerNamesSymbol, bginterface, custom, beh = {
 
 postConfigure: function() {
   me = this.cnode.parent();
+  console.log("Starting BigraphParser for " + me.name() + " ...");
   //me.println(me.name());
   spec = me.first().text().trim();
-  nodeDict = {};
-  edgeDict = {};
-  portDict = {};
+  nodeDict = me.nodeDict || {};
+  edgeDict = me.edgeDict || {};
+  portDict = me.portDict || {};
+  bginterface = me.bginterface || {};
   // default values of symbols
   sitesSymbol = DEFAULT_SITES_SYMBOL;
   innerNamesSymbol = DEFAULT_INNERNAMES_SYMBOL;
   rootsSymbol = DEFAULT_ROOTS_SYMBOL;
   outerNamesSymbol = DEFAULT_OUTERNAMES_SYMBOL;
   bginterface = {};
+  custom = {};
   me.first().remove();
   this.parseSpec(spec);
   this.cnode.remove();
   if (!me.first()) {
     //me.remove();
+  }
+  if (me["savedata"] == "true") {
+    me.nodeDict = nodeDict;
+    me.edgeDict = edgeDict;
+    me.portDict = portDict;
+    me.bginterface = bginterface;
   }
 },
 
@@ -62,6 +74,15 @@ parseSpec: function(spec) {
     case "Σ":
       this.parseSignature(larr1);
       break;
+    case "Σ_implName":
+      this.parseImplName(larr1);
+      break;
+    case "Σ_xhType":
+      this.parseXhType(larr1);
+      break;
+    //case "Σ_config":
+    //  this.parseConfig(larr1);
+    //  break;
     case "VB":
       this.parseVB(larr1);
       break;
@@ -80,6 +101,31 @@ parseSpec: function(spec) {
     case "linkB":
       this.parseLinkB(larr1);
       break;
+    // IDecoration specifications
+    case "_Color":
+      this.parseDecoration(larr1, "Color");
+      break;
+    case "_Opacity":
+      this.parseDecoration(larr1, "Opacity");
+      break;
+    case "_Font":
+      this.parseDecoration(larr1, "Font");
+      break;
+    case "_Icon":
+      this.parseDecoration(larr1, "Icon");
+      break;
+    case "_Symbol":
+      this.parseDecoration(larr1, "Symbol");
+      break;
+    case "_Anno":
+      this.parseDecoration(larr1, "Anno");
+      break;
+    case "_GridGenerator":
+      this.parseGridGenerator(larr1);
+      break;
+    case "_AvatarKeyMap":
+      this.parseAvatarKeyMap(larr1);
+      break;
     default:
       //me.println("DEFAULT: " + line);
       if (line.length == 0) {
@@ -91,6 +137,14 @@ parseSpec: function(spec) {
       else if (larr1.startsWith("{")) {
         // this is a custom (not yet part of the Bigraph specification B)
         me.println("CUSTOM: " + larr0 + "|" + larr1);
+      }
+      else if (larr0.startsWith("_")) {
+        me.println("CUSTOM_: " + larr0 + "|" + larr1);
+        custom[larr0] = larr1;
+      }
+      else if (larr0.startsWith("$")) {
+        me.println("CUSTOM$: " + larr0 + "|" + larr1);
+        custom[larr0] = larr1;
       }
       else {
         // m=0,X=∅,n=1,Y={c,co,t}
@@ -198,6 +252,85 @@ parseSignature: function(str) {
   xhcRoot.append(xhcCdStr);
 },
 
+// Σ_implName=({org.primordion.xholon.base.GridEntity},{(Space,org.primordion.xholon.base.GridEntity),...}),
+parseImplName: function(str) {
+  const str2 = str.substring(2,str.length-2);
+  const strArr = str2.split("},{");
+  const ctrlSet = strArr[0].trim();
+  const implNameSet = strArr[1].trim();
+  const ctrlSetArr = ctrlSet.split(",");
+  const implNameSetArr = implNameSet.substring(1,implNameSet.length-1 ).split("),(");
+  const xhcRoot = $wnd.xh.root().xhc().parent();
+  
+  // add implNames to Inheritance Hierarchy class details
+  let xhcCdStr = "<xholonClassDetails>";
+  for (var j = 0; j < implNameSetArr.length; j++) {
+    let implNamePair = implNameSetArr[j].split(",");
+    let xhcName = implNamePair[0];
+    let implName = implNamePair[1];
+    if (implName != null) {
+      xhcCdStr += "<" + xhcName + ' implName="' + implName + '">';
+      xhcCdStr += "</" + xhcName + ">";
+    }
+  }
+  xhcCdStr += "</xholonClassDetails>";
+  xhcRoot.append(xhcCdStr);
+},
+
+// Σ_xhType=({XhtypeGridEntity,XhtypeGridEntityActivePassive},{(Space,XhtypeGridEntity),...}),
+parseXhType: function(str) {
+  const str2 = str.substring(2,str.length-2);
+  const strArr = str2.split("},{");
+  const ctrlSet = strArr[0].trim();
+  const xhTypeSet = strArr[1].trim();
+  const ctrlSetArr = ctrlSet.split(",");
+  const xhTypeSetArr = xhTypeSet.substring(1,xhTypeSet.length-1 ).split("),(");
+  const xhcRoot = $wnd.xh.root().xhc().parent();
+  
+  // add xhTypes to Inheritance Hierarchy class details
+  let xhcCdStr = "<xholonClassDetails>";
+  for (var j = 0; j < xhTypeSetArr.length; j++) {
+    let xhTypePair = xhTypeSetArr[j].split(",");
+    let xhcName = xhTypePair[0];
+    let xhType = xhTypePair[1];
+    if (xhType != null) {
+      xhcCdStr += "<" + xhcName + ' xhType="' + xhType + '">';
+      xhcCdStr += "</" + xhcName + ">";
+    }
+  }
+  xhcCdStr += "</xholonClassDetails>";
+  xhcRoot.append(xhcCdStr);
+},
+
+// Σ_config=({Gmt,Gvt},{(instruction,Gvt)}),  NO
+// Σ_config=({Gmt,Gvt},{(OceanCell,Gvt)}),
+// example result: <OceanCell><config instruction="Gvt"></config></OceanCell>
+parseConfig: function(str) {
+  const str2 = str.substring(2,str.length-2);
+  const strArr = str2.split("},{");
+  const ctrlSet = strArr[0].trim();
+  const configSet = strArr[1].trim();
+  const ctrlSetArr = ctrlSet.split(",");
+  const configSetArr = configSet.substring(1,configSet.length-1 ).split("),(");
+  const xhcRoot = $wnd.xh.root().xhc().parent();
+  const attrName = "instruction";
+  
+  // add config to Inheritance Hierarchy class details
+  let xhcCdStr = "<xholonClassDetails>";
+  for (var j = 0; j < configSetArr.length; j++) {
+    let configPair = configSetArr[j].split(",");
+    //let attrName = configPair[0];
+    let xhcName = configPair[0];
+    let attrValue = configPair[1];
+    if (attrValue != null) {
+      xhcCdStr += '<' + xhcName + '><' + 'config ' + attrName + '="' + attrValue + '">';
+      xhcCdStr += '</' + 'config' + '></' + xhcName + '>';
+    }
+  }
+  xhcCdStr += "</xholonClassDetails>";
+  xhcRoot.append(xhcCdStr);
+},
+
 // {a,b,d,e,f,g,h,i,j,k,l}
 parseVB: function(str) {
   if (str == "∅") {
@@ -206,8 +339,8 @@ parseVB: function(str) {
   const str2 = str.substring(1,str.length-1);
   const strArr = str2.split(",");
   for (var i = 0; i < strArr.length; i++) {
-    let node = strArr[i]; // ex: "a"
-    nodeDict[node] = null;
+    let nodeStr = strArr[i].trim(); // ex: "a"
+    nodeDict[nodeStr] = null;
   }
 },
 
@@ -219,8 +352,8 @@ parseEB: function(str) {
   const str2 = str.substring(1,str.length-1);
   const strArr = str2.split(",");
   for (var i = 0; i < strArr.length; i++) {
-    let edge = strArr[i]; // ex: "q"
-    edgeDict[edge] = null;
+    let edgeStr = strArr[i].trim(); // ex: "q"
+    edgeDict[edgeStr] = null;
   }
 },
 
@@ -232,8 +365,8 @@ parsePB: function(str) {
   const str2 = str.substring(3,str.length-2);
   const strArr = str2.split("),p(");
   for (var i = 0; i < strArr.length; i++) {
-    let port = strArr[i]; // ex: "b,1"
-    portDict[port] = null;
+    let portStr = strArr[i].trim(); // ex: "b,1"
+    portDict[portStr] = null;
   }
 },
 
@@ -244,16 +377,16 @@ parseCtrlB: function(str) {
   const root = me; //me.parent();
   for (var i = 0; i < strArr.length; i++) {
     let pairArr = strArr[i].split(",");
-    let node = pairArr[0]; // ex: "a"
-    if (nodeDict[node] == null) {
+    let nodeStr = pairArr[0]; // ex: "a"
+    if (nodeDict[nodeStr] == null) {
       let ctrl = pairArr[1]; // ex: "sum"
-      let xhStr = '<' + ctrl + ' roleName="' + node + '"/>';
+      let xhStr = '<' + ctrl + ' roleName="' + nodeStr + '"/>';
       root.append(xhStr);
-      nodeDict[node] = root.last();
+      nodeDict[nodeStr] = root.last();
     }
     else {
       // it might be undefined (it waas not an element in VB), or it might have a non-null value (it may be a duplicate on ctrlB)
-      me.println("WARNING: control " + node + " is " + nodeDict[node]);
+      me.println("WARNING: control " + nodeStr + " is " + nodeDict[nodeStr]);
     }
   }
 },
@@ -309,6 +442,83 @@ parseLinkB: function(str) {
       me.println("WARNING: port " + sourceStr + "," + sourcePortNum + " is " + portDict[sourceStr + "," + sourcePortNum]);
     }
   }  
+},
+
+// ({red,orange,yellow,green,blue,purple},{(User,red),(Role,orange)})
+parseDecoration: function(str, decoType) {
+  const str2 = str.substring(2,str.length-2);
+  const strArr = str2.split("},{");
+  const decoSet = strArr[0].trim(); // "red,orange,yellow,green,blue,purple"
+  const xhcDecoSet = strArr[1].trim(); // {(User,red),(Role,orange)}
+  const decoSetArr = decoSet.split(",");
+  const xhcDecoSetArr = xhcDecoSet.substring(1,xhcDecoSet.length-1 ).split("),(");
+  const xhcRoot = $wnd.xh.root().xhc().parent();
+  // add decorations to Inheritance Hierarchy class details
+  let xhcCdStr = "<xholonClassDetails>";
+  for (var j = 0; j < xhcDecoSetArr.length; j++) {
+    let xhcDecoPair = xhcDecoSetArr[j].split(",");
+    let xhcName = xhcDecoPair[0];
+    let decoName = xhcDecoPair[1];
+    if ((decoName.length > 0) && (decoSetArr.includes(decoName))) {
+      xhcCdStr += "<" + xhcName + ">";
+      xhcCdStr += "<" + decoType + ">" + decoName + "</" + decoType + ">";
+      xhcCdStr += "</" + xhcName + ">";
+    }
+  }
+  xhcCdStr += "</xholonClassDetails>";
+  xhcRoot.append(xhcCdStr);
+},
+
+/**
+ * <GridGenerator rows="80" cols="120" gridType="Gvt" names="Space,FieldRow,OceanCell" columnColor="171c8f" gridViewerParams="IslandSystem/Space,7,Island Viewer,true" cellsCanSupplyOwnColor="true"/>
+ * 
+ * _rows=80,
+ * _cols=120,
+ * _gridType=Gvt,
+ * _names=(Space,FieldRow,OceanCell),
+ * _columnColor=171c8f,
+ * _gridViewerParams=(IslandSystem/Space,7,Island Viewer,true),
+ * _cellsCanSupplyOwnColor=true,
+ * _GridGenerator=(_rows,_cols,_gridType,_names,_columnColor,_gridViewerParams,_cellsCanSupplyOwnColor),
+ */
+parseGridGenerator: function(str) {
+  const ggArr = str.substring(1, str.length-1).split(",");
+  me.println(ggArr);
+  let ggStr = '<GridGenerator';
+  for (var i = 0; i < ggArr.length; i++) {
+    let item = ggArr[i].trim();
+    let itemValue = custom[item];
+    if (itemValue) {
+      let attrName = item.substring(1);
+      let attrValue = itemValue.startsWith("(") ? itemValue.substring(1, itemValue.length-1) : itemValue;
+      ggStr += ' ' + attrName + '="' + attrValue + '"';
+    }
+  }
+  ggStr += '/>';
+  me.println(ggStr);
+  me.append(ggStr);
+},
+
+/**
+ * _AvatarKeyMap={(UP,go link0),(RIGHT,go link1),(DOWN,go link2),(LEFT,go link3)},
+ * 
+let akm = JSON.parse(xh.avatarKeyMap());
+akm["UP"]    = "go link0";
+akm["RIGHT"] = "go link1";
+akm["DOWN"]  = "go link2";
+akm["LEFT"]  = "go link3";
+xh.avatarKeyMap(JSON.stringify(akm));
+ * 
+ */
+parseAvatarKeyMap: function(str) {
+  const str2 = str.substring(2,str.length-2);
+  const strArr = str2.split("),(");
+  const akm = JSON.parse($wnd.xh.avatarKeyMap());
+  for (var i = 0; i < strArr.length; i++) {
+    let akmPairArr = strArr[i].split(",");
+    akm[akmPairArr[0]] = akmPairArr[1];
+  }
+  $wnd.xh.avatarKeyMap(JSON.stringify(akm));
 }
 
 }
