@@ -1379,6 +1379,21 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       }
     });
     
+    // subtreeAsArray
+    api.subtreeAsArray = $entry(function() {
+      var starr = [];
+      var recurse = function(pnode) {
+        starr.push(pnode);
+        var node = pnode.first();
+        while (node) {
+          recurse(node);
+          node = node.next();
+        }
+      }
+      recurse(this);
+      return starr;
+    });
+    
     // cache - move children to an array
     // 2 possibilities:
     //  (1) move children to this.arrayify()
