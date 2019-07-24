@@ -69,41 +69,41 @@ parseSpec: function(spec) {
     //me.println("" + (i+1) + " " + larr0 + " = " + larr1);
     switch (larr0) {
     case "B":
-      this.parseBigraph(larr1);
+      this.parseBigraph(larr1.replace(/ /g, ""));
       break;
     case "Σ":
-      this.parseSignature(larr1);
+      this.parseSignature(larr1.replace(/ /g, ""));
       break;
     case "Σ_implName":
-      this.parseImplName(larr1);
+      this.parseImplName(larr1.replace(/ /g, ""));
       break;
     case "Σ_xhType":
-      this.parseXhType(larr1);
+      this.parseXhType(larr1.replace(/ /g, ""));
       break;
     //case "Σ_config":
     //  this.parseConfig(larr1);
     //  break;
     case "VB":
-      this.parseVB(larr1);
+      this.parseVB(larr1.replace(/ /g, ""));
       break;
     case "EB":
-      this.parseEB(larr1);
+      this.parseEB(larr1.replace(/ /g, ""));
       break;
     case "PB":
-      this.parsePB(larr1);
+      this.parsePB(larr1.replace(/ /g, ""));
       break;
     case "ctrlB":
-      this.parseCtrlB(larr1);
+      this.parseCtrlB(larr1.replace(/ /g, ""));
       break;
     case "prntB":
-      this.parsePrntB(larr1);
+      this.parsePrntB(larr1.replace(/ /g, ""));
       break;
     case "linkB":
-      this.parseLinkB(larr1);
+      this.parseLinkB(larr1.replace(/ /g, ""));
       break;
     // IDecoration specifications
     case "_Color":
-      this.parseDecoration(larr1, "Color");
+      this.parseDecoration(larr1.replace(/ /g, ""), "Color");
       break;
     case "_Opacity":
       this.parseDecoration(larr1, "Opacity");
@@ -148,7 +148,7 @@ parseSpec: function(spec) {
       }
       else {
         // m=0,X=∅,n=1,Y={c,co,t}
-        const line2 = line.substring(0, line.length - (line.endsWith(",") ? 1 : 0)).trim(); // remove trailing "," if it exists
+        const line2 = line.substring(0, line.length - (line.endsWith(",") ? 1 : 0)).trim().replace(/ /g, ""); // remove trailing "," if it exists
         const fixedLine = this.preParseInterface(line2);
         this.parseInterface(fixedLine);
       }
@@ -457,10 +457,15 @@ parseDecoration: function(str, decoType) {
   let xhcCdStr = "<xholonClassDetails>";
   for (var j = 0; j < xhcDecoSetArr.length; j++) {
     let xhcDecoPair = xhcDecoSetArr[j].split(",");
-    let xhcName = xhcDecoPair[0];
-    let decoName = xhcDecoPair[1];
+    let xhcName = xhcDecoPair[0].trim();
+    let decoName = xhcDecoPair[1].trim();
     if ((decoName.length > 0) && (decoSetArr.includes(decoName))) {
       xhcCdStr += "<" + xhcName + ">";
+      if ((decoType == "Color") && (decoName.startsWith("rgb"))) {
+        // ex: rgb(88|99|111)  rgba(255|255|255|1.0)
+        // becomes: rgb(88,99,111)  rgba(255,255,255,1.0)
+        decoName = decoName.replace(/\\|/g,",");
+      }
       xhcCdStr += "<" + decoType + ">" + decoName + "</" + decoType + ">";
       xhcCdStr += "</" + xhcName + ">";
     }
