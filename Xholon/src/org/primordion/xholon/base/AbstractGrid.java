@@ -1060,29 +1060,34 @@ public abstract class AbstractGrid extends XholonWithPorts implements IGrid {
 			}
 			return numNeighbors;
 		}
-		XholonWithPorts referenceNode = (XholonWithPorts)parentNode.getParentNode().getFirstChild().getFirstChild();
-		if (referenceNode == this) {
-			// calculate numNeighbors from first principles
-			switch (neigborhoodType) {
-			case 'v': // Von Neumann neighborhood
-				numNeighbors = 4;
-				break;
-			case 'm': // Moore neighborhood
-				numNeighbors = 8;
-				break;
-			case 'h': // Hexagonal neighborhood
-				numNeighbors = 6;
-				break;
-			case 'c': // 1D CA neighborhood
-				numNeighbors = 3;
-				break;
-			default:
-				logger.warn("Abstract Grid getMaxPorts(): Unknown neighborhood type. " + instructions);
-				break;
+		if ((parentNode != null) && (parentNode.getParentNode() != null)) {
+			XholonWithPorts referenceNode = (XholonWithPorts)parentNode.getParentNode().getFirstChild().getFirstChild();
+			if (referenceNode == this) {
+				// calculate numNeighbors from first principles
+				switch (neigborhoodType) {
+				case 'v': // Von Neumann neighborhood
+					numNeighbors = 4;
+					break;
+				case 'm': // Moore neighborhood
+					numNeighbors = 8;
+					break;
+				case 'h': // Hexagonal neighborhood
+					numNeighbors = 6;
+					break;
+				case 'c': // 1D CA neighborhood
+					numNeighbors = 3;
+					break;
+				default:
+					logger.warn("Abstract Grid getMaxPorts(): Unknown neighborhood type. " + instructions);
+					break;
+				}
+			}
+			else {
+				numNeighbors = referenceNode.port.length;
 			}
 		}
-		else {
-			numNeighbors = referenceNode.port.length;
+		else if (this.port != null) {
+			numNeighbors = this.port.length;
 		}
 		return numNeighbors;
 	}
