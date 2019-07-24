@@ -26,6 +26,7 @@ import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.IXholonClass;
 import org.primordion.xholon.io.xml.IXholon2Xml;
 import org.primordion.xholon.io.xml.IXmlWriter;
+import org.primordion.xholon.io.xml.IXml2Xholon;
 
 /**
  * Create a Xholon Grid.
@@ -69,6 +70,16 @@ public class GridGenerator extends XholonScript {
    * Optional style tag that should be added to HTML head
    */
   private String cssStyle = null; //"div#xhcanvas>canvas {border: 10px solid #FFFFFF;}";
+  
+  /**
+   * Whether or not to build nameGrid, nameRow, and nameCol XholonClass nodes.
+   */
+  private boolean shouldBuildXhc = true;
+
+  /**
+   * Whether or not to build the CSH Grid subtree.
+   */
+  private boolean shouldBuildCsh = true;
 
   @Override
   public void postConfigure()
@@ -92,77 +103,126 @@ public class GridGenerator extends XholonScript {
     IXholonClass xhcRoot = app.getXhcRoot();
     IXholon service = this.getService("XholonHelperService");
     if (service != null) {
-      if (this.getClassNode(nameGrid) == null) {
-        // IH
-        String ihStr = new StringBuilder()
+      if (shouldBuildXhc) {
+        if (this.getClassNode(nameGrid) == null) {
+          // IH
+          String ihStr = new StringBuilder()
+          .append("<")
+          .append(nameGrid)
+          .append(" xhType='XhtypeGridEntity' implName='")
+          .append(gridEntityImplName)
+          .append("'></")
+          .append(nameGrid)
+          .append(">")
+          .toString();
+          //this.println(ihStr);
+          service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, ihStr, xhcRoot); // -2013
+          ihStr = new StringBuilder()
+          .append("<")
+          .append(nameRow)
+          .append(" xhType='XhtypeGridEntity' implName='")
+          .append(gridEntityImplName)
+          .append("'></")
+          .append(nameRow)
+          .append(">")
+          .toString();
+          //this.println(ihStr);
+          service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, ihStr, xhcRoot); // -2013
+          ihStr = new StringBuilder()
+          .append("<")
+          .append(nameCol)
+          .append("/>")
+          .toString();
+          //this.println(ihStr);
+          service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, ihStr, xhcRoot); // -2013
+          
+          // optionally build more col names (ex: CoastCell,LandCell )
+          if (names.length > 3) {
+            StringBuilder ihSb = new StringBuilder()
+            .append("<").append(IXml2Xholon.XML_FOREST).append("names>");
+            for (int i = 3; i < names.length; i++) {
+              ihSb.append("<")
+              .append(names[i])
+              .append("/>");
+            }
+            ihSb.append("</").append(IXml2Xholon.XML_FOREST).append("names>");
+            ihStr = ihSb.toString();
+            service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, ihStr, xhcRoot); // -2013
+          }
+          // CD
+          String cdStr = new StringBuilder()
+          .append("<xholonClassDetails><")
+          .append(nameCol)
+          .append(" xhType='XhtypeGridEntityActivePassive' implName='")
+          .append(gridEntityImplName)
+          .append("'><config instruction='")
+          .append(gridType)
+          .append("'></config></")
+          .append(nameCol)
+          .append("></xholonClassDetails>")
+          .toString();
+          //this.println(cdStr);
+          service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, cdStr, xhcRoot); // -2013
+          if (names.length > 3) {
+            StringBuilder cdSb = new StringBuilder()
+            .append("<xholonClassDetails>");
+            for (int i = 3; i < names.length; i++) {
+              cdSb.append("<")
+              .append(names[i])
+              .append(" xhType='XhtypeGridEntityActivePassive' implName='")
+              .append(gridEntityImplName)
+              .append("'/>");
+            }
+            cdSb.append("</xholonClassDetails>");
+            cdStr = cdSb.toString();
+            service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, cdStr, xhcRoot); // -2013
+          }
+        }
+      } // end if (shouldBuildXhc)
+      if (shouldBuildCsh) {
+        // CSH
+        String cshStr = new StringBuilder()
         .append("<")
         .append(nameGrid)
-        .append(" xhType='XhtypeGridEntity' implName='")
-        .append(gridEntityImplName)
+        .append(" columnColor='")
+        .append(columnColor)
+        .append("'><")
+        .append(nameRow)
+        .append(" multiplicity='")
+        .append(rows)
+        .append("'><")
+        .append(nameCol)
+        .append(" multiplicity='")
+        .append(cols)
         .append("'></")
+        .append(nameCol)
+        .append("></")
+        .append(nameRow)
+        .append("></")
         .append(nameGrid)
         .append(">")
         .toString();
-        //this.println(ihStr);
-        service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, ihStr, xhcRoot); // -2013
-        ihStr = new StringBuilder()
-        .append("<")
-        .append(nameRow)
-        .append(" xhType='XhtypeGridEntity' implName='")
-        .append(gridEntityImplName)
-        .append("'></")
-        .append(nameRow)
-        .append(">")
-        .toString();
-        //this.println(ihStr);
-        service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, ihStr, xhcRoot); // -2013
-        ihStr = new StringBuilder()
-        .append("<")
-        .append(nameCol)
-        .append("/>")
-        .toString();
-        //this.println(ihStr);
-        service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, ihStr, xhcRoot); // -2013
-        // CD
-        String cdStr = new StringBuilder()
-        .append("<xholonClassDetails><")
-        .append(nameCol)
-        .append(" xhType='XhtypeGridEntityActivePassive' implName='")
-        .append(gridEntityImplName)
-        .append("'><config instruction='")
-        .append(gridType)
-        .append("'></config></")
-        .append(nameCol)
-        .append("></xholonClassDetails>")
-        .toString();
-        //this.println(cdStr);
-        service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, cdStr, xhcRoot); // -2013
+        //this.println(cshStr);
+        service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, cshStr, this.getParentNode()); // -2013
+      } // end if (shouldBuildCsh)
+      
+      // GridCellPattern
+      IXholon gcp = this.getFirstChild();
+      while (gcp != null) {
+        if ("GridCellPattern".equals(gcp.getXhcName())) {
+          // TODO or have a separate GridCellPattern XholonClass ???  see: "Island B5" workbook
+        }
+        gcp = gcp.getNextSibling();
       }
-      // CSH
-      String cshStr = new StringBuilder()
-      .append("<")
-      .append(nameGrid)
-      .append(" columnColor='")
-      .append(columnColor)
-      .append("'><")
-      .append(nameRow)
-      .append(" multiplicity='")
-      .append(rows)
-      .append("'><")
-      .append(nameCol)
-      .append(" multiplicity='")
-      .append(cols)
-      .append("'></")
-      .append(nameCol)
-      .append("></")
-      .append(nameRow)
-      .append("></")
-      .append(nameGrid)
-      .append(">")
-      .toString();
-      //this.println(cshStr);
-      service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, cshStr, this.getParentNode()); // -2013
-      IGrid grid = (IGrid)this.getParentNode().getLastChild();
+      
+      IGrid grid = null;
+      if (this.getParentNode().getLastChild() == this) {
+        grid = (IGrid)this.getPreviousSibling();
+      }
+      else {
+        grid = (IGrid)this.getParentNode().getLastChild();
+      }
+      
       // grid viewer
       app.setParam("UseGridViewer", useGridViewer);
       app.setParam("GridPanelClassName", gridPanelClassName);
@@ -173,6 +233,9 @@ public class GridGenerator extends XholonScript {
       // set default background color for grid;  -1001 see Application.processReceivedSyncMessage()
       Object rdata = rspMsg.getData();
       String ccolor = getGrid_columnColor(grid);
+      if (ccolor == null) { // null or undefined
+        ccolor = this.columnColor;
+      }
       String sdata = new StringBuilder()
       .append("setGridCellColor,")
       .append(rdata)
@@ -239,9 +302,9 @@ public class GridGenerator extends XholonScript {
     }
     else if ("names".equals(attrName)) {
       String[] arr = attrVal.split(",");
-      if (arr.length == 3) {
+      //if (arr.length == 3) {
         this.names = arr;
-      }
+      //}
     }
     else if ("gridType".equals(attrName)) {
       this.gridType = attrVal;
@@ -269,6 +332,12 @@ public class GridGenerator extends XholonScript {
     }
     else if ("cellsCanSupplyOwnColor".equals(attrName)) {
       this.cellsCanSupplyOwnColor = Boolean.parseBoolean(attrVal);
+    }
+    else if ("shouldBuildXhc".equals(attrName)) {
+      this.shouldBuildXhc = Boolean.parseBoolean(attrVal);
+    }
+    else if ("shouldBuildCsh".equals(attrName)) {
+      this.shouldBuildCsh = Boolean.parseBoolean(attrVal);
     }
     return 0;
   }
