@@ -1,11 +1,18 @@
 /**
- * Bigraph Parser.
+ * Bigraph Parser
+ * Parse Milner Bigraph notation, extended to become a Domain Specific Language (DSL) that can specify a Xholon app.
+ * The Milner Bigraph notation uses tuples, sets, and products of sets.
+ * 
  * BigraphParser.js
  * Ken Webb  June 20, 2019
  * MIT License, Copyright (C) 2019 Ken Webb
  
  * TODO
- * - handle lines that start with "$"; these are domain-specific and need to be handled in a custom way
+ * - DONE handle lines that start with "$"; these are domain-specific and need to be handled in a custom way
+ *  - I'm defining these are attribute/property specifications
+ * - DONE handle node attributes/properties
+ * - see IXholonPatch.java and XholonPatch.java and meteor for ideas on operations
+ * - handle Bigraph inner and outer names
 */
 
 if (typeof xh == "undefined") {
@@ -27,7 +34,19 @@ const DEFAULT_INNERNAMES_SYMBOL = "X";
 const DEFAULT_ROOTS_SYMBOL = "n";
 const DEFAULT_OUTERNAMES_SYMBOL = "Y";
 
-var me, spec, nodeDict, edgeDict, portDict, sitesSymbol, innerNamesSymbol, rootsSymbol, outerNamesSymbol, bginterface, custom, beh = {
+// name of the Xholon built-in XholonClass for Bigraph Site nodes
+const BIGRAPH_SITE_SORT = "SiteBG";
+
+// Bigraph operations
+const BIGRAPH_OPERATION = "operation"; // name of the XML attribute and the JavaScript property
+const BIGRAPH_OP_COMPOSITION   = "composition"; // Bigraph composition
+const BIGRAPH_OP_JUXTAPOSITION = "juxtaposition"; // Bigraph juxtaposition
+const BIGRAPH_OP_APPEND  = "append"; // a simple Xholon append
+const BIGRAPH_OP_PREPEND = "prepend"; // a simple Xholon prepend
+const BIGRAPH_OP_BEFORE  = "before"; // a simple Xholon before
+const BIGRAPH_OP_AFTER   = "after"; // a simple Xholon after
+
+var me, spec, nodeDict, edgeDict, portDict, siteArr, sitesSymbol, innerNamesSymbol, rootsSymbol, outerNamesSymbol, bginterface, custom, beh = {
 
 postConfigure: function() {
   me = this.cnode.parent();
@@ -35,6 +54,7 @@ postConfigure: function() {
   //me.println(me.name());
   spec = me.first().text().trim();
   nodeDict = me.nodeDict || {};
+  siteArr  = me.siteArr  || [];
   edgeDict = me.edgeDict || {};
   portDict = me.portDict || {};
   bginterface = me.bginterface || {};
@@ -45,17 +65,103 @@ postConfigure: function() {
   outerNamesSymbol = DEFAULT_OUTERNAMES_SYMBOL;
   bginterface = {};
   custom = {};
-  me.first().remove();
+  me.first().remove(); // remove the Attribute_String node
   this.parseSpec(spec);
-  this.cnode.remove();
-  if (!me.first()) {
-    //me.remove();
-  }
+  this.cnode.remove(); // remove this BigraphParser node
+  this.verifySpec();
   if (me["savedata"] == "true") {
     me.nodeDict = nodeDict;
+    me.siteArr  = siteArr;
     me.edgeDict = edgeDict;
     me.portDict = portDict;
     me.bginterface = bginterface;
+  }
+  
+  // possibly compose two sibling bigraphs
+  let bigraphOp = me[BIGRAPH_OPERATION];
+  if (bigraphOp) {
+    let otherBigraph = null;
+    let pSiteArr = null;
+    if (me.parent() && (me.parent().xhc().name() == me.xhc().name())) {
+      otherBigraph = me.parent();
+      pSiteArr = otherBigraph["siteArr"];
+    }
+    else if (me.prev() && (me.prev().xhc().name() == me.xhc().name())) {
+      otherBigraph = me.prev();
+      pSiteArr = otherBigraph["siteArr"];
+    }
+    if (pSiteArr || (bigraphOp != BIGRAPH_OP_COMPOSITION)) {
+      // me and me's parent or left sibling are both "Bigraph" nodes
+      if (bigraphOp == BIGRAPH_OP_COMPOSITION) {
+        let meRootArr = me.childrenAsArray();
+        if (pSiteArr.length == meRootArr.length) {
+          me.println("INFO: these two bigraphs can compose");
+          for (var i = 0; i < pSiteArr.length; i++) {
+            let sNode = pSiteArr[i];
+            let rNode = meRootArr[i];
+            sNode.after(rNode.remove()).remove();
+          }
+          // empty the two arrays
+          pSiteArr.length = 0;
+          meRootArr.length = 0;
+        }
+        else {
+          me.println("WARNING: pSiteArr and meRootArr are different sizes " + pSiteArr.length + " " + meRootArr.length);
+        }
+      }
+      else if (bigraphOp == BIGRAPH_OP_JUXTAPOSITION) {
+        if (otherBigraph == me.parent()) {
+          // make me into a right sibling of my parent
+          otherBigraph.after(me.remove());
+        }
+      }
+      else if (bigraphOp == BIGRAPH_OP_AFTER) {
+        me.parent().after(me.remove());
+      }
+      else if (bigraphOp == BIGRAPH_OP_BEFORE) {
+        me.parent().before(me.remove());
+      }
+      else if (bigraphOp == BIGRAPH_OP_PREPEND) {
+        me.parent().prepend(me.remove());
+      }
+      else if (bigraphOp == BIGRAPH_OP_APPEND) {
+        // nothing special is required, as append is the Xholon default
+      }
+    }
+    else {
+      me.println("WARNING: can't find pSiteArr");
+    }
+  }
+  
+  if (me["flatten"] == "true") {
+    // flatten the structure by removing the Bigraph node itself
+    //var newParent = me.parent(); // newParent is the Bigraph node's parent
+    var childNode = me.first();
+    while (childNode) {
+      var nextChildNode = childNode.next();
+      if (childNode != me) {
+        me.after(childNode.remove());
+      }
+      childNode = nextChildNode;
+    }
+    me.remove();
+  }
+
+},
+
+verifySpec: function() {
+  // the number of instantiated roots must equal the number of specified roots n
+  let numInstantiatedRoots = me.childrenAsArray().length;
+  let numSpecifiedRoots = bginterface[rootsSymbol];
+  if (numInstantiatedRoots != numSpecifiedRoots) {
+    me.println("WARNING: the number of instantiated roots " + numInstantiatedRoots + " must equal the number of specified roots " + numSpecifiedRoots);
+  }
+  
+  // the number of instantiated sites must equal the number of specified sites m
+  let numInstantiatedSites = siteArr.length;
+  let numSpecifiedSites = bginterface[sitesSymbol];
+  if (numInstantiatedSites != numSpecifiedSites) {
+    me.println("WARNING: the number of instantiated sites " + numInstantiatedSites + " must equal the number of specified sites " + numSpecifiedSites);
   }
 },
 
@@ -106,7 +212,7 @@ parseSpec: function(spec) {
       this.parseDecoration(larr1.replace(/ /g, ""), "Color");
       break;
     case "_Opacity":
-      this.parseDecoration(larr1, "Opacity");
+      this.parseDecoration(larr1.replace(/ /g, ""), "Opacity");
       break;
     case "_Font":
       this.parseDecoration(larr1, "Font");
@@ -115,7 +221,7 @@ parseSpec: function(spec) {
       this.parseDecoration(larr1, "Icon");
       break;
     case "_Symbol":
-      this.parseDecoration(larr1, "Symbol");
+      this.parseDecoration(larr1.replace(/ /g, ""), "Symbol");
       break;
     case "_Anno":
       this.parseDecoration(larr1, "Anno");
@@ -143,8 +249,11 @@ parseSpec: function(spec) {
         custom[larr0] = larr1;
       }
       else if (larr0.startsWith("$")) {
+        // $maxClones = ({10}, {(3,10),(4,10),(5,10),(6,10),(7,10),(8,10)}),
+        // maxClones is the name of a node property; 10 is a value that maxClones can have; (3,10) states that node 3 has maxClones=3
         me.println("CUSTOM$: " + larr0 + "|" + larr1);
-        custom[larr0] = larr1;
+        //custom[larr0] = larr1;
+        this.parseProperties(larr1.replace(/ /g, ""), larr0.substring(1));
       }
       else {
         // m=0,X=∅,n=1,Y={c,co,t}
@@ -168,7 +277,7 @@ parseBigraph: function(str) {
   innerNamesSymbol = innerInterface[1]; // "X"
   rootsSymbol = outerInterface[0]; // "n"
   outerNamesSymbol = outerInterface[1]; // "Y"
-  //me.println(sitesSymbol + " " + innerNamesSymbol + " " + rootsSymbol + " " + outerNamesSymbol);
+  me.println(sitesSymbol + " " + innerNamesSymbol + " " + rootsSymbol + " " + outerNamesSymbol);
 },
 
 /**
@@ -193,26 +302,30 @@ preParseInterface: function(str) {
   return segment0 + "=" + segment1 + "=" + segment2 + "=" + segment3 + "=" + segment4;
 },
 
-// m=0,X=∅,n=1,Y={c,co,t}
+// m=0|X=∅|n=1|Y={c,co,t}
 parseInterface: function(str) {
   const strArr = str.split("|");
   for (var i = 0; i < strArr.length; i++) {
     let itemArr = strArr[i].split("=");
     switch (itemArr[0]) {
-    case sitesSymbol: bginterface[sitesSymbol] = itemArr[1]; break;
-    case innerNamesSymbol:
-      // this might be ∅ or the first part of {a,b,c}
-      bginterface[innerNamesSymbol] = itemArr[1];
+    case sitesSymbol:
+      bginterface[sitesSymbol] = itemArr[1];
       break;
-    case rootsSymbol: bginterface[rootsSymbol] = itemArr[1]; break;
+    case innerNamesSymbol:
+      // this might be ∅ or {} or {a,b,c}; {} is converted to ∅
+      bginterface[innerNamesSymbol] = (itemArr[1] == "{}") ? "∅" : itemArr[1];
+      break;
+    case rootsSymbol:
+      bginterface[rootsSymbol] = itemArr[1];
+      break;
     case outerNamesSymbol:
-      // this might be ∅ or the first part of {a,b,c}
-      bginterface[outerNamesSymbol] = itemArr[1];
+      // this might be ∅ or {} or {a,b,c}; {} is converted to ∅
+      bginterface[outerNamesSymbol] = (itemArr[1] == "{}") ? "∅" : itemArr[1];
       break;
     default: me.println("unknown " + strArr[i]); break;
     }
   }
-  //me.println(JSON.stringify(bginterface));
+  me.println(JSON.stringify(bginterface));
 },
 
 // ({get,send,sum},{(get,1),(send,1),(sum,0)})
@@ -379,10 +492,14 @@ parseCtrlB: function(str) {
     let pairArr = strArr[i].split(",");
     let nodeStr = pairArr[0]; // ex: "a"
     if (nodeDict[nodeStr] == null) {
-      let ctrl = pairArr[1]; // ex: "sum"
+      let ctrl = pairArr[1]; // ex: "sum" "SiteBG"
       let xhStr = '<' + ctrl + ' roleName="' + nodeStr + '"/>';
       root.append(xhStr);
       nodeDict[nodeStr] = root.last();
+      if (ctrl == BIGRAPH_SITE_SORT) {
+        // this is a Bigraph SiteBG
+        siteArr.push(nodeDict[nodeStr]);
+      }
     }
     else {
       // it might be undefined (it waas not an element in VB), or it might have a non-null value (it may be a duplicate on ctrlB)
@@ -410,7 +527,7 @@ parsePrntB: function(str) {
     else {
       prnt.append(node.remove())
     }
-  }  
+  }
 },
 
 // {(p(b,1),c),(p(e,1),co),(p(g,1),c),(p(i,1),co),(p(j,1),c),(p(l,1),t)}
@@ -472,6 +589,30 @@ parseDecoration: function(str, decoType) {
   }
   xhcCdStr += "</xholonClassDetails>";
   xhcRoot.append(xhcCdStr);
+},
+
+/**
+ * @param str "({10},{(3,10),(4,10),(5,10),(6,10),(7,10),(8,10)})"
+ * @param propName "maxClones"
+ */
+parseProperties: function(str, propName) {
+  const str2 = str.substring(2,str.length-2);
+  const strArr = str2.split("},{");
+  const valuesSet = strArr[0].trim(); // "10"
+  const nodeValuesSet = strArr[1].trim(); // {(3,10),(4,10),(5,10),(6,10),(7,10),(8,10)}
+  const valuesSetArr = valuesSet.split(",");
+  const nodeValuesSetArr = nodeValuesSet.substring(1,nodeValuesSet.length-1 ).split("),(");
+  for (var i = 0; i < nodeValuesSetArr.length; i++) {
+    let pairArr = nodeValuesSetArr[i].split(",");
+    let nodeStr = pairArr[0]; // ex: "3"
+    let propStr = pairArr[1]; // ex: "10"
+    let node = nodeDict[nodeStr];
+    if (node == null) {me.println("WARNING: " + nodeStr + " is null");}
+    else if (propStr == null) {me.println("WARNING: " + propStr + " is null");}
+    else {
+      node[propName] = propStr;
+    }
+  }
 },
 
 /**
