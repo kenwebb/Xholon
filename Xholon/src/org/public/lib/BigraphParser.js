@@ -46,7 +46,7 @@ const BIGRAPH_OP_PREPEND = "prepend"; // a simple Xholon prepend
 const BIGRAPH_OP_BEFORE  = "before"; // a simple Xholon before
 const BIGRAPH_OP_AFTER   = "after"; // a simple Xholon after
 
-var me, spec, nodeDict, edgeDict, portDict, siteArr, sitesSymbol, innerNamesSymbol, rootsSymbol, outerNamesSymbol, bginterface, custom, beh = {
+var me, spec, nodeDict, edgeDict, portDict, siteArr, sitesSymbol, innerNamesSymbol, rootsSymbol, outerNamesSymbol, bginterface, custom, removeMe, beh = {
 
 postConfigure: function() {
   me = this.cnode.parent();
@@ -58,12 +58,12 @@ postConfigure: function() {
   edgeDict = me.edgeDict || {};
   portDict = me.portDict || {};
   bginterface = me.bginterface || {};
+  removeMe = me.removeMe || false;
   // default values of symbols
   sitesSymbol = DEFAULT_SITES_SYMBOL;
   innerNamesSymbol = DEFAULT_INNERNAMES_SYMBOL;
   rootsSymbol = DEFAULT_ROOTS_SYMBOL;
   outerNamesSymbol = DEFAULT_OUTERNAMES_SYMBOL;
-  bginterface = {};
   custom = {};
   me.first().remove(); // remove the Attribute_String node
   this.parseSpec(spec);
@@ -75,6 +75,7 @@ postConfigure: function() {
     me.edgeDict = edgeDict;
     me.portDict = portDict;
     me.bginterface = bginterface;
+    me.removeMe = removeMe;
   }
   
   // possibly compose two sibling bigraphs
@@ -86,27 +87,45 @@ postConfigure: function() {
       otherBigraph = me.parent();
       pSiteArr = otherBigraph["siteArr"];
     }
-    else if (me.prev() && (me.prev().xhc().name() == me.xhc().name())) {
+    //else if (me.prev() && (me.prev().xhc().name() == me.xhc().name())) {
+    //  otherBigraph = me.prev();
+    //  pSiteArr = otherBigraph["siteArr"];
+    //}
+    else {
+      // search previous nodes for a compatible Bigraph
       otherBigraph = me.prev();
-      pSiteArr = otherBigraph["siteArr"];
+      while (otherBigraph && (otherBigraph.xhc().name() == me.xhc().name())) {
+        pSiteArr = otherBigraph["siteArr"];
+        if (pSiteArr) {
+          break;
+        }
+        if (otherBigraph["removeMe"]) {
+          var otherBigraphCached = otherBigraph;
+          otherBigraph = otherBigraph.prev();
+          otherBigraphCached.remove();
+        }
+        else {
+          otherBigraph = otherBigraph.prev();
+        }
+      }
     }
     if (pSiteArr || (bigraphOp != BIGRAPH_OP_COMPOSITION)) {
       // me and me's parent or left sibling are both "Bigraph" nodes
       if (bigraphOp == BIGRAPH_OP_COMPOSITION) {
         let meRootArr = me.childrenAsArray();
-        if (pSiteArr.length == meRootArr.length) {
+        if (pSiteArr.length >= meRootArr.length) {
           me.println("INFO: these two bigraphs can compose");
-          for (var i = 0; i < pSiteArr.length; i++) {
-            let sNode = pSiteArr[i];
-            let rNode = meRootArr[i];
+          for (var i = 0; i < meRootArr.length; i++) {
+            let sNode = pSiteArr.shift(); //[i];
+            let rNode = meRootArr.shift(); //[i];
             sNode.after(rNode.remove()).remove();
           }
           // empty the two arrays
-          pSiteArr.length = 0;
-          meRootArr.length = 0;
+          //pSiteArr.length = 0;
+          //meRootArr.length = 0;
         }
         else {
-          me.println("WARNING: pSiteArr and meRootArr are different sizes " + pSiteArr.length + " " + meRootArr.length);
+          me.println("WARNING: pSiteArr and meRootArr have incompatible sizes " + pSiteArr.length + " " + meRootArr.length);
         }
       }
       else if (bigraphOp == BIGRAPH_OP_JUXTAPOSITION) {
@@ -144,7 +163,16 @@ postConfigure: function() {
       }
       childNode = nextChildNode;
     }
-    me.remove();
+    // there may be another Bigraph after this one
+    if (me.next() && (me.next().xhc().name() == me.xhc().name())) {
+      // ask that a subsequent Bigraph remove this one
+      removeMe = true;
+      me.removeMe = true;
+    }
+    else {
+      // there is no subsequent Bigraph, so remove me now
+      me.remove();
+    }
   }
 
 },
@@ -153,15 +181,15 @@ verifySpec: function() {
   // the number of instantiated roots must equal the number of specified roots n
   let numInstantiatedRoots = me.childrenAsArray().length;
   let numSpecifiedRoots = bginterface[rootsSymbol];
-  if (numInstantiatedRoots != numSpecifiedRoots) {
-    me.println("WARNING: the number of instantiated roots " + numInstantiatedRoots + " must equal the number of specified roots " + numSpecifiedRoots);
+  if (numInstantiatedRoots > numSpecifiedRoots) {
+    me.println("WARNING: the number of instantiated roots " + numInstantiatedRoots + " must be less than or equal to the number of specified roots " + numSpecifiedRoots);
   }
   
   // the number of instantiated sites must equal the number of specified sites m
   let numInstantiatedSites = siteArr.length;
   let numSpecifiedSites = bginterface[sitesSymbol];
-  if (numInstantiatedSites != numSpecifiedSites) {
-    me.println("WARNING: the number of instantiated sites " + numInstantiatedSites + " must equal the number of specified sites " + numSpecifiedSites);
+  if (numInstantiatedSites > numSpecifiedSites) {
+    me.println("WARNING: the number of instantiated sites " + numInstantiatedSites + " must be less than or equal to the number of specified sites " + numSpecifiedSites);
   }
 },
 
