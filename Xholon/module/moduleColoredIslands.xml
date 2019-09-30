@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Experiment where two agents, each on its own island, initially fish only for different Fish species.
+So there is no (or very minimal) interaction or exploitation.
+
+see TestTool in Island game
+  "use TestTool to test the Avatar apply command; TestTool has to be a GWT behavior"
+see Subtrees workbook  c12c030f739cf8127313b6dbe920aa50
+
+To use this module in the Island game:
+ - drag the entire contents into the current location (ex: CoastCell) of the system avatar
+ - result: a bordered space in the Ocean, with two small islands, 2 Avatars, and 2 types of fish in the Ocean
+-->
+<XholonModule>
+  <XholonMap>
+  
+    <Attribute_String roleName="ih"><![CDATA[
+<_-.XholonClass>
+  <PinkFish superClass="Fish"/>
+  <OrangeFish superClass="Fish"/>
+</_-.XholonClass>
+    ]]></Attribute_String>
+    
+    <!-- Fish symbols and colors -->
+    <Attribute_String roleName="cd"><![CDATA[
+<xholonClassDetails>
+  <PinkFish><Symbol>LRTriangle</Symbol><Color>pink</Color></PinkFish>
+  <OrangeFish><Symbol>LRTriangle</Symbol><Color>orange</Color></OrangeFish>
+</xholonClassDetails>
+    ]]></Attribute_String>
+    
+    <Attribute_String roleName="csh"><![CDATA[
+<GridCellPatterns>
+  <GridCellPattern roleName="Isle x" xpos="10" ypos="10" islandID="0">
+LLLLLLLLLL
+L........L
+L.KC.....L
+L........L
+L........L
+L........L
+L........L
+L.....CK.L
+L........L
+LLLLLLLLLL
+  </GridCellPattern>
+  
+  <GridCellPatternbehavior implName="org.primordion.xholon.base.Behavior_gwtjs">
+const colorArr = ["Pink", "Orange"];
+var me, colorArrIx, beh = {
+postConfigure: function() {
+  me = this.cnode.parent(); // GridCellPatterns node
+  colorArrIx = 0;
+  //me.println(me.name());
+  var gcp = me.first(); // GridCellPattern node
+  //me.println(gcp.name());
+  this.cnode.remove();
+  //me.println("xpos:" + gcp.xpos + " ypos:" + gcp.ypos);
+  var gcpstr = gcp.text().trim();
+  var gcparr = gcpstr.split("\n");
+  var row = me.xpath("../../../FieldRow[" + gcp.ypos + "]");
+  var fcol = row.xpath("OceanCell[" + gcp.xpos + "]");
+  var col = fcol;
+  for (var i = 0; i &lt; gcparr.length; i++) {
+    var gcpline = gcparr[i].trim();
+    for (var j = 0; j &lt; gcpline.length; j++) {
+      col["incognita"] = null;
+      // remove any pre-existing fish or other objects inside the current cell/column
+      var item = col.first();
+      while (item) {
+        var nextItem = item.next();
+        me.println("removing item: " + item.name());
+        item.remove();
+        item = nextItem;
+      }
+      switch (gcpline[j]) {
+      case "L":
+        col.xhc("LandCell");
+        break;
+      case "C":
+        col.xhc("CoastCell");
+        break;
+      case "K": // CoastCell + Avatar + fish
+        col.xhc("CoastCell");
+        col.append("&lt;Avatar/>");
+        col.append(''
+        + '&lt;_-.fish>'
+        + '&lt;' + colorArr[colorArrIx] + 'Fish multiplicity="10">'
+        + '&lt;Fishbehavior implName="org.primordion.xholon.base.Behavior_gwtjs">'
+        + 'var beh = new $wnd.xh.FishMovebehavior();'
+        //+ '$wnd.xh.root().println("adding fish");'
+        + '&lt;/Fishbehavior>'
+        + '&lt;/' + colorArr[colorArrIx++] + 'Fish>'
+        + '&lt;/_-.fish>'
+        + '');
+        break;
+      default: // "."
+        break;
+      }
+      col = col.next();
+    }
+    fcol = fcol.port(2);
+    col = fcol;
+  }
+  me.remove();
+}
+}
+//# sourceURL=GridCellPatternbehavior2.js
+</GridCellPatternbehavior>
+
+</GridCellPatterns>
+    ]]></Attribute_String>
+    
+  </XholonMap>
+</XholonModule>
