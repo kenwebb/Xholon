@@ -16,32 +16,72 @@ To use this module in the Island game:
   
     <Attribute_String roleName="ih"><![CDATA[
 <_-.XholonClass>
+  <!-- two types of fish, distinguished by color -->
   <PinkFish superClass="Fish"/>
   <OrangeFish superClass="Fish"/>
+  <!-- two types of Avatar, distinguished by color -->
+  <PinkAvatar superClass="Avatar"/>
+  <OrangeAvatar superClass="Avatar"/>
+  <HandleFish superClass="Script"/>
 </_-.XholonClass>
     ]]></Attribute_String>
     
-    <!-- Fish symbols and colors -->
+    <!-- Fish symbols and colors; behaviors -->
     <Attribute_String roleName="cd"><![CDATA[
 <xholonClassDetails>
   <PinkFish><Symbol>LRTriangle</Symbol><Color>pink</Color></PinkFish>
   <OrangeFish><Symbol>LRTriangle</Symbol><Color>orange</Color></OrangeFish>
+  <PinkAvatar><Color>pink</Color></PinkAvatar>
+  <OrangeAvatar><Color>orange</Color></OrangeAvatar>
+  
+  <HandleFish><DefaultContent>
+var me, ava, avaColor, beh = {
+postConfigure: function() {
+  me = this.cnode;
+  ava = me.parent().parent();
+  var xhcName = ava.xhc().name();
+  avaColor = xhcName.substring(0, xhcName.indexOf("Avatar")); // should be "Pink" or "Orange"
+  if (!ava["subtrees"]) {
+    ava.action("param subtrees true");
+  }
+},
+act: function() {
+  var maybeFish = ava.next();
+  if (maybeFish &amp;&amp; (maybeFish.xhc().name().startsWith(avaColor))) {
+    ava.println(ava.name() + " wants to eat " + maybeFish.name() + ". Can't wait!");
+    ava.action("take " + maybeFish.name());
+  }
+}
+}
+//# sourceURL=HandleFishbehavior.js
+  </DefaultContent></HandleFish>
+  
 </xholonClassDetails>
     ]]></Attribute_String>
     
     <Attribute_String roleName="csh"><![CDATA[
 <GridCellPatterns>
-  <GridCellPattern roleName="Isle x" xpos="10" ypos="10" islandID="0">
-LLLLLLLLLL
-L........L
-L.KC.....L
-L........L
-L........L
-L........L
-L........L
-L.....CK.L
-L........L
-LLLLLLLLLL
+  <GridCellPattern roleName="Isle x" xpos="5" ypos="5" islandID="0">
+LLLLLLLLLLLLLLLLLLLL
+L..................L
+L.KC...............L
+L..................L
+L..................L
+L..................L
+L..................L
+L..................L
+L..................L
+L..................L
+L..................L
+L..................L
+L..................L
+L..................L
+L..................L
+L..................L
+L..................L
+L...............CK.L
+L..................L
+LLLLLLLLLLLLLLLLLLLL
   </GridCellPattern>
   
   <GridCellPatternbehavior implName="org.primordion.xholon.base.Behavior_gwtjs">
@@ -81,7 +121,14 @@ postConfigure: function() {
         break;
       case "K": // CoastCell + Avatar + fish
         col.xhc("CoastCell");
-        col.append("&lt;Avatar/>");
+        // A v a t a r
+        col.append('&lt;' + colorArr[colorArrIx] + 'Avatar>'
+        + '&lt;BehaviorsST>'
+        + '&lt;HandleFish/>'
+        + '&lt;/BehaviorsST>'
+        + '&lt;/' + colorArr[colorArrIx] + 'Avatar>'
+        + '');
+        // f i s h
         col.append(''
         + '&lt;_-.fish>'
         + '&lt;' + colorArr[colorArrIx] + 'Fish multiplicity="10">'
@@ -89,9 +136,10 @@ postConfigure: function() {
         + 'var beh = new $wnd.xh.FishMovebehavior();'
         //+ '$wnd.xh.root().println("adding fish");'
         + '&lt;/Fishbehavior>'
-        + '&lt;/' + colorArr[colorArrIx++] + 'Fish>'
+        + '&lt;/' + colorArr[colorArrIx] + 'Fish>'
         + '&lt;/_-.fish>'
         + '');
+        colorArrIx++;
         break;
       default: // "."
         break;
