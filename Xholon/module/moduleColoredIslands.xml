@@ -23,6 +23,7 @@ To use this module in the Island game:
   <PinkAvatar superClass="Avatar"/>
   <OrangeAvatar superClass="Avatar"/>
   <HandleFish superClass="Script"/>
+  <FishCounter superClass="Script"/>
 </_-.XholonClass>
     ]]></Attribute_String>
     
@@ -48,7 +49,7 @@ postConfigure: function() {
 act: function() {
   var maybeFish = ava.next();
   if (maybeFish &amp;&amp; (maybeFish.xhc().name().startsWith(avaColor))) {
-    ava.println(ava.name() + " wants to eat " + maybeFish.name() + ". Can't wait!");
+    //ava.println(ava.name() + " wants to eat " + maybeFish.name() + ". Can't wait!");
     ava.action("take " + maybeFish.name());
   }
 }
@@ -56,11 +57,70 @@ act: function() {
 //# sourceURL=HandleFishbehavior.js
   </DefaultContent></HandleFish>
   
+  <FishCounter><DefaultContent>
+$wnd.console.log("FishCounter ...");
+const xpos = 5;
+const ypos = 5;
+var me, space, oceanCellStartArr, beh = {
+postConfigure: function() {
+  $wnd.console.log("FishCounter is alive ...");
+  me = this.cnode;
+  $wnd.xh.root().append(me.remove());
+  me.println(me.name());
+  me.println(me.parent().name());
+  space = $wnd.xh.root().xpath("descendant::Space");
+  me.println(space);
+  me.println(space.name());
+  //me.println(me.xpos); // null
+  me.println(xpos);
+  oceanCellStartArr = [];
+  var row = space.xpath("*[" + (ypos + 2) + "]");
+  var cell = row.xpath("*[" + (xpos + 2) + "]");
+  me.println(row);
+  me.println(cell);
+  while (cell) {
+    if (cell.xhc().name() != "OceanCell") {break;}
+    oceanCellStartArr.push(cell);
+    cell = cell.port(2);
+  }
+  me.println(oceanCellStartArr.length);
+  $wnd.console.log(oceanCellStartArr);
+  me.println("PinkFish,OrangeFish");
+},
+act: function() {
+  var pinkCount = 0;
+  var orangeCount = 0;
+  for (var i = 0; i &lt; oceanCellStartArr.length; i++) {
+    var cell = oceanCellStartArr[i];
+    while (cell &amp;&amp; cell.xhc().name() != "LandCell") {
+      var maybefish = cell.first();
+      while (maybefish) {
+        switch (maybefish.xhc().name()) {
+        case "PinkFish": pinkCount++; break;
+        case "OrangeFish": orangeCount++; break;
+        default: break;
+        }
+        maybefish = maybefish.next();
+      }
+      cell = cell.next();
+    }
+  }
+  me.println(pinkCount + "," + orangeCount);
+}
+}
+//# sourceURL=FishCounterbehavior.js
+  </DefaultContent></FishCounter>
+
 </xholonClassDetails>
     ]]></Attribute_String>
     
     <Attribute_String roleName="csh"><![CDATA[
+<_-.csh>
+
+<!--<FishCounter/>-->
+
 <GridCellPatterns>
+  <!-- Currently it only works if I include a border of "." nodes, probably because the bigger the grid the morre likely it is that more distant fish will initially move into the grid. TODO fix this -->
   <GridCellPattern roleName="Isle x" xpos="5" ypos="5" islandID="0">
 .......................
 .LLLLLLLLLLLLLLLLLLLLL.
@@ -166,6 +226,7 @@ postConfigure: function() {
         + '&lt;/BehaviorsST>'
         + '&lt;/' + colorArr[colorArrIx] + 'Avatar>'
         + '');
+        col.last().action("param transcript false"); // prevent Avatar from writing messages
         colorArrIx++;
         break;
       case "F": // fish go here
@@ -197,6 +258,8 @@ postConfigure: function() {
 </GridCellPatternbehavior>
 
 </GridCellPatterns>
+
+</_-.csh>
     ]]></Attribute_String>
     
   </XholonMap>
