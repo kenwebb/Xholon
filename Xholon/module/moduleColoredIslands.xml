@@ -62,30 +62,68 @@ act: function() {
     <Attribute_String roleName="csh"><![CDATA[
 <GridCellPatterns>
   <GridCellPattern roleName="Isle x" xpos="5" ypos="5" islandID="0">
-LLLLLLLLLLLLLLLLLLLL
-L..................L
-L.KC...............L
-L..................L
-L..................L
-L..................L
-L..................L
-L..................L
-L..................L
-L..................L
-L..................L
-L..................L
-L..................L
-L..................L
-L..................L
-L..................L
-L..................L
-L...............CK.L
-L..................L
-LLLLLLLLLLLLLLLLLLLL
+.......................
+.LLLLLLLLLLLLLLLLLLLLL.
+.L...................L.
+.L.KC................L.
+.L...................L.
+.L...................L.
+.L...................L.
+.L...................L.
+.L...................L.
+.L...................L.
+.L...................L.
+.L.........F.........L.
+.L...................L.
+.L...................L.
+.L...................L.
+.L...................L.
+.L...................L.
+.L...................L.
+.L...................L.
+.L................CK.L.
+.L...................L.
+.LLLLLLLLLLLLLLLLLLLLL.
+.......................
   </GridCellPattern>
+  <!--<GridCellPattern roleName="Isle x" xpos="10" ypos="10" islandID="0">
+LLLLLLLLLL
+L........L
+L.KC.....L
+L........L
+L........L
+L........L
+L........L
+L.....CK.L
+L........L
+LLLLLLLLLL
+  </GridCellPattern>-->
+  <!--<GridCellPattern roleName="Isle x" xpos="5" ypos="5" islandID="0">
+LLLLLLLLLLLL
+L..........L
+L.KC.......L
+L..........L
+L..........L
+L..........L
+L..........L
+L..........L
+L..........L
+L..........L
+L..........L
+L..........L
+L..........L
+L..........L
+L..........L
+L..........L
+L..........L
+L.......CK.L
+L..........L
+LLLLLLLLLLLL
+  </GridCellPattern>-->
   
   <GridCellPatternbehavior implName="org.primordion.xholon.base.Behavior_gwtjs">
 const colorArr = ["Pink", "Orange"];
+const NUM_FISH = 100; // number of fish of each color to create
 var me, colorArrIx, beh = {
 postConfigure: function() {
   me = this.cnode.parent(); // GridCellPatterns node
@@ -128,18 +166,21 @@ postConfigure: function() {
         + '&lt;/BehaviorsST>'
         + '&lt;/' + colorArr[colorArrIx] + 'Avatar>'
         + '');
-        // f i s h
-        col.append(''
-        + '&lt;_-.fish>'
-        + '&lt;' + colorArr[colorArrIx] + 'Fish multiplicity="10">'
-        + '&lt;Fishbehavior implName="org.primordion.xholon.base.Behavior_gwtjs">'
-        + 'var beh = new $wnd.xh.FishMovebehavior();'
-        //+ '$wnd.xh.root().println("adding fish");'
-        + '&lt;/Fishbehavior>'
-        + '&lt;/' + colorArr[colorArrIx] + 'Fish>'
-        + '&lt;/_-.fish>'
-        + '');
         colorArrIx++;
+        break;
+      case "F": // fish go here
+        // f i s h
+        var fishXmlStr = '&lt;_-.fish>';
+        for (var fix = 0; fix &lt; colorArr.length; fix++) {
+          fishXmlStr += '&lt;' + colorArr[fix] + 'Fish multiplicity="' + NUM_FISH + '">'
+          + '&lt;Fishbehavior implName="org.primordion.xholon.base.Behavior_gwtjs">'
+          + 'var beh = new $wnd.xh.FishMovebehavior();'
+          + '&lt;/Fishbehavior>'
+          + '&lt;/' + colorArr[fix] + 'Fish>';
+        }
+        fishXmlStr += '&lt;/_-.fish>';
+        //me.println(fishXmlStr);
+        col.append(fishXmlStr);
         break;
       default: // "."
         break;
