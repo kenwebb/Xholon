@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+Island Game
 Experiment where two agents, each on its own island, initially fish only for different Fish species.
 So there is no (or very minimal) interaction or exploitation.
 
-see TestTool in Island game
-  "use TestTool to test the Avatar apply command; TestTool has to be a GWT behavior"
-see Subtrees workbook  c12c030f739cf8127313b6dbe920aa50
-
-To use this module in the Island game:
- - drag the entire contents into the current location (ex: CoastCell) of the system avatar
- - result: a bordered space in the Ocean, with two small islands, 2 Avatars, and 2 types of fish in the Ocean
+To use this module in the Island game ("Island B5"):
+ - drag the entire contents of this file into the current location (ex: LandCell) of the system avatar
+ - expected result: a bordered space in the Ocean, with two small islands, an Avatar on each island, and 2 types of fish in the center of the Ocean area
 -->
 <XholonModule>
   <XholonMap>
@@ -27,7 +24,7 @@ To use this module in the Island game:
 </_-.XholonClass>
     ]]></Attribute_String>
     
-    <!-- Fish symbols and colors; behaviors -->
+    <!-- Fish symbols and colors; Avatar colors; behaviors -->
     <Attribute_String roleName="cd"><![CDATA[
 <xholonClassDetails>
   <PinkFish><Symbol>LRTriangle</Symbol><Color>pink</Color></PinkFish>
@@ -49,7 +46,6 @@ postConfigure: function() {
 act: function() {
   var maybeFish = ava.next();
   if (maybeFish &amp;&amp; (maybeFish.xhc().name().startsWith(avaColor))) {
-    //ava.println(ava.name() + " wants to eat " + maybeFish.name() + ". Can't wait!");
     ava.action("take " + maybeFish.name());
   }
 }
@@ -58,33 +54,20 @@ act: function() {
   </DefaultContent></HandleFish>
   
   <FishCounter><DefaultContent>
-$wnd.console.log("FishCounter ...");
 const xpos = 5;
 const ypos = 5;
 var me, space, oceanCellStartArr, beh = {
 postConfigure: function() {
-  $wnd.console.log("FishCounter is alive ...");
   me = this.cnode;
-  $wnd.xh.root().append(me.remove());
-  me.println(me.name());
-  me.println(me.parent().name());
   space = $wnd.xh.root().xpath("descendant::Space");
-  me.println(space);
-  me.println(space.name());
-  //me.println(me.xpos); // null
-  me.println(xpos);
   oceanCellStartArr = [];
   var row = space.xpath("*[" + (ypos + 2) + "]");
   var cell = row.xpath("*[" + (xpos + 2) + "]");
-  me.println(row);
-  me.println(cell);
   while (cell) {
     if (cell.xhc().name() != "OceanCell") {break;}
     oceanCellStartArr.push(cell);
     cell = cell.port(2);
   }
-  me.println(oceanCellStartArr.length);
-  $wnd.console.log(oceanCellStartArr);
   me.println("PinkFish,OrangeFish");
 },
 act: function() {
@@ -106,6 +89,9 @@ act: function() {
     }
   }
   me.println(pinkCount + "," + orangeCount);
+  if (me.parent() != $wnd.xh.root()) {
+    $wnd.xh.root().append(me.remove());
+  }
 }
 }
 //# sourceURL=FishCounterbehavior.js
@@ -117,11 +103,11 @@ act: function() {
     <Attribute_String roleName="csh"><![CDATA[
 <_-.csh>
 
-<!--<FishCounter/>-->
+<FishCounter/>
 
 <GridCellPatterns>
-  <!-- Currently it only works if I include a border of "." nodes, probably because the bigger the grid the morre likely it is that more distant fish will initially move into the grid. TODO fix this -->
-  <GridCellPattern roleName="Isle x" xpos="5" ypos="5" islandID="0">
+  <!-- Currently it only works if I include a border of "." nodes, probably because the bigger the grid the more likely it is that more distant fish will initially move into the grid. TODO fix this -->
+  <GridCellPattern xpos="5" ypos="5">
 .......................
 .LLLLLLLLLLLLLLLLLLLLL.
 .L...................L.
@@ -146,40 +132,6 @@ act: function() {
 .LLLLLLLLLLLLLLLLLLLLL.
 .......................
   </GridCellPattern>
-  <!--<GridCellPattern roleName="Isle x" xpos="10" ypos="10" islandID="0">
-LLLLLLLLLL
-L........L
-L.KC.....L
-L........L
-L........L
-L........L
-L........L
-L.....CK.L
-L........L
-LLLLLLLLLL
-  </GridCellPattern>-->
-  <!--<GridCellPattern roleName="Isle x" xpos="5" ypos="5" islandID="0">
-LLLLLLLLLLLL
-L..........L
-L.KC.......L
-L..........L
-L..........L
-L..........L
-L..........L
-L..........L
-L..........L
-L..........L
-L..........L
-L..........L
-L..........L
-L..........L
-L..........L
-L..........L
-L..........L
-L.......CK.L
-L..........L
-LLLLLLLLLLLL
-  </GridCellPattern>-->
   
   <GridCellPatternbehavior implName="org.primordion.xholon.base.Behavior_gwtjs">
 const colorArr = ["Pink", "Orange"];
@@ -188,11 +140,8 @@ var me, colorArrIx, beh = {
 postConfigure: function() {
   me = this.cnode.parent(); // GridCellPatterns node
   colorArrIx = 0;
-  //me.println(me.name());
   var gcp = me.first(); // GridCellPattern node
-  //me.println(gcp.name());
   this.cnode.remove();
-  //me.println("xpos:" + gcp.xpos + " ypos:" + gcp.ypos);
   var gcpstr = gcp.text().trim();
   var gcparr = gcpstr.split("\n");
   var row = me.xpath("../../../FieldRow[" + gcp.ypos + "]");

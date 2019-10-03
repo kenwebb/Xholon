@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Island Game - Experiment
+email from Jen: "thoughts on what it means to use some object/some person" Sept 27, 2019
+########################################################################################
+Suppose I have a sequence of actions that results in a particular outcome.
+
+Now imagine that I, myself purely with my own body and nothing else, have carried out this sequence of actions - we'll imagine this even if some of the actions are outside my current capabilities.
+
+To use something (or someone) means that I substitute that thing (or person) for myself in that sequence of actions.
+
+There may need to be some additional actions added to the sequence to enable the use of the other thing, but the main point is that I can substitute the thing for myself, essentially
+
+Example 1:
+
+My goal - to see Big Ben, in London, with my own eyes.
+
+I get up
+I fly to London
+I travel to Big Ben
+I look at Big Ben
+
+I get up
+I fly to London USING AN AIRPLANE
+I travel to Big Ben USING A TAXI
+I look at Big Ben
+
+Example 2:
+
+My goal - to eat some fruit
+
+I knock the fruit out of the very tall tree
+I pick the fruit up
+I eat the fruit
+
+I knock the fruit out of the very tall tree USING A ROCK
+I pick the fruit up
+I eat the fruit
+########################################################################################
+
+Result of initial experiment:
+############################
+I myself: who
+ You are I myself:avatar_11228.
+I myself: where
+ You are in Ottawa:city_11227.
+I myself: look
+ You are in Ottawa:city_11227.
+ You see airplane_11231
+I myself: inventory
+ You are carrying:
+ my own:body_11229
+ my own:eyes_11230
+I myself: [I get up]
+I myself: [I fly to London]
+I myself: next London
+ Moving to London:city_11232
+I myself: [I travel to Big Ben]
+I myself: enter "Big Ben"
+ Entered Big Ben:building_11233
+I myself: [I look at Big Ben]
+I myself: look
+ You are in Big Ben:building_11233.
+
+To use this module in the Island game ("Island B5"):
+ - drag the entire contents of this file into the current location (ex: LandCell) of the system avatar
+ - expected result: 
+-->
+<XholonModule>
+  <XholonMap>
+  
+    <Attribute_String roleName="ih"><![CDATA[
+<_-.XholonClass>
+  
+  <!-- places -->
+  <City/>
+  <Building/>
+  
+  <!-- things that a person might use to achieve a particular outcome -->
+  <Airplane/>
+  <Taxi/>
+  <Rock/>
+  
+  <AirplanePilot/>
+  <TaxiDriver/>
+  
+  <Eyes/>
+  <Body/>
+  
+</_-.XholonClass>
+    ]]></Attribute_String>
+    
+    <!--  -->
+    <Attribute_String roleName="cd"><![CDATA[
+<xholonClassDetails>
+</xholonClassDetails>
+    ]]></Attribute_String>
+    
+    <Attribute_String roleName="csh"><![CDATA[<_-.csh>
+<City roleName="Ottawa">
+  <Avatar roleName="I myself 1a">
+    <Attribute_String>
+who
+where
+look
+inventory
+
+[I get up]
+[I fly to London]
+next London
+[I travel to Big Ben]
+enter "Big Ben"
+[I look at Big Ben]
+look
+    </Attribute_String>
+    <Body roleName="my own"/>
+    <Eyes roleName="my own"/>
+  </Avatar>
+  
+  <Avatar roleName="I myself 1b">
+    <Attribute_String>
+wait 10
+
+[I get up]
+[I fly to London USING AN AIRPLANE]
+next London
+[I travel to Big Ben USING A TAXI]
+enter "Big Ben"
+[I look at Big Ben]
+look
+    </Attribute_String>
+    <Body roleName="my own"/>
+    <Eyes roleName="my own"/>
+  </Avatar>
+  
+  <Airplane>
+    <AirplanePilot/>
+  </Airplane>
+</City>
+
+<City roleName="London">
+  <Building roleName="Big Ben"/>
+  <Taxi>
+    <TaxiDriver/>
+  </Taxi>
+</City>
+    </_-.csh>]]></Attribute_String>
+    
+  </XholonMap>
+</XholonModule>
