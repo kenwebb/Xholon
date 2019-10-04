@@ -81,8 +81,8 @@ To use this module in the Island game ("Island B5"):
   <Taxi/>
   <Rock/>
   
-  <AirplanePilot/>
-  <TaxiDriver/>
+  <AirplanePilot superClass="Avatar"/>
+  <TaxiDriver superClass="Avatar"/>
   
   <Eyes/>
   <Body/>
@@ -100,41 +100,62 @@ To use this module in the Island game ("Island B5"):
 <City roleName="Ottawa">
   <Avatar roleName="I myself 1a">
     <Attribute_String>
-who
-where
-look
-inventory
+script;
+who;
+where;
+look;
+inventory;
 
-[I get up]
-[I fly to London]
-next London
-[I travel to Big Ben]
-enter "Big Ben"
-[I look at Big Ben]
-look
+[I get up];
+[I fly to London];
+next London;
+[I travel to Big Ben];
+enter "Big Ben";
+[I look at Big Ben];
+look;
     </Attribute_String>
+    <script>this.parent().action("param actTimeStep " + $wnd.xh.param("TimeStep"));</script>
     <Body roleName="my own"/>
     <Eyes roleName="my own"/>
   </Avatar>
   
   <Avatar roleName="I myself 1b">
     <Attribute_String>
-wait 10
+script;
+wait 10;
 
-[I get up]
-[I fly to London USING AN AIRPLANE]
-next London
-[I travel to Big Ben USING A TAXI]
-enter "Big Ben"
-[I look at Big Ben]
-look
+[I get up];
+[I fly to London USING AN AIRPLANE];
+enter airplane;
+where;
+wait 8;
+where;
+exit;
+where;
+[I travel to Big Ben USING A TAXI];
+enter taxi;
+wait 5;
+exit;
+enter "Big Ben";
+[I look at Big Ben];
+look;
     </Attribute_String>
+    <script>this.parent().action("param actTimeStep " + $wnd.xh.param("TimeStep"));</script>
     <Body roleName="my own"/>
     <Eyes roleName="my own"/>
   </Avatar>
   
   <Airplane>
-    <AirplanePilot/>
+    <AirplanePilot>
+      <Attribute_String>
+script;
+wait 15;
+lead ..;
+go xpath(../../City[@roleName='London']);
+unlead;
+      </Attribute_String>
+      <script>this.parent().action("param actTimeStep " + $wnd.xh.param("TimeStep"));</script>
+    </AirplanePilot>
   </Airplane>
 </City>
 
