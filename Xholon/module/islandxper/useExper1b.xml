@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Island Game - Experiment - Use 1b
+email from Jen: "thoughts on what it means to use some object/some person" Sept 27, 2019
+########################################################################################
+Example 1b:
+
+My goal - to see Big Ben, in London, with my own eyes.
+
+I get up
+I fly to London USING AN AIRPLANE
+I travel to Big Ben USING A TAXI
+I look at Big Ben
+########################################################################################
+
+Result of experiment:
+####################
+AirplanePilot: wait 5;
+I.myself: [I get up];
+I.myself: [I fly to London USING AN AIRPLANE];
+I.myself: enter airplane;
+ Entered airplane_10620
+I.myself: wait 8;
+AirplanePilot: lead ..;
+ Leading.
+AirplanePilot: go xpath(../../City[@roleName='London']);
+ Moving to London:city_10623
+AirplanePilot: unlead;
+I.myself: exit;
+ Exited to London:city_10623
+I.myself: [I travel to Big.Ben USING A TAXI];
+I.myself: enter taxi;
+ Entered taxi_10625
+I.myself: wait 5;
+I.myself: exit;
+ Exited to London:city_10623
+I.myself: enter "Big.Ben";
+ Entered Big.Ben:building_10624
+I.myself: [I look at Big.Ben];
+I.myself: look;
+ You are in Big.Ben:building_10624.
+
+To use this module in the Island game ("Island B5"):
+ - drag the entire contents of this file into the current location (ex: LandCell) of the system avatar
+ - initial state:        LandCell (Castaway Ottawa (I.myself (my.body my.eyes) Airplane (AirplanePilot)) London (Big.Ben Taxi (TaxiDriver)))
+ - expected final state: LandCell (Castaway Ottawa London (Big.Ben (I.myself (my.body my.eyes)) Taxi (TaxiDriver) AirplanePilot Airplane))
+-->
+<XholonModule>
+  <XholonMap>
+  
+    <Attribute_String roleName="ih"><![CDATA[
+<_-.XholonClass>
+  
+  <!-- places that I can go inside of -->
+  <City/>
+  <Building/>
+  
+  <!-- parts of me -->
+  <Eyes/>
+  <Body/>
+  
+  <!-- things that I might use to achieve a particular outcome -->
+  <Airplane/>
+  <Taxi/>
+  
+  <!-- people whose services I will make use of -->
+  <AirplanePilot superClass="Avatar"/>
+  <TaxiDriver superClass="Avatar"/>
+  
+</_-.XholonClass>
+    ]]></Attribute_String>
+    
+    <Attribute_String roleName="cd"><![CDATA[
+<xholonClassDetails>
+</xholonClassDetails>
+    ]]></Attribute_String>
+    
+    <Attribute_String roleName="csh"><![CDATA[<_-.csh>
+<City roleName="Ottawa">
+  
+  <Avatar roleName="I.myself">
+    <Attribute_String>
+script;
+breakpoint;
+[I get up];
+[I fly to London USING AN AIRPLANE];
+enter airplane;
+wait 8;
+exit;
+[I travel to Big.Ben USING A TAXI];
+enter taxi;
+wait 5;
+exit;
+enter "Big.Ben";
+[I look at Big.Ben];
+look;
+    </Attribute_String>
+    <script>this.parent().action("param actTimeStep " + $wnd.xh.param("TimeStep"));</script>
+    <Body roleName="my.body"/>
+    <Eyes roleName="my.eyes"/>
+  </Avatar>
+  
+  <Airplane>
+    <AirplanePilot>
+      <Attribute_String>
+script;
+wait 5;
+lead ..;
+go xpath(../../City[@roleName='London']);
+unlead;
+      </Attribute_String>
+      <script>this.parent().action("param actTimeStep " + $wnd.xh.param("TimeStep"));</script>
+    </AirplanePilot>
+  </Airplane>
+</City>
+
+<City roleName="London">
+  <Building roleName="Big.Ben"/>
+  <Taxi>
+    <TaxiDriver/>
+  </Taxi>
+</City>
+    </_-.csh>]]></Attribute_String>
+    
+  </XholonMap>
+</XholonModule>

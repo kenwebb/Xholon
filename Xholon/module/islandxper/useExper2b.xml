@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Island Game - Experiment - Use 2b
+email from Jen: "thoughts on what it means to use some object/some person" Sept 27, 2019
+########################################################################################
+Example 2b:
+
+My goal - to eat some fruit.
+
+I knock the fruit out of the very tall tree USING A ROCK
+I pick the fruit up
+I eat the fruit
+########################################################################################
+
+Result of experiment:
+####################
+I.myself: [I knock the fruit out of the very tall tree USING A ROCK];
+I.myself: take rock;
+ Taken.
+I.myself: put rock in tallTree;
+ Put.
+I.myself: put xpath(../TallTree/TallTreeFruit) in parent;
+ Put.
+I.myself: [I pick the fruit up];
+I.myself: take tallTreeFruit;
+ Taken.
+I.myself: [I eat the fruit];
+I.myself: eat tallTreeFruit;
+ Yum.
+I.myself: look;
+ You are in landCell_4038.
+ You see Castaway:avatar_42
+ You see tallTree_10699
+ You see passage port0 to landCell_3917
+ You see passage port1 to landCell_4039
+ You see passage port2 to landCell_4159
+ You see passage port3 to landCell_4037
+
+To use this module in the Island game ("Island B5"):
+ - drag the entire contents of this file into the current location (ex: LandCell) of the system avatar
+ - initial state:        LandCell (Castaway I.myself TallTree (TallTreeFruit) Rock)
+ - expected final state: LandCell (Castaway I.myself TallTree (Rock))
+-->
+<XholonModule>
+  <XholonMap>
+  
+    <Attribute_String roleName="ih"><![CDATA[
+<_-.XholonClass>
+  
+  <!-- food source -->
+  <TallTree/>
+  <TallTreeFruit/>
+  <Rock/>
+  
+</_-.XholonClass>
+    ]]></Attribute_String>
+    
+    <Attribute_String roleName="cd"><![CDATA[
+<xholonClassDetails>
+</xholonClassDetails>
+    ]]></Attribute_String>
+    
+    <Attribute_String roleName="csh"><![CDATA[<_-.csh>
+<Avatar roleName="I.myself">
+  <Attribute_String>
+script;
+breakpoint;
+[I knock the fruit out of the very tall tree USING A ROCK];
+take rock;
+put rock in tallTree;
+put xpath(../TallTree/TallTreeFruit) in parent;
+[I pick the fruit up];
+take tallTreeFruit;
+[I eat the fruit];
+eat tallTreeFruit;
+look;
+  </Attribute_String>
+  <script>this.parent().action("param actTimeStep " + $wnd.xh.param("TimeStep"));</script>
+</Avatar>
+<TallTree>
+  <TallTreeFruit/>
+</TallTree>
+<Rock/>
+
+    </_-.csh>]]></Attribute_String>
+    
+  </XholonMap>
+</XholonModule>
