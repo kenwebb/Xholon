@@ -3810,6 +3810,11 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 		}
 	}-*/;
 	
+	@Override
+	public Object tick(Object obj) {
+		return null;
+	};
+	
 	/*
 	 * @see java.lang.Object#toString()
 	 */

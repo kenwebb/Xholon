@@ -605,6 +605,31 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			}
 		}
 		
+		// mech.behavrtree
+		else if (implName.startsWith("org.primordion.xholon.mech.behavrtree")) {
+			if (implName.endsWith("Root")) {
+				newNode = new org.primordion.xholon.mech.behavrtree.Root();
+			}
+			else if (implName.endsWith("Sequence")) {
+				newNode = new org.primordion.xholon.mech.behavrtree.Sequence();
+			}
+			else if (implName.endsWith("Selector")) {
+				newNode = new org.primordion.xholon.mech.behavrtree.Selector();
+			}
+			else if (implName.endsWith("Parallel")) {
+				newNode = new org.primordion.xholon.mech.behavrtree.Parallel();
+			}
+			else if (implName.endsWith("Inverter")) {
+				newNode = new org.primordion.xholon.mech.behavrtree.Inverter();
+			}
+			else if (implName.endsWith("Action")) {
+				newNode = new org.primordion.xholon.mech.behavrtree.Action();
+			}
+			else if (implName.endsWith("Condition")) {
+				newNode = new org.primordion.xholon.mech.behavrtree.Condition();
+			}
+		}
+		
 		// script
 		// remember to add the script to the isClassFindable() method as well
 		else if (implName.startsWith("org.primordion.xholon.script")) {

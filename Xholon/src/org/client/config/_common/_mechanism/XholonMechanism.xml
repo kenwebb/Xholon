@@ -68,6 +68,25 @@
 	<!-- this is also used in conjunction with Behavior_gwtjs.java -->
 </Behavior>
 
+<!-- BehaviorTreeEntity -->
+<BehaviorTreeEntity xmlns="http://www.primordion.com/namespace/BehaviorTreeEntity" id="1016400">
+	<!--<BehaviorTree/> use RootBT as root of the entire subtree -->
+	<RootBT/>
+	<CompositeBT>
+	  <SequenceBT/>
+	  <SelectorBT/> <!--FallbackBT-->
+	  <ParallelBT/>
+	</CompositeBT>
+	<DecoratorBT>
+	  <InverterBT/>
+	  <!-- others -->
+	</DecoratorBT>
+	<LeafBT>
+  	<ActionBT/>
+	  <ConditionBT/>
+	</LeafBT>
+</BehaviorTreeEntity>
+
 <!-- Bigraph -->
 <BigraphEntity xmlns="http://www.primordion.com/namespace/BigraphEntity" id="1013100" superClass="XholonMechanism">
   

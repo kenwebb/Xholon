@@ -1520,4 +1520,14 @@ public abstract String getBinaryTreePath(int base);
  */
 public abstract void setBinaryTreePath(String str);
 
+/**
+ * Do something during this time step.
+ * This is a very general flexible method, that could be used in many different ways.
+ * It provides a similar capability as IMessage sendSyncMessage(IMessage), but is more generic.
+ * It's specifically added to support BehaviorTree nodes.
+ * @param obj A Java Object, which can be anything including null.
+ * @return A Java Object, which can be anything including null.
+ */
+public abstract Object tick(Object obj);
+
 }

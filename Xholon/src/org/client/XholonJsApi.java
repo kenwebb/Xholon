@@ -841,6 +841,14 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       return this;
     });
     
+    // tick
+    api.tick = $entry(function(objekt) {
+      if (objekt === undefined) {
+        var objekt = null;
+      }
+      return this.@org.primordion.xholon.base.IXholon::tick(Ljava/lang/Object;)(objekt);
+    });
+    
     // port
     api.port = $entry(function(portName, portRef) {
       if (portRef === undefined) {

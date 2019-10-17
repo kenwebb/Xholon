@@ -143,6 +143,11 @@ public class Behavior_gwtjs extends Xholon {
 	 */
 	private boolean hasProcessReceivedSyncMessage = false;
 	
+	/**
+	 * Does the script contain a tick(obj) method?
+	 */
+	private boolean hasTick = false;
+	
 	private String roleName = null;
 	
 	@Override
@@ -198,6 +203,7 @@ public class Behavior_gwtjs extends Xholon {
 		hasPostAct = hasFunction(beh, "postAct");
 		hasProcessReceivedMessage = hasFunction(beh, "processReceivedMessage");
 		hasProcessReceivedSyncMessage = hasFunction(beh, "processReceivedSyncMessage");
+		hasTick = hasFunction(beh, "tick");
 		if (hasFunction(beh, "postConfigure")) {
 		  postConfigure(beh);
 		  if (this.getParentNode() == null) {
@@ -390,6 +396,32 @@ public class Behavior_gwtjs extends Xholon {
 	  return bobj.performGuard(activityId, msg);
 	}-*/;
 	
+	@Override
+	public Object tick(Object obj) {
+	  if (hasTick) {
+		  if (beh != null) {
+		    Object objekt = tick(beh, obj);
+			  return objekt;
+			}
+			return null;
+		}
+		return null;
+	}
+	
+	/**
+	 * native tick()
+	 * @param obj can be any type of Object (typically null if this is part of a BehaviorTree)
+	 * @return can be any type of Object (must be a String (ex: "R") if this is part of a BehaviorTree)
+	 */
+	protected native Object tick(JavaScriptObject bobj, Object obj) /*-{
+	  var robj = bobj.tick(obj);
+	  switch (typeof robj) {
+	  case "number": robj = String(robj);
+	  default: break;
+	  }
+	  return robj;
+	}-*/;
+	
 	/*
 	 * @see org.primordion.xholon.base.Xholon#toString()
 	 */
@@ -419,6 +451,7 @@ public class Behavior_gwtjs extends Xholon {
 		.append(" hasPostAct:").append(hasPostAct)
 		.append(" hasProcessReceivedMessage:").append(hasProcessReceivedMessage)
 		.append(" hasProcessReceivedSyncMessage:").append(hasProcessReceivedSyncMessage)
+		.append(" hasTick:").append(hasTick)
 		.append(behToString);
 		return sb.toString();
 	}

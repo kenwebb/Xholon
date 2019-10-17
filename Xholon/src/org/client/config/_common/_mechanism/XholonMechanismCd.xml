@@ -61,6 +61,15 @@
 	
 	<!-- Behavior -->
 	
+	<!-- BehaviorTreeEntity -->
+	<RootBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Root"/>
+	<SequenceBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Sequence"/>
+	<SelectorBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Selector"/>
+	<ParallelBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Parallel"/>
+	<InverterBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Inverter"/>
+	<ActionBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Action"/>
+	<ConditionBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Condition"/>
+	
 	<!-- Blueprints -->
 	<!--<BlueprintsClient xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.blueprints.BlueprintsClient"/>-->
   <!--<GremlinClient xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.blueprints.GremlinClient"/>-->
