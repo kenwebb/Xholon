@@ -20,9 +20,11 @@ package org.primordion.xholon.mech.behavrtree;
 
 public interface IBehaviorTree {
 
-public static final String BT_STATUS_NOT_TICKED = "N"; //-1;
-public static final String BT_STATUS_FAILURE = "F"; //0;
-public static final String BT_STATUS_SUCCESS = "S"; //1;
-public static final String BT_STATUS_RUNNING = "R"; //2;
+public static final String BT_STATUS_NOT_TICKED = "N";
+public static final String BT_STATUS_FAILURE = "F";
+public static final String BT_STATUS_SUCCESS = "S";
+public static final String BT_STATUS_RUNNING = "R";
+
+public static final String BT_ROOT_NODE_XHCNAME = "RootBT";
 
 }

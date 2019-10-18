@@ -116,7 +116,7 @@ public class Behavior_gwtjs extends Xholon {
 	/**
 	 * The JavaScript object.
 	 */
-	private JavaScriptObject beh = null;
+	protected JavaScriptObject beh = null;
 	
 	/**
 	 * Does the script contain a preAct() method?
@@ -148,7 +148,7 @@ public class Behavior_gwtjs extends Xholon {
 	 */
 	private boolean hasTick = false;
 	
-	private String roleName = null;
+	protected String roleName = null;
 	
 	@Override
 	public void setRoleName(String roleName) {
@@ -198,6 +198,7 @@ public class Behavior_gwtjs extends Xholon {
 		  this.removeChild();
 		  return;
 		}
+		this.configureJsoExtras(beh);
 		hasPreAct = hasFunction(beh, "preAct");
 		hasAct = hasFunction(beh, "act");
 		hasPostAct = hasFunction(beh, "postAct");
@@ -227,10 +228,11 @@ public class Behavior_gwtjs extends Xholon {
 	  
 	  try {
 	    if (beh === undefined) {
-	      //$wnd.console.log("beh was undefined");
+	      //$wnd.console.log("beh is undefined");
 	      return null;
 	    }
 	    else {
+	      //$wnd.console.log("beh exists");
 	      //$wnd.console.log(beh);
 	      beh.cnode = cnode;
 	      return beh;
@@ -240,6 +242,12 @@ public class Behavior_gwtjs extends Xholon {
 	    return null;
 	  }
 	}-*/;
+	
+	/**
+	 * Subclasses (such as in BehaviorTree classes) can implement this method to initialize something in the JavaScriptObject.
+	 * @param bobj the beh JavaScriptObject
+	 */
+	protected void configureJsoExtras(JavaScriptObject bobj) {}
 	
 	protected native boolean hasFunction(JavaScriptObject bobj, String fname) /*-{
 	  //$wnd.console.log("bobj[fname] " + fname);

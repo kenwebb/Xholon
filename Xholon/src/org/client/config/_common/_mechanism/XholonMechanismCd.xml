@@ -62,13 +62,13 @@
 	<!-- Behavior -->
 	
 	<!-- BehaviorTreeEntity -->
-	<RootBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Root"/>
-	<SequenceBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Sequence"/>
-	<SelectorBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Selector"/>
-	<ParallelBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Parallel"/>
-	<InverterBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Inverter"/>
-	<ActionBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Action"/>
-	<ConditionBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Condition"/>
+	<RootBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Root"><Symbol>&#x2205;</Symbol></RootBT>
+	<SequenceBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Sequence"><Symbol>&#x2192;</Symbol></SequenceBT>
+	<SelectorBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Selector"><Symbol>?</Symbol></SelectorBT>
+	<ParallelBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Parallel"><Symbol>&#x21C9;</Symbol></ParallelBT>
+	<InverterBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Inverter"><Symbol>&#x25C8;</Symbol></InverterBT>
+	<ActionBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Action"><Symbol>&#x25A1;</Symbol></ActionBT>
+	<ConditionBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Condition"><Symbol>&#x25CB;</Symbol></ConditionBT>
 	
 	<!-- Blueprints -->
 	<!--<BlueprintsClient xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.blueprints.BlueprintsClient"/>-->

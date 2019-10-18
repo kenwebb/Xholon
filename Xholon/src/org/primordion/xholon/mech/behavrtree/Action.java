@@ -18,13 +18,10 @@
 
 package org.primordion.xholon.mech.behavrtree;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gwt.core.client.JavaScriptObject;
 
+import org.primordion.xholon.base.Behavior_gwtjs;
 import org.primordion.xholon.base.IXholon;
-import org.primordion.xholon.base.PortInformation;
-import org.primordion.xholon.base.Xholon;
-import org.primordion.xholon.base.XholonWithPorts;
 import org.primordion.xholon.io.xml.IXholon2Xml;
 import org.primordion.xholon.io.xml.IXmlWriter;
 
@@ -35,27 +32,21 @@ import org.primordion.xholon.io.xml.IXmlWriter;
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
  * @since 0.9.1 (Created on October 15, 2019)
  */
-public class Action extends Xholon implements IBehaviorTree {
+public class Action extends Behavior_gwtjs implements IBehaviorTree {
   private static final long serialVersionUID = 0L;
   
-  private String state = BT_STATUS_NOT_TICKED; // is this needed ?
-  
-  private IXholon agent = null; // agent, ai entity, owner of the Behavior Tree, initial parent of RootBT node
-  
-  private String roleName = null;
-
-  @Override
-  public void setRoleName(String roleName) {this.roleName = roleName;}
-  
-  @Override
-  public String getRoleName() {return roleName;}
+  /**
+   * The agent is also called an "ai entity". It's the owner of the Behavior Tree, the initial parent of RootBT node.
+   * An Action operates directly on the agent, and does not know that it's a node in a Behavior Tree.
+   */
+  protected IXholon agent = null;
   
   @Override
   public void postConfigure() {
     // find and store agent node
     IXholon node = this;
     while (node != null) {
-      if ("RootBT".equals(node.getXhcName())) {
+      if (BT_ROOT_NODE_XHCNAME.equals(node.getXhcName())) {
         this.agent = node.getParentNode();
         break;
       }
@@ -65,33 +56,38 @@ public class Action extends Xholon implements IBehaviorTree {
   }
   
   @Override
-  public Object tick(Object obj) {
-    // TODO
-    return BT_STATUS_NOT_TICKED;
-  };
+  protected void configureJsoExtras(JavaScriptObject bobj) {
+    this.configureJsoAgent(bobj, this.agent);
+  }
   
+  /**
+   * Configure the JavaScriptObject, so it has access to the agent.
+   */
+	protected native void configureJsoAgent(JavaScriptObject bobj, IXholon agent) /*-{
+    if (bobj != null) {
+      bobj["agent"] = agent;
+    }
+    else {
+      $wnd.console.log("ActionBT bobj is null");
+    }
+	}-*/;
+	
   @Override
   public int setAttributeVal(String attrName, String attrVal) {
-    /*if (attrName.equals("connector")) {
-      setConnector(attrVal);
-    }
-    else if (attrName.equals("weight")) {
-      setVal(attrVal);
-    }*/
-    return 0;
+    return super.setAttributeVal(attrName, attrVal);
   }
   
   @Override
   public String toString() {
-    String outStr = getName();
+    String outStr = super.toString();
     outStr += " agent: " + (agent == null ? null : agent.getName());
     return outStr;
   }
   
   @Override
   public void toXmlAttributes(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {
-    //if (connector != null) {xmlWriter.writeAttribute("connector", connector);}
-    //xmlWriter.writeAttribute("weight", Double.toString(getVal()));
+    xmlWriter.writeAttribute("agent", (agent == null ? null : agent.getName()));
+    super.toXmlAttributes(xholon2xml, xmlWriter);
   }
   
 }
