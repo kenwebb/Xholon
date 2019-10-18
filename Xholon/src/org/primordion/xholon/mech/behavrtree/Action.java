@@ -40,6 +40,8 @@ public class Action extends Xholon implements IBehaviorTree {
   
   private String state = BT_STATUS_NOT_TICKED; // is this needed ?
   
+  private IXholon agent = null; // agent, ai entity, owner of the Behavior Tree, initial parent of RootBT node
+  
   private String roleName = null;
 
   @Override
@@ -50,6 +52,15 @@ public class Action extends Xholon implements IBehaviorTree {
   
   @Override
   public void postConfigure() {
+    // find and store agent node
+    IXholon node = this;
+    while (node != null) {
+      if ("RootBT".equals(node.getXhcName())) {
+        this.agent = node.getParentNode();
+        break;
+      }
+      node = node.getParentNode();
+    }
     super.postConfigure();
   }
   
@@ -73,6 +84,7 @@ public class Action extends Xholon implements IBehaviorTree {
   @Override
   public String toString() {
     String outStr = getName();
+    outStr += " agent: " + (agent == null ? null : agent.getName());
     return outStr;
   }
   

@@ -40,6 +40,8 @@ public class Root extends Xholon implements IBehaviorTree {
   
   private String state = BT_STATUS_NOT_TICKED; // is this needed ?
   
+  private boolean doact = false;
+  
   private String roleName = null;
 
   @Override
@@ -56,7 +58,9 @@ public class Root extends Xholon implements IBehaviorTree {
   @Override
   public void act() {
     state = (String)this.tick(null);
-    super.act();
+    if (doact) {
+      super.act();
+    }
   }
   
   @Override
@@ -71,10 +75,10 @@ public class Root extends Xholon implements IBehaviorTree {
   
   @Override
   public int setAttributeVal(String attrName, String attrVal) {
-    /*if (attrName.equals("connector")) {
-      setConnector(attrVal);
+    if (attrName.equals("doact")) {
+      doact = Boolean.parseBoolean(attrVal);
     }
-    else if (attrName.equals("weight")) {
+    /*else if (attrName.equals("weight")) {
       setVal(attrVal);
     }*/
     return 0;
