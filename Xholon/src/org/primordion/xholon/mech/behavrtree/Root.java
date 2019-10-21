@@ -61,6 +61,12 @@ public class Root extends Xholon implements IBehaviorTree {
     if (doact) {
       super.act();
     }
+    else {
+      // this RootBT node may have siblings
+      if (this.getNextSibling() != null) {
+        this.getNextSibling().act();
+      }
+    }
   }
   
   @Override
