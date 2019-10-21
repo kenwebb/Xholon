@@ -89,6 +89,7 @@ __________   ________   _____________________
 1016200      1016299    Hypergraph
 1016300      1016399    Recipe
 1016400      1016499    BehaviorTreeEntity
+1016500      1016599    SubtreesEntity
 
 The following XML is an alphabetical list of all Xholon Mechanisms and Viewers.
 -->
@@ -298,6 +299,13 @@ The following XML is an alphabetical list of all Xholon Mechanisms and Viewers.
 		<DefaultPrefix>story</DefaultPrefix>
 		<RangeStart>1014700</RangeStart>
 		<RangeEnd>1014799</RangeEnd>
+	</XholonMechanism>
+	
+	<XholonMechanism roleName="SubtreesEntity">
+		<NamespaceUri>http://www.primordion.com/namespace/SubtreesEntity</NamespaceUri>
+		<DefaultPrefix>sbtree</DefaultPrefix>
+		<RangeStart>1016500</RangeStart>
+		<RangeEnd>1016599</RangeEnd>
 	</XholonMechanism>
 	
 	<XholonMechanism roleName="Uid">

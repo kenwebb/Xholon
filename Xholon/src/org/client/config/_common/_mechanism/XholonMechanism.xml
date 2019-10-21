@@ -429,6 +429,14 @@ The StoryMechanism can be enabled using script.MechanismEnabler.java
   <Director/>
 </StoryEntity>-->
 
+<!-- SubtreesEntity -->
+<SubtreesEntity xmlns="http://www.primordion.com/namespace/SubtreesEntity" id="1016500">
+  <BehaviorsST/>
+  <InventoryST/>
+  <ToolsST/>
+  <!-- Other subclasses can be defined by apps, code, etc. By convention, they should end in "ST". ex: <TestST superClass="SubtreesEntity"/> -->
+</SubtreesEntity>
+
 <!-- Represents Uid nodes. Can be used to store a Xholon uid. -->
 <Uid xmlns="http://www.primordion.com/namespace/Uid" id="1010200"/>
 
