@@ -48,6 +48,9 @@ public class Action extends Behavior_gwtjs implements IBehaviorTree {
     while (node != null) {
       if (BT_ROOT_NODE_XHCNAME.equals(node.getXhcName())) {
         this.agent = node.getParentNode();
+        if (this.agent.getXhc().hasAncestor(BT_SUBTREESENTITY_XHCNAME)) {
+          this.agent = this.agent.getParentNode();
+        }
         break;
       }
       node = node.getParentNode();

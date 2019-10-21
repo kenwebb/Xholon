@@ -27,4 +27,7 @@ public static final String BT_STATUS_RUNNING = "R";
 
 public static final String BT_ROOT_NODE_XHCNAME = "RootBT";
 
+public static final String BT_SUBTREESENTITY_XHCNAME = "SubtreesEntity";
+
+
 }
