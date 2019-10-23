@@ -30,8 +30,10 @@ import org.primordion.xholon.base.IXholon;
 public interface ICutCopyPaste extends IXholon {
 	
 	public static final String OPERATION_DEFAULT = "";
-	public static final String OPERATION_LAST = "last";
-	public static final String OPERATION_FIRST = "first";
+	public static final String OPERATION_LAST = "last"; // "last" and "append" are the same operation
+	public static final String OPERATION_APPEND = "append";
+	public static final String OPERATION_FIRST = "first"; // "first" and "prepend" are the same operation
+	public static final String OPERATION_PREPEND = "prepend";
 	public static final String OPERATION_BEFORE = "before";
 	public static final String OPERATION_AFTER = "after";
 	public static final String OPERATION_MERGE = "merge";

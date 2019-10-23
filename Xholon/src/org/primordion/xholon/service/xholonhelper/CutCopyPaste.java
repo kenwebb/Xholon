@@ -224,20 +224,33 @@ public class CutCopyPaste extends Xholon implements ICutCopyPaste {
 		  */
 		  int posTagEnd = xmlString.indexOf(">");
 		  if (posTagEnd == -1) {return;}
+		  int opLen = 9;
 		  int posOpStart = xmlString.substring(0, posTagEnd).indexOf("operation");
+		  if (posOpStart == -1) {
+		    posOpStart = xmlString.substring(0, posTagEnd).indexOf("patch");
+		    opLen = 5;
+		  }
 		  if (posOpStart != -1) {
-		    String str = xmlString.substring(posOpStart+9, posTagEnd);
+		    String str = xmlString.substring(posOpStart+opLen, posTagEnd);
 		    String opStr = findOperation(str);
-		    switch (opStr) {
-		    case OPERATION_LAST: break;
-		    case OPERATION_FIRST: this.pasteFirstChild(node, xmlString); return;
-		    case OPERATION_BEFORE: this.pasteBefore(node, xmlString); return;
-		    case OPERATION_AFTER: this.pasteAfter(node, xmlString); return;
-		    case OPERATION_MERGE: this.pasteMerge(node, xmlString); return;
-		    case OPERATION_REPLACE: this.pasteReplacement(node, xmlString); return;
-		    default: break;
+		    if (processOperation(node, xmlString, opStr)) {
+		      return;
 		    }
 		  }
+		}
+		else {
+			int posSpace = xmlString.indexOf(" "); // locate first space character
+			if ((posSpace != -1) && (xmlString.startsWith(" patch=\"", posSpace))) {
+			  // there is a patch attribute
+			  int posPatchStart = posSpace + 8;
+			  int posPatchEnd = xmlString.indexOf("\"", posPatchStart);
+			  if (posPatchEnd != -1) {
+			    String opStr = xmlString.substring(posPatchStart, posPatchEnd);
+			    if (processOperation(node, xmlString, opStr)) {
+			      return;
+			    }
+			  }
+			}
 		}
 		record(node, xmlString, "pasteLastChild");
 		IXml2Xholon xml2Xholon = node.getXml2Xholon();
@@ -266,6 +279,26 @@ public class CutCopyPaste extends Xholon implements ICutCopyPaste {
 	  var opStr = str.replace(quote, '').trim().split(" ")[0];
 	  return opStr;
 	}-*/;
+	
+	/**
+	 * Process an "operation" or "patch" op.
+	 */
+	protected boolean processOperation(IXholon node, String xmlString, String opStr) {
+    switch (opStr) {
+    case OPERATION_LAST:
+    case OPERATION_APPEND:
+      return false;
+    case OPERATION_FIRST:
+    case OPERATION_PREPEND:
+      this.pasteFirstChild(node, xmlString);
+      return true;
+    case OPERATION_BEFORE: this.pasteBefore(node, xmlString); return true;
+    case OPERATION_AFTER: this.pasteAfter(node, xmlString); return true;
+    case OPERATION_MERGE: this.pasteMerge(node, xmlString); return true;
+    case OPERATION_REPLACE: this.pasteReplacement(node, xmlString); return true;
+    default: return false;
+    }
+	}
 	
 	/*
 	 * @see org.primordion.xholon.service.xholonhelper.ICutCopyPaste#pasteFirstChildFromClipboard(org.primordion.xholon.base.IXholon)
