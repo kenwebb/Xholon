@@ -82,8 +82,12 @@
 	  <!-- others -->
 	</DecoratorBT>
 	<LeafBT>
-  	<ActionBT/>
+	  <ActionBT/>
 	  <ConditionBT/>
+	  <!-- the following three, unconditionally return a constant value in their tick() method -->
+	  <SuccessBT/>
+	  <FailureBT/>
+	  <RunningBT/>
 	</LeafBT>
 </BehaviorTreeEntity>
 

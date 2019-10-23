@@ -30,6 +30,8 @@ import org.primordion.xholon.io.xml.IXmlWriter;
 
 /**
  * Behavior Tree - Inverter.
+ * Example:
+ *   <InverterBT><SuccessBT/><script>this.parent().parent().prepend(this.parent().remove()); this.remove();</script></InverterBT>
  * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
@@ -55,12 +57,21 @@ public class Inverter extends Xholon implements IBehaviorTree {
   
   @Override
   public Object tick(Object obj) {
-    // TODO
     IXholon child = this.getFirstChild();
-    if (child != null) {
-      return child.tick(null);
-    }
     // Inverter should have exactly one child
+    if (child != null) {
+      state = (String)child.tick(null);
+      switch (state) {
+      case BT_STATUS_RUNNING:
+        return BT_STATUS_RUNNING;
+      case BT_STATUS_SUCCESS:
+        return BT_STATUS_FAILURE;
+      case BT_STATUS_FAILURE:
+        return BT_STATUS_SUCCESS;
+      default:
+        break;
+      }
+    }
     return BT_STATUS_NOT_TICKED;
   };
   

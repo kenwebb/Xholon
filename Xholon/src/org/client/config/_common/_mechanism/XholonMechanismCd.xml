@@ -69,6 +69,9 @@
 	<InverterBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Inverter"><Symbol>&#x25C8;</Symbol></InverterBT>
 	<ActionBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Action"><Symbol>&#x25A1;</Symbol></ActionBT>
 	<ConditionBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Condition"><Symbol>&#x25CB;</Symbol></ConditionBT>
+	<SuccessBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Success"><Symbol>&#x22A4;</Symbol></SuccessBT>
+	<FailureBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Failure"><Symbol>&#x22A5;</Symbol></FailureBT>
+	<RunningBT xhType="XhtypePureActiveObject" implName="org.primordion.xholon.mech.behavrtree.Running"><Symbol>&#x22A2;</Symbol></RunningBT>
 	
 	<!-- Blueprints -->
 	<!--<BlueprintsClient xhType="XhtypePureActiveObject" implName="org.primordion.xholon.service.blueprints.BlueprintsClient"/>-->

@@ -628,6 +628,16 @@ public class TreeNodeFactoryNew extends Xholon implements ITreeNodeFactory {
 			else if (implName.endsWith("Condition")) {
 				newNode = new org.primordion.xholon.mech.behavrtree.Condition();
 			}
+			else if (implName.endsWith("Success")) {
+				newNode = new org.primordion.xholon.mech.behavrtree.Success();
+			}
+			else if (implName.endsWith("Failure")) {
+				newNode = new org.primordion.xholon.mech.behavrtree.Failure();
+			}
+			else if (implName.endsWith("Running")) {
+				newNode = new org.primordion.xholon.mech.behavrtree.Running();
+			}
+			
 		}
 		
 		// script
