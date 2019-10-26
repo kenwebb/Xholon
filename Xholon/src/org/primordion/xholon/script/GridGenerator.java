@@ -47,6 +47,7 @@ public class GridGenerator extends XholonScript {
   private static final String DEFAULT_COLUMN_COLOR = "FF00FF";
   private static final boolean DEFAULT_USE_GRID_VIEWER = true;
   private static final String DEFAULT_GRID_VIEWER_PARAMS = "descendant::Row/..,12,Xholon - Grid - Grid Viewer,true";
+  private static final String DEFAULT_GRID_VIEWPORT_PARAMS = "false,0,0,0,0";
   
   private int rows = DEFAULT_ROWS;
   private int cols = DEFAULT_COLS;
@@ -80,6 +81,8 @@ public class GridGenerator extends XholonScript {
    * Whether or not to build the CSH Grid subtree.
    */
   private boolean shouldBuildCsh = true;
+  
+  private String gridViewportParams = null; //DEFAULT_GRID_VIEWPORT_PARAMS;
 
   @Override
   public void postConfigure()
@@ -255,6 +258,17 @@ public class GridGenerator extends XholonScript {
       .toString();
       app.sendSyncMessage(-1001, scdata, this);
       
+      // setGridViewportParams
+      if (this.gridViewportParams != null) {
+        String svdata = new StringBuilder()
+        .append("setGridViewportParams,")
+        .append(rdata)
+        .append(",")
+        .append(this.gridViewportParams)
+        .toString();
+        app.sendSyncMessage(-1001, svdata, this);
+      }
+      
       if (caption != null) {
         this.caption(caption);
       }
@@ -338,6 +352,9 @@ public class GridGenerator extends XholonScript {
     }
     else if ("shouldBuildCsh".equals(attrName)) {
       this.shouldBuildCsh = Boolean.parseBoolean(attrVal);
+    }
+    else if ("gridViewportParams".equals(attrName)) {
+      this.gridViewportParams = attrVal;
     }
     return 0;
   }

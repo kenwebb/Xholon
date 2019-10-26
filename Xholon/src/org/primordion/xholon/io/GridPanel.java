@@ -166,6 +166,11 @@ public abstract class GridPanel extends Xholon implements IGridPanel {
   protected boolean useIcons = false;
   
   /**
+   * Optional viewport.
+   */
+  protected GridPanelViewport viewport = null;
+  
+  /**
    * Constructor
    */
   public GridPanel() {}
@@ -197,6 +202,10 @@ public abstract class GridPanel extends Xholon implements IGridPanel {
       setNumCols();
       setNeighType(((AbstractGrid)gridOwner).getNeighType());
       
+      if (canvas != null) {
+        // use of a viewport reuires that the existing canvas be removed
+        RootPanel.get("xhcanvas").remove(canvas);
+      }
       canvas = Canvas.createIfSupported();
       if (canvas == null) {
         consoleLog("unable to create canvas");
@@ -401,6 +410,11 @@ public abstract class GridPanel extends Xholon implements IGridPanel {
     }
     selectedGridCell = selectedGridCell.getFirstChild();
     if (selectedGridCell == null) {return null;}
+    if ((this.viewport != null) && (this.viewport.isEnabled())) {
+      for (int j = 0; j < this.viewport.getMinX(); j++) {
+        selectedGridCell = selectedGridCell.getNextSibling();
+      }
+    }
     for (int c = 0; c < col; c++) {
       selectedGridCell = selectedGridCell.getNextSibling();
       if (selectedGridCell == null) {return null;}
@@ -683,7 +697,12 @@ public abstract class GridPanel extends Xholon implements IGridPanel {
           if (col.getXhcName().equals("GridCell")
               || col.getXhType() == IXholonClass.XhtypeGridEntityActivePassive
               || col.getRoleName().equals("gridcell")) { // first child of type "GridCell"
-            upperLeft = col; // found it
+            if ((this.viewport != null) && this.viewport.isEnabled()) {
+              upperLeft = this.viewport.getUpperLeft(row);
+            }
+            else {
+              upperLeft = col; // found it
+            }
             return;
           }
           col = (AbstractGrid)col.getNextSibling();
@@ -708,6 +727,12 @@ public abstract class GridPanel extends Xholon implements IGridPanel {
       }
       row = (AbstractGrid)row.getNextSibling();
     }
+    if ((this.viewport != null) && this.viewport.isEnabled()) {
+      int nRowsMaybe = this.viewport.getNumRows();
+      if ((nRowsMaybe < nRows) && (nRowsMaybe > 0)) {
+        nRows = nRowsMaybe;
+      }
+    }
   }
   
   /**
@@ -731,6 +756,12 @@ public abstract class GridPanel extends Xholon implements IGridPanel {
           }
           col = (AbstractGrid)col.getNextSibling();
         }
+        if ((this.viewport != null) && this.viewport.isEnabled()) {
+          int nColsMaybe = this.viewport.getNumCols();
+          if ((nColsMaybe < nCols) && (nColsMaybe > 0)) {
+            nCols = nColsMaybe;
+          }
+        }
         return;
       }
       row = (AbstractGrid)row.getNextSibling();
@@ -753,6 +784,14 @@ public abstract class GridPanel extends Xholon implements IGridPanel {
   @Override
 	public void setCellsCanSupplyOwnColor(boolean cellsCanSupplyOwnColor) {
 	  this.cellsCanSupplyOwnColor = cellsCanSupplyOwnColor;
+	}
+	
+  @Override
+	public void setGridViewportParams(String gridViewportParams) {
+	  this.viewport = new GridPanelViewport(gridViewportParams);
+	  if (this.viewport.isEnabled()) {
+      this.initGridPanel(this.getGridOwner()); // reinitialize
+    }
 	}
   
   /*

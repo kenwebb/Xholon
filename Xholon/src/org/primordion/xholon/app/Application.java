@@ -1744,6 +1744,16 @@ public abstract class Application extends AbstractApplication implements IApplic
 		      }
 			    break;
 			  }
+			case "setGridViewportParams":
+			  {
+			    // ex: "setGridViewportParams,1,true,5,6,7,8"
+          GridViewerDetails gv = this.getGridViewer(Integer.parseInt(msgData[1]));
+          if (gv != null) {
+            String[] arr = ((String)msg.getData()).split(",", 3);
+		        gv.gridPanel.setGridViewportParams(arr[2]); // TODO "true,5,6,7,8" replace the dummy params; join msgData[2] thru [6]
+		      }
+			    break;
+			  }
 			default: break;
 			}
 			return new Message(-1002, null, this, msg.getSender());

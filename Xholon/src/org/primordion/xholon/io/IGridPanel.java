@@ -146,6 +146,8 @@ public interface IGridPanel {
 	public abstract boolean isCellsCanSupplyOwnColor();
 	public abstract void setCellsCanSupplyOwnColor(boolean cellsCanSupplyOwnColor);
 	
+	public abstract void setGridViewportParams(String gridViewportParams);
+	
 	/**
 	 * Returns a data URL for the current content of the canvas element.
 	 * @return a data URL for the current content of this element.
