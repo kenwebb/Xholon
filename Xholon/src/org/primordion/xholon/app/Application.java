@@ -539,8 +539,15 @@ public abstract class Application extends AbstractApplication implements IApplic
 	/**
 	 * A roving invisible avatar, whose contextNode is always the currently selected node.
 	 * This must be an instance of Avatar.
+	 * This is the system or default avatar.
 	 */
 	protected IXholon avatar = null;
+	
+	/**
+	 * An optional collection of non-system Avatar nodes.
+	 * The single system avatar should NOT be included in this collection.
+	 */
+	List<IXholon> nonSystemAvatars = null;
 	
 	/**
 	 * Used by XholonGwtTabPanelHelper.java, to set the number of rows in a tab in the Gui
@@ -1913,7 +1920,7 @@ public abstract class Application extends AbstractApplication implements IApplic
       this.avatar.postConfigure();
       // make sure avatar is invisible (not part of the CSH tree)
       this.avatar.doAction("vanish");
-      this.initAvatarKeyEvents(); //this.avatar);
+      this.initAvatarKeyEvents();
     }
 	}
 	
@@ -2015,6 +2022,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	 * @param ava An Avatar.
 	 */
 	protected void initAvatarKeyEvents() { //final IXholon ava) {
+	  IApplication thisApp = this;
 	  RootPanel rp = RootPanel.get();
     rp.addDomHandler(new KeyUpHandler() {
       @Override
@@ -2083,9 +2091,22 @@ public abstract class Application extends AbstractApplication implements IApplic
               consoleLog("meta key is down");
             }
           }*/
+          // handle the system Avatar
           String action = queryAvatarKeyMap(avatarKeyMap, key);
           if (action != null) {
             getAvatar().doAction(action);
+          }
+          // handle any non-system Avatars
+          if (nonSystemAvatars != null) {
+            Iterator<IXholon> avaIt = nonSystemAvatars.iterator();
+            while (avaIt.hasNext()) {
+              IXholon ava = avaIt.next();
+              // Avatar.SIG_GET_AVATAR_KEY_MAP_JSO = 103
+              String actionn = queryAvatarKeyMap((JavaScriptObject)ava.sendSyncMessage(103, null, thisApp).getData(), key);
+              if (actionn != null) {
+                ava.doAction(actionn);
+              }
+            }
           }
         }
       }
@@ -2113,6 +2134,13 @@ public abstract class Application extends AbstractApplication implements IApplic
 	protected native String fromCharCode(int keyCode) /*-{
 	  return String.fromCharCode(keyCode);
 	}-*/;
+	
+	public void addNonSystemAvatar4KeyEvents(IXholon ava) {
+	  if (this.nonSystemAvatars == null) {
+	    this.nonSystemAvatars = new ArrayList<IXholon>();
+	  }
+	  this.nonSystemAvatars.add(ava);
+	}
 	
 	/**
 	 * Initialize parameters of the Snapshot feature.

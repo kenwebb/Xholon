@@ -20,6 +20,7 @@ package org.primordion.xholon.base;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsonUtils;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.json.client.JSONException;
 import com.google.gwt.json.client.JSONNumber;
@@ -116,6 +117,7 @@ public class Avatar extends AbstractAvatar {
   
   protected static final int SIG_FOLLOWLEADERTECH_CANON = 101;
   protected static final int SIG_GET_SCRIPT = 102; // get the remaining part of the Avatar script
+  protected static final int SIG_GET_AVATAR_KEY_MAP_JSO = 103; // AvatarKeyMapJso
   
   protected static final int SPEECHOUT_NO_EFFECT = 0;
   protected static final int SPEECHOUT_ALWAYS    = 1;
@@ -334,6 +336,17 @@ public class Avatar extends AbstractAvatar {
    */
   protected boolean setCtxtOnselect = true;
   
+  /**
+   * Each Avatar can optionally have its own key map,
+   * which associates keyboard keys with avatar actions, and is stored in JSON string format.
+   */
+  protected JavaScriptObject avatarKeyMap = null;
+  
+  /**
+   * Whether or not this Avatar should request that it receive all key events.
+   */
+  protected boolean shouldReceiveKeyEvents = false;
+  
   // constructor
   public Avatar() {}
   
@@ -472,6 +485,16 @@ public class Avatar extends AbstractAvatar {
       this.setVal_String(this.getFirstChild().getVal_String());
       this.outPrefix = this.getName(IXholon.GETNAME_ROLENAME_OR_CLASSNAME) + ": ";
       this.getFirstChild().removeChild();
+    }
+    if ((this.getFirstChild() != null) && ("Attribute_String".equals(this.getFirstChild().getXhcName()))) {
+      if ((this.getFirstChild().getRoleName() != null) && ("akm".equals(this.getFirstChild().getRoleName()))) {
+        this.setAvatarKeyMap(this.getFirstChild().getVal_String());
+        this.getFirstChild().removeChild();
+        if (this.shouldReceiveKeyEvents) {
+          // call IApplication method that will set things up so that this Avatar will be called to handle each key event
+          app.addNonSystemAvatar4KeyEvents(this);
+        }
+      }
     }
     setStartContextNode();
     this.setSpeechOut(SPEECHOUT_NO_EFFECT);
@@ -849,6 +872,8 @@ public class Avatar extends AbstractAvatar {
         scriptStr += actions[i] + "\n";
       }
       return new Message(SIG_GET_SCRIPT, scriptStr, this, msg.getSender());
+    case SIG_GET_AVATAR_KEY_MAP_JSO: // 103
+      return new Message(SIG_GET_AVATAR_KEY_MAP_JSO, this.getAvatarKeyMapJso(), this, msg.getSender());
     default:
       return super.processReceivedSyncMessage(msg);
     }
@@ -2662,7 +2687,7 @@ a.action("takeclone hello;");
    */
   protected void helpKeymap() {
     sb.append("Key map:\n");
-    String akm = app.getAvatarKeyMap();
+    String akm = this.getAvatarKeyMap();
     String akmout = helpKeymapNative(akm);
     sb.append(akmout);
   }
@@ -2676,6 +2701,27 @@ a.action("takeclone hello;");
       akmout += key + ": " + akmobj[key] + "\n";
     }
     return akmout;
+  }-*/;
+  
+  public void setAvatarKeyMap(String jsonStr) {
+    this.avatarKeyMap = JsonUtils.safeEval(jsonStr);
+  }
+  
+  public String getAvatarKeyMap() {
+    if (this.avatarKeyMap == null) {
+      return app.getAvatarKeyMap();
+    }
+    else {
+      return this.stringify(this.avatarKeyMap);
+    }
+  }
+  
+  protected JavaScriptObject getAvatarKeyMapJso() {
+    return this.avatarKeyMap;
+  }
+  
+  private native String stringify(JavaScriptObject jso) /*-{
+    return $wnd.JSON.stringify(jso);
   }-*/;
   
   /**
@@ -2976,6 +3022,9 @@ a.action("takeclone hello;");
         }
       }
     }
+    else if ("shouldReceiveKeyEvents".equals(attrName)) {
+      this.shouldReceiveKeyEvents = Boolean.parseBoolean(attrVal.trim());
+    }
     else {
       return super.setAttributeVal(attrName, attrVal);
     }
@@ -3020,18 +3069,18 @@ a.action("takeclone hello;");
   }
   
   protected void lookLinks(IXholon node, String indent) {
-	  JsArray<JavaScriptObject> arr = ((Xholon)node).getLinksNative(false, true);
-	  for (int i = 0; i < arr.length(); i++) {
-	    JavaScriptObject obj = arr.get(i);
-	    String fieldName = (String)getJsoPropertyValue(obj, "fieldName");
-	    String fieldNameIndexStr = (String)getJsoPropertyValue(obj, "fieldNameIndexStr");
-	    IXholon reffedNode = (IXholon)getJsoPropertyValue(obj, "reffedNode");
-	    sb.append("\n").append(indent).append("You see passage ")
-	    .append(fieldName)
-	    .append(PortInformation.PORTINFO_NOTANARRAY_STR.equals(fieldNameIndexStr) ? "" : fieldNameIndexStr)
-	    .append(" to ")
-	    .append(reffedNode == null ? "UNKNOWN" : makeNodeName(reffedNode));
-	  }
+    JsArray<JavaScriptObject> arr = ((Xholon)node).getLinksNative(false, true);
+    for (int i = 0; i < arr.length(); i++) {
+      JavaScriptObject obj = arr.get(i);
+      String fieldName = (String)getJsoPropertyValue(obj, "fieldName");
+      String fieldNameIndexStr = (String)getJsoPropertyValue(obj, "fieldNameIndexStr");
+      IXholon reffedNode = (IXholon)getJsoPropertyValue(obj, "reffedNode");
+      sb.append("\n").append(indent).append("You see passage ")
+      .append(fieldName)
+      .append(PortInformation.PORTINFO_NOTANARRAY_STR.equals(fieldNameIndexStr) ? "" : fieldNameIndexStr)
+      .append(" to ")
+      .append(reffedNode == null ? "UNKNOWN" : makeNodeName(reffedNode));
+    }
   }
   
   /**
