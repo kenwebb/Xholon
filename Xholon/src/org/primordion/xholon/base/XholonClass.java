@@ -1451,7 +1451,9 @@ xh.xhcReplacementNames = {Hexokinase: "Enzyme", PhosphoGlucoIsomerase: "Enzyme",
 	 * @see org.primordion.xholon.base.IXholonClass#toString()
 	 */
 	public String toString() {
-		String outStr = "[id:" + getId() + "]"
+		// the XML-formatted name is displayed first, as a convenience, so the user could select this and drag it to the CSH or elsewhere
+		String outStr = "<" + getName() + "/>"
+		+ "[id:" + getId() + "]"
 		+ " [mechanism:" + toStringQName(getQName()) + "]"
 		+ " [xholon type:" + getXhTypeName() + "]";
 		if (getImplName() != null) {
