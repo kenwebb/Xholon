@@ -20,6 +20,7 @@ package org.primordion.xholon.base;
 
 import org.primordion.xholon.exception.XholonConfigurationException;
 import org.primordion.xholon.util.ClassHelper;
+import org.primordion.xholon.util.Misc;
 import org.primordion.xholon.util.MiscRandom;
 
 /**
@@ -33,12 +34,106 @@ import org.primordion.xholon.util.MiscRandom;
 public class Patch extends GridEntity implements IPatch {
 	private static final long serialVersionUID = -9121248805394228886L;
 	
+	protected static final String COMMENT_START = ";"; // start of a NetLogo comment
+  
 	// NetLogo built-in variables for patches:
 	//   pcolor plabel plabel-color pxcor pycor
 	public int pcolor; // a NetLogo color between 0 and 139
 	//public String plabel; // Xholon getRoleName() getName()
 	//public int plabelColor;
 	public int pxcor, pycor; // x, y position in global coordinates
+	
+	protected StringBuilder sb = null;
+	
+	@Override
+  public void processReceivedMessage(IMessage msg) {
+    //consoleLog("Patch processReceivedMessage( " + msg.getData());
+    switch (msg.getSignal()) {
+    case ISignal.SIGNAL_XHOLON_CONSOLE_REQ:
+      String responseStr = processCommands((String)msg.getData());
+      if ((responseStr != null) && (responseStr.length() > 0)) {
+        responseStr = COMMENT_START + responseStr;
+        msg.getSender().sendMessage(ISignal.SIGNAL_XHOLON_CONSOLE_RSP, "\n" + responseStr, this);
+      }
+      break;
+    default:
+      super.processReceivedMessage(msg);
+      break;
+    }
+  }
+  
+  @Override
+  public IMessage processReceivedSyncMessage(IMessage msg) {
+    //consoleLog("Patch processReceivedSyncMessage( " + msg.getData());
+    switch (msg.getSignal()) {
+    case ISignal.SIGNAL_XHOLON_CONSOLE_REQ:
+      String responseStr = processCommands((String)msg.getData());
+      if ((responseStr != null) && (responseStr.length() > 0)) {
+        responseStr = COMMENT_START + responseStr;
+        //consoleLog(responseStr);
+      }
+      return new Message(ISignal.SIGNAL_XHOLON_CONSOLE_RSP, "\n" + responseStr, this, msg.getSender());
+    default:
+      return super.processReceivedSyncMessage(msg);
+    }
+  }
+	
+	@Override
+  public void doAction(String action) {
+    String responseStr = processCommands(action);
+  }
+  
+  protected String processCommands(String cmds) {
+    //consoleLog("Patch processCommands( " + cmds);
+    sb = new StringBuilder();
+    processCommand(cmds);
+    return sb.toString();
+  }
+  
+  protected void processCommand(String cmd) {
+    //consoleLog("Patch processCommand( " + cmd);
+    cmd = cmd.trim();
+    if (cmd.length() == 0) {return;}
+    if (cmd.startsWith(COMMENT_START)) {return;}
+    String[] data = cmd.split(" ");
+    int len = data.length;
+    //consoleLog("Patch processCommand( " + data[0]);
+    switch (data[0]) {
+    case "distance":
+      distance(null);
+      break;
+    case "inRadius":
+      {
+      if (len == 2) {
+        IAgentSet as = inRadius(Misc.atoi(data[1], 0));
+        consoleLog("inRadius");
+        consoleLog(as);
+        sb.append(as.toArray());
+      }
+      }
+      break;
+    case "neighbors":
+      {
+      IAgentSet as = neighbors();
+      consoleLog("neighbors");
+      consoleLog(as);
+      consoleLog(as.asJsArray());
+      //consoleLog(as.toArray());
+      sb.append(as.toArray());
+      }
+      break;
+    case "neighbors4":
+      {
+      IAgentSet as = neighbors4();
+      consoleLog("neighbors4");
+      consoleLog(as);
+      //consoleLog(as.toArray());
+      sb.append(as.toArray());
+      }
+      break;
+    default: break;
+    }
+  }
 	
 	/*
 	 * @see org.primordion.xholon.base.IPatch#beep()

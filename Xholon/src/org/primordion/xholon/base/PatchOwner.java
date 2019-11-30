@@ -19,6 +19,7 @@
 package org.primordion.xholon.base;
 
 import org.primordion.xholon.exception.XholonConfigurationException;
+import org.primordion.xholon.util.Misc;
 
 /**
  * PatchOwner owns a collection of Logo Patches. It's the parent of the first row in the grid.
@@ -37,6 +38,9 @@ import org.primordion.xholon.exception.XholonConfigurationException;
 public class PatchOwner extends AbstractGrid implements IXholon {
 	private static final long serialVersionUID = 7575833950416416213L;
 	
+	protected static final String COMMENT_START = ";"; // start of a NetLogo comment
+	protected static final int ACTIONIX_INITIAL = -1; // initial value of actionIx
+	
 	// PatchOwner variables
 	protected static final int POVAR_NOTYETSET = -1;
 	protected int maxPxcor = POVAR_NOTYETSET;
@@ -47,6 +51,8 @@ public class PatchOwner extends AbstractGrid implements IXholon {
 	// initial values
 	protected int nextColor = 135;
 	protected double nextHeading = 345.0;
+	
+	protected StringBuilder sb = null;
 	
 	/**
 	 * Get next color.
@@ -75,6 +81,62 @@ public class PatchOwner extends AbstractGrid implements IXholon {
 		}
 		return nextHeading;
 	}
+	
+	@Override
+  public void doAction(String action) {
+    String responseStr = processCommands(action);
+  }
+  
+  protected String processCommands(String cmds) {
+    //consoleLog("PatchOwner processCommands( " + cmds);
+    sb = new StringBuilder();
+    processCommand(cmds);
+    return sb.toString();
+  }
+  
+  protected void processCommand(String cmd) {
+    //consoleLog("PatchOwner processCommand( " + cmd);
+    cmd = cmd.trim();
+    if (cmd.length() == 0) {return;}
+    if (cmd.startsWith(COMMENT_START)) {return;}
+    String[] data = cmd.split(" ");
+    int len = data.length;
+    //consoleLog("PatchOwner processCommand( " + data[0]);
+    switch (data[0]) {
+    case "clear-all":
+    case "ca":
+      ca();
+      break;
+    case "clear-drawing":
+    case "cd":
+      cd();
+      break;
+    case "clear-patches":
+    case "cp":
+      cp();
+      break;
+    case "create-turtles":
+    case "crt":
+      if (len == 2) {
+        crt(Misc.atoi(data[1], 0)); // crt 12
+      }
+      else if (len == 3) {
+        crt(Misc.atoi(data[1], 0), data[2]); // crt 13 Butterfly
+      }
+      break;
+    case "diffuse":
+      if (len == 3) {
+        diffuse(data[1], Misc.atod(data[2], 0)); // diffuse patchVariable number
+      }
+      break;
+    case "diffuse4":
+      if (len == 3) {
+        diffuse4(data[1], Misc.atod(data[2], 0)); // diffuse patchVariable number
+      }
+      break;
+    default: break;
+    }
+  }
 	
 	/**
 	 * Clear patches, turtles, etc.
