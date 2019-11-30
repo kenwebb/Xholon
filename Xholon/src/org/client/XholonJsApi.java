@@ -1474,6 +1474,21 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       return str;
     });
     
+    // Get size of complete subtree including this node.
+    api.treeSize = $entry(function() {
+      return this.@org.primordion.xholon.base.IXholon::treeSize()();
+    });
+    
+    // Get number of immediate children.
+    api.numChildren = $entry(function(deep) {
+      if (deep === undefined) {deep = false;}
+      else {
+        if ((deep == true) || (deep == "true")) {deep = true;}
+        else {deep = false;}
+      }
+      return this.@org.primordion.xholon.base.IXholon::getNumChildren(Z)(deep);
+    });
+    
     // TODO pcs(expression) and select(expression)
     
   }-*/;
