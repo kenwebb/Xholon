@@ -305,8 +305,20 @@ public class Turtle extends XholonWithPorts implements ITurtle {
         lt(Misc.atod(data[1], 0));
       }
       break;
-    //case "neighbors":
-    //case "neighbors4":
+    case "neighbors":
+      IAgentSet asn = neighbors();
+      consoleLog("neighbors");
+      consoleLog(asn);
+      consoleLog(asn.toArray());
+      sb.append(asn.toArray());
+      break;
+    case "neighbors4":
+      IAgentSet asn4 = neighbors4();
+      consoleLog("neighbors4");
+      consoleLog(asn4);
+      consoleLog(asn4.toArray());
+      sb.append(asn4.toArray());
+      break;
     //case "other turtles-here":
     //case "patch-ahead":
     //case "patch-at":
