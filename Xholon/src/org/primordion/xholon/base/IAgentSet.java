@@ -1,5 +1,7 @@
 package org.primordion.xholon.base;
 
+import com.google.gwt.core.client.JsArray;
+
 import java.util.List;
 
 /**
@@ -15,4 +17,9 @@ public interface IAgentSet extends List {
 	 */
 	public abstract IAgentSet shuffle();
 	
+	/**
+	 * Return this agent set as a native JavaScript array.
+	 * @return The agent set as a native JavaScript array.
+	 */
+	public abstract JsArray<?> asJsArray();
 }
