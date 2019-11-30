@@ -385,6 +385,29 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 		}
 	}
 	
+	@Override
+	public boolean isIsolate() {
+		if ((this.getParentNode() == null) && (this.getNextSibling() == null)) {
+			return true;
+		}
+		if ((this.getParentNode() != null)) {
+			// the parentNode could have a roleName
+			if (this.getParentNode().getName("^^C^^^").startsWith(IXml2Xholon.XML_FOREST)) {
+				return true;
+			}
+			// special case treeNodeFactory_1011202 is OK
+			// Warning: To appendChild(xholonCreationService_9), treeNodeFactory_1011202 must be an Isolate whose parentNode==null and nextSibling==null.
+			//consoleLog(this.getName("^^C^^^"));
+			if ("org.primordion.xholon.service.creation.TreeNodeFactoryNew_".equals(this.getName("^^C^^^"))) {
+				return true;
+			}
+		}
+		//consoleLog(this);
+		//consoleLog(this.getParentNode());
+		//consoleLog(this.getNextSibling());
+		return false;
+	}
+	
 	/*
 	 * @see org.primordion.xholon.base.IXholon#insertAfter(org.primordion.xholon.base.IXholon)
 	 */
@@ -511,11 +534,19 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 	 */
 	public void appendChild(IXholon newParentNode)
 	{
-		if (newParentNode.getFirstChild() == null) {
-			setParentChildLinks(newParentNode);
+		if (isIsolate()) {
+			if (newParentNode.getFirstChild() == null) {
+				setParentChildLinks(newParentNode);
+			}
+			else {
+				setParentSiblingLinks(newParentNode.getLastChild());
+			}
 		}
 		else {
-			setParentSiblingLinks(newParentNode.getLastChild());
+			consoleLog("Warning: To appendChild("
+			+ newParentNode.getName()
+			+ "), " + this.getName()
+			+ " must be an Isolate whose parentNode==null and nextSibling==null.");
 		}
 	}
 	

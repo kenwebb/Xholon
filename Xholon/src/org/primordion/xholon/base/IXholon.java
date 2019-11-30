@@ -224,6 +224,16 @@ public abstract int setAttributeVal(String attrName, String attrVal);
 public abstract void removeChild();
 
 /**
+ * Is this node an Isolate?
+ * An Isolate is detached from the main Xholon tree, such as happens after a call to removeChild() .
+ * Typically, the parentNode and nextSibling of an Isolate are both null.
+ * But, firstChild may have a value, and there may be bound ports outside the scope of the Isolate node.
+ * Thus, an Isolate may be the root of an arbitrarily large subtree,
+ * and the subtree may participate in an arbitrary number of graphs.
+ */
+public abstract boolean isIsolate();
+
+/**
  * Insert this node after its new previous sibling node.
  * @param newPreviousSibling New previous sibling of this node.
  */
