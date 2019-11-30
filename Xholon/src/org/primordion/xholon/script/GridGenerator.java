@@ -63,8 +63,9 @@ public class GridGenerator extends XholonScript {
   private String nameRow = null;
   private String nameCol = null;
   
-  // users will not normally need to change the following two
-  private String gridEntityImplName = "org.primordion.xholon.base.GridEntity";
+  // users will not normally need to change the following three
+  private String gridEntityImplName = "org.primordion.xholon.base.GridEntity"; // or "org.primordion.xholon.base.Patch"
+  private String gridOwnerImplName = "org.primordion.xholon.base.GridEntity"; // or "org.primordion.xholon.base.PatchOwner"
   private String gridPanelClassName = "org.primordion.xholon.io.GridPanelGeneric";
   
   /**
@@ -113,14 +114,16 @@ public class GridGenerator extends XholonScript {
           .append("<")
           .append(nameGrid)
           .append(" xhType='XhtypeGridEntity' implName='")
-          .append(gridEntityImplName)
+          .append(gridOwnerImplName)
           .append("'></")
           .append(nameGrid)
           .append(">")
           .toString();
           //this.println(ihStr);
           service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, ihStr, xhcRoot); // -2013
-          ihStr = new StringBuilder()
+        }
+        if (this.getClassNode(nameRow) == null) {
+          String ihStr = new StringBuilder()
           .append("<")
           .append(nameRow)
           .append(" xhType='XhtypeGridEntity' implName='")
@@ -131,55 +134,57 @@ public class GridGenerator extends XholonScript {
           .toString();
           //this.println(ihStr);
           service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, ihStr, xhcRoot); // -2013
-          ihStr = new StringBuilder()
+        }
+        if (this.getClassNode(nameCol) == null) {
+          String ihStr = new StringBuilder()
           .append("<")
           .append(nameCol)
           .append("/>")
           .toString();
           //this.println(ihStr);
           service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, ihStr, xhcRoot); // -2013
-          
-          // optionally build more col names (ex: CoastCell,LandCell )
-          if (names.length > 3) {
-            StringBuilder ihSb = new StringBuilder()
-            .append("<").append(IXml2Xholon.XML_FOREST).append("names>");
-            for (int i = 3; i < names.length; i++) {
-              ihSb.append("<")
-              .append(names[i])
-              .append("/>");
-            }
-            ihSb.append("</").append(IXml2Xholon.XML_FOREST).append("names>");
-            ihStr = ihSb.toString();
-            service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, ihStr, xhcRoot); // -2013
+        }
+        
+        // optionally build more col names (ex: CoastCell,LandCell )
+        if (names.length > 3) {
+          StringBuilder ihSb = new StringBuilder()
+          .append("<").append(IXml2Xholon.XML_FOREST).append("names>");
+          for (int i = 3; i < names.length; i++) {
+            ihSb.append("<")
+            .append(names[i])
+            .append("/>");
           }
-          // CD
-          String cdStr = new StringBuilder()
-          .append("<xholonClassDetails><")
-          .append(nameCol)
-          .append(" xhType='XhtypeGridEntityActivePassive' implName='")
-          .append(gridEntityImplName)
-          .append("'><config instruction='")
-          .append(gridType)
-          .append("'></config></")
-          .append(nameCol)
-          .append("></xholonClassDetails>")
-          .toString();
-          //this.println(cdStr);
+          ihSb.append("</").append(IXml2Xholon.XML_FOREST).append("names>");
+          String ihStr = ihSb.toString();
+          service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, ihStr, xhcRoot); // -2013
+        }
+        // CD
+        String cdStr = new StringBuilder()
+        .append("<xholonClassDetails><")
+        .append(nameCol)
+        .append(" xhType='XhtypeGridEntityActivePassive' implName='")
+        .append(gridEntityImplName)
+        .append("'><config instruction='")
+        .append(gridType)
+        .append("'></config></")
+        .append(nameCol)
+        .append("></xholonClassDetails>")
+        .toString();
+        //this.println(cdStr);
+        service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, cdStr, xhcRoot); // -2013
+        if (names.length > 3) {
+          StringBuilder cdSb = new StringBuilder()
+          .append("<xholonClassDetails>");
+          for (int i = 3; i < names.length; i++) {
+            cdSb.append("<")
+            .append(names[i])
+            .append(" xhType='XhtypeGridEntityActivePassive' implName='")
+            .append(gridEntityImplName)
+            .append("'/>");
+          }
+          cdSb.append("</xholonClassDetails>");
+          cdStr = cdSb.toString();
           service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, cdStr, xhcRoot); // -2013
-          if (names.length > 3) {
-            StringBuilder cdSb = new StringBuilder()
-            .append("<xholonClassDetails>");
-            for (int i = 3; i < names.length; i++) {
-              cdSb.append("<")
-              .append(names[i])
-              .append(" xhType='XhtypeGridEntityActivePassive' implName='")
-              .append(gridEntityImplName)
-              .append("'/>");
-            }
-            cdSb.append("</xholonClassDetails>");
-            cdStr = cdSb.toString();
-            service.sendSyncMessage(ISignal.ACTION_PASTE_LASTCHILD_FROMSTRING, cdStr, xhcRoot); // -2013
-          }
         }
       } // end if (shouldBuildXhc)
       if (shouldBuildCsh) {
@@ -337,6 +342,9 @@ public class GridGenerator extends XholonScript {
     }
     else if ("gridEntityImplName".equals(attrName)) {
       this.gridEntityImplName = attrVal;
+    }
+    else if ("gridOwnerImplName".equals(attrName)) {
+      this.gridOwnerImplName = attrVal;
     }
     else if ("gridPanelClassName".equals(attrName)) {
       this.gridPanelClassName = attrVal;
