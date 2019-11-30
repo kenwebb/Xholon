@@ -451,6 +451,15 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 			if (xhcNode == null) {
 				// try to create a new ad-hoc class node from the tagName
 				xhcNode = makeAdHocXholonClass(tagName, implName, parentXholon);
+				if ((xhcNode != null) && shouldAdHocClassesBeGlobal(AD_HOC_GLOBAL_CLASSES_PARAM_NAME)) {
+					// make xhcNode global by placing it into the global InheritanceHierarchy
+					String ahSuperclassStr = "XholonClass";
+					IXholonClass ahSuperclass = inherHier.getClassNode(ahSuperclassStr);
+					if (ahSuperclass != null) {
+						xhcNode.appendChild(ahSuperclass);
+						inherHier.createHashEntry(xhcNode);
+					}
+				}
 			}
 		}
 		if (xhcNode == null) {
@@ -766,5 +775,13 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 			return false;
 		}
 	}
+	
+	protected native boolean shouldAdHocClassesBeGlobal(String paramName) /*-{
+	var value = $wnd.xh.param(paramName);
+	if (value == "true") {
+		return true;
+	}
+	return false;
+	}-*/;
 	
 }

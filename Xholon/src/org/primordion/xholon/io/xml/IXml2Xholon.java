@@ -40,6 +40,14 @@ public interface IXml2Xholon {
 	 */
 	public static final boolean ALLOW_AD_HOC_INSTANCES = true;
 	
+	/**
+	 * Whether or not IXholonClasses, generated from ad-hoc instances, should be saved to the global InheritanceHierarchy.
+	 * For use with the method shouldAdHocClassesBeGlobal() .
+	 * Example use at start of a Xholon workbook:
+	 * <params><param name="allowAdHocGlobalClasses" value="true"/></params>
+	 */
+	public static final String AD_HOC_GLOBAL_CLASSES_PARAM_NAME = "allowAdHocGlobalClasses";
+	
 	/** <p>A forest is a collection of nodes or subtrees that do not have a parent.
 	 *  A forest can be specified in Xholon XML using an element whose name starts with _-.</p>
 	 *  <p>This feature is intended to be used when pasting in a forest of nodes and/or subtrees,
