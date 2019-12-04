@@ -1189,6 +1189,15 @@ public class Avatar extends AbstractAvatar {
     case "pause":
       breakpoint();
       break;
+    case "bt": // commands for navigating a true binary tree representation of a Xholon tree
+      if (len == 2) {
+        this.bt(data[1]);
+      }
+      else {
+        sb.append("Please specify a binary tree navigation parameter: ")
+        .append("bt left|right|parent");
+      }
+      break;
     case "build": // make
     case "append": // = build
     case "prepend":
@@ -2594,6 +2603,37 @@ a.action("takeclone hello;");
   }
   
   /**
+   * Binary Tree
+   * "bt left|right|parent"
+   * avatarKeyMap could be:
+"LEFT":"bt left",
+"RIGHT":"bt right",
+"UP":"bt parent",
+   */
+  protected void bt(String whereto) {
+    IXholon node = null;
+    switch (whereto) {
+    case "left":
+      node = contextNode.getBinaryTreeLeft();
+      break;
+    case "right":
+      node = contextNode.getBinaryTreeRight();
+      break;
+    case "parent":
+      node = contextNode.getBinaryTreeParent();
+      break;
+    default:
+      break;
+    }
+    if ((node == null) || (node == this)) {
+      sb.append("Can't bt ").append(whereto).append(".");
+    }
+    else {
+      moveto(node, null);
+    }
+  }
+  
+  /**
    * Move to a specified node.
    * TODO add a new input arg: absRel
    * @param node 
@@ -2640,6 +2680,7 @@ a.action("takeclone hello;");
     .append("\nappear")
     .append("\nbecome THING role ROLE")
     .append("\nbreakpoint")
+    .append("\nbt left|right|parent")
     .append("\nbuild|append|prepend|before|after THING [role ROLE]")
     .append("\nclone THING [after|before]")
     .append("\n[COMMENT]")

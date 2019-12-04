@@ -526,6 +526,21 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       return this.@org.primordion.xholon.base.IXholon::getPreviousSibling()();
     });
     
+    // btparent
+    api.btparent = $entry(function() {
+      return this.@org.primordion.xholon.base.IXholon::getBinaryTreeParent()();
+    });
+    
+    // btleft
+    api.btleft = $entry(function() {
+      return this.@org.primordion.xholon.base.IXholon::getBinaryTreeLeft()();
+    });
+    
+    // btright
+    api.btright = $entry(function() {
+      return this.@org.primordion.xholon.base.IXholon::getBinaryTreeRight()();
+    });
+    
     // remove
     api.remove = $entry(function() {
       this.@org.primordion.xholon.base.IXholon::removeChild()();

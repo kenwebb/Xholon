@@ -162,6 +162,15 @@ public abstract void setNextSibling( IXholon treeNode );
  */
 public abstract IXholon getPreviousSibling();
 /**
+ * Set previous (left) sibling of this node.
+ * Normally an IXholon node only has a nextSibling link, and thus sibling links are only one-directional.
+ * If an application contains a JavaScript attribute called "previousSibling",
+ * then that attribute may point to a previous sibling.
+ * @param treeNode This node's new previous sibling.
+ */
+public abstract void setPreviousSibling(IXholon treeNode);
+
+/**
  * Get root of the tree or subtree that this node is a part of.
  * @return Root. If this node is the root, it returns itself.
  */
@@ -1529,6 +1538,25 @@ public abstract String getBinaryTreePath(int base);
  * @param str a binary (base 2) string (ex: "" "0" "1" "1010")
  */
 public abstract void setBinaryTreePath(String str);
+
+/* I need to distinguish between a XML/HTML tree (xt), and a Mathematics-based binary tree (bt).
+ * In a bt, the xt parentNode is typically just a shortcut.
+ */
+
+/**
+ * Same as getPreviousSibling() || getParentNode()
+ */
+public abstract IXholon getBinaryTreeParent();
+
+/**
+ * Same as getFirstChild()
+ */
+public abstract IXholon getBinaryTreeLeft();
+
+/**
+ * Same as getNextSibling()
+ */
+public abstract IXholon getBinaryTreeRight();
 
 /**
  * Do something during this time step.

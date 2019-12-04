@@ -263,6 +263,11 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 		if (isRootNode()) {
 			return null; // this is the root node
 		}
+		/*IXholon node = getPreviousSiblingNative(); // Dec 4, 2019 does not yet work
+		if (node != null) {
+			consoleLog("found psn");
+			return node;
+		}*/
 		IXholon node = getParentNode().getFirstChild();
 		if (node == this) {
 			return null; // this node is already the first sibling
@@ -278,6 +283,16 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 		return null;
 	}
 	
+	/**
+	 * If there exists a JavaScript property called "previousSibling", then return that property.
+	 * This is a feature that could be used by any Xholon JavaScript app, such as in a Xholon workbook.
+	 * It's the responsibility of the JavaScript app to create the "previousSibling" property.
+	 * @return an IXholon node, or null.
+	 */
+	protected native IXholon getPreviousSiblingNative() /*-{
+		return this["previousSibling"];
+	}-*/;
+	
 	/*
 	 * @see org.primordion.xholon.base.IXholon#setParentNode(org.primordion.xholon.base.TreeNode)
 	 */
@@ -292,6 +307,13 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 	 * @see org.primordion.xholon.base.IXholon#setNextSibling(org.primordion.xholon.base.TreeNode)
 	 */
 	public void setNextSibling( IXholon treeNode ) { nextSibling = treeNode; }
+	
+	@Override
+	public native void setPreviousSibling(IXholon treeNode) /*-{
+	  if (this["previousSibling"]) {
+			this["previousSibling"] = treeNode;
+		}
+	}-*/;
 	
 	/*
 	 * @see org.primordion.xholon.base.IXholon#getRootNode()
@@ -354,6 +376,7 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 	{
 		setParentNode( previousSibling.getParentNode() ); // previousSibling already has parent
 		previousSibling.setNextSibling( this );
+		//this.setPreviousSibling(previousSibling); // Dec 4, 2019 does not yet work
 	}
 	
 	/*
@@ -378,10 +401,12 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 				}
 				else {
 					lNode.setNextSibling(rNode);
+					//rNode.setPreviousSibling(lNode); // Dec 4, 2019 does not yet work
 				}
 			}
 			setParentNode(null);
 			setNextSibling(null);
+			//setPreviousSibling(null); // Dec 4, 2019 does not yet work
 		}
 	}
 	
@@ -417,6 +442,7 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 			parentNode = newLeftSibling.getParentNode();
 			nextSibling = newLeftSibling.getNextSibling();
 			newLeftSibling.setNextSibling(this);
+			//this.setPreviousSibling(newLeftSibling); // Dec 4, 2019 does not yet work
 		}
 		else { // last sibling
 			setParentSiblingLinks(newLeftSibling);
@@ -473,8 +499,10 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 		else {
 			IXholon lSibling = newNextSibling.getPreviousSibling();
 			lSibling.setNextSibling(this);
+			//this.setPreviousSibling(lSibling); // Dec 4, 2019 does not yet work
 		}
-		setNextSibling(newNextSibling);
+		this.setNextSibling(newNextSibling);
+		//newNextSibling.setPreviousSibling(this); // Dec 4, 2019 does not yet work
 	}
 	
 	/*
@@ -3840,6 +3868,27 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 		default: return null;
 		}
 	}-*/;
+	
+	@Override
+	public IXholon getBinaryTreeParent() {
+		IXholon previousSibling = this.getPreviousSibling();
+		if (previousSibling == null) {
+			return parentNode;
+		}
+		else {
+			return previousSibling;
+		}
+	}
+	
+	@Override
+	public IXholon getBinaryTreeLeft() {
+		return firstChild;
+	}
+	
+	@Override
+	public IXholon getBinaryTreeRight() {
+		return nextSibling;
+	}
 	
 	@Override
 	public Object tick(Object obj) {
