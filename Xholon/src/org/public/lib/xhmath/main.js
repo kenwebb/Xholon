@@ -17,10 +17,6 @@
  * ct.asSet(ct.buildArrayofPointedNodeLabels(""));
  */
 
-if (typeof window.xh == "undefined") {
-  window.xh = {};
-}
-
 import {buildArrayofNodes, buildArrayofNodeLabels}
   from '/xholon/lib/xhmath/modules/basicset.js';
 import {buildArrayofPointedNodes, buildArrayofPointedNodeLabels, buildArrayofNodesfromPointedNode, buildArrayofNodeLabelsfromPointedNode}
@@ -29,6 +25,11 @@ import {buildArrayofXhTypeIds, buildArrayofXhTypelabels, buildArrayofXhTypelabel
   from '/xholon/lib/xhmath/modules/xhtype.js';
 import {buildArrayofClassInstances, buildArrayofClassInstanceLabels, buildArrayofXholonClassNodes, buildArrayofXholonClassNodelabels}
   from '/xholon/lib/xhmath/modules/xhcset.js';
+import {pSet01, pSetPointed01, pSetPointed02} from '/xholon/lib/xhmath/modules/parser.js';
+
+if (typeof window.xh == "undefined") {
+  window.xh = {};
+}
 
 window.xh.xhmath = {};
 
@@ -50,6 +51,10 @@ window.xh.xhmath.buildArrayofClassInstances = buildArrayofClassInstances;
 window.xh.xhmath.buildArrayofClassInstanceLabels = buildArrayofClassInstanceLabels;
 window.xh.xhmath.buildArrayofXholonClassNodes = buildArrayofXholonClassNodes;
 window.xh.xhmath.buildArrayofXholonClassNodelabels = buildArrayofXholonClassNodelabels;
+
+window.xh.xhmath.pSet01 = pSet01;
+window.xh.xhmath.pSetPointed01 = pSetPointed01;
+window.xh.xhmath.pSetPointed02 = pSetPointed02;
 
 // apps
 import {raghTest01, raghTest02, exportToGraphvizBT, exportToTableInNewTab}
@@ -126,6 +131,7 @@ export {
 buildArrayofNodes, buildArrayofNodeLabels, buildArrayofPointedNodes,
 buildArrayofPointedNodeLabels, buildArrayofNodesfromPointedNode, buildArrayofNodeLabelsfromPointedNode,
 buildArrayofXhTypeIds, buildArrayofXhTypelabels, buildArrayofXhTypelabelsAlt, buildArrayofXhTypePairs, buildArrayofXhTypePairsAlt,
+pSet01, pSetPointed01, pSetPointed02,
 asSet, asArrayofInt, asString, asJsonString, asMathString, isSetExtended
 }
 
