@@ -4,9 +4,34 @@
  * December 7, 2019
  * 
  * Parse Math notation.
+ * @see http://127.0.0.1:8888/wb/editwb.html?app=Saunders+Mac+Lane+-+Mathematics+Form+and+Function&src=lstr
  * 
  * TODO:
- * - 
+ * - ports
+  # ports
+  ports.trail = {(A,B),(B,A),(B,C),(B,J),(C,D), ...}
+  ports.untrail = {(E,F), ...}
+  
+  # SetPorts01 ports as a set of triples/tuples
+  {(A,B,trail), (A,G,trail), ..., (E,D,trail), (E,H,trail), (E,F,untrail), ...}
+  
+  # SetPorts02 ports as a set of structures/tuples/pairs, where each pair contains a set of pairs (a subset of Location x Location) and a label (the port name)
+  # Set of pairs equipped with a label, where the label is the name of the link/function ex: trail, untrail, port, parent, type, etc.
+  # by convention the set always comes first in this type of structure
+  {
+    (
+      {(A,B), (A,G), (A,I), (B,A), (B,C), (B,J), ...},
+      trail
+    ),
+    (
+      {(E,F), (F,E), ...},
+      untrail
+    )
+  }
+  
+  # SetPorts03 ports as a simple set of pairs; the label "port" is assumed, and the index auto-increments (ex: port[0] port[1] ...)
+  {(Aaa,Bbb),(Aaa,Ccc), (Ddd,Eee), ...}
+  
  */
 
 const SEP = ",";
@@ -29,6 +54,8 @@ node.append(xmlStr);
   <Three/>
   <Four/>
 </_-.xhforest>
+ * 
+ * locations = {MarkedLocation, UnmarkedLocation, Lookout, Building, Entrance}
  * 
  * @param mstr a Math notation string
  * @return an XML string
@@ -57,6 +84,7 @@ function pSet01(mstr) {
   <Mars/>
 </Planet>
  * ({Planets,Mercury,Venus,Earth,Mars}, Planets)
+ * locations = ({Location, MarkedLocation, UnmarkedLocation, Lookout, Building, Entrance}, Location)
  * 
 xh.xhmath.pSetPointed01("({Planet,Mercury,Venus,Earth,Mars}, Planet)");
 "<Planet><Mercury/><Venus/><Earth/><Mars/></Planet>"

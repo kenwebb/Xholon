@@ -53,6 +53,7 @@ public class XmlGwtDomReader extends XmlReader {
 	 */
 	private static final String PI_XML_READER = "xmlreader";
 	private static final String PI_XML_READER_PATCH = "xmlreader-patch";
+	private static final String PI_XHMATH = "xhmath";
 	
 	private boolean debug = false;
 	
@@ -235,6 +236,34 @@ if (xPathResult.resultType == XPathResult.UNORDERED_NODE_ITERATOR_TYPE) {
 	
 	protected native void logDocFirstElementChildNodeNative(Element ele) /*-{
 		$wnd.console.log(ele);
+	}-*/;
+	
+	/**
+	 * Do xhmath process.
+	 * @see lib/xhmath/modules/parser.js
+	 */
+	protected native void doXhmath(String command, String mathStr, Object nodeNative) /*-{
+		//$wnd.console.log(command);
+		//$wnd.console.log(mathStr);
+		//$wnd.console.log(nodeNative);
+		//$wnd.console.log($wnd.xh.xhmath);
+		var commandArr = command.split("."); // ex: xhmath.pSet01
+		//$wnd.console.log(commandArr.length);
+		//$wnd.console.log(commandArr[0]);
+		//$wnd.console.log(commandArr[1]);
+		if ($wnd.xh.xhmath) {
+			//$wnd.console.log($wnd.xh.xhmath[commandArr[1]]);
+			var xmlStr = $wnd.xh.xhmath[commandArr[1]](mathStr);
+			//$wnd.console.log(xmlStr);
+			var dp = new DOMParser();
+			var doc = dp.parseFromString(xmlStr, "application/xml");
+			if (doc) {
+				var fragment = doc.documentElement;
+				if (fragment) {
+					nodeNative.appendChild(fragment);
+				}
+			}
+		}
 	}-*/;
 	
 	/**
@@ -449,6 +478,18 @@ if (xPathResult.resultType == XPathResult.UNORDERED_NODE_ITERATOR_TYPE) {
 						}
 						this.doXmlPatch(nval, docNative, nodeNative);
 					}
+				}
+				eventType = NULL_EVENT;
+			}
+			else if (currentNode.getNodeName().startsWith(PI_XHMATH)) {
+				// process the PI right here
+				String nval = currentNode.getNodeValue(); // nval should be a JSON string
+				Object nodeNative = this.unwrapNode(currentNode.getParentNode(), currentNode.getParentNode().getNodeName());
+				if (nodeNative != null) {
+					//if (docNative == null) {
+					//	docNative = this.unwrapDoc(document);
+					//}
+					this.doXhmath(currentNode.getNodeName(), nval, nodeNative);
 				}
 				eventType = NULL_EVENT;
 			}
