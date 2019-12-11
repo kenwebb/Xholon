@@ -26,7 +26,8 @@ const COMMA = ",";
 const SEMICOLON = ";";
 const INT = "[0-9]";
 const LETTER = "[A-Z][a-z]";
-const ELLIPSIS = "&#x2026;"; // &hellip; …
+const ELLIPSIS = "…"; // &#x2026; &hellip; …
+const ELLIPSIS2 = "...";
 const COMMENT = "#";
 const NEWLINE = "\n";
 const EQUALS = "=";
@@ -34,10 +35,13 @@ const EQUALS = "=";
 const SEP = COMMA;
 const FOREST = "_-.xhforest";
 const NOT_YET_IMPLEMENTED = "<Attribute_String>not yet implemented</Attribute_String>";
+const DEFAULT_XHC_NAME = "XholonNull"; // the XholonClass name to use when none is explicitly provided
 
 
 /**
  * Parse a Math Set.
+ * The elements in the input Set are types (names of XholonClass nodes).
+ * 
  * example:
 var node = xh.root();
 const xmlStr = xh.xhmath.pSet01("{One,Two,Three,Four}");
@@ -68,6 +72,38 @@ function pSet01(mstr) {
     const itemt = item.trim();
     if (itemt.length > 0) {
       xmlStr += "<" + itemt + "/>";
+    }
+  });
+  xmlStr += "</" + FOREST + ">";
+  return xmlStr;
+}
+
+/**
+ * Parse a Math Set.
+ * The elements in the input Set are names (Xholon roleNames).
+ * 
+ * const xmlStr = xh.xhmath.pSet02("{One,Two,Three,Four}");
+ * 
+ * example result (pretty printed):
+<_-.xhforest>
+  <XholonNull roleName="One"/>
+  <XholonNull roleName="Two"/>
+  <XholonNull roleName="Three"/>
+  <XholonNull roleName="Four"/>
+</_-.xhforest>
+ * 
+ * @param mstr a Math notation string
+ * @return an XML string
+ */
+function pSet02(mstr) {
+  if (!mstr || mstr.length == 0) {return null;}
+  const str = mstr.trim();
+  const arr = str.substring(1, str.length-1).split(SEP);
+  let xmlStr = "<" + FOREST + ">";
+  arr.forEach(function(item) {
+    const itemt = item.trim();
+    if (itemt.length > 0) {
+      xmlStr += '<' + DEFAULT_XHC_NAME + ' roleName="' + itemt + '"/>';
     }
   });
   xmlStr += "</" + FOREST + ">";
@@ -192,21 +228,21 @@ function pPorts02(mstr, nodes) {
   const str1 = mstr.replace(/ /g, "");
   if (!str1.startsWith(LBRACE) || (!str1.endsWith(RBRACE))) {return null;};
   const str2 = str1.substring(1, str1.length-1);
-  console.log(str2); // ({(A,B),(A,G),(A,I),(B,A),(B,C),(B,J)},trail),({(E,F),(F,E)},untrail)
+  //console.log(str2); // ({(A,B),(A,G),(A,I),(B,A),(B,C),(B,J)},trail),({(E,F),(F,E)},untrail)
   const arr1 = str2.substring(2, str2.length-1).split("),({");
-  console.log(arr1); // ["(A,B),(A,G),(A,I),(B,A),(B,C),(B,J)},trail","(E,F),(F,E)},untrail"]
+  //console.log(arr1); // ["(A,B),(A,G),(A,I),(B,A),(B,C),(B,J)},trail","(E,F),(F,E)},untrail"]
   arr1.forEach(function(item1) {
     // "(A,B),(A,G),(A,I),(B,A),(B,C),(B,J)},trail"
     const arr2 = item1.split("},");
     const pairs = arr2[0]; // (A,B),(A,G),(A,I),(B,A),(B,C),(B,J)
     const portName = arr2[1]; // trail
-    console.log(pairs + " " + portName);
+    //console.log(pairs + " " + portName);
     const arr3 = pairs.substring(1,pairs.length-1).split("),(");
     arr3.forEach(function(item2) {
       const arr4 = item2.split(COMMA);
       const source = arr4[0];
       const target = arr4[1];
-      console.log(source + " -" + portName + "-> " + target); // A -portName-> B
+      //console.log(source + " -" + portName + "-> " + target); // A -portName-> B
       /*
         <port name="trail" index="0" connector="../*[@roleName='B']"/>
         <port name="trail" index="1" connector="../*[@roleName='G']"/>
@@ -254,12 +290,12 @@ function pSiblings01(mstr) {
   const ports = []; // the set of valid port names
   const lines = mstr.split(NEWLINE);
   lines.forEach(function(line) {
-    console.log(line);
+    //console.log(line);
     // remove any comment
     var cpos = line.indexOf(COMMENT);
     if (cpos != -1) {
       line = line.substring(0, cpos);
-      console.log(line);
+      //console.log(line);
     }
     line = line.trim();
     if (line.length == 0) {return;}
@@ -268,31 +304,36 @@ function pSiblings01(mstr) {
     const lname = arr1[0].trim();
     let lstruct = arr1[1].replace(/ /g, "");
     lstruct = lstruct.substring(1,lstruct.length-1); // every line defines a Set; remove opening and closing brackets {}
-    console.log(lname + "|" + lstruct);
+    //console.log(lname + "|" + lstruct);
     switch (lname) {
     case "nodes":
-      lstruct.split(COMMA).forEach(function(nname) {
-        // TODO handle ELLIPSIS
-        nodes.push({});
-      });
-      console.log(nodes);
+      // nodes = {0,1,2,3,4,5,6,7,8,9,10,11}
+      // or use shorthand {0,…,11} or {0,...,11}
+      // see "Saunders Mac Lane - Mathematics Form and Function" chapter 1, for a discussion about counting vs matching
+      // ex: if there are 12 items in the "nodes" set, then the nodes Array will be filled with 12 instances of an empty JavaScript Object {}
+      const narr = lstruct.split(COMMA);
+      if ((narr.length == 3) && ((narr[1] == ELLIPSIS) || (narr[1] == ELLIPSIS2))) {
+        // ex: 0,…,11 or 0,...,11
+        // counting - here we use arithmetic/addition
+        const nsize = Number(narr[2]) - Number(narr[0]) + 1;
+        for (var ix = 0; ix < nsize; ix++) {
+          nodes.push({});
+        }
+      }
+      else {
+        // ex: 0,1,2,3,4,5,6,7,8,9,10,11 or 0,11,1,10,2,9,3,8,4,7,5,6 or un,deux,trois,quatre,cinq,six,sept,huit,neuf,dix,onze,douze or whatever
+        // matching - here we simply create a new JavaScript Object for each item in the narr Array; we don't need to count or to use arithmetic
+        // the actual value of each Array item doesn't matter
+        narr.forEach(() => nodes.push({}));
+      }
+      //console.log(JSON.stringify(nodes));
       break;
     case "roles":
-      lstruct.split(COMMA).forEach(function(rname) {
-        roles.push(rname);
-      });
-      console.log(roles);
+      lstruct.split(COMMA).forEach(rname => roles.push(rname));
       break;
     case "ports":
-      lstruct.split(COMMA).forEach(function(pname) {
-        ports.push(pname);
-      });
-      console.log(ports);
-      nodes.forEach(function(node) {
-        ports.forEach(function(port) {
-          node[port] = [];
-        });
-      });
+      lstruct.split(COMMA).forEach(pname => ports.push(pname));
+      nodes.forEach(node => ports.forEach(port => node[port] = []));
       break;
     case "roleMapping":
       // roleMapping = {(0,A), (1,B), (2,C), (3,D), (4,E), (5,F), (6,G), (7,H), (8,I), (9,J), (10,K), (11,L)}
@@ -312,6 +353,7 @@ function pSiblings01(mstr) {
         if (tmarr.length != 2) {return;}
         const nindex = tmarr[0]; // index of node in nodes array
         const tname = tmarr[1]; // type (xhc, XholonClass name) of that node
+        console.log(nindex + "|" + tname);
         nodes[nindex].xhc = tname;
       });
       break;
@@ -321,9 +363,31 @@ function pSiblings01(mstr) {
     default: break;
     }
   });
-  console.log(nodes);
-  return NOT_YET_IMPLEMENTED;
+  //console.log(nodes);
+  console.log(JSON.stringify(nodes));
+  return jso2xholon(nodes, ports);
 }
 
-export {pSet01, pSetPointed01, pSetPointed02, pPorts01, pPorts02, pPorts03, pSiblings01};
+/**
+ * jso2xholon
+ */
+function jso2xholon(jso, ports) {
+  let xmlStr = '<' + FOREST + '>\n';
+  jso.forEach(function(obj) {
+    // {"roleName":"I","xhc":"Building","trail":["A"],"untrail":["F"]},
+    xmlStr += '<' + obj.xhc + ' roleName="' + obj.roleName + '">\n';
+    ports.forEach(function(pname) {
+      obj[pname].forEach(function(item, index) {
+        // <port name="trail" index="0" connector="../*[@roleName='B']"/>
+        xmlStr += '<port name="' + pname + '" index="' + index + '" connector="../*[@roleName=' + "'" + item + "'" + ']"/>\n';
+      });
+    });
+    xmlStr += '</' + obj.xhc + '>\n';
+  });
+  xmlStr += '</' + FOREST + '>';
+  console.log(xmlStr);
+  return xmlStr;
+}
+
+export {pSet01, pSet02, pSetPointed01, pSetPointed02, pPorts01, pPorts02, pPorts03, pSiblings01};
 
