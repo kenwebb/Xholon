@@ -35,8 +35,27 @@ const EQUALS = "=";
 const SEP = COMMA;
 const FOREST = "_-.xhforest";
 const NOT_YET_IMPLEMENTED = "<Attribute_String>not yet implemented</Attribute_String>";
-const DEFAULT_XHC_NAME = "XholonNull"; // the XholonClass name to use when none is explicitly provided
+const DEFAULT_XHC_NAME = "MathObject"; // "XholonNull" "MathObject" the XholonClass name to use when none is explicitly provided
+const DEFAULT_ROLE_NAME = null;
+const OBJECT_PORTS = "ports";
 
+// singular, plural, XML tagname
+const DECORATIONS = {
+color: ["color","colors","Color"],
+opacity: ["opacity","opacities","Opacity"],
+font: ["font","fonts","Font"],
+icon: ["icon","icons","Icon"],
+toolTip: ["toolTip","toolTips","ToolTip"],
+symbol: ["symbol","symbols","Symbol"],
+format: ["format","formats","Format"],
+anno: ["anno","annos","Anno"],
+// other Xholon node attributes
+geo: ["geo","geos","Geo"],
+sound: ["sound","sounds","Sound"]
+};
+const DEC_INDEX_SINGULAR = 0; // ex: "color"
+const DEC_INDEX_PLURAL   = 1; // ex: "colors"
+const DEC_INDEX_TAGNAME  = 2; // ex: "Color"
 
 /**
  * Parse a Math Set.
@@ -84,7 +103,9 @@ function pSet01(mstr) {
  * 
  * const xmlStr = xh.xhmath.pSet02("{One,Two,Three,Four}");
  * 
- * example result (pretty printed):
+ * example result:
+<_-.xhforest><XholonNull roleName="One"/><XholonNull roleName="Two"/><XholonNull roleName="Three"/><XholonNull roleName="Four"/></_-.xhforest>
+ * (pretty printed):
 <_-.xhforest>
   <XholonNull roleName="One"/>
   <XholonNull roleName="Two"/>
@@ -252,8 +273,8 @@ function pPorts02(mstr, nodes) {
         const arr5 = nodes.filter(function(node) {
           return node.roleName == source;
         });
-        if ((arr5.length == 1) && (arr5[0][portName])) {
-          arr5[0][portName].push(target);
+        if ((arr5.length == 1) && (arr5[0][OBJECT_PORTS][portName])) {
+          arr5[0][OBJECT_PORTS][portName].push(target);
         }
       }
     });
@@ -286,8 +307,10 @@ portMapping = {({(A,B),(A,G),(A,I),(B,A),(B,C),(B,J)},trail),({(E,F),(F,E)},untr
 function pSiblings01(mstr) {
   if (!mstr || mstr.length == 0) {return null;}
   const nodes = [];
+  const types = []; // new XholonClass types
   const roles = []; // the set of valid role names
   const ports = []; // the set of valid port names
+  const decorations = {}; // colors and other Xholon decorations can be added to this Object
   const lines = mstr.split(NEWLINE);
   lines.forEach(function(line) {
     //console.log(line);
@@ -302,7 +325,10 @@ function pSiblings01(mstr) {
     const arr1 = line.split(EQUALS);
     if (arr1.length != 2) {return;}
     const lname = arr1[0].trim();
-    let lstruct = arr1[1].replace(/ /g, "");
+    let lstruct = arr1[1];
+    if (lname != "annoMapping") {
+      lstruct = lstruct.replace(/ /g, "");
+    }
     lstruct = lstruct.substring(1,lstruct.length-1); // every line defines a Set; remove opening and closing brackets {}
     //console.log(lname + "|" + lstruct);
     switch (lname) {
@@ -328,12 +354,20 @@ function pSiblings01(mstr) {
       }
       //console.log(JSON.stringify(nodes));
       break;
+    case "types":
+      lstruct.split(COMMA).forEach(tname => types.push(tname));
+      break;
     case "roles":
       lstruct.split(COMMA).forEach(rname => roles.push(rname));
       break;
     case "ports":
       lstruct.split(COMMA).forEach(pname => ports.push(pname));
-      nodes.forEach(node => ports.forEach(port => node[port] = []));
+      nodes.forEach(node => ports.forEach(port => {
+        if (!node[OBJECT_PORTS]) {
+          node[OBJECT_PORTS] = {};
+        }
+        node[OBJECT_PORTS][port] = [];
+      }));
       break;
     case "roleMapping":
       // roleMapping = {(0,A), (1,B), (2,C), (3,D), (4,E), (5,F), (6,G), (7,H), (8,I), (9,J), (10,K), (11,L)}
@@ -344,7 +378,9 @@ function pSiblings01(mstr) {
         const nindex = rmarr[0]; // index of node in nodes array
         const rname = rmarr[1]; // roleName of that node
         console.log(nindex + "|" + rname);
-        nodes[nindex].roleName = rname;
+        if (nodes[nindex]) {
+          nodes[nindex].roleName = rname;
+        }
       });
       break;
     case "typeMapping":
@@ -354,18 +390,93 @@ function pSiblings01(mstr) {
         const nindex = tmarr[0]; // index of node in nodes array
         const tname = tmarr[1]; // type (xhc, XholonClass name) of that node
         console.log(nindex + "|" + tname);
-        nodes[nindex].xhc = tname;
+        if (nodes[nindex]) {
+          nodes[nindex].xhc = tname;
+        }
       });
       break;
     case "portMapping":
       pPorts02(LBRACE + lstruct + RBRACE, nodes);
+      break;
+    // Xholon node decorations
+    case "colors":
+      // colors = {red,orange,yellow,green,blue,purple}
+    case "opacities":
+    case "fonts":
+    case "icons":
+    case "toolTips":
+    case "symbols":
+    case "formats":
+    case "annos":
+      if (!decorations[lname]) {decorations[lname] = [];}
+      const dec = decorations[lname];
+      lstruct.split(COMMA).forEach(decname => dec.push(decname));
+      break;
+    // other Xholon node attributes
+    case "geos":
+    case "sounds":
+      // TODO
+      break;
+    case "colorMapping":
+    case "opacityMapping":
+    case "fontMapping":
+    case "iconMapping":
+    case "toolTipMapping":
+    case "symbolMapping":
+    case "formatMapping":
+    case "annoMapping":
+    case "geoMapping":
+    case "soundMapping":
+      let dectype = lname.substring(0, lname.length - 7); // "Mapping" is 7 characters long
+      doDecorationMapping(lstruct, nodes, dectype);
       break;
     default: break;
     }
   });
   //console.log(nodes);
   console.log(JSON.stringify(nodes));
+  // TODO also return types; return a JSO with three sub-objects called "ih", "cd", and "csh" OR return a XholonModule
   return jso2xholon(nodes, ports);
+}
+
+/**
+ * Do decoration mapping.
+ * ex: colorMapping = {(0,red), (1,purple), (2,green), (3,blue)}
+ * @param struct (ex: "(0,red),(1,purple),(2,green),(3,blue)")
+ * @param nodes 
+ * @param dectype (ex: "color")
+ */
+function doDecorationMapping(struct, nodes, dectype) {
+  struct.substring(1,struct.length-1).split("),(").forEach(function(pair) {
+    const decarr = pair.split(COMMA);
+    if (decarr.length != 2) {return;}
+    const nindex = decarr[0]; // index of node in nodes array
+    const decval = decarr[1]; // ex: "red"
+    console.log(nindex + "|" + decval);
+    if (nodes[nindex]) {
+      if (!nodes[nindex].decorations) {
+        nodes[nindex].decorations = {};
+      }
+      nodes[nindex].decorations[dectype] = decval;
+    }
+  });
+}
+
+/** 
+ * Parse a JSON string.
+ * example:
+xh.xhmath.pJson01('[{"roleName":"un","xhc":"Mars","ports":{"moi":["un","deux","trois"]}},{"roleName":"deux","xhc":"Mars","ports":{"moi":["un","deux)(deux"]}},{"roleName":"trois","xhc":"Mars","ports":{"moi":["un","deux","trois"]}}]', null);
+ * example:
+xh.xhmath.pJson01('[{"roleName":"un","xhc":"Mars","ports":{"moi":["un","deux","trois"]}},{"roleName":"deux","xhc":"Mars","ports":{"moi":["un","deux)(deux"]}},{"roleName":"trois","xhc":"Mars","ports":{"moi":["un","deux","trois"]}}]', ["moi"]);
+ * example:
+xh.root().append(xh.xhmath.pJson01('[{"roleName":"un","xhc":"Mars","ports":{"arrow":["un","deux","trois"]}},{"roleName":"deux","xhc":"Mars","ports":{"arrow":["un","deux","trois"]}},{"roleName":"trois","xhc":"Mars","ports":{"arrow":["un","deux","trois"]}}]'));
+ * 
+ * @param json a JSON string
+ * @param ports an optional array of port names (ex: ["one","two"]), or null or undefined
+ * @return a Xholon XML string
+ */
+function pJson01(json, ports) {
+  return jso2xholon(JSON.parse(json), ports);
 }
 
 /**
@@ -375,19 +486,38 @@ function jso2xholon(jso, ports) {
   let xmlStr = '<' + FOREST + '>\n';
   jso.forEach(function(obj) {
     // {"roleName":"I","xhc":"Building","trail":["A"],"untrail":["F"]},
-    xmlStr += '<' + obj.xhc + ' roleName="' + obj.roleName + '">\n';
+    xmlStr += '<' + (obj.xhc || DEFAULT_XHC_NAME);
+    const rname = obj.roleName || DEFAULT_ROLE_NAME;
+    if (rname) {
+      xmlStr += ' roleName="' + rname + '"';
+    }
+    xmlStr += '>\n';
+    /*if (obj.decorations && obj.decorations["color"]) {
+      // TODO just testing color for now
+      xmlStr += "<Color>" + obj.decorations["color"] + "</Color>\n";
+    }*/
+    if (obj.decorations) {
+      Object.keys(obj.decorations).forEach(function(dname) {
+        let darr = DECORATIONS[dname];
+        if (darr) {
+          xmlStr += "<" + darr[DEC_INDEX_TAGNAME] + ">" + obj.decorations[darr[DEC_INDEX_SINGULAR]] + "</" + darr[DEC_INDEX_TAGNAME] + ">\n";
+        }
+      });
+    }
+    if (!ports) {
+      ports = Object.keys(obj[OBJECT_PORTS]);
+    }
     ports.forEach(function(pname) {
-      obj[pname].forEach(function(item, index) {
-        // <port name="trail" index="0" connector="../*[@roleName='B']"/>
+      obj[OBJECT_PORTS][pname].forEach(function(item, index) {
         xmlStr += '<port name="' + pname + '" index="' + index + '" connector="../*[@roleName=' + "'" + item + "'" + ']"/>\n';
       });
     });
-    xmlStr += '</' + obj.xhc + '>\n';
+    xmlStr += '</' + (obj.xhc || DEFAULT_XHC_NAME) + '>\n';
   });
   xmlStr += '</' + FOREST + '>';
   console.log(xmlStr);
   return xmlStr;
 }
 
-export {pSet01, pSet02, pSetPointed01, pSetPointed02, pPorts01, pPorts02, pPorts03, pSiblings01};
+export {pSet01, pSet02, pSetPointed01, pSetPointed02, pPorts01, pPorts02, pPorts03, pSiblings01, pJson01};
 

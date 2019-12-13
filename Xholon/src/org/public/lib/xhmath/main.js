@@ -25,7 +25,7 @@ import {buildArrayofXhTypeIds, buildArrayofXhTypelabels, buildArrayofXhTypelabel
   from '/xholon/lib/xhmath/modules/xhtype.js';
 import {buildArrayofClassInstances, buildArrayofClassInstanceLabels, buildArrayofXholonClassNodes, buildArrayofXholonClassNodelabels}
   from '/xholon/lib/xhmath/modules/xhcset.js';
-import {pSet01, pSet02, pSetPointed01, pSetPointed02, pPorts01, pPorts02, pPorts03, pSiblings01} from '/xholon/lib/xhmath/modules/parser.js';
+import {pSet01, pSet02, pSetPointed01, pSetPointed02, pPorts01, pPorts02, pPorts03, pSiblings01, pJson01} from '/xholon/lib/xhmath/modules/parser.js';
 
 if (typeof window.xh == "undefined") {
   window.xh = {};
@@ -60,6 +60,7 @@ window.xh.xhmath.pPorts01 = pPorts01;
 window.xh.xhmath.pPorts02 = pPorts02;
 window.xh.xhmath.pPorts03 = pPorts03;
 window.xh.xhmath.pSiblings01 = pSiblings01;
+window.xh.xhmath.pJson01 = pJson01;
 
 // apps
 import {raghTest01, raghTest02, exportToGraphvizBT, exportToTableInNewTab}
@@ -136,7 +137,7 @@ export {
 buildArrayofNodes, buildArrayofNodeLabels, buildArrayofPointedNodes,
 buildArrayofPointedNodeLabels, buildArrayofNodesfromPointedNode, buildArrayofNodeLabelsfromPointedNode,
 buildArrayofXhTypeIds, buildArrayofXhTypelabels, buildArrayofXhTypelabelsAlt, buildArrayofXhTypePairs, buildArrayofXhTypePairsAlt,
-pSet01, pSet02, pSetPointed01, pSetPointed02,
+pSet01, pSet02, pSetPointed01, pSetPointed02, pPorts01, pPorts02, pPorts03, pSiblings01, pJson01,
 asSet, asArrayofInt, asString, asJsonString, asMathString, isSetExtended
 }
 
