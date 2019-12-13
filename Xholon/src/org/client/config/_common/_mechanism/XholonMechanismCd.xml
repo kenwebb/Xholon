@@ -256,6 +256,7 @@
 	
 	<!-- XholonBase -->
 	<XholonNull xhType="XhtypePureContainer" implName="org.primordion.xholon.base.XholonNull"/>
+	<MathObject xhType="XhtypeBehFgsCon" implName="org.primordion.xholon.app.Chameleon.XhChameleon"/>
 	
 	<!-- XholonCollection -->
 	<XholonList xhType="XhtypePureContainer" implName="org.primordion.xholon.base.XholonList"/>
