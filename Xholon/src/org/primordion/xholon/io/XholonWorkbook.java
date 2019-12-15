@@ -221,6 +221,11 @@ public class XholonWorkbook extends Xholon {
 			XholonGwtTabPanelHelper.addTab(subTree, "notes", "Workbook Notes", false);
 		}
 		
+		// markdown (md)
+		else if ("markdown".equals(tagName)) {
+			consoleLog(subTree);
+		}
+		
 		// params (_xhn)
 		else if ("params".equals(tagName)) {
 		  try {

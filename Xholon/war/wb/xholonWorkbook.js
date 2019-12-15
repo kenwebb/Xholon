@@ -4,7 +4,7 @@
  * For use with Xholon GWT Edition.
  *
  * Licensed under the MIT license  http://opensource.org/licenses/MIT .
- * Copyright (C) 2013, 2014 Ken Webb
+ * Copyright (C) 2013, 2014, 2019 Ken Webb
  * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon/gwt/">Xholon Project website</a>
@@ -15,12 +15,13 @@
 
   // Editor indexes
   var ED_NOTES = 0;
-  var ED_PARAMS = 1; //4; // optional params editor
-  var ED_IH = 2; //1;
-  var ED_CD = 3; //2;
-  var ED_CSH = 4; //3;
+  var ED_MD = 1;
+  var ED_PARAMS = 2; //1; // optional params editor
+  var ED_IH = 3; //2;
+  var ED_CD = 4; //3;
+  var ED_CSH = 5; //4;
   // plus 2 or more script language editors
-  var ED_SVG = 6; // 6 or higher
+  var ED_SVG = 7; //6; // 7 or higher
   
   /** Name of the model in the current workbook. */
   var modelName = 'Unknown';
@@ -346,6 +347,21 @@
   }
   
   /**
+   * Does an editor contain markdown ?
+   * @return true or false
+   */
+  function isMarkdown(anEditor) {
+    /*
+    var firstLine = anEditor.getLine(0);
+    if (firstLine && firstLine.indexOf("<markdown>") != -1) {
+      return true;
+    }
+    return false;
+    */
+    return true;
+  }
+  
+  /**
    * Save content as a post to a GitHub gist.
    */
   function saveAsGist(content) {
@@ -443,9 +459,19 @@
       if (editorValue.length > 1) {
         content += '\n\n';
       }
-      if (index == ED_NOTES) {content += '<Notes><![CDATA[\n';} // start notes
-      content += editorValue;
-      if (index == ED_NOTES) {content += '\n]]></Notes>';} // end notes
+      if (index == ED_NOTES) { // notes
+        content += '<Notes><![CDATA[\n';
+        content += editorValue;
+        content += '\n]]></Notes>';
+      }
+      else if ((index == ED_MD) && editorValue && (editorValue.trim().length > 1)) {
+        content += '<markdown><![CDATA[\n';
+        content += editorValue;
+        content += '\n]]></markdown>';
+      }
+      else {
+        content += editorValue;
+      }
     });
     content += '\n\n</XholonWorkbook>';
     return content;
@@ -614,6 +640,15 @@
     // notes
     $("div#xhednotes textarea")[0].firstChild.textContent = xmlNode.firstChild.nodeValue.trim() + "\n";
     xmlNode = xmlNode.nextElementSibling;
+    
+    // markdown
+    if (xmlNode && (xmlNode.tagName.indexOf("markdown") != -1)) {
+      // <markdown>text</markdown>
+      var text = xmlNode.firstChild.nodeValue.trim();
+      $("div#xhedmd textarea")[0].firstChild.textContent = text + "\n";
+      $("div#xhedmd").show();
+      xmlNode = xmlNode.nextElementSibling;
+    }
     
     // params
     if (xmlNode && (xmlNode.tagName.indexOf("params") != -1)) {
@@ -785,6 +820,18 @@
         });
         editor[index].setOption("autoCloseTags", true);
         dmphasizeFirstLastLines(editor[index]);
+      }
+      // Markdown
+      else if ((index == ED_MD) && (isMarkdown(editor[index]))) {
+        editor[index].setOption("extraKeys", {
+          "Ctrl-Z": function(cm) {editor[index].undo();},
+          "Ctrl-Shift-Z": function(cm) {editor[index].redo();},
+          Tab: function(cm) {
+            var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+            cm.replaceSelection(spaces, "end", "+input");
+          }
+        });
+        //dmphasizeFirstLastLines(editor[index]);
       }
       // autocomplete for SVG
       else if ((index >= ED_SVG) && (isSvg(editor[index]))) {
@@ -970,6 +1017,29 @@
       // toggle button text between "Enable" and "Disable"
       // toggle whether or not to continuously save changes to localStorage.
       toggleStore();
+    });
+    
+    // mdenable
+    $('button.mdenable').click(function(event) {
+      console.log(event);
+      $("div#xhedmd")[0].style.display = "block";
+      event.target.disabled = true;
+    });
+    
+    // mdgenhtml
+    // TODO this only works the first time I click
+    $('button.mdgenhtml').click(function(event) {
+      console.log(event);
+      var md2htmltext = $("div#md2htmltext > pre")[0];
+      var md2html = $("div#md2html")[0];
+      var ta = document.querySelector("div#xhedmd > textarea");
+      var anEditor = CodeMirror.fromTextArea(ta); // this line makes the textarea duplicate itself on the screen
+      var str = anEditor.getValue();
+      var converter = new showdown.Converter();
+      var html = converter.makeHtml(str);
+      md2htmltext.innerText = html;
+      md2html.innerHTML = html;
+      event.target.disabled = true;
     });
     
     return this;
