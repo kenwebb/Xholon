@@ -645,8 +645,12 @@
     if (xmlNode && (xmlNode.tagName.indexOf("markdown") != -1)) {
       // <markdown>text</markdown>
       var text = xmlNode.firstChild.nodeValue.trim();
-      $("div#xhedmd textarea")[0].firstChild.textContent = text + "\n";
-      $("div#xhedmd").show();
+      if (text.length > 0) {
+        $("div#xhedmd textarea")[0].firstChild.textContent = text + "\n";
+        $("div#xhedmd").show();
+        // disable "Enable" button
+        $('button.mdenable')[0].disabled = true;
+      }
       xmlNode = xmlNode.nextElementSibling;
     }
     
@@ -1021,25 +1025,26 @@
     
     // mdenable
     $('button.mdenable').click(function(event) {
-      console.log(event);
       $("div#xhedmd")[0].style.display = "block";
       event.target.disabled = true;
     });
     
     // mdgenhtml
-    // TODO this only works the first time I click
     $('button.mdgenhtml').click(function(event) {
       console.log(event);
       var md2htmltext = $("div#md2htmltext > pre")[0];
       var md2html = $("div#md2html")[0];
-      var ta = document.querySelector("div#xhedmd > textarea");
-      var anEditor = CodeMirror.fromTextArea(ta); // this line makes the textarea duplicate itself on the screen
+      var anEditor = editor[ED_MD];
       var str = anEditor.getValue();
       var converter = new showdown.Converter();
+      // showdown options
+      // disableForced4SpacesIndentedSublists: (boolean) [default false]
+      // Disables the requirement of indenting sublists by 4 spaces for them to be nested, effectively reverting to the old behavior where 2 or 3 spaces were enough.
+      //converter.setOption('disableForced4SpacesIndentedSublists', 'true'); // it sort-of works
       var html = converter.makeHtml(str);
       md2htmltext.innerText = html;
       md2html.innerHTML = html;
-      event.target.disabled = true;
+      //event.target.disabled = true;
     });
     
     return this;
