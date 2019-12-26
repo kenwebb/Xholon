@@ -40,7 +40,12 @@ import org.primordion.xholon.util.Misc;
  * Export a Xholon model in SQL format.
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
- * @since 0.9.1 (Created on May 9, 2017)
+ * @since 0.9.1 (Created on December 23, 2019)
+ * 
+ * sample queries:
+select type.type_name || '_' || node.id as name from type, node
+where type.id = node.type_id;
+ * 
  */
 @SuppressWarnings("serial")
 public class Xholon2Sql2 extends AbstractXholon2ExternalFormat implements IXholon2ExternalFormat, IXmlWriter {
@@ -67,7 +72,7 @@ public class Xholon2Sql2 extends AbstractXholon2ExternalFormat implements IXholo
   static final private int IDROLEXHC_ROLE = 1;
   static final private int IDROLEXHC_XHC  = 2;
   
-  static final private String IH_ROOT_NAME = "type"; // this.getTableType(); //"XholonClass";  TODO retrieve this from efParams
+  //static final private String IH_ROOT_NAME = "type"; // this.getTableType(); //"XholonClass";  retrieve this from efParams
   
   private String outFileName;
   private String outPath = "./ef/sql2/";
@@ -180,17 +185,20 @@ public class Xholon2Sql2 extends AbstractXholon2ExternalFormat implements IXholo
   
   protected void writeNodes(IXholon xhRootNode) {
     if (isDropTables()) {
-      sbCurrentNode
+      /*sbCurrentNode
       .append("DROP TABLE ")
       .append("IF EXISTS ")
       .append(this.getTableNode())
-      .append(";\n");
+      .append(";\n");*/
+      sbCurrentNode
+      .append(makeTableDrop(this.getTableNode()));
     }
     /*sbCurrentNode = this.findStringBuilder(xhClass);
     if (sbCurrentNode == null) {
       sbCurrentNode = this.newStringBuilder(xhClass, new StringBuilder());
     }*/
     if (isCreateTables()) {
+      /*
       sbCurrentNode
       .append("CREATE TABLE ")
       .append("IF NOT EXISTS ")
@@ -237,7 +245,7 @@ public class Xholon2Sql2 extends AbstractXholon2ExternalFormat implements IXholo
             .append(" FOREIGN KEY (")
             .append(idRoleXhcNames[IDROLEXHC_XHC])
             .append(") REFERENCES ")
-            .append(IH_ROOT_NAME)
+            .append(this.getTableType())
             .append("(")
             .append(idRoleXhcNames[IDROLEXHC_ID])
             .append(")")
@@ -278,9 +286,8 @@ public class Xholon2Sql2 extends AbstractXholon2ExternalFormat implements IXholo
         }
         else {
           sbCurrentNode
-          .append(" /* ")
-          .append(this.makeForeignKey(xhRootNode.getParentNode(), "parent_" + idRoleXhcNames[IDROLEXHC_ID]))
-          .append(" */ ");
+          .append(" // ")
+          .append(this.makeForeignKey(xhRootNode.getParentNode(), "parent_" + idRoleXhcNames[IDROLEXHC_ID]));
         }
       //}
       if (isShouldWriteLinks()) {
@@ -304,6 +311,11 @@ public class Xholon2Sql2 extends AbstractXholon2ExternalFormat implements IXholo
       }
       sbCurrentNode
       .append(");\n");
+    }
+    */
+      // TODO there may be stuff in the preceeding commented-out line that I should keep
+      sbCurrentNode
+      .append(makeTableNodeCreate(this.getTableNode(), this.getTableType()));
     }
     writeNode(xhRootNode);
   }
@@ -415,14 +427,16 @@ public class Xholon2Sql2 extends AbstractXholon2ExternalFormat implements IXholo
   
   protected void writeIhNodes(IXholon xhcNode) {
     if (isDropTables()) {
+      //sbIhOut
+      //.append("DROP TABLE ")
+      //.append("IF EXISTS ")
+      //.append(IH_ROOT_NAME)
+      //.append(";\n");
       sbIhOut
-      .append("DROP TABLE ")
-      .append("IF EXISTS ")
-      .append(IH_ROOT_NAME)
-      .append(";\n");
+      .append(makeTableDrop(this.getTableType()));
     }
     if (isCreateTables()) {
-      String prefix = " ";
+      /*String prefix = " ";
       sbIhOut
       .append("CREATE TABLE ")
       .append("IF NOT EXISTS ")
@@ -465,12 +479,14 @@ public class Xholon2Sql2 extends AbstractXholon2ExternalFormat implements IXholo
         ;
       }
       sbIhOut
-      .append(");\n");
+      .append(");\n");*/
+      sbIhOut
+      .append(makeTableTypeCreate(this.getTableType()));
     }
     if (isInsertRows()) {
       // INSERT INTO tbl_name (a,b,c) VALUES(1,2,3),(4,5,6),(7,8,9);
       sbIhOut.append("INSERT INTO ")
-      .append(IH_ROOT_NAME)
+      .append(this.getTableType())
       .append(" (");
       String prefix = "";
       if (idRoleXhcNames[IDROLEXHC_ID] != null) {
@@ -674,6 +690,59 @@ public class Xholon2Sql2 extends AbstractXholon2ExternalFormat implements IXholo
     .toString();
   }
   
+  protected String makeTableDrop(String tableName) {
+    String str = "DROP TABLE IF EXISTS "
+    + tableName
+    + ";\n";
+    return str;
+  }
+  
+  protected String makeTableTypeCreate(String tableName) {
+    String str = "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
+    + " id integer NOT NULL,\n"
+    + " type_name varchar(80),\n"
+    + " parent_id integer,\n"
+    + " PRIMARY KEY (id),\n"
+    + " FOREIGN KEY (parent_id) REFERENCES " + tableName + "(id)"
+    + ");\n";
+    return str;
+  }
+  
+  /*
+CREATE TABLE IF NOT EXISTS node (
+ id integer NOT NULL,
+ role_name varchar(80) NOT NULL,
+ type_id integer NOT NULL,
+ parent_id integer,
+ PRIMARY KEY (id),
+ FOREIGN KEY (type_id) REFERENCES type(id),
+ FOREIGN KEY (parent_id) REFERENCES node(id));
+
+  */
+  protected String makeTableNodeCreate(String tableName, String tableNameType) {
+    String str = "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
+    + " id integer NOT NULL,\n"
+    + " role_name varchar(80) NOT NULL,\n"
+    + " type_id integer NOT NULL,\n"
+    + " parent_id integer,\n"
+    + " PRIMARY KEY (id),\n"
+    + " FOREIGN KEY (type_id) REFERENCES " + tableNameType + "(id),\n"
+    + " FOREIGN KEY (parent_id) REFERENCES " + tableName + "(id)"
+    + ");\n";
+    return str;
+  }
+  
+  // backtick is not supported in GWT
+//  protected native String makeTableTypeCreate(String tableName) /*-{
+//    return
+//`CREATE TABLE IF NOT EXISTS ${tableName} (
+// id integer NOT NULL,
+// type_name varchar(80),
+// parent_id integer,
+// PRIMARY KEY (id),
+// FOREIGN KEY (parent_id) REFERENCES ${tableName}(id));`;
+//  }-*/;
+  
   /**
    * Make a JavaScript object with all the parameters for this external format.
    */
@@ -698,9 +767,9 @@ public class Xholon2Sql2 extends AbstractXholon2ExternalFormat implements IXholo
     p.mechanismIhNodes = true; // whether or not to write out IH nodes that belong to a Mechanism
     
     // new Dec 2019
-    p.tableNode = "node"; // name of the node table
-    p.tableProp = "prop";
-    p.tableLink = "link";
+    p.tableNode = "node"; // name of the node table  "node" "object"
+    p.tableProp = "prop"; // "prop"
+    p.tableLink = "link"; // "arrow"
     p.tableType = "type";
     p.tableBhvr = "bhvr";
     
