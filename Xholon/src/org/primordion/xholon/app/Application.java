@@ -67,6 +67,7 @@ import org.primordion.xholon.base.IInheritanceHierarchy;
 import org.primordion.xholon.base.IInteraction;
 import org.primordion.xholon.base.IMechanism;
 import org.primordion.xholon.base.IMessage;
+import org.primordion.xholon.base.INumbering;
 import org.primordion.xholon.base.IQueue;
 import org.primordion.xholon.base.IReflection;
 import org.primordion.xholon.base.ISignal;
@@ -1286,6 +1287,11 @@ public abstract class Application extends AbstractApplication implements IApplic
 		.append("/")
 		.append("Application");
 		return uri.toString();
+	}
+	
+	@Override
+	public String getNumbering() {
+		return INumbering.NUMBERING_APP;
 	}
 	
 	/**

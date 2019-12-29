@@ -18,6 +18,7 @@
 
 package org.primordion.xholon.service;
 
+import org.primordion.xholon.base.INumbering;
 import org.primordion.xholon.base.IXholon;
 import org.primordion.xholon.base.Xholon;
 import org.primordion.xholon.io.xml.IXholon2Xml;
@@ -215,6 +216,11 @@ public abstract class AbstractXholonService extends Xholon implements IXholonSer
 	
 	public void setActivated(boolean activated) {
 		this.activated = activated;
+	}
+	
+	@Override
+	public String getNumbering() {
+		return INumbering.NUMBERING_SRVC;
 	}
 	
 }

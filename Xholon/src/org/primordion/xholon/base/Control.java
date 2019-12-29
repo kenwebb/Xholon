@@ -47,6 +47,11 @@ public class Control extends Xholon implements IControl {
 	
 	public String getName() { return roleName;}
 	
+	@Override
+	public String getNumbering() {
+		return INumbering.NUMBERING_CNTRL;
+	}
+	
 	/* 
 	 * @see org.primordion.xholon.base.IControl#setControlNode(java.lang.String, org.primordion.xholon.base.Control, org.primordion.xholon.base.IXholonClass)
 	 */

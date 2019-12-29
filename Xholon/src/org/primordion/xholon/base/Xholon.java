@@ -3893,7 +3893,12 @@ public abstract class Xholon implements IXholon, IDecoration, Comparable, Serial
 	@Override
 	public Object tick(Object obj) {
 		return null;
-	};
+	}
+	
+	@Override
+	public String getNumbering() {
+		return INumbering.NUMBERING_DEFAULT; // typically NUMBERING_NODE
+	}
 	
 	/*
 	 * @see java.lang.Object#toString()

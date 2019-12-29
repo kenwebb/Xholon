@@ -1504,6 +1504,11 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       return this.@org.primordion.xholon.base.IXholon::getNumChildren(Z)(deep);
     });
     
+    // Get this node's numbering.
+    api.numbering = $entry(function() {
+      return this.@org.primordion.xholon.base.IXholon::getNumbering()();
+    });
+    
     // TODO pcs(expression) and select(expression)
     
   }-*/;

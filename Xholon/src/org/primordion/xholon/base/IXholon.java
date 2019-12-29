@@ -1568,4 +1568,12 @@ public abstract IXholon getBinaryTreeRight();
  */
 public abstract Object tick(Object obj);
 
+/**
+ * The nodes in a Xholon app are identified using multiple numbering sequences.
+ * This may be required when generating an SQL representation of the app.
+ * Each numbering sequence should be able to supply a unique numbering ID (ex: "n" for node).
+ * @return The ID of a Xholon numbering system
+ */
+public abstract String getNumbering();
+
 }

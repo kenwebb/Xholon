@@ -1447,6 +1447,11 @@ xh.xhcReplacementNames = {Hexokinase: "Enzyme", PhosphoGlucoIsomerase: "Enzyme",
 	  }
 	}
 	
+	@Override
+	public String getNumbering() {
+		return INumbering.NUMBERING_TYPE;
+	}
+	
 	/* 
 	 * @see org.primordion.xholon.base.IXholonClass#toString()
 	 */

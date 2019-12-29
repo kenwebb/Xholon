@@ -56,6 +56,11 @@ public class XholonMap extends Xholon implements Map, Serializable {
 		this.roleName = roleName;
 	}
 	
+	@Override
+	public String getNumbering() {
+		return INumbering.NUMBERING_BASE;
+	}
+	
 	/**
 	 * This is for use by the XholonJsApi.
 	 * 

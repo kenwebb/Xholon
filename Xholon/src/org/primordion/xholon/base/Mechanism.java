@@ -345,6 +345,11 @@ public class Mechanism extends Xholon implements IMechanism, IDecoration, Compar
 		}
 	}
 	
+	@Override
+	public String getNumbering() {
+		return INumbering.NUMBERING_MECH;
+	}
+	
 	/*
 	 * @see org.primordion.xholon.base.IXholon#toXml(org.primordion.xholon.io.xml.IXholon2Xml, org.primordion.xholon.io.xml.XmlWriter)
 	 */
