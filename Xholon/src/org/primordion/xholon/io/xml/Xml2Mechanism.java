@@ -35,6 +35,12 @@ public class Xml2Mechanism extends AbstractXml2Xholon_gwt implements IXml2Xholon
 	/** Name of the Java class that implements mechanism Xholons. */
 	private String implName = "org.primordion.xholon.base.Mechanism";
 	
+	protected int nextMechId = 0;
+	
+	protected int getNextMechId() {
+		return this.nextMechId++;
+	}
+	
 	/*
 	 * @see org.primordion.xholon.io.xml.AbstractXml2Xholon#xml2Xh(org.primordion.xholon.base.IXholon, org.primordion.xholon.io.xml.XmlReader, int)
 	 */
@@ -200,6 +206,8 @@ public class Xml2Mechanism extends AbstractXml2Xholon_gwt implements IXml2Xholon
 		IXholon newXholon = null;
 		try {
 			newXholon = factory.getXholonNode(implName);
+			//newXholon.setId(app.getNextId());
+			newXholon.setId(this.getNextMechId());
 		} catch (XholonConfigurationException e) {
 			logger.error(e.getMessage(), e.getCause());
 			return null; // TODO not sure what should be returned in this case
