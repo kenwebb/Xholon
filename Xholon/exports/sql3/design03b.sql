@@ -60,6 +60,7 @@ INSERT INTO nmbrng (id, label) VALUES
  ('?', 'etc???'),
  ('1', 'appspecific01')
  ;
+select * from nmbrng;
 */
 
 /*
