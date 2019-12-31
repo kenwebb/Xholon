@@ -139,13 +139,15 @@ MATCH (p:Person)-[:LIKES]-(t:Technology)
       -->
       <textarea style = "display: none;" id="xhcypher">
 CREATE (abc)
+CREATE (def)
+CREATE (ghi)
 </textarea>
       <br/>
       <button id="parse">Parse</button>
     </div>
     
     <script type="text/javascript">
-var updateTree = function(tree, ruleNames) {
+var updateTree = function(tree) { //, literalNames, ruleNames, symbolicNames) {
   console.log(ruleNames);
   var nodeTypeT = ruleNames[tree.ruleIndex];
   console.log(nodeTypeT);
@@ -164,14 +166,23 @@ var updateTree = function(tree, ruleNames) {
       console.log(nodeType);
     }
     else {
-      console.log(child.getText());
+      if (child.symbol) {
+        nodeType = symbolicNames[child.symbol.type];
+        console.log(nodeType);
+      }
+      else {
+        console.log(child.getText());
+      }
     }
+    // Cypher = [SP], Statement, [[SP], ';'], [SP], EOI ;
     switch (nodeType) {
-    case "oC_SP":
-      console.log("an oC_SP");
+    case "SP":
+      console.log("a symbolicName SP");
+      // ignore the SP
       break;
     case "oC_Statement":
       console.log("an oC_Statement");
+      statement(child);
       break;
     case null:
     case undefined:
@@ -179,7 +190,7 @@ var updateTree = function(tree, ruleNames) {
     default:
       console.log(nodeType);
       break;
-    } // end switch
+    }
   }
   switch (nodeTypeT) {
   case "oC_Cypher":
@@ -190,25 +201,26 @@ var updateTree = function(tree, ruleNames) {
   }
 };
 
-var recurseChild = function(child, ruleNames, indent) {
+// @deprecated ???
+var recurseChild = function(child, ruleNames) {
   if (!child) {return;}
   var nodeType = ruleNames[child.ruleIndex];
   console.log(nodeType);
   switch (nodeType) {
   case "aaa":
-    //aaa(child, ruleNames, indent);
+    //aaa(child, ruleNames);
     break;
   case "bbb":
-    //bbb(child, ruleNames, indent);
+    //bbb(child, ruleNames);
     return;
   case "ccc":
-    //ccc(child, ruleNames, indent);
+    //ccc(child, ruleNames);
     return;
   case "ddd":
-    //ddd(child, ruleNames, indent);
+    //ddd(child, ruleNames);
     return;
   case "eee":
-    //eee(child, ruleNames, indent);
+    //eee(child, ruleNames);
     return;
   default:
     break;
@@ -216,36 +228,393 @@ var recurseChild = function(child, ruleNames, indent) {
   if (child.children) {
     for (var j = 0; j < child.children.length; j++) {
       console.log("" + j + " " + child.children[j].getText());
-      recurseChild(child.children[j], ruleNames, indent + "  ");
+      recurseChild(child.children[j], ruleNames);
     }
   }
 }
 
-var aaa = function(node, ruleNames, indent) {
-  var parent = node.parentCtx;
-  var nodeType = ruleNames[parent.ruleIndex];
-  switch (nodeType) {
-  case "ggg":
-    console.log("This is a ggg");
-    break;
-  case "hhh":
-    console.log("This is a hhh");
-    return;
-  default:
-    break;
-  }
-  
-  switch(node.children[0].getText()) {
-  case "iii":
-    // 
-    return;
-  case "jjj":
-    break;
-  default:
-    break;
+// TODO use a single recurse() function to drill down to something concrete ???
+
+// Statement = Query ;
+var statement = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_Query":
+      console.log("an oC_Query");
+      query(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
   }
 }
 
+// Query = RegularQuery | StandaloneCall ;
+var query = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_RegularQuery":
+      console.log("an oC_RegularQuery");
+      regularQuery(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// RegularQuery = SingleQuery, { [SP], Union } ;
+var regularQuery = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_SingleQuery":
+      console.log("an oC_SingleQuery");
+      singleQuery(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// SingleQuery = SinglePartQuery | MultiPartQuery ;
+var singleQuery = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_SinglePartQuery":
+      console.log("an oC_SinglePartQuery");
+      singlePartQuery(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// SinglePartQuery = ({ ReadingClause, [SP] }, Return) | ({ ReadingClause, [SP] }, UpdatingClause, { [SP], UpdatingClause }, [[SP], Return]) ;
+var singlePartQuery = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_UpdatingClause":
+      console.log("an oC_UpdatingClause");
+      updatingClause(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// UpdatingClause = Create | Merge | Delete | Set | Remove ;
+var updatingClause = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_Create":
+      console.log("an oC_Create");
+      create(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// Create = (C,R,E,A,T,E), [SP], Pattern ;
+var create = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "CREATE":
+      console.log("a CREATE");
+      // TODO ???
+      break;
+    case "SP":
+      console.log("a symbolicName SP");
+      // ignore the SP
+      break;
+    case "oC_Pattern":
+      console.log("an oC_Pattern");
+      pattern(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// Pattern = PatternPart, { [SP], ',', [SP], PatternPart } ;
+var pattern = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_PatternPart":
+      console.log("an oC_PatternPart");
+      patternPart(child);
+      break;
+    case "SP":
+      console.log("a symbolicName SP");
+      // ignore the SP
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// PatternPart = (Variable, [SP], '=', [SP], AnonymousPatternPart) | AnonymousPatternPart ;
+var patternPart = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_Variable":
+      console.log("an oC_Variable");
+      //variable(child);
+      break;
+    case "oC_AnonymousPatternPart":
+      console.log("an oC_AnonymousPatternPart");
+      anonymousPatternPart(child);
+      break;
+    case "SP":
+      console.log("a symbolicName SP");
+      // ignore the SP
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// Variable = SymbolicName ;
+var variable = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_SymbolicName":
+      console.log("an oC_SymbolicName");
+      symbolicName(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+
+// AnonymousPatternPart = PatternElement ;
+var anonymousPatternPart = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_PatternElement":
+      console.log("an oC_PatternElement");
+      patternElement(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// PatternElement = (NodePattern, { [SP], PatternElementChain }) | ('(', PatternElement, ')') ;
+var patternElement = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_PatternElementChain":
+      console.log("an oC_PatternElementChain");
+      patternElementChain(child);
+      break;
+    case "oC_PatternElement":
+      console.log("an oC_PatternElement");
+      patternElement(child);
+      break;
+    case "oC_NodePattern":
+      console.log("an oC_NodePattern");
+      nodePattern(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// PatternElementChain = RelationshipPattern, [SP], NodePattern ;
+var patternElementChain = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_RelationshipPattern":
+      console.log("an oC_RelationshipPattern");
+      //relationshipPattern(child);
+      break;
+    case "oC_NodePattern":
+      console.log("an oC_NodePattern");
+      nodePattern(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// NodePattern = '(', [SP], [Variable, [SP]], [NodeLabels, [SP]], [Properties, [SP]], ')' ;
+var nodePattern = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_Variable":
+      console.log("an oC_Variable");
+      variable(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+/*
+SymbolicName = UnescapedSymbolicName
+             | EscapedSymbolicName
+             | HexLetter
+             | (C,O,U,N,T)
+             | (F,I,L,T,E,R)
+             | (E,X,T,R,A,C,T)
+             | (A,N,Y)
+             | (N,O,N,E)
+             | (S,I,N,G,L,E)
+             ;
+*/
+var symbolicName = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "UnescapedSymbolicName": // a symbol
+      console.log("an UnescapedSymbolicName");
+      unescapedSymbolicName(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// UnescapedSymbolicName = IdentifierStart, { IdentifierPart } ;
+var unescapedSymbolicName = function(node) {
+  // this type of node does not have children
+  console.log(node.getText());
+  xmlStrCSH += '<Hello roleName="' + node.getText() + '"/>\n';
+  /*
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "IdentifierStart": // a symbol
+      console.log("an IdentifierStart");
+      identifierStart(child);
+      break;
+    case "IdentifierPart": // a symbol
+      console.log("an IdentifierPart");
+      identifierPart(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }*/
+}
+
+// IdentifierStart = ID_Start | Pc ;
+var identifierStart = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_ID_Start":
+      console.log("an oC_ID_Start");
+      // any of 125,884 unicode code points
+      //id_Start(child);
+      console.log(child.children);
+      break;
+    case "ID_Start": // not sure if this is a rule or a symbol
+      console.log("an ID_Start");
+      // any of 125,884 unicode code points
+      //id_Start(child);
+      console.log(child.children);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// IdentifierPart = ID_Continue | Sc ;
+var identifierPart = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_ID_Continue": // not sure if this is a rule or a symbol
+      console.log("an oC_ID_Continue");
+      // any of 128,789 unicode Code Points
+      //id_Continue(child);
+      console.log(child.children);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// 
+
+// 
+
+var getNodeType = function(node) {
+  console.log(node);
+  //if (node.getPayload) {console.log(node.getPayload())};
+  //if (node.getSymbol) {console.log(node.getSymbol())};
+  //if (node.getText) {console.log(node.getText())};
+  //console.log(node.toString());
+  var nodeType = ruleNames[node.ruleIndex];
+  if (nodeType) {
+    console.log("RULE " + nodeType);
+  }
+  else {
+    if (node.symbol) {
+      nodeType = symbolicNames[node.symbol.type];
+      console.log("SYMBOL " + nodeType);
+    }
+    else {
+      console.log("NOT RULE|SYMBOL " + node.getText());
+    }
+  }
+  if (!nodeType) {
+    nodeType = null;
+  }
+  return nodeType;
+}
+
+// main
 var antlr4 = require('xholon/lib/antlr4/index');
 var CypherLexer = require('xholon/lib/antlr4g/CypherLexer');
 var CypherParser = require('xholon/lib/antlr4g/CypherParser');
@@ -262,11 +631,14 @@ var seekingTopActor = false;
 
 // behavior for one specific StateMachine, for an ActorClass with a Behavior
 var beh = null;
-var bindings = {}; //[]; // cache all Binding(s) here
+//var bindings = {}; //[]; // cache all Binding(s) here
 var actorRefObj = null;
+
+var literalNames, ruleNames, symbolicNames;
 
 document.getElementById("parse").addEventListener("click", function(){
   var input = document.getElementById("xhcypher").value;
+  console.log(input);
   var chars = new antlr4.InputStream(input);
   var lexer = new CypherLexer.CypherLexer(chars);
   var tokens  = new antlr4.CommonTokenStream(lexer);
@@ -275,7 +647,10 @@ document.getElementById("parse").addEventListener("click", function(){
   console.log(parser);
   var tree = parser.oC_Cypher();
   console.log("Parsed: "+ tree);
-  updateTree(tree, parser.ruleNames);
+  literalNames = parser.literalNames;
+  ruleNames = parser.ruleNames;
+  symbolicNames = parser.symbolicNames;
+  updateTree(tree); //, parser.literalNames, parser.ruleNames, parser.symbolicNames);
   //
   xmlStrIH += "</_-.XholonClass>\n";
   xmlStrCD += '\n'
@@ -286,7 +661,7 @@ document.getElementById("parse").addEventListener("click", function(){
   console.log(xmlStrIH);
   console.log(xmlStrCD);
   console.log(xmlStrCSH);
-  console.log(bindings);
+  //console.log(bindings);
   if (xh) {
     var rootIH = xh.app().first().next().next().first().next().first();
     console.log(rootIH);
@@ -294,6 +669,7 @@ document.getElementById("parse").addEventListener("click", function(){
     rootIH.append(xmlStrCD);
     var rootCSH = xh.root();
     console.log(rootCSH);
+    rootCSH.println(xmlStrCSH);
     rootCSH.append(xmlStrCSH);
   }
   if (beh) {
