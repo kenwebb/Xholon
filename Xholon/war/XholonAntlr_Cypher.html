@@ -135,12 +135,46 @@ CREATE (p:Person)-[:LIKES]->(t:Technology)
 MATCH (p:Person)<-[:LIKES]-(t:Technology)
 
 //better to query with undirected relationship unless sure of direction
-MATCH (p:Person)-[:LIKES]-(t:Technology)    
+MATCH (p:Person)-[:LIKES]-(t:Technology)
+
+CREATE (adam:User {name: 'Adam'}), (pernilla:User {name: 'Pernilla'}), (david:User {name: 'David'}), (adam)-[:FRIEND]->(pernilla), (pernilla)-[:FRIEND]->(david)
+CREATE
+(helloWorldSystem_0 {state: 0}),
+(hello_2 {state: 0}),
+(world_3 {state: 1}),
+(xholonInternalServices_0),
+(serviceLocatorService_1),
+(xPathService_2),
+(xPath_4),
+(xholonDirectoryService_3),
+(aboutService_4),
+(chartViewerService_5),
+(xholonMap_6),
+(attribute_String_5 {roleName: "ChartViewerService-JFreeChart"})
+CREATE (bcd {cde: 'this is the x2 property'})
+CREATE (fgh {ijk: This is some text.})
+CREATE (fgh {ijk: "This is some text."})
       -->
       <textarea style = "display: none;" id="xhcypher">
+   
 CREATE (abc)
 CREATE (def)
 CREATE (ghi)
+CREATE (jkl),(mno)
+CREATE (p:Person)-[:LIKES]->(t:Technology)
+CREATE
+(helloWorldSystem_0 {state: 0}),
+(hello_2 {state: 0}),
+(world_3 {state: 1}),
+(xholonInternalServices_0),
+(serviceLocatorService_1),
+(xPathService_2),
+(xPath_4),
+(xholonDirectoryService_3),
+(aboutService_4),
+(chartViewerService_5),
+(xholonMap_6)
+CREATE (bcd {cde: 12345.67})
 </textarea>
       <br/>
       <button id="parse">Parse</button>
@@ -183,6 +217,10 @@ var updateTree = function(tree) { //, literalNames, ruleNames, symbolicNames) {
     case "oC_Statement":
       console.log("an oC_Statement");
       statement(child);
+      break;
+    case "EOI":
+      console.log("a symbolicName EOI");
+      // ignore the EOI
       break;
     case null:
     case undefined:
@@ -261,6 +299,10 @@ var query = function(node) {
       console.log("an oC_RegularQuery");
       regularQuery(child);
       break;
+    case "oC_StandaloneCall":
+      console.log("an oC_StandaloneCall");
+      //standaloneCall(child);
+      break;
     case null: break;
     default: console.log("? " + nodeType); break;
     }
@@ -276,6 +318,14 @@ var regularQuery = function(node) {
     case "oC_SingleQuery":
       console.log("an oC_SingleQuery");
       singleQuery(child);
+      break;
+    case "oC_Union":
+      console.log("an oC_Union");
+      //union(child);
+      break;
+    case "SP":
+      console.log("a symbolicName SP");
+      // ignore the SP
       break;
     case null: break;
     default: console.log("? " + nodeType); break;
@@ -293,6 +343,10 @@ var singleQuery = function(node) {
       console.log("an oC_SinglePartQuery");
       singlePartQuery(child);
       break;
+    case "oC_MultiPartQuery":
+      console.log("an oC_MultiPartQuery");
+      //multiPartQuery(child);
+      break;
     case null: break;
     default: console.log("? " + nodeType); break;
     }
@@ -309,6 +363,34 @@ var singlePartQuery = function(node) {
       console.log("an oC_UpdatingClause");
       updatingClause(child);
       break;
+    case "oC_ReadingClause":
+      console.log("an oC_ReadingClause");
+      readingClause(child);
+      break;
+    case "oC_Return":
+      console.log("an oC_Return");
+      rreturn(child); // note the double r, so it doesn't conflict with JS "return"
+      break;
+    case "SP":
+      console.log("a symbolicName SP");
+      // ignore the SP
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// ReadingClause = Match | Unwind | InQueryCall ;
+var readingClause = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_Match":
+      console.log("an oC_Match");
+      //match(child);
+      break;
     case null: break;
     default: console.log("? " + nodeType); break;
     }
@@ -324,6 +406,23 @@ var updatingClause = function(node) {
     case "oC_Create":
       console.log("an oC_Create");
       create(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// Return = (R,E,T,U,R,N), [[SP], (D,I,S,T,I,N,C,T)], SP, ReturnBody ;
+// note the double r, so it doesn't conflict with JS "return"
+var rreturn = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_ReturnBody":
+      console.log("an oC_ReturnBody");
+      //returnBody(child);
       break;
     case null: break;
     default: console.log("? " + nodeType); break;
@@ -383,7 +482,7 @@ var patternPart = function(node) {
     switch (nodeType) {
     case "oC_Variable":
       console.log("an oC_Variable");
-      //variable(child);
+      variable(child);
       break;
     case "oC_AnonymousPatternPart":
       console.log("an oC_AnonymousPatternPart");
@@ -464,11 +563,33 @@ var patternElementChain = function(node) {
     switch (nodeType) {
     case "oC_RelationshipPattern":
       console.log("an oC_RelationshipPattern");
-      //relationshipPattern(child);
+      relationshipPattern(child);
       break;
     case "oC_NodePattern":
       console.log("an oC_NodePattern");
       nodePattern(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+/*
+RelationshipPattern = (LeftArrowHead, [SP], Dash, [SP], [RelationshipDetail], [SP], Dash, [SP], RightArrowHead)
+                    | (LeftArrowHead, [SP], Dash, [SP], [RelationshipDetail], [SP], Dash)
+                    | (Dash, [SP], [RelationshipDetail], [SP], Dash, [SP], RightArrowHead)
+                    | (Dash, [SP], [RelationshipDetail], [SP], Dash)
+                    ;
+*/
+var relationshipPattern = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_RelationshipDetail":
+      console.log("an oC_RelationshipDetail");
+      //relationshipDetail(child);
       break;
     case null: break;
     default: console.log("? " + nodeType); break;
@@ -485,6 +606,693 @@ var nodePattern = function(node) {
     case "oC_Variable":
       console.log("an oC_Variable");
       variable(child);
+      break;
+    case "oC_NodeLabels":
+      console.log("an oC_NodeLabels");
+      nodeLabels(child);
+      break;
+    case "oC_Properties":
+      console.log("an oC_Variable");
+      properties(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// NodeLabels = NodeLabel, { [SP], NodeLabel } ;
+var nodeLabels = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_NodeLabel":
+      console.log("an oC_NodeLabel");
+      nodeLabel(child);
+      break;
+    case "SP":
+      console.log("a symbolicName SP");
+      // ignore the SP
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// NodeLabel = ':', [SP], LabelName ;
+var nodeLabel = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_LabelName":
+      console.log("an oC_LabelName");
+      labelName(child);
+      break;
+    case "SP":
+      console.log("a symbolicName SP");
+      // ignore the SP
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// LabelName = SchemaName ;
+var labelName = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_SchemaName":
+      console.log("an oC_SchemaName");
+      schemaName(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// SchemaName = SymbolicName | ReservedWord ;
+var schemaName = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_SymbolicName":
+      console.log("an oC_SymbolicName");
+      symbolicName(child);
+      break;
+    case "oC_ReservedWord":
+      console.log("an oC_ReservedWord");
+      //reservedWord(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// Properties = MapLiteral | Parameter ;
+var properties = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_MapLiteral":
+      console.log("an oC_MapLiteral");
+      mapLiteral(child);
+      break;
+    case "oC_Parameter":
+      console.log("an oC_Parameter");
+      parameter(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// MapLiteral = '{', [SP], [PropertyKeyName, [SP], ':', [SP], Expression, [SP], { ',', [SP], PropertyKeyName, [SP], ':', [SP], Expression, [SP] }], '}' ;
+var mapLiteral = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_PropertyKeyName":
+      console.log("an oC_PropertyKeyName");
+      propertyKeyName(child);
+      break;
+    case "oC_Expression":
+      console.log("an oC_Expression");
+      expression(child);
+      break;
+    case "SP":
+      console.log("a symbolicName SP");
+      // ignore the SP
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// PropertyKeyName = SchemaName ;
+var propertyKeyName = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_SchemaName":
+      console.log("an oC_SchemaName");
+      schemaName(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// Expression = OrExpression ;
+var expression = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_OrExpression":
+      console.log("an oC_OrExpression");
+      orExpression(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// OrExpression = XorExpression, { SP, (O,R), SP, XorExpression } ;
+var orExpression = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_XorExpression":
+      console.log("an oC_XorExpression");
+      xorExpression(child);
+      break;
+    case "OR":
+      console.log("a symbolicName OR");
+      // ignore the OR
+      break;
+    case "SP":
+      console.log("a symbolicName SP");
+      // ignore the SP
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// XorExpression = AndExpression, { SP, (X,O,R), SP, AndExpression } ;
+var xorExpression = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_AndExpression":
+      console.log("an oC_AndExpression");
+      andExpression(child);
+      break;
+    case "XOR":
+      console.log("a symbolicName XOR");
+      // ignore the XOR
+      break;
+    case "SP":
+      console.log("a symbolicName SP");
+      // ignore the SP
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// AndExpression = NotExpression, { SP, (A,N,D), SP, NotExpression } ;
+var andExpression = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_NotExpression":
+      console.log("an oC_NotExpression");
+      notExpression(child);
+      break;
+    case "AND":
+      console.log("a symbolicName AND");
+      // ignore the AND
+      break;
+    case "SP":
+      console.log("a symbolicName SP");
+      // ignore the SP
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// NotExpression = { (N,O,T), [SP] }, ComparisonExpression ;
+var notExpression = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_ComparisonExpression":
+      console.log("an oC_ComparisonExpression");
+      comparisonExpression(child);
+      break;
+    case "NOT":
+      console.log("a symbolicName NOT");
+      // ignore the NOT
+      break;
+    case "SP":
+      console.log("a symbolicName SP");
+      // ignore the SP
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// ComparisonExpression = AddOrSubtractExpression, { [SP], PartialComparisonExpression } ;
+var comparisonExpression = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_AddOrSubtractExpression":
+      console.log("an oC_AddOrSubtractExpression");
+      addOrSubtractExpression(child);
+      break;
+    case "oC_PartialComparisonExpression":
+      console.log("an oC_PartialComparisonExpression");
+      //partialComparisonExpression(child);
+      break;
+    case "SP":
+      console.log("a symbolicName SP");
+      // ignore the SP
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// AddOrSubtractExpression = MultiplyDivideModuloExpression, { ([SP], '+', [SP], MultiplyDivideModuloExpression) | ([SP], '-', [SP], MultiplyDivideModuloExpression) } ;
+var addOrSubtractExpression = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_MultiplyDivideModuloExpression":
+      console.log("an oC_MultiplyDivideModuloExpression");
+      multiplyDivideModuloExpression(child);
+      break;
+    case "SP":
+      console.log("a symbolicName SP");
+      // ignore the SP
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// MultiplyDivideModuloExpression = PowerOfExpression, { ([SP], '*', [SP], PowerOfExpression) | ([SP], '/', [SP], PowerOfExpression) | ([SP], '%', [SP], PowerOfExpression) } ;
+var multiplyDivideModuloExpression = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_PowerOfExpression":
+      console.log("an oC_PowerOfExpression");
+      powerOfExpression(child);
+      break;
+    case "SP":
+      console.log("a symbolicName SP");
+      // ignore the SP
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// PowerOfExpression = UnaryAddOrSubtractExpression, { [SP], '^', [SP], UnaryAddOrSubtractExpression } ;
+var powerOfExpression = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_UnaryAddOrSubtractExpression":
+      console.log("an oC_UnaryAddOrSubtractExpression");
+      unaryAddOrSubtractExpression(child);
+      break;
+    case "SP":
+      console.log("a symbolicName SP");
+      // ignore the SP
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// UnaryAddOrSubtractExpression = { ('+' | '-'), [SP] }, StringListNullOperatorExpression ;
+var unaryAddOrSubtractExpression = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_StringListNullOperatorExpression":
+      console.log("an oC_StringListNullOperatorExpression");
+      stringListNullOperatorExpression(child);
+      break;
+    case "SP":
+      console.log("a symbolicName SP");
+      // ignore the SP
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// StringListNullOperatorExpression = PropertyOrLabelsExpression, { StringOperatorExpression | ListOperatorExpression | NullOperatorExpression } ;
+var stringListNullOperatorExpression = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_PropertyOrLabelsExpression":
+      console.log("an oC_PropertyOrLabelsExpression");
+      propertyOrLabelsExpression(child);
+      break;
+    case "oC_StringOperatorExpression":
+      console.log("an oC_StringOperatorExpression");
+      stringOperatorExpression(child);
+      break;
+    case "oC_ListOperatorExpression":
+      console.log("an oC_ListOperatorExpression");
+      listOperatorExpression(child);
+      break;
+    case "oC_NullOperatorExpression":
+      console.log("an oC_NullOperatorExpression");
+      nullOperatorExpression(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// ListOperatorExpression = (SP, (I,N), [SP], PropertyOrLabelsExpression) | ([SP], '[', Expression, ']') | ([SP], '[', [Expression], '..', [Expression], ']') ;
+var listOperatorExpression = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_PropertyOrLabelsExpression":
+      console.log("an oC_PropertyOrLabelsExpression");
+      propertyOrLabelsExpression(child);
+      break;
+    case "oC_Expression":
+      console.log("an oC_Expression");
+      expression(child);
+      break;
+    case "SP":
+      console.log("a symbolicName SP");
+      // ignore the SP
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// StringOperatorExpression = ((SP, (S,T,A,R,T,S), SP, (W,I,T,H)) | (SP, (E,N,D,S), SP, (W,I,T,H)) | (SP, (C,O,N,T,A,I,N,S))), [SP], PropertyOrLabelsExpression ;
+var stringOperatorExpression = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_PropertyOrLabelsExpression":
+      console.log("an oC_PropertyOrLabelsExpression");
+      propertyOrLabelsExpression(child);
+      break;
+    case "SP":
+      console.log("a symbolicName SP");
+      // ignore the SP
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// NullOperatorExpression = (SP, (I,S), SP, (N,U,L,L)) | (SP, (I,S), SP, (N,O,T), SP, (N,U,L,L)) ;
+var nullOperatorExpression = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "SP":
+      console.log("a symbolicName SP");
+      // ignore the SP
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// PropertyOrLabelsExpression = Atom, { [SP], PropertyLookup }, [[SP], NodeLabels] ;
+var propertyOrLabelsExpression = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_Atom":
+      console.log("an oC_Atom");
+      atom(child);
+      break;
+    case "oC_PropertyLookup":
+      console.log("an oC_PropertyLookup");
+      propertyLookup(child);
+      break;
+    case "oC_NodeLabels":
+      console.log("an oC_NodeLabels");
+      nodeLabels(child);
+      break;
+    case "SP":
+      console.log("a symbolicName SP");
+      // ignore the SP
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+/*
+Atom = Literal
+     | Parameter
+     | CaseExpression
+     | ((C,O,U,N,T), [SP], '(', [SP], '*', [SP], ')')
+     | ListComprehension
+     | PatternComprehension
+     | ((A,L,L), [SP], '(', [SP], FilterExpression, [SP], ')')
+     | ((A,N,Y), [SP], '(', [SP], FilterExpression, [SP], ')')
+     | ((N,O,N,E), [SP], '(', [SP], FilterExpression, [SP], ')')
+     | ((S,I,N,G,L,E), [SP], '(', [SP], FilterExpression, [SP], ')')
+     | RelationshipsPattern
+     | ParenthesizedExpression
+     | FunctionInvocation
+     | Variable
+     ;
+*/
+var atom = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_Literal":
+      console.log("an oC_Literal");
+      literal(child);
+      break;
+    case "oC_Variable":
+      console.log("an oC_Variable");
+      variable(child);
+      break;
+    case "SP":
+      console.log("a symbolicName SP");
+      // ignore the SP
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+/*
+Literal = NumberLiteral
+        | StringLiteral
+        | BooleanLiteral
+        | (N,U,L,L)
+        | MapLiteral
+        | ListLiteral
+        ;
+*/
+var literal = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_NumberLiteral":
+      console.log("an oC_NumberLiteral");
+      numberLiteral(child);
+      break;
+    case "StringLiteral": // there is no "oC_StringLiteral", only "StringLiteral"
+      console.log("a StringLiteral " + child.getText());
+      //stringLiteral(child);
+      break;
+    case "oC_BooleanLiteral":
+      console.log("an oC_BooleanLiteral");
+      //booleanLiteral(child);
+      break;
+    case "NULL":
+      console.log("a NULL");
+      // 
+      break;
+    case "oC_MapLiteral":
+      console.log("an oC_MapLiteral");
+      mapLiteral(child);
+      break;
+    case "oC_ListLiteral":
+      console.log("an oC_ListLiteral");
+      //listLiteral(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// NumberLiteral = DoubleLiteral | IntegerLiteral ;
+var numberLiteral = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_DoubleLiteral":
+      console.log("an oC_DoubleLiteral");
+      doubleLiteral(child);
+      break;
+    case "oC_IntegerLiteral":
+      console.log("an oC_IntegerLiteral");
+      integerLiteral(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// DoubleLiteral = ExponentDecimalReal | RegularDecimalReal ;
+var doubleLiteral = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "ExponentDecimalReal":
+      console.log("an ExponentDecimalReal " + child.getText());
+      break;
+    case "RegularDecimalReal":
+      console.log("a RegularDecimalReal " + child.getText());
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// RegularDecimalReal = { Digit }, '.', { Digit }- ;
+/*var regularDecimalReal = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "Digit":
+      console.log("an Digit");
+      //digit(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}*/
+
+// IntegerLiteral = HexInteger | OctalInteger | DecimalInteger ;
+var integerLiteral = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "HexInteger":
+      console.log("a HexInteger " + child.getText());
+      break;
+    case "OctalInteger":
+      console.log("an OctalInteger " + child.getText());
+      break;
+    case "DecimalInteger":
+      console.log("a DecimalInteger " + child.getText());
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// StringLiteral = ('"', { ANY - ('"' | '\') | EscapedChar }, '"') | ("'", { ANY - ("'" | '\') | EscapedChar }, "'") ;
+/*var stringLiteral = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "EscapedChar":
+      console.log("an EscapedChar");
+      escapedChar(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}*/
+
+// EscapedChar = '\', ('\' | "'" | '"' | (B) | (F) | (N) | (R) | (T) | ((U), 4 * HexDigit) | ((U), 8 * HexDigit)) ;
+/*var escapedChar = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "HexDigit":
+      console.log("an HexDigit");
+      //hexDigit(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}*/
+
+// Parameter = '$', (SymbolicName | DecimalInteger) ;
+var parameter = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "oC_SymbolicName":
+      console.log("an oC_SymbolicName");
+      //symbolicName(child);
+      break;
+    case "oC_DecimalInteger":
+      console.log("an oC_DecimalInteger");
+      //decimalInteger(child);
       break;
     case null: break;
     default: console.log("? " + nodeType); break;
@@ -544,6 +1352,7 @@ var unescapedSymbolicName = function(node) {
 }
 
 // IdentifierStart = ID_Start | Pc ;
+// this is a low-level token that may never occur as a named thing
 var identifierStart = function(node) {
   for (var i = 0; i < node.children.length; i++) {
     var child = node.children[i];
@@ -568,6 +1377,7 @@ var identifierStart = function(node) {
 }
 
 // IdentifierPart = ID_Continue | Sc ;
+// this is a low-level token that may never occur as a named thing
 var identifierPart = function(node) {
   for (var i = 0; i < node.children.length; i++) {
     var child = node.children[i];
@@ -602,7 +1412,12 @@ var getNodeType = function(node) {
   else {
     if (node.symbol) {
       nodeType = symbolicNames[node.symbol.type];
-      console.log("SYMBOL " + nodeType);
+      if (nodeType) {
+        console.log("SYMBOL " + nodeType);
+      }
+      else {
+        console.log("LITERAL " + node.getText());
+      }
     }
     else {
       console.log("NOT RULE|SYMBOL " + node.getText());
@@ -637,20 +1452,26 @@ var actorRefObj = null;
 var literalNames, ruleNames, symbolicNames;
 
 document.getElementById("parse").addEventListener("click", function(){
-  var input = document.getElementById("xhcypher").value;
+  
+  // testing
+  //var input = document.getElementById("xhcypher").value;
+  var input = "CREATE (fgh {ijk: 'This is some text.'})"; // fails
+  
   console.log(input);
   var chars = new antlr4.InputStream(input);
+  console.log(chars);
   var lexer = new CypherLexer.CypherLexer(chars);
   var tokens  = new antlr4.CommonTokenStream(lexer);
+  console.log(tokens);
   var parser = new CypherParser.CypherParser(tokens);
-  parser.buildParseTrees = true;
+  parser.buildParseTrees = true; // default is true
   console.log(parser);
   var tree = parser.oC_Cypher();
   console.log("Parsed: "+ tree);
   literalNames = parser.literalNames;
   ruleNames = parser.ruleNames;
   symbolicNames = parser.symbolicNames;
-  updateTree(tree); //, parser.literalNames, parser.ruleNames, parser.symbolicNames);
+  updateTree(tree);
   //
   xmlStrIH += "</_-.XholonClass>\n";
   xmlStrCD += '\n'
