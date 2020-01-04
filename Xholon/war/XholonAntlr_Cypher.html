@@ -125,6 +125,31 @@
 Cypher grammar
     </pre>-->
     
+    <!--
+The steps in my process:
+() Download and install antlr
+() Download the Cypher grammar Cypher.g4
+ - install in ~/JavaThirdParty/antlr4
+() Compile
+ cd ~/JavaThirdParty/antlr4
+ java -jar antlr-4.7-complete.jar -Dlanguage=JavaScript Cypher.g4
+() this generates the following files in the same directory:
+ CypherLexer.js
+ CypherLexer.tokens
+ CypherListener.js
+ CypherParser.js
+ Cypher.tokens
+() Manually copy all six files, including Cypher.g4, to the Xholon source directory ~/gwtspace/Xholon/Xholon/src/org/public/lib/antlr4g
+() Edit 3 of the .js files to convert  'antlr4/index' to 'xholon/lib/antlr4/index'
+() Copy all six files from the source to the Xholon runtime directory ~/gwtspace/Xholon/Xholon/war/xholon/lib/antlr4g
+ cd ~/gwtspace/Xholon/Xholon
+ ant -Dgwt.args="-strict" gwtc
+() Load this .html file (XholonAntlr_Cypher.html) along with any Xholon app
+ http://127.0.0.1:8888/XholonAntlr_Cypher.html?app=023f0fc135244e988a831dd8f8364679&src=gist&gui=clsc
+() Click the "Parse" button.
+() Observe the output in the "out" tab and in the browser Dev Tools console.
+    -->
+    
     <div id="inputs">
       <!--
 // example from: https://neo4j.com/developer/cypher-basics-i/
@@ -1149,7 +1174,7 @@ var literal = function(node) {
       break;
     case "StringLiteral": // there is no "oC_StringLiteral", only "StringLiteral"
       console.log("a StringLiteral " + child.getText());
-      //stringLiteral(child);
+      stringLiteral(child);
       break;
     case "oC_BooleanLiteral":
       console.log("an oC_BooleanLiteral");
@@ -1249,7 +1274,7 @@ var integerLiteral = function(node) {
 }
 
 // StringLiteral = ('"', { ANY - ('"' | '\') | EscapedChar }, '"') | ("'", { ANY - ("'" | '\') | EscapedChar }, "'") ;
-/*var stringLiteral = function(node) {
+var stringLiteral = function(node) {
   for (var i = 0; i < node.children.length; i++) {
     var child = node.children[i];
     var nodeType = getNodeType(child);
@@ -1262,10 +1287,10 @@ var integerLiteral = function(node) {
     default: console.log("? " + nodeType); break;
     }
   }
-}*/
+}
 
 // EscapedChar = '\', ('\' | "'" | '"' | (B) | (F) | (N) | (R) | (T) | ((U), 4 * HexDigit) | ((U), 8 * HexDigit)) ;
-/*var escapedChar = function(node) {
+var escapedChar = function(node) {
   for (var i = 0; i < node.children.length; i++) {
     var child = node.children[i];
     var nodeType = getNodeType(child);
@@ -1278,7 +1303,7 @@ var integerLiteral = function(node) {
     default: console.log("? " + nodeType); break;
     }
   }
-}*/
+}
 
 // Parameter = '$', (SymbolicName | DecimalInteger) ;
 var parameter = function(node) {
@@ -1455,7 +1480,14 @@ document.getElementById("parse").addEventListener("click", function(){
   
   // testing
   //var input = document.getElementById("xhcypher").value;
-  var input = "CREATE (fgh {ijk: 'This is some text.'})"; // fails
+  //var input = "CREATE (fgh {ijk: 'This is some text.'})"; // fails
+  //var input = 'CREATE (fgh {ijk: "This is some text."})'; // fails
+  //var input = 'CREATE (fgh {ijk: 123.4})'; // OK
+  //var input = 'CREATE (fgh {ijk: ThisIsText})'; // OK, it sees ThisIsText as a symbol
+  //var input = 'CREATE (fgh {ijk: `ThisIsText`})'; // fails
+  //var input = "CREATE (fgh {ijk: \"This is some text.\"})"; // fails
+  //var input = "CREATE (fgh {ijk: $This_is_some_text$})"; // use $ as a quote mark; it sees this as a Parameter
+  var input = "CREATE (fgh {ijk: _This_is_some_text_})"; // use _ as a quote mark and as a space; it sees this as a UnescapedSymbolicName
   
   console.log(input);
   var chars = new antlr4.InputStream(input);
