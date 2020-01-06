@@ -1455,10 +1455,10 @@ var getNodeType = function(node) {
 }
 
 // main
-var antlr4 = require('xholon/lib/antlr4/index');
-var CypherLexer = require('xholon/lib/antlr4g/CypherLexer');
-var CypherParser = require('xholon/lib/antlr4g/CypherParser');
-var CypherListener = require('xholon/lib/antlr4g/CypherListener');
+const antlr4 = require('xholon/lib/antlr4/index');
+const CypherLexer = require('xholon/lib/antlr4g/CypherLexer');
+const CypherParser = require('xholon/lib/antlr4g/CypherParser');
+const CypherListener = require('xholon/lib/antlr4g/CypherListener');
 
 var xmlStrIH = "<_-.XholonClass>\n  <TheSystem/>\n";
 var xmlStrCD = "<xholonClassDetails>\n";
@@ -1482,23 +1482,36 @@ document.getElementById("parse").addEventListener("click", function(){
   //var input = document.getElementById("xhcypher").value;
   //var input = "CREATE (fgh {ijk: 'This is some text.'})"; // fails
   //var input = 'CREATE (fgh {ijk: "This is some text."})'; // fails
-  //var input = 'CREATE (fgh {ijk: 123.4})'; // OK
+  const input = 'CREATE (fgh {ijk: 123.4})'; // OK
   //var input = 'CREATE (fgh {ijk: ThisIsText})'; // OK, it sees ThisIsText as a symbol
   //var input = 'CREATE (fgh {ijk: `ThisIsText`})'; // fails
   //var input = "CREATE (fgh {ijk: \"This is some text.\"})"; // fails
-  //var input = "CREATE (fgh {ijk: $This_is_some_text$})"; // use $ as a quote mark; it sees this as a Parameter
-  var input = "CREATE (fgh {ijk: _This_is_some_text_})"; // use _ as a quote mark and as a space; it sees this as a UnescapedSymbolicName
+  //var input = "CREATE (fgh {ijk: $This_is_some_text$})"; // OK use $ as a quote mark; it sees this as a Parameter
+  //var input = "CREATE (fgh {ijk: _This_is_some_text_})"; // OK use _ as a quote mark and as a space; it sees this as a UnescapedSymbolicName
+  //var input = "MATCH (:Person {name: 'Jennifer'})-[:WORKS_FOR]->(company:Company)\nRETURN company.name"; // fails
+  //var input = "MATCH (:Person {name: Jennifer})-[:WORKS_FOR]->(company:Company)\nRETURN company.name"; // OK; the syntax is OK
+  
+  // examples from https://github.com/pontusmelke/openCypher/blob/31f2dc8fc4b4ae2147d260d22c80fb91c42b71b6/cip/CIP2015-10-12-CREATE.adoc
+  //const input = 'CREATE ()'; // OK
+  //const input = `CREATE (:Person:Administrator { email: 'mats@neotechnology.com' })`; // fails
+  //const input = `MATCH (a:Person), (b:Person)\nCREATE (a)-[:KNOWS]->(b)`; // parses OK, but doesn't create any nodes
+  //const input = 'CREATE (me:Source), (you:Destination), (you)<-[:LOVES { dearly: true }]-(me)'; // OK
+  /*const input = `
+UNWIND { mapList } AS map
+CREATE (n:Node)
+SET n = map`;*/
+  //const input = `CREATE (:Cat {catProps})\nCREATE (:Dog {dogProps})`; // fails
   
   console.log(input);
-  var chars = new antlr4.InputStream(input);
+  const chars = new antlr4.InputStream(input);
   console.log(chars);
-  var lexer = new CypherLexer.CypherLexer(chars);
-  var tokens  = new antlr4.CommonTokenStream(lexer);
+  const lexer = new CypherLexer.CypherLexer(chars);
+  const tokens  = new antlr4.CommonTokenStream(lexer);
   console.log(tokens);
-  var parser = new CypherParser.CypherParser(tokens);
+  const parser = new CypherParser.CypherParser(tokens);
   parser.buildParseTrees = true; // default is true
   console.log(parser);
-  var tree = parser.oC_Cypher();
+  const tree = parser.oC_Cypher();
   console.log("Parsed: "+ tree);
   literalNames = parser.literalNames;
   ruleNames = parser.ruleNames;
