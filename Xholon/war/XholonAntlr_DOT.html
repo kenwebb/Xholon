@@ -1,0 +1,836 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="author" content="Ken Webb" />
+    <meta name="copyright" content="MIT License, Copyright (C) 2020 Ken Webb" />
+    
+    <script src="xholon/lib/antlr4-require.js"></script>
+    
+    <!--                                                               -->
+    <!-- Consider inlining CSS to reduce the number of requested files -->
+    <!--                                                               -->
+    <link type="text/css" rel="stylesheet" href="Xholon.css">
+
+    <style>
+    pre.antlr {
+      border-style: solid;
+      border-width: 1px;
+      background-color: aliceblue;
+    }
+    #tree {
+        margin-left: 50px;
+        float:left;
+        clear:right;
+    }
+    #inputs {
+        float:left;
+        clear:left;
+    }
+    .roomElement {
+        background: beige;
+        /*display: inline-block;*/
+        padding: 5px;
+        border-radius: 12px;
+        border: 1px solid black;
+        margin: 10px;
+    }
+    </style>
+    
+    <title>Xholon ANTLR - DOT</title>
+    
+    <!-- D3 -->
+    <script type="text/javascript" language="javascript" src="d3.min.js" charset="utf-8"></script>
+    
+    <!--                                           -->
+    <!-- This script loads your compiled module.   -->
+    <!-- If you add any GWT meta tags, they must   -->
+    <!-- be added before this line.                -->
+    <!--                                           -->
+    <script type="text/javascript" language="javascript" src="xholon/xholon.nocache.js"></script>
+    
+  </head>
+  
+  <body>
+    <!--<h3>Xholon ANTLR - DOT</h3>-->
+    
+    <!-- OPTIONAL: include this if you want history support -->
+    <!--<iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>-->
+    
+    <!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
+    <noscript>
+      <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
+        Your web browser must have JavaScript enabled
+        in order for this application to display correctly.
+      </div>
+    </noscript>
+
+    <!-- Each of the following can have sub-div elements. -->
+    <div id="xhtop">
+      <h3 id="xholontitle" style="display: inline;">Xholon</h3>
+      <span id="timestep" style="padding-left: 20px; font-size: 13px;">0</span>:<span id="maxprocessloops" style="font-size: 13px;">&infin;</span>
+    </div>
+    
+    <!-- default GWT-based GUI -->
+    <div id="xhgui"></div>
+    
+    <!-- reserved for app-specific use -->
+    <div id="xhappspecific"></div>
+    
+    <div id="xhconsole">
+      <!--<div id="xhout"></div> will be added as a tab in a TabLayoutPanel -->
+      <!--<div id="xhclipboard"></div>  will be added as a tab in a TabLayoutPanel -->
+      <!-- instances of node-specific XholonConsole -->
+    </div>
+    
+    <!-- text: much of which could use CodeMirror/Ace -->
+    <div id="xhtabs"></div>
+    
+    <!-- data: line chart, pie chart, other Google charts, etc. -->
+    <div id="xhchart"></div>
+    
+    <!-- HTML5 canvas -->
+    <div id="xhcanvas"></div>
+    
+    <!-- structure: network, tree, Google/D3 Treemap, D3 charts/graphs, etc. -->
+    <div id="xhgraph">
+      <div id="networkview"></div>
+      <div id="treeview"></div>
+      <div id="xhtreemap"></div>
+    </div>
+    
+    <!-- SVG and other animations, such as those with Animate.java
+         Each separate animation should have its own child div -->
+    <div id="xhanim"></div>
+    
+    <!-- static SVG images -->
+    <div id="xhsvg"></div>
+    
+    <!-- PNG, etc. -->
+    <div id="xhimg"></div>
+    
+    <!-- Include Zepto with a script tag near the end of your page. -->
+    <!--<script src="zepto.min.js"></script>-->
+    
+    <!-- QUnit unit testing -->
+    <div id="xhunittest">
+      <!-- these are required by QUnit -->
+      <div id="qunit"></div>
+      <div id="qunit-fixture"></div>
+    </div>
+
+    <!-- http://127.0.0.1:8888/XholonAntlr_DOT.html?app=HelloWorld&gui=clsc -->
+    <!--<p>This is an <a href="">DOT</a> model.</p>-->
+    <!--<pre class="antlr">
+DOT grammar
+    </pre>-->
+    
+    <!--
+The steps in my process:
+() Download and install antlr
+() Note the DOT grammar DOT.g4
+ - it's already in ~/JavaThirdParty/antlr4/grammars-v4-master/dot
+() Compile
+ cd ~/JavaThirdParty/antlr4
+ java -jar antlr-4.7-complete.jar -Dlanguage=JavaScript grammars-v4-master/dot/DOT.g4
+() this generates the following files in the same directory:
+ DOTLexer.js
+ DOTLexer.tokens
+ DOTListener.js
+ DOTParser.js
+ DOT.tokens
+() Manually copy all six files, including DOT.g4, to the Xholon source directory ~/gwtspace/Xholon/Xholon/src/org/public/lib/antlr4g
+() Edit 3 of the .js files to convert  'antlr4/index' to 'xholon/lib/antlr4/index'
+() Copy all six files from the source to the Xholon runtime directory ~/gwtspace/Xholon/Xholon/war/xholon/lib/antlr4g
+ cd ~/gwtspace/Xholon/Xholon
+ ant -Dgwt.args="-strict" gwtc
+() Load this .html file (XholonAntlr_DOT.html) along with any Xholon app
+ http://127.0.0.1:8888/XholonAntlr_DOT.html?app=023f0fc135244e988a831dd8f8364679&src=gist&gui=clsc
+() Click the "Parse" button.
+() Observe the output in the "out" tab and in the browser Dev Tools console.
+    -->
+    
+    <div id="inputs">
+      <!--
+// example from: 
+      -->
+      <textarea style = "display: none;" id="xhdot">
+digraph G {
+
+	subgraph cluster_0 {
+		style=filled;
+		color=lightgrey;
+		node [style=filled,color=white];
+		a0 -> a1 -> a2 -> a3;
+		label = "process #1";
+	}
+
+	subgraph cluster_1 {
+		node [style=filled];
+		b0 -> b1 -> b2 -> b3;
+		label = "process #2";
+		color=blue
+	}
+	start -> a0;
+	start -> b0;
+	a1 -> b3;
+	b2 -> a3;
+	a3 -> a0;
+	a3 -> end;
+	b3 -> end;
+
+	start [shape=Mdiamond];
+	end [shape=Msquare];
+}
+</textarea>
+      <br/>
+      <button id="parse">Parse</button>
+    </div>
+    
+    <script type="text/javascript">
+var updateTree = function(tree) {
+  console.log(ruleNames);
+  var nodeTypeT = ruleNames[tree.ruleIndex];
+  console.log(nodeTypeT);
+  switch (nodeTypeT) {
+  case "graph":
+    xmlStrCSH += "<XholonNull>\n";
+    break;
+  default:
+    break;
+  }
+  for (var i = 0; i < tree.children.length; i++) {
+    var child = tree.children[i];
+    console.log(child);
+    var nodeType = ruleNames[child.ruleIndex];
+    if (nodeType) {
+      console.log(nodeType);
+    }
+    else {
+      if (child.symbol) {
+        nodeType = symbolicNames[child.symbol.type];
+        console.log(nodeType);
+      }
+      else {
+        console.log(child.getText());
+      }
+    }
+    // graph : STRICT? ( GRAPH | DIGRAPH ) id? '{' stmt_list '}' ;
+    switch (nodeType) {
+    case "STRICT":
+      console.log("a STRICT");
+      // ignore the SP
+      break;
+    case "GRAPH":
+      console.log("an GRAPH");
+      break;
+    case "DIGRAPH":
+      console.log("a DIGRAPH");
+      break;
+    case "id":
+      console.log("a id");
+      break;
+    case "stmt_list":
+      console.log("a stmt_list");
+      stmt_list(child);
+      break;
+    case null:
+    case undefined:
+      break;
+    default:
+      console.log(nodeType);
+      break;
+    }
+  }
+  switch (nodeTypeT) {
+  case "graph":
+    console.log(node_id_arr);
+    var node_id_set = new Set(node_id_arr);
+    console.log(node_id_set);
+    node_id_set.forEach(function(item) {
+      console.log(item);
+      xmlStrCSH += '<Hello roleName="' + item + '"/>\n';
+    })
+    xmlStrCSH += "</XholonNull>";
+    break;
+  default:
+    break;
+  }
+};
+
+// @deprecated ???
+var recurseChild = function(child, ruleNames) {
+  if (!child) {return;}
+  var nodeType = ruleNames[child.ruleIndex];
+  console.log(nodeType);
+  switch (nodeType) {
+  case "aaa":
+    //aaa(child, ruleNames);
+    break;
+  case "bbb":
+    //bbb(child, ruleNames);
+    return;
+  case "ccc":
+    //ccc(child, ruleNames);
+    return;
+  case "ddd":
+    //ddd(child, ruleNames);
+    return;
+  case "eee":
+    //eee(child, ruleNames);
+    return;
+  default:
+    break;
+  }
+  if (child.children) {
+    for (var j = 0; j < child.children.length; j++) {
+      console.log("" + j + " " + child.children[j].getText());
+      recurseChild(child.children[j], ruleNames);
+    }
+  }
+}
+
+// TODO use a single recurse() function to drill down to something concrete ???
+
+// stmt_list : ( stmt ';'? )* ;
+var stmt_list = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "stmt":
+      console.log("a stmt");
+      stmt(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// stmt : node_stmt | edge_stmt | attr_stmt | id '=' id | subgraph ;
+var stmt = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "node_stmt":
+      console.log("an node_stmt");
+      node_stmt(child);
+      break;
+    case "edge_stmt":
+      console.log("an edge_stmt");
+      edge_stmt(child);
+      break;
+    case "attr_stmt":
+      console.log("an attr_stmt");
+      attr_stmt(child);
+      break;
+    case "subgraph":
+      console.log("an subgraph");
+      subgraph(child);
+      break;
+    case "id":
+      console.log("a id");
+      id(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// attr_stmt : ( GRAPH | NODE | EDGE ) attr_list ;
+var attr_stmt = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "GRAPH":
+      console.log("a GRAPH");
+      //
+      break;
+    case "NODE":
+      console.log("a NODE");
+      //
+      break;
+    case "edgeRHS":
+      console.log("a edgeRHS");
+      //edgeRHS(child);
+      break;
+    case "attr_list":
+      console.log("a attr_list");
+      attr_list(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// attr_list : ( '[' a_list? ']' )+ ;
+var attr_list = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "a_list":
+      console.log("a a_list");
+      a_list(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// a_list : ( id ( '=' id )? ','? )+ ;
+var a_list = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "id":
+      console.log("a id");
+      id(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// edge_stmt : ( node_id | subgraph ) edgeRHS attr_list? ;
+var edge_stmt = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "node_id":
+      console.log("a node_id");
+      node_id(child);
+      break;
+    case "subgraph":
+      console.log("a subgraph");
+      //subgraph(child);
+      break;
+    case "edgeRHS":
+      console.log("a edgeRHS");
+      edgeRHS(child);
+      break;
+    case "attr_list":
+      console.log("a attr_list");
+      //attr_list(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// edgeRHS : ( edgeop ( node_id | subgraph ) )+ ;
+var edgeRHS = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "edgeop":
+      console.log("a edgeop");
+      edgeop(child);
+      break;
+    case "node_id":
+      console.log("a node_id");
+      node_id(child);
+      break;
+    case "subgraph":
+      console.log("a subgraph");
+      //subgraph(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// edgeop : '->' | '--' ;
+var edgeop = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// node_stmt : node_id attr_list? ;
+var node_stmt = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "node_id":
+      console.log("a node_id");
+      node_id(child);
+      break;
+    case "attr_list":
+      console.log("a attr_list");
+      //attr_list(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// node_id : id port? ;
+var node_id = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "id":
+      node_id_arr.push(child.getText());
+      console.log("a id");
+      id(child);
+      break;
+    case "port":
+      console.log("a port");
+      port(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// port : ':' id ( ':' id )? ;
+var port = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "id":
+      console.log("a id");
+      id(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// subgraph : ( SUBGRAPH id? )? '{' stmt_list '}' ;
+var subgraph = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "SUBGRAPH":
+      console.log("a SUBGRAPH");
+      break;
+    case "id":
+      console.log("a id");
+      id(child);
+      break;
+    case "stmt_list":
+      console.log("a stmt_list");
+      stmt_list(child);
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+// id : ID | STRING | HTML_STRING | NUMBER
+var id = function(node) {
+  for (var i = 0; i < node.children.length; i++) {
+    var child = node.children[i];
+    var nodeType = getNodeType(child);
+    switch (nodeType) {
+    case "ID":
+      console.log("a ID");
+      break;
+    case "STRING":
+      console.log("a STRING");
+      break;
+    case "HTML_STRING":
+      console.log("a HTML_STRING");
+      break;
+    case "NUMBER":
+      console.log("a NUMBER");
+      break;
+    case null: break;
+    default: console.log("? " + nodeType); break;
+    }
+  }
+}
+
+
+var getNodeType = function(node) {
+  console.log(node);
+  //if (node.getPayload) {console.log(node.getPayload())};
+  //if (node.getSymbol) {console.log(node.getSymbol())};
+  //if (node.getText) {console.log(node.getText())};
+  //console.log(node.toString());
+  var nodeType = ruleNames[node.ruleIndex];
+  if (nodeType) {
+    console.log("RULE " + nodeType + " " + node.getText());
+  }
+  else {
+    if (node.symbol) {
+      nodeType = symbolicNames[node.symbol.type];
+      if (nodeType) {
+        console.log("SYMBOL " + nodeType + " " + node.getText());
+      }
+      else {
+        console.log("LITERAL " + node.getText());
+      }
+    }
+    else {
+      console.log("NOT RULE|SYMBOL " + node.getText());
+    }
+  }
+  if (!nodeType) {
+    nodeType = null;
+  }
+  return nodeType;
+}
+
+// main
+const antlr4 = require('xholon/lib/antlr4/index');
+const DOTLexer = require('xholon/lib/antlr4g/DOTLexer');
+const DOTParser = require('xholon/lib/antlr4g/DOTParser');
+const DOTListener = require('xholon/lib/antlr4g/DOTListener');
+
+var xmlStrIH = "<_-.XholonClass>\n  <TheSystem/>\n";
+var xmlStrCD = "<xholonClassDetails>\n";
+var xmlStrCSH = "<TheSystem>";
+
+var nextActivityId = 1;
+var actorClassContextName = null;
+var transArr = null;
+var seekingTopActor = false;
+
+// behavior for one specific StateMachine, for an ActorClass with a Behavior
+var beh = null;
+//var bindings = {}; //[]; // cache all Binding(s) here
+var actorRefObj = null;
+
+var literalNames, ruleNames, symbolicNames;
+
+// collect all the node_id values in this array; there will be duplicates
+var node_id_arr = [];
+
+document.getElementById("parse").addEventListener("click", function(){
+  
+  // testing
+  const input = document.getElementById("xhdot").value;
+  //const input = 'CREATE (fgh {ijk: 123.4})'; // OK
+  
+  console.log(input);
+  const chars = new antlr4.InputStream(input);
+  console.log(chars);
+  const lexer = new DOTLexer.DOTLexer(chars);
+  const tokens  = new antlr4.CommonTokenStream(lexer);
+  console.log(tokens);
+  const parser = new DOTParser.DOTParser(tokens);
+  parser.buildParseTrees = true; // default is true
+  console.log(parser);
+  const tree = parser.graph();
+  console.log("Parsed: "+ tree);
+  literalNames = parser.literalNames;
+  ruleNames = parser.ruleNames;
+  symbolicNames = parser.symbolicNames;
+  updateTree(tree);
+  //
+  xmlStrIH += "</_-.XholonClass>\n";
+  xmlStrCD += '\n'
+    + '  <XholonClass xhType="XhtypePureContainer"/>\n'
+    ;
+  xmlStrCD += "</xholonClassDetails>\n";
+  xmlStrCSH += "</TheSystem>\n";
+  console.log(xmlStrIH);
+  console.log(xmlStrCD);
+  console.log(xmlStrCSH);
+  //console.log(bindings);
+  if (xh) {
+    var rootIH = xh.app().first().next().next().first().next().first();
+    console.log(rootIH);
+    rootIH.append(xmlStrIH);
+    rootIH.append(xmlStrCD);
+    var rootCSH = xh.root();
+    console.log(rootCSH);
+    rootCSH.println(xmlStrCSH);
+    rootCSH.append(xmlStrCSH);
+  }
+  if (beh) {
+    // write out the last behavior
+    console.log(beh);
+  }
+});
+
+    </script>
+    
+    <!--<div id="tree"></div>-->
+    
+    <div id="graphviz_svg_div"><hr><!--?xml version="1.0" encoding="UTF-8" standalone="no"?-->
+
+<!-- generated at http://www.webgraphviz.com/ -->
+<!-- Generated by graphviz version 2.28.0 (20110507.0327)
+ -->
+<!-- Title: G Pages: 1 -->
+<svg width="224pt" height="408pt" viewBox="0.00 0.00 224.00 408.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 404)">
+<title>G</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-404 221,-404 221,5 -4,5"></polygon>
+<g id="graph2" class="cluster"><title>cluster_0</title>
+<polygon fill="lightgrey" stroke="lightgrey" points="8,-64 8,-356 98,-356 98,-64 8,-64"></polygon>
+<text text-anchor="middle" x="53" y="-339.4" font-family="Times,serif" font-size="14.00">process #1</text>
+</g>
+<g id="graph3" class="cluster"><title>cluster_1</title>
+<polygon fill="none" stroke="blue" points="133,-64 133,-356 208,-356 208,-64 133,-64"></polygon>
+<text text-anchor="middle" x="170.5" y="-339.4" font-family="Times,serif" font-size="14.00">process #2</text>
+</g>
+<!-- a0 -->
+<g id="node2" class="node"><title>a0</title>
+<ellipse fill="white" stroke="white" cx="63" cy="-306" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="63" y="-301.8" font-family="Times,serif" font-size="14.00">a0</text>
+</g>
+<!-- a1 -->
+<g id="node4" class="node"><title>a1</title>
+<ellipse fill="white" stroke="white" cx="63" cy="-234" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="63" y="-229.8" font-family="Times,serif" font-size="14.00">a1</text>
+</g>
+<!-- a0&#45;&gt;a1 -->
+<g id="edge3" class="edge"><title>a0-&gt;a1</title>
+<path fill="none" stroke="black" d="M63,-287.697C63,-279.983 63,-270.712 63,-262.112"></path>
+<polygon fill="black" stroke="black" points="66.5001,-262.104 63,-252.104 59.5001,-262.104 66.5001,-262.104"></polygon>
+</g>
+<!-- a2 -->
+<g id="node5" class="node"><title>a2</title>
+<ellipse fill="white" stroke="white" cx="63" cy="-162" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="63" y="-157.8" font-family="Times,serif" font-size="14.00">a2</text>
+</g>
+<!-- a1&#45;&gt;a2 -->
+<g id="edge4" class="edge"><title>a1-&gt;a2</title>
+<path fill="none" stroke="black" d="M63,-215.697C63,-207.983 63,-198.712 63,-190.112"></path>
+<polygon fill="black" stroke="black" points="66.5001,-190.104 63,-180.104 59.5001,-190.104 66.5001,-190.104"></polygon>
+</g>
+<!-- b3 -->
+<g id="node12" class="node"><title>b3</title>
+<ellipse fill="lightgrey" stroke="black" cx="168" cy="-90" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="168" y="-85.8" font-family="Times,serif" font-size="14.00">b3</text>
+</g>
+<!-- a1&#45;&gt;b3 -->
+<g id="edge16" class="edge"><title>a1-&gt;b3</title>
+<path fill="none" stroke="black" d="M74.4367,-217.533C92.7409,-192.779 128.75,-144.081 150.366,-114.847"></path>
+<polygon fill="black" stroke="black" points="153.446,-116.569 156.577,-106.448 147.818,-112.407 153.446,-116.569"></polygon>
+</g>
+<!-- a3 -->
+<g id="node6" class="node"><title>a3</title>
+<ellipse fill="white" stroke="white" cx="63" cy="-90" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="63" y="-85.8" font-family="Times,serif" font-size="14.00">a3</text>
+</g>
+<!-- a2&#45;&gt;a3 -->
+<g id="edge5" class="edge"><title>a2-&gt;a3</title>
+<path fill="none" stroke="black" d="M63,-143.697C63,-135.983 63,-126.712 63,-118.112"></path>
+<polygon fill="black" stroke="black" points="66.5001,-118.104 63,-108.104 59.5001,-118.104 66.5001,-118.104"></polygon>
+</g>
+<!-- a3&#45;&gt;a0 -->
+<g id="edge20" class="edge"><title>a3-&gt;a0</title>
+<path fill="none" stroke="black" d="M49.2496,-105.931C41.0392,-115.9 31.381,-129.753 27,-144 12.8916,-189.88 12.8916,-206.12 27,-252 30.2858,-262.685 36.5399,-273.149 42.9254,-281.919"></path>
+<polygon fill="black" stroke="black" points="40.354,-284.314 49.2496,-290.069 45.8844,-280.023 40.354,-284.314"></polygon>
+</g>
+<!-- end -->
+<g id="node20" class="node"><title>end</title>
+<polygon fill="none" stroke="black" points="133.161,-36.2152 96.8387,-36.2152 96.8387,0.21524 133.161,0.21524 133.161,-36.2152"></polygon>
+<polyline fill="none" stroke="black" points="108.839,-36.2152 96.8387,-24.2152 "></polyline>
+<polyline fill="none" stroke="black" points="96.8387,-11.7848 108.839,0.21524 "></polyline>
+<polyline fill="none" stroke="black" points="121.161,0.21524 133.161,-11.7848 "></polyline>
+<polyline fill="none" stroke="black" points="133.161,-24.2152 121.161,-36.2152 "></polyline>
+<text text-anchor="middle" x="115" y="-13.8" font-family="Times,serif" font-size="14.00">end</text>
+</g>
+<!-- a3&#45;&gt;end -->
+<g id="edge22" class="edge"><title>a3-&gt;end</title>
+<path fill="none" stroke="black" d="M74.5405,-73.4647C80.8351,-64.9912 88.7878,-54.2857 95.9731,-44.6131"></path>
+<polygon fill="black" stroke="black" points="98.8754,-46.5755 102.029,-36.4609 93.2562,-42.4012 98.8754,-46.5755"></polygon>
+</g>
+<!-- b0 -->
+<g id="node8" class="node"><title>b0</title>
+<ellipse fill="lightgrey" stroke="black" cx="170" cy="-306" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="170" y="-301.8" font-family="Times,serif" font-size="14.00">b0</text>
+</g>
+<!-- b1 -->
+<g id="node10" class="node"><title>b1</title>
+<ellipse fill="lightgrey" stroke="black" cx="171" cy="-234" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="171" y="-229.8" font-family="Times,serif" font-size="14.00">b1</text>
+</g>
+<!-- b0&#45;&gt;b1 -->
+<g id="edge8" class="edge"><title>b0-&gt;b1</title>
+<path fill="none" stroke="black" d="M170.247,-287.697C170.357,-279.983 170.49,-270.712 170.613,-262.112"></path>
+<polygon fill="black" stroke="black" points="174.112,-262.153 170.756,-252.104 167.113,-262.053 174.112,-262.153"></polygon>
+</g>
+<!-- b2 -->
+<g id="node11" class="node"><title>b2</title>
+<ellipse fill="lightgrey" stroke="black" cx="173" cy="-162" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="173" y="-157.8" font-family="Times,serif" font-size="14.00">b2</text>
+</g>
+<!-- b1&#45;&gt;b2 -->
+<g id="edge9" class="edge"><title>b1-&gt;b2</title>
+<path fill="none" stroke="black" d="M171.494,-215.697C171.715,-207.983 171.98,-198.712 172.225,-190.112"></path>
+<polygon fill="black" stroke="black" points="175.724,-190.2 172.511,-180.104 168.727,-190 175.724,-190.2"></polygon>
+</g>
+<!-- b2&#45;&gt;a3 -->
+<g id="edge18" class="edge"><title>b2-&gt;a3</title>
+<path fill="none" stroke="black" d="M153.839,-148.807C136.331,-137.665 110.241,-121.062 90.5068,-108.504"></path>
+<polygon fill="black" stroke="black" points="92.2567,-105.469 81.941,-103.053 88.4985,-111.375 92.2567,-105.469"></polygon>
+</g>
+<!-- b2&#45;&gt;b3 -->
+<g id="edge10" class="edge"><title>b2-&gt;b3</title>
+<path fill="none" stroke="black" d="M171.764,-143.697C171.213,-135.983 170.551,-126.712 169.937,-118.112"></path>
+<polygon fill="black" stroke="black" points="173.425,-117.83 169.222,-108.104 166.443,-118.328 173.425,-117.83"></polygon>
+</g>
+<!-- b3&#45;&gt;end -->
+<g id="edge24" class="edge"><title>b3-&gt;end</title>
+<path fill="none" stroke="black" d="M156.238,-73.4647C149.822,-64.9912 141.716,-54.2857 134.393,-44.6131"></path>
+<polygon fill="black" stroke="black" points="137.047,-42.3207 128.22,-36.4609 131.466,-46.5462 137.047,-42.3207"></polygon>
+</g>
+<!-- start -->
+<g id="node13" class="node"><title>start</title>
+<polygon fill="none" stroke="black" points="116,-400 76.8221,-382 116,-364 155.178,-382 116,-400"></polygon>
+<polyline fill="none" stroke="black" points="87.7263,-387.01 87.7263,-376.99 "></polyline>
+<polyline fill="none" stroke="black" points="105.096,-369.01 126.904,-369.01 "></polyline>
+<polyline fill="none" stroke="black" points="144.274,-376.99 144.274,-387.01 "></polyline>
+<polyline fill="none" stroke="black" points="126.904,-394.99 105.096,-394.99 "></polyline>
+<text text-anchor="middle" x="116" y="-377.8" font-family="Times,serif" font-size="14.00">start</text>
+</g>
+<!-- start&#45;&gt;a0 -->
+<g id="edge12" class="edge"><title>start-&gt;a0</title>
+<path fill="none" stroke="black" d="M106.768,-368.11C99.3944,-357.815 88.8613,-343.108 79.976,-330.702"></path>
+<polygon fill="black" stroke="black" points="82.8152,-328.656 74.1469,-322.564 77.1242,-332.731 82.8152,-328.656"></polygon>
+</g>
+<!-- start&#45;&gt;b0 -->
+<g id="edge14" class="edge"><title>start-&gt;b0</title>
+<path fill="none" stroke="black" d="M125.406,-368.11C132.919,-357.815 143.651,-343.108 152.704,-330.702"></path>
+<polygon fill="black" stroke="black" points="155.575,-332.705 158.643,-322.564 149.921,-328.578 155.575,-332.705"></polygon>
+</g>
+</g>
+</svg>
+</div>
+    
+    <div id="xhfooter">
+    <hr/>
+    <div class="license"  style="font-size: 9px;"><p>Xholon GWT is a <a href="index.html">Xholon</a> project. Copyright (C) 2020 Ken Webb</p></div>
+    <div class="aatt" style="font-size: 9px;"><pre style="font-size: 9px;">
+  @QWERTYUIk
+  OPASmDFGHe
+  primordion
+  JKLZcXCVB.
+    </pre></div>
+
+  </body>
+  
+</html>
