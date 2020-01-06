@@ -188,6 +188,8 @@ digraph G {
     </div>
     
     <script type="text/javascript">
+const DEFAULT_XHC_NAME = "Hello";
+
 var updateTree = function(tree) {
   console.log(ruleNames);
   var nodeTypeT = ruleNames[tree.ruleIndex];
@@ -244,13 +246,30 @@ var updateTree = function(tree) {
   }
   switch (nodeTypeT) {
   case "graph":
-    console.log(node_id_arr);
-    var node_id_set = new Set(node_id_arr);
-    console.log(node_id_set);
-    node_id_set.forEach(function(item) {
-      console.log(item);
-      xmlStrCSH += '<Hello roleName="' + item + '"/>\n';
-    })
+    console.log(node_edge_obj);
+    Object.getOwnPropertyNames(node_edge_obj).forEach(function(propName) {
+      var edge_arr = node_edge_obj[propName].edges;
+      var prop_obj = node_edge_obj[propName].props;
+      var prop_str = getProperties(prop_obj);
+      console.log(propName + " " + edge_arr);
+      if (edge_arr.length > 0) {
+        xmlStrCSH += '<' + DEFAULT_XHC_NAME + ' roleName="' + propName + '">\n';
+        var index = 0;
+        edge_arr.forEach(function(trgName) {
+          xmlStrCSH += '  <port name="edge" index="' + index++ + '" connector="../' + DEFAULT_XHC_NAME + '[@roleName=' + "'" + trgName + "'" + ']"/>\n';
+        });
+        xmlStrCSH += prop_str;
+        xmlStrCSH += '</' + DEFAULT_XHC_NAME + '>\n';
+      }
+      else {
+        if (prop_str.length > 0) {
+          xmlStrCSH += '<' + DEFAULT_XHC_NAME + ' roleName="' + propName + '">' + prop_str + '</' + DEFAULT_XHC_NAME + '>\n';
+        }
+        else {
+          xmlStrCSH += '<' + DEFAULT_XHC_NAME + ' roleName="' + propName + '"/>\n';
+        }
+      }
+    });
     xmlStrCSH += "</XholonNull>";
     break;
   default:
@@ -258,39 +277,18 @@ var updateTree = function(tree) {
   }
 };
 
-// @deprecated ???
-var recurseChild = function(child, ruleNames) {
-  if (!child) {return;}
-  var nodeType = ruleNames[child.ruleIndex];
-  console.log(nodeType);
-  switch (nodeType) {
-  case "aaa":
-    //aaa(child, ruleNames);
-    break;
-  case "bbb":
-    //bbb(child, ruleNames);
-    return;
-  case "ccc":
-    //ccc(child, ruleNames);
-    return;
-  case "ddd":
-    //ddd(child, ruleNames);
-    return;
-  case "eee":
-    //eee(child, ruleNames);
-    return;
-  default:
-    break;
-  }
-  if (child.children) {
-    for (var j = 0; j < child.children.length; j++) {
-      console.log("" + j + " " + child.children[j].getText());
-      recurseChild(child.children[j], ruleNames);
+var getProperties = function(prop_obj) {
+  var str = "";
+  Object.getOwnPropertyNames(prop_obj).forEach(function(propName) {
+    switch (propName) {
+    case "color":
+      str += '  <Color>' + prop_obj[propName] + '</Color>\n';
+      break;
+    default: break;
     }
-  }
+  });
+  return str;
 }
-
-// TODO use a single recurse() function to drill down to something concrete ???
 
 // stmt_list : ( stmt ';'? )* ;
 var stmt_list = function(node) {
@@ -354,9 +352,9 @@ var attr_stmt = function(node) {
       console.log("a NODE");
       //
       break;
-    case "edgeRHS":
-      console.log("a edgeRHS");
-      //edgeRHS(child);
+    case "EDGE":
+      console.log("a EDGE");
+      //
       break;
     case "attr_list":
       console.log("a attr_list");
@@ -369,25 +367,41 @@ var attr_stmt = function(node) {
 }
 
 // attr_list : ( '[' a_list? ']' )+ ;
-var attr_list = function(node) {
+var attr_list = function(node, _nodeid) {
+  console.log("STARTING attr_list");
+  console.log(node);
+  console.log(node.children.length);
+  console.log(node.parentCtx.getText() + " " + ruleNames[node.parentCtx.ruleIndex]);
+  console.log(node.parentCtx.parentCtx.getText() + " " + ruleNames[node.parentCtx.parentCtx.ruleIndex]);
   for (var i = 0; i < node.children.length; i++) {
     var child = node.children[i];
+    console.log(child);
     var nodeType = getNodeType(child);
     switch (nodeType) {
     case "a_list":
       console.log("a a_list");
-      a_list(child);
+      a_list(child, _nodeid);
       break;
     case null: break;
     default: console.log("? " + nodeType); break;
     }
   }
+  console.log("ENDING attr_list");
 }
 
 // a_list : ( id ( '=' id )? ','? )+ ;
-var a_list = function(node) {
+var a_list = function(node, _nodeid) {
+  console.log("STARTING a_list");
+  console.log(node);
+  console.log(_nodeid);
+  console.log(node.children.length);
+  if (_nodeid) {
+    node_edge_obj[_nodeid].props[node.children[0].getText()] = node.children[2].getText();
+  }
   for (var i = 0; i < node.children.length; i++) {
     var child = node.children[i];
+    console.log(child);
+    console.log("ALIST CHILD " + child.getText());
     var nodeType = getNodeType(child);
     switch (nodeType) {
     case "id":
@@ -398,15 +412,20 @@ var a_list = function(node) {
     default: console.log("? " + nodeType); break;
     }
   }
+  console.log("ENDING a_list");
 }
 
 // edge_stmt : ( node_id | subgraph ) edgeRHS attr_list? ;
+// basic edge_stmt : node_id edgeRHS ;  (for initial testing)
 var edge_stmt = function(node) {
+  var _nodeidSrc = null; // id/name of the source node
+  //var _edgePairs = [];
   for (var i = 0; i < node.children.length; i++) {
     var child = node.children[i];
     var nodeType = getNodeType(child);
     switch (nodeType) {
     case "node_id":
+      _nodeidSrc = child.getText();
       console.log("a node_id");
       node_id(child);
       break;
@@ -416,31 +435,35 @@ var edge_stmt = function(node) {
       break;
     case "edgeRHS":
       console.log("a edgeRHS");
-      edgeRHS(child);
+      edgeRHS(child, _nodeidSrc);
       break;
     case "attr_list":
       console.log("a attr_list");
-      //attr_list(child);
+      attr_list(child);
       break;
     case null: break;
     default: console.log("? " + nodeType); break;
     }
   }
+  //console.log(_edgePairs);
 }
 
 // edgeRHS : ( edgeop ( node_id | subgraph ) )+ ;
-var edgeRHS = function(node) {
+var edgeRHS = function(node, _nodeidSrc) {
   for (var i = 0; i < node.children.length; i++) {
     var child = node.children[i];
     var nodeType = getNodeType(child);
     switch (nodeType) {
-    case "edgeop":
+    case "edgeop": // for now, assume this is always '->'
       console.log("a edgeop");
-      edgeop(child);
+      edgeop(child,);
       break;
     case "node_id":
       console.log("a node_id");
+      _nodeidTrg = child.getText();
+      node_edge_obj[_nodeidSrc].edges.push(_nodeidTrg);
       node_id(child);
+      _nodeidSrc = _nodeidTrg;
       break;
     case "subgraph":
       console.log("a subgraph");
@@ -466,17 +489,19 @@ var edgeop = function(node) {
 
 // node_stmt : node_id attr_list? ;
 var node_stmt = function(node) {
+  var _nodeid = null; // id/name of the node
   for (var i = 0; i < node.children.length; i++) {
     var child = node.children[i];
     var nodeType = getNodeType(child);
     switch (nodeType) {
     case "node_id":
       console.log("a node_id");
+      _nodeid = child.getText();
       node_id(child);
       break;
     case "attr_list":
       console.log("a attr_list");
-      //attr_list(child);
+      attr_list(child, _nodeid);
       break;
     case null: break;
     default: console.log("? " + nodeType); break;
@@ -491,7 +516,9 @@ var node_id = function(node) {
     var nodeType = getNodeType(child);
     switch (nodeType) {
     case "id":
-      node_id_arr.push(child.getText());
+      if (!node_edge_obj[child.getText()]) {
+        node_edge_obj[child.getText()] = {edges: [], props: {}, parent: null}; //[];
+      }
       console.log("a id");
       id(child);
       break;
@@ -609,26 +636,21 @@ var xmlStrIH = "<_-.XholonClass>\n  <TheSystem/>\n";
 var xmlStrCD = "<xholonClassDetails>\n";
 var xmlStrCSH = "<TheSystem>";
 
-var nextActivityId = 1;
-var actorClassContextName = null;
-var transArr = null;
-var seekingTopActor = false;
-
 // behavior for one specific StateMachine, for an ActorClass with a Behavior
 var beh = null;
-//var bindings = {}; //[]; // cache all Binding(s) here
-var actorRefObj = null;
 
 var literalNames, ruleNames, symbolicNames;
 
-// collect all the node_id values in this array; there will be duplicates
-var node_id_arr = [];
+// collect all nodes and edges in this object
+const node_edge_obj = {};
 
 document.getElementById("parse").addEventListener("click", function(){
   
   // testing
   const input = document.getElementById("xhdot").value;
-  //const input = 'CREATE (fgh {ijk: 123.4})'; // OK
+  //const input = 'digraph G {aaa bbb ccc}'; // OK
+  //const input = 'digraph G {aaa -> bbb -> ccc}'; // OK
+  //const input = 'digraph G {\naaa -> bbb -> ccc;\naaa [color=orange];\n}'; // OK
   
   console.log(input);
   const chars = new antlr4.InputStream(input);
@@ -655,7 +677,6 @@ document.getElementById("parse").addEventListener("click", function(){
   console.log(xmlStrIH);
   console.log(xmlStrCD);
   console.log(xmlStrCSH);
-  //console.log(bindings);
   if (xh) {
     var rootIH = xh.app().first().next().next().first().next().first();
     console.log(rootIH);
