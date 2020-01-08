@@ -155,6 +155,9 @@ The steps in my process:
 // example from: 
       -->
       <textarea style = "display: none;" id="xhdot">
+/*
+This is a test. This is a comment.
+*/
 digraph G {
 
 	subgraph cluster_0 {
@@ -171,7 +174,7 @@ digraph G {
 		label = "process #2";
 		color=blue
 	}
-	start -> a0;
+	start -> a0; // a comment
 	start -> b0;
 	a1 -> b3;
 	b2 -> a3;
@@ -292,6 +295,7 @@ var getProperties = function(prop_obj) {
 
 // stmt_list : ( stmt ';'? )* ;
 var stmt_list = function(node) {
+  if ((node == null) || (node.children == null)) {return;}
   for (var i = 0; i < node.children.length; i++) {
     var child = node.children[i];
     var nodeType = getNodeType(child);
@@ -647,10 +651,17 @@ const node_edge_obj = {};
 document.getElementById("parse").addEventListener("click", function(){
   
   // testing
-  const input = document.getElementById("xhdot").value;
+  //const input = document.getElementById("xhdot").value;
   //const input = 'digraph G {aaa bbb ccc}'; // OK
   //const input = 'digraph G {aaa -> bbb -> ccc}'; // OK
   //const input = 'digraph G {\naaa -> bbb -> ccc;\naaa [color=orange];\n}'; // OK
+  //const input = 'garbage junk 123 // one two three'; // as expected, this fails
+  //const input = 'digraph G {}'; // OK
+  //const input = ''; // fails
+  //const input = '// comment'; // fails
+  //const input = '// garbage\ndigraph {abc}'; // OK
+  //const input = '/* more garbage */\ngraph {abc} // even more garbage'; // partly fails; no \n at end
+  const input = '/* more garbage */\ngraph {abc} // even more garbage\n'; // OK
   
   console.log(input);
   const chars = new antlr4.InputStream(input);
