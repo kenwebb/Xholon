@@ -38,6 +38,7 @@ const NOT_YET_IMPLEMENTED = "<Attribute_String>not yet implemented</Attribute_St
 const DEFAULT_XHC_NAME = "MathObject"; // "XholonNull" "MathObject" the XholonClass name to use when none is explicitly provided
 const DEFAULT_ROLE_NAME = null;
 const OBJECT_PORTS = "ports";
+const MAX_ELLIPSIS_EXPANSION = 1000;
 
 // singular, plural, XML tagname
 const DECORATIONS = {
@@ -149,7 +150,7 @@ xh.xhmath.pSetPointed01("({Planet,Mercury,Venus,Earth,Mars}, Planet)");
 function pSetPointed01(mstr) {
   const pparr = ppSetPointed(mstr);
   if (!pparr) {return null;}
-  const arr = pparr[0].split(SEP); // ex: ["Planet","Mercury","Venus","Earth","Mars"]
+  const arr = expandEllipsis(pparr[0].split(SEP)); // ex: ["Planet","Mercury","Venus","Earth","Mars"]
   const basepoint = pparr[1];
   let xmlStr = "<" + basepoint + ">";
   arr.forEach(function(item) {
@@ -179,7 +180,7 @@ xh.xhmath.pSetPointed02("({Planet,Mercury,Venus,Earth,Mars}, Planet)");
 function pSetPointed02(mstr) {
   const pparr = ppSetPointed(mstr);
   if (!pparr) {return null;}
-  const arr = pparr[0].split(SEP); // ex: ["Planet","Mercury","Venus","Earth","Mars"]
+  const arr = expandEllipsis(pparr[0].split(SEP)); // ex: ["Planet","Mercury","Venus","Earth","Mars"]
   const basepoint = pparr[1];
   let xmlStr = "<" + FOREST + ">";
   arr.forEach(function(item) {
@@ -211,6 +212,27 @@ function ppSetPointed(mstr) {
   if (bpstartpos == -1) {return null;}
   const basepoint = str.substring(bpstartpos+1, str.length-1).trim(); // ex: "Planet"
   return [str.substring(startpos+1, endpos), basepoint];
+}
+
+/**
+ * Expand ellipsis.
+ * ex: ["0","…","11"] or ["0","...","11"]  is returned as ["0","1","2","3","4","5","6","7","8","9","10","11"]
+ */
+function expandEllipsis(arrin) {
+  if ((arrin.length == 3) && ((arrin[1] == ELLIPSIS) || (arrin[1] == ELLIPSIS2))) {
+    // ex: 0,…,11 or 0,...,11
+    // counting - here we use arithmetic/addition
+    const arrout = [];
+    const range = Number(arrin[2]) - Number(arrin[0]) + 1;
+    const nsize = range <= MAX_ELLIPSIS_EXPANSION ? range : MAX_ELLIPSIS_EXPANSION;
+    for (var ix = 0; ix < nsize; ix++) {
+      arrout.push(ix.toString());
+    }
+    return arrout;
+  }
+  else {
+    return arrin;
+  }
 }
 
 /**
