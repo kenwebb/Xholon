@@ -1174,7 +1174,8 @@ var literal = function(node) {
       break;
     case "StringLiteral": // there is no "oC_StringLiteral", only "StringLiteral"
       console.log("a StringLiteral " + child.getText());
-      stringLiteral(child);
+      //stringLiteral(child);
+      // TODO handle child.text()
       break;
     case "oC_BooleanLiteral":
       console.log("an oC_BooleanLiteral");
@@ -1274,7 +1275,7 @@ var integerLiteral = function(node) {
 }
 
 // StringLiteral = ('"', { ANY - ('"' | '\') | EscapedChar }, '"') | ("'", { ANY - ("'" | '\') | EscapedChar }, "'") ;
-var stringLiteral = function(node) {
+/*var stringLiteral = function(node) {
   for (var i = 0; i < node.children.length; i++) {
     var child = node.children[i];
     var nodeType = getNodeType(child);
@@ -1287,10 +1288,10 @@ var stringLiteral = function(node) {
     default: console.log("? " + nodeType); break;
     }
   }
-}
+}*/
 
 // EscapedChar = '\', ('\' | "'" | '"' | (B) | (F) | (N) | (R) | (T) | ((U), 4 * HexDigit) | ((U), 8 * HexDigit)) ;
-var escapedChar = function(node) {
+/*var escapedChar = function(node) {
   for (var i = 0; i < node.children.length; i++) {
     var child = node.children[i];
     var nodeType = getNodeType(child);
@@ -1303,7 +1304,7 @@ var escapedChar = function(node) {
     default: console.log("? " + nodeType); break;
     }
   }
-}
+}*/
 
 // Parameter = '$', (SymbolicName | DecimalInteger) ;
 var parameter = function(node) {
@@ -1482,7 +1483,7 @@ document.getElementById("parse").addEventListener("click", function(){
   //var input = document.getElementById("xhcypher").value;
   //var input = "CREATE (fgh {ijk: 'This is some text.'})"; // fails
   //var input = 'CREATE (fgh {ijk: "This is some text."})'; // fails
-  const input = 'CREATE (fgh {ijk: 123.4})'; // OK
+  //const input = 'CREATE (fgh {ijk: 123.4})'; // OK
   //var input = 'CREATE (fgh {ijk: ThisIsText})'; // OK, it sees ThisIsText as a symbol
   //var input = 'CREATE (fgh {ijk: `ThisIsText`})'; // fails
   //var input = "CREATE (fgh {ijk: \"This is some text.\"})"; // fails
@@ -1501,6 +1502,14 @@ UNWIND { mapList } AS map
 CREATE (n:Node)
 SET n = map`;*/
   //const input = `CREATE (:Cat {catProps})\nCREATE (:Dog {dogProps})`; // fails
+  
+  // Using DOT.g4 comments in Cypher.g4; the comments now work
+  //const input = 'CREATE (fgh {ijk: 123.4}) // comment abc def\n'; // OK
+  //const input = 'CREATE (fgh {ijk: 123.4})\n/* Zero This is a multiline comment. One. Two. */'; // OK
+  //const input = 'CREATE (fgh {ijk: 123.4})\n/* Zero This is a multiline comment.\nOne.\nTwo. */'; // OK
+  //const input = 'CREATE (fgh {ijk: 123.4})\n/*\nZero This is a multiline comment.\nOne.\nTwo.\n*/'; // OK
+  //const input = '/* comment */ CREATE (fgh {ijk: 123.4})\n/*\nZero This is a multiline comment.\nOne.\nTwo.\n*/'; // OK
+  var input = 'CREATE (fgh {ijk: "This is some text."})'; // 
   
   console.log(input);
   const chars = new antlr4.InputStream(input);
