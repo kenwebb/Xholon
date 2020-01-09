@@ -20,8 +20,8 @@ const LBRACE = "{";
 const RBRACE = "}";
 const LBRACK = "[";
 const RBRACK = "]";
-const LANGLE = "&#x27e8;"; // ⟨
-const RANGLE = "&#x27e9;"; // ⟩
+const LANGLE = String.fromCharCode(0x27e8); //"&#x27e8;"; // ⟨
+const RANGLE = String.fromCharCode(0x27e9); //"&#x27e9;"; // ⟩
 const COMMA = ",";
 const SEMICOLON = ";";
 const INT = "[0-9]";
@@ -31,6 +31,9 @@ const ELLIPSIS2 = "...";
 const COMMENT = "#";
 const NEWLINE = "\n";
 const EQUALS = "=";
+const UNDERLINE0 = "_"; // ex: "137_"  4 characters
+const UNDERLINE1 = String.fromCharCode(0x035f); //"&#x035f;"; // ex: "1͟3͟7͟"  6 characters  "1͟3͟7͟".replace(\&#x035f;, ""\g);
+const UNDERLINE2 = String.fromCharCode(0x0332); //"&#x0332;"; // ex: "1̲3̲7̲"  6 characters
 
 const SEP = COMMA;
 const FOREST = "_-.xhforest";
@@ -197,21 +200,36 @@ function pSetPointed02(mstr) {
  * Pre-parse a pointed set.
  * @param mstr a Math notation string
  * ex: "({Planet,Mercury,Venus,Earth,Mars}, Planet)"
+ * ex: "({0,...,8}, Planet)"
+ * ex: "(9_, Planet)"
  * @return an array of two strings, or null
  * ex: ["Planet,Mercury,Venus,Earth,Mars", "Planet"]
  */
 function ppSetPointed(mstr) {
   if (!mstr || mstr.length == 0) {return null;}
-  const str = mstr.trim();
-  if (!str.startsWith(LPAREN) || (!str.endsWith(RPAREN))) {return null;};
+  var str = mstr.trim();
+  if (!str.startsWith(LPAREN) || (!str.endsWith(RPAREN))) {return null;}
+  str = str.substring(1, str.length-1);
   const startpos = str.indexOf(LBRACE);
-  if (startpos == -1) {return null;}
-  const endpos = str.indexOf(RBRACE, startpos);
-  if (endpos == -1) {return null;}
+  const endpos = str.lastIndexOf(RBRACE);
+  var str1 = "";
+  if ((startpos == -1) || (endpos == -1)) {
+    var strtemp0 = str.split(",")[0];
+    if ((startpos == -1) && (strtemp0.endsWith(UNDERLINE0) || strtemp0.endsWith(UNDERLINE1) || strtemp0.endsWith(UNDERLINE2))) {
+      var strtemp1 = str.replace(/[^0-9]/g, ""); // str1 should contain just the digits (ex: "137")
+      str1 = "1,...," + strtemp1;
+    }
+    else {
+      return null;
+    }
+  }
+  else {
+    str1 = str.substring(startpos+1, endpos);
+  }
   const bpstartpos = str.lastIndexOf(SEP);
   if (bpstartpos == -1) {return null;}
-  const basepoint = str.substring(bpstartpos+1, str.length-1).trim(); // ex: "Planet"
-  return [str.substring(startpos+1, endpos), basepoint];
+  const basepoint = str.substring(bpstartpos+1, str.length).trim(); // ex: "Planet"
+  return [str1, basepoint];
 }
 
 /**
