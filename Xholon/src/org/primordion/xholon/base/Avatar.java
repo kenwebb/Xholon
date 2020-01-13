@@ -412,6 +412,7 @@ public class Avatar extends AbstractAvatar {
         chatbot.setVal_Object(contextNode);
       }
     }
+    trace(this.contextNode);
   }
   
   protected native void pushHistory(IXholon contextNode) /*-{
@@ -1360,6 +1361,7 @@ public class Avatar extends AbstractAvatar {
       // the identity morphism is a concept from Category Theory
       // this command is essentially the same as "who"
       sb.append("You are ").append(makeNodeName(this.getIdentity())).append(".");
+      trace(this.contextNode);
       break;
     case "idle":
       // do nothing; an explicit command that's equivalent to all of the following: "" ";" "[];"
@@ -3921,6 +3923,16 @@ xport hello _other,Newick,true,true,true,{}
         }
       } catch(NumberFormatException e) {consoleLog(e);}
       break;
+    case "trace":
+      switch (value) {
+      case "start": configureTrace(true, this.contextNode); break;
+      case "stop": configureTrace(false, null); break;
+      case "pause": pauseTrace();  break;
+      case "empty": configureTrace(true, this.contextNode); break;
+      case "show": showTrace(valueRest); break;
+      default: break;
+      }
+      break;
     default:
       break;
     }
@@ -3948,6 +3960,112 @@ xport hello _other,Newick,true,true,true,{}
   protected native void setCurrentActions(String str) /*-{
     if (typeof this["currentActions"] !== "undefined") {
       this["currentActions"].push(str);
+    }
+  }-*/;
+  
+  /**
+   * Whether or not to collect and/or display the path that the Avatar traces between nodes.
+   * Probably it will be the responsibility of a separate behavior, such as in a specific app, to display the trace.
+   * The "trace" property is a Queue, implemented as a JavaScript Array.
+   *  arr.push(str); // adds a String to the end of the array.
+   *  var str = arr.shift(); // removes a String from the start of the array
+  */
+  protected native void configureTrace(boolean bval, IXholon ctxtNode) /*-{
+    if (bval) {
+      this["trace"] = []; // start
+      this["trace"].push(ctxtNode);
+    }
+    else {
+      delete this["trace"]; // stop
+    }
+  }-*/;
+  
+  /**
+   * pause trace, and unpause trace
+   */
+  protected native void pauseTrace() /*-{
+    if (typeof this["trace"] !== "undefined") {
+      if ((this["trace"].length > 0) && (this["trace"][0] == null)) {
+        // currently paused, so unpause it
+        this["trace"].shift(); // remove the null from the start of the array
+      }
+      else {
+        // currently not paused, so pause it
+        this["trace"].unshift(null); // add a null to the start of the array
+      }
+    }
+  }-*/;
+  
+  /**
+   * Save trace data to a JavaScript property (an Array) in this Avatar.
+   */
+  protected native void trace(IXholon node) /*-{
+    if (typeof this["trace"] !== "undefined") {
+      if ((this["trace"].length > 0) && (this["trace"][0] == null)) {
+        // trace is paused
+      }
+      else {
+        this["trace"].push(node);
+      }
+    }
+  }-*/;
+  
+  /**
+   * TODO By default, this might display using Graphviz digraph "->".
+   * ex: digraph G {23->24->37->24->87}
+   * usage:
+var ava = xh.avatar();
+ava.action("param trace start;");
+// move Avatar by various means, including:
+ava.action("identity");
+ava.action("go xpath(.)");
+// show
+ava.action("param trace show");
+var tarr = temp0;
+var gvstr = "digraph G {";
+tarr.forEach(function(node, index) {
+  if (index > 0) {
+    gvstr += "->";
+  }
+  gvstr += node.id();
+})
+gvstr += "}";
+console.log(gvstr); // digraph G {0->2->3->2->3}
+   */
+  protected native void showTrace(String options) /*-{
+    if (options && (typeof this["trace"] !== "undefined")) {
+      var tarr = options.split(" ");
+      if (tarr && tarr.length && tarr.length == 2) {
+        // ex: ["R^^^^^", "digraph"] or  ["^^^^i^", ":"]
+        var nameTemplate = tarr[0].trim();
+        var outSepOption = tarr[1].trim(); // "digraph" "graph" ","
+        var outSeparator = ",";
+        var outStr = "";
+        switch (outSepOption) {
+          case "digraph": outSeparator = "->"; outStr = "digraph G {"; break;
+          case "graph": outSeparator = "--"; outStr = "digraph G {"; break;
+          default: break;
+        }
+        this["trace"].forEach(function(node, index) {
+          if (node != null) {
+            if (index > 0) {
+              outStr += outSeparator;
+            }
+            outStr += node.name(nameTemplate);
+          }
+        })
+        switch (outSepOption) {
+          case "digraph":
+          case "graph":
+            outStr += "}";
+            break;
+          default: break;
+        }
+      }
+      console.log(outStr);
+    }
+    else {
+      console.log(this["trace"]);
     }
   }-*/;
   
