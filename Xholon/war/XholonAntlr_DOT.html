@@ -661,7 +661,15 @@ document.getElementById("parse").addEventListener("click", function(){
   //const input = '// comment'; // fails
   //const input = '// garbage\ndigraph {abc}'; // OK
   //const input = '/* more garbage */\ngraph {abc} // even more garbage'; // partly fails; no \n at end
-  const input = '/* more garbage */\ngraph {abc} // even more garbage\n'; // OK
+  //const input = '/* more garbage */\ngraph {abc} // even more garbage\n'; // OK
+  const input = `
+digraph G {
+  subgraph cluster_1 {x1->x1;             label="1 object";}
+  subgraph cluster_P {xp->xp yp->yp;      label="P pair";}
+  subgraph cluster_2 {x2->x2->y2->y2;     label="2 arrow";}
+  subgraph cluster_I {xi->xi->yi->yi->xi; label="I isomorphism";}
+}
+  `; // OK
   
   console.log(input);
   const chars = new antlr4.InputStream(input);
