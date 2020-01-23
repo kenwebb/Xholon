@@ -8,6 +8,7 @@
  * Set various properties inside the replicon Object.
  *
  * http://127.0.0.1:8888/Xholon.html?app=HelloWorld&gui=clsc&jslib=replicate
+ * http://127.0.0.1:8888/Xholon.html?app=HelloWorld&gui=clsc&jslib=replicate,formula-parser.min
  * 
  * Usage (from Dev Tools):
 var arr = xh.replicate.buildAll(xh.app(), []);
@@ -86,6 +87,22 @@ digraph G {
   2 -> two
   3 -> three
 }
+
+  - spreadsheets
+    ------------
+   - the CSV output can be pasted into Libre Office Calc
+   - or use:
+    - https://www.primordion.com/Xholon/gwt/XholonSpreadsheet.html?app=Spreadsheet+Test&src=lstr&gui=none
+   - or:
+    - http://127.0.0.1:8888/Xholon.html?app=HelloWorld&gui=clsc&jslib=replicate,formula-parser.min
+var arr = xh.replicate.buildAll(xh.app(), []);
+xh.replicate.displaySpreadsheet(arr);
+// this works !
+
+// or
+clear();
+var arr = xh.replicate.buildAll(xh.root(), []);
+xh.replicate.displaySpreadsheet(arr);
  * 
  */
 
@@ -100,12 +117,12 @@ if (typeof xh.replicate == "undefined") {
 /**
  * Build a replicon structure inside each Xholon node in the subtree rooted by node.
  * Push each replicon onto an Array.
- * @param node 
- * @param arr 
+ * @param node a Xholon node
+ * @param arr a JavaScript Array that contains 0 or more Xholon nodes
  */
 xh.replicate.buildReplicon = function(node, arr) {
   node.replicon = {};
-  var arrix = arr.length;
+  var arrix = arr.length; // initially 0, which makes sense because JavaScript Array indexes are 0-based
   node.replicon.arrix = arrix;
   if (arrix > 0) {
     arr[arrix-1].replicon.succ = node.replicon;
@@ -122,11 +139,11 @@ xh.replicate.buildReplicon = function(node, arr) {
 
 /**
  * Add basic Xholon properties to each replicon in the Array.
+ * @param arr a JavaScript Array that contains 0 or more Xholon nodes
  */
 xh.replicate.addXhProperties = function(arr) {
   arr.forEach(function(node) {
     node.replicon.xhid = node.id();
-    //node.replicon.xhlabel = node.name("R^^^^^");
     if (node.xhc()) {
       node.replicon.xhlabel = node.role() ? node.role() : '';
     }
@@ -144,6 +161,7 @@ xh.replicate.addXhProperties = function(arr) {
  *  1. the remote replicon itself (.replicon), or
  *  2. the arrix of the remote replicon (.replicon.arrix)
  *    - can later retrieve the remote node and replicon from arr[... .arrix]
+ * @param arr a JavaScript Array that contains 0 or more Xholon nodes
  */
 xh.replicate.addBtRelationships = function(arr) {
   arr.forEach(function(node) {
@@ -171,6 +189,7 @@ xh.replicate.addBtRelationships = function(arr) {
 
 /**
  * Add Xholon relationships to each replicon in the Array.
+ * @param arr a JavaScript Array that contains 0 or more Xholon nodes
  */
 xh.replicate.addXhRelationships = function(arr) {
   arr.forEach(function(node) {
@@ -214,6 +233,8 @@ xh.replicate.addXhRelationships = function(arr) {
  * Make and return a string that specifies all links leading from a given node.
  * A link is an app-specific relationship.
  * ex: "edge||123 port|0|7 port|1|8"
+ * @param linksArr an Array of Xholon links, in PortInformation JavaScript Object format
+ * @return a stringified format
  */
 xh.replicate.makeLinksStr = function(linksArr) {
   const LINKS_SEP = ' ';
@@ -252,6 +273,9 @@ xh.replicate.makePropsStr = function(node) {
 
 /**
  * Build an array of replicons, given the root node of a Xholon subtree.
+ * @param root the root node in a Xholon subtree
+ * @param arr a JavaScript Array that contains 0 or more Xholon nodes
+ * @return updated Array
  */
 xh.replicate.buildAll = function(root, arr) {
   xh.replicate.buildReplicon(root, arr);
@@ -288,6 +312,8 @@ xh.replicate.report = function(arr) {
 
 /**
  * Build and return a string of Graphviz nodes, in Graphviz DOT notation.
+ * @param arr a JavaScript Array that contains 0 or more Xholon nodes
+ * @return a string in Graphviz DOT format
  */
 xh.replicate.toGraphvizNodes = function(arr) {
   var gvstr = "digraph G {\n";
@@ -302,6 +328,8 @@ xh.replicate.toGraphvizNodes = function(arr) {
 
 /**
  * Build and return Graphviz a btparent graph, in Graphviz DOT notation.
+ * @param arr a JavaScript Array that contains 0 or more Xholon nodes
+ * @return a string in Graphviz DOT format
  */
 xh.replicate.toGraphvizBtparentGraph = function(arr) {
   var gvstr = "digraph G {\n";
@@ -327,6 +355,7 @@ xh.replicate.makeLabel02 = function(node) {
 
 /**
  * to JSON format; a manually created JavaScript Object, stringified with pretty printing
+ * example:
 {
   "arrix": 1,
   "xhid": 1,
@@ -341,6 +370,9 @@ xh.replicate.makeLabel02 = function(node) {
   "xhc": -1,
   "links": 0
 },
+ * 
+ * @param arr a JavaScript Array that contains 0 or more Xholon nodes
+ * @return a JSON string
  */
 xh.replicate.toJSON = function(arr) {
   const ARRIX_NULL = -1;
@@ -377,10 +409,14 @@ xh.replicate.toJSON = function(arr) {
 
 /*
  * to JSON format; a manually created and formatted string
+ * example:
 [
 { "arrix": 0, "xhid": 0, "xhlabel": Application, "succ": 1, "btparent": -1, "btleft": 1, "btright": -1, "xhparent": -1, "xhfirst": 1, "xhnext": -1, "xhc": -113, "links": 13 },
 ...
 ]
+ * 
+ * @param arr a JavaScript Array that contains 0 or more Xholon nodes
+ * @return a JSON string
  */
 xh.replicate.toJSON2 = function(arr) {
   const ARRIX_NULL = -1;
@@ -420,6 +456,8 @@ xh.replicate.toJSON2 = function(arr) {
 
 /**
  * to CSV
+ * @param arr a JavaScript Array that contains 0 or more Xholon nodes
+ * @return a CSV string, with headers in the first row
  */
 xh.replicate.toCSV = function(arr) {
   const ARRIX_NULL = -1;
@@ -456,7 +494,18 @@ xh.replicate.toCSV = function(arr) {
 // xh.replicate.toCSV(arr);
 
 /**
+ * Display the replicon array as a spreadsheet, in the Xholon .html page.
+ */
+xh.replicate.displaySpreadsheet = function(arr) {
+  var csvstr = xh.replicate.toCSV(arr); // get the rows of data in CSV format
+  var xmlstr = '<Spreadsheet roleName="replicate">\n' + csvstr + '</Spreadsheet>\n';
+  xh.root().append(xmlstr);
+}
+
+/**
  * to a JavaScript Set
+ * @param arr a JavaScript Array that contains 0 or more Xholon nodes
+ * @return a JavaScript Set
  */
 xh.replicate.toSet = function(arr) {
   return new Set(arr);
@@ -467,6 +516,7 @@ xh.replicate.toSet = function(arr) {
  * Lift the replicon linked list out of the array.
  * Each replicon Object has a "succ" property that points to the next replicon in the list.
  * Each replicon is a JavaScript Object.
+ * @param arr a JavaScript Array that contains 0 or more Xholon nodes
  * @return the head of the linked list, from which all other replicons can be accessed by following the "succ" path/chain
  */
 xh.replicate.asRepliconLinkedList = function(arr) {
