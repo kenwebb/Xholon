@@ -4031,6 +4031,10 @@ tarr.forEach(function(node, index) {
 })
 gvstr += "}";
 console.log(gvstr); // digraph G {0->2->3->2->3}
+
+ava.action("param trace show R^^^^^ digraph");
+ava.action("param trace show ^^^^i^ :");
+ava.action("param trace show R^^^^^ :");
    */
   protected native void showTrace(String options) /*-{
     if (options && (typeof this["trace"] !== "undefined")) {
