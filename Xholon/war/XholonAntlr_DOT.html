@@ -151,8 +151,28 @@ The steps in my process:
     -->
     
     <div id="inputs">
+    
       <!--
-// example from: 
+To change the content of this textarea, use a Xholon script, such as:
+<script>
+var textarea = $doc.querySelector("textarea#xhdot");
+if (textarea) {
+  textarea.innerText = `
+digraph G {
+  easyas->1->2->3
+}
+`
+}
+</script>
+Or using Dev Tools:
+var textarea = document.querySelector("textarea#xhdot");
+if (textarea) {
+  textarea.innerText = `
+digraph G {
+  easyas->1->2->3
+}
+`
+}
       -->
       <textarea style = "display: none;" id="xhdot">
 /*
@@ -435,7 +455,7 @@ var edge_stmt = function(node) {
       break;
     case "subgraph":
       console.log("a subgraph");
-      //subgraph(child);
+      subgraph(child);
       break;
     case "edgeRHS":
       console.log("a edgeRHS");
@@ -471,7 +491,7 @@ var edgeRHS = function(node, _nodeidSrc) {
       break;
     case "subgraph":
       console.log("a subgraph");
-      //subgraph(child);
+      subgraph(child);
       break;
     case null: break;
     default: console.log("? " + nodeType); break;
@@ -650,19 +670,51 @@ const node_edge_obj = {};
 
 document.getElementById("parse").addEventListener("click", function(){
   
-  // testing
-  //const input = document.getElementById("xhdot").value;
-  //const input = 'digraph G {aaa bbb ccc}'; // OK
-  //const input = 'digraph G {aaa -> bbb -> ccc}'; // OK
-  //const input = 'digraph G {\naaa -> bbb -> ccc;\naaa [color=orange];\n}'; // OK
-  //const input = 'garbage junk 123 // one two three'; // as expected, this fails
-  //const input = 'digraph G {}'; // OK
-  //const input = ''; // fails
-  //const input = '// comment'; // fails
-  //const input = '// garbage\ndigraph {abc}'; // OK
-  //const input = '/* more garbage */\ngraph {abc} // even more garbage'; // partly fails; no \n at end
-  //const input = '/* more garbage */\ngraph {abc} // even more garbage\n'; // OK
-  const input = `
+  // example of URL param: &xhdot=1
+  const params = new URLSearchParams(document.location.search.substring(1));
+  const xhdotStr = params.get("xhdot");
+  var xhdotNum = 0; // the default
+  if (xhdotStr) {
+    xhdotNum = Number(xhdotStr);
+  }
+  
+  var input = null;
+  switch (xhdotNum) {
+  case 0: // default
+    input = document.getElementById("xhdot").value;
+    break;
+  case 1:
+    input = 'digraph G {aaa bbb ccc}'; // OK
+    break;
+  case 2:
+    input = 'digraph G {aaa -> bbb -> ccc}'; // OK
+    break;
+  case 3:
+    input = 'digraph G {\naaa -> bbb -> ccc;\naaa [color=orange];\n}'; // OK
+    break;
+  case 4:
+    input = 'garbage junk 123 // one two three'; // as expected, this fails
+    break;
+  case 5:
+    input = 'digraph G {}'; // OK
+    break;
+  case 6:
+    input = ''; // fails
+    break;
+  case 7:
+    input = '// comment'; // fails
+    break;
+  case 8:
+    input = '// garbage\ndigraph {abc}'; // OK
+    break;
+  case 9:
+    input = '/* more garbage */\ngraph {abc} // even more garbage'; // partly fails; no \n at end
+    break;
+  case 10:
+    input = '/* more garbage */\ngraph {abc} // even more garbage\n'; // OK
+    break;
+  case 11:
+    input = `
 digraph G {
   subgraph cluster_1 {x1->x1;             label="1 object";}
   subgraph cluster_P {xp->xp yp->yp;      label="P pair";}
@@ -670,6 +722,12 @@ digraph G {
   subgraph cluster_I {xi->xi->yi->yi->xi; label="I isomorphism";}
 }
   `; // OK
+    break;
+  default:
+    console.log('invalid input was specified ' + xhdotStr);
+    input = 'digraph G {invalid input was specified ' + xhdotStr + '}';
+    break;
+  }
   
   console.log(input);
   const chars = new antlr4.InputStream(input);
