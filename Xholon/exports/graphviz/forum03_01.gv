@@ -1,0 +1,26 @@
+digraph X { rankdir = LR
+  // there are three categories in the example that Bartosz presents
+  // each category has objects and morphisms that belong to that category
+  //edge {color = blue} NO
+  subgraph clusterB {label = Blueprint; color = indigo; style = dashed
+    0 1 2 3 4 5
+    0->1 [color = blue]
+  }
+  subgraph clusterH {label = Human; color = indigo
+    hhead hbody lefthand righthand leftfoot rightfoot neck shoulder
+    hhead->hbody [color = blue]
+    hhead->neck->shoulder [color = blue]
+  }
+  subgraph clusterD {label = Dog; color = indigo
+    dhead dbody frontleftpaw frontrightpaw backleftpaw backrightpaw
+    dhead->dbody [color = blue]
+  }
+  
+  // functors between categories  object -> object
+  0->hhead [color = orange] [label = F]
+  0->dhead [color = orange] [label = G]
+  // but Graphviz, which is based on a concept of Graph, is probably unable to completely represent functors, which include mappings between morphisms  m -> m
+  
+  // natural transformation, from model to model
+  hhead->dhead [color = red]
+}

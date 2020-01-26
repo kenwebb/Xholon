@@ -1,0 +1,68 @@
+digraph G {p->1 2 3 4}
+
+digraph G {p 1 2 3 4 p->3}
+
+digraph G {
+  subgraph clusterA {p graph[style=dotted];}
+  subgraph clusterB {1 2 3 4; graph[style=dotted];}
+}
+
+// Probe at some time t
+digraph G { graph[style=dotted];
+  subgraph clusterA {p}
+  subgraph clusterB {1 2 3 4}
+  p->2
+}
+
+// Probe at some other time t'
+digraph G { graph[style=dotted];
+  subgraph clusterA {p}
+  subgraph clusterB {1 2 3 4}
+  p->1
+}
+
+// Selecting 2 elements from a set
+digraph G { graph[style=dotted];
+  subgraph clusterA {p q}
+  subgraph clusterB {1 2 3 4}
+  p->1; q->4;
+}
+
+
+My intuition on _what is a **probe**_ derives from my own background with programming and graphs. To me it sounds like an index into an array, or a pointer to a single object in some collection of objects. At different times, the index or pointer or arrow or morphism may target something different. I have to draw some diagrams to demonstrate what I'm thinking, which I believe is pretty much what @EricRogstad suggests.
+
+```
+// Probe at some time t
+digraph G { graph[style=dotted];
+  subgraph clusterA {p}
+  subgraph clusterB {1 2 3 4}
+  p->2
+}
+```
+
+![Figure G](https://gist.githubusercontent.com/kenwebb/b8a7893bc4723388cd6e355069c9fd55/raw/fa53e8fc74845d887fd5cde8a9cda27642bf4893/probeG.svg?sanitize=true "Figure G")
+
+```
+// Probe at some other time t'
+digraph H { graph[style=dotted];
+  subgraph clusterA {p}
+  subgraph clusterB {1 2 3 4}
+  p->1
+}
+```
+
+![Figure H](https://gist.githubusercontent.com/kenwebb/b8a7893bc4723388cd6e355069c9fd55/raw/fa53e8fc74845d887fd5cde8a9cda27642bf4893/probeH.svg?sanitize=true "Figure H")
+
+```
+// Selecting 2 elements from a set
+digraph I { graph[style=dotted];
+  subgraph clusterA {p q}
+  subgraph clusterB {1 2 3 4}
+  p->1; q->4;
+}
+```
+
+![Figure I](https://gist.githubusercontent.com/kenwebb/b8a7893bc4723388cd6e355069c9fd55/raw/fa53e8fc74845d887fd5cde8a9cda27642bf4893/probeI.svg?sanitize=true "Figure I")
+
+I used [WebGraphviz](http://www.webgraphviz.com/) to generate the images from the Graphviz notation.
+
