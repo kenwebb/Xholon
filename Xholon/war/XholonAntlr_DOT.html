@@ -212,6 +212,21 @@ digraph G {
     
     <script type="text/javascript">
 const DEFAULT_XHC_NAME = "Hello";
+const DEFAULT_THESYSTEM_NAME = "TheSystem";
+
+const CLUSTER_TAGTYPE_START = "start";
+const CLUSTER_TAGTYPE_END   = "end";
+const CLUSTER_TAGTYPE_LEAF  = "leaf";
+const CLUSTER_SUFFIX = "_END_";
+
+// within a subgraph, and maybe in other situations, a raw number used as a node ID, changes the order of nodes in the Xholon XML result
+// ex: 0 should becomes 0.
+// if (typeof iidd == "number") {iidd = "" + iidd + NUMBER_SUFFIX;}
+//const NUMBER_SUFFIX = '.';
+// \uFEFF
+const ID_PREFIX = "\uFEFF";
+const CLUSTER_STR = ID_PREFIX + "cluster";
+const CLUSTER_STR_LENGTH = CLUSTER_STR.length;
 
 var updateTree = function(tree) {
   console.log(ruleNames);
@@ -219,7 +234,7 @@ var updateTree = function(tree) {
   console.log(nodeTypeT);
   switch (nodeTypeT) {
   case "graph":
-    xmlStrCSH += "<XholonNull>\n";
+    //xmlStrCSH += "<XholonNull>\n";
     break;
   default:
     break;
@@ -237,7 +252,7 @@ var updateTree = function(tree) {
         console.log(nodeType);
       }
       else {
-        console.log(child.getText());
+        console.log(getNodeText(child)); //child.getText());
       }
     }
     // graph : STRICT? ( GRAPH | DIGRAPH ) id? '{' stmt_list '}' ;
@@ -271,34 +286,62 @@ var updateTree = function(tree) {
   case "graph":
     console.log(node_edge_obj);
     Object.getOwnPropertyNames(node_edge_obj).forEach(function(propName) {
-      var edge_arr = node_edge_obj[propName].edges;
-      var prop_obj = node_edge_obj[propName].props;
+      var node = node_edge_obj[propName];
+      var edge_arr = node.edges;
+      var prop_obj = node.props;
       var prop_str = getProperties(prop_obj);
+      var tagtype_str = node.tagtype;
       console.log(propName + " " + edge_arr);
       if (edge_arr.length > 0) {
-        xmlStrCSH += '<' + DEFAULT_XHC_NAME + ' roleName="' + propName + '">\n';
+        xmlStrCSH += '<' + DEFAULT_XHC_NAME + ' roleName="' + fixRoleName(propName) + '">\n';
         var index = 0;
         edge_arr.forEach(function(trgName) {
-          xmlStrCSH += '  <port name="edge" index="' + index++ + '" connector="../' + DEFAULT_XHC_NAME + '[@roleName=' + "'" + trgName + "'" + ']"/>\n';
+          var trgNode = node_edge_obj[trgName];
+          if (trgNode.parent == node.parent) { // .parent may be null
+            xmlStrCSH += '  <port name="edge" index="' + index++ + '" connector="../' + DEFAULT_XHC_NAME + '[@roleName=' + "'" + fixRoleName(trgName) + "'" + ']"/>\n';
+          }
+          else {
+            // "descendant::Hello[@roleName='b0']"  NO
+            // var node = xh.xpath(".//descendant::Hello[@roleName='b0']", xh.app()); or xh.root());  NO
+            // <port name="edge" index="1" connector="ancestor::TheSystem/descendant::Hello[@roleName='b3']"/>  MAYBE
+            xmlStrCSH += '  <port name="edge" index="' + index++
+              + '" connector="ancestor::' + DEFAULT_THESYSTEM_NAME + '/descendant::' + DEFAULT_XHC_NAME + '[@roleName=' + "'" + fixRoleName(trgName) + "'" + ']"/>\n';
+          }
         });
         xmlStrCSH += prop_str;
         xmlStrCSH += '</' + DEFAULT_XHC_NAME + '>\n';
       }
       else {
         if (prop_str.length > 0) {
-          xmlStrCSH += '<' + DEFAULT_XHC_NAME + ' roleName="' + propName + '">' + prop_str + '</' + DEFAULT_XHC_NAME + '>\n';
+          xmlStrCSH += '<' + DEFAULT_XHC_NAME + ' roleName="' + fixRoleName(propName) + '">' + prop_str + '</' + DEFAULT_XHC_NAME + '>\n';
         }
         else {
-          xmlStrCSH += '<' + DEFAULT_XHC_NAME + ' roleName="' + propName + '"/>\n';
+          switch (tagtype_str) {
+          case CLUSTER_TAGTYPE_START:
+            xmlStrCSH += '<' + DEFAULT_XHC_NAME + ' roleName="' + fixRoleName(propName) + '">\n';
+            break;
+          case CLUSTER_TAGTYPE_END:
+            xmlStrCSH += '</' + DEFAULT_XHC_NAME + '>\n';
+            break;
+          case CLUSTER_TAGTYPE_LEAF:
+          default:
+            xmlStrCSH += '<' + DEFAULT_XHC_NAME + ' roleName="' + fixRoleName(propName) + '"/>\n';
+            break;
+          }
         }
       }
     });
-    xmlStrCSH += "</XholonNull>";
+    //xmlStrCSH += "</XholonNull>";
     break;
   default:
     break;
   }
 };
+
+// remove the invisible character from the start of the roleName  ID_PREFIX = "\uFEFF"
+var fixRoleName = function(roleName) {
+  return roleName.substring(1);
+}
 
 var getProperties = function(prop_obj) {
   var str = "";
@@ -420,12 +463,13 @@ var a_list = function(node, _nodeid) {
   console.log(_nodeid);
   console.log(node.children.length);
   if (_nodeid) {
-    node_edge_obj[_nodeid].props[node.children[0].getText()] = node.children[2].getText();
+    //node_edge_obj[_nodeid].props[node.children[0].getText()] = node.children[2].getText();
+    node_edge_obj[_nodeid].props[getNodeText(node.children[0])] = getNodeText(node.children[2]);
   }
   for (var i = 0; i < node.children.length; i++) {
     var child = node.children[i];
     console.log(child);
-    console.log("ALIST CHILD " + child.getText());
+    console.log("ALIST CHILD " + getNodeText(child)); //child.getText());
     var nodeType = getNodeType(child);
     switch (nodeType) {
     case "id":
@@ -449,7 +493,7 @@ var edge_stmt = function(node) {
     var nodeType = getNodeType(child);
     switch (nodeType) {
     case "node_id":
-      _nodeidSrc = child.getText();
+      _nodeidSrc = getNodeText(child); //child.getText();
       console.log("a node_id");
       node_id(child);
       break;
@@ -484,7 +528,7 @@ var edgeRHS = function(node, _nodeidSrc) {
       break;
     case "node_id":
       console.log("a node_id");
-      _nodeidTrg = child.getText();
+      _nodeidTrg = getNodeText(child); //child.getText();
       node_edge_obj[_nodeidSrc].edges.push(_nodeidTrg);
       node_id(child);
       _nodeidSrc = _nodeidTrg;
@@ -520,7 +564,7 @@ var node_stmt = function(node) {
     switch (nodeType) {
     case "node_id":
       console.log("a node_id");
-      _nodeid = child.getText();
+      _nodeid = getNodeText(child); //child.getText();
       node_id(child);
       break;
     case "attr_list":
@@ -540,8 +584,14 @@ var node_id = function(node) {
     var nodeType = getNodeType(child);
     switch (nodeType) {
     case "id":
-      if (!node_edge_obj[child.getText()]) {
-        node_edge_obj[child.getText()] = {edges: [], props: {}, parent: null}; //[];
+      //if (!node_edge_obj[child.getText()]) {
+      if (!node_edge_obj[getNodeText(child)]) {
+        var prnt = null; // sg_cluster_stack.pop();
+        if (sg_cluster_stack.length > 0) {
+          prnt = sg_cluster_stack[sg_cluster_stack.length-1];
+        }
+        //node_edge_obj[child.getText()] = {edges: [], props: {}, parent: prnt, tagtype: CLUSTER_TAGTYPE_LEAF}; // "leaf"
+        node_edge_obj[getNodeText(child)] = {edges: [], props: {}, parent: prnt, tagtype: CLUSTER_TAGTYPE_LEAF}; // "leaf"
       }
       console.log("a id");
       id(child);
@@ -574,6 +624,7 @@ var port = function(node) {
 
 // subgraph : ( SUBGRAPH id? )? '{' stmt_list '}' ;
 var subgraph = function(node) {
+  var sgClusterId = null;
   for (var i = 0; i < node.children.length; i++) {
     var child = node.children[i];
     var nodeType = getNodeType(child);
@@ -581,13 +632,38 @@ var subgraph = function(node) {
     case "SUBGRAPH":
       console.log("a SUBGRAPH");
       break;
-    case "id":
+    case "id": // possibly a "cluster" ID such as "clusterX"
       console.log("a id");
+      // TODO if id (child) starts with "cluster", then save the rest of the id (ex: "X") as a local variable
+      var sgName = getNodeText(child); //child.getText();
+      if (sgName.startsWith(CLUSTER_STR) && (sgName.length > CLUSTER_STR_LENGTH)) {
+        sgClusterId = ID_PREFIX + sgName.substring(CLUSTER_STR_LENGTH);
+        // TODO the cluster should be saved as a node, so it can become a Xholon container node
+        console.log("--- FOUND subgraph cluster " + sgClusterId);
+        if (!node_edge_obj[sgClusterId]) {
+          var prnt = null;
+          if (sg_cluster_stack.length > 0) {
+            prnt = sg_cluster_stack[sg_cluster_stack.length-1];
+          }
+          node_edge_obj[sgClusterId] = {edges: [], props: {}, parent: prnt, tagtype: CLUSTER_TAGTYPE_START}; // "start"
+        }
+      }
       id(child);
       break;
     case "stmt_list":
+      // TODO push this child onto the parent stack if sgClusterId != null
       console.log("a stmt_list");
+      if (sgClusterId) {
+        console.log("--> PUSHING to stack " + sgClusterId);
+        sg_cluster_stack.push(child);
+      }
       stmt_list(child);
+      // TODO pop this child from the parent stack if sgClusterId != null
+      if (sgClusterId) {
+        console.log("<-- POPPING from stack " + sgClusterId);
+        sg_cluster_stack.pop(); // discard top of the stack
+        node_edge_obj[sgClusterId + "_END_"] = {edges: [], props: {}, parent: null, tagtype: CLUSTER_TAGTYPE_END}; // "end"
+      }
       break;
     case null: break;
     default: console.log("? " + nodeType); break;
@@ -619,7 +695,6 @@ var id = function(node) {
   }
 }
 
-
 var getNodeType = function(node) {
   console.log(node);
   //if (node.getPayload) {console.log(node.getPayload())};
@@ -628,20 +703,20 @@ var getNodeType = function(node) {
   //console.log(node.toString());
   var nodeType = ruleNames[node.ruleIndex];
   if (nodeType) {
-    console.log("RULE " + nodeType + " " + node.getText());
+    console.log("RULE " + nodeType + " " + getNodeText(node)); //node.getText());
   }
   else {
     if (node.symbol) {
       nodeType = symbolicNames[node.symbol.type];
       if (nodeType) {
-        console.log("SYMBOL " + nodeType + " " + node.getText());
+        console.log("SYMBOL " + nodeType + " " + getNodeText(node)); //node.getText());
       }
       else {
-        console.log("LITERAL " + node.getText());
+        console.log("LITERAL " + getNodeText(node)); //node.getText());
       }
     }
     else {
-      console.log("NOT RULE|SYMBOL " + node.getText());
+      console.log("NOT RULE|SYMBOL " + getNodeText(node)); //node.getText());
     }
   }
   if (!nodeType) {
@@ -650,15 +725,26 @@ var getNodeType = function(node) {
   return nodeType;
 }
 
+// if (typeof iidd == "number") {iidd = "" + iidd + NUMBER_SUFFIX;}
+var getNodeText = function(node) {
+  var ntext = ID_PREFIX + node.getText();
+  //if (typeof ntext == "number") {
+  /*if (Number.isInteger(ntext)) {
+    // writing the DOT content as Xholon XML, requires that Graphvix IDs not be Javascript numbers
+    ntext = ntext + NUMBER_SUFFIX; // ex: 0 becomes 0.
+  }*/
+  return ntext;
+}
+
 // main
 const antlr4 = require('xholon/lib/antlr4/index');
 const DOTLexer = require('xholon/lib/antlr4g/DOTLexer');
 const DOTParser = require('xholon/lib/antlr4g/DOTParser');
 const DOTListener = require('xholon/lib/antlr4g/DOTListener');
 
-var xmlStrIH = "<_-.XholonClass>\n  <TheSystem/>\n";
+var xmlStrIH = "<_-.XholonClass>\n  <" + DEFAULT_THESYSTEM_NAME + "/>\n";
 var xmlStrCD = "<xholonClassDetails>\n";
-var xmlStrCSH = "<TheSystem>";
+var xmlStrCSH = "<" + DEFAULT_THESYSTEM_NAME + ">\n";
 
 // behavior for one specific StateMachine, for an ActorClass with a Behavior
 var beh = null;
@@ -667,6 +753,14 @@ var literalNames, ruleNames, symbolicNames;
 
 // collect all nodes and edges in this object
 const node_edge_obj = {};
+
+/**
+ * Stack of nested "subgraph clusterID {STMNT}" nodes (parent nodes).
+ * push a node to the top of the stack (end of the array) each time we encounter "subgraph clusterID"
+ * pop the top node from the stack (end of the array) each time we leave a "subgraph clusterID"
+ *
+ */
+const sg_cluster_stack = [];
 
 document.getElementById("parse").addEventListener("click", function(){
   
@@ -750,7 +844,7 @@ digraph G {
     + '  <XholonClass xhType="XhtypePureContainer"/>\n'
     ;
   xmlStrCD += "</xholonClassDetails>\n";
-  xmlStrCSH += "</TheSystem>\n";
+  xmlStrCSH += "</" + DEFAULT_THESYSTEM_NAME + ">\n";
   console.log(xmlStrIH);
   console.log(xmlStrCD);
   console.log(xmlStrCSH);
