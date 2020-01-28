@@ -5,7 +5,11 @@
     <meta name="author" content="Ken Webb" />
     <meta name="copyright" content="MIT License, Copyright (C) 2020 Ken Webb" />
     
+    <!-- antlr parser -->
     <script src="xholon/lib/antlr4-require.js"></script>
+    
+    <!-- Graphviz display -->
+    <script src="xholon/lib/viz.js"></script>
     
     <!--                                                               -->
     <!-- Consider inlining CSS to reduce the number of requested files -->
@@ -252,7 +256,7 @@ var updateTree = function(tree) {
         console.log(nodeType);
       }
       else {
-        console.log(getNodeText(child)); //child.getText());
+        console.log(getNodeText(child));
       }
     }
     // graph : STRICT? ( GRAPH | DIGRAPH ) id? '{' stmt_list '}' ;
@@ -463,13 +467,12 @@ var a_list = function(node, _nodeid) {
   console.log(_nodeid);
   console.log(node.children.length);
   if (_nodeid) {
-    //node_edge_obj[_nodeid].props[node.children[0].getText()] = node.children[2].getText();
     node_edge_obj[_nodeid].props[getNodeText(node.children[0])] = getNodeText(node.children[2]);
   }
   for (var i = 0; i < node.children.length; i++) {
     var child = node.children[i];
     console.log(child);
-    console.log("ALIST CHILD " + getNodeText(child)); //child.getText());
+    console.log("ALIST CHILD " + getNodeText(child));
     var nodeType = getNodeType(child);
     switch (nodeType) {
     case "id":
@@ -493,7 +496,7 @@ var edge_stmt = function(node) {
     var nodeType = getNodeType(child);
     switch (nodeType) {
     case "node_id":
-      _nodeidSrc = getNodeText(child); //child.getText();
+      _nodeidSrc = getNodeText(child);
       console.log("a node_id");
       node_id(child);
       break;
@@ -528,7 +531,7 @@ var edgeRHS = function(node, _nodeidSrc) {
       break;
     case "node_id":
       console.log("a node_id");
-      _nodeidTrg = getNodeText(child); //child.getText();
+      _nodeidTrg = getNodeText(child);
       node_edge_obj[_nodeidSrc].edges.push(_nodeidTrg);
       node_id(child);
       _nodeidSrc = _nodeidTrg;
@@ -564,7 +567,7 @@ var node_stmt = function(node) {
     switch (nodeType) {
     case "node_id":
       console.log("a node_id");
-      _nodeid = getNodeText(child); //child.getText();
+      _nodeid = getNodeText(child);
       node_id(child);
       break;
     case "attr_list":
@@ -584,14 +587,12 @@ var node_id = function(node) {
     var nodeType = getNodeType(child);
     switch (nodeType) {
     case "id":
-      //if (!node_edge_obj[child.getText()]) {
       if (!node_edge_obj[getNodeText(child)]) {
         var prnt = null; // sg_cluster_stack.pop();
         if (sg_cluster_stack.length > 0) {
           prnt = sg_cluster_stack[sg_cluster_stack.length-1];
         }
-        //node_edge_obj[child.getText()] = {edges: [], props: {}, parent: prnt, tagtype: CLUSTER_TAGTYPE_LEAF}; // "leaf"
-        node_edge_obj[getNodeText(child)] = {edges: [], props: {}, parent: prnt, tagtype: CLUSTER_TAGTYPE_LEAF}; // "leaf"
+        node_edge_obj[getNodeText(child)] = {edges: [], props: {}, parent: prnt, tagtype: CLUSTER_TAGTYPE_LEAF};
       }
       console.log("a id");
       id(child);
@@ -634,35 +635,31 @@ var subgraph = function(node) {
       break;
     case "id": // possibly a "cluster" ID such as "clusterX"
       console.log("a id");
-      // TODO if id (child) starts with "cluster", then save the rest of the id (ex: "X") as a local variable
-      var sgName = getNodeText(child); //child.getText();
+      var sgName = getNodeText(child);
       if (sgName.startsWith(CLUSTER_STR) && (sgName.length > CLUSTER_STR_LENGTH)) {
         sgClusterId = ID_PREFIX + sgName.substring(CLUSTER_STR_LENGTH);
-        // TODO the cluster should be saved as a node, so it can become a Xholon container node
         console.log("--- FOUND subgraph cluster " + sgClusterId);
         if (!node_edge_obj[sgClusterId]) {
           var prnt = null;
           if (sg_cluster_stack.length > 0) {
             prnt = sg_cluster_stack[sg_cluster_stack.length-1];
           }
-          node_edge_obj[sgClusterId] = {edges: [], props: {}, parent: prnt, tagtype: CLUSTER_TAGTYPE_START}; // "start"
+          node_edge_obj[sgClusterId] = {edges: [], props: {}, parent: prnt, tagtype: CLUSTER_TAGTYPE_START};
         }
       }
       id(child);
       break;
     case "stmt_list":
-      // TODO push this child onto the parent stack if sgClusterId != null
       console.log("a stmt_list");
       if (sgClusterId) {
         console.log("--> PUSHING to stack " + sgClusterId);
         sg_cluster_stack.push(child);
       }
       stmt_list(child);
-      // TODO pop this child from the parent stack if sgClusterId != null
       if (sgClusterId) {
         console.log("<-- POPPING from stack " + sgClusterId);
         sg_cluster_stack.pop(); // discard top of the stack
-        node_edge_obj[sgClusterId + "_END_"] = {edges: [], props: {}, parent: null, tagtype: CLUSTER_TAGTYPE_END}; // "end"
+        node_edge_obj[sgClusterId + "_END_"] = {edges: [], props: {}, parent: null, tagtype: CLUSTER_TAGTYPE_END};
       }
       break;
     case null: break;
@@ -699,24 +696,23 @@ var getNodeType = function(node) {
   console.log(node);
   //if (node.getPayload) {console.log(node.getPayload())};
   //if (node.getSymbol) {console.log(node.getSymbol())};
-  //if (node.getText) {console.log(node.getText())};
   //console.log(node.toString());
   var nodeType = ruleNames[node.ruleIndex];
   if (nodeType) {
-    console.log("RULE " + nodeType + " " + getNodeText(node)); //node.getText());
+    console.log("RULE " + nodeType + " " + getNodeText(node));
   }
   else {
     if (node.symbol) {
       nodeType = symbolicNames[node.symbol.type];
       if (nodeType) {
-        console.log("SYMBOL " + nodeType + " " + getNodeText(node)); //node.getText());
+        console.log("SYMBOL " + nodeType + " " + getNodeText(node));
       }
       else {
-        console.log("LITERAL " + getNodeText(node)); //node.getText());
+        console.log("LITERAL " + getNodeText(node));
       }
     }
     else {
-      console.log("NOT RULE|SYMBOL " + getNodeText(node)); //node.getText());
+      console.log("NOT RULE|SYMBOL " + getNodeText(node));
     }
   }
   if (!nodeType) {
@@ -725,16 +721,31 @@ var getNodeType = function(node) {
   return nodeType;
 }
 
-// if (typeof iidd == "number") {iidd = "" + iidd + NUMBER_SUFFIX;}
 var getNodeText = function(node) {
   var ntext = ID_PREFIX + node.getText();
-  //if (typeof ntext == "number") {
-  /*if (Number.isInteger(ntext)) {
-    // writing the DOT content as Xholon XML, requires that Graphvix IDs not be Javascript numbers
-    ntext = ntext + NUMBER_SUFFIX; // ex: 0 becomes 0.
-  }*/
   return ntext;
 }
+
+/**
+ * Convert Graphviz content to a Graphviz-supported output format.
+ * svg = Viz("digraph { a -> b; }", "svg");
+ * @param graphvizContent Content in the DOT language.
+ * @param outputFormat ex: "svg" "xdot" "dot" "canon" "plain" "ps" "tk"
+ *   "vrml"NO "pdf"NO "png"NO "jpg"NO "gif"NO
+ */
+var graphviz2of = function(graphvizContent, outputFormat) {
+  var out = window.Viz(graphvizContent, outputFormat);
+  return out;
+}
+
+/**
+ * Is $wnd.Viz defined.
+ * @return it is defined (true), it's not defined (false)
+ */
+var isDefinedViz = function() {
+  return (typeof window.Viz != "undefined");
+}
+
 
 // main
 const antlr4 = require('xholon/lib/antlr4/index');
@@ -824,6 +835,16 @@ digraph G {
   }
   
   console.log(input);
+  
+  // write as SVG
+  console.log("isDefinedViz " + isDefinedViz());
+  if (isDefinedViz()) {
+    var svg = graphviz2of(input, "svg");
+    console.log(svg);
+    var div = document.querySelector("div#xhimg");
+    div.innerHTML = svg;
+  }
+  
   const chars = new antlr4.InputStream(input);
   console.log(chars);
   const lexer = new DOTLexer.DOTLexer(chars);
