@@ -27,6 +27,19 @@ package org.primordion.xholon.base;
 public class Role extends Xholon {
 	private static final long serialVersionUID = -7829492100818122122L;
 	
+	// Note: it's possible that the parent node does not have a roleName attribute, and therefore requires this Role node to function properly
+	private static final String ACTION_RETAIN = "retain"; // do nothing; retain this Role node as is
+	private static final String ACTION_REPLACE = "replace"; // replace the parent roleName unconditionally, and remove this
+	private static final String ACTION_REPLACE_IF = "replaceif"; // if the parent roleName is currently not set, then replace the parent roleName and remove this
+	private static final String ACTION_REMOVE = "remove"; // quietly remove this Role node
+	private static final String ACTION_COMBINE = "combine"; // combine the parent roleName and this Role rolename ex: "D" + "Dog" becomes "D Dog"
+	private static final String ACTION_COMBINE_SEP = " "; // separator between two parts of a combined roleName
+	private static final String ACTION_DEFAULT = ACTION_RETAIN;
+	
+	private String action = ACTION_DEFAULT;
+	
+	private String actionCombineSep = ACTION_COMBINE_SEP;
+	
 	/**
 	 * The name of a role that a Xholon plays, within the context of its parent.
 	 */
@@ -56,4 +69,81 @@ public class Role extends Xholon {
 	{
 		return Role.class.getName();
 	}
+	
+	@Override
+	public int setAttributeVal(String attrName, String attrVal) {
+		if ("action".equals(attrName)) {
+			if (attrVal.startsWith(ACTION_COMBINE)) {
+				this.action = ACTION_COMBINE; // "combine"
+				String[] arr = attrVal.split(",");
+				if (arr.length >= 2) {
+					this.actionCombineSep = arr[1]; // ex: "." or " "
+				}
+				else if (attrVal.endsWith(",")) {
+					this.actionCombineSep = ""; // a zero-length String
+				}
+			}
+			else {
+				this.action = attrVal;
+			}
+		}
+		return 0;
+	}
+	
+	@Override
+	public void postConfigure() {
+		boolean shouldRemove = false;
+		switch (action) {
+		case ACTION_REPLACE:
+		{
+			IXholon pnode = this.getParentNode();
+			if (pnode != null) {
+				pnode.setRoleName(this.roleName);
+			}
+			shouldRemove = true;
+			break;
+		}
+		case ACTION_REPLACE_IF:
+		{
+			IXholon pnode = this.getParentNode();
+			if (pnode != null) {
+			  String prname = pnode.getRoleName();
+			  // if (prname.equals(this.roleName)), it may be because the parent has called this Role node to get the roleName, so set it just to be sure
+				if ((prname == null) || (prname.equals(this.roleName))) {
+					pnode.setRoleName(this.roleName);
+				}
+			}
+			shouldRemove = true;
+			break;
+		}
+		case ACTION_REMOVE:
+			shouldRemove = true;
+			break;
+		case ACTION_COMBINE:
+		{
+			IXholon pnode = this.getParentNode();
+			if (pnode != null) {
+			  String prname = pnode.getRoleName();
+			  // if (prname.equals(this.roleName)), it may be because the parent has called this Role node to get the roleName, so set it just to be sure
+				if ((prname == null) || (prname.equals(this.roleName))) {
+					pnode.setRoleName(this.roleName);
+				}
+				else {
+					pnode.setRoleName(prname + actionCombineSep + this.roleName);
+				}
+			}
+			shouldRemove = true;
+			break;
+		}
+		case ACTION_RETAIN:
+		default:
+			break;
+		}
+		super.postConfigure();
+		if (shouldRemove) {
+		  // this has to be done at the end so as not to interfere with next siblings
+			this.removeChild();
+		}
+	}
+	
 }
