@@ -27,12 +27,15 @@ import org.primordion.xholon.service.ef.IXholon2ExternalFormat;
 
 /**
  * Export a Xholon model in a Haskell Binary Tree format.
- * John Whitington developes the Binary Tree format in his book "Haskell from the Very Beginning".
+ * John Whitington develops the Binary Tree format in his book "Haskell from the Very Beginning".
  * see haskell code at: Xholon/script/haskell/bt.hs
  * 
  * Examples:
 <pre>
 Br "HelloWorldSystem" (Br "Hello" Lf (Br "World" Lf Lf)) Lf
+
+Br "ExtraCellularSpace" (Br "ExtraCellularSolution" (Br "Glucose" Lf Lf) (Br "EukaryoticCell" (Br "CellMembrane" (Br "CellBilayer" Lf Lf) (Br "Cytoplasm" (Br "Cytosol" (Br "Glucose" Lf (Br "Glucose_6_Phosphate" Lf (Br "Fructose_6_Phosphate" Lf (Br "Fructose_1x6_Biphosphate" Lf (Br "DihydroxyacetonePhosphate" Lf (Br "Glyceraldehyde_3_Phosphate" Lf (Br "X1x3_BisphosphoGlycerate" Lf (Br "X3_PhosphoGlycerate" Lf (Br "X2_PhosphoGlycerate" Lf (Br "PhosphoEnolPyruvate" Lf (Br "Pyruvate" Lf Lf))))))))))) (Br "Hexokinase" Lf (Br "PhosphoGlucoIsomerase" Lf (Br "PhosphoFructokinase" Lf (Br "Aldolase" Lf (Br "TriosePhosphateIsomerase" Lf (Br "Glyceraldehyde_3_phosphateDehydrogenase" Lf (Br "PhosphoGlycerokinase" Lf (Br "PhosphoGlyceromutase" Lf (Br "Enolase" Lf (Br "PyruvateKinase" Lf Lf))))))))))) Lf)) Lf)) Lf
+
 </pre>
  *
  * Example use with Haskell ghci:
@@ -42,6 +45,17 @@ let tree1 = Br "HelloWorldSystem" (Br "Hello" Lf (Br "World" Lf Lf)) Lf
 treeSize tree1 -- 3
 listOfTree tree1 -- ["HelloWorldSystem","Hello","World"]
 </pre>
+
+See also:
+http://learnyouahaskell.com/making-our-own-types-and-typeclasses#recursive-data-structures
+An example binary tree from this book is:
+Node 5 (Node 3 (Node 1 EmptyTree EmptyTree) (Node 4 EmptyTree EmptyTree)) (Node 7 (Node 6 EmptyTree EmptyTree) (Node 8 EmptyTree EmptyTree))
+So instead of using "Br" and "Lf", it uses "Node" and "EmptyTree"
+
+See also:
+https://github.com/oisdk/binary-tree
+https://hackage.haskell.org/package/binary-tree
+it uses "Node" and "Leaf"
  * 
  * @author <a href="mailto:ken@primordion.com">Ken Webb</a>
  * @see <a href="http://www.primordion.com/Xholon">Xholon Project website</a>
