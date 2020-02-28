@@ -97,6 +97,7 @@ public class Xholon2D3HierarchyJSON {
 	 * see usage of "efignore" in workbook "D4G BGCO - High Attendance Members"
 	 */
 	protected native boolean efignore(IXholon node) /*-{
+	  if (node.xhc() == null) {return false;} // node is probably a XholonClass, or another node such as Application that has no xhc link
 		return (typeof node.xhc()["efignore"] !== 'undefined') || (typeof node["efignore"] !== 'undefined');
 	}-*/;
 	
