@@ -1992,6 +1992,7 @@ public abstract class Application extends AbstractApplication implements IApplic
 	  "E":"eat",
 	  "F":"flip",
 	  "H":"go history",
+	  "BACKSPACE":"back",
 	  "I":"inventory",
 	  "L":"look",
 	  "M":"build <Animate	selection='#xhgraph'/>",
@@ -2079,6 +2080,14 @@ public abstract class Application extends AbstractApplication implements IApplic
             case 55: key = "&"; break;
             case 56: key = "*"; break;
             case 57: key = "("; break;
+            default: break;
+            }
+          }
+          else { // nativeKeyCode < KeyCodes.SPACE
+            switch (nativeKeyCode) {
+            case KeyCodes.KEY_BACKSPACE: // 8
+              key = "BACKSPACE";
+              break;
             default: break;
             }
           }

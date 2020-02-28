@@ -406,13 +406,13 @@ public class Avatar extends AbstractAvatar {
   
   protected void setContextNode(IXholon contextNode) {
     if (this.contextNode != contextNode) {
-      pushHistory(this.contextNode);
       this.contextNode = contextNode;
+      pushHistory(this.contextNode);
       if (chatbot != null) {
         chatbot.setVal_Object(contextNode);
       }
     }
-    trace(this.contextNode);
+    trace(this.contextNode); // TODO put this line just after pushHistory() above ?
   }
   
   protected native void pushHistory(IXholon contextNode) /*-{
@@ -1174,6 +1174,9 @@ public class Avatar extends AbstractAvatar {
         .append(" axe to tree).");
       }
       break;
+    case "back":
+      back();
+      break;
     case "become":
     case "set":
       if (len == 4) {
@@ -1757,6 +1760,16 @@ public class Avatar extends AbstractAvatar {
     IMessage rmsg = thing1.sendSyncMessage(101, othings, this);
     if (rmsg.getData() != null) {
       consoleLog(rmsg.getData());
+    }
+  }
+  
+  /**
+   * Backtrack through Avatar history.
+   */
+  protected void back() {
+    IXholon hnode = this.popHistory();
+    if (hnode != null) {
+      moveto(hnode, "Moving back to");
     }
   }
   
@@ -2346,12 +2359,7 @@ a.action("takeclone hello;");
     case "9": goPort(portNode, 9); return;
     case "10": goPort(portNode, 10); return;
     case "HISTORY":
-      IXholon hnode = this.popHistory();
-      if (hnode != null) {
-        // TODO prevent the current contextNode from going into history
-        // HistoryManager behavior might be able to control this by not allowing pushHistory(currentNode) just after popping a node
-        moveto(hnode, "Moving back to");
-      }
+      back();
       return;
     default: break;
     }
@@ -2680,6 +2688,7 @@ a.action("takeclone hello;");
     .append("\nanim THING turnright|turnleft|hop|duck|grow|shrink|mirror PARAMS")
     .append("\napply TOOL_THING [to OTHER_THING|OTHER_THINGS]")
     .append("\nappear")
+    .append("\nback")
     .append("\nbecome THING role ROLE")
     .append("\nbreakpoint")
     .append("\nbt left|right|parent")
