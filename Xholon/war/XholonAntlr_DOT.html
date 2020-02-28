@@ -205,8 +205,8 @@ digraph G {
     </div>
     
     <script type="text/javascript">
-const DEFAULT_XHC_NAME = "Hello";
-const DEFAULT_THESYSTEM_NAME = "TheSystem";
+const DEFAULT_XHC_NAME = "GvNode";
+const DEFAULT_THESYSTEM_NAME = "GvSystem";
 
 const CLUSTER_TAGTYPE_START = "start";
 const CLUSTER_TAGTYPE_END   = "end";
@@ -294,9 +294,6 @@ var updateTree = function(tree) {
             xmlStrCSH += '  <port name="edge" index="' + index++ + '" connector="../' + DEFAULT_XHC_NAME + '[@roleName=' + "'" + fixRoleName(trgName) + "'" + ']"/>\n';
           }
           else {
-            // "descendant::Hello[@roleName='b0']"  NO
-            // var node = xh.xpath(".//descendant::Hello[@roleName='b0']", xh.app()); or xh.root());  NO
-            // <port name="edge" index="1" connector="ancestor::TheSystem/descendant::Hello[@roleName='b3']"/>  MAYBE
             xmlStrCSH += '  <port name="edge" index="' + index++
               + '" connector="ancestor::' + DEFAULT_THESYSTEM_NAME + '/descendant::' + DEFAULT_XHC_NAME + '[@roleName=' + "'" + fixRoleName(trgName) + "'" + ']"/>\n';
           }
@@ -385,9 +382,9 @@ var stmt_list = function(node, _nodeid) {
 var stmt = function(node, _nodeid) {
   if (_nodeid) {
     // this may be an attribute of a subgraph
-    console.log("*** ASSUME this is an attribute of a subgraph");
-    console.log(node.getText());
-    console.log(node.children.length);
+    //console.log("*** ASSUME this is an attribute of a subgraph");
+    //console.log(node.getText());
+    //console.log(node.children.length);
     if (node.children.length >= 3) {
       node_edge_obj[_nodeid].props[node.children[0].getText()] = node.children[2].getText();
     }
@@ -452,14 +449,14 @@ var attr_stmt = function(node) {
 
 // attr_list : ( '[' a_list? ']' )+ ;
 var attr_list = function(node, _nodeid) {
-  console.log("STARTING attr_list");
-  console.log(node);
-  console.log(node.children.length);
-  console.log(node.parentCtx.getText() + " " + ruleNames[node.parentCtx.ruleIndex]);
-  console.log(node.parentCtx.parentCtx.getText() + " " + ruleNames[node.parentCtx.parentCtx.ruleIndex]);
+  //console.log("STARTING attr_list");
+  //console.log(node);
+  //console.log(node.children.length);
+  //console.log(node.parentCtx.getText() + " " + ruleNames[node.parentCtx.ruleIndex]);
+  //console.log(node.parentCtx.parentCtx.getText() + " " + ruleNames[node.parentCtx.parentCtx.ruleIndex]);
   for (var i = 0; i < node.children.length; i++) {
     var child = node.children[i];
-    console.log(child);
+    //console.log(child);
     var nodeType = getNodeType(child);
     switch (nodeType) {
     case "a_list":
@@ -470,23 +467,23 @@ var attr_list = function(node, _nodeid) {
     default: console.log("? " + nodeType); break;
     }
   }
-  console.log("ENDING attr_list");
+  //console.log("ENDING attr_list");
 }
 
 // a_list : ( id ( '=' id )? ','? )+ ;
 var a_list = function(node, _nodeid) {
-  console.log("STARTING a_list");
-  console.log(node);
-  console.log(_nodeid);
-  console.log(node.children.length);
+  //console.log("STARTING a_list");
+  //console.log(node);
+  //console.log(_nodeid);
+  //console.log(node.children.length);
   if (_nodeid) {
     //node_edge_obj[_nodeid].props[getNodeText(node.children[0])] = getNodeText(node.children[2]);
     node_edge_obj[_nodeid].props[node.children[0].getText()] = node.children[2].getText();
   }
   for (var i = 0; i < node.children.length; i++) {
     var child = node.children[i];
-    console.log(child);
-    console.log("ALIST CHILD " + getNodeText(child));
+    //console.log(child);
+    //console.log("ALIST CHILD " + getNodeText(child));
     var nodeType = getNodeType(child);
     switch (nodeType) {
     case "id":
@@ -497,14 +494,12 @@ var a_list = function(node, _nodeid) {
     default: console.log("? " + nodeType); break;
     }
   }
-  console.log("ENDING a_list");
+  //console.log("ENDING a_list");
 }
 
 // edge_stmt : ( node_id | subgraph ) edgeRHS attr_list? ;
-// basic edge_stmt : node_id edgeRHS ;  (for initial testing)
 var edge_stmt = function(node) {
   var _nodeidSrc = null; // id/name of the source node
-  //var _edgePairs = [];
   for (var i = 0; i < node.children.length; i++) {
     var child = node.children[i];
     var nodeType = getNodeType(child);
@@ -530,7 +525,6 @@ var edge_stmt = function(node) {
     default: console.log("? " + nodeType); break;
     }
   }
-  //console.log(_edgePairs);
 }
 
 // edgeRHS : ( edgeop ( node_id | subgraph ) )+ ;
@@ -652,7 +646,7 @@ var subgraph = function(node) {
       var sgName = getNodeText(child);
       if (sgName.startsWith(CLUSTER_STR) && (sgName.length > CLUSTER_STR_LENGTH)) {
         sgClusterId = ID_PREFIX + sgName.substring(CLUSTER_STR_LENGTH);
-        console.log("--- FOUND subgraph cluster " + sgClusterId);
+        //console.log("--- FOUND subgraph cluster " + sgClusterId);
         if (!node_edge_obj[sgClusterId]) {
           var prnt = null;
           if (sg_cluster_stack.length > 0) {
@@ -666,12 +660,12 @@ var subgraph = function(node) {
     case "stmt_list":
       console.log("a stmt_list");
       if (sgClusterId) {
-        console.log("--> PUSHING to stack " + sgClusterId);
+        //console.log("--> PUSHING to stack " + sgClusterId);
         sg_cluster_stack.push(child);
       }
       stmt_list(child, sgClusterId);
       if (sgClusterId) {
-        console.log("<-- POPPING from stack " + sgClusterId);
+        //console.log("<-- POPPING from stack " + sgClusterId);
         sg_cluster_stack.pop(); // discard top of the stack
         node_edge_obj[sgClusterId + "_END_"] = {edges: [], props: {}, parent: null, tagtype: CLUSTER_TAGTYPE_END};
       }
@@ -707,7 +701,7 @@ var id = function(node) {
 }
 
 var getNodeType = function(node) {
-  console.log(node);
+  //console.log(node);
   //if (node.getPayload) {console.log(node.getPayload())};
   //if (node.getSymbol) {console.log(node.getSymbol())};
   //console.log(node.toString());
@@ -767,7 +761,7 @@ const DOTLexer = require('xholon/lib/antlr4g/DOTLexer');
 const DOTParser = require('xholon/lib/antlr4g/DOTParser');
 const DOTListener = require('xholon/lib/antlr4g/DOTListener');
 
-var xmlStrIH = "<_-.XholonClass>\n  <" + DEFAULT_THESYSTEM_NAME + "/>\n";
+var xmlStrIH = "<_-.XholonClass>\n  <" + DEFAULT_THESYSTEM_NAME + "/>\n  <" + DEFAULT_XHC_NAME + "/>\n";
 var xmlStrCD = "<xholonClassDetails>\n";
 var xmlStrCSH = "<" + DEFAULT_THESYSTEM_NAME + ">\n";
 
