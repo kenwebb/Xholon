@@ -148,6 +148,11 @@ public class Behavior_gwtjs extends Xholon {
 	 */
 	private boolean hasTick = false;
 	
+	/**
+	 * Does the script contain a visit(visitor) method?
+	 */
+	private boolean hasVisit = false;
+	
 	protected String roleName = null;
 	
 	@Override
@@ -205,6 +210,7 @@ public class Behavior_gwtjs extends Xholon {
 		hasProcessReceivedMessage = hasFunction(beh, "processReceivedMessage");
 		hasProcessReceivedSyncMessage = hasFunction(beh, "processReceivedSyncMessage");
 		hasTick = hasFunction(beh, "tick");
+		hasVisit = hasFunction(beh, "visit");
 		if (hasFunction(beh, "postConfigure")) {
 		  postConfigure(beh);
 		  if (this.getParentNode() == null) {
@@ -430,6 +436,28 @@ public class Behavior_gwtjs extends Xholon {
 	  return robj;
 	}-*/;
 	
+	@Override
+	public boolean visit(IXholon visitor) {
+	  if (hasVisit) {
+		  if (beh != null) {
+		    boolean bool = visit(beh, visitor);
+			  return bool;
+			}
+			return false;
+		}
+		return false;
+	}
+	
+	/**
+	 * visit
+	 * @param visitor Some other IXholon node.
+	 * @return true or false, used to determine whether to continue.
+	 */
+	protected native boolean visit(JavaScriptObject bobj, IXholon visitor) /*-{
+	  var bool = bobj.visit(visitor);
+	  return bool;
+	}-*/;
+	
 	/*
 	 * @see org.primordion.xholon.base.Xholon#toString()
 	 */
@@ -460,6 +488,7 @@ public class Behavior_gwtjs extends Xholon {
 		.append(" hasProcessReceivedMessage:").append(hasProcessReceivedMessage)
 		.append(" hasProcessReceivedSyncMessage:").append(hasProcessReceivedSyncMessage)
 		.append(" hasTick:").append(hasTick)
+		.append(" hasVisit:").append(hasVisit)
 		.append(behToString);
 		return sb.toString();
 	}

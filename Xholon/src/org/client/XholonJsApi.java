@@ -864,6 +864,11 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
       return this.@org.primordion.xholon.base.IXholon::tick(Ljava/lang/Object;)(objekt);
     });
     
+    // visit
+    api.visit = $entry(function(visitee) {
+      return this.@org.primordion.xholon.base.IXholon::visit(Lorg/primordion/xholon/base/IXholon;)(visitee);
+    });
+    
     // port
     api.port = $entry(function(portName, portRef) {
       if (portRef === undefined) {
