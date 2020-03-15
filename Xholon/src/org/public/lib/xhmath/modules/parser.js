@@ -40,6 +40,8 @@ const FOREST = "_-.xhforest";
 const NOT_YET_IMPLEMENTED = "<Attribute_String>not yet implemented</Attribute_String>";
 const DEFAULT_XHC_NAME = "MathObject"; // "XholonNull" "MathObject" the XholonClass name to use when none is explicitly provided
 const DEFAULT_ROLE_NAME = null;
+const DEFAULT_VAL = null;
+const DEFAULT_TEXT = null;
 const OBJECT_PORTS = "ports";
 const MAX_ELLIPSIS_EXPANSION = 1000;
 
@@ -343,6 +345,10 @@ roleMapping = {(0,A), (1,B), (2,C), (3,D), (4,E), (5,F), (6,G), (7,H), (8,I), (9
 typeMapping = {(0,MarkedLocation), (1,MarkedLocation), (2,MarkedLocation), (3,MarkedLocation), (4,MarkedLocation), (5,UnmarkedLocation), (6,Lookout), (7,Lookout), (8,Building), (9,Entrance), (10,Entrance), (11,Entrance)}
 ports = {trail,untrail}
 portMapping = {({(A,B),(A,G),(A,I),(B,A),(B,C),(B,J)},trail),({(E,F),(F,E)},untrail)} # using roleNames rather than id
+vals = {1,2,3}
+valMapping = {(0,1), (1,2), (2,3)}
+texts = {summer,winter,spring}
+textMapping = {(0,summer), (1,winter), (2,spring)}
  */
 function pSiblings01(mstr) {
   if (!mstr || mstr.length == 0) {return null;}
@@ -350,6 +356,8 @@ function pSiblings01(mstr) {
   const types = []; // new XholonClass types
   const roles = []; // the set of valid role names
   const ports = []; // the set of valid port names
+  const vals  = []; // the set of numeric values, that can be set using node.val(VALUE)
+  const texts = []; // the set of text strings, that can be set using node.text(TEXTSTR)
   const decorations = {}; // colors and other Xholon decorations can be added to this Object
   const lines = mstr.split(NEWLINE);
   lines.forEach(function(line) {
@@ -409,6 +417,12 @@ function pSiblings01(mstr) {
         node[OBJECT_PORTS][port] = [];
       }));
       break;
+    case "vals":
+      lstruct.split(COMMA).forEach(val => vals.push(val));
+      break;
+    case "texts":
+      lstruct.split(COMMA).forEach(text => texts.push(text));
+      break;
     case "roleMapping":
       // roleMapping = {(0,A), (1,B), (2,C), (3,D), (4,E), (5,F), (6,G), (7,H), (8,I), (9,J), (10,K), (11,L)}
       // nodes[index].roleName = rname.trim();
@@ -437,6 +451,34 @@ function pSiblings01(mstr) {
       break;
     case "portMapping":
       pPorts02(LBRACE + lstruct + RBRACE, nodes);
+      break;
+    case "valMapping":
+      // vals = {1,2,3}
+      // valMapping = {(0,1), (1,2), (2,3)}
+      lstruct.substring(1,lstruct.length-1).split("),(").forEach(function(pair) {
+        const vmarr = pair.split(COMMA);
+        if (vmarr.length != 2) {return;}
+        const nindex = vmarr[0]; // index of node in nodes array
+        const val = vmarr[1]; // val of that node
+        console.log(nindex + "|" + val);
+        if (nodes[nindex]) {
+          nodes[nindex].val = val;
+        }
+      });
+      break;
+    case "textMapping":
+      // texts = {summer,winter,spring}
+      // textMapping = {(0,summer), (1,winter), (2,spring)}
+      lstruct.substring(1,lstruct.length-1).split("),(").forEach(function(pair) {
+        const tmarr = pair.split(COMMA);
+        if (tmarr.length != 2) {return;}
+        const nindex = tmarr[0]; // index of node in nodes array
+        const text = tmarr[1]; // text of that node
+        console.log(nindex + "|" + text);
+        if (nodes[nindex]) {
+          nodes[nindex].text = text;
+        }
+      });
       break;
     // Xholon node decorations
     case "colors":
@@ -531,11 +573,19 @@ function jso2xholon(jso, ports) {
     if (rname) {
       xmlStr += ' roleName="' + rname + '"';
     }
+    //const val = obj.val || DEFAULT_VAL;
+    //if (val) {
+    //  xmlStr += ' val="' + val + '"';
+    //}
     xmlStr += '>\n';
-    /*if (obj.decorations && obj.decorations["color"]) {
-      // TODO just testing color for now
-      xmlStr += "<Color>" + obj.decorations["color"] + "</Color>\n";
-    }*/
+    const val = obj.val || DEFAULT_VAL;
+    if (val) {
+      xmlStr += '' + val;
+    }
+    const text = obj.text || DEFAULT_TEXT;
+    if (text) {
+      xmlStr += '' + text;
+    }
     if (obj.decorations) {
       Object.keys(obj.decorations).forEach(function(dname) {
         let darr = DECORATIONS[dname];
