@@ -25,7 +25,7 @@ if (typeof window.xh == "undefined") {
 window.xh.RP = {};
 var RP = window.xh.RP;
 
-var TODO = null; // temprary
+var TODO = null; // temporary
 
 // abs :: Num a => a -> a
 RP.abs = function(a) {
@@ -139,7 +139,7 @@ RP.elem = function(a, arr) {
 
 // error :: String -> a
 RP.error = function(str) {
-  return str; // TODO
+  return str; // TODO ???
 }
 
 // even :: Integral a => a -> Bool
@@ -175,22 +175,23 @@ RP.foldl = function(funk, init, arr) {
 }
 
 // foldl1 :: (a -> a -> a) -> [a] -> a
-RP.foldl1 = function() {
-  return TODO;
+// folds left over non--empty lists.
+RP.foldl1 = function(funk, arr) {
+  return R.reduce(funk, R.head(arr), R.tail(arr));
 }
 
 // foldr :: (a -> b -> b) -> b -> [a] -> b
 // Ramda: reduceRight ((a, b) → b) → b → [a] → b
 // bin2int :: [Bit] -> Int
 // bin2int = bits => R.reduceRight((x, y) => x + 2*y, 0, bits)
+// or use Array.prototype.reduceRight()
 RP.foldr = function(funk, init, arr) {
   return R.reduceRight(funk, init, arr);
-  // or use Array.prototype.reduceRight()
 }
 
 // foldr1 :: (a -> a -> a) -> [a] -> a
-RP.foldr1 = function() {
-  return TODO;
+RP.foldr1 = function(funk, arr) {
+  return R.reduceRight(funk, R.head(arr), R.tail(arr));
 }
 
 // fromIntegral :: (Integral a, Num b) => a -> b
@@ -259,8 +260,16 @@ RP.isUpper = function(c) {
 
 // iterate :: (a -> a) -> a -> [a]
 // iterate~f~x returns the infinite list [x,~f(x),~f(f(x)),~...].
+// Ramda has nothing obvious that can help with this ?
 RP.iterate = function(funk, a) {
-  return TODO;
+  // here's a simple placeholder
+  var val = a;
+  var arr = [];
+  for (var i = 0; i < 10; i++) {
+    arr.push(val);
+    val = funk(val, a);
+  }
+  return arr;
 }
 
 // last :: [a] -> a
@@ -311,7 +320,7 @@ RP.max = function(a, b) {
 // maximum :: Ord a => [a] -> a
 // applied to a non--empty list whose elements have an ordering defined upon them, returns the maximum element of the list.
 RP.maximum = function(arr) {
-  return TODO;
+  return RP.foldl1(RP.max, arr);
 }
 
 // min :: Ord a => a -> a -> a
@@ -323,7 +332,7 @@ RP.min = function(a, b) {
 // minimum :: Ord a => [a] -> a
 // applied to a non--empty list whose elements have an ordering defined upon them, returns the minimum element of the list.
 RP.minimum = function(arr) {
-  return TODO;
+  return RP.foldl1(RP.min, arr);
 }
 
 // mod :: Integral a => a -> a -> a
@@ -377,7 +386,8 @@ RP.pi = function() {
 // applied to a value of an enumerated type returns the predecessor (previous value in the enumeration) of its argument.
 // If its argument is the first value in an enumeration an error will occur.
 RP.pred = function(a) {
-  return TODO;
+  // for now, asssume that a is an integer
+  return --a;
 }
 
 // print :: Show a => a -> IO ()
@@ -455,7 +465,7 @@ RP.snd = function(a, b) {
 // sort :: Ord a => [a] -> [a]
 // sorts its argument list in ascending order. The items in the list must be in the class Ord.
 RP.sort = function(arr) {
-  return TODO;
+  return arr.sort();
 }
 
 // span :: (a -> Bool) -> [a] -> ([a],[a])
@@ -486,8 +496,9 @@ RP.subtract = function(a, b) {
 }
 
 // succ :: Enum a => a -> a
-RP.succ = function() {
-  return TODO;
+RP.succ = function(a) {
+  // for now, asssume that a is an integer
+  return ++a;
 }
 
 // sum :: Num a => [a] -> a
@@ -647,8 +658,15 @@ RP.haskPreludeTests = function() {
   console.log(RP.floor(3.8)); // 3
   console.log(RP.floor(-3.8)); // -4
   console.log(RP.foldl(R.add, 0, [1,2,3,4,5,6,7,8,9,10])); // 55
+  
   // TODO foldl (flip (:)) [] [1..10] // [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-  // TODO console.log(RP.foldr([].join, [], ["con", "cat", "en", "ate"])); // "concatenate"
+  console.log(RP.foldl(R.prepend, [1,2,3,4,5,6,7,8,9,10], [])); // OK [1,2,3,4,5,6,7,8,9,10]
+  console.log(RP.foldl(R.append, [1,2,3,4,5,6,7,8,9,10], [])); // OK [1,2,3,4,5,6,7,8,9,10]
+  //console.log(RP.foldl(RP.flip(R.prepend)([], [1,2,3,4,5,6,7,8,9,10]))); // ??? NO
+  
+  console.log(RP.foldl1(R.max, [1,10,5,2,-1])); // 10
+  console.log(RP.foldr(R.concat, "", ["con", "cat", "en", "ate"])); // "concatenate"
+  console.log(RP.foldr1(R.multiply, [1,2,3,4,5,6,7,8,9,10])); // 3628800
   console.log(RP.fromIntegral(10000000000)); // 1.0e+10 10000000000
   console.log(RP.fst(1, 2)); // 1
   console.log(RP.fst(1.11, 2.22)); // 1.11
@@ -660,7 +678,6 @@ RP.haskPreludeTests = function() {
   console.log(RP.id(12)); // 12
   console.log(RP.id(RP.id("fred"))); // "fred"
   console.log(RP.map(RP.id, [1,2,3,4,5,6,7,8,9,10]).toString() == [1,2,3,4,5,6,7,8,9,10].toString()); // true
-  
   console.log(RP.init([1,2,3,4,5,6,7,8,9,10])); // [1,2,3,4,5,6,7,8,9]
   console.log(RP.isAlpha('a')); // true
   console.log(RP.isAlpha('1')); // false
@@ -674,7 +691,8 @@ RP.haskPreludeTests = function() {
   console.log(RP.isUpper('A')); // true
   console.log(RP.isUpper('a')); // false
   console.log(RP.isUpper('1')); // false
-  console.log(RP.iterate()); // TODO
+  console.log(RP.iterate(R.add, 1)); // [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+  console.log(RP.iterate(R.concat, "*")); // [ "*", "**", "***", "****", "*****", "******", "*******", "********", "*********", "**********" ]
   console.log(RP.last([1,2,3,4,5,6,7,8,9,10])); // 10
   console.log(RP.lcm(2, 10)); // 10
   console.log(RP.lcm(2, 11)); // 22
@@ -703,7 +721,7 @@ RP.haskPreludeTests = function() {
   console.log(RP.pi()); // 3.14159
   console.log(RP.cos(RP.pi())); // -1.0
   console.log(RP.pred(1)); // 0
-  console.log(RP.pred(true)); // false
+  //console.log(RP.pred(true)); // false
   console.log(RP.print(RP.pi())); // 3.14159.....
   console.log(RP.putStr("Hello World\nI'm here!")); // Hello World\nI'm here!
   console.log(RP.product([1,2,3,4,5,6,7,8,9,10])); // 3628800
@@ -730,8 +748,9 @@ RP.haskPreludeTests = function() {
   console.log(RP.splitAt(5, "abc")); // ("abc, "")
   console.log(RP.sqrt(16)); // 4
   console.log(RP.subtract(7, 10)); // 3
-  console.log(RP.succ('a')); // 'b'
-  console.log(RP.succ(false)); // true
+  //console.log(RP.succ('a')); // 'b'
+  //console.log(RP.succ(false)); // true
+  console.log(RP.succ(1)); // 2
   console.log(RP.sum([1,2,3,4,5,6,7,8,9,10])); // 55
   console.log(RP.tail([1,2,3])); // [2,3]
   console.log(RP.tail("hugs")); // "ugs"
@@ -750,7 +769,7 @@ RP.haskPreludeTests = function() {
   console.log(RP.unwords(["the", "quick", "brown", "fox"])); // "the quick brown fox"
   console.log(RP.words("the quick brown\n\nfox")); // ["the", "quick", "brown", "fox"]
   console.log(RP.zip([1,2,3,4,5,6], "abcd")); // [(1, 'a'), (2, 'b'), (3, 'c'), (4, 'd')]
-  //console.log(RP.zipWith(RP.add, [1,2,3,4,5], [6,7,8,9,10])); // [7, 9, 11, 13, 15] TODO
+  console.log(RP.zipWith(R.add, [1,2,3,4,5], [6,7,8,9,10])); // [7, 9, 11, 13, 15] Note: can't use RP.add
 }
-//RP.haskPreludeTests();
+RP.haskPreludeTests();
 
