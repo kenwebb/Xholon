@@ -653,19 +653,104 @@ RP.haskPreludeTests = function() {
   console.log(RP.fst(1, 2)); // 1
   console.log(RP.fst(1.11, 2.22)); // 1.11
   console.log(RP.fst("hello", "world")); // "hello"
-  /*
-  console.log(RP.); // 
-  console.log(RP.); // 
-  console.log(RP.); // 
-  console.log(RP.); // 
-  console.log(RP.); // 
-  console.log(RP.); // 
-  console.log(RP.); // 
-  console.log(RP.); // 
-  */
+  console.log(RP.gcd(2, 10)); // 2
+  console.log(RP.gcd(-7, 13)); // 1
+  console.log(RP.head([1,2,3,4,5,6,7,8,9,10])); // 1
+  console.log(RP.head(["this", "and", "that"])); // "this"
+  console.log(RP.id(12)); // 12
+  console.log(RP.id(RP.id("fred"))); // "fred"
+  console.log(RP.map(RP.id, [1,2,3,4,5,6,7,8,9,10]).toString() == [1,2,3,4,5,6,7,8,9,10].toString()); // true
+  
+  console.log(RP.init([1,2,3,4,5,6,7,8,9,10])); // [1,2,3,4,5,6,7,8,9]
+  console.log(RP.isAlpha('a')); // true
+  console.log(RP.isAlpha('1')); // false
+  console.log(RP.isDigit('1')); // true
+  console.log(RP.isDigit('a')); // false
+  console.log(RP.isLower('a')); // true
+  console.log(RP.isLower('A')); // false
+  console.log(RP.isLower('1')); // false
+  console.log(RP.isSpace(' ')); // true
+  console.log(RP.dropWhile(RP.isSpace, "   \nhello  \n")); // "hello  \n"
+  console.log(RP.isUpper('A')); // true
+  console.log(RP.isUpper('a')); // false
+  console.log(RP.isUpper('1')); // false
+  console.log(RP.iterate()); // TODO
+  console.log(RP.last([1,2,3,4,5,6,7,8,9,10])); // 10
+  console.log(RP.lcm(2, 10)); // 10
+  console.log(RP.lcm(2, 11)); // 22
+  console.log(RP.length([1,2,3,4,5,6,7,8,9,10])); // 10
+  console.log(RP.lines("hello world\nit's me,\neric\n")); // ["hello world", "it's me,", "eric"]
+  console.log(RP.log(1)); // 0.0
+  console.log(RP.log(3.2)); // 1.6315
+  console.log(RP.map(RP.sqrt, [1,2,3,4,5])); // [1.0, 1.41421, 1.73205, 2.0, 2.23607]
+  console.log(RP.max(1, 2)); // 2
+  console.log(RP.maximum([-10, 0 , 5, 22, 13])); // 22
+  console.log(RP.min(1, 2)); // 1
+  console.log(RP.minimum([-10, 0 , 5, 22, 13])); // -10
+  console.log(RP.mod(16, 9)); // 7
+  console.log(RP.not(3 == 4)); // true
+  console.log(RP.not(10 > 2)); // false
+  console.log(RP.notElem(3, [1,2,3])); // false
+  console.log(RP.notElem(4, [1,2,3])); // true
+  console.log(RP.null([])); // true
+  console.log(RP.null(RP.take(3, [1,2,3,4,5,6,7,8,9,10]))); // false
+  console.log(RP.odd(1)); // true
+  console.log(RP.odd(2 * 12)); // false
+  console.log(RP.or([false, false, true, false])); // true
+  console.log(RP.or([])); // false
+  console.log(RP.ord('A')); // 65
+  console.log(RP.chr(RP.ord('A')) == 'A'); // true
+  console.log(RP.pi()); // 3.14159
+  console.log(RP.cos(RP.pi())); // -1.0
+  console.log(RP.pred(1)); // 0
+  console.log(RP.pred(true)); // false
+  console.log(RP.print(RP.pi())); // 3.14159.....
+  console.log(RP.putStr("Hello World\nI'm here!")); // Hello World\nI'm here!
+  console.log(RP.product([1,2,3,4,5,6,7,8,9,10])); // 3628800
+  console.log(RP.quot(16, 8)); // 2
+  console.log(RP.quot(16, 9)); // 1
+  console.log(RP.rem(16, 8)); // 0
+  console.log(RP.rem(16, 9)); // 7
+  console.log(RP.repeat(12, 3)); // [12, 12, 12]
+  console.log(RP.replicate(3, "apples")); // ["apples", "apples", "apples"]);
+  console.log(RP.reverse([1,2,3,4,5,6,7,8,9,10])); // [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+  console.log(RP.round(3.2)); // 3
+  console.log(RP.round(3.5)); // 4
+  console.log(RP.round(-3.2)); // -3
+  console.log(RP.print("six plus two equals " + RP.show(6 + 2))); // "six plus two equals 8"
+  console.log(RP.sin(RP.pi() / 2)); // 1.0
+  console.log((RP.sin(RP.pi()) ^ 2) + (RP.cos(RP.pi()) ^ 2)); // -1  1.0  1.3817732906760363
   console.log(RP.snd(1, 2)); // 2
   console.log(RP.snd(1.11, 2.22)); // 2.22
   console.log(RP.snd("hello", "world")); // "world"
+  console.log(RP.snd("harry", 3)); // 3
+  console.log(RP.sort([1, 4, -2, 8, 11, 0])); // [-2,0,1,4,8,11]
+  console.log(RP.span(RP.isDigit, "123abc456")); // ("123", "abc456") TODO
+  console.log(RP.splitAt(3, [1,2,3,4,5,6,7,8,9,10])); // ([1, 2, 3], [4, 5, 6, 7, 8, 9, 10])
+  console.log(RP.splitAt(5, "abc")); // ("abc, "")
+  console.log(RP.sqrt(16)); // 4
+  console.log(RP.subtract(7, 10)); // 3
+  console.log(RP.succ('a')); // 'b'
+  console.log(RP.succ(false)); // true
+  console.log(RP.sum([1,2,3,4,5,6,7,8,9,10])); // 55
+  console.log(RP.tail([1,2,3])); // [2,3]
+  console.log(RP.tail("hugs")); // "ugs"
+  console.log(RP.take(4, "goodbye")); // "good"
+  console.log(RP.takeWhile((x => x < 5), [1, 2, 3, 10, 4, 2])); // [1,2,3]
+  console.log(RP.tan(RP.pi() / 4)); // 1.0
+  console.log(RP.toLower('A')); // 'a'
+  console.log(RP.toLower('3')); // '3'
+  console.log(RP.toUpper('a')); // 'A'
+  console.log(RP.toUpper('3')); // '3'
+  console.log(RP.truncate(3.2)); // 3
+  console.log(RP.truncate(-3.2)); // -3
+  console.log(RP.undefined()); // 
+  console.log(RP.unlines(["hello world", "it's me,", "eric"])); // "hello world\nit's me,\neric\n"
+  console.log(RP.until((x => x > 1000), (y => y * 2), 1)); // 1024
+  console.log(RP.unwords(["the", "quick", "brown", "fox"])); // "the quick brown fox"
+  console.log(RP.words("the quick brown\n\nfox")); // ["the", "quick", "brown", "fox"]
+  console.log(RP.zip([1,2,3,4,5,6], "abcd")); // [(1, 'a'), (2, 'b'), (3, 'c'), (4, 'd')]
+  //console.log(RP.zipWith(RP.add, [1,2,3,4,5], [6,7,8,9,10])); // [7, 9, 11, 13, 15] TODO
 }
 //RP.haskPreludeTests();
 
