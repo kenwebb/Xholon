@@ -1,0 +1,493 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="author" content="Ken Webb" />
+    <meta name="copyright" content="MIT License, Copyright (C) 2020 Ken Webb" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- css from: stackoverflow 17012421 Auto-number table rows? -->
+    <style>
+    table {counter-reset: rowNumber;}
+    table tr > td:first-child {counter-increment: rowNumber;}
+    table tr td:first-child::before {content: counter(rowNumber); min-width: 1em; margin-right: 0.5em;}
+    </style>
+    
+    <title>Xholon - Good JS workbook examples</title>
+  </head>
+  
+  <body>
+    <h3>Xholon - Good JS workbook examples</h3>
+    
+    <p>
+    This is a curated list of the best examples to look at when learning to create your own Xholon JavaScript-based workbooks.
+    All example workbooks are available as gist text files (xholonWorkbook.xml) at <a href="https://gist.github.com/kenwebb/">gist.github.com/kenwebb/</a> .
+    Each example in the following list includes a link to the Xholon editor for that workbook (Preview,Edit), and a link to the Xholon runtime (Run) for that workbook.
+    The workbooks are listed from newest at the top, to oldest at the bottom of the page.
+    </p>
+    
+    <!--
+    To update this, run script in ~/gwtspace/backup/gist
+    python github-gists-list.py -u kenwebb > out00.txt
+    python2 github-gists-list.py -u kenwebb > out00.txt
+    
+    clsc d3cp none
+    -->
+    <table class="wbtable">
+    <tr>
+      <th>Preview,Edit</th>
+      <th>Run</th>
+      <th>Name of the example workbook</th>
+    </tr>
+    
+    <tr>
+      <td><a href="wb/editwb.html?app=cff05e29c779dea8afe777f7a3a1a9ad&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=cff05e29c779dea8afe777f7a3a1a9ad&src=gist&gui=clsc">run</a></td>
+      <td>Avatar acting on separate browser window</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=42755a8b467c0596d81cae643e5aa615&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=42755a8b467c0596d81cae643e5aa615&src=gist&gui=clsc">run</a></td>
+      <td>19 Corvids (Crow) - Exponential Growth</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=568ffc4faf650b8e8ef4317bc0bc561b&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=568ffc4faf650b8e8ef4317bc0bc561b&src=gist&gui=clsc">run</a></td>
+      <td>Xholon Visit - experiments</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=7eea6b043213653408b492f6a2de329c&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=7eea6b043213653408b492f6a2de329c&src=gist&gui=clsc&jslib=ramda.min">run</a></td>
+      <td>Haskell - Hutton - Binary string transmitter</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=abbe57f7a78b62cec7d56681244a4526&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=abbe57f7a78b62cec7d56681244a4526&src=gist&gui=clsc">run</a></td>
+      <td>Coin Collection</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=2cded6cb001104e801983e27ea532e05&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=2cded6cb001104e801983e27ea532e05&src=gist&gui=clsc&mults=1,1,100,3,2">run</a></td>
+      <td>Universe of Fish</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=fddceec2929ecb57236d86a9ceb7211b&src=gist">preview,edit</a></td>
+      <td><a href="XholonXhmath.html?app=fddceec2929ecb57236d86a9ceb7211b&src=gist&gui=none">run</a></td>
+      <td>Saunders Mac Lane - Mathematics Form and Function</td>
+    </tr>
+     <tr>
+      <td><a href="wb/editwb.html?app=24fbc868269ea55b784fde196b209e18&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=24fbc868269ea55b784fde196b209e18&src=gist&gui=clsc&jslib=behaviortree-min">run</a></td>
+      <td>Behavior Trees</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=e1eb7fb69510347c67bd2bd314a68c92&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=e1eb7fb69510347c67bd2bd314a68c92&src=gist&gui=clsc&jslib=physics/Box2d.min">run</a></td>
+      <td>Physics Engines</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=f593df6cad526e0da7629b421916f8db&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=f593df6cad526e0da7629b421916f8db&src=gist&gui=clsc&jslib=webppl.min,mustache.min">run</a></td>
+      <td>Probabilistic Programming</td>
+    </tr>
+     <tr>
+      <td><a href="wb/editwb.html?app=9afb3d0795256930f524485b2b09f2fd&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=9afb3d0795256930f524485b2b09f2fd&src=gist&gui=none&jslib=StochasticBehavior&hide=xhtabs,xhfooter">run</a></td>
+      <td>Stochastic Tree Wanderers</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=c12c030f739cf8127313b6dbe920aa50&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=c12c030f739cf8127313b6dbe920aa50&src=gist&gui=clsc">run</a></td>
+      <td>Subtrees</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=be998f6aa495a829c925d46fb917ca68&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=be998f6aa495a829c925d46fb917ca68&src=gist&gui=clsc">run</a></td>
+      <td>Test Colors and Shapes in a Grid</td>
+    </tr>
+     <tr>
+      <td><a href="wb/editwb.html?app=8e94a77fe8077659a80286f77a482b9a&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=8e94a77fe8077659a80286f77a482b9a&src=gist&gui=none">run</a></td>
+      <td>Buffy 2</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=f9a091d0f71d67469637a75913e2be23&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=f9a091d0f71d67469637a75913e2be23&src=gist&gui=clsc">run</a></td>
+      <td>Recipes - Operad DSL</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=faf59bde2be32d1e44d1b222a4a8a263&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=faf59bde2be32d1e44d1b222a4a8a263&src=gist&gui=clsc">run</a></td>
+      <td>Recipes - Petri Nets</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=d62602aea6847e7b158bbe993fc9f4b1&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=d62602aea6847e7b158bbe993fc9f4b1&src=gist&gui=clsc">run</a></td>
+      <td>Recipes</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=882be874659b6e79f9db4ae6301651f9&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=882be874659b6e79f9db4ae6301651f9&src=gist&gui=clsc">run</a></td>
+      <td>Mixotrophs</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=5cfe135c89af9d503cb7053960b47c7d&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=5cfe135c89af9d503cb7053960b47c7d&src=gist&gui=clsc">run</a></td>
+      <td>Cybernetics - Ashby</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=96da9e285876f9acc88625c962854df9&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=96da9e285876f9acc88625c962854df9&src=gist&gui=clsc">run</a></td>
+      <td>Python Robot - Dash</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=a145d7fd3802fcfae40a209aa46bf070&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=a145d7fd3802fcfae40a209aa46bf070&src=gist&gui=clsc">run</a></td>
+      <td>Simplest Model - Holon</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=0fb6d386d911da8216461fde77713142&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=0fb6d386d911da8216461fde77713142&src=gist&gui=clsc">run</a></td>
+      <td>Buttons and Threads with Containment</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=32b2ecdbb0c7d0e945bcdfdd6a7dca05&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=32b2ecdbb0c7d0e945bcdfdd6a7dca05&src=gist&gui=clsc">run</a></td>
+      <td>Buttons and Threads</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=7c841da85ce423bb6e4d734f0fc28314&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=7c841da85ce423bb6e4d734f0fc28314&src=gist&gui=clsc">run</a></td>
+      <td>Cocktail Party</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=dcc6eca037a3c0073ebe55eb8ffeba68&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=dcc6eca037a3c0073ebe55eb8ffeba68&src=gist&gui=clsc">run</a></td>
+      <td>Cell Model - Sets</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=56bccbefdff13e809c97491896b310b3&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=56bccbefdff13e809c97491896b310b3&src=gist&gui=clsc">run</a></td>
+      <td>Multilayer Transportation Networks</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=834e367697da821ca2b207552f761018&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=834e367697da821ca2b207552f761018&src=gist&gui=clsc">run</a></td>
+      <td>Sync vs Async</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=91d27eda00a2a5325d2e54d3244e045a&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=91d27eda00a2a5325d2e54d3244e045a&src=gist&gui=clsc">run</a></td>
+      <td>Bigraphs 2017 03 - Indoor Space</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=a034f087943ee3c8fe4fbcf3daf617b7&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=a034f087943ee3c8fe4fbcf3daf617b7&src=gist&gui=clsc">run</a></td>
+      <td>RoomModel DefaultContent 01</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=942a6d487b5df1172b13f11fb840f820&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=942a6d487b5df1172b13f11fb840f820&src=gist&gui=clsc">run</a></td>
+      <td>MathmlTest1 workbook</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=d5c2b8f98a8f51213f07c03e5ac3ba53&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=d5c2b8f98a8f51213f07c03e5ac3ba53&src=gist&gui=clsc">run</a></td>
+      <td>little 2-cubes operad E2 - IFLang 5</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=80b443bc08d84a2ae4ebe83405a48e3f&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=80b443bc08d84a2ae4ebe83405a48e3f&src=gist&gui=clsc">run</a></td>
+      <td>little 2-cubes operad E2 - IFLang 4</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=e80aa62de8d38c6bb462b9075e08269c&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=e80aa62de8d38c6bb462b9075e08269c&src=gist&gui=clsc">run</a></td>
+      <td>little 2-cubes operad E2 - IFLang 3</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=be199a92975f4d986a1752cf9bd2bb1d&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=be199a92975f4d986a1752cf9bd2bb1d&src=gist&gui=clsc">run</a></td>
+      <td>little 2-cubes operad E2 - IFLang 2</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=59296df714020136cc894c62cb327b6a&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=59296df714020136cc894c62cb327b6a&src=gist&gui=clsc">run</a></td>
+      <td>little 2-cubes operad E2 - IFLang</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=25a385f2ed39c7912c1179a7a45ea868&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=25a385f2ed39c7912c1179a7a45ea868&src=gist&gui=clsc">run</a></td>
+      <td>little 2-cubes operad E2</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=0fbe42e96d562e9dfcc6231928daa384&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=0fbe42e96d562e9dfcc6231928daa384&src=gist&gui=clsc">run</a></td>
+      <td>Entity Component System (ECS) 2</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=05ec8432a050ad82483a65cc55a92929&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=05ec8432a050ad82483a65cc55a92929&src=gist&gui=clsc">run</a></td>
+      <td>Entity Component System (ECS)</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=6e13975cabccf27127e2785f69362181&src=gist">preview,edit</a></td>
+      <td><a href="XholonSpreadsheet.html?app=6e13975cabccf27127e2785f69362181&src=gist&gui=clsc">run</a></td>
+      <td>Spreadsheet Test</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=ee831d7755631a20526c&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=ee831d7755631a20526c&src=gist&gui=clsc">run</a></td>
+      <td>Brusselator workbook</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=20dca9708649383ddd63&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=20dca9708649383ddd63&src=gist&gui=clsc">run</a></td>
+      <td>Baseball</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=1c39da6c295c64f866a5&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=1c39da6c295c64f866a5&src=gist&gui=clsc">run</a></td>
+      <td>Harold and the Purple Crayon - with more webfont symbols</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=705bfd45ae8e0a71a8c7&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=705bfd45ae8e0a71a8c7&src=gist&gui=clsc">run</a></td>
+      <td>The Tale of Peter Rabbit - with speech (Chrome)</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=c455c95cc513e7f88cb1&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=c455c95cc513e7f88cb1&src=gist&gui=clsc">run</a></td>
+      <td>Story Template</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=3ab8cfa4917428605f42&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=3ab8cfa4917428605f42&src=gist&gui=clsc">run</a></td>
+      <td>Rainbow Colors</td>
+    </tr>
+    <tr title="Children's story with auto-animation using D3 and TweenLite">
+      <td><a href="wb/editwb.html?app=f361d210093d4a5943d9&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=f361d210093d4a5943d9&src=gist&gui=clsc">run</a></td>
+      <td>The Black Geese (v3)</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=a2fbbbff6710fa8e411b&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=a2fbbbff6710fa8e411b&src=gist&gui=clsc">run</a></td>
+      <td>Human Face Generator</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=15e06616cd6e5e0c6417&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=15e06616cd6e5e0c6417&src=gist&gui=clsc">run</a></td>
+      <td>Neuron Diagrams</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=8584067fa837c71d1734&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=8584067fa837c71d1734&src=gist&gui=clsc">run</a></td>
+      <td>Markov Chain - Stock Market</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=10846764&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=10846764&src=gist&gui=clsc">run</a></td>
+      <td>Hand Bones</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=10531009&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=10531009&src=gist&gui=clsc">run</a></td>
+      <td>SICP - A Simulator for Digital Circuits - N-Bit Adder</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=10483194&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=10483194&src=gist&gui=clsc">run</a></td>
+      <td>SICP - A Simulator for Digital Circuits - Full Adder</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=10419442&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=10419442&src=gist&gui=clsc">run</a></td>
+      <td>SICP - A Simulator for Digital Circuits</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=9858622&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=9858622&src=gist&gui=clsc">run</a></td>
+      <td>Food Recipes</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=9336811&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=9336811&src=gist&gui=clsc">run</a></td>
+      <td>Finite State Machine - Turnstile</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=8289853&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=8289853&src=gist&gui=clsc">run</a></td>
+      <td>The Lord of the Rings</td>
+    </tr>
+     <tr>
+      <td><a href="wb/editwb.html?app=7747121&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=7747121&src=gist&gui=clsc">run</a></td>
+      <td>Xholon tutorial - My Hello World 1 </td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=7159922&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=7159922&src=gist&gui=clsc">run</a></td>
+      <td>One-Layer Atmosphere Model (Xholon GWT)</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=3377945&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=3377945&src=gist&gui=clsc">run</a></td>
+      <td>Petri net - Cell model</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=3374405&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=3374405&src=gist&gui=clsc">run</a></td>
+      <td>Glycolysis Petri net, with mass action kinetics</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=3128966&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=3128966&src=gist&gui=clsc">run</a></td>
+      <td>Particles of the Standard Model</td>
+    </tr>
+    <tr>
+      <td><a href="wb/editwb.html?app=2159078&src=gist">preview,edit</a></td>
+      <td><a href="Xholon.html?app=2159078&src=gist&gui=clsc">run</a></td>
+      <td>Coin Flipping Example</td>
+    </tr>
+    
+    </table>
+    
+    <div>
+    <p>You can open or view workbooks that have been saved as public gists in <a href="https://gist.github.com/">GitHub</a>.
+    If you have a GitHub account, you will also be able to save a new or edited workbook as a gist.
+    To open or view a gist, you will need to know the gist id,
+    which you can find by searching GitHub for <em>XholonWorkbook</em>.
+    If you don't know what GitHub is, then just ignore this part.</p>
+    
+    <!-- Open with classic gui -->
+    <form id="gistformopen" action="Xholon.html" method="get" target = "_blank">
+      <input id="gistid" type="text" name="app" size="8" title="A workbook gist id"/>
+      <input id="gistsrc" type="hidden" name="src" value="gist"/>
+      <input id="gisturl" type="hidden" name="gui" value="clsc"/>
+      <button id="opengist" type="submit" title="Open a workbook gist with the classic gui">Open</button>
+    </form>
+    
+    <!-- View -->
+    <form id="gistformview" action="http://www.primordion.com/Xholon/wb/gistwb.php" method="get" target = "_blank">
+      <input id="gistid" type="text" name="q" size="8" title="A workbook gist id"/>
+      <button id="viewgist" type="submit" title="Preview a workbook gist">Preview</button>
+    </form>
+    
+    <!-- Open with D3 gui -->
+    <form id="gistformopen" action="Xholon.html" method="get" target = "_blank">
+      <input id="gistid" type="text" name="app" size="8" title="A workbook gist id"/>
+      <input id="gistsrc" type="hidden" name="src" value="gist"/>
+      <input id="gisturl" type="hidden" name="gui" value="d3cp"/>
+      <button id="opengist" type="submit" title="Open a workbook gist with the D3 gui">Open (D3 gui)</button>
+    </form>
+    
+    <!-- Open with no gui -->
+    <form id="gistformopen" action="Xholon.html" method="get" target = "_blank">
+      <input id="gistid" type="text" name="app" size="8" title="A workbook gist id"/>
+      <input id="gistsrc" type="hidden" name="src" value="gist"/>
+      <input id="gisturl" type="hidden" name="gui" value="none"/>
+      <button id="opengist" type="submit" title="Open a workbook gist with no gui">Open (no gui)</button>
+    </form>
+    
+    <!-- Edit -->
+    <form id="gistformopen" action="wb/editwb.html" method="get" target = "_blank">
+      <input id="gistid" type="text" name="app" size="8" title="A workbook gist id"/>
+      <input id="gisturl" type="hidden" name="src" value="gist"/>
+      <button id="opengist" type="submit" title="Edit (and optionally save) an existing workbook gist">Edit</button>
+    </form>
+    
+    <!-- List -->
+    <p>Show a current clickable list of public workbook gists for a GitHub user.</p>
+    <form id="gistformlist" action="http://www.primordion.com/Xholon/wb/listgistwb.php" method="get" target = "_blank">
+      <input id="loginid" type="text" name="q" size="8" title="A GitHub login id" value="kenwebb"/>
+      <button id="listgist" type="submit" title="List the workbook gists">List</button>
+    </form>
+    </div>
+    
+    <div>
+    <p>You can also open workbooks located in your browser's localStorage.</p>
+    
+    <pre id="localStorageList"></pre>
+    <script>
+if (('localStorage' in window) && (window['localStorage'] !== null)) {
+  var lstorDiv = document.getElementById("localStorageList");
+  var len = localStorage.length;
+  if (lstorDiv && len > 0) {
+    var lstorStr = "";
+    for (var i = 0; i < len; i++) {
+      var key = localStorage.key(i);
+      var item = localStorage.getItem(key);
+      if (item.indexOf("XholonWorkbook") != -1) {
+        lstorStr = lstorStr + key + "\n";
+      }
+    }
+    lstorDiv.textContent = lstorStr;
+  }
+}
+    </script>
+    
+    <!-- Open from localStorage with classic gui -->
+    <form id="lstrformopen" action="Xholon.html" method="get" target = "_blank">
+      <input id="lstrid" type="text" name="app" size="8" title="A workbook localStorage id"/>
+      <input id="lstrsrc" type="hidden" name="src" value="lstr"/>
+      <input id="lstrurl" type="hidden" name="gui" value="clsc"/>
+      <button id="openlstr" type="submit" title="Open a localStorage workbook with the classic gui">Open</button>
+    </form>
+    
+    <!-- Open from localStorage with D3 gui -->
+    <form id="lstrformopen" action="Xholon.html" method="get" target="_blank">
+      <input id="lstrid" type="text" name="app" size="8" title="A workbook lstr id"/>
+      <input id="lstrsrc" type="hidden" name="src" value="lstr"/>
+      <input id="lstrurl" type="hidden" name="gui" value="d3cp"/>
+      <button id="openlstr" type="submit" title="Open a localStorage workbook with the D3 gui">Open (D3 gui)</button>
+    </form>
+    
+    <!-- Open from localStorage with no gui -->
+    <form id="lstrformopen" action="Xholon.html" method="get" target="_blank">
+      <input id="lstrid" type="text" name="app" size="8" title="A workbook lstr id"/>
+      <input id="lstrsrc" type="hidden" name="src" value="lstr"/>
+      <input id="lstrurl" type="hidden" name="gui" value="none"/>
+      <button id="openlstr" type="submit" title="Open a localStorage workbook with no gui">Open (no gui)</button>
+    </form>
+
+    <!-- Edit from localStorage -->
+    <form id="lstrformopen" action="wb/editwb.html" method="get" target = "_blank">
+      <input id="lstrid" type="text" name="app" size="8" title="A workbook lstr id"/>
+      <input id="lstrurl" type="hidden" name="src" value="lstr"/>
+      <button id="opengist" type="submit" title="Edit (and optionally save) an existing localStorage workbook">Edit</button>
+    </form>
+    
+    <!-- Start new workbook, with possible auto-save to localStorage -->
+    <p>Start a <a href="wb/editwb.html">new workbook</a>, with auto-save to localStorage enabled by default.</p>
+    <p>Start a <a href="wb/editwb.html?tmplt=true">new workbook template</a>, with auto-save to localStorage disabled by default.</p>
+    
+    </div>
+  
+  <div>
+    <p>See a gallery of images from <a href="../XholonGallery/index.html">GWT Xholon</a>.</p>
+    <p>See a gallery of images from the <a href="../XholonGallery/xhorig/index.html">original Java Xholon</a>.</p>
+    <p>See <a href="../screencast/index.html">videos</a> recorded from Xholon apps.</p>
+  </div>
+  
+  <hr/>
+  <h3>Help</h3>
+  <div class="help">
+    <p>Get <a href="help.html">help</a></p>
+    <p>View the Xholon <a href="../wiki/index.html">wiki</a></p>
+    <p>View Xholon <a href="javadoc/index.html">javadoc</a> Java class documentation</p>
+    <p>View Xholon <a href="jsapidoc/modules/XholonJsApi.html">jsapidoc</a> JavaScript API documentation</p>
+  </div>
+
+  <hr/>
+  <div class="license"  style="font-size: 9px;"><p>Xholon GWT is a <a href="..">Xholon</a> project. Copyright (C) 2020 Ken Webb</p></div>
+  <div class="aatt" style="font-size: 9px;"><pre style="font-size: 9px;">
+@QWERTYUIk
+OPASmDFGHe
+primordion
+JKLZcXCVB.
+  </pre></div>
+    
+  </body>
+  
+</html>
