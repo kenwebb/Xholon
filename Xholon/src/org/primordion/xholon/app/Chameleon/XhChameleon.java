@@ -32,6 +32,9 @@ import org.primordion.xholon.base.PortInformation;
 import org.primordion.xholon.base.Xholon;
 import org.primordion.xholon.base.XholonWithPorts;
 
+import org.primordion.xholon.io.xml.IXholon2Xml;
+import org.primordion.xholon.io.xml.IXmlWriter;
+
 /**
 	Chameleon application - Xholon Java
 	<p>Xholon 0.8.1 http://www.primordion.com/Xholon</p>
@@ -72,6 +75,26 @@ public class XhChameleon extends XholonWithPorts implements CeChameleon {
 	
 	public void incVal(double incAmount) {val += incAmount;}
 	public void decVal(double decAmount) {val -= decAmount;}
+	
+	@Override
+	public native void setVal_String(String val) /*-{
+		this.textval = val;
+	}-*/;
+	
+	@Override
+	public native String getVal_String() /*-{
+		return this.textval;
+	}-*/;
+	
+	@Override
+	public native void setVal(String val) /*-{
+		this.textval = val;
+	}-*/;
+	
+	//@Override
+	//public native String getVal() /*-{
+	//	return this.textval;
+	//}-*/;
 	
 	public static int getTimeStepMultiplier() {
 		return timeStepMultiplier;
@@ -269,6 +292,28 @@ public class XhChameleon extends XholonWithPorts implements CeChameleon {
       return forwardee.performGuard(activityId, msg);
     }
 		return false;
+	}
+	
+	@Override
+	public void toXmlAttribute(IXholon2Xml xholon2xml, IXmlWriter xmlWriter, String name, String value, Class clazz)
+	{
+		switch (name) {
+		case "Val_String":
+		case "textval":
+			// these will be written by toXmlText() instead
+			break;
+		default:
+			super.toXmlAttribute(xholon2xml, xmlWriter, name, value, clazz);
+			break;
+		}
+	}
+	
+	@Override
+	public void toXmlText(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {
+		String str = this.getVal_String();
+		if (str != null) {
+			xmlWriter.writeText(str);
+		}
 	}
 	
 	@Override

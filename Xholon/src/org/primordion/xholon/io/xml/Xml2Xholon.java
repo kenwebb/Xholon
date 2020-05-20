@@ -739,6 +739,9 @@ public class Xml2Xholon extends AbstractXml2Xholon_gwt implements IXml2Xholon { 
 		if (node.getXhc().hasAncestor(CeAttribute.AttributeCE)) {
 			node.setVal(val);
 		}
+		else if (("val".equals(attrName)) && (node.getClass().getName().equals("org.primordion.xholon.app.Chameleon.XhChameleon"))) {
+			node.setVal_String(val);
+		}
 		else {
 			IReflection ir = ReflectionFactory.instance();
 			ir.setAttributeVal(node, attrName, val, 0);
