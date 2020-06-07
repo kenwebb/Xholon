@@ -1,0 +1,121 @@
+nearleyc fipaAcl.ne -o fipaAcl.js
+
+nearley-railroad fipaAcl.ne -o fipaAcl.html
+
+(inform
+  :sender (agent-identifier :name i)
+  :receiver (set (agent-identifier :name j))
+  :content
+    "weather (today, raining)"
+  :language Prolog)
+
+(cfp
+  :sender (agent-identifier :name j)
+  :receiver (set (agent-identifier :name i))
+  :content
+    "((action (agent-identifier :name i)
+      (sell plum 50))
+     (any ?x (and (= (price plum) ?x) (< ?x 10))))"
+  :ontology fruit-market
+  :language fipa-sl)
+(cfp :sender (agent-identifier :name j) :receiver (set (agent-identifier :name i)) :content "((action (agent-identifier :name i) (sell plum 50)) (any ?x (and (= (price plum) ?x) (< ?x 10))))" :ontology fruit-market :language fipa-sl)
+nearley-test -q -i '(cfp :sender (agent-identifier :name j) :receiver (set (agent-identifier :name i)) :content "((action (agent-identifier :name i) (sell plum 50)) (any ?x (and (= (price plum) ?x) (< ?x 10))))" :ontology fruit-market :language fipa-sl)' fipaAcl.js
+
+ken@ken-HP-ZBook-15-G2:~/nodespace/nearleyKSW$ nearley-test -q fipaAcl.js
+(inform :sender (agent-identifier :name i) :receiver (set (agent-identifier :name j)) :content "weather (today, raining)" :language Prolog)
+
+ken@ken-HP-ZBook-15-G2:~/nodespace/nearleyKSW$ nearley-test -q -i '(inform :sender (agent-identifier :name i) :receiver (set (agent-identifier :name j)) :content "weather (today, raining)" :language Prolog)' fipaAcl.js
+[]
+
+
+Parse results: 
+[
+  [
+    [
+      '(',
+      null,
+      [ 'inform' ],
+      [
+        [
+          null,
+          [
+            ':sender',
+            null,
+            [
+              '(',
+              null,
+              'agent-identifier',
+              null,
+              ':name',
+              null,
+              [ [ 'i' ] ],
+              null,
+              ')'
+            ]
+          ]
+        ],
+        [
+          null,
+          [
+            ':receiver',
+            null,
+            [
+              '(',
+              null,
+              'set',
+              [
+                [
+                  null,
+                  [
+                    '(',
+                    null,
+                    'agent-identifier',
+                    null,
+                    ':name',
+                    null,
+                    [ [ 'j' ] ],
+                    null,
+                    ')'
+                  ]
+                ]
+              ],
+              null,
+              ')'
+            ]
+          ]
+        ],
+        [
+          null,
+          [
+            ':content',
+            null,
+            [
+              [
+                '"',
+                [
+                  'w', 'e', 'a', 't', 'h',
+                  'e', 'r', ' ', '(', 't',
+                  'o', 'd', 'a', 'y', ',',
+                  ' ', 'r', 'a', 'i', 'n',
+                  'i', 'n', 'g', ')'
+                ],
+                '"'
+              ]
+            ]
+          ]
+        ],
+        [
+          null,
+          [
+            ':language',
+            null,
+            [ [ [ 'P', 'r', 'o', 'l', 'o', 'g' ] ] ]
+          ]
+        ]
+      ],
+      null,
+      ')'
+    ]
+  ]
+]
+
