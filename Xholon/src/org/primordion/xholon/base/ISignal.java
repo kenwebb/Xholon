@@ -141,6 +141,11 @@ public interface ISignal {
 	 */
 	public static final int SIGNAL_BPLEX = -12;
 	
+	/**
+	 * <p>A signal stating that this is a Foundation for Intelligent Physical Agents (FIPA) Agent Communication Language (ACL) message.</p>
+	 */
+	public static final int SIGNAL_FIPA_ACL = -13;
+	
 	
 	/**
 	 * <p>Start of the range of values for Swing signals.</p>
