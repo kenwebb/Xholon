@@ -12,10 +12,11 @@
  * http://www.fipa.org/specs/fipa00037/SC00037J.html FIPA Communicative Act Library Specification
  * http://www.fipa.org/specs/fipa00070/SC00070I.html FIPA ACL Message Representation in String Specification
  * https://gist.github.com/kenwebb/6ee032b8913680e72191ffea48dca46f Agent Technologies workbook
- * see Xholon nearley parser library
+ * see Xholon nearley parser library  ~/gwtspace/Xholon/Xholon/nearley/fipaAcl.ne
  * 
  * @example
  * Usage:
+ * http://127.0.0.1:8080/war/Xholon.html?app=Agent+Technologies&src=lstr&gui=clsc&jslib=nearley/nearley,nearley/fipaAcl,fipa
  * xh.fipa.TODO
  */
 
@@ -25,50 +26,13 @@ if (typeof xh == "undefined") {
 
 xh.fipa = {}
 
-/**
- * Construct a FIPA Accept Proposal CA message.
- */
-/*window.xh.fipa.AcceptProposal = (sendername, receivername, inreplyto, content, language) => {
-  const ca = {}
-  ca["accept-proposal"] = {};
-  ca["accept-proposal"].sender = {};
-  return ca;
-}
-*/
+xh.fipa.SHOULD_TEST = true;
 
-/*
-var acceptproposal = (sendername, receivername, inreplyto, content, language) => {
-  return {
-    acceptproposal: {
-      sender: {agentidentifier: {name: sendername}}
-    }
-  };
-  
-}
-
-console.log(acceptproposal("sndr", "rcvr", "irt", "this is some content.", "fipa-sl"));
-*/
-
-/*
-function Book(name, year) { 
-  if (!(this instanceof Book)) { 
-    return new Book(name, year);
-  }
-  this.name = name;
-  this.year = year;
-}
-
-var person1 = new Book("js book", 2014);
-var person2 = Book("js book", 2014);
-
-console.log(person1 instanceof Book);    // true
-console.log(person2 instanceof Book);    // true
-*/
-
+// In this library, I am roughly trying the OLOO pattern/approach.
 // OLOO Kyle Simpson "Objects Linked to Other Objects"
 // https://github.com/getify/You-Dont-Know-JS
 
-// FIPA Communicative Acts
+// FIPA Communicative Acts, Message Types
 xh.fipa.CA = {
   ACCEPT_PROPOSAL: "accept-proposal",
   AGREE: "agree",
@@ -90,19 +54,27 @@ xh.fipa.CA = {
   REQUEST_WHEN: "request-when",
   REQUEST_WHENEVER: "request-whenever",
   SUBSCRIBE: "subscribe"
-};
+}
 
 // other constants
 xh.fipa.CONST = {
+  // misc
   AGENT_IDENTIFIER: "agent-identifier",
-  SENDER: ":sender",
-  RECEIVER: ":receiver",
-  CONTENT: ":content",
-  LANGUAGE: ":language",
-  NAME: ":name",
-  IN_REPLY_TO: ":in-reply-to",
-  PROTOCOL: ":protocol"
-};
+  // Message Parameters, with the parameter operand as specified in the grammar (fipaAcl.ne)
+  CONTENT: ":content", // String
+  CONVERSATION_ID: ":conversation-id", // Expression
+  ENCODING: ":encoding", // Expression
+  IN_REPLY_TO: ":in-reply-to", // Expression
+  LANGUAGE: ":language", // Expression
+  NAME: ":name", // Word
+  ONTOLOGY: ":ontology", // Expression
+  PROTOCOL: ":protocol", // Word
+  RECEIVER: ":receiver", // AgentIdentifierSet
+  REPLY_BY: "reply-by", // DateTime
+  REPLY_TO: "reply-to", // AgentIdentifierSet
+  REPLY_WITH: "reply-with", // Expression
+  SENDER: ":sender" // AgentIdentifier
+}
 
 xh.fipa.AgentIdentifier = {
   init: function(name) {
@@ -111,30 +83,90 @@ xh.fipa.AgentIdentifier = {
   asFipaSL: function() {
     return "(" + xh.fipa.CONST.AGENT_IDENTIFIER + " " + xh.fipa.CONST.NAME + " " + this.name + ")";
   }
-};
+}
 
-// examples
-//var aiI = Object.create(AgentIdentifier);
-//aiI.init("i");
-//console.log(aiI.asFipaSL());
-//var aiJ = Object.create(AgentIdentifier);
-//aiJ.init("j");
-//console.log(aiJ.asFipaSL());
+// TESTING (optional)
+if (xh.fipa.SHOULD_TEST) {
+  var aiI = Object.create(xh.fipa.AgentIdentifier);
+  aiI.init("i");
+  console.log(aiI.asFipaSL());
+  
+  var aiJ = Object.create(xh.fipa.AgentIdentifier);
+  aiJ.init("j");
+  console.log(aiJ.asFipaSL());
+}
 
-xh.fipa.Sender = {
-  init: function(name) {
-    this[xh.fipa.CONST.AGENT_IDENTIFIER] = Object.create(xh.fipa.AgentIdentifier);
-    this[xh.fipa.CONST.AGENT_IDENTIFIER].init(name);
+// CONTENT String
+xh.fipa.Content = {
+  init: function(str) {
+    this.str = str;
   },
   asFipaSL: function() {
-    return xh.fipa.CONST.SENDER + " " + this[xh.fipa.CONST.AGENT_IDENTIFIER].asFipaSL();
+    return xh.fipa.CONST.CONTENT + " " + "\n" + '"' + this.str + '"';
   }
-};
+}
 
-//var sender = Object.create(Sender);
-//sender.init("k");
-//console.log(sender.asFipaSL());
+// CONVERSATION_ID Expression
+xh.fipa.ConversationId = {
+  init: function(str) {
+    this.str = str;
+  },
+  asFipaSL: function() {
+    return xh.fipa.CONST.CONVERSATION_ID + " " + this.str;
+  }
+}
 
+// ENCODING Expression
+xh.fipa.Encoding = {
+  init: function(str) {
+    this.str = str;
+  },
+  asFipaSL: function() {
+    return xh.fipa.CONST.ENCODING + " " + this.str;
+  }
+}
+
+// IN_REPLY_TO Expression
+xh.fipa.InReplyTo = {
+  init: function(str) {
+    this.str = str;
+  },
+  asFipaSL: function() {
+    return xh.fipa.CONST.IN_REPLY_TO + " " + this.str;
+  }
+}
+
+// LANGUAGE Expression
+xh.fipa.Language = {
+  init: function(str) {
+    this.str = str;
+  },
+  asFipaSL: function() {
+    return xh.fipa.CONST.LANGUAGE + " " + this.str;
+  }
+}
+
+// ONTOLOGY Expression
+xh.fipa.Ontology = {
+  init: function(str) {
+    this.str = str;
+  },
+  asFipaSL: function() {
+    return xh.fipa.CONST.ONTOLOGY + " " + this.str;
+  }
+}
+
+// PROTOCOL Word
+xh.fipa.Protocol = {
+  init: function(str) {
+    this.str = str;
+  },
+  asFipaSL: function() {
+    return xh.fipa.CONST.PROTOCOL + " " + this.str;
+  }
+}
+
+// RECEIVER AgentIdentifierSet
 xh.fipa.Receiver = {
   init: function(name) {
     // TODO Receiver contains a set of "agent-identifier"
@@ -144,57 +176,65 @@ xh.fipa.Receiver = {
   asFipaSL: function() {
     return xh.fipa.CONST.RECEIVER + " " + this[xh.fipa.CONST.AGENT_IDENTIFIER].asFipaSL();
   }
-};
+}
 
-xh.fipa.Content = {
+// REPLY_BY DateTime
+xh.fipa.ReplyBy = {
   init: function(str) {
     this.str = str;
   },
   asFipaSL: function() {
-    return xh.fipa.CONST.CONTENT + " " + "\n" + '"' + this.str + '"';
+    return xh.fipa.CONST.REPLY_BY + " " + this.str;
   }
-};
+}
 
-xh.fipa.Language = {
+// REPLY_TO AgentIdentifierSet
+xh.fipa.ReplyTo = {
   init: function(str) {
     this.str = str;
   },
   asFipaSL: function() {
-    return xh.fipa.CONST.LANGUAGE + " " + this.str;
+    return xh.fipa.CONST.REPLY_TO + " " + this.str;
   }
-};
+}
 
-xh.fipa.InReplyTo = {
+// REPLY_WITH Expression
+xh.fipa.ReplyWith = {
   init: function(str) {
     this.str = str;
   },
   asFipaSL: function() {
-    return xh.fipa.CONST.IN_REPLY_TO + " " + this.str;
+    return xh.fipa.CONST.REPLY_WITH + " " + this.str;
   }
-};
+}
 
-xh.fipa.Protocol = {
-  init: function(str) {
-    this.str = str;
+// SENDER AgentIdentifier
+xh.fipa.Sender = {
+  init: function(name) {
+    this[xh.fipa.CONST.AGENT_IDENTIFIER] = Object.create(xh.fipa.AgentIdentifier);
+    this[xh.fipa.CONST.AGENT_IDENTIFIER].init(name);
   },
   asFipaSL: function() {
-    return xh.fipa.CONST.PROTOCOL + " " + this.str;
+    return xh.fipa.CONST.SENDER + " " + this[xh.fipa.CONST.AGENT_IDENTIFIER].asFipaSL();
   }
-};
+}
+
+// TESTING (optional)
+if (xh.fipa.SHOULD_TEST) {
+  var sender = Object.create(xh.fipa.Sender);
+  sender.init("k");
+  console.log(sender.asFipaSL());
+}
 
 // an abstract super-type that AcceptProposal etc. can link from; it has common: sender receiver content language
 xh.fipa.AbstractCommunicativeAct = {
   initbase: function(concreteCA, sendername, receivername, content, language) {
-    // :sender
     concreteCA.sender = Object.create(xh.fipa.Sender);
     concreteCA.sender.init(sendername);
-    // :receiver
     concreteCA.receiver = Object.create(xh.fipa.Receiver);
     concreteCA.receiver.init(receivername);
-    // :content
     concreteCA.content = Object.create(xh.fipa.Content);
     concreteCA.content.init(content);
-    // :language
     concreteCA.language = Object.create(xh.fipa.Language);
     concreteCA.language.init(language);
   },
@@ -225,7 +265,6 @@ xh.fipa.AcceptProposal = {
   init: function(sendername, receivername, content, language, inreplyto) {
     this.aca = Object.create(xh.fipa.AbstractCommunicativeAct);
     this.aca.initbase(this, sendername, receivername, content, language);
-    // :in-reply-to
     this[xh.fipa.CONST.IN_REPLY_TO] = Object.create(xh.fipa.InReplyTo);
     this[xh.fipa.CONST.IN_REPLY_TO].init(inreplyto);
   },
@@ -238,16 +277,14 @@ xh.fipa.AcceptProposal = {
   asJson: function() {
     return this.aca.asJson(this);
   }
-};
+}
 
 xh.fipa.Agree = {
   init: function(sendername, receivername, content, language, inreplyto, protocol) {
     this.aca = Object.create(xh.fipa.AbstractCommunicativeAct);
     this.aca.initbase(this, sendername, receivername, content, language);
-    // :in-reply-to
     this[xh.fipa.CONST.IN_REPLY_TO] = Object.create(xh.fipa.InReplyTo);
     this[xh.fipa.CONST.IN_REPLY_TO].init(inreplyto);
-    // :protocol
     this[xh.fipa.CONST.PROTOCOL] = Object.create(xh.fipa.Protocol);
     this[xh.fipa.CONST.PROTOCOL].init(protocol);
   },
@@ -260,19 +297,23 @@ xh.fipa.Agree = {
   asJson: function() {
     return this.aca.asJson(this);
   }
-};
+}
 
-// create and test an instance
-var accpro = Object.create(xh.fipa.AcceptProposal);
-accpro.init("sndr", "rcvr", "this is some content.", "fipa-sl", "irt");
-console.log(accpro.asJso());
-console.log(accpro.asJson());
-console.log(accpro.asFipaSL());
+// TESTING (optional)
+if (xh.fipa.SHOULD_TEST) {
+  
+  // test AcceptProposal
+  var accpro = Object.create(xh.fipa.AcceptProposal);
+  accpro.init("sndr", "rcvr", "this is some content.", "fipa-sl", "irt");
+  console.log(accpro.asJso());
+  console.log(accpro.asJson());
+  console.log(accpro.asFipaSL());
 
-// create and test an instance
-var agree = Object.create(xh.fipa.Agree);
-agree.init("sndr", "rcvr", "this is some content.", "fipa-sl", "irt", "some-fipa-protocol");
-console.log(agree.asJso());
-console.log(agree.asJson());
-console.log(agree.asFipaSL());
+  // test Agree
+  var agree = Object.create(xh.fipa.Agree);
+  agree.init("sndr", "rcvr", "this is some content.", "fipa-sl", "irt", "some-fipa-protocol");
+  console.log(agree.asJso());
+  console.log(agree.asJson());
+  console.log(agree.asFipaSL());
+}
 
