@@ -269,14 +269,36 @@ xh.fipa.AbstractCommunicativeAct = {
   }
 }
 
-xh.fipa.AcceptProposal = {
-  init: function(sendername, receivername, content, language, inreplyto) {
-    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(this, sendername, receivername, content, language);
-    this[xh.fipa.CONST.IN_REPLY_TO] = Object.create(xh.fipa.InReplyTo).init(inreplyto);
+// Dummy for testing new structure
+xh.fipa.Dummy = {
+  init: function(sendername, receivername, content, language) {
+    var params = {};
+    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(params, sendername, receivername, content, language);
+    this["dummy"] = params;
     return this;
   },
   asFipaSL: function() {
-    return "(" + xh.fipa.CA.ACCEPT_PROPOSAL + "\n" + this.aca.asFipaSL(this) + "\n" + this[xh.fipa.CONST.IN_REPLY_TO].asFipaSL() + ")" + "\n";
+    return "(" + "dummy" + "\n" + this.aca.asFipaSL(this["dummy"]) + ")" + "\n";
+  },
+  asJso: function() {
+    return this.aca.asJso(this);
+  },
+  asJson: function() {
+    return this.aca.asJson(this);
+  }
+}
+
+xh.fipa.AcceptProposal = {
+  init: function(sendername, receivername, content, language, inreplyto) {
+    var params = {};
+    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(params, sendername, receivername, content, language);
+    params[xh.fipa.CONST.IN_REPLY_TO] = Object.create(xh.fipa.InReplyTo).init(inreplyto);
+    this[xh.fipa.CA.ACCEPT_PROPOSAL] = params;
+    return this;
+  },
+  asFipaSL: function() {
+    return "(" + xh.fipa.CA.ACCEPT_PROPOSAL + "\n" + this.aca.asFipaSL(this[xh.fipa.CA.ACCEPT_PROPOSAL]) + "\n"
+    + this[xh.fipa.CA.ACCEPT_PROPOSAL][xh.fipa.CONST.IN_REPLY_TO].asFipaSL() + ")" + "\n";
   },
   asJso: function() {
     return this.aca.asJso(this);
@@ -288,13 +310,17 @@ xh.fipa.AcceptProposal = {
 
 xh.fipa.Agree = {
   init: function(sendername, receivername, content, language, inreplyto, protocol) {
-    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(this, sendername, receivername, content, language);
-    this[xh.fipa.CONST.IN_REPLY_TO] = Object.create(xh.fipa.InReplyTo).init(inreplyto);
-    this[xh.fipa.CONST.PROTOCOL] = Object.create(xh.fipa.Protocol).init(protocol);
+    var params = {};
+    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(params, sendername, receivername, content, language);
+    params[xh.fipa.CONST.IN_REPLY_TO] = Object.create(xh.fipa.InReplyTo).init(inreplyto);
+    params[xh.fipa.CONST.PROTOCOL] = Object.create(xh.fipa.Protocol).init(protocol);
+    this[xh.fipa.CA.AGREE] = params;
     return this;
   },
   asFipaSL: function() {
-    return "(" + xh.fipa.CA.AGREE + "\n" + this.aca.asFipaSL(this) + "\n" + this[xh.fipa.CONST.IN_REPLY_TO].asFipaSL() + "\n" + this[xh.fipa.CONST.PROTOCOL].asFipaSL() + ")" + "\n";
+    return "(" + xh.fipa.CA.AGREE + "\n" + this.aca.asFipaSL(this[xh.fipa.CA.AGREE]) + "\n"
+    + this[xh.fipa.CA.AGREE][xh.fipa.CONST.IN_REPLY_TO].asFipaSL() + "\n"
+    + this[xh.fipa.CA.AGREE][xh.fipa.CONST.PROTOCOL].asFipaSL() + ")" + "\n";
   },
   asJso: function() {
     return this.aca.asJso(this);
@@ -306,11 +332,13 @@ xh.fipa.Agree = {
 
 xh.fipa.Cancel = {
   init: function(sendername, receivername, content, language) {
-    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(this, sendername, receivername, content, language);
+    var params = {};
+    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(params, sendername, receivername, content, language);
+    this[xh.fipa.CA.CANCEL] = params;
     return this;
   },
   asFipaSL: function() {
-    return "(" + xh.fipa.CA.CANCEL + "\n" + this.aca.asFipaSL(this) + ")" + "\n";
+    return "(" + xh.fipa.CA.CANCEL + "\n" + this.aca.asFipaSL(this[xh.fipa.CA.CANCEL]) + ")" + "\n";
   },
   asJso: function() {
     return this.aca.asJso(this);
@@ -322,12 +350,15 @@ xh.fipa.Cancel = {
 
 xh.fipa.Cfp = { // Call for Proposal
   init: function(sendername, receivername, content, language, ontology) {
-    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(this, sendername, receivername, content, language);
-    this[xh.fipa.CONST.ONTOLOGY] = Object.create(xh.fipa.Ontology).init(ontology);
+    var params = {};
+    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(params, sendername, receivername, content, language);
+    params[xh.fipa.CONST.ONTOLOGY] = Object.create(xh.fipa.Ontology).init(ontology);
+    this[xh.fipa.CA.CFP] = params;
     return this;
   },
   asFipaSL: function() {
-    return "(" + xh.fipa.CA.CFP + "\n" + this.aca.asFipaSL(this) + "\n" + this[xh.fipa.CONST.ONTOLOGY].asFipaSL() + ")" + "\n";
+    return "(" + xh.fipa.CA.CFP + "\n" + this.aca.asFipaSL(this[xh.fipa.CA.CFP]) + "\n"
+    + this[xh.fipa.CONST.ONTOLOGY].asFipaSL() + ")" + "\n";
   },
   asJso: function() {
     return this.aca.asJso(this);
@@ -339,11 +370,13 @@ xh.fipa.Cfp = { // Call for Proposal
 
 xh.fipa.Confirm = {
   init: function(sendername, receivername, content, language) {
-    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(this, sendername, receivername, content, language);
+    var params = {};
+    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(params, sendername, receivername, content, language);
+    this[xh.fipa.CA.CONFIRM] = params;
     return this;
   },
   asFipaSL: function() {
-    return "(" + xh.fipa.CA.CONFIRM + "\n" + this.aca.asFipaSL(this) + ")" + "\n";
+    return "(" + xh.fipa.CA.CONFIRM + "\n" + this.aca.asFipaSL(this[xh.fipa.CA.CONFIRM]) + ")" + "\n";
   },
   asJso: function() {
     return this.aca.asJso(this);
@@ -355,11 +388,13 @@ xh.fipa.Confirm = {
 
 xh.fipa.Disconfirm = {
   init: function(sendername, receivername, content, language) {
-    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(this, sendername, receivername, content, language);
+    var params = {};
+    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(params, sendername, receivername, content, language);
+    this[xh.fipa.CA.DISCONFIRM] = params;
     return this;
   },
   asFipaSL: function() {
-    return "(" + xh.fipa.CA.DISCONFIRM + "\n" + this.aca.asFipaSL(this) + ")" + "\n";
+    return "(" + xh.fipa.CA.DISCONFIRM + "\n" + this.aca.asFipaSL(this[xh.fipa.CA.DISCONFIRM]) + ")" + "\n";
   },
   asJso: function() {
     return this.aca.asJso(this);
@@ -371,11 +406,13 @@ xh.fipa.Disconfirm = {
 
 xh.fipa.Failure = {
   init: function(sendername, receivername, content, language) {
-    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(this, sendername, receivername, content, language);
+    var params = {};
+    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(params, sendername, receivername, content, language);
+    this[xh.fipa.CA.FAILURE] = params;
     return this;
   },
   asFipaSL: function() {
-    return "(" + xh.fipa.CA.FAILURE + "\n" + this.aca.asFipaSL(this) + ")" + "\n";
+    return "(" + xh.fipa.CA.FAILURE + "\n" + this.aca.asFipaSL(this[xh.fipa.CA.FAILURE]) + ")" + "\n";
   },
   asJso: function() {
     return this.aca.asJso(this);
@@ -387,11 +424,13 @@ xh.fipa.Failure = {
 
 xh.fipa.Inform = {
   init: function(sendername, receivername, content, language) {
-    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(this, sendername, receivername, content, language);
+    var params = {};
+    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(params, sendername, receivername, content, language);
+    this[xh.fipa.CA.INFORM] = params;
     return this;
   },
   asFipaSL: function() {
-    return "(" + xh.fipa.CA.INFORM + "\n" + this.aca.asFipaSL(this) + ")" + "\n";
+    return "(" + xh.fipa.CA.INFORM + "\n" + this.aca.asFipaSL(this[xh.fipa.CA.INFORM]) + ")" + "\n";
   },
   asJso: function() {
     return this.aca.asJso(this);
@@ -403,11 +442,13 @@ xh.fipa.Inform = {
 
 xh.fipa.NotUnderstood = {
   init: function(sendername, receivername, content, language) {
-    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(this, sendername, receivername, content, language);
+    var params = {};
+    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(params, sendername, receivername, content, language);
+    this[xh.fipa.CA.NOT_UNDERSTOOD] = params;
     return this;
   },
   asFipaSL: function() {
-    return "(" + xh.fipa.CA.NOT_UNDERSTOOD + "\n" + this.aca.asFipaSL(this) + ")" + "\n";
+    return "(" + xh.fipa.CA.NOT_UNDERSTOOD + "\n" + this.aca.asFipaSL(this[xh.fipa.CA.NOT_UNDERSTOOD]) + ")" + "\n";
   },
   asJso: function() {
     return this.aca.asJso(this);
@@ -419,12 +460,15 @@ xh.fipa.NotUnderstood = {
 
 xh.fipa.Propagate = {
   init: function(sendername, receivername, content, language, ontology) {
-    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(this, sendername, receivername, content, language);
-    this[xh.fipa.CONST.ONTOLOGY] = Object.create(xh.fipa.Ontology).init(ontology);
+    var params = {};
+    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(params, sendername, receivername, content, language);
+    params[xh.fipa.CONST.ONTOLOGY] = Object.create(xh.fipa.Ontology).init(ontology);
+    this[xh.fipa.CA.PROPAGATE] = params;
     return this;
   },
   asFipaSL: function() {
-    return "(" + xh.fipa.CA.PROPAGATE + "\n" + this.aca.asFipaSL(this) + "\n" + this[xh.fipa.CONST.ONTOLOGY].asFipaSL() + ")" + "\n";
+    return "(" + xh.fipa.CA.PROPAGATE + "\n" + this.aca.asFipaSL(this[xh.fipa.CA.PROPAGATE]) + "\n"
+    + this[xh.fipa.CA.PROPAGATE][xh.fipa.CONST.ONTOLOGY].asFipaSL() + ")" + "\n";
   },
   asJso: function() {
     return this.aca.asJso(this);
@@ -436,13 +480,17 @@ xh.fipa.Propagate = {
 
 xh.fipa.Propose = {
   init: function(sendername, receivername, content, language, ontology, inreplyto) {
-    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(this, sendername, receivername, content, language);
-    this[xh.fipa.CONST.ONTOLOGY] = Object.create(xh.fipa.Ontology).init(ontology);
-    this[xh.fipa.CONST.IN_REPLY_TO] = Object.create(xh.fipa.InReplyTo).init(inreplyto);
+    var params = {};
+    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(params, sendername, receivername, content, language);
+    params[xh.fipa.CONST.ONTOLOGY] = Object.create(xh.fipa.Ontology).init(ontology);
+    params[xh.fipa.CONST.IN_REPLY_TO] = Object.create(xh.fipa.InReplyTo).init(inreplyto);
+    this[xh.fipa.CA.PROPOSE] = params;
     return this;
   },
   asFipaSL: function() {
-    return "(" + xh.fipa.CA.PROPOSE + "\n" + this.aca.asFipaSL(this) + "\n" + this[xh.fipa.CONST.ONTOLOGY].asFipaSL() + "\n" + this[xh.fipa.CONST.IN_REPLY_TO].asFipaSL() + ")" + "\n";
+    return "(" + xh.fipa.CA.PROPOSE + "\n" + this.aca.asFipaSL(this[xh.fipa.CA.PROPOSE]) + "\n"
+    + this[xh.fipa.CA.PROPOSE][xh.fipa.CONST.ONTOLOGY].asFipaSL() + "\n"
+    + this[xh.fipa.CA.PROPOSE][xh.fipa.CONST.IN_REPLY_TO].asFipaSL() + ")" + "\n";
   },
   asJso: function() {
     return this.aca.asJso(this);
@@ -454,14 +502,19 @@ xh.fipa.Propose = {
 
 xh.fipa.Proxy = {
   init: function(sendername, receivername, content, language, ontology, protocol, conversationid) {
-    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(this, sendername, receivername, content, language);
-    this[xh.fipa.CONST.ONTOLOGY] = Object.create(xh.fipa.Ontology).init(ontology);
-    this[xh.fipa.CONST.PROTOCOL] = Object.create(xh.fipa.Protocol).init(protocol);
-    this[xh.fipa.CONST.CONVERSATION_ID] = Object.create(xh.fipa.ConversationId).init(conversationid);
+    var params = {};
+    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(params, sendername, receivername, content, language);
+    params[xh.fipa.CONST.ONTOLOGY] = Object.create(xh.fipa.Ontology).init(ontology);
+    params[xh.fipa.CONST.PROTOCOL] = Object.create(xh.fipa.Protocol).init(protocol);
+    params[xh.fipa.CONST.CONVERSATION_ID] = Object.create(xh.fipa.ConversationId).init(conversationid);
+    this[xh.fipa.CA.PROXY] = params;
     return this;
   },
   asFipaSL: function() {
-    return "(" + xh.fipa.CA.PROXY + "\n" + this.aca.asFipaSL(this) + "\n" + this[xh.fipa.CONST.ONTOLOGY].asFipaSL() + "\n" + this[xh.fipa.CONST.PROTOCOL].asFipaSL() + "\n" + this[xh.fipa.CONST.CONVERSATION_ID].asFipaSL() + ")" + "\n";
+    return "(" + xh.fipa.CA.PROXY + "\n" + this.aca.asFipaSL(this[xh.fipa.CA.PROXY]) + "\n"
+    + this[xh.fipa.CA.PROXY][xh.fipa.CONST.ONTOLOGY].asFipaSL() + "\n"
+    + this[xh.fipa.CA.PROXY][xh.fipa.CONST.PROTOCOL].asFipaSL() + "\n"
+    + this[xh.fipa.CA.PROXY][xh.fipa.CONST.CONVERSATION_ID].asFipaSL() + ")" + "\n";
   },
   asJso: function() {
     return this.aca.asJso(this);
@@ -473,12 +526,15 @@ xh.fipa.Proxy = {
 
 xh.fipa.QueryIf = {
   init: function(sendername, receivername, content, language, inreplyto) {
-    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(this, sendername, receivername, content, language);
-    this[xh.fipa.CONST.IN_REPLY_TO] = Object.create(xh.fipa.InReplyTo).init(inreplyto);
+    var params = {};
+    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(params, sendername, receivername, content, language);
+    params[xh.fipa.CONST.IN_REPLY_TO] = Object.create(xh.fipa.InReplyTo).init(inreplyto);
+    this[xh.fipa.CA.QUERY_IF] = params;
     return this;
   },
   asFipaSL: function() {
-    return "(" + xh.fipa.CA.QUERY_IF + "\n" + this.aca.asFipaSL(this) + "\n" + this[xh.fipa.CONST.IN_REPLY_TO].asFipaSL() + ")" + "\n";
+    return "(" + xh.fipa.CA.QUERY_IF + "\n" + this.aca.asFipaSL(this[xh.fipa.CA.QUERY_IF]) + "\n"
+    + this[xh.fipa.CA.QUERY_IF][xh.fipa.CONST.IN_REPLY_TO].asFipaSL() + ")" + "\n";
   },
   asJso: function() {
     return this.aca.asJso(this);
@@ -490,11 +546,13 @@ xh.fipa.QueryIf = {
 
 xh.fipa.QueryRef = {
   init: function(sendername, receivername, content, language) {
-    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(this, sendername, receivername, content, language);
+    var params = {};
+    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(params, sendername, receivername, content, language);
+    this[xh.fipa.CA.QUERY_REF] = params;
     return this;
   },
   asFipaSL: function() {
-    return "(" + xh.fipa.CA.QUERY_REF + "\n" + this.aca.asFipaSL(this) + ")" + "\n";
+    return "(" + xh.fipa.CA.QUERY_REF + "\n" + this.aca.asFipaSL(this[xh.fipa.CA.QUERY_REF]) + ")" + "\n";
   },
   asJso: function() {
     return this.aca.asJso(this);
@@ -506,11 +564,13 @@ xh.fipa.QueryRef = {
 
 xh.fipa.Refuse = {
   init: function(sendername, receivername, content, language) {
-    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(this, sendername, receivername, content, language);
+    var params = {};
+    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(params, sendername, receivername, content, language);
+    this[xh.fipa.CA.REFUSE] = params;
     return this;
   },
   asFipaSL: function() {
-    return "(" + xh.fipa.CA.REFUSE + "\n" + this.aca.asFipaSL(this) + ")" + "\n";
+    return "(" + xh.fipa.CA.REFUSE + "\n" + this.aca.asFipaSL(this[xh.fipa.CA.REFUSE]) + ")" + "\n";
   },
   asJso: function() {
     return this.aca.asJso(this);
@@ -522,12 +582,15 @@ xh.fipa.Refuse = {
 
 xh.fipa.RejectProposal = {
   init: function(sendername, receivername, content, language, inreplyto) {
-    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(this, sendername, receivername, content, language);
-    this[xh.fipa.CONST.IN_REPLY_TO] = Object.create(xh.fipa.InReplyTo).init(inreplyto);
+    var params = {};
+    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(params, sendername, receivername, content, language);
+    params[xh.fipa.CONST.IN_REPLY_TO] = Object.create(xh.fipa.InReplyTo).init(inreplyto);
+    this[xh.fipa.CA.REJECT_PROPOSAL] = params;
     return this;
   },
   asFipaSL: function() {
-    return "(" + xh.fipa.CA.REJECT_PROPOSAL + "\n" + this.aca.asFipaSL(this) + "\n" + this[xh.fipa.CONST.IN_REPLY_TO].asFipaSL() + ")" + "\n";
+    return "(" + xh.fipa.CA.REJECT_PROPOSAL + "\n" + this.aca.asFipaSL(this[xh.fipa.CA.REJECT_PROPOSAL]) + "\n"
+    + this[xh.fipa.CA.REJECT_PROPOSAL][xh.fipa.CONST.IN_REPLY_TO].asFipaSL() + ")" + "\n";
   },
   asJso: function() {
     return this.aca.asJso(this);
@@ -539,11 +602,13 @@ xh.fipa.RejectProposal = {
 
 xh.fipa.Request = {
   init: function(sendername, receivername, content, language) {
-    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(this, sendername, receivername, content, language);
+    var params = {};
+    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(params, sendername, receivername, content, language);
+    this[xh.fipa.CA.REQUEST] = params;
     return this;
   },
   asFipaSL: function() {
-    return "(" + xh.fipa.CA.REQUEST + "\n" + this.aca.asFipaSL(this) + ")" + "\n";
+    return "(" + xh.fipa.CA.REQUEST + "\n" + this.aca.asFipaSL(this[xh.fipa.CA.REQUEST]) + ")" + "\n";
   },
   asJso: function() {
     return this.aca.asJso(this);
@@ -555,11 +620,13 @@ xh.fipa.Request = {
 
 xh.fipa.RequestWhen = {
   init: function(sendername, receivername, content, language) {
-    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(this, sendername, receivername, content, language);
+    var params = {};
+    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(params, sendername, receivername, content, language);
+    this[xh.fipa.CA.REQUEST_WHEN] = params;
     return this;
   },
   asFipaSL: function() {
-    return "(" + xh.fipa.CA.REQUEST_WHEN + "\n" + this.aca.asFipaSL(this) + ")" + "\n";
+    return "(" + xh.fipa.CA.REQUEST_WHEN + "\n" + this.aca.asFipaSL(this[xh.fipa.CA.REQUEST_WHEN]) + ")" + "\n";
   },
   asJso: function() {
     return this.aca.asJso(this);
@@ -571,11 +638,13 @@ xh.fipa.RequestWhen = {
 
 xh.fipa.RequestWhenever = {
   init: function(sendername, receivername, content, language) {
-    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(this, sendername, receivername, content, language);
+    var params = {};
+    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(params, sendername, receivername, content, language);
+    this[xh.fipa.CA.REQUEST_WHENEVER] = params;
     return this;
   },
   asFipaSL: function() {
-    return "(" + xh.fipa.CA.REQUEST_WHENEVER + "\n" + this.aca.asFipaSL(this) + ")" + "\n";
+    return "(" + xh.fipa.CA.REQUEST_WHENEVER + "\n" + this.aca.asFipaSL(this[xh.fipa.CA.REQUEST_WHENEVER]) + ")" + "\n";
   },
   asJso: function() {
     return this.aca.asJso(this);
@@ -587,11 +656,13 @@ xh.fipa.RequestWhenever = {
 
 xh.fipa.Subscribe = {
   init: function(sendername, receivername, content, language) {
-    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(this, sendername, receivername, content, language);
+    var params = {};
+    this.aca = Object.create(xh.fipa.AbstractCommunicativeAct).initbase(params, sendername, receivername, content, language);
+    this[xh.fipa.CA.SUBSCRIBE] = params;
     return this;
   },
   asFipaSL: function() {
-    return "(" + xh.fipa.CA.SUBSCRIBE + "\n" + this.aca.asFipaSL(this) + ")" + "\n";
+    return "(" + xh.fipa.CA.SUBSCRIBE + "\n" + this.aca.asFipaSL(this[xh.fipa.CA.SUBSCRIBE]) + ")" + "\n";
   },
   asJso: function() {
     return this.aca.asJso(this);
