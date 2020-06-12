@@ -78,6 +78,30 @@ xh.fipa.CONST = {
   SENDER: ":sender" // AgentIdentifier
 }
 
+// Message Types names
+xh.fipa.MT = [
+  "AcceptProposal",
+  "Agree",
+  "Cancel",
+  "Cfp",
+  "Confirm",
+  "Disconfirm",
+  "Failure",
+  "Inform",
+  "NotUnderstood",
+  "Propagate",
+  "Propose",
+  "Proxy",
+  "QueryIf",
+  "QueryRef",
+  "Refuse",
+  "RejectProposal",
+  "Request",
+  "RequestWhen",
+  "RequestWhenever",
+  "Subscribe",
+]
+
 xh.fipa.AgentIdentifier = {
   init: function(name) {
     this.name = name;
@@ -358,7 +382,7 @@ xh.fipa.Cfp = { // Call for Proposal
   },
   asFipaSL: function() {
     return "(" + xh.fipa.CA.CFP + "\n" + this.aca.asFipaSL(this[xh.fipa.CA.CFP]) + "\n"
-    + this[xh.fipa.CONST.ONTOLOGY].asFipaSL() + ")" + "\n";
+    + this[xh.fipa.CA.CFP][xh.fipa.CONST.ONTOLOGY].asFipaSL() + ")" + "\n";
   },
   asJso: function() {
     return this.aca.asJso(this);
@@ -686,5 +710,34 @@ if (xh.fipa.SHOULD_TEST) {
   console.log(agree.asJso());
   console.log(agree.asJson());
   console.log(agree.asFipaSL());
+}
+
+// TODO des not work
+xh.fipa.test = () => {
+  const testOne = (messageType) => {
+    console.log(messageType);
+    var obj = Object.create(xh.fipa[messageType]).init("sndr", "rcvr", "this is some content.", "fipa-sl");
+    console.log(obj.asJso());
+    console.log(obj.asJson());
+    console.log(obj.asFipaSL());
+  }
+  xh.fipa.MT.forEach(mt => testOne(mt));
+}
+//xh.fipa.test();
+
+// JavaScriptObject -> String
+xh.fipa.getMessageType = (jso) => {
+  return Object.getOwnPropertyNames(jso)[0];
+}
+
+// JavaScriptObject -> JavaScriptObject
+xh.fipa.getMessageParams = (jso) => {
+  return jso[Object.getOwnPropertyNames(jso)[0]];
+}
+
+// JavaScriptObject -> [String]
+xh.fipa.getMessageParamNames = (jso) => {
+  const params = jso[Object.getOwnPropertyNames(jso)[0]];
+  return Object.getOwnPropertyNames(params);
 }
 
