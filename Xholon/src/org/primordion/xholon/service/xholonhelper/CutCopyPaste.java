@@ -214,7 +214,7 @@ public class CutCopyPaste extends Xholon implements ICutCopyPaste {
 	public void pasteLastChild(IXholon node, String xmlString)
 	{
 	  //System.out.println("pasteLastChild:" + xmlString);
-		xmlString = adjustPastedContent(xmlString);
+		xmlString = adjustPastedContent(node, xmlString);
 		if (xmlString == null) {return;}
 		if (xmlString.startsWith("<" + IXml2Xholon.XML_FOREST)) {
 		  /* NOTE: the attributes can use double or single quotes
@@ -343,7 +343,7 @@ public class CutCopyPaste extends Xholon implements ICutCopyPaste {
 	 */
 	public void pasteFirstChild(IXholon node, String xmlString)
 	{
-		xmlString = adjustPastedContent(xmlString);
+		xmlString = adjustPastedContent(node, xmlString);
 		if (xmlString == null) {return;}
 		record(node, xmlString, "pasteFirstChild");
 		IXml2Xholon xml2Xholon = node.getXml2Xholon();
@@ -415,7 +415,7 @@ public class CutCopyPaste extends Xholon implements ICutCopyPaste {
 	 */
 	public void pasteAfter(final IXholon node, String xmlString)
 	{
-		xmlString = adjustPastedContent(xmlString);
+		xmlString = adjustPastedContent(node, xmlString);
 		if (xmlString == null) {return;}
 		record(node, xmlString, "pasteAfter");
 		IXml2Xholon xml2Xholon = node.getXml2Xholon();
@@ -518,7 +518,7 @@ public class CutCopyPaste extends Xholon implements ICutCopyPaste {
 		
 		// NEW July 18, 2017
 		IXholon oldLastChild = node.getLastChild();
-		xmlString = adjustPastedContent(xmlString);
+		xmlString = adjustPastedContent(node, xmlString);
 		if (xmlString == null) {return;}
 		record(node, xmlString, "pasteReplacement");
 		IXml2Xholon xml2Xholon = node.getXml2Xholon();
@@ -583,7 +583,7 @@ public class CutCopyPaste extends Xholon implements ICutCopyPaste {
 	 */
 	public void pasteMerge(IXholon node, String xmlString)
 	{
-		xmlString = adjustPastedContent(xmlString);
+		xmlString = adjustPastedContent(node, xmlString);
 		if (xmlString == null) {return;}
 		record(node, xmlString, "pasteMerge");
 		IXml2Xholon xml2Xholon = node.getXml2Xholon();
@@ -684,7 +684,7 @@ public class CutCopyPaste extends Xholon implements ICutCopyPaste {
 	 * @param inStr A string that was pasted or dropped.
 	 * @return An adjusted string, or null.
 	 */
-	protected String adjustPastedContent(String inStr) {
+	protected String adjustPastedContent(IXholon node, String inStr) {
 		if ((inStr == null) || (inStr.length() == 0)) {return null;}
 		else if (isXml(inStr)) {return inStr;}
 		else if (isUri(inStr)) {
@@ -704,13 +704,36 @@ public class CutCopyPaste extends Xholon implements ICutCopyPaste {
 			String trimmedStr = inStr.trim();
 			if (isXml(trimmedStr)) {return trimmedStr;}
 			else {
-				// this is just text, so xmlify it by wrapping it in an <Attribute_String>
 				// TODO possibly do this only if some JavaScript attribute is set
-				return "<Attribute_String roleName=\"UNKNOWN_PASTED_CONTENT\"><![CDATA[\n" + inStr + "\n]]></Attribute_String>";
+				String defaultXmlString = "<Attribute_String roleName=\"UNKNOWN_PASTED_CONTENT\"><![CDATA[\n" + inStr + "\n]]></Attribute_String>";
+				if (this.hasFftxt2xmlstr()) {
+					String nodeXhcName = null;
+					if (node != null) {
+						nodeXhcName = node.getXhcName();
+					}
+					String xmlString = this.doFftxt2xmlstr(nodeXhcName, null, inStr);
+					if (xmlString == null) {
+						return defaultXmlString;
+					}
+					else {
+						return xmlString;
+					}
+				}
+				else {
+					// this is just text, so xmlify it by wrapping it in an <Attribute_String>
+					return defaultXmlString;
+				}
 			}
 		}
-		//return null;
 	}
+	
+	protected native boolean hasFftxt2xmlstr() /*-{
+		return $wnd.xh.fftxt2xmlstr ? true : false;
+	}-*/;
+	
+	protected native String doFftxt2xmlstr(String nodeXhcName, String params, String fftxt) /*-{
+		return $wnd.xh.fftxt2xmlstr.transform(nodeXhcName, params, fftxt);
+	}-*/;
 	
 	/**
 	 * Write a String to the clipboard.

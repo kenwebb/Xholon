@@ -39,6 +39,7 @@ Four
 Five
 Six
 Ten
+Licorice
 
 <Role roleName="june13" action="replace"></Role>
 <Role roleName="june13" action="replace"/>
@@ -55,7 +56,20 @@ Notes
  - maybe create a new Xholon mechanism with node types that can properly write-out parts of a workbook
 - optionally add new XholonClass names to the IH as well as to the CSH
 - use default child names:
- - ex: if I drag "Licorice" into a Cats node, the result should be <Cat>Licorice</Cat>
+ - ex: if I drag "Licorice" into a Cats node, the result should be <Cat roleName="Licorice"/>
+ - ex: if I drag "John Doe" into a Names node, the result should be <Name roleName="John Doe"/>
+ - optionally, after creating one of these nodes, it could be dragged somewhere else
+ - could do the the same with Notes/Note References/Reference etc.
+- maybe make it easy for node types to be subclass of exist types like Attribute_String, Script, etc.
+ - by first dragging TEXT to IH Attribute_String, Script, etc.
+ - and then dragging it to CSH location
+- two-step process:
+ 1. TYPE:     drag text (CONTENT) to a container/dropzone that specifies its type (XholonClass) ex: drag text to a <Attribute_Strings/> container to create an <Attribute_String/> node
+ 2. LOCATION: then drag that node to the desired location of that node
+ - the result is CONTENT+TYPE+LOCATION
+- another possible process:
+ - drag text and hover over a TYPE node (which generates the node, and then continue dragging the new node to its LOCATION (all one drag action))
+- use the standardCollectionFuncs to implement any of these processes
  * 
  */
 
@@ -65,16 +79,35 @@ if (typeof xh == "undefined") {
 
 xh.fftxt2xmlstr = {}
 
-xh.fftxt2xmlstr.defaultParams = {
-  roleAction: "replace"
-}
+xh.fftxt2xmlstr.XML_FOREST = "_-.";
 
-// (JSON, String) -> XMLString
-xh.fftxt2xmlstr.transform = (argParams, fftxt) => {
+xh.fftxt2xmlstr.defaultParams = {
+  roleAction: "replace",
+  standardCollectionNames: ["Notes", "References", "Cats"],
+  // OR
+  standardCollectionFuncs: {
+  //Container: Function
+    Notes: note => '<Note>' + note + '</Note>',
+    References: ref => '<Reference>' + ref + '</Reference>',
+    Cats: cat => '<Cat roleName="' + cat + '"/>',
+    Attribute_Strings: str => '<Attribute_String roleName="' + str.substring(0,10) + '">' + str + '</Attribute_String>',
+    Annotations: str => '<' + xh.fftxt2xmlstr.XML_FOREST + 'anno><Annotation>' + str.trim() + '</Annotation></' + xh.fftxt2xmlstr.XML_FOREST + 'anno>'
+  }
+}
+// console.log(defaultParams.roleAction); // replace
+// console.log(defaultParams.standardCollectionFuncs.Cats("Meow")); // <Cat roleName="Meow/>
+
+// (String, JSON, String) -> XMLString
+// TODO add new arg: nodeXhcName  ex: "Notes"  CutCopyPaste.java will need to pass this in
+xh.fftxt2xmlstr.transform = (nodeXhcName, argParams, fftxt) => {
+  console.log("nodeXhcName: " + nodeXhcName);
   const params = argParams || xh.fftxt2xmlstr.defaultParams;
   const words = fftxt.split(/\s/g);
   if (words.length == 0) {
     return null;
+  }
+  else if (nodeXhcName && (nodeXhcName in params.standardCollectionFuncs)) {
+    return params.standardCollectionFuncs[nodeXhcName](fftxt);
   }
   else if (words[0] == "") {
     // the first word is whitespace
