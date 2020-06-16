@@ -80,6 +80,9 @@ if (typeof xh == "undefined") {
 xh.fftxt2xmlstr = {}
 
 xh.fftxt2xmlstr.XML_FOREST = "_-.";
+xh.fftxt2xmlstr.ROLENAME_LEN = 20;
+xh.fftxt2xmlstr.DEFAULT_GUI_DIVNAME = "#xhanim";
+xh.fftxt2xmlstr.DEFAULT_GUI_CHILD_DIVNAMES = ["one", "two"];
 
 xh.fftxt2xmlstr.defaultParams = {
   roleAction: "replace",
@@ -87,10 +90,12 @@ xh.fftxt2xmlstr.defaultParams = {
   // OR
   standardCollectionFuncs: {
   //Container: Function
-    Notes: note => '<Note>' + note + '</Note>',
-    References: ref => '<Reference>' + ref + '</Reference>',
+    Notes: note => '<Note roleName="' + note.replace(/[^a-zA-Z0-9 ]/g, "").trim().substring(0,xh.fftxt2xmlstr.ROLENAME_LEN) + '">' + note + '</Note>',
+    Note: note => '<Note roleName="' + note.replace(/[^a-zA-Z0-9 ]/g, "").trim().substring(0,xh.fftxt2xmlstr.ROLENAME_LEN) + '">' + note + '</Note>',
+    References: ref => '<Reference roleName="' + ref.replace(/[^a-zA-Z0-9 ]/g, "").trim().substring(0,xh.fftxt2xmlstr.ROLENAME_LEN) + '">' + ref + '</Reference>',
+    Reference: ref => '<Reference roleName="' + ref.replace(/[^a-zA-Z0-9 ]/g, "").trim().substring(0,xh.fftxt2xmlstr.ROLENAME_LEN) + '">' + ref + '</Reference>',
     Cats: cat => '<Cat roleName="' + cat + '"/>',
-    Attribute_Strings: str => '<Attribute_String roleName="' + str.substring(0,10) + '">' + str + '</Attribute_String>',
+    Attribute_Strings: str => '<Attribute_String roleName="' + str.replace(/[^a-zA-Z0-9 ]/g, "").trim().substring(0,xh.fftxt2xmlstr.ROLENAME_LEN) + '">' + str + '</Attribute_String>',
     Annotations: str => '<' + xh.fftxt2xmlstr.XML_FOREST + 'anno><Annotation>' + str.trim() + '</Annotation></' + xh.fftxt2xmlstr.XML_FOREST + 'anno>'
   }
 }
@@ -137,5 +142,159 @@ xh.fftxt2xmlstr.transform = (nodeXhcName, argParams, fftxt) => {
   else {
     return '<' + words[0] + ' roleName="' + words[1] + '"><Anno>' + fftxt + '</Anno></' + words[0] + '>';
   }
+}
+
+// ex: xh.fftxt2xmlstr.configGui("#xhanim", ["one", "two"], true);
+// ex: xh.fftxt2xmlstr.configGui(null, null, true);
+// 
+xh.fftxt2xmlstr.configGui = (xhDivName, childDivNames, caption) => {
+  // SVG caption
+  if (caption) {
+    xh.svg = {};
+    xh.svg.caption = document.createElement("p");
+    xh.svg.caption.textContent = xh.param("ModelName");
+  }
+  
+  var div = document.querySelector(xhDivName || xh.fftxt2xmlstr.DEFAULT_GUI_DIVNAME);
+  
+  var cDivNamesArr = childDivNames || xh.fftxt2xmlstr.DEFAULT_GUI_CHILD_DIVNAMES;
+  cDivNamesArr.forEach((cDivName, index) => {
+    const cDiv = document.createElement("div");
+    cDiv.setAttribute("id", cDivName);
+    div.appendChild(cDiv);
+    if (caption && (index == 0)) {
+      cDiv.appendChild(xh.svg.caption);
+    }
+  })
+}
+
+// ex: xh.fftxt2xmlstr.configInteract();
+xh.fftxt2xmlstr.configInteract = () => {
+ var selection = '#xhanim>#two>svg g.d3cpnode,#one>svg g.d3cpnode'; //'#xhgraph>svg g.d3cpnode';
+ 
+ // Drag
+ var drag = interact(selection).draggable({
+  onstart: function (event) {
+   var target = event.target;
+   if (!target.getAttribute('data-x') && target.transform) {
+    target.setAttribute('data-x', target.transform.baseVal[0].matrix.e);
+    target.setAttribute('data-y', target.transform.baseVal[0].matrix.f);
+    //target.transform = "";
+   }
+  },
+  
+  // call this function on every dragmove event
+  onmove: function (event) {
+   var target = event.target,
+    // keep the dragged position in the data-x/data-y attributes
+    x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+    y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+    
+   // translate the element
+   target.style.webkitTransform = target.style.transform =
+     'translate(' + x + 'px, ' + y + 'px)';
+ 
+   // update the position attributes
+   target.setAttribute('data-x', x);
+   target.setAttribute('data-y', y);
+  },
+  
+  // call this function on every dragend event
+  onend: function (event) {
+   //var textEl = event.target.querySelector('p');
+   //textEl && (textEl.textContent = 'moved a distance of '
+   // + (Math.sqrt(event.dx * event.dx + event.dy * event.dy)|0) + 'px');
+  }
+ }).draggable({ inertia: true }); //.inertia(true); // changed 2020
+ 
+ // Drop
+ // drop works with the above drag, when I drag from a leaf node to another node
+ var drop = interact(selection).dropzone({
+  ondropactivate: function (event) {
+   // add active dropzone feedback
+   //console.log("ondropactivate");
+   event.target.classList.add('drop-active');
+  },
+  
+  ondragenter: function (event) {
+   var draggableElement = event.relatedTarget,
+    dropzoneElement = event.target;
+   //console.log("ondragenter");
+   
+   // feedback the possibility of a drop
+   dropzoneElement.classList.add('drop-target');
+   draggableElement.classList.add('can-drop');
+   //draggableElement.querySelector("text").textContent = 'N';
+  },
+  
+  ondragleave: function (event) {
+   // remove the drop feedback style
+   //console.log("ondragleave");
+   event.target.classList.remove('drop-target');
+   event.relatedTarget.classList.remove('can-drop');
+   //event.relatedTarget.querySelector("text").textContent = 'T';
+  },
+  
+  ondrop: function (event) {
+    var xhroot = xh.root();
+    var svgchld = event.relatedTarget;
+    var svgprnt = event.target;
+    var xhchld = xhroot.xpath("descendant-or-self::*[@name='" + svgchld.id + "']");
+    var xhprnt = xhroot.xpath("descendant-or-self::*[@name='" + svgprnt.id + "']");
+    if (xhchld && xhprnt) {
+      if (xhchld.parent() != xhprnt) {
+        xhprnt.append(xhchld.remove());
+        xhroot.println(xhchld.name() + " has moved to " + xhprnt.name());
+      }
+      else {
+        xhroot.println(xhchld.name() + " has stayed inside " + xhprnt.name());
+      }
+    }
+    else {
+      xhroot.println(svgchld.id + " has unknown location");
+    }
+  },
+  
+  ondropdeactivate: function (event) {
+   // remove active dropzone feedback
+   //console.log("ondropdeactivate");
+   event.target.classList.remove('drop-active');
+   event.target.classList.remove('drop-target');
+  }
+ });
+}
+
+// IXholon_subtree -> Text  TODO
+xh.fftxt2xmlstr.getNodesText = (node, str) => {
+  null;
+}
+
+// IXholon_subtree -> Text  TODO
+// TODO maybe use visit()
+xh.fftxt2xmlstr.getRefsText = (node, str, level) => {
+  if (str == null) {
+    str = "";
+  }
+  if (str.length == 0) {
+    // this is the root node of the subtree (probably <References/>)
+    str += "References\n----------\n";
+  }
+  else {
+    var nodestr = node.text();
+    if (nodestr) {
+      switch (level) {
+      case 1: str += "\n() "; break;
+      case 2: str += "    "; break;
+      default: break;
+      }
+    	str += nodestr + "\n";
+    }
+  }
+  var cnode = node.first();
+  while (cnode) {
+    str = xh.fftxt2xmlstr.getRefsText(cnode, str, level + 1);
+    cnode = cnode.next();
+  }
+  return str;
 }
 

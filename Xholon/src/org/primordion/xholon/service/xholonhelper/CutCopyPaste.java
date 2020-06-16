@@ -712,6 +712,7 @@ public class CutCopyPaste extends Xholon implements ICutCopyPaste {
 						nodeXhcName = node.getXhcName();
 					}
 					String xmlString = this.doFftxt2xmlstr(nodeXhcName, null, inStr);
+					consoleLog(xmlString);
 					if (xmlString == null) {
 						return defaultXmlString;
 					}

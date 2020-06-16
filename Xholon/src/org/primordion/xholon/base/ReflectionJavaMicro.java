@@ -185,7 +185,7 @@ public class ReflectionJavaMicro implements IReflection {
       if ("AbsoluteMaxPorts".equals(pName)) {return Integer.toString(app.getAbsoluteMaxPorts());}
       if ("AllowConfigSrv".equals(pName)) {return Boolean.toString(app.isAllowConfigSrv());}
       if ("AppM".equals(pName)) {return Boolean.toString(app.getAppM());}
-      //if ("AttributePostConfigAction".equals(pName)) {app.setAttributePostConfigAction(Integer.parseInt(pValue)); return true;}
+      if ("AttributePostConfigAction".equals(pName)) {return Integer.toString(app.getAttributePostConfigAction());}
       break;
     case 'B':
       break;

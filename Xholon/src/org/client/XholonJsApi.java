@@ -218,9 +218,9 @@ $wnd.console.log($wnd.xh.xpathExpr(descendant, ancestor));
         }
       }
       else {
-        $wnd.console.log(pName + " " + pValue);
+        //$wnd.console.log(pName + " " + pValue);
         var response = app.@org.primordion.xholon.app.Application::setParam(Ljava/lang/String;Ljava/lang/String;)(pName, pValue);
-        $wnd.console.log(response);
+        //$wnd.console.log(response);
         if (response == false) {
           app[pName] = pValue;
         }
