@@ -56,11 +56,11 @@ Notes
  - maybe create a new Xholon mechanism with node types that can properly write-out parts of a workbook
 - optionally add new XholonClass names to the IH as well as to the CSH
 - use default child names:
- - ex: if I drag "Licorice" into a Cats node, the result should be <Cat roleName="Licorice"/>
+ - DONE ex: if I drag "Licorice" into a Cats node, the result should be <Cat roleName="Licorice"/>
  - ex: if I drag "John Doe" into a Names node, the result should be <Name roleName="John Doe"/>
  - optionally, after creating one of these nodes, it could be dragged somewhere else
  - could do the the same with Notes/Note References/Reference etc.
-- maybe make it easy for node types to be subclass of exist types like Attribute_String, Script, etc.
+- maybe make it easy for node types to be subclass of existing types like Attribute_String, Script, etc.
  - by first dragging TEXT to IH Attribute_String, Script, etc.
  - and then dragging it to CSH location
 - two-step process:
@@ -70,6 +70,11 @@ Notes
 - another possible process:
  - drag text and hover over a TYPE node (which generates the node, and then continue dragging the new node to its LOCATION (all one drag action))
 - use the standardCollectionFuncs to implement any of these processes
+- provide support for creating Xholon Animate nodes
+- provide support for creating DropZones subtrees, and Xholon Workbook subtrees
+- be able to drag a clone of a node, rather than the node itself
+ - https://github.com/taye/interact.js/blob/888188dd6c033e7f7b526b06854749ca3ae7c843/docs/faq.md
+ - Clone target draggable
  * 
  */
 
@@ -83,10 +88,12 @@ xh.fftxt2xmlstr.XML_FOREST = "_-.";
 xh.fftxt2xmlstr.ROLENAME_LEN = 20;
 xh.fftxt2xmlstr.DEFAULT_GUI_DIVNAME = "#xhanim";
 xh.fftxt2xmlstr.DEFAULT_GUI_CHILD_DIVNAMES = ["one", "two"];
+xh.fftxt2xmlstr.DEFAULT_LINE_SEPARATOR = "\n";
 
 xh.fftxt2xmlstr.defaultParams = {
   roleAction: "replace",
-  standardCollectionNames: ["Notes", "References", "Cats"],
+  lineSeparator: xh.fftxt2xmlstr.DEFAULT_LINE_SEPARATOR,
+  standardCollectionNames: ["Notes", "References", "XholonWorkbooks", "Cats"],
   // OR
   standardCollectionFuncs: {
   //Container: Function
@@ -96,16 +103,54 @@ xh.fftxt2xmlstr.defaultParams = {
     Reference: ref => '<Reference roleName="' + ref.replace(/[^a-zA-Z0-9 ]/g, "").trim().substring(0,xh.fftxt2xmlstr.ROLENAME_LEN) + '">' + ref + '</Reference>',
     Cats: cat => '<Cat roleName="' + cat + '"/>',
     Attribute_Strings: str => '<Attribute_String roleName="' + str.replace(/[^a-zA-Z0-9 ]/g, "").trim().substring(0,xh.fftxt2xmlstr.ROLENAME_LEN) + '">' + str + '</Attribute_String>',
-    Annotations: str => '<' + xh.fftxt2xmlstr.XML_FOREST + 'anno><Annotation>' + str.trim() + '</Annotation></' + xh.fftxt2xmlstr.XML_FOREST + 'anno>'
+    Annotations: str => '<' + xh.fftxt2xmlstr.XML_FOREST + 'anno><Annotation>' + str.trim() + '</Annotation></' + xh.fftxt2xmlstr.XML_FOREST + 'anno>',
+    XholonWorkbooks: str => `
+<XholonModule>
+  <XholonMap>
+    <Attribute_String roleName="ih"><![CDATA[
+<_-.XholonClass>
+  <${str}/>
+</_-.XholonClass>
+    ]]></Attribute_String>
+    <Attribute_String roleName="cd"><![CDATA[
+<xholonClassDetails></xholonClassDetails>
+    ]]></Attribute_String>
+    <Attribute_String roleName="csh"><![CDATA[
+<_-.csh>
+  <${str}/>
+</_-.csh>
+    ]]></Attribute_String>
+  </XholonMap>
+</XholonModule>`
   }
 }
 // console.log(defaultParams.roleAction); // replace
 // console.log(defaultParams.standardCollectionFuncs.Cats("Meow")); // <Cat roleName="Meow/>
 
 // (String, JSON, String) -> XMLString
-// TODO add new arg: nodeXhcName  ex: "Notes"  CutCopyPaste.java will need to pass this in
+// nodeXhcName  ex: "Notes"  CutCopyPaste.java needs to pass this in
 xh.fftxt2xmlstr.transform = (nodeXhcName, argParams, fftxt) => {
-  console.log("nodeXhcName: " + nodeXhcName);
+  const lines = fftxt.split(xh.fftxt2xmlstr.defaultParams.lineSeparator);
+  var subtree = "";
+  // fftxt may consist of multiple lines of text, separated by newline "\n"
+  if (lines.length > 1) {
+    subtree += "<" + xh.fftxt2xmlstr.XML_FOREST + "subtree>";
+    lines.forEach((line) => {
+      // exclude blank lines
+      if (line.trim().length > 0) {
+        subtree += xh.fftxt2xmlstr.transform1(nodeXhcName, argParams, line);
+      }
+    })
+    subtree += "</" + xh.fftxt2xmlstr.XML_FOREST + "subtree>";
+  }
+  else {
+    subtree += xh.fftxt2xmlstr.transform1(nodeXhcName, argParams, fftxt);
+  }
+  return subtree;
+}
+
+xh.fftxt2xmlstr.transform1 = (nodeXhcName, argParams, fftxt) => {
+  //console.log("nodeXhcName: " + nodeXhcName);
   const params = argParams || xh.fftxt2xmlstr.defaultParams;
   const words = fftxt.split(/\s/g);
   if (words.length == 0) {
@@ -264,14 +309,43 @@ xh.fftxt2xmlstr.configInteract = () => {
  });
 }
 
-// IXholon_subtree -> Text  TODO
-xh.fftxt2xmlstr.getNodesText = (node, str) => {
-  null;
+// IXholon_subtree -> Text
+// ex: xh.fftxt2xmlstr.getNodesText(node, "", 0, "");
+// ex: xh.fftxt2xmlstr.getNodesText(node, "", 0, "- ");
+// ex: xh.fftxt2xmlstr.getNodesText(temp0, "", -1, "");
+xh.fftxt2xmlstr.getNodesText = (node, str, level, lprefix) => {
+  if (str == null) {
+    str = "";
+  }
+  if (str.length == 0) {
+    // this is the root node of the subtree (probably <Nodes/>)
+    str += new Date().toLocaleString() + "\n";
+  }
+  else {
+    var nodestr = node.text();
+    if (nodestr) {
+      switch (level) {
+      case 0: str += ""; break;
+      case 1: str += " "; break;
+      case 2: str += "  "; break;
+      case 3: str += "   "; break;
+      case 4: str += "    "; break;
+      default: str += "     "; break;
+      }
+    	str += lprefix + nodestr + "\n";
+    }
+  }
+  var cnode = node.first();
+  while (cnode) {
+    str = xh.fftxt2xmlstr.getNodesText(cnode, str, level + 1, lprefix);
+    cnode = cnode.next();
+  }
+  return str;
 }
 
-// IXholon_subtree -> Text  TODO
-// TODO maybe use visit()
-xh.fftxt2xmlstr.getRefsText = (node, str, level) => {
+// IXholon_subtree -> Text
+// ex: xh.fftxt2xmlstr.getRefsText(node, "", 0, 0);
+xh.fftxt2xmlstr.getRefsText = (node, str, level, counter) => {
   if (str == null) {
     str = "";
   }
@@ -283,16 +357,16 @@ xh.fftxt2xmlstr.getRefsText = (node, str, level) => {
     var nodestr = node.text();
     if (nodestr) {
       switch (level) {
-      case 1: str += "\n() "; break;
+      case 1: str += "\n(" + counter + ") "; break;
       case 2: str += "    "; break;
-      default: break;
+      default: str += "    "; break;
       }
     	str += nodestr + "\n";
     }
   }
   var cnode = node.first();
   while (cnode) {
-    str = xh.fftxt2xmlstr.getRefsText(cnode, str, level + 1);
+    str = xh.fftxt2xmlstr.getRefsText(cnode, str, level + 1, counter++);
     cnode = cnode.next();
   }
   return str;
