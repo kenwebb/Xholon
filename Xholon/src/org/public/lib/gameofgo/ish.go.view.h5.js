@@ -2,22 +2,45 @@
 var Ish = Ish || {};
 Ish.Go = Ish.Go || {};
 
+// KSW running it within Xholon
+// http://127.0.0.1:8080/war/Xholon.html?app=Game+of+Go&src=lstr&gui=clsc&jslib=jquery-3.5.1,gameofgo/ish.go,gameofgo/ish.go.logic,gameofgo/ish.go.view.h5&hide=xhgui,xhtabs,xhsvg,xhfooter
+// http://127.0.0.1:8080/war/Xholon.html?app=Game+of+Go&src=lstr&gui=clsc&bsize=19x19&jslib=jquery-3.5.1,gameofgo/ish.go,gameofgo/ish.go.logic,gameofgo/ish.go.view.h5&hide=xhgui,xhtabs,xhsvg,xhfooter
+// http://127.0.0.1:8080/war/Xholon.html?app=Game+of+Go&src=lstr&gui=clsc&bsize=9x9&jslib=jquery-3.5.1,gameofgo/ish.go,gameofgo/ish.go.logic,gameofgo/ish.go.view.h5&hide=xhgui,xhtabs,xhsvg,xhfooter
+
 // begin Ish.Go.View namespace
 Ish.Go.View = new function() {
 
 	var canvas;
 	var context;
 	var isBoardMarked = false;
+	
+	const BSIZE_19x19 = "19x19";
+	const BSIZE_9x9 = "9x9";
+	const params = (new URL(document.location)).searchParams;
+  const bsize = params.get('bsize'); // legal values are: "19x19" or "9x9"
 
+	// KSW October 7, 2020
+	const BOARD_19x19 = [19,19]; // width 19 x height 19
+	const BOARD_9x9 = [9,9];
+	const BOARD_DEFAULT = (bsize && (bsize == BSIZE_9x9)) ? BOARD_9x9 : BOARD_19x19;
+	
+	const PIXEL_19x19 = [522,522]; // pixel width x pixel height
+	const PIXEL_9x9 = [252,252]; // 
+	const PIXEL_DEFAULT = (bsize && (bsize == BSIZE_9x9)) ? PIXEL_9x9 : PIXEL_19x19;
+	
+	const BOARD_PNG_NAME_19x19  = "board.png";
+	const BOARD_PNG_NAME_9x9  = "board_9x9.png";
+	const BOARD_PNG_NAME_DEFAULT = (bsize && (bsize == BSIZE_9x9)) ? BOARD_PNG_NAME_9x9 : BOARD_PNG_NAME_19x19;
+	
 	// Static object for storing constants
 	var ViewConstants = new function() {
-		this.boardWidth = 19; //19; // KSW can't set it to 9 because board.png already has lines on it for 19
-		this.boardHeight = 19; //19;
+		this.boardWidth = BOARD_DEFAULT[0]; //19; // KSW can't set it to 9 because board.png already has lines on it for 19
+		this.boardHeight = BOARD_DEFAULT[1]; //19;
 		this.boardPadding = 6;
 		this.pieceWidth = 27;
 		this.pieceHeight = 27;
-		this.pixelWidth = 522;
-		this.pixelHeight = 522;
+		this.pixelWidth = PIXEL_DEFAULT[0]; // the actual pixel width of board.png
+		this.pixelHeight = PIXEL_DEFAULT[1]; // the actual pixel height of board.png
 		this.imgPieceBlack = "./xholon/lib/gameofgo/piece-black.png";
 		this.imgPieceWhite = "./xholon/lib/gameofgo/piece-white.png";
 		this.imgFlagBlack = "./xholon/lib/gameofgo/flag-black.png";
@@ -63,7 +86,7 @@ Ish.Go.View = new function() {
 		
 			canvas.width = ViewConstants.pixelWidth;
 			canvas.height = ViewConstants.pixelHeight;
-			canvas.style.background = "transparent url(./xholon/lib/gameofgo/board.png) no-repeat 0 0";
+			canvas.style.background = "transparent url(./xholon/lib/gameofgo/" + BOARD_PNG_NAME_DEFAULT + ") no-repeat 0 0";
 			
 			canvas.addEventListener("click", clickListener, false);
 			canvas.addEventListener("mousemove", mouseMoveListener);
