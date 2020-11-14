@@ -84,6 +84,8 @@ public class GridGenerator extends XholonScript {
   private boolean shouldBuildCsh = true;
   
   private String gridViewportParams = null; //DEFAULT_GRID_VIEWPORT_PARAMS;
+  
+  private boolean shouldRemoveSelf = true;
 
   @Override
   public void postConfigure()
@@ -96,7 +98,9 @@ public class GridGenerator extends XholonScript {
       style(cssStyle);
     }
     super.postConfigure();
-    this.removeChild();
+    if (this.shouldRemoveSelf == true) {
+      this.removeChild();
+    }
   }
   
   /**
@@ -364,7 +368,47 @@ public class GridGenerator extends XholonScript {
     else if ("gridViewportParams".equals(attrName)) {
       this.gridViewportParams = attrVal;
     }
+    else if ("shouldRemoveSelf".equals(attrName)) {
+      this.shouldRemoveSelf = Boolean.parseBoolean(attrVal);
+    }
     return 0;
   }
+  
+  /*
+   * @see org.primordion.xholon.base.Xholon#toXmlAttributes(org.primordion.xholon.io.xml.IXholon2Xml, org.primordion.xholon.io.xml.IXmlWriter)
+   * 
+   * Example usage in a Xholon workbook (where "me" is a GridContentGenerator):
+var json = $wnd.xh.xport("Json", me.parent(), "{}", false, true);
+var jso = JSON.parse(json);
+var gg = jso.GridGenerator;
+me.println(gg.nameGrid);
+me.println(gg.rows);
+me.println(gg.cols);
+   * 
+   */
+  public void toXmlAttributes(IXholon2Xml xholon2xml, IXmlWriter xmlWriter) {
+    super.toXmlAttributes(xholon2xml, xmlWriter);
+    xmlWriter.writeAttribute("rows", Integer.toString(this.rows));
+    xmlWriter.writeAttribute("cols", Integer.toString(this.cols));
+    xmlWriter.writeAttribute("names", String.join(",", this.names));
+    xmlWriter.writeAttribute("gridType", this.gridType);
+    xmlWriter.writeAttribute("columnColor", this.columnColor);
+    xmlWriter.writeAttribute("cellsCanSupplyOwnColor", Boolean.toString(this.cellsCanSupplyOwnColor));
+    xmlWriter.writeAttribute("useGridViewer", this.useGridViewer);
+    xmlWriter.writeAttribute("gridViewerParams", this.gridViewerParams);
+    xmlWriter.writeAttribute("caption", this.caption == null ? "" : this.caption);
+    xmlWriter.writeAttribute("nameGrid", this.nameGrid == null ? "" : this.nameGrid);
+    xmlWriter.writeAttribute("nameRow", this.nameRow == null ? "" : this.nameRow);
+    xmlWriter.writeAttribute("nameCol", this.nameCol == null ? "" : this.nameCol);
+    xmlWriter.writeAttribute("gridEntityImplName", this.gridEntityImplName);
+    xmlWriter.writeAttribute("gridOwnerImplName", this.gridOwnerImplName);
+    xmlWriter.writeAttribute("gridPanelClassName", this.gridPanelClassName);
+    xmlWriter.writeAttribute("cssStyle", this.cssStyle == null ? "" : this.cssStyle);
+    xmlWriter.writeAttribute("shouldBuildXhc", Boolean.toString(this.shouldBuildXhc));
+    xmlWriter.writeAttribute("shouldBuildCsh", Boolean.toString(this.shouldBuildCsh));
+    xmlWriter.writeAttribute("gridViewportParams", this.gridViewportParams == null ? "" : this.gridViewportParams);
+    xmlWriter.writeAttribute("shouldRemoveSelf", Boolean.toString(this.shouldRemoveSelf));
+  }
+  
   
 }
