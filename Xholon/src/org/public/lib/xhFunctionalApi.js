@@ -5,6 +5,9 @@
 // 
 // see also: Xholon workbook "Haskell - Hutton - Binary string transmitter" 7eea6b043213653408b492f6a2de329c
 // 
+// with ideas and code from: Composing Software, by Eric Elliott
+// https://medium.com/javascript-scene/composing-software-the-book-f31c77fc3ddc
+// 
 // ramda examples:
 // var txtext = R.pipe(xhf.parent, xhf.role)(xhf.first(xhf.root()));
 // var txtext2 = R.compose(xhf.role, xhf.parent)(xhf.first(xhf.root()));
@@ -14,6 +17,13 @@
 // with (xhf) {R.pipe(root, first, next)().name()};
 // with (xhf) {R.pipe(root, first, next, name)()}; // "world_3"
 // with (xhf) {R.compose(name, next, first, root)()}; // "world_3"
+// with (xhf) {R.compose(name, trace("TEST "), first, root)()}
+  // TEST hello_2 [ port:world_3] state=0
+  // "hello_2"
+// with (xhf) {pipe(root, first, name)()} // "Alice:hello_2"
+
+// TODO
+// add curry, compose, and pipe - from book Composing Software
 
 
 if (typeof xh == "undefined") {
@@ -60,7 +70,91 @@ xhf.btright = node => node.btright()
 xhf.remove = node => node.remove()
 // ex: xhf.remove(node);
 
-// append TODO
+// append :: IXholon -> IXholon -> IXholon  IMPURE
+xhf.append = container => content => container.append(content)
+// ex: with (xhf) {compose(trace("container: "), append(compose(first, root)()), remove, avatar)()} // YES
+// ex: with (xhf) {compose(trace("container: "), append(xhf.root().first()), remove, avatar)()} // YES
+// ex: with (xhf) {compose(trace("container: "), append(compose(first, root)()), trace("avatar: "), action("become this role Alice"), remove, avatar)()} // YES
+/*
+with (xhf) {
+  compose(
+    name,
+    trace("container: "),
+    append(
+      compose(
+        roleIII("Bonjour"),
+        first,
+        root
+      )()
+    ),
+    trace("avatar: "),
+    action("become this role Alicia"),
+    remove,
+    avatar
+  )()
+}
+
+avatar: Alicia:avatar_49
+container: Bonjour:hello_2 [ port:world_3] state=0
+"Bonjour:hello_2"
+*/
+
+// appendTo :: IXholon -> IXholon -> IXholon  IMPURE
+xhf.appendTo = content => container => content.appendTo(container)
+// ex: with (xhf) {compose(trace("content: "), appendTo(compose(remove, avatar)()), first, root)().name()} // "Alice:avatar_49"
+/*
+with (xhf) {
+  compose(
+    trace("content: "),
+    appendTo(
+      compose(
+        remove,
+        avatar
+      )()
+    ),
+    first,
+    root
+  )()
+  .name()
+}
+
+OR
+
+with (xhf) {
+  compose(
+    name,
+    trace("content: "),
+    appendTo(
+      compose(
+        remove,
+        avatar
+      )()
+    ),
+    first,
+    root
+  )()
+}
+
+OR
+
+with (xhf) {
+  pipe(
+    root,
+    first,
+    appendTo(
+      pipe(
+        avatar,
+        remove
+      )()
+    ),
+    trace("content: "),
+    name
+  )()
+}
+
+content: Alice:avatar_49
+"Alice:avatar_49"
+*/
 
 // id :: IXholon -> Number
 xhf.id = node => node.id()
@@ -83,7 +177,15 @@ xhf.role = node => node.role()
 // TODO how to mutate/change the value of node.role(); IMPURE role
 // roleI :: (String, IXholon) -> IXholon
 xhf.roleI = (roleName, node) => node.role(roleName)
-// ex: xhf.roleI("JUNK", xhf.root().first());
+// ex: xhf.roleI("JUNK", xhf.root().first()); // returns the node
+// OR
+// roleII :: String -> IXholon -> String  IMPURE
+xhf.roleII = roleName => node => node.role(roleName).role()
+// ex: xhf.roleII("Alice")(xhf.root().first()); // returns the new roleName
+// OR
+// IMPURE
+xhf.roleIII = roleName => node => node.role(roleName)
+// ex: xhf.roleIII("Alice")(xhf.root().first()); // returns the node
 
 // xhType :: IXholon -> Number
 xhf.xhType = node => node.xhType()
@@ -192,37 +294,71 @@ xhf.geo = node => node.geo()
 // sound :: IXholon -> String
 xhf.sound = node => node.sound()
 
+// action :: String -> IXholon -> IXholon  IMPURE
+xhf.action = actionStr => node => node.action(actionStr)
+
 // tick :: IXholon -> Object -> Object
 xhf.tick = (node, obj) => node.tick(obj)
 // ex: xhf.tick(node, obj);
 
 // log :: (String, Object) -> Object  IMPURE
-//xhf.log = function(str, data) {console.log(str + data); return data;}
-xhf.log = (str, data) => {console.log(str + data); return data;}
+//xhf.log = function(label, data) {console.log(label + data); return data;}
+xhf.log = (label, data) => {console.log(label + data); return data;}
 // ex: xhf.log("current data: ", [1,2,3,4]);
 
+// trace :: String -> Object -> Object  IMPURE
+xhf.trace = label => data => {console.log(label + data); return data;}
+// OR use: console.log(`${ label }: ${ data }`);
+// ex: xhf.trace("TRACE: ")(xhf.root());
+// ex: xhf.trace("")(xhf.root());
+// ex: with (xhf) {compose(name, first, trace("after root: "), root)()}
+
 // println :: (String, Object) -> Object  IMPURE
-//xhf.println = function(str, data) {const node = xh.root(); node.println(str + data); return data;}
-xhf.println = (str, data) => {xhf.root().println(str + data); return data;}
+//xhf.println = function(label, data) {const node = xh.root(); node.println(label + data); return data;}
+xhf.println = (label, data) => {xhf.root().println(label + data); return data;}
 // ex: xhf.println("current data: ", [1,2,3,4])
 
 // print :: (String, Object) -> Object  IMPURE
-//xhf.print = function(str, data) {const node = xh.root(); node.print(str + data); return data;}
-xhf.print = (str, data) => {xhf.root().print(str + data); return data;}
+//xhf.print = function(label, data) {const node = xh.root(); node.print(label + data); return data;}
+xhf.print = (label, data) => {xhf.root().print(label + data); return data;}
 // ex: xhf.print("current data: ", [1,2,3,4]);
-
-// root :: () -> IXholon
-xhf.root = () => xh.root();
-// ex: xhf.root();
 
 // app :: () -> IXholon
 xhf.app = () => xh.app();
 // ex: xhf.app();
 // ex: xhf.app().name(); // "Application"
 
+// root :: () -> IXholon
+xhf.root = () => xh.root();
+// ex: xhf.root();
+
 // attrss :: IXholon => IXholon  IMPURE
 xhf.attrss = (node) => {xh.attrs(node); return node;}
 // ex: xhf.attrss(xhf.root()); // displays attributes in the console
+
+// xpath :: String -> IXholon -> IXholon
+xhf.xpathh = expression => node => xh.xpath(expression, node)
+
+// xpathExpr :: IXholon -> IXholon -> String
+xhf.xpathExpr = (descendant, ancestor) => xh.xpathExpr(descendant, ancestor)
+
+// service :: String -> IXholon  IMPURE
+xhf.service = serviceName => xh.service(serviceName)
+
+// services :: () -> ()
+xhf.services = () => {xh.services(); return null;}
+
+// param :: String -> String
+xhf.param = pName => xh.param(pName)
+
+// paramI :: String -> String -> Boolean
+xhf.paramI = pName => pValue => xh.param(pName, pValue)
+
+// state :: 
+// require :: 
+// test ::
+// xport ::
+// xports :: 
 
 // avatar :: () -> IXholon
 xhf.avatar = () => xh.avatar()
@@ -236,12 +372,27 @@ xhf.avatarKeyMap = () => xh.avatarKeyMap()
 // ex: JSON.parse(xhf.avatarKeyMap());
 // ex: JSON.stringify(JSON.parse(xhf.avatarKeyMap()), null, 2);
 
+// speechRecognition :: 
+// webRTC :: 
+// showLocalStorage :: 
+
 // isXholonNode :: Object -> Boolean
 xhf.isXholonNode = obj => xh.isXholonNode(obj)
 // ex: xhf.isXholonNode({}); // false
 // ex: xhf.isXholonNode(xhf.root()); // true
 
-// TODO all the other top-level functions
+// isXholonNodeCanonical :: 
+// random :: 
+// seed :: 
+// matchGraph :: 
+// html.toggle :: 
+// html.xhElements :: 
+// html.popup :: 
+// html.urlparam :: 
+// html.selectTab :: 
+// css.style :: 
+
+// TODO all the other top-level functions, that are listed above
 
 // mmzxpath :: (String, IXholon) -> IXholon
 xhf.mmzxpath = (expression, node) => {
@@ -253,4 +404,86 @@ xhf.mmzxpath = (expression, node) => {
 // ex: xhf.mmzxpath("..", xhf.root().first());
 // ex: 
 
+// https://medium.com/javascript-scene/curry-and-function-composition-2c208d774983
+// compose
+xhf.compose = (...fns) => x => fns.reduceRight((y, f) => f(y), x)
+// ex: with (xhf) {compose(name, first, root)()} // "Alice:hello_2"
+
+// pipe
+xhf.pipe = (...fns) => x => fns.reduce((y, f) => f(y), x)
+// ex: with (xhf) {pipe(root, first, name)()} // "Alice:hello_2"
+
+// flip - flip the order of two input parameters
+xhf.flip = fn => a => b => fn(b)(a);
+// var sub = a => b => a -b; var fsub = xhf.flip(sub); console.log(sub(2)(1), fsub(2)(1));
+
+/*
+// Eric Elliott gist AutoCurry.js
+const curry = fn => (...args1) => {
+  if (args1.length === fn.length) {
+    return fn(...args1);
+  }
+
+  return (...args2) => {
+    const args = [...args1, ...args2];
+
+    if (args.length >= fn.length) {
+      return fn(...args);
+    }
+
+    return curry(fn)(...args);
+  };
+};
+
+const add3 = curry((a, b, c) => a + b + c);
+
+add3(1,2,3); // 6
+add3(1,2)(3); // 6
+add3(1)(2)(3); // 6
+
+// --------------- another Eric Elliot implementation
+// Tiny, recursive autocurry
+const curry = (
+  f, arr = []
+) => (...args) => (
+  a => a.length === f.length ?
+    f(...a) :
+    curry(f, a)
+)([...arr, ...args]);
+
+// --------------------
+// see also: ramda implementation
+
+// --------------------
+// see also: http://rosettacode.org/wiki/Currying#JavaScript
+(() => {
+ 
+    // (arbitrary arity to fully curried)
+    // extraCurry :: Function -> Function
+    let extraCurry = (f, ...args) => {
+        let intArgs = f.length;
+ 
+        // Recursive currying
+        let _curry = (xs, ...arguments) =>
+            xs.length >= intArgs ? (
+                f.apply(null, xs)
+            ) : function () {
+                return _curry(xs.concat([].slice.apply(arguments)));
+            };
+ 
+        return _curry([].slice.call(args, 1));
+    };
+ 
+    // TEST
+ 
+    // product3:: Num -> Num -> Num -> Num
+    let product3 = (a, b, c) => a * b * c;
+ 
+    return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        .map(extraCurry(product3)(7)(2))
+ 
+    // [14, 28, 42, 56, 70, 84, 98, 112, 126, 140]
+ 
+})();
+*/
 
