@@ -3,6 +3,15 @@
 // Ken Webb  January 8, 2020
 // MIT License, Copyright (C) 2020 Ken Webb
 // 
+// Conventions:
+// - the names of all IMPURE functions, end in the letter "I"
+// - function type signatures use the Ramda style
+//   see: https://github.com/ramda/ramda/wiki/Type-Signatures
+// 
+// I am testing with:
+//  http://127.0.0.1:8080/war/Xholon.html?app=HelloWorld&gui=clsc&jslib=xhFunctionalApi,ramda.min
+//  and Firefox Dev Tools
+// 
 // see also: Xholon workbook "Haskell - Hutton - Binary string transmitter" 7eea6b043213653408b492f6a2de329c
 // 
 // with ideas and code from: Composing Software, by Eric Elliott
@@ -17,13 +26,10 @@
 // with (xhf) {R.pipe(root, first, next)().name()};
 // with (xhf) {R.pipe(root, first, next, name)()}; // "world_3"
 // with (xhf) {R.compose(name, next, first, root)()}; // "world_3"
-// with (xhf) {R.compose(name, trace("TEST "), first, root)()}
+// with (xhf) {R.compose(name, traceI("TEST "), first, root)()}
   // TEST hello_2 [ port:world_3] state=0
   // "hello_2"
 // with (xhf) {pipe(root, first, name)()} // "Alice:hello_2"
-
-// TODO
-// add curry, compose, and pipe - from book Composing Software
 
 
 if (typeof xh == "undefined") {
@@ -66,30 +72,39 @@ xhf.btleft = node => node.btleft()
 xhf.btright = node => node.btright()
 // ex: xhf.btright(node);
 
-// remove :: IXholon -> IXholon
-xhf.remove = node => node.remove()
-// ex: xhf.remove(node);
+// removeI :: IXholon -> IXholon  IMPURE
+xhf.removeI = node => node.remove()
+// ex: xhf.removeI(node);
 
-// append :: IXholon -> IXholon -> IXholon  IMPURE
-xhf.append = container => content => container.append(content)
-// ex: with (xhf) {compose(trace("container: "), append(compose(first, root)()), remove, avatar)()} // YES
-// ex: with (xhf) {compose(trace("container: "), append(xhf.root().first()), remove, avatar)()} // YES
-// ex: with (xhf) {compose(trace("container: "), append(compose(first, root)()), trace("avatar: "), action("become this role Alice"), remove, avatar)()} // YES
+// moveI :: IXholon -> IXholon -> IXholon  IMPURE
+xhf.moveI = container => content => container.append(content.remove())
+// ex: with (xhf) {compose(traceI("container: "), moveI(compose(first, root)()), avatar)()}
+
+// moveToI :: IXholon -> IXholon -> IXholon  IMPURE
+xhf.moveToI = content => container => content.remove().appendTo(container)
+// ex: with (xhf) {compose(traceI("content: "), moveToI(avatar), first, root)().name()} // ???
+
+
+// appendI :: IXholon -> IXholon -> IXholon  IMPURE
+xhf.appendI = container => content => container.append(content)
+// ex: with (xhf) {compose(traceI("container: "), appendI(compose(first, root)()), removeI, avatar)()} // YES
+// ex: with (xhf) {compose(traceI("container: "), appendI(xhf.root().first()), removeI, avatar)()} // YES
+// ex: with (xhf) {compose(traceI("container: "), appendI(compose(first, root)()), traceI("avatar: "), actionI("become this role Alice"), removeI, avatar)()} // YES
 /*
 with (xhf) {
   compose(
     name,
-    trace("container: "),
-    append(
+    traceI("container: "),
+    appendI(
       compose(
-        roleIII("Bonjour"),
+        roleI("Bonjour"),
         first,
         root
       )()
     ),
-    trace("avatar: "),
-    action("become this role Alicia"),
-    remove,
+    traceI("avatar: "),
+    actionI("become this role Alicia"),
+    removeI,
     avatar
   )()
 }
@@ -99,16 +114,16 @@ container: Bonjour:hello_2 [ port:world_3] state=0
 "Bonjour:hello_2"
 */
 
-// appendTo :: IXholon -> IXholon -> IXholon  IMPURE
-xhf.appendTo = content => container => content.appendTo(container)
-// ex: with (xhf) {compose(trace("content: "), appendTo(compose(remove, avatar)()), first, root)().name()} // "Alice:avatar_49"
+// appendToI :: IXholon -> IXholon -> IXholon  IMPURE
+xhf.appendToI = content => container => content.appendTo(container)
+// ex: with (xhf) {compose(traceI("content: "), appendToI(compose(removeI, avatar)()), first, root)().name()} // "Alice:avatar_49"
 /*
 with (xhf) {
   compose(
-    trace("content: "),
-    appendTo(
+    traceI("content: "),
+    appendToI(
       compose(
-        remove,
+        removeI,
         avatar
       )()
     ),
@@ -123,10 +138,10 @@ OR
 with (xhf) {
   compose(
     name,
-    trace("content: "),
-    appendTo(
+    traceI("content: "),
+    appendToI(
       compose(
-        remove,
+        removeI,
         avatar
       )()
     ),
@@ -141,13 +156,13 @@ with (xhf) {
   pipe(
     root,
     first,
-    appendTo(
+    appendToI(
       pipe(
         avatar,
-        remove
+        removeI
       )()
     ),
-    trace("content: "),
+    traceI("content: "),
     name
   )()
 }
@@ -156,11 +171,16 @@ content: Alice:avatar_49
 "Alice:avatar_49"
 */
 
+// TODO prepend etc.
+
 // id :: IXholon -> Number
 xhf.id = node => node.id()
 // ex: xhf.id(xhf.root()); //=> 0
 
-// identity
+// _idI :: Number -> IXholon -> IXholon  IMPURE (in general, this is for system use only)
+xhf._idI = num => node => node._id(num)
+
+// identity :: IXholon -> IXholon
 xhf.identity = node => node.identity()
 // ex: xhf.identity(xhf.root());
 
@@ -174,18 +194,9 @@ xhf.role = node => node.role()
 // ex: xhf.role(xhf.root().first()); //=> "helloworld"
 // ex: xhf.name(xhf.root()); // "helloWorldSystem_0"
 
-// TODO how to mutate/change the value of node.role(); IMPURE role
-// roleI :: (String, IXholon) -> IXholon
-xhf.roleI = (roleName, node) => node.role(roleName)
-// ex: xhf.roleI("JUNK", xhf.root().first()); // returns the node
-// OR
-// roleII :: String -> IXholon -> String  IMPURE
-xhf.roleII = roleName => node => node.role(roleName).role()
-// ex: xhf.roleII("Alice")(xhf.root().first()); // returns the new roleName
-// OR
-// IMPURE
-xhf.roleIII = roleName => node => node.role(roleName)
-// ex: xhf.roleIII("Alice")(xhf.root().first()); // returns the node
+// roleI :: String -> IXholon -> IXholon  IMPURE
+xhf.roleI = roleName => node => node.role(roleName)
+// ex: xhf.roleI("Alice")(xhf.root().first()); // returns the node
 
 // xhType :: IXholon -> Number
 xhf.xhType = node => node.xhType()
@@ -201,27 +212,71 @@ xhf.anno = node => node.anno()
 
 // val :: IXholon -> Number
 xhf.val = node => node.val()
-// ex: xhf.val(xhf.root()); //=> 123.45
+// ex: xhf.val(xhf.root()); // 123.45
+
+// incI :: Number -> IXholon -> IXholon  IMPURE
+xhf.incI = num => node => node.inc(num)
+
+// decI :: Number -> IXholon -> IXholon  IMPURE
+xhf.decI = num => node => node.dec(num)
 
 // text :: IXholon -> String
 xhf.text = node => node.text()
-// ex: xhf.text(xhf.root()); //=> null
+// ex: xhf.text(xhf.root()); // null
 
 // bool :: IXholon -> Boolean
 xhf.bool = node => node.bool()
-// ex: xhf.bool(xhf.root()); //=> false
+// ex: xhf.bool(xhf.root()); // false
 
 // obj :: IXholon -> Object
 xhf.obj = node => node.obj()
-// ex: xhf.obj(xhf.root()); //=> null
+// ex: xhf.obj(xhf.root()); // null
+
+// msg :: TODO
+// call :: TODO
+// actions :: TODO
 
 // port :: (Number, IXholon) -> IXholon
 xhf.port = (portNum, node) => node.port(portNum)
-// ex: xhf.port(0, xhf.root()); //=> null
+// ex: xhf.port(0, xhf.root()); // null
+
+// ports :: TODO
+// portSpec :: TODO
+// portNames :: TODO
 
 // links :: (Boolean, Boolean, IXholon) -> [PortInformation]
 xhf.links = (placeGraph, linkGraph, node) => node.links(placeGraph, linkGraph)
 // ex: xhf.links(false, true, xhf.root().first());
+// ex: xhf.links(true, true, xhf.root().first());
+// ex: xhf.links(true, true, xhf.root().first()).map((item) => item.reffedNode.name());
+//  ["helloWorldSystem_0", "Bonjour:role_51", "world_3", "Hello", "world_3"]
+// ex: xhf.links(true, true, xhf.root().first()).map((item) => item.fieldName);
+//  [ "parent", "first", "next", "xhc", "port" ]
+/*
+with (xhf) {
+  links(
+    true,
+    true,
+    pipe(
+      root,
+      first
+    )()
+  ).map((item) => item.reffedNode.name())
+}
+*/
+
+// links2 :: (Boolean, Boolean, IXholon) -> [PortInformation]
+xhf.links2 = (placeGraph, linkGraph, node) => node.links(placeGraph, linkGraph).map((lnk) => ({
+  fieldName: lnk.fieldName,
+  fieldNameIndex: lnk.fieldNameIndex,
+	reffedNode: lnk.reffedNode ? lnk.reffedNode.name() : null,
+  xpathExpression: lnk.xpathExpression
+}))
+// ex: xhf.links2(true, true, xhf.root())
+// ex: xhf.links2(true, true, xhf.root().first())
+// ex: xhf.links2(true, true, xhf.root().xhc())
+// ex: xhf.links2(true, true, xhf.pipe(xhf.root, xhf.first, xhf.xhc)())
+// ex: with (xhf) {links2(true, true, pipe(root, first, xhc)())}
 
 // neighbors :: IXholon -> [IXholon]
 xhf.neighbors = node => node.neighbors()
@@ -260,21 +315,31 @@ xhf.classAttr = (attrName, node) => node.classAttr(attrName)
 xhf.hashify = node => node.hashify()
 // ex: xhf.hashify(xhf.root()); // "(0 (2 3))"
 
+// xhconsole :: TODO
+
 // select :: node -> String
 xhf.select = node => node.select()
 // ex: xhf.select(xhf.root()); // "helloWorldSystem_0 state=0"
 
+// subtreez :: TODO
+// subtree :: TODO
+// uid :: TODO
+
 // color :: IXholon -> String
 xhf.color = node => node.color()
-// ex: xhf.color(xhf.root()); //=> "red"
+// ex: xhf.color(xhf.root()); // "red"
+
+// colorI :: String -> IXholon -> IXholon  IMPURE
+xhf.colorI = str => node => node.color(str)
+// ex: xhf.colorI("yellow", xhf.root());
 
 // opacity :: IXholon -> String
 xhf.opacity = node => node.opacity()
-// ex: xhf.opacity(xhf.root()); //=> null
+// ex: xhf.opacity(xhf.root()); // null
 
 // font :: IXholon -> String
 xhf.font = node => node.font()
-// ex: xhf.font(xhf.root()); //=> null
+// ex: xhf.font(xhf.root()); // null
 
 // icon :: IXholon -> String
 xhf.icon = node => node.icon()
@@ -294,34 +359,144 @@ xhf.geo = node => node.geo()
 // sound :: IXholon -> String
 xhf.sound = node => node.sound()
 
-// action :: String -> IXholon -> IXholon  IMPURE
-xhf.action = actionStr => node => node.action(actionStr)
+// actionI :: String -> IXholon -> IXholon  IMPURE
+xhf.actionI = str => node => node.action(str)
+// ex: xhf.actionI("who;where", xhf.avatar);
 
 // tick :: IXholon -> Object -> Object
 xhf.tick = (node, obj) => node.tick(obj)
 // ex: xhf.tick(node, obj);
 
-// log :: (String, Object) -> Object  IMPURE
-//xhf.log = function(label, data) {console.log(label + data); return data;}
-xhf.log = (label, data) => {console.log(label + data); return data;}
-// ex: xhf.log("current data: ", [1,2,3,4]);
+// visit :: TODO
 
-// trace :: String -> Object -> Object  IMPURE
-xhf.trace = label => data => {console.log(label + data); return data;}
+// childrenAsCsv :: TODO
+// siblingsAsCsv :: TODO
+// includes :: TODO
+// arrayify :: TODO
+// unarrayify :: TODO
+// childrenAsArray :: TODO
+
+// subtreeAsArray :: IXholon -> [IXholon]
+//  xh.root().subtreeAsArray(); // Array of length 3
+//  xh.app().subtreeAsArray(); // Array of length 483
+//  TODO combine with a links array for each of these nodes, using an array or Object of Objects  {hello: [LINKS]}
+xhf.subtreeAsArray = node => node.subtreeAsArray()
+// ex: xhf.subtreeAsArray(xhf.root()).length;
+// ex: xhf.subtreeAsArray(xhf.root()).map((node) => node.name());
+/*
+xhf.subtreeAsArray(xhf.root()).map((node) => `{
+  name: ${node.name()},
+  role: ${node.role()}
+}`
+)
+*/
+//OR
+/*var result = xhf.subtreeAsArray(xhf.root()).map((node) => JSON.parse(`{
+  "name": "${node.name()}",
+  "role": "${node.role()}"
+}`)
+)
+console.log(result);
+
+// OR
+var result = xhf.subtreeAsArray(xhf.app()).map((node) => JSON.parse(`{
+  "name": "${node.name()}",
+  "role": "${node.role()}",
+  "id": "${node.id()}",
+  "xhcName": "${node.xhc() ? node.xhc().name() : null}"
+}`)
+)
+console.log(result);
+
+// OR  this works
+var result = xhf.subtreeAsArray(xhf.app()).map((node) => ({
+  id: node.id(),
+  xhcName: node.xhc() ? node.xhc().name() : null,
+  role: node.role(),
+  name: node.name(),
+  links: node.links(false, true)
+})
+)
+console.log(result);
+
+// OR  this works
+var links = (node) => {
+  var lnks = node.links(true, true);
+  for (var i = 0; i < lnks.length; i++) {
+    var lnk = lnks[i];
+    lnk.reffedNode = lnk.reffedNode ? lnk.reffedNode.name() : null;
+  }
+  return lnks;
+}
+
+var result = xhf.subtreeAsArray(xhf.app()).map((node) => ({
+  id: node.id(),
+  xhcName: node.xhc() ? node.xhc().name() : null,
+  role: node.role(),
+  name: node.name(),
+  links: links(node)
+})
+)
+console.log(result);
+
+// OR
+const links = (node) => {
+  const lnks = node.links(true, true);
+  lnks.forEach(
+    (lnk) => lnk.reffedNode = lnk.reffedNode ? lnk.reffedNode.name() : null
+  )
+  return lnks;
+}
+
+const result = xhf.subtreeAsArray(xhf.app()).map((node) => ({
+  id: node.id(),
+  xhcName: node.xhc() ? node.xhc().name() : null,
+  role: node.role(),
+  name: node.name(),
+  links: links(node)
+})
+)
+console.log(result);
+
+*/
+
+// TODO
+// xhf.subtreeAsArray = node => node.subtreeAsArray()
+/*xhf.subtreeAsArray2 = (placeGraph, linkGraph, node) => node.subtreeAsArray().map(node) => ({
+  id: node.id(),
+  role: node.role(),
+  name: node.name(),
+  links: xhf.links2(placeGraph, linkGraph, node)
+})*/
+
+// cache :: TODO
+// uncache :: TODO
+// javaClassnames :: TODO
+// treeSize :: TODO
+// numChildren :: TODO
+// numbering :: TODO
+
+// logI :: (String, Object) -> Object  IMPURE
+//xhf.logI = function(label, data) {console.log(label + data); return data;}
+xhf.logI = (label, data) => {console.log(label + data); return data;}
+// ex: xhf.logI("current data: ", [1,2,3,4]);
+
+// traceI :: String -> Object -> Object  IMPURE
+xhf.traceI = label => data => {console.log(label + data); return data;}
 // OR use: console.log(`${ label }: ${ data }`);
-// ex: xhf.trace("TRACE: ")(xhf.root());
-// ex: xhf.trace("")(xhf.root());
-// ex: with (xhf) {compose(name, first, trace("after root: "), root)()}
+// ex: xhf.traceI("TRACE: ")(xhf.root());
+// ex: xhf.traceI("")(xhf.root());
+// ex: with (xhf) {compose(name, first, traceI("after root: "), root)()}
 
-// println :: (String, Object) -> Object  IMPURE
-//xhf.println = function(label, data) {const node = xh.root(); node.println(label + data); return data;}
-xhf.println = (label, data) => {xhf.root().println(label + data); return data;}
-// ex: xhf.println("current data: ", [1,2,3,4])
+// printlnI :: (String, Object) -> Object  IMPURE
+//xhf.printlnI = function(label, data) {const node = xh.root(); node.println(label + data); return data;}
+xhf.printlnI = (label, data) => {xhf.root().println(label + data); return data;}
+// ex: xhf.printlnI("current data: ", [1,2,3,4])
 
-// print :: (String, Object) -> Object  IMPURE
-//xhf.print = function(label, data) {const node = xh.root(); node.print(label + data); return data;}
-xhf.print = (label, data) => {xhf.root().print(label + data); return data;}
-// ex: xhf.print("current data: ", [1,2,3,4]);
+// printI :: (String, Object) -> Object  IMPURE
+//xhf.printI = function(label, data) {const node = xh.root(); node.print(label + data); return data;}
+xhf.printI = (label, data) => {xhf.root().print(label + data); return data;}
+// ex: xhf.printI("current data: ", [1,2,3,4]);
 
 // app :: () -> IXholon
 xhf.app = () => xh.app();
@@ -332,9 +507,9 @@ xhf.app = () => xh.app();
 xhf.root = () => xh.root();
 // ex: xhf.root();
 
-// attrss :: IXholon => IXholon  IMPURE
-xhf.attrss = (node) => {xh.attrs(node); return node;}
-// ex: xhf.attrss(xhf.root()); // displays attributes in the console
+// attrssI :: IXholon => IXholon  IMPURE
+xhf.attrssI = (node) => {xh.attrs(node); return node;}
+// ex: xhf.attrssI(xhf.root()); // displays attributes in the console
 
 // xpath :: String -> IXholon -> IXholon
 xhf.xpathh = expression => node => xh.xpath(expression, node)
@@ -342,18 +517,19 @@ xhf.xpathh = expression => node => xh.xpath(expression, node)
 // xpathExpr :: IXholon -> IXholon -> String
 xhf.xpathExpr = (descendant, ancestor) => xh.xpathExpr(descendant, ancestor)
 
-// service :: String -> IXholon  IMPURE
+// service :: String -> IXholon
 xhf.service = serviceName => xh.service(serviceName)
 
-// services :: () -> ()
-xhf.services = () => {xh.services(); return null;}
+// servicesI :: () -> ()  IMPURE
+xhf.servicesI = () => {xh.services(); return null;}
 
 // param :: String -> String
 xhf.param = pName => xh.param(pName)
 
-// paramI :: String -> String -> Boolean
+// paramI :: String -> String -> Boolean  IMPURE
 xhf.paramI = pName => pValue => xh.param(pName, pValue)
 
+// TODO
 // state :: 
 // require :: 
 // test ::
@@ -364,7 +540,7 @@ xhf.paramI = pName => pValue => xh.param(pName, pValue)
 xhf.avatar = () => xh.avatar()
 // ex: xhf.avatar();
 // ex: xhf.avatar().name(); // "avatar_49"
-// ex: xhf.avatar().action("who");
+// ex: xhf.avatar().actionI("who");
 
 // avatarKeyMap :: () -> String
 xhf.avatarKeyMap = () => xh.avatarKeyMap()
@@ -372,6 +548,7 @@ xhf.avatarKeyMap = () => xh.avatarKeyMap()
 // ex: JSON.parse(xhf.avatarKeyMap());
 // ex: JSON.stringify(JSON.parse(xhf.avatarKeyMap()), null, 2);
 
+// TODO
 // speechRecognition :: 
 // webRTC :: 
 // showLocalStorage :: 
@@ -381,6 +558,7 @@ xhf.isXholonNode = obj => xh.isXholonNode(obj)
 // ex: xhf.isXholonNode({}); // false
 // ex: xhf.isXholonNode(xhf.root()); // true
 
+// TODO
 // isXholonNodeCanonical :: 
 // random :: 
 // seed :: 
@@ -391,8 +569,6 @@ xhf.isXholonNode = obj => xh.isXholonNode(obj)
 // html.urlparam :: 
 // html.selectTab :: 
 // css.style :: 
-
-// TODO all the other top-level functions, that are listed above
 
 // mmzxpath :: (String, IXholon) -> IXholon
 xhf.mmzxpath = (expression, node) => {
@@ -485,5 +661,32 @@ const curry = (
     // [14, 28, 42, 56, 70, 84, 98, 112, 126, 140]
  
 })();
+*/
+
+// curry :: Function -> args
+xhf.curry = fn => (...args1) => {
+  if (args1.length === fn.length) {
+    return fn(...args1);
+  }
+  return (...args2) => {
+    const args = [...args1, ...args2];
+    if (args.length >= fn.length) {
+      return fn(...args);
+    }
+    return xhf.curry(fn)(...args);
+  };
+};
+/* examples:
+// 1  OK
+var add3 = xhf.curry((a, b, c) => a + b + c);
+console.log(add3(1,2,3)); // 6
+console.log(add3(1,2)(3)); // 6
+console.log(add3(1)(2)(3)); // 6
+
+// 2  OK
+// product3 :: Num -> Num -> Num -> Num
+var product3 = (a, b, c) => a * b * c;
+console.log([1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(xhf.curry(product3)(7)(2)))
+// [14, 28, 42, 56, 70, 84, 98, 112, 126, 140]
 */
 
