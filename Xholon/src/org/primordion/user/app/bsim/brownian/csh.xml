@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  bsim brownian
+  https://cellsimulationlabs.github.io/tools/bsim/
+-->
+<BrownianSystem>
+  
+  <!-- TODO do I need anything here ? -->
+  
+</BrownianSystem>

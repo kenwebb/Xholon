@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  bsim brownian
+-->
+<XholonClass xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <BrownianSystem/>
+  
+  <!-- TODO do I need any other Xholon classes ? -->
+    
+  <!-- Xholon Viewers -->
+  <!--<xi:include href="_viewer/XholonViewer.xml"/>-->
+</XholonClass>

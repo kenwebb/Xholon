@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Coupon Dog
+	https://gist.github.com/kenwebb/6424d56a48695ad96175a20ef48394ed  "Grokking Simplicity - book by Eric Normand"
+-->
+<params>
+<param name="ShowParams" value="false"/>
+<param name="ModelName" value="Coupon Dog"/>
+<param name="AppM" value="true"/>
+<param name="InfoM" value="false"/>
+<param name="ErrorM" value="true"/>
+<param name="MaxProcessLoops" value="1"/>
+<param name="TimeStepInterval" value="100"/>
+<!--<param name="IQueueImplName" value="org.primordion.xholon.base.QueueSynchronized"/>--> <!-- Queue QueueSynchronized -->
+<param name="SizeMessageQueue" value="10"/>
+<param name="InheritanceHierarchyFile" value=""/>
+<param name="CompositeStructureHierarchyFile" value=""/>
+<param name="ClassDetailsFile" value=""/>
+<param name="InformationFile" value="https://www.manning.com/books/grokking-simplicity"/>
+<param name="JavaClassName" value="org.primordion.user.app.groksimpl.ch03.AppCouponDog"/>
+<param name="JavaXhClassName" value="org.primordion.user.app.groksimpl.ch03.XhCouponDog"/>
+<param name="MaxPorts" value="5"/>
+<!-- Viewers -->
+<!-- UseDataPlotter: none JFreeChart gnuplot google2 -->
+<param name="UseDataPlotter" value="none"/>
+<!-- DataPlotterParams: Title,XAxisLabel,YAxisLabel,Path,TypeOfData,NameConcatLevels,WriteType -->
+<!--<param name="DataPlotterParams" value="CouponDog - Active States,Time Step,Active State,./statistics/,turnstileStats,1,WRITE_AS_LONG"/>-->
+<param name="UseInteractions" value="false"/>
+<!--<param name="InteractionParams" value="32,true,localhost,60001"/>-->
+</params>

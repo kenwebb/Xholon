@@ -283,6 +283,12 @@ public class Xholon implements EntryPoint {
     else if ("Glycolysis".equals(appName)) {Glycolysis(withGui);}
     else if ("YeastGlyPritchardKel".equals(appName)) {YeastGlyPritchardKel(withGui);}
     
+    // BSim
+    else if ("brownian".equals(appName)) {brownian(withGui);}
+    
+    // groksimpl
+    else if ("CouponDog".equals(appName)) {CouponDog(withGui);}
+    
     // HtmlApplication
     else if ("HtmlApplication".equals(appName)) {HtmlApplication();}
     
@@ -1209,6 +1215,28 @@ public class Xholon implements EntryPoint {
     xhn(withGui,
       (IApplication)GWT.create(org.primordion.cellontro.app.sbml.AppSbml.class),
       "config/sbml/YeastGlyPritchardKel_xhn.xml");
+  }
+  
+  // BSim
+  
+  /**
+   * brownian
+   */
+  private void brownian(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.user.app.bsim.brownian.Appbrownian.class),
+      null);
+  }
+  
+  // groksimpl
+  
+  /**
+   * CouponDog
+   */
+  private void CouponDog(String withGui) {
+    xhn(withGui,
+      (IApplication)GWT.create(org.primordion.user.app.groksimpl.ch03.AppCouponDog.class),
+      null);
   }
   
   /**

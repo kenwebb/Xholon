@@ -28,6 +28,8 @@
   <inherits name='org.primordion' />
   <inherits name='org.fr' />
   <inherits name='org.wip' />
+  <inherits name='org.bsim' />
+  <inherits name='org.javax' />
   
   <!-- Specify the app entry point class.                         -->
   <entry-point class='org.client.Xholon'/>
