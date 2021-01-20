@@ -529,12 +529,20 @@ xhf.param = pName => xh.param(pName)
 // paramI :: String -> String -> Boolean  IMPURE
 xhf.paramI = pName => pValue => xh.param(pName, pValue)
 
-// TODO
-// state :: 
-// require :: 
-// test ::
-// xport ::
-// xports :: 
+// stateI :: Number -> ()  IMPURE
+xhf.stateI = controllerState => xh.state(controllerState)
+
+// requireI :: String -> String -> ()
+xhf.requireI = (scriptName, scriptPath) => xh.require(scriptName, scriptPath)
+
+// test :: () -> ()
+xhf.testI = () => xh.test()
+
+// xportI :: (String, IXholon, Object, Boolean, Boolean) -> String
+xhf.xportI = (formatName, node, efParams, writeToTab, returnString) => xh.xport(formatName, node, efParams, writeToTab, returnString)
+
+// xportsI :: () -> [String] ???
+xhf.xportsI = () => xh.xports()
 
 // avatar :: () -> IXholon
 xhf.avatar = () => xh.avatar()
@@ -558,10 +566,18 @@ xhf.isXholonNode = obj => xh.isXholonNode(obj)
 // ex: xhf.isXholonNode({}); // false
 // ex: xhf.isXholonNode(xhf.root()); // true
 
+// isXholonNodeCanonical :: Object -> Boolean
+xhf.isXholonNodeCanonical = obj => xh.isXholonNodeCanonical(obj)
+// ex: xhf.isXholonNodeCanonical({}); // false ???
+// ex: xhf.isXholonNodeCanonical(xhf.root()); // true ???
+
+// randomI :: () -> Number
+xhf.randomI = () => xh.random()
+
+// seedI :: Number -> ()
+xhf.seedI = seed => xh.seed(seed)
+
 // TODO
-// isXholonNodeCanonical :: 
-// random :: 
-// seed :: 
 // matchGraph :: 
 // html.toggle :: 
 // html.xhElements :: 
@@ -689,4 +705,36 @@ var product3 = (a, b, c) => a * b * c;
 console.log([1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(xhf.curry(product3)(7)(2)))
 // [14, 28, 42, 56, 70, 84, 98, 112, 126, 140]
 */
+
+// curry2 :: Function -> args  Another implementation
+xhf.curry2 = (
+  f, arr = []
+) => (...args) => (
+  a => a.length === f.length ?
+    f(...a) :
+    xhf.curry2(f, a)
+)([...arr, ...args]);
+/* examples:
+// 
+(() => {
+  const add3 = xhf.curry2((a, b, c) => a + b + c);
+  console.log(add3(1,2,3)); // 6
+  console.log(add3(1,2)(3)); // 6
+  console.log(add3(1)(2)(3)); // 6
+})()
+*/
+
+// https://levelup.gitconnected.com/compose-pipe-and-curry-from-scratch-99b417608d57
+/*
+const compose = (...fns) => fns.reduceRight((acc, fn) => fn(acc));
+const pipe = (...fns) => compose(...fns.reverse());
+const curry = fn => {
+ const curried = (...args) =>
+   args.length >= fn.length
+     ? fn.apply(null, args)
+     : curried.bind(null, ...args);
+ return curried;
+};
+*/
+
 
