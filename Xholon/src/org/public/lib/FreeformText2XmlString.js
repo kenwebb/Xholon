@@ -89,11 +89,12 @@ xh.fftxt2xmlstr.ROLENAME_LEN = 20;
 xh.fftxt2xmlstr.DEFAULT_GUI_DIVNAME = "#xhanim";
 xh.fftxt2xmlstr.DEFAULT_GUI_CHILD_DIVNAMES = ["one", "two"];
 xh.fftxt2xmlstr.DEFAULT_LINE_SEPARATOR = "\n";
+xh.fftxt2xmlstr.IIFE_START = "((";
 
 xh.fftxt2xmlstr.defaultParams = {
   roleAction: "replace",
   lineSeparator: xh.fftxt2xmlstr.DEFAULT_LINE_SEPARATOR,
-  standardCollectionNames: ["Notes", "References", "XholonWorkbooks", "Cats"],
+  standardCollectionNames: ["Notes", "References", "XholonModules", "Cats"],
   // OR
   standardCollectionFuncs: {
   //Container: Function
@@ -104,7 +105,7 @@ xh.fftxt2xmlstr.defaultParams = {
     Cats: cat => '<Cat roleName="' + cat + '"/>',
     Attribute_Strings: str => '<Attribute_String roleName="' + str.replace(/[^a-zA-Z0-9 ]/g, "").trim().substring(0,xh.fftxt2xmlstr.ROLENAME_LEN) + '">' + str + '</Attribute_String>',
     Annotations: str => '<' + xh.fftxt2xmlstr.XML_FOREST + 'anno><Annotation>' + str.trim() + '</Annotation></' + xh.fftxt2xmlstr.XML_FOREST + 'anno>',
-    XholonWorkbooks: str => `
+    XholonModules: str => `
 <XholonModule>
   <XholonMap>
     <Attribute_String roleName="ih"><![CDATA[
@@ -130,6 +131,9 @@ xh.fftxt2xmlstr.defaultParams = {
 // (String, JSON, String) -> XMLString
 // nodeXhcName  ex: "Notes"  CutCopyPaste.java needs to pass this in
 xh.fftxt2xmlstr.transform = (nodeXhcName, argParams, fftxt) => {
+  if (fftxt.trim().startsWith(xh.fftxt2xmlstr.IIFE_START)) {
+    return xh.fftxt2xmlstr.transformIIFE(nodeXhcName, argParams, fftxt.trim())
+  }
   const lines = fftxt.split(xh.fftxt2xmlstr.defaultParams.lineSeparator);
   var subtree = "";
   // fftxt may consist of multiple lines of text, separated by newline "\n"
@@ -371,4 +375,16 @@ xh.fftxt2xmlstr.getRefsText = (node, str, level, counter) => {
   }
   return str;
 }
+
+// https://developer.mozilla.org/en-US/docs/Glossary/IIFE
+// An IIFE (Immediately Invoked Function Expression) is a JavaScript function that runs as soon as it is defined.
+// https://en.wikipedia.org/wiki/Immediately_invoked_function_expression
+// (() => {})()
+// ((ARGS) => {STATEMENTS})(INPUTS)
+// ((title) => {console.log(title)})("TITLE")
+xh.fftxt2xmlstr.transformIIFE = (nodeXhcName, argParams, fftxt) => {
+  var xmlstr = "<script>\n" + fftxt + "\n</script>";
+  return xmlstr;
+}
+
 
