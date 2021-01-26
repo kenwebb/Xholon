@@ -921,4 +921,50 @@ second_calculator.add(400); // returns 400
 first_calculator.multiply(11); // returns 33
 second_calculator.multiply(10); // returns 4000
 
+// https://www.freecodecamp.org/news/var-let-and-const-whats-the-difference/
+(() => {
+  const memoize = (fn) => {
+    const cache = {};
+    return (num) => {
+      if (num in cache) {
+        console.log('Fetching from cache for ' + num);
+        return cache[num];
+      }
+      else {
+        console.log('Calculating result for ' + num);
+        let output = fn(num);
+        cache[num] = output;
+        return output;
+      }
+    }
+  }
+  factorial = memoize((x) => x === 0 ? 1 : x * factorial(x - 1));
+  console.log(factorial(5));
+  console.log(factorial(60));
+  console.log(factorial(70));
+  console.log(factorial(50));
+})()
+
+// Xholon blockly Avatar - this works
+((roleName) => {
+  const avastr =
+`<Avatar startPos="append" end="vanish" roleName="${roleName}">
+  <Attribute_String>
+    build School role Hogwarts;
+    enter Hogwarts;
+    build Classroom role Potions;
+    build Classroom role "Defence Against the Dark Arts";
+    look;
+    enter *classroom;
+    look;
+    exit;
+    enter Defence;
+    look;
+  </Attribute_String>
+</Avatar>`
+  //console.log(avastr)
+  //console.log(this)
+  //console.log(this.parent())
+  this.parent().append(avastr)
+})("Harry")
 

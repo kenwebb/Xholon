@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Lodash with fp</title>
+  <script src='https://cdn.jsdelivr.net/g/lodash@4(lodash.min.js+lodash.fp.min.js)'></script>
+  <script>
+// Loading `lodash.fp.js` converts `_` to its fp variant.
+_.defaults({ 'a': 2, 'b': 2 })({ 'a': 1 });
+// ➜ { 'a': 1, 'b': 2 }
+
+// Use `noConflict` to restore the pre-fp variant.
+var fp = _.noConflict();
+
+_.defaults({ 'a': 1 }, { 'a': 2, 'b': 2 });
+// ➜ { 'a': 1, 'b': 2 }
+fp.defaults({ 'a': 2, 'b': 2 })({ 'a': 1 });
+// ➜ { 'a': 1, 'b': 2 }
+  </script>
+</head>
+
+<body>
+  <p>Lodash</p>
+</body>
+
+</html>
