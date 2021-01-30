@@ -58,6 +58,14 @@ flop  D    C    B    A
    - start at node A
    - in this example, the network that connects the nodes is irregular in shape
   - the operations can be thought of as functions or ports or both
+  - the ABCD example is equivalent to manipulating a coin
+    - initial position is: the heads side visible, the picture is right side up (this is A)
+    - can then do the four operations: zero rot flip flop
+  - another equivalent example is the letter R, which is non-symmetrically both vertically and horizontally
+  - in summary, the three equivalent rigid (rotatable, flippable, floppable) structures are:
+    1. a piece of paper or card with the letters ABCD written on it
+    2. a coin
+    3. the letter R
   
   Instead of a full piece of paper, I've used a 3x5 index card
   Side 1   Side 2

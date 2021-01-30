@@ -945,6 +945,26 @@ second_calculator.multiply(10); // returns 4000
   console.log(factorial(50));
 })()
 
+// http://benalman.com/news/2010/11/immediately-invoked-function-expression/
+// https://en.wikipedia.org/wiki/Immediately_invoked_function_expression
+// The Module Pattern
+(() => {
+  const counter = (() => {
+    let i = 0;
+    return {
+      get: () => i,
+      set: val => i = val,
+      increment: () => ++i
+    }
+  })();
+  
+  console.log(counter.get()); // 0
+  counter.set( 3 );
+  console.log(counter.increment()); // 4
+  console.log(counter.increment()); // 5
+})()
+
+
 // Xholon blockly Avatar - this works
 ((roleName) => {
   const avastr =
@@ -967,4 +987,22 @@ second_calculator.multiply(10); // returns 4000
   //console.log(this.parent())
   this.parent().append(avastr)
 })("Harry")
+
+// while loop vs recursive function
+(() => {
+  const wiley = arr => {
+    let acc = 0;
+    let index = 0;
+    while (arr[index]) {
+      acc += arr[index++];
+    }
+    return acc;
+  }
+  console.log(wiley([1, 2, 3, 4, 5])) // 15
+  
+  const coyote = (index, arr) => arr[index] ? arr[index] + coyote(index + 1, arr) : 0
+  console.log(coyote(0, [1, 2, 3, 4, 5])) // 15
+})()
+
+
 
