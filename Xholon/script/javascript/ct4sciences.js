@@ -82,6 +82,64 @@ Don't keep me waiting here Don't keep me waiting lead me to your door
   console.log(f(X, Y3, f3, "*")) // builds a histogram
 })()
 
-// section 2.2
+// section 2.2 - application 2.2.1.1
 // see my DNA -> RNA -> AA model in biocell.js
+
+// section 2.2 - application 2.2.1.2
+// square diagram
+/*
+f: S -> A  text -> list of lists of words of each length
+g: S -> B  text -> list of histogram entries
+f_: A -> P list of lists of words -> list of lengths
+g_: B -> P list of histogram entries -> list of lengths
+
+S -> A
+
+|    |
+v    v
+
+B -> P
+*/
+(() => {
+  const S = `
+The long and winding road that leads to your door will never disappear
+I've seen that road before
+It always leads me here lead me to your door
+The wild and windy night that the rain washed away
+Has left a pool of tears crying for the day
+Why leave me standing here let me know the way
+Many times I've been alone and many times I've cried
+Any way you'll never know the many ways I've tried
+And still they lead me back to the long winding road
+You left me standing here a long long time ago
+Don't leave me waiting here lead me to your door
+But still they lead me back to the long winding road
+You left me standing here a long long time ago
+Don't keep me waiting here Don't keep me waiting lead me to your door
+`.trim().split(/\s+/g)
+  
+  const Y_SIZE = 10
+  const A = new Array(Y_SIZE).fill("")
+  const B = new Array(Y_SIZE).fill("")
+  const P = new Array(Y_SIZE).fill(0)
+  
+  const f = (acc, curr, index, filler) => {acc[curr.length] += curr + filler; return acc;}
+  const g = (acc, curr, index, filler) => {acc[curr.length] += filler; return acc;}
+  const f_ = (acc, curr, index) => {acc[index] = curr.split(" ").length - 1; return acc;}
+  const g_ = (acc, curr, index) => {acc[index] = curr.length; return acc;}
+  const funk = (x, y, funk, filler) => x.reduce((acc, curr, index) => funk(acc, curr, index, filler), y)
+  
+  console.log(funk(S, A, f, " "))
+  console.log(funk(S, B, g, "*")) // builds a histogram
+  console.log(funk(A, P, f_))
+  console.log(funk(B, P, g_))
+  
+  // TODO compose each pair of functions, and then compare the two results
+  const compose = (...fns) => x => fns.reduceRight((y, f) => f(y), x)
+  //const ff = arr => 
+  //const P1 = compose(gg, ff(S)
+})()
+
+
+
 
