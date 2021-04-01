@@ -47,7 +47,51 @@ Lambda calculus (also written as λ-calculus) is a formal system in mathematical
   const Y = f => (x => x(x))(y => f(x => y(y)(x)))
   const fac = Y(f => n => n > 1 ? n * f(n-1) : 1)
   console.log(fac(5))
+})()
+
+// book: Greg Michaelson, An introduction to functional programming through lambda calculus. 1988
+// BNF:
+// <expression> ::= <name> | <function> | <application>
+// <function> ::= λ<name>.<body>
+// <body> ::= <expression>
+// <application> ::= (<function expression> <argument expression>)
+// <function expression> ::= <expression>
+// <argument expression> ::= <expression>
+(() => {
+  // λx.x p, 17
+  const id = x => x
+  console.log(id(17)) // 17
   
+  // 
+  console.log((y => y)(19)) // 19
+  
+  // (λx.x λa.λb.b)
+  // all of the following work
+  console.log( (x => x)  (a => b => b)  (77)(78)  ) // 78
+  console.log( ((x => x) (a => b => b)  (77)(78)) ) // 78
+  console.log( ((x => x) (a => b => b)) (77)(78)  ) // 78
+  console.log( ((x => x) (a => b => b)  (77))(78) ) // 78
+  
+  // λfirst.λsecond.first
+  const funk = first => second => first
+  console.log(funk("uno")("dos")) // uno
+  
+  // λf.λa.(f a)
+  const funk2 = f => a => (f(a))
+  const funk3 = funk2(x => x + 1)
+  console.log(funk2(funk3)(13)) // 14
+  
+  // (λx.x λx.x)
+  const id2 = x => x
+  console.log(id2) // function id2(x)
+  console.log(id2(id2)) // function id2(x)
+  console.log(id2 === (id2(id2))) // true
+  
+  // identity operations
+  const identity0a = n => n + 0
+  const identity0s = n => n - 0
+  const identity1m = n => n * 1
+  const identity1d = n => n / 1
 })()
 
 

@@ -180,11 +180,13 @@ see K&R C p.139
 ((data) => {
   const makenode = value => ({value: value, left: null, right: null})
   
-  const addtree = (node, value) => {
+  const compareLE = (a, b) => a <= b
+  
+  const _addtree = comparator => (node, value) => {
     if (node === null) {
       node = makenode(value)
     }
-    else if (value <= node.value) {
+    else if (comparator(value, node.value)) {
       node.left = addtree(node.left, value)
     }
     else {
@@ -192,6 +194,7 @@ see K&R C p.139
     }
     return node;
   }
+  const addtree = _addtree(compareLE)
   
   const arr2bst = arr => arr.reduce((tree, value) => addtree(tree, value), null)
 
@@ -209,4 +212,97 @@ see K&R C p.139
   
   console.log(data, sort(data))
 })([5,3,7,1,8,4,3]) // OR ["one","two","three"]
+
+// once again  TODO this works, but requires some fixing
+// [Number] -step1-> [Object] -step2-> Tree -step3-> [Number]
+((data) => {
+  // Step 1 - [Number] -> [Object]
+  const makenode = value => ({value: value, left: null, right: null})
+  const makeobjarr = arr => arr.map((item) => makenode(item))
+  console.log(data, makeobjarr(data))
+  
+  // Step 2 - [Object] -> [Object] where objects have left and right links to each other
+  const compareLE = (a, b) => a <= b
+  
+  // (parent-node, child-node) -> updated parent-node
+  const _treeify = comparator => (pnode, cnode) => {
+    if (pnode === null) {
+      pnode = cnode;
+    }
+    else if (pnode === cnode) {} // pnode and cnode are both the root node
+    else if (comparator(cnode.value, pnode.value)) {
+      pnode.left = treeify(pnode.left, cnode)
+    }
+    else {
+      pnode.right = treeify(pnode.right, cnode)
+    }
+    return pnode;
+  }
+  const treeify = _treeify(compareLE)
+  
+  const arr2bst = arr => arr.map((item, index, arr) => {treeify(arr[0], item); return item;})
+  
+  // Step 3 - [Object] -> [Number]
+  const bst2arr = arr => node => {
+    if (node !== null) {
+      bst2arr(arr)(node.left)
+      arr.push(node.value)
+      bst2arr(arr)(node.right)
+    }
+    return arr
+  }
+  
+  const trace = arr => {console.log(arr); return arr;}
+  const indexzero = arr => arr[0]
+  const compose = (...fns) => x => fns.reduceRight((y, f) => f(y), x)
+  const sort = arr => compose(bst2arr([]), trace, indexzero, arr2bst, makeobjarr)(arr)
+  
+  console.log(data, sort(data))
+  
+})([5,3,7,1,8,4,3]) // OR ["one","two","three"]
+
+// random numbers
+(() => {
+  const _rand = min => max => () => Math.floor(Math.random() * (max - min)) + min
+  const rand = _rand(1)(10)
+  console.log(rand())
+  
+  const multirand = count => {
+    const arr = []
+    for (var i = 0; i < count; i++) {
+      arr.push(rand())
+    }
+    return arr
+  }
+  
+  console.log(multirand(100))
+})()
+
+// random numbers 2
+// using recursion
+// TODO use new JS tail recursion; not yet available
+((min, max, count) => {
+  const _rand = min => max => () => Math.floor(Math.random() * (max - min)) + min
+  const rand = _rand(min)(max)
+  const multirand = (count, arr) => count === 0 ? arr : multirand(--count, arr.concat(rand()))
+  
+  console.log(rand())
+  console.log(multirand(count, []))
+})(1, 10, 100)
+
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from
+// Using arrow functions and Array.from()
+//Array.from({length: 5}, (v, i) => i); // [0, 1, 2, 3, 4]
+((min, max, count) => {
+  const _rand = min => max => () => Math.floor(Math.random() * (max - min)) + min
+  const rand = _rand(min)(max)
+  const multirand = count => Array.from({length: count}, () => rand())
+  
+  console.log(rand())
+  console.log(multirand(count))
+})(2, 9, 100)
+
+// TODO try this
+// https://stackoverflow.com/questions/14810506/map-function-for-objects-instead-of-arrays
+
 

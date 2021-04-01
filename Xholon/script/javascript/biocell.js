@@ -260,3 +260,10 @@ https://en.wikipedia.org/wiki/Molecular_machine#Biological
   
 })()
 
+// https://stackoverflow.blog/2021/02/03/sequencing-your-dna-with-a-usb-dongle-and-open-source-code/?cb=1
+// https://nanoporetech.com/
+// https://en.wikipedia.org/wiki/Nanopore_sequencing
+(() => {
+  // TODO ???
+})()
+
