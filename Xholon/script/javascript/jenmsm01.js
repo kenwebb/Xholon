@@ -21,7 +21,7 @@ I will try out various Xholon/Math/FP-like implementations, using modern JavaScr
 // --------------------------------------------------------------------------------------------------
 // Ken's version 1 (KV1), from Jen's II.
 // TODO maybe use arrays of Pair to specify mappings
-//  - use Pair from Joy of JS book  Pair(indexCSH, indexIH)
+//  - use Pair from Joy of JS book  Pair(indexCSH, indexIH)  gla01.js
 //    - and as in Bigraph notation
 //  - and use simple map from IH to IH_LABELS
 ((title) => {
@@ -127,16 +127,21 @@ Copy and paste, or drag, this entire text into any running Xholon app.
 ((title) => {
   console.log(title)
   
-  const obj = `
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-Test of XholonModule.
-Copy and paste, or drag, this entire text into any running Xholon app.
--->
-<XholonModule>
+  const x = 1
+  const y = 1
+  const t = 0
+  const h = 0
+  const shape = "square,10,10"
+  const energy = 1234
+  
+  const lt = "<"
+  const gt = ">"
+  
+  const obj = 
+`<XholonModule>
   <XholonMap>
   
-    <Attribute_String roleName="ih"><![CDATA[
+    <Attribute_String roleName="ih">${lt}![CDATA[
 <_-.XholonClass>
   <TheSystem/>
   <Observer/>
@@ -147,9 +152,9 @@ Copy and paste, or drag, this entire text into any running Xholon app.
     <Plant superClass="script"/>
   </Entity>
 </_-.XholonClass>
-    ]]></Attribute_String>
+    ]]${gt}</Attribute_String>
     
-    <Attribute_String roleName="cd"><![CDATA[
+    <Attribute_String roleName="cd">${lt}![CDATA[
 <xholonClassDetails>
   <TheSystem><Color>white</Color></TheSystem>
   <Environment><Color>pink</Color></Environment>
@@ -161,7 +166,7 @@ Copy and paste, or drag, this entire text into any running Xholon app.
 var me = this, beh = {
   postConfigure: () => {beh.init(); me.println(me.name() + " " + me.height)},
   act: () => {me.height = beh.grow(me.height); me.println(me.name() + " " + me.height + " acting ...")},
-  init: () => me.height = Number(me.height)
+  init: () => me.height = Number(me.height),
   grow: (h) => h + 1
 }
 //# sourceURL=Plant.js
@@ -169,26 +174,27 @@ var me = this, beh = {
   </Plant>
   
 </xholonClassDetails>
-    ]]></Attribute_String>
+    ]]${gt}</Attribute_String>
     
-    <Attribute_String roleName="csh"><![CDATA[
+    <Attribute_String roleName="csh">${lt}![CDATA[
 <_-.csh>
-  <TheSystem time="0">
+  <TheSystem time="${t}">
     <Observer/>
     <Environment>
-      <Field shape="square,10,10">
-        <Plant height="0" x="5" y="3" energy="1000"/>
+      <Field shape="${shape}">
+        <Plant height="${h}" x="${x}" y="${y}" energy="${energy}"/>
       </Field>
     </Environment>
   </TheSystem>
 </_-.csh>
-    ]]></Attribute_String>
+    ]]${gt}</Attribute_String>
     
   </XholonMap>
-</XholonModule>
-  `
+</XholonModule>`
   console.log(obj)
-  window.xh.root().append(obj);
+  console.log(this)
+  console.log(this.parent())
+  this.parent().append(obj)
 })("Xholon module")
 
 // alien future ef
